@@ -98,10 +98,7 @@ export interface GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest {
   /** Required. The ID of the response that this feedback is for. This should be the response_id from the first response in a series of address validation attempts. */
   responseId?: string | undefined;
 }
-export interface ProvideValidationFeedbackV1Request {
-  /** Request body */
-  body?: GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest | undefined;
-}
+export interface ProvideValidationFeedbackV1Request extends GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest {}
 /** The response for validation feedback. The response is empty if the feedback is sent successfully. */
 export interface GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse {}
 export type StringList = Array<string>;
@@ -148,10 +145,7 @@ export interface GoogleMapsAddressvalidationV1ValidateAddressRequest {
   /** Optional. Preview: This feature is in Preview (pre-GA). Pre-GA products and features might have limited support, and changes to pre-GA products and features might not be compatible with other pre-GA versions. Pre-GA Offerings are covered by the [Google Maps Platform Service Specific Terms](https://cloud.google.com/maps-platform/terms/maps-service-terms). For more information, see the [launch stage descriptions](https://developers.google.com/maps/launch-stages). Enables the Address Validation API to include additional information in the response. */
   languageOptions?: GoogleMapsAddressvalidationV1LanguageOptions | undefined;
 }
-export interface ValidateAddressV1Request {
-  /** Request body */
-  body?: GoogleMapsAddressvalidationV1ValidateAddressRequest | undefined;
-}
+export interface ValidateAddressV1Request extends GoogleMapsAddressvalidationV1ValidateAddressRequest {}
 /** A wrapper for the name of the component. */
 export interface GoogleMapsAddressvalidationV1ComponentName {
   /** The name text. For example, "5th Avenue" for a street name or "1253" for a street number. */
@@ -475,9 +469,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1:provideValidationFeedback",
@@ -529,9 +521,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GoogleMapsAddressvalidationV1ValidateAddressRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(35, __c1, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(35, __c1, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1:validateAddress",

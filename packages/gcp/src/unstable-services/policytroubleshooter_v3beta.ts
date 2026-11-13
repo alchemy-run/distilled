@@ -87,10 +87,7 @@ export interface GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyEr
   /** This identifier is returned in the `ErrorInfo.metadata` with key 'error_info_id' when an access requests is denied by the IAM service. */
   errorInfoId?: string | undefined;
 }
-export interface TroubleshootErrorIamRequest {
-  /** Request body */
-  body?: GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyErrorRequest | undefined;
-}
+export interface TroubleshootErrorIamRequest extends GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyErrorRequest {}
 export type GoogleCloudPolicytroubleshooterIamV3betaDenyPolicyExplanationRelevanceEnum =
   | "HEURISTIC_RELEVANCE_UNSPECIFIED"
   | "HEURISTIC_RELEVANCE_NORMAL"
@@ -929,10 +926,7 @@ export interface GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyRe
   /** The information to use for checking whether a principal has a permission for a resource. */
   accessTuple?: GoogleCloudPolicytroubleshooterIamV3betaAccessTuple | undefined;
 }
-export interface TroubleshootIamRequest {
-  /** Request body */
-  body?: GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyRequest | undefined;
-}
+export interface TroubleshootIamRequest extends GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyRequest {}
 export type GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyResponseOverallAccessStateEnum =
   | "OVERALL_ACCESS_STATE_UNSPECIFIED"
   | "CAN_ACCESS"
@@ -1011,9 +1005,7 @@ function __c0(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta/iam:troubleshootError",
@@ -1500,9 +1492,7 @@ function __c3(j: number): any {
       });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(103, __c3, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(103, __c3, 7), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta/iam:troubleshoot",

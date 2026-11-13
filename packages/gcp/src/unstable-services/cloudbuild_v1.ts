@@ -102,11 +102,9 @@ export interface ApproveBuildRequest {
   /** Approval decision and metadata. */
   approvalResult?: ApprovalResult | undefined;
 }
-export interface ApproveProjectsBuildsRequest {
+export interface ApproveProjectsBuildsRequest extends ApproveBuildRequest {
   /** Required. Name of the target build. For example: "projects/{$project_id}/builds/{$build_id}" */
   name: string;
-  /** Request body */
-  body?: ApproveBuildRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -132,11 +130,9 @@ export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
 }
-export interface ApproveProjectsLocationsBuildsRequest {
+export interface ApproveProjectsLocationsBuildsRequest extends ApproveBuildRequest {
   /** Required. Name of the target build. For example: "projects/{$project_id}/builds/{$build_id}" */
   name: string;
-  /** Request body */
-  body?: ApproveBuildRequest | undefined;
 }
 /** BitbucketServerRepositoryId identifies a specific repository hosted on a Bitbucket Server. */
 export interface BitbucketServerRepositoryId {
@@ -170,11 +166,9 @@ export interface BatchCreateBitbucketServerConnectedRepositoriesRequest {
   /** Required. Requests to connect Bitbucket Server repositories. */
   requests?: CreateBitbucketServerConnectedRepositoryRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest {
+export interface BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest extends BatchCreateBitbucketServerConnectedRepositoriesRequest {
   /** The name of the `BitbucketServerConfig` that added connected repository. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{config}` */
   parent: string;
-  /** Request body */
-  body?: BatchCreateBitbucketServerConnectedRepositoriesRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -195,13 +189,11 @@ export interface CancelBuildRequest {
   /** Required. ID of the build. */
   id?: string | undefined;
 }
-export interface CancelProjectsBuildsRequest {
+export interface CancelProjectsBuildsRequest extends Omit<CancelBuildRequest, "projectId" | "id"> {
   /** Required. ID of the project. */
   projectId: string;
   /** Required. ID of the build. */
   id: string;
-  /** Request body */
-  body?: CancelBuildRequest | undefined;
 }
 export type WarningPriorityEnum = "PRIORITY_UNSPECIFIED" | "INFO" | "WARNING" | "ALERT";
 /** A non-fatal problem encountered during the execution of the build. */
@@ -914,11 +906,9 @@ export interface Build {
   /** TTL in queue for this build. If provided and the build is enqueued longer than this value, the build will expire and the build status will be `EXPIRED`. The TTL starts ticking from create_time. */
   queueTtl?: string | undefined;
 }
-export interface CancelProjectsLocationsBuildsRequest {
+export interface CancelProjectsLocationsBuildsRequest extends Omit<CancelBuildRequest, "name"> {
   /** The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
-  /** Request body */
-  body?: CancelBuildRequest | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -926,13 +916,11 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface CreateProjectsBuildsRequest {
+export interface CreateProjectsBuildsRequest extends Omit<Build, "projectId"> {
   /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
   parent?: string | undefined;
   /** Required. ID of the project. */
   projectId: string;
-  /** Request body */
-  body?: Build | undefined;
 }
 /** GitHubEnterpriseSecrets represents the names of all necessary secrets in Secret Manager for a GitHub Enterprise server. Format is: projects//secrets/. */
 export interface GitHubEnterpriseSecrets {
@@ -974,15 +962,13 @@ export interface GitHubEnterpriseConfig {
   /** Optional. The network to be used when reaching out to the GitHub Enterprise server. The VPC network must be enabled for private service connection. This should be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the GitHub Enterprise server will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
   peeredNetwork?: string | undefined;
 }
-export interface CreateProjectsGithubEnterpriseConfigsRequest {
+export interface CreateProjectsGithubEnterpriseConfigsRequest extends GitHubEnterpriseConfig {
   /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
   parent: string;
   /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
   gheConfigId?: string | undefined;
   /** ID of the project. */
   projectId?: string | undefined;
-  /** Request body */
-  body?: GitHubEnterpriseConfig | undefined;
 }
 /** BitbucketServerSecrets represents the secrets in Secret Manager for a Bitbucket Server. */
 export interface BitbucketServerSecrets {
@@ -1019,31 +1005,25 @@ export interface BitbucketServerConfig {
   /** Immutable. IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. `192.168.0.0/29` would specify an IP range starting at 192.168.0.0 with a 29 bit prefix size. `/16` would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of `/24` will be used. The field only has an effect if peered_network is set. */
   peeredNetworkIpRange?: string | undefined;
 }
-export interface CreateProjectsLocationsBitbucketServerConfigsRequest {
+export interface CreateProjectsLocationsBitbucketServerConfigsRequest extends BitbucketServerConfig {
   /** Optional. The ID to use for the BitbucketServerConfig, which will become the final component of the BitbucketServerConfig's resource name. bitbucket_server_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character. */
   bitbucketServerConfigId?: string | undefined;
   /** Required. Name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: BitbucketServerConfig | undefined;
 }
-export interface CreateProjectsLocationsBuildsRequest {
+export interface CreateProjectsLocationsBuildsRequest extends Omit<Build, "projectId"> {
   /** Required. ID of the project. */
   projectId?: string | undefined;
   /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: Build | undefined;
 }
-export interface CreateProjectsLocationsGithubEnterpriseConfigsRequest {
+export interface CreateProjectsLocationsGithubEnterpriseConfigsRequest extends GitHubEnterpriseConfig {
   /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
   gheConfigId?: string | undefined;
   /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
   parent: string;
   /** ID of the project. */
   projectId?: string | undefined;
-  /** Request body */
-  body?: GitHubEnterpriseConfig | undefined;
 }
 export type BuildTriggerIncludeBuildLogsEnum =
   | "INCLUDE_BUILD_LOGS_UNSPECIFIED"
@@ -1274,13 +1254,11 @@ export interface BuildTrigger {
   /** Optional. The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
   developerConnectEventConfig?: DeveloperConnectEventConfig | undefined;
 }
-export interface CreateProjectsLocationsTriggersRequest {
+export interface CreateProjectsLocationsTriggersRequest extends BuildTrigger {
   /** Required. ID of the project for which to configure automatic builds. */
   projectId?: string | undefined;
   /** The parent resource where this trigger will be created. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: BuildTrigger | undefined;
 }
 export type WorkerPoolStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1364,23 +1342,19 @@ export interface WorkerPool {
   /** Output only. Time at which the request to create the `WorkerPool` was received. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkerPoolsRequest {
+export interface CreateProjectsLocationsWorkerPoolsRequest extends WorkerPool {
   /** Required. The parent resource where this worker pool will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. Immutable. The ID to use for the `WorkerPool`, which will become the final component of the resource name. This value should be 1-63 characters, and valid characters are /a-z-/. */
   workerPoolId?: string | undefined;
   /** If set, validate the request and preview the response, but do not actually post it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: WorkerPool | undefined;
 }
-export interface CreateProjectsTriggersRequest {
+export interface CreateProjectsTriggersRequest extends BuildTrigger {
   /** Required. ID of the project for which to configure automatic builds. */
   projectId: string;
   /** The parent resource where this trigger will be created. Format: `projects/{project}/locations/{location}` */
   parent?: string | undefined;
-  /** Request body */
-  body?: BuildTrigger | undefined;
 }
 export interface DeleteProjectsGithubEnterpriseConfigsRequest {
   /** ID of the project */
@@ -1642,31 +1616,34 @@ export interface ListProjectsTriggersRequest {
   /** Required. ID of the project for which to list BuildTriggers. */
   projectId: string;
 }
-export interface PatchProjectsGithubEnterpriseConfigsRequest {
+export interface PatchProjectsGithubEnterpriseConfigsRequest extends Omit<
+  GitHubEnterpriseConfig,
+  "name"
+> {
   /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GitHubEnterpriseConfig | undefined;
 }
-export interface PatchProjectsLocationsBitbucketServerConfigsRequest {
+export interface PatchProjectsLocationsBitbucketServerConfigsRequest extends Omit<
+  BitbucketServerConfig,
+  "name"
+> {
   /** Identifier. The resource name for the config. */
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BitbucketServerConfig | undefined;
 }
-export interface PatchProjectsLocationsGithubEnterpriseConfigsRequest {
+export interface PatchProjectsLocationsGithubEnterpriseConfigsRequest extends Omit<
+  GitHubEnterpriseConfig,
+  "name"
+> {
   /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GitHubEnterpriseConfig | undefined;
 }
-export interface PatchProjectsLocationsTriggersRequest {
+export interface PatchProjectsLocationsTriggersRequest extends Omit<BuildTrigger, "resourceName"> {
   /** The `Trigger` name with format: `projects/{project}/locations/{location}/triggers/{trigger}`, where {trigger} is a unique identifier generated by the service. */
   resourceName: string;
   /** Required. ID of the project that owns the trigger. */
@@ -1675,28 +1652,22 @@ export interface PatchProjectsLocationsTriggersRequest {
   updateMask?: string | undefined;
   /** Required. ID of the `BuildTrigger` to update. */
   triggerId?: string | undefined;
-  /** Request body */
-  body?: BuildTrigger | undefined;
 }
-export interface PatchProjectsLocationsWorkerPoolsRequest {
+export interface PatchProjectsLocationsWorkerPoolsRequest extends Omit<WorkerPool, "name"> {
   /** If set, validate the request and preview the response, but do not actually post it. */
   validateOnly?: boolean | undefined;
   /** Output only. The resource name of the `WorkerPool`, with format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. The value of `{worker_pool}` is provided by `worker_pool_id` in `CreateWorkerPool` request and the value of `{location}` is determined by the endpoint accessed. */
   name: string;
   /** Optional. A mask specifying which fields in `worker_pool` to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: WorkerPool | undefined;
 }
-export interface PatchProjectsTriggersRequest {
+export interface PatchProjectsTriggersRequest extends BuildTrigger {
   /** Required. ID of the project that owns the trigger. */
   projectId: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string | undefined;
   /** Required. ID of the `BuildTrigger` to update. */
   triggerId: string;
-  /** Request body */
-  body?: BuildTrigger | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -1707,30 +1678,24 @@ export interface HttpBody {
   /** The HTTP request/response body as raw binary. */
   data?: string | undefined;
 }
-export interface ReceiveGithubDotComWebhookRequest {
+export interface ReceiveGithubDotComWebhookRequest extends HttpBody {
   /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
   webhookKey?: string | undefined;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface RegionalWebhookLocationsRequest {
+export interface RegionalWebhookLocationsRequest extends HttpBody {
   /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
   webhookKey?: string | undefined;
   /** Required. The location where the webhook should be sent. */
   location: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 /** RPC request object accepted by RemoveBitbucketServerConnectedRepository RPC method. */
 export interface RemoveBitbucketServerConnectedRepositoryRequest {
   /** The connected repository to remove. */
   connectedRepository?: BitbucketServerRepositoryId | undefined;
 }
-export interface RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsRequest {
+export interface RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsRequest extends RemoveBitbucketServerConnectedRepositoryRequest {
   /** Required. The name of the `BitbucketServerConfig` to remove a connected repository. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{config}` */
   config: string;
-  /** Request body */
-  body?: RemoveBitbucketServerConnectedRepositoryRequest | undefined;
 }
 /** Specifies a build to retry. */
 export interface RetryBuildRequest {
@@ -1741,19 +1706,15 @@ export interface RetryBuildRequest {
   /** Required. Build ID of the original build. */
   id?: string | undefined;
 }
-export interface RetryProjectsBuildsRequest {
+export interface RetryProjectsBuildsRequest extends Omit<RetryBuildRequest, "projectId" | "id"> {
   /** Required. Build ID of the original build. */
   id: string;
   /** Required. ID of the project. */
   projectId: string;
-  /** Request body */
-  body?: RetryBuildRequest | undefined;
 }
-export interface RetryProjectsLocationsBuildsRequest {
+export interface RetryProjectsLocationsBuildsRequest extends Omit<RetryBuildRequest, "name"> {
   /** The name of the `Build` to retry. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
-  /** Request body */
-  body?: RetryBuildRequest | undefined;
 }
 /** Specifies a build trigger to run and the source to use. */
 export interface RunBuildTriggerRequest {
@@ -1764,23 +1725,19 @@ export interface RunBuildTriggerRequest {
   /** Required. ID of the trigger. */
   triggerId?: string | undefined;
 }
-export interface RunProjectsLocationsTriggersRequest {
+export interface RunProjectsLocationsTriggersRequest extends RunBuildTriggerRequest {
   /** The name of the `Trigger` to run. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name: string;
-  /** Request body */
-  body?: RunBuildTriggerRequest | undefined;
 }
-export interface RunProjectsTriggersRequest {
+export interface RunProjectsTriggersRequest extends Omit<RepoSource, "projectId"> {
   /** The name of the `Trigger` to run. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name?: string | undefined;
   /** Required. ID of the project. */
   projectId: string;
   /** Required. ID of the trigger. */
   triggerId: string;
-  /** Request body */
-  body?: RepoSource | undefined;
 }
-export interface WebhookProjectsLocationsTriggersRequest {
+export interface WebhookProjectsLocationsTriggersRequest extends HttpBody {
   /** Secret token used for authorization if an OAuth token isn't provided. */
   secret?: string | undefined;
   /** Project in which the specified trigger lives */
@@ -1789,12 +1746,10 @@ export interface WebhookProjectsLocationsTriggersRequest {
   trigger?: string | undefined;
   /** The name of the `ReceiveTriggerWebhook` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 /** ReceiveTriggerWebhookResponse [Experimental] is the response object for the ReceiveTriggerWebhook method. */
 export interface ReceiveTriggerWebhookResponse {}
-export interface WebhookProjectsTriggersRequest {
+export interface WebhookProjectsTriggersRequest extends HttpBody {
   /** Project in which the specified trigger lives */
   projectId: string;
   /** Name of the trigger to run the payload against */
@@ -1803,14 +1758,10 @@ export interface WebhookProjectsTriggersRequest {
   name?: string | undefined;
   /** Secret token used for authorization if an OAuth token isn't provided. */
   secret?: string | undefined;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface WebhookV1Request {
+export interface WebhookV1Request extends HttpBody {
   /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
   webhookKey?: string | undefined;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 export type ApproveProjectsBuildsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Approves or rejects a pending build. If approved, the returned long-running operation (LRO) will be analogous to the LRO returned from a CreateBuild call. If rejected, the returned LRO will be immediately done. Note: This method only approves or rejects builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}:approve. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}:approve`. */
@@ -2987,11 +2938,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2440, __c76, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2440, __c76, 8),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/builds",
@@ -3005,12 +2958,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          gheConfigId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            gheConfigId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/githubEnterpriseConfigs",
@@ -3055,11 +3010,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bitbucketServerConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c5, 2),
+          S.Struct({
+            bitbucketServerConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bitbucketServerConfigs",
@@ -3103,11 +3060,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2440, __c76, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2440, __c76, 8),
+          S.Struct({
+            projectId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/builds",
@@ -3121,12 +3080,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          gheConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            gheConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            projectId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/githubEnterpriseConfigs",
@@ -3140,11 +3101,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            projectId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/triggers",
@@ -3289,12 +3252,14 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workerPoolId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(356, __c11, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c11, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workerPoolId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workerPools",
@@ -3361,11 +3326,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/triggers",
@@ -3807,10 +3774,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -3993,11 +3962,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4011,11 +3982,13 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(162, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c5, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4029,11 +4002,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4047,13 +4022,15 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          triggerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+            projectId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            triggerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+resourceName}",
@@ -4067,12 +4044,14 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c11, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c11, 4),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4086,10 +4065,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -4103,12 +4084,14 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          triggerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            triggerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectId}/triggers/{triggerId}",
@@ -4122,10 +4105,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/githubDotComWebhook:receive",
@@ -4151,11 +4136,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}/regionalWebhook",
@@ -4175,10 +4162,12 @@ function __c57(j: number): any {
       ).annotate({ identifier: "RemoveBitbucketServerConnectedRepositoryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          config: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            config: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+config}:removeBitbucketServerConnectedRepository",
@@ -4195,11 +4184,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/builds/{id}:retry",
@@ -4225,10 +4216,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:retry",
@@ -4250,10 +4243,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "RunBuildTriggerRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:run",
@@ -4267,12 +4262,14 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          triggerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            triggerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/triggers/{triggerId}:run",
@@ -4286,13 +4283,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          trigger: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            secret: S.optional(S.String.pipe(T.Query())),
+            projectId: S.optional(S.String.pipe(T.Query())),
+            trigger: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:webhook",
@@ -4306,13 +4305,15 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          trigger: S.String.pipe(T.Label()),
-          name: S.optional(S.String.pipe(T.Query())),
-          secret: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            trigger: S.String.pipe(T.Label()),
+            name: S.optional(S.String.pipe(T.Query())),
+            secret: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/triggers/{trigger}:webhook",
@@ -4349,10 +4350,12 @@ function __c65(j: number): any {
       ).annotate({ identifier: "BatchCreateBitbucketServerConnectedRepositoriesRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2083, __c65, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2083, __c65, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectedRepositories:batchCreate",
@@ -4381,10 +4384,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/webhook",
@@ -4421,11 +4426,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/builds/{id}:cancel",
@@ -4998,10 +5005,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",

@@ -118,11 +118,9 @@ export interface Account {
   /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
   creationRequestId?: string | undefined;
 }
-export interface CreatePlatformsAccountsRequest {
+export interface CreatePlatformsAccountsRequest extends Account {
   /** Required. Platform to create an account for. Format: platforms/{platform} */
   parent: string;
-  /** Request body */
-  body?: Account | undefined;
 }
 export type EventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -167,11 +165,9 @@ export interface Event {
   /** Required. Event timestamp. */
   eventTime?: string | undefined;
 }
-export interface CreatePlatformsAccountsEventsRequest {
+export interface CreatePlatformsAccountsEventsRequest extends Event {
   /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: Event | undefined;
 }
 export type SiteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -188,11 +184,9 @@ export interface Site {
   /** Output only. State of a site. */
   state?: SiteStateEnum | (string & {}) | undefined;
 }
-export interface CreatePlatformsAccountsSitesRequest {
+export interface CreatePlatformsAccountsSitesRequest extends Site {
   /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: Site | undefined;
 }
 export interface DeletePlatformsAccountsSitesRequest {
   /** Required. The name of the site to delete. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -343,21 +337,20 @@ export interface LookupAccountResponse {
   /** The name of the Account Format: platforms/{platform}/accounts/{account_id} */
   name?: string | undefined;
 }
-export interface PatchAccountsPlatformsChildAccountsSitesRequest {
+export interface PatchAccountsPlatformsChildAccountsSitesRequest extends Omit<
+  PlatformChildSite,
+  "name"
+> {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
   name: string;
   /** Optional. The list of fields to update - currently only supports updating the `platform_group` field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PlatformChildSite | undefined;
 }
-export interface PatchAccountsPlatformsGroupsRequest {
+export interface PatchAccountsPlatformsGroupsRequest extends Omit<PlatformGroup, "name"> {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
   name: string;
   /** Optional. The list of fields to update - currently only supports updating the `description` field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PlatformGroup | undefined;
 }
 export interface RequestReviewPlatformsAccountsSitesRequest {
   /** Required. The name of the site to submit for review. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -990,11 +983,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1008,11 +1003,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13, __c3, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1065,10 +1062,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(73, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(73, __c18, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/accounts",
@@ -1135,10 +1134,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "Event" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(78, __c19, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(78, __c19, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/events",
@@ -1152,10 +1153,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(84, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(84, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sites",

@@ -106,11 +106,9 @@ export interface BatchUpdateMembersRequest {
   /** Optional. Top-level field mask used to specify the fields to be updated in the member for all UpdateMemberRequests. There are 4 possible scenarios for top-level and child field mask: 1. top-level and child field mask is absent: All fields provided in the requests are updated, including deleting fields not set in the requests. 2. top-level field mask is present but child field mask is absent: The fields specified in the top-level field mask are updated. 3. top-level and child field mask is present: The child field mask must be the same as the top-level field mask. 4. top-level field mask is absent but child field mask is present: It isn't supported and will return an error. */
   updateMask?: string | undefined;
 }
-export interface BatchUpdateSpacesMembersRequest {
+export interface BatchUpdateSpacesMembersRequest extends BatchUpdateMembersRequest {
   /** Required. The parent resource shared by all Members being updated. Format: spaces/{space} */
   parent: string;
-  /** Request body */
-  body?: BatchUpdateMembersRequest | undefined;
 }
 export type MemberList = Array<Member>;
 /** Response of batch update members. */
@@ -264,15 +262,10 @@ export interface Space {
   /** Output only. The SIP-based access methods that can be used to join the conference. Can be empty. */
   gatewaySipAccess?: GatewaySipAccessList | undefined;
 }
-export interface CreateSpacesRequest {
-  /** Request body */
-  body?: Space | undefined;
-}
-export interface CreateSpacesMembersRequest {
+export interface CreateSpacesRequest extends Space {}
+export interface CreateSpacesMembersRequest extends Member {
   /** Required. Format: spaces/{space} */
   parent: string;
-  /** Request body */
-  body?: Member | undefined;
 }
 export interface DeleteSpacesMembersRequest {
   /** Required. Format: "spaces/{space}/members/{member}" */
@@ -582,21 +575,17 @@ export interface ListMembersResponse {
   /** Token to be circulated back for further list call if current list doesn't include all the members. Unset if all members are returned. */
   nextPageToken?: string | undefined;
 }
-export interface PatchSpacesRequest {
+export interface PatchSpacesRequest extends Omit<Space, "name"> {
   /** Immutable. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
   name: string;
   /** Optional. Field mask used to specify the fields to be updated in the space. If update_mask isn't provided(not set, set with empty paths, or only has "" as paths), it defaults to update all fields provided with values in the request. Using "*" as update_mask will update all fields, including deleting fields not set in the request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Space | undefined;
 }
-export interface PatchSpacesMembersRequest {
+export interface PatchSpacesMembersRequest extends Omit<Member, "name"> {
   /** Identifier. Resource name of the member. Format: `spaces/{space}/members/{member}` */
   name: string;
   /** Optional. Field mask used to specify the fields to be updated in the member. If update_mask isn't provided(not set, set with empty paths, or only has "" as paths), it defaults to update all fields provided with values in the request. Using "*" as update_mask will update all fields, including deleting fields not set in the request. In case of BatchUpdate, it must be absent or the same as the update_mask in BatchUpdateMembersRequest when UpdateMemberRequest is built as a child request of BatchUpdateMembersRequest. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Member | undefined;
 }
 export type BatchUpdateSpacesMembersError =
   | NotFound
@@ -1510,11 +1499,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(475, __c29, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(475, __c29, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://meet.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesRequest" });
@@ -1524,11 +1515,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://meet.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesMembersRequest" });
@@ -1554,10 +1547,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "BatchUpdateMembersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(402, __c25, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(402, __c25, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/members:batchUpdate",
@@ -1595,9 +1590,7 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(475, __c29, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(475, __c29, 11), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v2/spaces", baseUrl: "https://meet.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateSpacesRequest" });
@@ -1695,10 +1688,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/members",

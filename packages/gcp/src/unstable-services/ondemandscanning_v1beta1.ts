@@ -223,11 +223,9 @@ export interface AnalyzePackagesRequest {
   /** The packages to analyze. */
   packages?: PackageDataList | undefined;
 }
-export interface AnalyzePackagesProjectsLocationsScansRequest {
+export interface AnalyzePackagesProjectsLocationsScansRequest extends AnalyzePackagesRequest {
   /** Required. The parent of the resource for which analysis is requested. Format: projects/[project_name]/locations/[location] */
   parent: string;
-  /** Request body */
-  body?: AnalyzePackagesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1866,10 +1864,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "AnalyzePackagesRequest" });
     case 16:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(47, __c1, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47, __c1, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/scans:analyzePackages",

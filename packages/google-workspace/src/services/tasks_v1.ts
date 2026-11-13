@@ -195,19 +195,14 @@ export interface Task {
   /** Output only. Context information for assigned tasks. A task can be assigned to a user, currently possible from surfaces like Docs and Chat Spaces. This field is populated for tasks assigned to the current user and identifies where the task was assigned from. This field is read-only. */
   assignmentInfo?: AssignmentInfo | undefined;
 }
-export interface InsertTasklistsRequest {
-  /** Request body */
-  body?: TaskList | undefined;
-}
-export interface InsertTasksRequest {
+export interface InsertTasklistsRequest extends TaskList {}
+export interface InsertTasksRequest extends Omit<Task, "parent"> {
   /** Task list identifier. */
   tasklist: string;
   /** Optional. Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. */
   previous?: string | undefined;
   /** Optional. Parent task identifier. If the task is created at the top level, this parameter is omitted. An assigned task cannot be a parent task, nor can it have a parent. Setting the parent to an assigned task results in failure of the request. */
   parent?: string | undefined;
-  /** Request body */
-  body?: Task | undefined;
 }
 export interface ListTasklistsRequest {
   /** Optional. Token specifying the result page to return. */
@@ -275,33 +270,25 @@ export interface MoveTasksRequest {
   /** Task list identifier. */
   tasklist: string;
 }
-export interface PatchTasklistsRequest {
+export interface PatchTasklistsRequest extends TaskList {
   /** Task list identifier. */
   tasklist: string;
-  /** Request body */
-  body?: TaskList | undefined;
 }
-export interface PatchTasksRequest {
+export interface PatchTasksRequest extends Task {
   /** Task identifier. */
   task: string;
   /** Task list identifier. */
   tasklist: string;
-  /** Request body */
-  body?: Task | undefined;
 }
-export interface UpdateTasklistsRequest {
+export interface UpdateTasklistsRequest extends TaskList {
   /** Task list identifier. */
   tasklist: string;
-  /** Request body */
-  body?: TaskList | undefined;
 }
-export interface UpdateTasksRequest {
+export interface UpdateTasksRequest extends Task {
   /** Task identifier. */
   task: string;
   /** Task list identifier. */
   tasklist: string;
-  /** Request body */
-  body?: Task | undefined;
 }
 export type ClearTasksError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
 /** Clears all completed tasks from the specified task list. The affected tasks will be marked as 'hidden' and no longer be returned by default when retrieving all tasks for a task list. */
@@ -585,12 +572,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tasklist: S.String.pipe(T.Label()),
-          previous: S.optional(S.String.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(125, __c15, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(125, __c15, 5),
+          S.Struct({
+            tasklist: S.String.pipe(T.Label()),
+            previous: S.optional(S.String.pipe(T.Query())),
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tasks/v1/lists/{tasklist}/tasks",
@@ -690,10 +679,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tasklist: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            tasklist: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "tasks/v1/users/@me/lists/{tasklist}",
@@ -707,11 +698,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          task: S.String.pipe(T.Label()),
-          tasklist: S.String.pipe(T.Label()),
-          body: S.optional(__S(125, __c15, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(125, __c15, 5),
+          S.Struct({
+            task: S.String.pipe(T.Label()),
+            tasklist: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "tasks/v1/lists/{tasklist}/tasks/{task}",
@@ -725,10 +718,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tasklist: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            tasklist: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tasks/v1/users/@me/lists/{tasklist}",
@@ -742,11 +737,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          task: S.String.pipe(T.Label()),
-          tasklist: S.String.pipe(T.Label()),
-          body: S.optional(__S(125, __c15, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(125, __c15, 5),
+          S.Struct({
+            task: S.String.pipe(T.Label()),
+            tasklist: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tasks/v1/lists/{tasklist}/tasks/{task}",
@@ -921,9 +918,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(104, __c13, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "tasks/v1/users/@me/lists",

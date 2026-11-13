@@ -126,10 +126,7 @@ export interface CopyLogEntriesRequest {
   /** Optional. A filter specifying which log entries to copy. The filter must be no more than 20k characters. An empty filter matches all log entries. */
   filter?: string | undefined;
 }
-export interface CopyEntriesRequest {
-  /** Request body */
-  body?: CopyLogEntriesRequest | undefined;
-}
+export interface CopyEntriesRequest extends CopyLogEntriesRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
@@ -212,45 +209,35 @@ export interface LogBucket {
   /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
   cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateAsyncBillingAccountsLocationsBucketsRequest {
+export interface CreateAsyncBillingAccountsLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateAsyncFoldersLocationsBucketsRequest {
+export interface CreateAsyncFoldersLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateAsyncLocationsBucketsRequest {
+export interface CreateAsyncLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateAsyncOrganizationsLocationsBucketsRequest {
+export interface CreateAsyncOrganizationsLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateAsyncProjectsLocationsBucketsRequest {
+export interface CreateAsyncProjectsLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
 /** Specifies a set of log entries that are filtered out by a sink. If your Google Cloud resource receives a large volume of log entries, you can use exclusions to reduce your chargeable logs. Note that exclusions on organization-level and folder-level sinks don't apply to child resources. Note also that you cannot modify the _Required sink or exclude logs from it. */
 export interface LogExclusion {
@@ -267,19 +254,15 @@ export interface LogExclusion {
   /** Optional. A client-assigned identifier, such as "load-balancer-exclusion". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
   name?: string | undefined;
 }
-export interface CreateBillingAccountsExclusionsRequest {
+export interface CreateBillingAccountsExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface CreateBillingAccountsLocationsBucketsRequest {
+export interface CreateBillingAccountsLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
 export type LinkLifecycleStateEnum =
   | "LIFECYCLE_STATE_UNSPECIFIED"
@@ -306,13 +289,11 @@ export interface Link {
   /** Optional. The information of a BigQuery Dataset. When a link is created, a BigQuery dataset is created along with it, in the same project as the LogBucket it's linked to. This dataset will also have BigQuery Views corresponding to the LogViews in the bucket. */
   bigqueryDataset?: BigQueryDataset | undefined;
 }
-export interface CreateBillingAccountsLocationsBucketsLinksRequest {
+export interface CreateBillingAccountsLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Request body */
-  body?: Link | undefined;
 }
 /** Describes a view over log entries in a bucket. */
 export interface LogView {
@@ -327,13 +308,11 @@ export interface LogView {
   /** Output only. The creation timestamp of the view. */
   createTime?: string | undefined;
 }
-export interface CreateBillingAccountsLocationsBucketsViewsRequest {
+export interface CreateBillingAccountsLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
 export type ProjectedFieldOperationEnum =
   | "FIELD_OPERATION_UNSPECIFIED"
@@ -498,13 +477,11 @@ export interface SavedQuery {
   /** Output only. The timestamp when the saved query was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateBillingAccountsLocationsSavedQueriesRequest {
+export interface CreateBillingAccountsLocationsSavedQueriesRequest extends SavedQuery {
   /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
   savedQueryId?: string | undefined;
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
 /** Options that change functionality of a sink exporting data to BigQuery. */
 export interface BigQueryOptions {
@@ -546,51 +523,39 @@ export interface LogSink {
   /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
   interceptChildren?: boolean | undefined;
 }
-export interface CreateBillingAccountsSinksRequest {
+export interface CreateBillingAccountsSinksRequest extends LogSink {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface CreateExclusionsRequest {
+export interface CreateExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface CreateFoldersExclusionsRequest {
+export interface CreateFoldersExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface CreateFoldersLocationsBucketsRequest {
+export interface CreateFoldersLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateFoldersLocationsBucketsLinksRequest {
+export interface CreateFoldersLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Request body */
-  body?: Link | undefined;
 }
-export interface CreateFoldersLocationsBucketsViewsRequest {
+export interface CreateFoldersLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
 /** Describes a group of resources to read log entries from. */
 export interface LogScope {
@@ -605,157 +570,119 @@ export interface LogScope {
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name?: string | undefined;
 }
-export interface CreateFoldersLocationsLogScopesRequest {
+export interface CreateFoldersLocationsLogScopesRequest extends LogScope {
   /** Required. A client-assigned identifier such as "log-scope". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
   logScopeId?: string | undefined;
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Request body */
-  body?: LogScope | undefined;
 }
-export interface CreateFoldersLocationsSavedQueriesRequest {
+export interface CreateFoldersLocationsSavedQueriesRequest extends SavedQuery {
   /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
   savedQueryId?: string | undefined;
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
-export interface CreateFoldersSinksRequest {
+export interface CreateFoldersSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface CreateLocationsBucketsRequest {
+export interface CreateLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateLocationsBucketsLinksRequest {
+export interface CreateLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Request body */
-  body?: Link | undefined;
 }
-export interface CreateLocationsBucketsViewsRequest {
+export interface CreateLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface CreateOrganizationsExclusionsRequest {
+export interface CreateOrganizationsExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface CreateOrganizationsLocationsBucketsRequest {
+export interface CreateOrganizationsLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateOrganizationsLocationsBucketsLinksRequest {
+export interface CreateOrganizationsLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Request body */
-  body?: Link | undefined;
 }
-export interface CreateOrganizationsLocationsBucketsViewsRequest {
+export interface CreateOrganizationsLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface CreateOrganizationsLocationsLogScopesRequest {
+export interface CreateOrganizationsLocationsLogScopesRequest extends LogScope {
   /** Required. A client-assigned identifier such as "log-scope". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
   logScopeId?: string | undefined;
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Request body */
-  body?: LogScope | undefined;
 }
-export interface CreateOrganizationsLocationsSavedQueriesRequest {
+export interface CreateOrganizationsLocationsSavedQueriesRequest extends SavedQuery {
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
   /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
   savedQueryId?: string | undefined;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
-export interface CreateOrganizationsSinksRequest {
+export interface CreateOrganizationsSinksRequest extends LogSink {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface CreateProjectsExclusionsRequest {
+export interface CreateProjectsExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface CreateProjectsLocationsBucketsRequest {
+export interface CreateProjectsLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface CreateProjectsLocationsBucketsLinksRequest {
+export interface CreateProjectsLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Request body */
-  body?: Link | undefined;
 }
-export interface CreateProjectsLocationsBucketsViewsRequest {
+export interface CreateProjectsLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface CreateProjectsLocationsLogScopesRequest {
+export interface CreateProjectsLocationsLogScopesRequest extends LogScope {
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "log-scope". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
   logScopeId?: string | undefined;
-  /** Request body */
-  body?: LogScope | undefined;
 }
-export interface CreateProjectsLocationsSavedQueriesRequest {
+export interface CreateProjectsLocationsSavedQueriesRequest extends SavedQuery {
   /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
   savedQueryId?: string | undefined;
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
 /** Specifies an exponential sequence of buckets that have a width that is proportional to the value of the lower bound. Each bucket represents a constant relative uncertainty on a specific value in the bucket.There are num_finite_buckets + 2 (= N) buckets. Bucket i has the following boundaries:Upper bound (0 <= i < N-1): scale * (growth_factor ^ i).Lower bound (1 <= i < N): scale * (growth_factor ^ (i - 1)). */
 export interface Exponential {
@@ -909,31 +836,25 @@ export interface LogMetric {
   /** Optional. The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects are supported. The bucket has to be in the same project as the metric.For example:projects/my-project/locations/global/buckets/my-bucketIf empty, then the Log Metric is considered a non-Bucket Log Metric. */
   bucketName?: string | undefined;
 }
-export interface CreateProjectsMetricsRequest {
+export interface CreateProjectsMetricsRequest extends LogMetric {
   /** Required. The resource name of the project in which to create the metric: "projects/[PROJECT_ID]" The new metric must be provided in the request. */
   parent: string;
-  /** Request body */
-  body?: LogMetric | undefined;
 }
-export interface CreateProjectsSinksRequest {
+export interface CreateProjectsSinksRequest extends LogSink {
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface CreateSinksRequest {
+export interface CreateSinksRequest extends LogSink {
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
 export interface DeleteBillingAccountsExclusionsRequest {
   /** Required. The resource name of an existing exclusion to delete: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
@@ -1202,11 +1123,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A GetPolicyOptions object for specifying options to GetIamPolicy. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyFoldersLocationsBucketsViewsRequest {
+export interface GetIamPolicyFoldersLocationsBucketsViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1238,23 +1157,17 @@ export interface Policy {
   /** Associates a list of members, or principals, with a role. Optionally, may specify a condition that determines how and when the bindings are applied. Each of the bindings must contain at least one principal.The bindings in a Policy can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the bindings grant 50 different roles to user:alice@example.com, and not to any other principal, then you can add another 1,450 principals to the bindings in the Policy. */
   bindings?: BindingList | undefined;
 }
-export interface GetIamPolicyLocationsBucketsViewsRequest {
+export interface GetIamPolicyLocationsBucketsViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyOrganizationsLocationsBucketsViewsRequest {
+export interface GetIamPolicyOrganizationsLocationsBucketsViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsLocationsBucketsViewsRequest {
+export interface GetIamPolicyProjectsLocationsBucketsViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetLocationsRequest {
   /** Resource name for the location. */
@@ -1619,10 +1532,7 @@ export interface ListLogEntriesRequest {
   /** Optional. The maximum number of results to return from this request. Default is 50. If the value is negative, the request is rejected.The presence of next_page_token in the response indicates that more results might be available. */
   pageSize?: number | undefined;
 }
-export interface ListEntriesRequest {
-  /** Request body */
-  body?: ListLogEntriesRequest | undefined;
-}
+export interface ListEntriesRequest extends ListLogEntriesRequest {}
 /** Resource identifiers associated with an AppHub application AppHub resources are of the form projects//locations//applications/ projects//locations//applications//services/ projects//locations//applications//workloads/ These resources can be reconstructed from the components below. */
 export interface AppHubApplication {
   /** Application Id. Example: "my-app" */
@@ -2288,39 +2198,31 @@ export interface ListSinksRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of nextPageToken in the response indicates that more results might be available. */
   pageSize?: number | undefined;
 }
-export interface PatchBillingAccountsExclusionsRequest {
+export interface PatchBillingAccountsExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface PatchBillingAccountsLocationsBucketsRequest {
+export interface PatchBillingAccountsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface PatchBillingAccountsLocationsBucketsViewsRequest {
+export interface PatchBillingAccountsLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface PatchBillingAccountsLocationsSavedQueriesRequest {
+export interface PatchBillingAccountsLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
-export interface PatchBillingAccountsSinksRequest {
+export interface PatchBillingAccountsSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -2329,58 +2231,44 @@ export interface PatchBillingAccountsSinksRequest {
   updateMask?: string | undefined;
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface PatchExclusionsRequest {
+export interface PatchExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface PatchFoldersExclusionsRequest {
+export interface PatchFoldersExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface PatchFoldersLocationsBucketsRequest {
+export interface PatchFoldersLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface PatchFoldersLocationsBucketsViewsRequest {
+export interface PatchFoldersLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface PatchFoldersLocationsLogScopesRequest {
+export interface PatchFoldersLocationsLogScopesRequest extends Omit<LogScope, "name"> {
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
   /** Optional. Field mask that specifies the fields in log_scope that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=description */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogScope | undefined;
 }
-export interface PatchFoldersLocationsSavedQueriesRequest {
+export interface PatchFoldersLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
-export interface PatchFoldersSinksRequest {
+export interface PatchFoldersSinksRequest extends LogSink {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
@@ -2389,66 +2277,50 @@ export interface PatchFoldersSinksRequest {
   updateMask?: string | undefined;
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface PatchLocationsBucketsRequest {
+export interface PatchLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface PatchLocationsBucketsViewsRequest {
+export interface PatchLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface PatchOrganizationsExclusionsRequest {
+export interface PatchOrganizationsExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface PatchOrganizationsLocationsBucketsRequest {
+export interface PatchOrganizationsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface PatchOrganizationsLocationsBucketsViewsRequest {
+export interface PatchOrganizationsLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface PatchOrganizationsLocationsLogScopesRequest {
+export interface PatchOrganizationsLocationsLogScopesRequest extends Omit<LogScope, "name"> {
   /** Optional. Field mask that specifies the fields in log_scope that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=description */
   updateMask?: string | undefined;
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
-  /** Request body */
-  body?: LogScope | undefined;
 }
-export interface PatchOrganizationsLocationsSavedQueriesRequest {
+export interface PatchOrganizationsLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
-export interface PatchOrganizationsSinksRequest {
+export interface PatchOrganizationsSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
@@ -2457,50 +2329,38 @@ export interface PatchOrganizationsSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface PatchProjectsExclusionsRequest {
+export interface PatchProjectsExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
-  /** Request body */
-  body?: LogExclusion | undefined;
 }
-export interface PatchProjectsLocationsBucketsRequest {
+export interface PatchProjectsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface PatchProjectsLocationsBucketsViewsRequest {
+export interface PatchProjectsLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogView | undefined;
 }
-export interface PatchProjectsLocationsLogScopesRequest {
+export interface PatchProjectsLocationsLogScopesRequest extends Omit<LogScope, "name"> {
   /** Optional. Field mask that specifies the fields in log_scope that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=description */
   updateMask?: string | undefined;
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
-  /** Request body */
-  body?: LogScope | undefined;
 }
-export interface PatchProjectsLocationsSavedQueriesRequest {
+export interface PatchProjectsLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
-export interface PatchProjectsSinksRequest {
+export interface PatchProjectsSinksRequest extends LogSink {
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -2509,8 +2369,6 @@ export interface PatchProjectsSinksRequest {
   customWriterIdentity?: string | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
 /** Request message for SetIamPolicy method. */
 export interface SetIamPolicyRequest {
@@ -2519,29 +2377,21 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyFoldersLocationsBucketsViewsRequest {
+export interface SetIamPolicyFoldersLocationsBucketsViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyLocationsBucketsViewsRequest {
+export interface SetIamPolicyLocationsBucketsViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyOrganizationsLocationsBucketsViewsRequest {
+export interface SetIamPolicyOrganizationsLocationsBucketsViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBucketsViewsRequest {
+export interface SetIamPolicyProjectsLocationsBucketsViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** The parameters to TailLogEntries. */
 export interface TailLogEntriesRequest {
@@ -2552,10 +2402,7 @@ export interface TailLogEntriesRequest {
   /** Optional. The amount of time to buffer log entries at the server before being returned to prevent out of order results due to late arriving log entries. Valid values are between 0-60000 milliseconds. Defaults to 2000 milliseconds. */
   bufferWindow?: string | undefined;
 }
-export interface TailEntriesRequest {
-  /** Request body */
-  body?: TailLogEntriesRequest | undefined;
-}
+export interface TailEntriesRequest extends TailLogEntriesRequest {}
 export type SuppressionInfoReasonEnum = "REASON_UNSPECIFIED" | "RATE_LIMIT" | "NOT_CONSUMED";
 /** Information about entries that were omitted from the session. */
 export interface SuppressionInfo {
@@ -2577,34 +2424,26 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsFoldersLocationsBucketsViewsRequest {
+export interface TestIamPermissionsFoldersLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for TestIamPermissions method. */
 export interface TestIamPermissionsResponse {
   /** A subset of TestPermissionsRequest.permissions that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsLocationsBucketsViewsRequest {
+export interface TestIamPermissionsLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsOrganizationsLocationsBucketsViewsRequest {
+export interface TestIamPermissionsOrganizationsLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBucketsViewsRequest {
+export interface TestIamPermissionsProjectsLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** The parameters to UndeleteBucket. */
 export type UndeleteBucketRequest = CancelOperationRequest;
@@ -2638,47 +2477,37 @@ export interface UndeleteProjectsLocationsBucketsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface UpdateAsyncBillingAccountsLocationsBucketsRequest {
+export interface UpdateAsyncBillingAccountsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface UpdateAsyncFoldersLocationsBucketsRequest {
+export interface UpdateAsyncFoldersLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface UpdateAsyncLocationsBucketsRequest {
+export interface UpdateAsyncLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface UpdateAsyncOrganizationsLocationsBucketsRequest {
+export interface UpdateAsyncOrganizationsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface UpdateAsyncProjectsLocationsBucketsRequest {
+export interface UpdateAsyncProjectsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Request body */
-  body?: LogBucket | undefined;
 }
-export interface UpdateBillingAccountsSinksRequest {
+export interface UpdateBillingAccountsSinksRequest extends LogSink {
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -2687,26 +2516,20 @@ export interface UpdateBillingAccountsSinksRequest {
   customWriterIdentity?: string | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface UpdateCmekSettingsOrganizationsRequest {
+export interface UpdateCmekSettingsOrganizationsRequest extends Omit<CmekSettings, "name"> {
   /** Required. The resource name for the CMEK settings to update. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
   /** Optional. Field mask identifying which fields from cmek_settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CmekSettings | undefined;
 }
-export interface UpdateCmekSettingsV2Request {
+export interface UpdateCmekSettingsV2Request extends Omit<CmekSettings, "name"> {
   /** Optional. Field mask identifying which fields from cmek_settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
   /** Required. The resource name for the CMEK settings to update. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
-  /** Request body */
-  body?: CmekSettings | undefined;
 }
-export interface UpdateFoldersSinksRequest {
+export interface UpdateFoldersSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -2715,10 +2538,8 @@ export interface UpdateFoldersSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface UpdateOrganizationsSinksRequest {
+export interface UpdateOrganizationsSinksRequest extends LogSink {
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -2727,16 +2548,12 @@ export interface UpdateOrganizationsSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface UpdateProjectsMetricsRequest {
+export interface UpdateProjectsMetricsRequest extends LogMetric {
   /** Required. The resource name of the metric to update: "projects/[PROJECT_ID]/metrics/[METRIC_ID]" The updated metric must be provided in the request and it's name field must be the same as [METRIC_ID] If the metric does not exist in [PROJECT_ID], then a new metric is created. */
   metricName: string;
-  /** Request body */
-  body?: LogMetric | undefined;
 }
-export interface UpdateProjectsSinksRequest {
+export interface UpdateProjectsSinksRequest extends LogSink {
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -2745,34 +2562,26 @@ export interface UpdateProjectsSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Request body */
-  body?: LogSink | undefined;
 }
-export interface UpdateSettingsFoldersRequest {
+export interface UpdateSettingsFoldersRequest extends Omit<Settings, "name"> {
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
   /** Optional. Field mask identifying which fields from settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
 }
-export interface UpdateSettingsOrganizationsRequest {
+export interface UpdateSettingsOrganizationsRequest extends Omit<Settings, "name"> {
   /** Optional. Field mask identifying which fields from settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
-  /** Request body */
-  body?: Settings | undefined;
 }
-export interface UpdateSettingsV2Request {
+export interface UpdateSettingsV2Request extends Omit<Settings, "name"> {
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
   /** Optional. Field mask identifying which fields from settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
 }
-export interface UpdateSinksRequest {
+export interface UpdateSinksRequest extends LogSink {
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
@@ -2781,8 +2590,6 @@ export interface UpdateSinksRequest {
   updateMask?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
-  /** Request body */
-  body?: LogSink | undefined;
 }
 /** The parameters to WriteLogEntries. */
 export interface WriteLogEntriesRequest {
@@ -2799,10 +2606,7 @@ export interface WriteLogEntriesRequest {
   /** Optional. If true, the request should expect normal response, but the entries won't be persisted nor exported. Useful for checking whether the logging API endpoints are working properly before sending valuable data. */
   dryRun?: boolean | undefined;
 }
-export interface WriteEntriesRequest {
-  /** Request body */
-  body?: WriteLogEntriesRequest | undefined;
-}
+export interface WriteEntriesRequest extends WriteLogEntriesRequest {}
 /** Result returned from WriteLogEntries. */
 export interface WriteLogEntriesResponse {}
 export type CancelBillingAccountsLocationsOperationsError =
@@ -7827,11 +7631,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -8006,10 +7812,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -8070,11 +7878,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -8088,10 +7898,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -8105,10 +7917,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -8122,10 +7936,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -8223,11 +8039,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -8365,11 +8183,13 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -8547,11 +8367,13 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -8832,10 +8654,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -9001,9 +8825,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListLogEntriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1232, __c77, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:list",
@@ -9249,11 +9071,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -9469,11 +9293,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1553, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -9711,11 +9537,13 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -9932,11 +9760,13 @@ function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -10273,12 +10103,14 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -10347,11 +10179,13 @@ function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10365,11 +10199,13 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10383,11 +10219,13 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10401,11 +10239,13 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10419,13 +10259,15 @@ function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -10439,11 +10281,13 @@ function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10457,11 +10301,13 @@ function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10475,11 +10321,13 @@ function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10493,11 +10341,13 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10511,10 +10361,12 @@ function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -10528,11 +10380,13 @@ function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3232, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10546,11 +10400,13 @@ function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10564,13 +10420,15 @@ function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sinkName: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            sinkName: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -10584,11 +10442,13 @@ function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10602,11 +10462,13 @@ function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10620,11 +10482,13 @@ function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10638,11 +10502,13 @@ function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10656,11 +10522,13 @@ function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10674,11 +10542,13 @@ function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10692,11 +10562,13 @@ function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10710,10 +10582,12 @@ function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -10727,13 +10601,15 @@ function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -10747,11 +10623,13 @@ function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10765,11 +10643,13 @@ function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10783,11 +10663,13 @@ function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10801,11 +10683,13 @@ function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10819,11 +10703,13 @@ function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -10837,13 +10723,15 @@ function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -10857,10 +10745,12 @@ function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2656, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -10885,10 +10775,12 @@ function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2656, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -10902,10 +10794,12 @@ function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2656, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -10919,11 +10813,13 @@ function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -10937,10 +10833,12 @@ function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2656, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -10962,9 +10860,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "TailLogEntriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2736, __c171, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2736, __c171, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:tail",
@@ -10994,10 +10890,12 @@ function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2768, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -11021,10 +10919,12 @@ function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2768, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -11038,10 +10938,12 @@ function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2768, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -11055,10 +10957,12 @@ function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2768, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -11140,11 +11044,13 @@ function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1553, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -11175,11 +11081,13 @@ function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -11193,11 +11101,13 @@ function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -11211,11 +11121,13 @@ function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -11229,11 +11141,13 @@ function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -11247,11 +11161,13 @@ function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -11265,13 +11181,15 @@ function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -11285,11 +11203,13 @@ function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/cmekSettings",
@@ -11303,11 +11223,13 @@ function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/cmekSettings",
@@ -11321,13 +11243,15 @@ function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -11341,11 +11265,13 @@ function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -11359,13 +11285,15 @@ function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -11379,10 +11307,12 @@ function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          metricName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3608, __c225, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3608, __c225, 8),
+          S.Struct({
+            metricName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+metricName}",
@@ -11396,13 +11326,15 @@ function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -11416,11 +11348,13 @@ function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(753, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/settings",
@@ -11434,11 +11368,13 @@ function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(753, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/settings",
@@ -11452,11 +11388,13 @@ function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(753, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/settings",
@@ -11470,13 +11408,15 @@ function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -11501,9 +11441,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "WriteLogEntriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(3200, __c200, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(3200, __c200, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:write",
@@ -11517,11 +11455,13 @@ function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          logScopeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            logScopeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logScopes",
@@ -11549,11 +11489,13 @@ function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -11567,12 +11509,14 @@ function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -11586,11 +11530,13 @@ function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -11604,11 +11550,13 @@ function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1553, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -11622,11 +11570,13 @@ function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -11640,10 +11590,12 @@ function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -11657,11 +11609,13 @@ function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -11675,11 +11629,13 @@ function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1553, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -11693,11 +11649,13 @@ function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -11711,11 +11669,13 @@ function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          logScopeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            logScopeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logScopes",
@@ -11729,11 +11689,13 @@ function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -11747,12 +11709,14 @@ function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -11766,10 +11730,12 @@ function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1104, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -11806,11 +11772,13 @@ function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -11824,11 +11792,13 @@ function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1553, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -11842,11 +11812,13 @@ function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1744, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -11860,11 +11832,13 @@ function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          logScopeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3232, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            logScopeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logScopes",
@@ -11878,11 +11852,13 @@ function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -11896,10 +11872,12 @@ function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3608, __c225, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3608, __c225, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/metrics",
@@ -12014,12 +11992,14 @@ function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -12033,12 +12013,14 @@ function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2161, __c135, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -12798,9 +12780,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "CopyLogEntriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(4416, __c276, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(4416, __c276, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:copy",

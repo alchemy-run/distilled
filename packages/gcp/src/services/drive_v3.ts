@@ -88,13 +88,11 @@ export interface ApproveApprovalRequest {
   /** Optional. A message to accompany the reviewer response on the approval. This message is included in notifications for the action and in the approval activity log. */
   message?: string | undefined;
 }
-export interface ApproveApprovalsRequest {
+export interface ApproveApprovalsRequest extends ApproveApprovalRequest {
   /** Required. The ID of the approval to approve. */
   approvalId: string;
   /** Required. The ID of the file that the approval is on. */
   fileId: string;
-  /** Request body */
-  body?: ApproveApprovalRequest | undefined;
 }
 export type ApprovalStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -166,26 +164,22 @@ export interface CancelApprovalRequest {
   /** Optional. A message to accompany the cancellation of the approval. This message is included in notifications for the action and in the approval activity log. */
   message?: string | undefined;
 }
-export interface CancelApprovalsRequest {
+export interface CancelApprovalsRequest extends CancelApprovalRequest {
   /** Required. The ID of the file that the approval is on. */
   fileId: string;
   /** Required. The ID of the approval to cancel. */
   approvalId: string;
-  /** Request body */
-  body?: CancelApprovalRequest | undefined;
 }
 /** Request for commenting on an approval. */
 export interface CommentApprovalRequest {
   /** Required. A message to comment on the approval. This message is included in notifications for the action and in the approval activity log. */
   message?: string | undefined;
 }
-export interface CommentApprovalsRequest {
+export interface CommentApprovalsRequest extends CommentApprovalRequest {
   /** Required. The ID of the file that the approval is on. */
   fileId: string;
   /** Required. The ID of the approval to comment on. */
   approvalId: string;
-  /** Request body */
-  body?: CommentApprovalRequest | undefined;
 }
 export interface FileLinkShareMetadata {
   /** Output only. Whether the security update is enabled for this file. */
@@ -654,7 +648,7 @@ export interface File {
   /** Output only. A link for downloading the content of the file in a browser. This is only available for files with binary content in Google Drive. */
   webContentLink?: string | undefined;
 }
-export interface CopyFilesRequest {
+export interface CopyFilesRequest extends File {
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
   includeLabels?: string | undefined;
   /** Deprecated: Copying files into multiple folders is no longer supported. Use shortcuts instead. */
@@ -675,8 +669,6 @@ export interface CopyFilesRequest {
   copyComments?: boolean | undefined;
   /** A language hint for OCR processing during image import (ISO 639-1 code). */
   ocrLanguage?: string | undefined;
-  /** Request body */
-  body?: File | undefined;
 }
 /** A reply to a comment on a file. Some resource methods (such as `replies.update`) require a `replyId`. Use the `replies.list` method to retrieve the ID for a reply. */
 export interface Reply {
@@ -741,11 +733,9 @@ export interface Comment {
   /** The time at which the comment was created (RFC 3339 date-time). */
   createdTime?: string | undefined;
 }
-export interface CreateCommentsRequest {
+export interface CreateCommentsRequest extends Comment {
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Comment | undefined;
 }
 export interface DriveRestrictions {
   /** Whether access to this shared drive and items inside this shared drive is restricted to users of the domain to which this shared drive belongs. This restriction may be overridden by other sharing policies controlled outside of this shared drive. */
@@ -842,13 +832,11 @@ export interface Drive {
   /** The ID of the theme from which the background image and color will be set. The set of possible `driveThemes` can be retrieved from a `drive.about.get` response. When not specified on a `drive.drives.create` request, a random theme is chosen from which the background image and color are set. This is a write-only field; it can only be set on requests that don't set `colorRgb` or `backgroundImageFile`. */
   themeId?: string | undefined;
 }
-export interface CreateDrivesRequest {
+export interface CreateDrivesRequest extends Drive {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a shared drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same shared drive. If the shared drive already exists a 409 error will be returned. */
   requestId: string;
-  /** Request body */
-  body?: Drive | undefined;
 }
-export interface CreateFilesRequest {
+export interface CreateFilesRequest extends File {
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
   includeLabels?: string | undefined;
   /** Whether to use the uploaded content as indexable text. */
@@ -867,10 +855,8 @@ export interface CreateFilesRequest {
   includePermissionsForView?: string | undefined;
   /** Whether to set the `keepForever` field in the new head revision. This is only applicable to files with binary content in Google Drive. Only 200 revisions for the file can be kept forever. If the limit is reached, try deleting pinned revisions. */
   keepRevisionForever?: boolean | undefined;
-  /** Request body */
-  body?: File | undefined;
 }
-export interface CreatePermissionsRequest {
+export interface CreatePermissionsRequest extends Permission {
   /** Whether to transfer ownership to the specified user and downgrade the current owner to a writer. This parameter is required as an acknowledgement of the side effect. For more information, see [Transfer file ownership](https://developers.google.com/workspace/drive/api/guides/transfer-file). */
   transferOwnership?: boolean | undefined;
   /** Deprecated: See `moveToNewOwnersRoot` for details. */
@@ -891,16 +877,12 @@ export interface CreatePermissionsRequest {
   supportsAllDrives?: boolean | undefined;
   /** Deprecated: All requests use the expansive access rules. */
   enforceExpansiveAccess?: boolean | undefined;
-  /** Request body */
-  body?: Permission | undefined;
 }
-export interface CreateRepliesRequest {
+export interface CreateRepliesRequest extends Reply {
   /** The ID of the comment. */
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Reply | undefined;
 }
 export interface TeamDriveRestrictions {
   /** Whether the options to copy, print, or download files inside this Team Drive, should be disabled for readers and commenters. When this restriction is set to `true`, it will override the similarly named field to `true` for any file inside this Team Drive. */
@@ -997,21 +979,17 @@ export interface TeamDrive {
   /** Identifies what kind of resource this is. Value: the fixed string `"drive#teamDrive"`. */
   kind?: string | undefined;
 }
-export interface CreateTeamdrivesRequest {
+export interface CreateTeamdrivesRequest extends TeamDrive {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a Team Drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same Team Drive. If the Team Drive already exists a 409 error will be returned. */
   requestId: string;
-  /** Request body */
-  body?: TeamDrive | undefined;
 }
 /** Request for declining an approval as a reviewer. */
 export type DeclineApprovalRequest = ApproveApprovalRequest;
-export interface DeclineApprovalsRequest {
+export interface DeclineApprovalsRequest extends ApproveApprovalRequest {
   /** Required. The ID of the file that the approval is on. */
   fileId: string;
   /** Required. The ID of the approval to decline. */
   approvalId: string;
-  /** Request body */
-  body?: ApproveApprovalRequest | undefined;
 }
 export interface DeleteCommentsRequest {
   /** The ID of the comment. */
@@ -1785,11 +1763,9 @@ export interface ModifyLabelsRequest {
   /** The list of modifications to apply to the labels on the file. */
   labelModifications?: LabelModificationList | undefined;
 }
-export interface ModifyLabelsFilesRequest {
+export interface ModifyLabelsFilesRequest extends ModifyLabelsRequest {
   /** The ID of the file to which the labels belong. */
   fileId: string;
-  /** Request body */
-  body?: ModifyLabelsRequest | undefined;
 }
 /** Response to a `ModifyLabels` request. This contains only those labels which were added or updated by the request. */
 export interface ModifyLabelsResponse {
@@ -1821,13 +1797,11 @@ export interface ReassignApprovalRequest {
   /** Optional. The list of reviewers to add. */
   addReviewers?: AddReviewerList | undefined;
 }
-export interface ReassignApprovalsRequest {
+export interface ReassignApprovalsRequest extends ReassignApprovalRequest {
   /** Required. The ID of the file that the approval is on. */
   fileId: string;
   /** Required. The ID of the approval to reassign. */
   approvalId: string;
-  /** Request body */
-  body?: ReassignApprovalRequest | undefined;
 }
 export type ResolveAccessProposalRequestActionEnum = "ACTION_UNSPECIFIED" | "ACCEPT" | "DENY";
 /** Request message for resolving an AccessProposal on a file. */
@@ -1841,13 +1815,11 @@ export interface ResolveAccessProposalRequest {
   /** Optional. Whether to send an email to the requester when the access proposal is denied or accepted. */
   sendNotification?: boolean | undefined;
 }
-export interface ResolveAccessproposalsRequest {
+export interface ResolveAccessproposalsRequest extends ResolveAccessProposalRequest {
   /** Required. The ID of the access proposal to resolve. */
   proposalId: string;
   /** Required. The ID of the item the request is on. */
   fileId: string;
-  /** Request body */
-  body?: ResolveAccessProposalRequest | undefined;
 }
 export interface ResolveAccessproposalsResponse {}
 export type StartApprovalRequestFileContentChangeBehaviorEnum =
@@ -1870,11 +1842,9 @@ export interface StartApprovalRequest {
   /** Optional. The time that the approval is due. */
   dueTime?: string | undefined;
 }
-export interface StartApprovalsRequest {
+export interface StartApprovalsRequest extends StartApprovalRequest {
   /** Required. The ID of the file that the approval is created on. */
   fileId: string;
-  /** Request body */
-  body?: StartApprovalRequest | undefined;
 }
 /** A notification channel used to watch for resource changes. */
 export interface Channel {
@@ -1899,32 +1869,25 @@ export interface Channel {
   /** The type of delivery mechanism used for this channel. Valid values are "web_hook" or "webhook". */
   type?: string | undefined;
 }
-export interface StopChannelsRequest {
-  /** Request body */
-  body?: Channel | undefined;
-}
+export interface StopChannelsRequest extends Channel {}
 export interface StopChannelsResponse {}
 export interface UnhideDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
 }
-export interface UpdateCommentsRequest {
+export interface UpdateCommentsRequest extends Comment {
   /** The ID of the comment. */
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Comment | undefined;
 }
-export interface UpdateDrivesRequest {
+export interface UpdateDrivesRequest extends Drive {
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs. */
   useDomainAdminAccess?: boolean | undefined;
   /** The ID of the shared drive. */
   driveId: string;
-  /** Request body */
-  body?: Drive | undefined;
 }
-export interface UpdateFilesRequest {
+export interface UpdateFilesRequest extends File {
   /** Whether to use the uploaded content as indexable text. */
   useContentAsIndexableText?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
@@ -1947,10 +1910,8 @@ export interface UpdateFilesRequest {
   enforceSingleParent?: boolean | undefined;
   /** A comma-separated list of parent IDs to add. */
   addParents?: string | undefined;
-  /** Request body */
-  body?: File | undefined;
 }
-export interface UpdatePermissionsRequest {
+export interface UpdatePermissionsRequest extends Permission {
   /** Deprecated: Use `supportsAllDrives` instead. */
   supportsTeamDrives?: boolean | undefined;
   /** The ID of the permission. */
@@ -1967,36 +1928,28 @@ export interface UpdatePermissionsRequest {
   useDomainAdminAccess?: boolean | undefined;
   /** Whether to transfer ownership to the specified user and downgrade the current owner to a writer. This parameter is required as an acknowledgement of the side effect. For more information, see [Transfer file ownership](https://developers.google.com//workspace/drive/api/guides/transfer-file). */
   transferOwnership?: boolean | undefined;
-  /** Request body */
-  body?: Permission | undefined;
 }
-export interface UpdateRepliesRequest {
+export interface UpdateRepliesRequest extends Reply {
   /** The ID of the file. */
   fileId: string;
   /** The ID of the comment. */
   commentId: string;
   /** The ID of the reply. */
   replyId: string;
-  /** Request body */
-  body?: Reply | undefined;
 }
-export interface UpdateRevisionsRequest {
+export interface UpdateRevisionsRequest extends Revision {
   /** The ID of the file. */
   fileId: string;
   /** The ID of the revision. */
   revisionId: string;
-  /** Request body */
-  body?: Revision | undefined;
 }
-export interface UpdateTeamdrivesRequest {
+export interface UpdateTeamdrivesRequest extends TeamDrive {
   /** The ID of the Team Drive */
   teamDriveId: string;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the Team Drive belongs. */
   useDomainAdminAccess?: boolean | undefined;
-  /** Request body */
-  body?: TeamDrive | undefined;
 }
-export interface WatchChangesRequest {
+export interface WatchChangesRequest extends Channel {
   /** The maximum number of changes to return. The service may return fewer than this value. If unspecified, at most 100 changes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
   /** Specifies which additional view's permissions to include in the response. Only 'published' is supported. */
@@ -2025,10 +1978,8 @@ export interface WatchChangesRequest {
   pageToken: string;
   /** Whether to include changes indicating that items have been removed from the list of changes, for example by deletion or loss of access. */
   includeRemoved?: boolean | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface WatchFilesRequest {
+export interface WatchFilesRequest extends Channel {
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
   includePermissionsForView?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
@@ -2041,8 +1992,6 @@ export interface WatchFilesRequest {
   includeLabels?: string | undefined;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type ApproveApprovalsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Approves an approval. For more information, see [Manage approvals](https://developers.google.com/workspace/drive/api/guides/approvals). This is used to update the ReviewerResponse of the requesting user with a Response of `APPROVED`. If this is the last required reviewer response, this also completes the approval and sets the approval Status to `APPROVED`. */
@@ -3135,18 +3084,20 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          ocrLanguage: S.optional(S.String.pipe(T.Query())),
-          ignoreDefaultVisibility: S.optional(S.Boolean.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          keepRevisionForever: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1230, __c76, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1230, __c76, 14),
+          S.Struct({
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            ocrLanguage: S.optional(S.String.pipe(T.Query())),
+            ignoreDefaultVisibility: S.optional(S.Boolean.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            keepRevisionForever: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "files", baseUrl: "https://www.googleapis.com/drive/v3/" }),
         ),
       ).annotate({ identifier: "CreateFilesRequest" });
@@ -3156,19 +3107,21 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          moveToNewOwnersRoot: S.optional(S.Boolean.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          sendNotificationEmail: S.optional(S.Boolean.pipe(T.Query())),
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          emailMessage: S.optional(S.String.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1156, __c72, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1156, __c72, 4),
+          S.Struct({
+            transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            moveToNewOwnersRoot: S.optional(S.Boolean.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            sendNotificationEmail: S.optional(S.Boolean.pipe(T.Query())),
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            emailMessage: S.optional(S.String.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/permissions",
@@ -3182,11 +3135,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          commentId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            commentId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/comments/{commentId}/replies",
@@ -3200,10 +3155,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.String.pipe(T.Query()),
-          body: S.optional(__S(67, __c4, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(67, __c4, 3),
+          S.Struct({
+            requestId: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "teamdrives",
@@ -3284,11 +3241,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          approvalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(592, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(592, __c37, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            approvalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/approvals/{approvalId}:decline",
@@ -3927,11 +3886,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          approvalId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(592, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(592, __c37, 0),
+          S.Struct({
+            approvalId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/approvals/{approvalId}:approve",
@@ -4300,11 +4261,13 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          approvalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(592, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(592, __c37, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            approvalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/approvals/{approvalId}:cancel",
@@ -4436,10 +4399,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ModifyLabelsRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(868, __c54, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(868, __c54, 4),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/modifyLabels",
@@ -4485,11 +4450,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ReassignApprovalRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          approvalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(884, __c55, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(884, __c55, 4),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            approvalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/approvals/{approvalId}:reassign",
@@ -4512,11 +4479,13 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ResolveAccessProposalRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          proposalId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c56, 0),
+          S.Struct({
+            proposalId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/accessproposals/{proposalId}:resolve",
@@ -4540,10 +4509,12 @@ function __c57(j: number): any {
       ).annotate({ identifier: "StartApprovalRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(912, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(912, __c57, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/approvals:start",
@@ -4557,9 +4528,7 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(944, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(944, __c59, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "channels/stop",
@@ -4608,11 +4577,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          commentId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c82, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1313, __c82, 1),
+          S.Struct({
+            commentId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/comments/{commentId}",
@@ -4626,11 +4597,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          approvalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(592, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(592, __c37, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            approvalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/approvals/{approvalId}:comment",
@@ -4644,11 +4617,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          driveId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1347, __c84, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1347, __c84, 3),
+          S.Struct({
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            driveId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "drives/{driveId}",
@@ -4662,20 +4637,22 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          ocrLanguage: S.optional(S.String.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          keepRevisionForever: S.optional(S.Boolean.pipe(T.Query())),
-          removeParents: S.optional(S.String.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          addParents: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1230, __c76, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1230, __c76, 14),
+          S.Struct({
+            useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            ocrLanguage: S.optional(S.String.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            keepRevisionForever: S.optional(S.Boolean.pipe(T.Query())),
+            removeParents: S.optional(S.String.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            addParents: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}",
@@ -4689,17 +4666,19 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          permissionId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          removeExpiration: S.optional(S.Boolean.pipe(T.Query())),
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1156, __c72, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1156, __c72, 4),
+          S.Struct({
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            permissionId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+            enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            removeExpiration: S.optional(S.Boolean.pipe(T.Query())),
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/permissions/{permissionId}",
@@ -4713,12 +4692,14 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          commentId: S.String.pipe(T.Label()),
-          replyId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            commentId: S.String.pipe(T.Label()),
+            replyId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/comments/{commentId}/replies/{replyId}",
@@ -4732,11 +4713,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          revisionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            revisionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/revisions/{revisionId}",
@@ -4750,11 +4733,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          teamDriveId: S.String.pipe(T.Label()),
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(67, __c4, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(67, __c4, 3),
+          S.Struct({
+            teamDriveId: S.String.pipe(T.Label()),
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "teamdrives/{teamDriveId}",
@@ -4768,23 +4753,25 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          driveId: S.optional(S.String.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          teamDriveId: S.optional(S.String.pipe(T.Query())),
-          includeTeamDriveItems: S.optional(S.Boolean.pipe(T.Query())),
-          restrictToMyDrive: S.optional(S.Boolean.pipe(T.Query())),
-          includeCorpusRemovals: S.optional(S.Boolean.pipe(T.Query())),
-          includeItemsFromAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          spaces: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.String.pipe(T.Query()),
-          includeRemoved: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(944, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(944, __c59, 0),
+          S.Struct({
+            pageSize: S.optional(S.Number.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            driveId: S.optional(S.String.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            teamDriveId: S.optional(S.String.pipe(T.Query())),
+            includeTeamDriveItems: S.optional(S.Boolean.pipe(T.Query())),
+            restrictToMyDrive: S.optional(S.Boolean.pipe(T.Query())),
+            includeCorpusRemovals: S.optional(S.Boolean.pipe(T.Query())),
+            includeItemsFromAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            spaces: S.optional(S.String.pipe(T.Query())),
+            pageToken: S.String.pipe(T.Query()),
+            includeRemoved: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "changes/watch",
@@ -4798,15 +4785,17 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          acknowledgeAbuse: S.optional(S.Boolean.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(944, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(944, __c59, 0),
+          S.Struct({
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            acknowledgeAbuse: S.optional(S.Boolean.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/watch",
@@ -4820,19 +4809,21 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          keepRevisionForever: S.optional(S.Boolean.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          ignoreDefaultVisibility: S.optional(S.Boolean.pipe(T.Query())),
-          copyComments: S.optional(S.Boolean.pipe(T.Query())),
-          ocrLanguage: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1230, __c76, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1230, __c76, 14),
+          S.Struct({
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            keepRevisionForever: S.optional(S.Boolean.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            ignoreDefaultVisibility: S.optional(S.Boolean.pipe(T.Query())),
+            copyComments: S.optional(S.Boolean.pipe(T.Query())),
+            ocrLanguage: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/copy",
@@ -5196,10 +5187,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c82, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1313, __c82, 1),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/comments",
@@ -5269,10 +5262,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.String.pipe(T.Query()),
-          body: S.optional(__S(1347, __c84, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1347, __c84, 3),
+          S.Struct({
+            requestId: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "drives",

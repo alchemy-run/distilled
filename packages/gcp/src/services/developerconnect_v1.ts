@@ -103,11 +103,9 @@ export interface AddGitRepositoryLinkPullRequestCommentRequest {
   /** Required. The ID of the Pull Request. */
   pullRequestId?: string | undefined;
 }
-export interface AddPullRequestCommentProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface AddPullRequestCommentProjectsLocationsConnectionsGitRepositoryLinksRequest extends AddGitRepositoryLinkPullRequestCommentRequest {
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: AddGitRepositoryLinkPullRequestCommentRequest | undefined;
 }
 export type PullRequestReviewCommentSideEnum = "DIFF_SIDE_UNSPECIFIED" | "BASE" | "HEAD";
 /** Message representing a SCM Pull Request Review Comment (inline on diff). */
@@ -142,11 +140,9 @@ export interface AddGitRepositoryLinkPullRequestReviewCommentRequest {
   /** Required. The review comment to add. */
   comment?: PullRequestReviewComment | undefined;
 }
-export interface AddPullRequestReviewCommentProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface AddPullRequestReviewCommentProjectsLocationsConnectionsGitRepositoryLinksRequest extends AddGitRepositoryLinkPullRequestReviewCommentRequest {
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: AddGitRepositoryLinkPullRequestReviewCommentRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -245,7 +241,7 @@ export interface AccountConnector {
   /** Identifier. The resource name of the accountConnector, in the format `projects/{project}/locations/{location}/accountConnectors/{account_connector_id}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsAccountConnectorsRequest {
+export interface CreateProjectsLocationsAccountConnectorsRequest extends AccountConnector {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
@@ -254,8 +250,6 @@ export interface CreateProjectsLocationsAccountConnectorsRequest {
   parent: string;
   /** Required. The ID to use for the AccountConnector, which will become the final component of the AccountConnector's resource name. Its format should adhere to https://google.aip.dev/122#resource-id-segments Names must be unique per-project per-location. */
   accountConnectorId?: string | undefined;
-  /** Request body */
-  body?: AccountConnector | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -493,7 +487,7 @@ export interface Connection {
   /** Configuration for connections to an instance of Bitbucket Clouds. */
   bitbucketCloudConfig?: BitbucketCloudConfig | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
+export interface CreateProjectsLocationsConnectionsRequest extends Connection {
   /** Required. The ID to use for the connection, which becomes the final component of the connection's resource name. */
   connectionId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -502,8 +496,6 @@ export interface CreateProjectsLocationsConnectionsRequest {
   validateOnly?: boolean | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: Connection | undefined;
 }
 /** Message describing the GitRepositoryLink object */
 export interface GitRepositoryLink {
@@ -532,7 +524,7 @@ export interface GitRepositoryLink {
   /** Output only. External ID of the webhook created for the repository. */
   webhookId?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface CreateProjectsLocationsConnectionsGitRepositoryLinksRequest extends GitRepositoryLink {
   /** Optional. If set, validate the request, but do not actually post it. */
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -541,8 +533,6 @@ export interface CreateProjectsLocationsConnectionsGitRepositoryLinksRequest {
   parent: string;
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This ID should be unique in the connection. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
   gitRepositoryLinkId?: string | undefined;
-  /** Request body */
-  body?: GitRepositoryLink | undefined;
 }
 export type InsightsConfigStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "COMPLETE" | "ERROR";
 export type StatusList = Array<Status>;
@@ -647,15 +637,13 @@ export interface InsightsConfig {
   /** Optional. The artifact configurations of the artifacts that are deployed. */
   artifactConfigs?: ArtifactConfigList | undefined;
 }
-export interface CreateProjectsLocationsInsightsConfigsRequest {
+export interface CreateProjectsLocationsInsightsConfigsRequest extends InsightsConfig {
   /** Optional. If set, validate the request, but do not actually post it. */
   validateOnly?: boolean | undefined;
   /** Required. ID of the requesting InsightsConfig. */
   insightsConfigId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: InsightsConfig | undefined;
 }
 export interface DeleteProjectsLocationsAccountConnectorsRequest {
   /** Required. Name of the resource */
@@ -1353,24 +1341,23 @@ export interface ModifyGitRepositoryLinkPullRequestRequest {
   /** Optional. The state of the Pull Request. */
   state?: ModifyGitRepositoryLinkPullRequestRequestStateEnum | (string & {}) | undefined;
 }
-export interface ModifyPullRequestProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface ModifyPullRequestProjectsLocationsConnectionsGitRepositoryLinksRequest extends ModifyGitRepositoryLinkPullRequestRequest {
   /** Required. The GitRepositoryLink resource name in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: ModifyGitRepositoryLinkPullRequestRequest | undefined;
 }
 /** Message for opening SCM Pull Request. */
 export interface OpenGitRepositoryLinkPullRequestRequest {
   /** Required. The Pull Request details to open. Input fields used: title, body, head_ref, base_ref. */
   pullRequest?: PullRequest | undefined;
 }
-export interface OpenPullRequestProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface OpenPullRequestProjectsLocationsConnectionsGitRepositoryLinksRequest extends OpenGitRepositoryLinkPullRequestRequest {
   /** Required. The GitRepositoryLink resource name in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: OpenGitRepositoryLinkPullRequestRequest | undefined;
 }
-export interface PatchProjectsLocationsAccountConnectorsRequest {
+export interface PatchProjectsLocationsAccountConnectorsRequest extends Omit<
+  AccountConnector,
+  "name"
+> {
   /** Optional. If set, validate the request, but do not actually post it. */
   validateOnly?: boolean | undefined;
   /** Optional. The list of fields to be updated. */
@@ -1381,10 +1368,8 @@ export interface PatchProjectsLocationsAccountConnectorsRequest {
   requestId?: string | undefined;
   /** Identifier. The resource name of the accountConnector, in the format `projects/{project}/locations/{location}/accountConnectors/{account_connector_id}`. */
   name: string;
-  /** Request body */
-  body?: AccountConnector | undefined;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends Omit<Connection, "name"> {
   /** Identifier. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1395,10 +1380,8 @@ export interface PatchProjectsLocationsConnectionsRequest {
   updateMask?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Connection | undefined;
 }
-export interface PatchProjectsLocationsInsightsConfigsRequest {
+export interface PatchProjectsLocationsInsightsConfigsRequest extends Omit<InsightsConfig, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the InsightsConfig. Format: projects/{project}/locations/{location}/insightsConfigs/{insightsConfig} */
@@ -1407,8 +1390,6 @@ export interface PatchProjectsLocationsInsightsConfigsRequest {
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: InsightsConfig | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -1424,43 +1405,33 @@ export interface ProcessBitbucketCloudWebhookRequest {
   /** Required. HTTP request body. */
   body?: HttpBody | undefined;
 }
-export interface ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest extends ProcessBitbucketCloudWebhookRequest {
   /** Required. The GitRepositoryLink where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessBitbucketDataCenterWebhook RPC method. */
 export type ProcessBitbucketDataCenterWebhookRequest = ProcessBitbucketCloudWebhookRequest;
-export interface ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest extends ProcessBitbucketCloudWebhookRequest {
   /** Required. The GitRepositoryLink where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessGitHubEnterpriseWebhook RPC method. */
 export type ProcessGitHubEnterpriseWebhookRequest = ProcessBitbucketCloudWebhookRequest;
-export interface ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsRequest {
+export interface ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsRequest extends ProcessBitbucketCloudWebhookRequest {
   /** Required. Project and location where the webhook will be received. Format: `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessGitLabEnterpriseWebhook RPC method. */
 export type ProcessGitLabEnterpriseWebhookRequest = ProcessBitbucketCloudWebhookRequest;
-export interface ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest extends ProcessBitbucketCloudWebhookRequest {
   /** Required. The GitRepositoryLink resource where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessGitLabWebhook RPC method. */
 export type ProcessGitLabWebhookRequest = ProcessBitbucketCloudWebhookRequest;
-export interface ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
+export interface ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest extends ProcessBitbucketCloudWebhookRequest {
   /** Required. The GitRepositoryLink resource where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
-  /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 export interface StartOAuthFlowProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. The resource name of the AccountConnector in the format `projects/*\/locations/*\/accountConnectors/*`. */
@@ -2774,12 +2745,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          insightsConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(39, __c2, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c2, 7),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            insightsConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/insightsConfigs",
@@ -3690,10 +3663,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "AddGitRepositoryLinkPullRequestCommentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(641, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(641, __c40, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:addPullRequestComment",
@@ -3957,10 +3932,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ModifyGitRepositoryLinkPullRequestRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:modifyPullRequest",
@@ -3982,10 +3959,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "OpenGitRepositoryLinkPullRequestRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:openPullRequest",
@@ -4024,10 +4003,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "AddGitRepositoryLinkPullRequestReviewCommentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(817, __c51, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(817, __c51, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:addPullRequestReviewComment",
@@ -4044,14 +4025,16 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1059, __c66, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1059, __c66, 3),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4065,14 +4048,16 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1199, __c74, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1199, __c74, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4086,13 +4071,15 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(39, __c2, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c2, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4106,10 +4093,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c56, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:processBitbucketCloudWebhook",
@@ -4144,10 +4133,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c56, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:processBitbucketDataCenterWebhook",
@@ -4164,10 +4155,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c56, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connections:processGitHubEnterpriseWebhook",
@@ -4183,10 +4176,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c56, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:processGitLabEnterpriseWebhook",
@@ -4203,10 +4198,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c56, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:processGitLabWebhook",
@@ -4273,13 +4270,15 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          accountConnectorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1059, __c66, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1059, __c66, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            accountConnectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/accountConnectors",
@@ -4403,13 +4402,15 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          connectionId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1199, __c74, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1199, __c74, 15),
+          S.Struct({
+            connectionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connections",
@@ -4583,13 +4584,15 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          gitRepositoryLinkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1216, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c76, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            gitRepositoryLinkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/gitRepositoryLinks",

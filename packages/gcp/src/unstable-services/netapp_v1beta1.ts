@@ -151,13 +151,11 @@ export interface ActiveDirectory {
   /** Description of the active directory. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsActiveDirectoriesRequest {
+export interface CreateProjectsLocationsActiveDirectoriesRequest extends ActiveDirectory {
   /** Required. ID of the active directory to create. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter , the last a letter or a number, and a 63 character maximum. */
   activeDirectoryId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: ActiveDirectory | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -213,13 +211,11 @@ export interface BackupPolicy {
   /** If enabled, make backups automatically according to the schedules. This will be applied to all volumes that have this policy attached and enforced on volume level. If not specified, default is true. */
   enabled?: boolean | undefined;
 }
-export interface CreateProjectsLocationsBackupPoliciesRequest {
+export interface CreateProjectsLocationsBackupPoliciesRequest extends BackupPolicy {
   /** Required. The location to create the backup policies of, in the format `projects/{project_id}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the backup policy. The ID must be unique within the specified location. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   backupPolicyId?: string | undefined;
-  /** Request body */
-  body?: BackupPolicy | undefined;
 }
 export type BackupVaultStateEnum =
   | "STATE_UNSPECIFIED"
@@ -284,13 +280,11 @@ export interface BackupVault {
   /** Optional. Region where the backups are stored. Format: `projects/{project_id}/locations/{location}` */
   backupRegion?: string | undefined;
 }
-export interface CreateProjectsLocationsBackupVaultsRequest {
+export interface CreateProjectsLocationsBackupVaultsRequest extends BackupVault {
   /** Required. The ID to use for the backupVault. The ID must be unique within the specified location. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   backupVaultId?: string | undefined;
   /** Required. The location to create the backup vaults, in the format `projects/{project_id}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: BackupVault | undefined;
 }
 /** Represents ONTAP source details. */
 export interface OntapSource {
@@ -345,13 +339,11 @@ export interface Backup {
   /** Output only. Region of the volume from which the backup was created. Format: `projects/{project_id}/locations/{location}` */
   volumeRegion?: string | undefined;
 }
-export interface CreateProjectsLocationsBackupVaultsBackupsRequest {
+export interface CreateProjectsLocationsBackupVaultsBackupsRequest extends Backup {
   /** Required. The ID to use for the backup. The ID must be unique within the specified backupVault. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   backupId?: string | undefined;
   /** Required. The NetApp backupVault to create the backups of, in the format `projects/*\/locations/*\/backupVaults/{backup_vault_id}` */
   parent: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
 export type HostGroupTypeEnum = "TYPE_UNSPECIFIED" | "ISCSI_INITIATOR";
 export type HostGroupStateEnum =
@@ -381,13 +373,11 @@ export interface HostGroup {
   /** Required. The OS type of the host group. It indicates the type of operating system used by all of the hosts in the HostGroup. All hosts in a HostGroup must be of the same OS type. This can be set only when creating a HostGroup. */
   osType?: HostGroupOsTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsHostGroupsRequest {
+export interface CreateProjectsLocationsHostGroupsRequest extends HostGroup {
   /** Required. Parent value for CreateHostGroupRequest */
   parent: string;
   /** Required. ID of the host group to create. Must be unique within the parent resource. Must contain only letters, numbers, and hyphen, with the first character a letter or underscore, the last a letter or underscore or a number, and a 63 character maximum. */
   hostGroupId?: string | undefined;
-  /** Request body */
-  body?: HostGroup | undefined;
 }
 export type KmsConfigStateEnum =
   | "STATE_UNSPECIFIED"
@@ -423,13 +413,11 @@ export interface KmsConfig {
   /** Output only. Create time of the KmsConfig. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsKmsConfigsRequest {
+export interface CreateProjectsLocationsKmsConfigsRequest extends KmsConfig {
   /** Required. Value for parent. */
   parent: string;
   /** Required. Id of the requesting KmsConfig. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   kmsConfigId?: string | undefined;
-  /** Request body */
-  body?: KmsConfig | undefined;
 }
 export type StoragePoolModeEnum = "MODE_UNSPECIFIED" | "DEFAULT" | "ONTAP";
 export type StoragePoolScaleTypeEnum =
@@ -534,13 +522,11 @@ export interface StoragePool {
   /** Optional. Type of the storage pool. This field is used to control whether the pool supports `FILE` based volumes only or `UNIFIED` (both `FILE` and `BLOCK`) volumes. If not specified during creation, it defaults to `FILE`. */
   type?: StoragePoolTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsStoragePoolsRequest {
+export interface CreateProjectsLocationsStoragePoolsRequest extends StoragePool {
   /** Required. Value for parent. */
   parent: string;
   /** Required. Id of the requesting storage pool. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   storagePoolId?: string | undefined;
-  /** Request body */
-  body?: StoragePool | undefined;
 }
 export type MountOptionProtocolEnum =
   | "PROTOCOLS_UNSPECIFIED"
@@ -959,13 +945,11 @@ export interface Volume {
   /** Optional. Cache parameters for the volume. */
   cacheParameters?: CacheParameters | undefined;
 }
-export interface CreateProjectsLocationsVolumesRequest {
+export interface CreateProjectsLocationsVolumesRequest extends Volume {
   /** Required. Id of the requesting volume. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   volumeId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: Volume | undefined;
 }
 export type QuotaRuleStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1001,13 +985,11 @@ export interface QuotaRule {
   /** Output only. State details of the quota rule */
   stateDetails?: string | undefined;
 }
-export interface CreateProjectsLocationsVolumesQuotaRulesRequest {
+export interface CreateProjectsLocationsVolumesQuotaRulesRequest extends QuotaRule {
   /** Required. Parent value for CreateQuotaRuleRequest */
   parent: string;
   /** Required. ID of the quota rule to create. Must be unique within the parent resource. Must contain only letters, numbers, underscore and hyphen, with the first character a letter or underscore, the last a letter or underscore or a number, and a 63 character maximum. */
   quotaRuleId?: string | undefined;
-  /** Request body */
-  body?: QuotaRule | undefined;
 }
 export type ReplicationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1135,13 +1117,11 @@ export interface Replication {
   /** Output only. Replication create time. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsVolumesReplicationsRequest {
+export interface CreateProjectsLocationsVolumesReplicationsRequest extends Replication {
   /** Required. The NetApp volume to create the replications of, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   parent: string;
   /** Required. ID of the replication to create. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   replicationId?: string | undefined;
-  /** Request body */
-  body?: Replication | undefined;
 }
 export type SnapshotStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1168,13 +1148,11 @@ export interface Snapshot {
   /** Output only. The snapshot state. */
   state?: SnapshotStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsVolumesSnapshotsRequest {
+export interface CreateProjectsLocationsVolumesSnapshotsRequest extends Snapshot {
   /** Required. ID of the snapshot to create. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   snapshotId?: string | undefined;
   /** Required. The NetApp volume to create the snapshots of, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   parent: string;
-  /** Request body */
-  body?: Snapshot | undefined;
 }
 export interface DeleteProjectsLocationsActiveDirectoriesRequest {
   /** Required. Name of the active directory. */
@@ -1245,11 +1223,9 @@ export interface EstablishVolumePeeringRequest {
   /** Required. Name of the user's local source volume to be peered with the destination volume. */
   peerVolumeName?: string | undefined;
 }
-export interface EstablishPeeringProjectsLocationsVolumesRequest {
+export interface EstablishPeeringProjectsLocationsVolumesRequest extends EstablishVolumePeeringRequest {
   /** Required. The volume resource name, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   name: string;
-  /** Request body */
-  body?: EstablishVolumePeeringRequest | undefined;
 }
 /** EstablishPeeringRequest establishes cluster and svm peerings between the source and the destination replications. */
 export interface EstablishPeeringRequest {
@@ -1262,11 +1238,9 @@ export interface EstablishPeeringRequest {
   /** Optional. List of IPv4 ip addresses to be used for peering. */
   peerIpAddresses?: StringList | undefined;
 }
-export interface EstablishPeeringProjectsLocationsVolumesReplicationsRequest {
+export interface EstablishPeeringProjectsLocationsVolumesReplicationsRequest extends EstablishPeeringRequest {
   /** Required. The resource name of the replication, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}. */
   name: string;
-  /** Request body */
-  body?: EstablishPeeringRequest | undefined;
 }
 export interface ExecuteOntapDeleteProjectsLocationsStoragePoolsOntapRequest {
   /** Required. The resource path of the ONTAP resource. Format: `projects/{project_number}/locations/{location_id}/storagePools/{storage_pool_id}/ontap/{ontap_resource_path}`. For example: `projects/123456789/locations/us-central1/storagePools/my-storage-pool/ontap/api/storage/volumes`. */
@@ -1291,11 +1265,9 @@ export interface ExecuteOntapPatchRequest {
   /** Required. The raw `JSON` body of the request. The body should be in the format of the ONTAP resource. For example: ``` { "body": { "field1": "value1", "field2": "value2", } } ``` */
   body?: DocumentMap | undefined;
 }
-export interface ExecuteOntapPatchProjectsLocationsStoragePoolsOntapRequest {
+export interface ExecuteOntapPatchProjectsLocationsStoragePoolsOntapRequest extends ExecuteOntapPatchRequest {
   /** Required. The resource path of the ONTAP resource. Format: `projects/{project_number}/locations/{location_id}/storagePools/{storage_pool_id}/ontap/{ontap_resource_path}`. For example: `projects/123456789/locations/us-central1/storagePools/my-storage-pool/ontap/api/storage/volumes`. */
   ontapPath: string;
-  /** Request body */
-  body?: ExecuteOntapPatchRequest | undefined;
 }
 /** Response message for `ExecuteOntapPatch` API. */
 export interface ExecuteOntapPatchResponse {
@@ -1304,11 +1276,9 @@ export interface ExecuteOntapPatchResponse {
 }
 /** Request message for `ExecuteOntapPost` API. */
 export type ExecuteOntapPostRequest = ExecuteOntapPatchRequest;
-export interface ExecuteOntapPostProjectsLocationsStoragePoolsOntapRequest {
+export interface ExecuteOntapPostProjectsLocationsStoragePoolsOntapRequest extends ExecuteOntapPatchRequest {
   /** Required. The path of the ONTAP resource. Format: `projects/{project_number}/locations/{location_id}/storagePools/{storage_pool_id}/ontap/{ontap_resource_path}`. For example: `projects/123456789/locations/us-central1/storagePools/my-storage-pool/ontap/api/storage/volumes`. */
   ontapPath: string;
-  /** Request body */
-  body?: ExecuteOntapPatchRequest | undefined;
 }
 /** Response message for `ExecuteOntapPost` API. */
 export interface ExecuteOntapPostResponse {
@@ -1711,93 +1681,77 @@ export interface ListSnapshotsResponse {
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsActiveDirectoriesRequest {
+export interface PatchProjectsLocationsActiveDirectoriesRequest extends Omit<
+  ActiveDirectory,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Active Directory resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the active directory. Format: `projects/{project_number}/locations/{location_id}/activeDirectories/{active_directory_id}`. */
   name: string;
-  /** Request body */
-  body?: ActiveDirectory | undefined;
 }
-export interface PatchProjectsLocationsBackupPoliciesRequest {
+export interface PatchProjectsLocationsBackupPoliciesRequest extends Omit<BackupPolicy, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup Policy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the backup policy. Format: `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`. */
   name: string;
-  /** Request body */
-  body?: BackupPolicy | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsRequest {
+export interface PatchProjectsLocationsBackupVaultsRequest extends Omit<BackupVault, "name"> {
   /** Identifier. The resource name of the backup vault. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}`. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource to be updated. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BackupVault | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsBackupsRequest {
+export interface PatchProjectsLocationsBackupVaultsBackupsRequest extends Omit<Backup, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource to be updated. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the backup. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}`. */
   name: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface PatchProjectsLocationsHostGroupsRequest {
+export interface PatchProjectsLocationsHostGroupsRequest extends Omit<HostGroup, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the host group. Format: `projects/{project_number}/locations/{location_id}/hostGroups/{host_group_id}`. */
   name: string;
-  /** Request body */
-  body?: HostGroup | undefined;
 }
-export interface PatchProjectsLocationsKmsConfigsRequest {
+export interface PatchProjectsLocationsKmsConfigsRequest extends Omit<KmsConfig, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the KmsConfig resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the `KmsConfig`. Format: `projects/{project}/locations/{location}/kmsConfigs/{kms_config}` */
   name: string;
-  /** Request body */
-  body?: KmsConfig | undefined;
 }
-export interface PatchProjectsLocationsStoragePoolsRequest {
+export interface PatchProjectsLocationsStoragePoolsRequest extends Omit<StoragePool, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the StoragePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the storage pool */
   name: string;
-  /** Request body */
-  body?: StoragePool | undefined;
 }
-export interface PatchProjectsLocationsVolumesRequest {
+export interface PatchProjectsLocationsVolumesRequest extends Omit<Volume, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Volume resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the volume */
   name: string;
-  /** Request body */
-  body?: Volume | undefined;
 }
-export interface PatchProjectsLocationsVolumesQuotaRulesRequest {
+export interface PatchProjectsLocationsVolumesQuotaRulesRequest extends Omit<QuotaRule, "name"> {
   /** Identifier. The resource name of the quota rule. Format: `projects/{project_number}/locations/{location_id}/volumes/volumes/{volume_id}/quotaRules/{quota_rule_id}`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Quota Rule resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: QuotaRule | undefined;
 }
-export interface PatchProjectsLocationsVolumesReplicationsRequest {
+export interface PatchProjectsLocationsVolumesReplicationsRequest extends Omit<
+  Replication,
+  "name"
+> {
   /** Identifier. The resource name of the Replication. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}`. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Replication | undefined;
 }
-export interface PatchProjectsLocationsVolumesSnapshotsRequest {
+export interface PatchProjectsLocationsVolumesSnapshotsRequest extends Omit<Snapshot, "name"> {
   /** Identifier. The resource name of the snapshot. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}`. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Snapshot | undefined;
 }
 /** RestoreBackupFilesRequest restores files from a backup to a volume. */
 export interface RestoreBackupFilesRequest {
@@ -1808,11 +1762,9 @@ export interface RestoreBackupFilesRequest {
   /** Optional. Absolute directory path in the destination volume. This is required if the `file_list` is provided. */
   restoreDestinationPath?: string | undefined;
 }
-export interface RestoreProjectsLocationsVolumesRequest {
+export interface RestoreProjectsLocationsVolumesRequest extends RestoreBackupFilesRequest {
   /** Required. The volume resource name, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   name: string;
-  /** Request body */
-  body?: RestoreBackupFilesRequest | undefined;
 }
 /** Represents the ONTAP volume target of the restore operation. */
 export interface OntapVolumeTarget {
@@ -1835,11 +1787,9 @@ export interface RestoreVolumeRequest {
   /** The backup source of the restore operation. */
   backupSource?: BackupSource | undefined;
 }
-export interface RestoreVolumeProjectsLocationsStoragePoolsRequest {
+export interface RestoreVolumeProjectsLocationsStoragePoolsRequest extends RestoreVolumeRequest {
   /** Required. The resource name of the ONTAP mode storage pool, in the format of `projects/{project}/locations/{location}/storagePools/{storage_pool}` */
   name: string;
-  /** Request body */
-  body?: RestoreVolumeRequest | undefined;
 }
 /** ResumeReplicationRequest resumes a stopped replication. */
 export type ResumeReplicationRequest = CancelOperationRequest;
@@ -1862,11 +1812,9 @@ export interface RevertVolumeRequest {
   /** Required. The snapshot resource ID, in the format 'my-snapshot', where the specified ID is the {snapshot_id} of the fully qualified name like projects/{project_id}/locations/{location_id}/volumes/{volume_id}/snapshots/{snapshot_id} */
   snapshotId?: string | undefined;
 }
-export interface RevertProjectsLocationsVolumesRequest {
+export interface RevertProjectsLocationsVolumesRequest extends RevertVolumeRequest {
   /** Required. The resource name of the volume, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}. */
   name: string;
-  /** Request body */
-  body?: RevertVolumeRequest | undefined;
 }
 /** Request message for splitting a volume. */
 export type StartSplitRequest = CancelOperationRequest;
@@ -1881,11 +1829,9 @@ export interface StopReplicationRequest {
   /** Indicates whether to stop replication forcefully while data transfer is in progress. Warning! if force is true, this will abort any current transfers and can lead to data loss due to partial transfer. If force is false, stop replication will fail while data transfer is in progress and you will need to retry later. */
   force?: boolean | undefined;
 }
-export interface StopProjectsLocationsVolumesReplicationsRequest {
+export interface StopProjectsLocationsVolumesReplicationsRequest extends StopReplicationRequest {
   /** Required. The resource name of the replication, in the format of projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}. */
   name: string;
-  /** Request body */
-  body?: StopReplicationRequest | undefined;
 }
 /** SwitchActiveReplicaZoneRequest switch the active/replica zone for a regional storagePool. */
 export type SwitchActiveReplicaZoneRequest = CancelOperationRequest;
@@ -1912,11 +1858,9 @@ export interface UpdateBackupConfigRequest {
   /** Required. The UUID of the ONTAP-mode volume. */
   volumeUuid?: string | undefined;
 }
-export interface UpdateBackupConfigProjectsLocationsStoragePoolsRequest {
+export interface UpdateBackupConfigProjectsLocationsStoragePoolsRequest extends UpdateBackupConfigRequest {
   /** Required. The resource name of the StoragePool, in the format: projects/{projectNumber}/locations/{locationId}/storagePools/{poolId} */
   name: string;
-  /** Request body */
-  body?: UpdateBackupConfigRequest | undefined;
 }
 export type ValidateDirectoryServiceRequestDirectoryServiceTypeEnum =
   | "DIRECTORY_SERVICE_TYPE_UNSPECIFIED"
@@ -1929,11 +1873,9 @@ export interface ValidateDirectoryServiceRequest {
     | (string & {})
     | undefined;
 }
-export interface ValidateDirectoryServiceProjectsLocationsStoragePoolsRequest {
+export interface ValidateDirectoryServiceProjectsLocationsStoragePoolsRequest extends ValidateDirectoryServiceRequest {
   /** Required. Name of the storage pool */
   name: string;
-  /** Request body */
-  body?: ValidateDirectoryServiceRequest | undefined;
 }
 /** VerifyKmsConfigRequest specifies the KMS config to be validated. */
 export type VerifyKmsConfigRequest = CancelOperationRequest;
@@ -3683,11 +3625,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          kmsConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            kmsConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/kmsConfigs",
@@ -3719,11 +3663,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          storagePoolId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            storagePoolId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/storagePools",
@@ -3781,11 +3727,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          volumeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(244, __c7, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(244, __c7, 20),
+          S.Struct({
+            volumeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/volumes",
@@ -4043,11 +3991,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          quotaRuleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            quotaRuleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/quotaRules",
@@ -4079,11 +4029,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          replicationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c11, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c11, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            replicationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/replications",
@@ -4165,11 +4117,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          snapshotId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            snapshotId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/snapshots",
@@ -4418,10 +4372,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "EstablishVolumePeeringRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:establishPeering",
@@ -4444,10 +4400,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "EstablishPeeringRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:establishPeering",
@@ -4503,10 +4461,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ontapPath: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            ontapPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+ontapPath}",
@@ -4520,10 +4480,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ontapPath: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            ontapPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+ontapPath}",
@@ -4835,11 +4797,13 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          activeDirectoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            activeDirectoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/activeDirectories",
@@ -5233,11 +5197,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/backupPolicies",
@@ -5360,11 +5326,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5378,11 +5346,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5396,11 +5366,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2593, __c81, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2593, __c81, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5414,11 +5386,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2977, __c93, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2977, __c93, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5432,11 +5406,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c101, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5450,11 +5426,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5468,11 +5446,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5486,11 +5466,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupVaultId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2593, __c81, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2593, __c81, 1),
+          S.Struct({
+            backupVaultId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/backupVaults",
@@ -5538,11 +5520,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(244, __c7, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(244, __c7, 20),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5556,11 +5540,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5574,11 +5560,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c11, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c11, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5592,11 +5580,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5618,10 +5608,12 @@ function __c86(j: number): any {
       ).annotate({ identifier: "RestoreBackupFilesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2752, __c86, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:restore",
@@ -5656,10 +5648,12 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RestoreVolumeRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2786, __c87, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2786, __c87, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:restoreVolume",
@@ -5713,10 +5707,12 @@ function __c90(j: number): any {
       ).annotate({ identifier: "RevertVolumeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:revert",
@@ -5747,11 +5743,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2977, __c93, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2977, __c93, 1),
+          S.Struct({
+            backupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/backups",
@@ -5804,10 +5802,12 @@ function __c94(j: number): any {
       ).annotate({ identifier: "StopReplicationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3008, __c94, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:stop",
@@ -5863,10 +5863,12 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateBackupConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:updateBackupConfig",
@@ -5886,10 +5888,12 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ValidateDirectoryServiceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:validateDirectoryService",
@@ -5928,11 +5932,13 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          hostGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3232, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c101, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            hostGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/hostGroups",

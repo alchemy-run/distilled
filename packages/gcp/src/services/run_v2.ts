@@ -104,11 +104,9 @@ export interface GoogleCloudRunV2CancelExecutionRequest {
   /** A system-generated fingerprint for this version of the resource. This may be used to detect modification conflict during updates. */
   etag?: string | undefined;
 }
-export interface CancelProjectsLocationsJobsExecutionsRequest {
+export interface CancelProjectsLocationsJobsExecutionsRequest extends GoogleCloudRunV2CancelExecutionRequest {
   /** Required. The name of the Execution to cancel. Format: `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`, where `{project}` can be project id or number. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRunV2CancelExecutionRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -688,15 +686,13 @@ export interface GoogleCloudRunV2Instance {
   /** Optional. VPC Access configuration to use for this Revision. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
   vpcAccess?: GoogleCloudRunV2VpcAccess | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends GoogleCloudRunV2Instance {
   /** Required. The location and project in which this Instance should be created. */
   parent: string;
   /** Optional. The unique identifier for the Instance. It must begin with letter, and cannot end with hyphen; must contain fewer than 50 characters. The name of the instance becomes {parent}/instances/{instance_id}. If not provided, the server will generate a unique `instance_id`. */
   instanceId?: string | undefined;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRunV2Instance | undefined;
 }
 export type GoogleCloudRunV2ExecutionReferenceCompletionStatusEnum =
   | "COMPLETION_STATUS_UNSPECIFIED"
@@ -857,15 +853,13 @@ export interface GoogleCloudRunV2Job {
   /** Output only. For a deleted resource, the time after which it will be permamently deleted. */
   expireTime?: string | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
+export interface CreateProjectsLocationsJobsRequest extends GoogleCloudRunV2Job {
   /** Optional. The unique identifier for the Job. The name of the job becomes {parent}/jobs/{job_id}. If not provided, the server will generate a unique `job_id`. */
   jobId?: string | undefined;
   /** Required. The location and project in which this Job should be created. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
   /** Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRunV2Job | undefined;
 }
 export type GoogleCloudRunV2TrafficTargetStatusTypeEnum =
   | "TRAFFIC_TARGET_ALLOCATION_TYPE_UNSPECIFIED"
@@ -1138,15 +1132,13 @@ export interface GoogleCloudRunV2Service {
   /** Optional. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. Cloud Run API v2 does not support labels with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system labels in v1 now have a corresponding field in v2 Service. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsServicesRequest {
+export interface CreateProjectsLocationsServicesRequest extends GoogleCloudRunV2Service {
   /** Optional. The unique identifier for the Service. It must begin with letter, and cannot end with hyphen; must contain fewer than 50 characters. The name of the service becomes {parent}/services/{service_id}. If not provided, the server will generate a unique `service_id`. */
   serviceId?: string | undefined;
   /** Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
   /** Required. The location and project in which this service should be created. Format: projects/{project}/locations/{location}, where {project} can be project id or number. Only lowercase characters, digits, and hyphens. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRunV2Service | undefined;
 }
 export type GoogleCloudRunV2WorkerPoolRevisionTemplateEncryptionKeyRevocationActionEnum =
   | "ENCRYPTION_KEY_REVOCATION_ACTION_UNSPECIFIED"
@@ -1295,15 +1287,13 @@ export interface GoogleCloudRunV2WorkerPool {
   /** Optional. Settings for the Binary Authorization feature. */
   binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization | undefined;
 }
-export interface CreateProjectsLocationsWorkerPoolsRequest {
+export interface CreateProjectsLocationsWorkerPoolsRequest extends GoogleCloudRunV2WorkerPool {
   /** Required. The location and project in which this worker pool should be created. Format: `projects/{project}/locations/{location}`, where `{project}` can be project id or number. Only lowercase characters, digits, and hyphens. */
   parent: string;
   /** Optional. The unique identifier for the WorkerPool. It must begin with letter, and cannot end with hyphen; must contain fewer than 50 characters. The name of the worker pool becomes `{parent}/workerPools/{worker_pool_id}`. If not provided, the server will generate a unique `worker_pool_id`. */
   workerPoolId?: string | undefined;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRunV2WorkerPool | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Optional. Indicates that the request should be validated without actually deleting any resources. */
@@ -1381,11 +1371,9 @@ export interface GoogleCloudRunV2ExportImageRequest {
   /** Required. The export destination url (the Artifact Registry repo). */
   destinationRepo?: string | undefined;
 }
-export interface ExportImageProjectsLocationsRequest {
+export interface ExportImageProjectsLocationsRequest extends GoogleCloudRunV2ExportImageRequest {
   /** Required. The name of the resource of which image metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRunV2ExportImageRequest | undefined;
 }
 /** ExportImageResponse contains an operation Id to track the image export operation. */
 export interface GoogleCloudRunV2ExportImageResponse {
@@ -1994,7 +1982,10 @@ export interface ListProjectsLocationsWorkerPoolsRevisionsRequest {
   /** If true, returns deleted (but unexpired) resources along with active ones. */
   showDeleted?: boolean | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<
+  GoogleCloudRunV2Instance,
+  "name"
+> {
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
@@ -2003,20 +1994,19 @@ export interface PatchProjectsLocationsInstancesRequest {
   allowMissing?: boolean | undefined;
   /** The fully qualified name of this Instance. In `CreateInstanceRequest`, this field is ignored, and instead composed from `CreateInstanceRequest.parent` and `CreateInstanceRequest.instance_id`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRunV2Instance | undefined;
 }
-export interface PatchProjectsLocationsJobsRequest {
+export interface PatchProjectsLocationsJobsRequest extends Omit<GoogleCloudRunV2Job, "name"> {
   /** The fully qualified name of this Job. Format: projects/{project}/locations/{location}/jobs/{job} */
   name: string;
   /** Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
   validateOnly?: boolean | undefined;
   /** Optional. If set to true, and if the Job does not exist, it will create a new one. Caller must have both create and update permissions for this call if this is set to true. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRunV2Job | undefined;
 }
-export interface PatchProjectsLocationsServicesRequest {
+export interface PatchProjectsLocationsServicesRequest extends Omit<
+  GoogleCloudRunV2Service,
+  "name"
+> {
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Identifier. The fully qualified name of this Service. In CreateServiceRequest, this field is ignored, and instead composed from CreateServiceRequest.parent and CreateServiceRequest.service_id. Format: projects/{project}/locations/{location}/services/{service_id} */
@@ -2027,10 +2017,11 @@ export interface PatchProjectsLocationsServicesRequest {
   allowMissing?: boolean | undefined;
   /** Optional. If set to true, a new revision will be created from the template even if the system doesn't detect any changes from the previously deployed revision. This may be useful for cases where the underlying resources need to be recreated or reinitialized. For example if the image is specified by label, but the underlying image digest has changed) or if the container performs deployment initialization work that needs to be performed again. */
   forceNewRevision?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRunV2Service | undefined;
 }
-export interface PatchProjectsLocationsWorkerPoolsRequest {
+export interface PatchProjectsLocationsWorkerPoolsRequest extends Omit<
+  GoogleCloudRunV2WorkerPool,
+  "name"
+> {
   /** Optional. If set to true, a new revision will be created from the template even if the system doesn't detect any changes from the previously deployed revision. This may be useful for cases where the underlying resources need to be recreated or reinitialized. For example if the image is specified by label, but the underlying image digest has changed) or if the container performs deployment initialization work that needs to be performed again. */
   forceNewRevision?: boolean | undefined;
   /** Optional. The list of fields to be updated. */
@@ -2041,8 +2032,6 @@ export interface PatchProjectsLocationsWorkerPoolsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. If set to true, and if the WorkerPool does not exist, it will create a new one. The caller must have 'run.workerpools.create' permissions if this is set to true and the WorkerPool does not exist. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRunV2WorkerPool | undefined;
 }
 /** Per-container override specification. */
 export interface GoogleCloudRunV2ContainerOverride {
@@ -2076,11 +2065,9 @@ export interface GoogleCloudRunV2RunJobRequest {
   /** Overrides specification for a given execution of a job. If provided, overrides will be applied to update the execution or task spec. */
   overrides?: GoogleCloudRunV2Overrides | undefined;
 }
-export interface RunProjectsLocationsJobsRequest {
+export interface RunProjectsLocationsJobsRequest extends GoogleCloudRunV2RunJobRequest {
   /** Required. The full name of the Job. Format: projects/{project}/locations/{location}/jobs/{job}, where {project} can be project id or number. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRunV2RunJobRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
@@ -2089,29 +2076,21 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsJobsRequest {
+export interface SetIamPolicyProjectsLocationsJobsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsServicesRequest {
+export interface SetIamPolicyProjectsLocationsServicesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkerPoolsRequest {
+export interface SetIamPolicyProjectsLocationsWorkerPoolsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for starting an Instance. */
 export interface GoogleCloudRunV2StartInstanceRequest {
@@ -2120,19 +2099,15 @@ export interface GoogleCloudRunV2StartInstanceRequest {
   /** Optional. A system-generated fingerprint for this version of the resource. This may be used to detect modification conflict during updates. */
   etag?: string | undefined;
 }
-export interface StartProjectsLocationsInstancesRequest {
+export interface StartProjectsLocationsInstancesRequest extends GoogleCloudRunV2StartInstanceRequest {
   /** Required. The name of the Instance to start. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRunV2StartInstanceRequest | undefined;
 }
 /** Request message for deleting an Instance. */
 export type GoogleCloudRunV2StopInstanceRequest = GoogleCloudRunV2StartInstanceRequest;
-export interface StopProjectsLocationsInstancesRequest {
+export interface StopProjectsLocationsInstancesRequest extends GoogleCloudRunV2StartInstanceRequest {
   /** Required. The name of the Instance to stop. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRunV2StartInstanceRequest | undefined;
 }
 export type GoogleCloudRunV2SubmitBuildRequestReleaseTrackEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -2194,11 +2169,9 @@ export interface GoogleCloudRunV2SubmitBuildRequest {
   /** Optional. Additional tags to annotate the build. */
   tags?: StringList | undefined;
 }
-export interface SubmitProjectsLocationsBuildsRequest {
+export interface SubmitProjectsLocationsBuildsRequest extends GoogleCloudRunV2SubmitBuildRequest {
   /** Required. The project and location to build in. Location must be a region, e.g., 'us-central1' or 'global' if the global builder is to be used. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRunV2SubmitBuildRequest | undefined;
 }
 /** Response message for submitting a Build. */
 export interface GoogleCloudRunV2SubmitBuildResponse {
@@ -2214,45 +2187,35 @@ export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsJobsRequest {
+export interface TestIamPermissionsProjectsLocationsJobsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServicesRequest {
+export interface TestIamPermissionsProjectsLocationsServicesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkerPoolsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkerPoolsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** The request message for the UploadSource method. */
 export interface GoogleCloudRunV2UploadSourceRequest {
   /** The name of Cloud Run Service upload source archive will be used for. */
   service?: string | undefined;
 }
-export interface UploadProjectsLocationsSourceUploadsRequest {
+export interface UploadProjectsLocationsSourceUploadsRequest extends GoogleCloudRunV2UploadSourceRequest {
   /** Required. The project and location in which the source archive should be uploaded to, specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRunV2UploadSourceRequest | undefined;
 }
 /** The response message for the UploadSource method. */
 export interface GoogleCloudRunV2UploadSourceResponse {
@@ -2264,11 +2227,9 @@ export interface GoogleLongrunningWaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
   timeout?: string | undefined;
 }
-export interface WaitProjectsLocationsOperationsRequest {
+export interface WaitProjectsLocationsOperationsRequest extends GoogleLongrunningWaitOperationRequest {
   /** The name of the operation resource to wait on. */
   name: string;
-  /** Request body */
-  body?: GoogleLongrunningWaitOperationRequest | undefined;
 }
 export type CancelProjectsLocationsJobsExecutionsError =
   | NotFound
@@ -3614,10 +3575,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GoogleCloudRunV2ExportImageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:exportImage",
@@ -4358,13 +4321,15 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
@@ -4374,12 +4339,14 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2562, __c80, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2562, __c80, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsJobsRequest" });
@@ -4389,14 +4356,16 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          forceNewRevision: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2696, __c84, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2696, __c84, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            forceNewRevision: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsServicesRequest" });
@@ -4406,14 +4375,16 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forceNewRevision: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2790, __c87, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2790, __c87, 6),
+          S.Struct({
+            forceNewRevision: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://run.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsWorkerPoolsRequest" });
@@ -4423,10 +4394,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:cancel",
@@ -4509,10 +4482,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GoogleCloudRunV2RunJobRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1635, __c51, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1635, __c51, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v2/{+name}:run", baseUrl: "https://run.googleapis.com/" }),
         ),
       ).annotate({ identifier: "RunProjectsLocationsJobsRequest" });
@@ -4522,10 +4497,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -4550,10 +4527,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -4567,10 +4546,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -4584,10 +4565,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -4601,10 +4584,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:start",
@@ -4618,10 +4603,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:stop",
@@ -4670,10 +4657,12 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GoogleCloudRunV2SubmitBuildRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1890, __c59, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1890, __c59, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/builds:submit",
@@ -4695,10 +4684,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -4722,10 +4713,12 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -4739,12 +4732,14 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/instances",
@@ -5191,10 +5186,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5208,10 +5205,12 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5231,10 +5230,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GoogleCloudRunV2UploadSourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}:uploadSource",
@@ -5260,10 +5261,12 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GoogleLongrunningWaitOperationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:wait",
@@ -5277,12 +5280,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2562, __c80, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2562, __c80, 2),
+          S.Struct({
+            jobId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/jobs",
@@ -5388,12 +5393,14 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2696, __c84, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2696, __c84, 8),
+          S.Struct({
+            serviceId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/services",
@@ -5568,12 +5575,14 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workerPoolId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2790, __c87, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2790, __c87, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workerPoolId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/workerPools",

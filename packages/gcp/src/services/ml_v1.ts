@@ -119,11 +119,9 @@ export interface GoogleCloudMlV1__AddTrialMeasurementRequest {
   /** Required. The measurement to be added to a trial. */
   measurement?: GoogleCloudMlV1__Measurement | undefined;
 }
-export interface AddMeasurementProjectsLocationsStudiesTrialsRequest {
+export interface AddMeasurementProjectsLocationsStudiesTrialsRequest extends GoogleCloudMlV1__AddTrialMeasurementRequest {
   /** Required. The trial name. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__AddTrialMeasurementRequest | undefined;
 }
 export type GoogleCloudMlV1__TrialStateEnum =
   | "STATE_UNSPECIFIED"
@@ -227,11 +225,9 @@ export interface GoogleCloudMlV1__CompleteTrialRequest {
   /** Optional. True if the trial cannot be run with the given Parameter, and final_measurement will be ignored. */
   trialInfeasible?: boolean | undefined;
 }
-export interface CompleteProjectsLocationsStudiesTrialsRequest {
+export interface CompleteProjectsLocationsStudiesTrialsRequest extends GoogleCloudMlV1__CompleteTrialRequest {
   /** Required. The trial name.metat */
   name: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__CompleteTrialRequest | undefined;
 }
 export type GoogleCloudMlV1__JobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -578,11 +574,9 @@ export interface GoogleCloudMlV1__Job {
   /** The current training job result. */
   trainingOutput?: GoogleCloudMlV1__TrainingOutput | undefined;
 }
-export interface CreateProjectsJobsRequest {
+export interface CreateProjectsJobsRequest extends GoogleCloudMlV1__Job {
   /** Required. The project name. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__Job | undefined;
 }
 export type GoogleCloudMlV1__StudyStateEnum =
   | "STATE_UNSPECIFIED"
@@ -723,19 +717,15 @@ export interface GoogleCloudMlV1__Study {
   /** Required. Configuration of the study. */
   studyConfig?: GoogleCloudMlV1__StudyConfig | undefined;
 }
-export interface CreateProjectsLocationsStudiesRequest {
+export interface CreateProjectsLocationsStudiesRequest extends GoogleCloudMlV1__Study {
   /** Required. The project and location that the study belongs to. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the study, which will become the final component of the study's resource name. */
   studyId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudMlV1__Study | undefined;
 }
-export interface CreateProjectsLocationsStudiesTrialsRequest {
+export interface CreateProjectsLocationsStudiesTrialsRequest extends GoogleCloudMlV1__Trial {
   /** Required. The name of the study that the trial belongs to. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__Trial | undefined;
 }
 /** Specifies HTTP paths served by a custom container. AI Platform Prediction sends requests to these paths on the container; the custom container must run an HTTP server that responds to these requests with appropriate responses. Read [Custom container requirements](/ai-platform/prediction/docs/custom-container-requirements) for details on how to create your container image to meet these requirements. */
 export interface GoogleCloudMlV1__RouteMap {
@@ -911,17 +901,13 @@ export interface GoogleCloudMlV1__Model {
   /** Optional. If true, online prediction access logs are sent to Cloud Logging. These logs are like standard server access logs, containing information like timestamp and latency for each request. Note that [logs may incur a cost](/stackdriver/pricing), especially if your project receives prediction requests at a high queries per second rate (QPS). Estimate your costs before enabling this option. Default is false. */
   onlinePredictionLogging?: boolean | undefined;
 }
-export interface CreateProjectsModelsRequest {
+export interface CreateProjectsModelsRequest extends GoogleCloudMlV1__Model {
   /** Required. The project name. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__Model | undefined;
 }
-export interface CreateProjectsModelsVersionsRequest {
+export interface CreateProjectsModelsVersionsRequest extends GoogleCloudMlV1__Version {
   /** Required. The name of the model. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__Version | undefined;
 }
 export interface DeleteProjectsLocationsStudiesRequest {
   /** Required. The study name. */
@@ -953,11 +939,9 @@ export interface GoogleCloudMlV1__ExplainRequest {
   /** Required. The explanation request body. */
   httpBody?: GoogleApi__HttpBody | undefined;
 }
-export interface ExplainProjectsRequest {
+export interface ExplainProjectsRequest extends GoogleCloudMlV1__ExplainRequest {
   /** Required. The resource name of a model or a version. Authorization: requires the `predict` permission on the specified resource. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__ExplainRequest | undefined;
 }
 export interface GetConfigProjectsRequest {
   /** Required. The project name. */
@@ -1226,40 +1210,32 @@ export interface GoogleLongrunning__ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: GoogleLongrunning__OperationList | undefined;
 }
-export interface PatchProjectsJobsRequest {
+export interface PatchProjectsJobsRequest extends GoogleCloudMlV1__Job {
   /** Required. Specifies the path, relative to `Job`, of the field to update. To adopt etag mechanism, include `etag` field in the mask, and include the `etag` value in your job resource. For example, to change the labels of a job, the `update_mask` parameter would be specified as `labels`, `etag`, and the `PATCH` request body would specify the new value, as follows: { "labels": { "owner": "Google", "color": "Blue" } "etag": "33a64df551425fcc55e4d42a148795d9f25f89d4" } If `etag` matches the one on the server, the labels of the job will be replaced with the given ones, and the server end `etag` will be recalculated. Currently the only supported update masks are `labels` and `etag`. */
   updateMask?: string | undefined;
   /** Required. The job name. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__Job | undefined;
 }
-export interface PatchProjectsModelsRequest {
+export interface PatchProjectsModelsRequest extends Omit<GoogleCloudMlV1__Model, "name"> {
   /** Required. The project name. */
   name: string;
   /** Required. Specifies the path, relative to `Model`, of the field to update. For example, to change the description of a model to "foo" and set its default version to "version_1", the `update_mask` parameter would be specified as `description`, `default_version.name`, and the `PATCH` request body would specify the new value, as follows: { "description": "foo", "defaultVersion": { "name":"version_1" } } Currently the supported update masks are `description` and `default_version.name`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudMlV1__Model | undefined;
 }
-export interface PatchProjectsModelsVersionsRequest {
+export interface PatchProjectsModelsVersionsRequest extends Omit<GoogleCloudMlV1__Version, "name"> {
   /** Required. Specifies the path, relative to `Version`, of the field to update. Must be present and non-empty. For example, to change the description of a version to "foo", the `update_mask` parameter would be specified as `description`, and the `PATCH` request body would specify the new value, as follows: ``` { "description": "foo" } ``` Currently the only supported update mask fields are `description`, `requestLoggingConfig`, `autoScaling.minNodes`, and `manualScaling.nodes`. However, you can only update `manualScaling.nodes` if the version uses a [Compute Engine (N1) machine type](/ml-engine/docs/machine-types-online-prediction). */
   updateMask?: string | undefined;
   /** Required. The name of the model. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__Version | undefined;
 }
 /** Request for predictions to be issued against a trained model. */
 export interface GoogleCloudMlV1__PredictRequest {
   /** Required. The prediction request body. Refer to the [request body details section](#request-body-details) for more information on how to structure your request. */
   httpBody?: GoogleApi__HttpBody | undefined;
 }
-export interface PredictProjectsRequest {
+export interface PredictProjectsRequest extends GoogleCloudMlV1__PredictRequest {
   /** Required. The resource name of a model or a version. Authorization: requires the `predict` permission on the specified resource. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__PredictRequest | undefined;
 }
 /** Request message for the SetDefaultVersion request. */
 export type GoogleCloudMlV1__SetDefaultVersionRequest = GoogleCloudMlV1__CancelJobRequest;
@@ -1276,17 +1252,13 @@ export interface GoogleIamV1__SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsJobsRequest {
+export interface SetIamPolicyProjectsJobsRequest extends GoogleIamV1__SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1__SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsModelsRequest {
+export interface SetIamPolicyProjectsModelsRequest extends GoogleIamV1__SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1__SetIamPolicyRequest | undefined;
 }
 export type GoogleCloudMlV1__StopTrialRequest = GoogleCloudMlV1__CancelJobRequest;
 export interface StopProjectsLocationsStudiesTrialsRequest {
@@ -1302,33 +1274,27 @@ export interface GoogleCloudMlV1__SuggestTrialsRequest {
   /** Required. The identifier of the client that is requesting the suggestion. If multiple SuggestTrialsRequests have the same `client_id`, the service will return the identical suggested trial if the trial is pending, and provide a new trial if the last suggested trial was completed. */
   clientId?: string | undefined;
 }
-export interface SuggestProjectsLocationsStudiesTrialsRequest {
+export interface SuggestProjectsLocationsStudiesTrialsRequest extends GoogleCloudMlV1__SuggestTrialsRequest {
   /** Required. The name of the study that the trial belongs to. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudMlV1__SuggestTrialsRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1__TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsJobsRequest {
+export interface TestIamPermissionsProjectsJobsRequest extends GoogleIamV1__TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1__TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1__TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsModelsRequest {
+export interface TestIamPermissionsProjectsModelsRequest extends GoogleIamV1__TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1__TestIamPermissionsRequest | undefined;
 }
 export type AddMeasurementProjectsLocationsStudiesTrialsError =
   | NotFound
@@ -2254,10 +2220,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudMlV1__CompleteTrialRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:complete",
@@ -2271,10 +2239,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c5, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c5, 16),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/jobs",
@@ -2500,11 +2470,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          studyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(235, __c7, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(235, __c7, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            studyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/studies",
@@ -2611,10 +2583,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1734, __c54, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1734, __c54, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/trials",
@@ -2628,10 +2602,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/models",
@@ -2781,10 +2757,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(334, __c10, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(334, __c10, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -2846,10 +2824,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(577, __c18, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:explain",
@@ -3323,11 +3303,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c5, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c5, 16),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ml.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsJobsRequest" });
@@ -3337,11 +3319,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ml.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsModelsRequest" });
@@ -3351,11 +3335,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(334, __c10, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(334, __c10, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ml.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsModelsVersionsRequest" });
@@ -3365,10 +3351,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(577, __c18, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:predict",
@@ -3399,10 +3387,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3427,10 +3417,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3464,10 +3456,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GoogleCloudMlV1__SuggestTrialsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/trials:suggest",
@@ -3481,10 +3475,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3514,10 +3510,12 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GoogleCloudMlV1__AddTrialMeasurementRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:addMeasurement",
@@ -3580,10 +3578,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",

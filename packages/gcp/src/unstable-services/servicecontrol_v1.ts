@@ -211,11 +211,9 @@ export interface AllocateQuotaRequest {
   /** Specifies which version of service configuration should be used to process the request. If unspecified or no matching version can be found, the latest one will be used. */
   serviceConfigId?: string | undefined;
 }
-export interface AllocateQuotaServicesRequest {
+export interface AllocateQuotaServicesRequest extends AllocateQuotaRequest {
   /** Name of the service as specified in the service configuration. For example, `"pubsub.googleapis.com"`. See google.api.Service for the definition of a service name. */
   serviceName: string;
-  /** Request body */
-  body?: AllocateQuotaRequest | undefined;
 }
 export interface AllocateInfo {
   /** A list of label keys that were unused by the server in processing the request. Thus, for similar requests repeated in a certain future time window, the caller can choose to ignore these labels in the requests to achieve better client-side cache hits and quota aggregation for rate quota. This field is not populated for allocation quota checks. */
@@ -477,11 +475,9 @@ export interface CheckRequest {
   /** The operation to be checked. */
   operation?: Operation | undefined;
 }
-export interface CheckServicesRequest {
+export interface CheckServicesRequest extends CheckRequest {
   /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
   serviceName: string;
-  /** Request body */
-  body?: CheckRequest | undefined;
 }
 export type QuotaInfoQuotaExtractionStateEnum =
   | "QUOTA_EXTRACTION_STATE_UNSPECIFIED"
@@ -598,11 +594,9 @@ export interface ReportRequest {
   /** Specifies which version of service config should be used to process the request. If unspecified or no matching version can be found, the latest one will be used. */
   serviceConfigId?: string | undefined;
 }
-export interface ReportServicesRequest {
+export interface ReportServicesRequest extends ReportRequest {
   /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
   serviceName: string;
-  /** Request body */
-  body?: ReportRequest | undefined;
 }
 /** Represents the processing error of one Operation in the request. */
 export interface ReportError {
@@ -695,10 +689,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AllocateQuotaRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}:allocateQuota",
@@ -850,10 +846,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CheckRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}:check",
@@ -1063,10 +1061,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ReportRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(129, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(129, __c4, 1),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}:report",

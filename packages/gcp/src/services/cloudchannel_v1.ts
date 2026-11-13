@@ -88,11 +88,9 @@ export interface GoogleCloudChannelV1ActivateEntitlementRequest {
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
 }
-export interface ActivateAccountsCustomersEntitlementsRequest {
+export interface ActivateAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ActivateEntitlementRequest {
   /** Required. The resource name of the entitlement to activate. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ActivateEntitlementRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -121,11 +119,9 @@ export interface GoogleLongrunningOperation {
 /** Request message for CloudChannelService.CancelEntitlement. */
 export type GoogleCloudChannelV1CancelEntitlementRequest =
   GoogleCloudChannelV1ActivateEntitlementRequest;
-export interface CancelAccountsCustomersEntitlementsRequest {
+export interface CancelAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ActivateEntitlementRequest {
   /** Required. The resource name of the entitlement to cancel. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ActivateEntitlementRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface GoogleLongrunningCancelOperationRequest {}
@@ -175,11 +171,9 @@ export interface GoogleCloudChannelV1ChangeOfferRequest {
   /** Optional. Parameters needed to purchase the Offer. To view the available Parameters refer to the Offer.parameter_definitions from the desired offer. */
   parameters?: GoogleCloudChannelV1ParameterList | undefined;
 }
-export interface ChangeOfferAccountsCustomersEntitlementsRequest {
+export interface ChangeOfferAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ChangeOfferRequest {
   /** Required. The resource name of the entitlement to update. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ChangeOfferRequest | undefined;
 }
 /** Request message for CloudChannelService.ChangeParameters. */
 export interface GoogleCloudChannelV1ChangeParametersRequest {
@@ -190,11 +184,9 @@ export interface GoogleCloudChannelV1ChangeParametersRequest {
   /** Required. Entitlement parameters to update. You can only change editable parameters. To view the available Parameters for a request, refer to the Offer.parameter_definitions from the desired offer. */
   parameters?: GoogleCloudChannelV1ParameterList | undefined;
 }
-export interface ChangeParametersAccountsCustomersEntitlementsRequest {
+export interface ChangeParametersAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ChangeParametersRequest {
   /** Required. The name of the entitlement to update. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ChangeParametersRequest | undefined;
 }
 export type GoogleCloudChannelV1RenewalSettingsPaymentPlanEnum =
   | "PAYMENT_PLAN_UNSPECIFIED"
@@ -233,11 +225,9 @@ export interface GoogleCloudChannelV1ChangeRenewalSettingsRequest {
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
 }
-export interface ChangeRenewalSettingsAccountsCustomersEntitlementsRequest {
+export interface ChangeRenewalSettingsAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ChangeRenewalSettingsRequest {
   /** Required. The name of the entitlement to update. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ChangeRenewalSettingsRequest | undefined;
 }
 /** Request message for CloudChannelService.CheckCloudIdentityAccountsExist. */
 export interface GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest {
@@ -246,11 +236,9 @@ export interface GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest {
   /** Required. Domain to fetch for Cloud Identity account customers, including domain and team customers. For team customers, please use the domain for their emails. */
   domain?: string | undefined;
 }
-export interface CheckCloudIdentityAccountsExistAccountsRequest {
+export interface CheckCloudIdentityAccountsExistAccountsRequest extends GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest {
   /** Required. The reseller account's resource name. Parent uses the format: accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest | undefined;
 }
 export type GoogleCloudChannelV1CloudIdentityCustomerAccountCustomerTypeEnum =
   | "CUSTOMER_TYPE_UNSPECIFIED"
@@ -348,11 +336,9 @@ export interface GoogleCloudChannelV1ChannelPartnerLink {
   /** Output only. Timestamp of when the channel partner link is created. */
   createTime?: string | undefined;
 }
-export interface CreateAccountsChannelPartnerLinksRequest {
+export interface CreateAccountsChannelPartnerLinksRequest extends GoogleCloudChannelV1ChannelPartnerLink {
   /** Required. Create a channel partner link for the provided reseller account's resource name. Parent uses the format: accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ChannelPartnerLink | undefined;
 }
 /** A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html) or Python's [decimal.Decimal](https://docs.python.org/3/library/decimal.html). */
 export interface GoogleTypeDecimal {
@@ -445,11 +431,9 @@ export interface GoogleCloudChannelV1ChannelPartnerRepricingConfig {
   /** Output only. Resource name of the ChannelPartnerRepricingConfig. Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
   name?: string | undefined;
 }
-export interface CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
+export interface CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest extends GoogleCloudChannelV1ChannelPartnerRepricingConfig {
   /** Required. The resource name of the ChannelPartner that will receive the repricing config. Parent uses the format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ChannelPartnerRepricingConfig | undefined;
 }
 export type StringList = Array<string>;
 /** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
@@ -530,17 +514,13 @@ export interface GoogleCloudChannelV1Customer {
   /** Output only. The customer's Cloud Identity ID if the customer has a Cloud Identity resource. */
   cloudIdentityId?: string | undefined;
 }
-export interface CreateAccountsChannelPartnerLinksCustomersRequest {
+export interface CreateAccountsChannelPartnerLinksCustomersRequest extends GoogleCloudChannelV1Customer {
   /** Required. The resource name of reseller account in which to create the customer. Parent uses the format: accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1Customer | undefined;
 }
-export interface CreateAccountsCustomersRequest {
+export interface CreateAccountsCustomersRequest extends GoogleCloudChannelV1Customer {
   /** Required. The resource name of reseller account in which to create the customer. Parent uses the format: accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1Customer | undefined;
 }
 /** Configuration for how a reseller will reprice a Customer. */
 export interface GoogleCloudChannelV1CustomerRepricingConfig {
@@ -551,11 +531,9 @@ export interface GoogleCloudChannelV1CustomerRepricingConfig {
   /** Output only. Resource name of the CustomerRepricingConfig. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
   name?: string | undefined;
 }
-export interface CreateAccountsCustomersCustomerRepricingConfigsRequest {
+export interface CreateAccountsCustomersCustomerRepricingConfigsRequest extends GoogleCloudChannelV1CustomerRepricingConfig {
   /** Required. The resource name of the customer that will receive this repricing config. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1CustomerRepricingConfig | undefined;
 }
 /** Association links that an entitlement has to other entitlements. */
 export interface GoogleCloudChannelV1AssociationInfo {
@@ -642,11 +620,9 @@ export interface GoogleCloudChannelV1CreateEntitlementRequest {
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
 }
-export interface CreateAccountsCustomersEntitlementsRequest {
+export interface CreateAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1CreateEntitlementRequest {
   /** Required. The resource name of the reseller's customer account in which to create the entitlement. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1CreateEntitlementRequest | undefined;
 }
 export interface DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
   /** Required. The resource name of the channel partner repricing config rule to delete. */
@@ -677,11 +653,9 @@ export interface GoogleCloudChannelV1FetchReportResultsRequest {
   /** Optional. A token that specifies a page of results beyond the first page. Obtained through FetchReportResultsResponse.next_page_token of the previous CloudChannelReportsService.FetchReportResults call. */
   pageToken?: string | undefined;
 }
-export interface FetchReportResultsAccountsReportJobsRequest {
+export interface FetchReportResultsAccountsReportJobsRequest extends GoogleCloudChannelV1FetchReportResultsRequest {
   /** Required. The report job created by CloudChannelReportsService.RunReportJob. Report_job uses the format: accounts/{account_id}/reportJobs/{report_job_id} */
   reportJob: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1FetchReportResultsRequest | undefined;
 }
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface GoogleTypeTimeZone {
@@ -852,17 +826,13 @@ export interface GoogleCloudChannelV1ImportCustomerRequest {
   /** Optional. Cloud Identity ID of a channel partner who will be the direct reseller for the customer's order. This field is required for 2-tier transfer scenarios and can be provided via the request Parent binding as well. */
   channelPartnerId?: string | undefined;
 }
-export interface ImportAccountsChannelPartnerLinksCustomersRequest {
+export interface ImportAccountsChannelPartnerLinksCustomersRequest extends GoogleCloudChannelV1ImportCustomerRequest {
   /** Required. The resource name of the reseller's account. Parent takes the format: accounts/{account_id} or accounts/{account_id}/channelPartnerLinks/{channel_partner_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ImportCustomerRequest | undefined;
 }
-export interface ImportAccountsCustomersRequest {
+export interface ImportAccountsCustomersRequest extends GoogleCloudChannelV1ImportCustomerRequest {
   /** Required. The resource name of the reseller's account. Parent takes the format: accounts/{account_id} or accounts/{account_id}/channelPartnerLinks/{channel_partner_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ImportCustomerRequest | undefined;
 }
 export type ListAccountsChannelPartnerLinksViewEnum = "UNSPECIFIED" | "BASIC" | "FULL";
 export interface ListAccountsChannelPartnerLinksRequest {
@@ -1540,11 +1510,9 @@ export interface GoogleCloudChannelV1ListTransferableOffersRequest {
   /** A reseller should create a customer and use the resource name of that customer here. */
   customerName?: string | undefined;
 }
-export interface ListTransferableOffersAccountsRequest {
+export interface ListTransferableOffersAccountsRequest extends GoogleCloudChannelV1ListTransferableOffersRequest {
   /** Required. The resource name of the reseller's account. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ListTransferableOffersRequest | undefined;
 }
 /** TransferableOffer represents an Offer that can be used in Transfer. Read-only. */
 export interface GoogleCloudChannelV1TransferableOffer {
@@ -1577,11 +1545,9 @@ export interface GoogleCloudChannelV1ListTransferableSkusRequest {
   /** A reseller is required to create a customer and use the resource name of the created customer here. Customer_name uses the format: accounts/{account_id}/customers/{customer_id} */
   customerName?: string | undefined;
 }
-export interface ListTransferableSkusAccountsRequest {
+export interface ListTransferableSkusAccountsRequest extends GoogleCloudChannelV1ListTransferableSkusRequest {
   /** Required. The reseller account's resource name. Parent uses the format: accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ListTransferableSkusRequest | undefined;
 }
 export type GoogleCloudChannelV1TransferEligibilityIneligibilityReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -1626,39 +1592,38 @@ export interface GoogleCloudChannelV1UpdateChannelPartnerLinkRequest {
   /** Required. The channel partner link to update. Only channel_partner_link.link_state is allowed for updates. */
   channelPartnerLink?: GoogleCloudChannelV1ChannelPartnerLink | undefined;
 }
-export interface PatchAccountsChannelPartnerLinksRequest {
+export interface PatchAccountsChannelPartnerLinksRequest extends GoogleCloudChannelV1UpdateChannelPartnerLinkRequest {
   /** Required. The resource name of the channel partner link to cancel. Name uses the format: accounts/{account_id}/channelPartnerLinks/{id} where {id} is the Cloud Identity ID of the partner. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1UpdateChannelPartnerLinkRequest | undefined;
 }
-export interface PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
+export interface PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest extends Omit<
+  GoogleCloudChannelV1ChannelPartnerRepricingConfig,
+  "name"
+> {
   /** Output only. Resource name of the ChannelPartnerRepricingConfig. Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ChannelPartnerRepricingConfig | undefined;
 }
-export interface PatchAccountsChannelPartnerLinksCustomersRequest {
+export interface PatchAccountsChannelPartnerLinksCustomersRequest extends Omit<
+  GoogleCloudChannelV1Customer,
+  "name"
+> {
   /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   name: string;
   /** The update mask that applies to the resource. Optional. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudChannelV1Customer | undefined;
 }
-export interface PatchAccountsCustomersRequest {
+export interface PatchAccountsCustomersRequest extends Omit<GoogleCloudChannelV1Customer, "name"> {
   /** The update mask that applies to the resource. Optional. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1Customer | undefined;
 }
-export interface PatchAccountsCustomersCustomerRepricingConfigsRequest {
+export interface PatchAccountsCustomersCustomerRepricingConfigsRequest extends Omit<
+  GoogleCloudChannelV1CustomerRepricingConfig,
+  "name"
+> {
   /** Output only. Resource name of the CustomerRepricingConfig. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1CustomerRepricingConfig | undefined;
 }
 /** Information needed to create an Admin User for Google Workspace. */
 export interface GoogleCloudChannelV1AdminUser {
@@ -1678,11 +1643,9 @@ export interface GoogleCloudChannelV1ProvisionCloudIdentityRequest {
   /** Validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
 }
-export interface ProvisionCloudIdentityAccountsCustomersRequest {
+export interface ProvisionCloudIdentityAccountsCustomersRequest extends GoogleCloudChannelV1ProvisionCloudIdentityRequest {
   /** Required. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   customer: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ProvisionCloudIdentityRequest | undefined;
 }
 export interface QueryEligibleBillingAccountsAccountsCustomersRequest {
   /** Required. The resource name of the customer to list eligible billing accounts for. Format: accounts/{account_id}/customers/{customer_id}. */
@@ -1732,22 +1695,24 @@ export interface GoogleCloudChannelV1RegisterSubscriberRequest {
   /** Required. Service account that provides subscriber access to the registered topic. */
   serviceAccount?: string | undefined;
 }
-export interface RegisterAccountsRequest {
+export interface RegisterAccountsRequest extends Omit<
+  GoogleCloudChannelV1RegisterSubscriberRequest,
+  "account"
+> {
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1RegisterSubscriberRequest | undefined;
 }
 /** Response Message for RegisterSubscriber. */
 export interface GoogleCloudChannelV1RegisterSubscriberResponse {
   /** Name of the topic the subscriber will listen to. */
   topic?: string | undefined;
 }
-export interface RegisterSubscriberIntegratorsRequest {
+export interface RegisterSubscriberIntegratorsRequest extends Omit<
+  GoogleCloudChannelV1RegisterSubscriberRequest,
+  "integrator"
+> {
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1RegisterSubscriberRequest | undefined;
 }
 /** Request message for CloudChannelReportsService.RunReportJob. */
 export interface GoogleCloudChannelV1RunReportJobRequest {
@@ -1758,29 +1723,23 @@ export interface GoogleCloudChannelV1RunReportJobRequest {
   /** Optional. The BCP-47 language code, such as "en-US". If specified, the response is localized to the corresponding language code if the original data sources support it. Default is "en-US". */
   languageCode?: string | undefined;
 }
-export interface RunAccountsReportsRequest {
+export interface RunAccountsReportsRequest extends GoogleCloudChannelV1RunReportJobRequest {
   /** Required. The report's resource name. Specifies the account and report used to generate report data. The report_id identifier is a UID (for example, `613bf59q`). Name uses the format: accounts/{account_id}/reports/{report_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1RunReportJobRequest | undefined;
 }
 /** Request message for CloudChannelService.StartPaidService. */
 export type GoogleCloudChannelV1StartPaidServiceRequest =
   GoogleCloudChannelV1ActivateEntitlementRequest;
-export interface StartPaidServiceAccountsCustomersEntitlementsRequest {
+export interface StartPaidServiceAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ActivateEntitlementRequest {
   /** Required. The name of the entitlement to start a paid service for. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ActivateEntitlementRequest | undefined;
 }
 /** Request message for CloudChannelService.SuspendEntitlement. */
 export type GoogleCloudChannelV1SuspendEntitlementRequest =
   GoogleCloudChannelV1ActivateEntitlementRequest;
-export interface SuspendAccountsCustomersEntitlementsRequest {
+export interface SuspendAccountsCustomersEntitlementsRequest extends GoogleCloudChannelV1ActivateEntitlementRequest {
   /** Required. The resource name of the entitlement to suspend. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1ActivateEntitlementRequest | undefined;
 }
 /** Request message for CloudChannelService.TransferEntitlements. */
 export interface GoogleCloudChannelV1TransferEntitlementsRequest {
@@ -1791,11 +1750,9 @@ export interface GoogleCloudChannelV1TransferEntitlementsRequest {
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
 }
-export interface TransferEntitlementsAccountsCustomersRequest {
+export interface TransferEntitlementsAccountsCustomersRequest extends GoogleCloudChannelV1TransferEntitlementsRequest {
   /** Required. The resource name of the reseller's customer account that will receive transferred entitlements. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1TransferEntitlementsRequest | undefined;
 }
 /** Request message for CloudChannelService.TransferEntitlementsToGoogle. */
 export interface GoogleCloudChannelV1TransferEntitlementsToGoogleRequest {
@@ -1804,11 +1761,9 @@ export interface GoogleCloudChannelV1TransferEntitlementsToGoogleRequest {
   /** Optional. You can specify an optional unique request ID, and if you need to retry your request, the server will know to ignore the request if it's complete. For example, you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if it received the original operation with the same request ID. If it did, it will ignore the second request. The request ID must be a valid [UUID](https://tools.ietf.org/html/rfc4122) with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
 }
-export interface TransferEntitlementsToGoogleAccountsCustomersRequest {
+export interface TransferEntitlementsToGoogleAccountsCustomersRequest extends GoogleCloudChannelV1TransferEntitlementsToGoogleRequest {
   /** Required. The resource name of the reseller's customer account where the entitlements transfer from. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1TransferEntitlementsToGoogleRequest | undefined;
 }
 /** Request Message for UnregisterSubscriber. */
 export interface GoogleCloudChannelV1UnregisterSubscriberRequest {
@@ -1819,22 +1774,24 @@ export interface GoogleCloudChannelV1UnregisterSubscriberRequest {
   /** Required. Service account to unregister from subscriber access to the topic. */
   serviceAccount?: string | undefined;
 }
-export interface UnregisterAccountsRequest {
+export interface UnregisterAccountsRequest extends Omit<
+  GoogleCloudChannelV1UnregisterSubscriberRequest,
+  "account"
+> {
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1UnregisterSubscriberRequest | undefined;
 }
 /** Response Message for UnregisterSubscriber. */
 export interface GoogleCloudChannelV1UnregisterSubscriberResponse {
   /** Name of the topic the service account subscriber access was removed from. */
   topic?: string | undefined;
 }
-export interface UnregisterSubscriberIntegratorsRequest {
+export interface UnregisterSubscriberIntegratorsRequest extends Omit<
+  GoogleCloudChannelV1UnregisterSubscriberRequest,
+  "integrator"
+> {
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator: string;
-  /** Request body */
-  body?: GoogleCloudChannelV1UnregisterSubscriberRequest | undefined;
 }
 export type ActivateAccountsCustomersEntitlementsError =
   | NotFound
@@ -3246,10 +3203,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:checkCloudIdentityAccountsExist",
@@ -3282,10 +3241,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/channelPartnerLinks",
@@ -3341,10 +3302,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c7, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c7, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/channelPartnerRepricingConfigs",
@@ -3445,10 +3408,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c10, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customers",
@@ -3518,10 +3483,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c10, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customers",
@@ -3535,10 +3502,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c7, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c7, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customerRepricingConfigs",
@@ -3559,10 +3528,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1CreateEntitlementRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entitlements",
@@ -3728,10 +3699,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1FetchReportResultsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          reportJob: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            reportJob: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+reportJob}:fetchReportResults",
@@ -3968,10 +3941,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customers:import",
@@ -4001,10 +3976,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customers:import",
@@ -4396,10 +4373,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:activate",
@@ -4786,10 +4765,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -4815,10 +4796,12 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ListTransferableOffersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1072, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1072, __c67, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:listTransferableOffers",
@@ -4850,10 +4833,12 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ListTransferableSkusRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c68, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:listTransferableSkus",
@@ -4915,10 +4900,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1UpdateChannelPartnerLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4932,10 +4919,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c7, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c7, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4951,11 +4940,13 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(162, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c10, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4969,11 +4960,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c10, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4987,10 +4980,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c7, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c7, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5020,10 +5015,12 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ProvisionCloudIdentityRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(1201, __c75, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1201, __c75, 1),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}:provisionCloudIdentity",
@@ -5112,10 +5109,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          account: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            account: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+account}:register",
@@ -5147,10 +5146,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          integrator: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            integrator: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+integrator}:registerSubscriber",
@@ -5172,10 +5173,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1RunReportJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c82, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:run",
@@ -5189,10 +5192,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:startPaidService",
@@ -5206,10 +5211,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:suspend",
@@ -5231,10 +5238,12 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1TransferEntitlementsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1360, __c85, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:transferEntitlements",
@@ -5255,10 +5264,12 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1TransferEntitlementsToGoogleRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1376, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c86, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:transferEntitlementsToGoogle",
@@ -5272,10 +5283,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          account: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            account: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+account}:unregister",
@@ -5289,10 +5302,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          integrator: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            integrator: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+integrator}:unregisterSubscriber",
@@ -5317,10 +5332,12 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ChangeOfferRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1424, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1424, __c89, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:changeOffer",
@@ -5370,10 +5387,12 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ChangeParametersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1472, __c92, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:changeParameters",
@@ -5394,10 +5413,12 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GoogleCloudChannelV1ChangeRenewalSettingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1488, __c93, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:changeRenewalSettings",

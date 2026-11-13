@@ -405,15 +405,13 @@ export interface OSPolicyAssignment {
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
+export interface CreateProjectsLocationsOsPolicyAssignmentsRequest extends OSPolicyAssignment {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Required. The parent resource name in the form: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
   osPolicyAssignmentId?: string | undefined;
-  /** Request body */
-  body?: OSPolicyAssignment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1034,7 +1032,10 @@ export interface ListOSPolicyAssignmentRevisionsResponse {
   /** The pagination token to retrieve the next page of OS policy assignment revisions. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
+export interface PatchProjectsLocationsOsPolicyAssignmentsRequest extends Omit<
+  OSPolicyAssignment,
+  "name"
+> {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Optional. Field mask that controls which fields of the assignment should be updated. */
@@ -1043,8 +1044,6 @@ export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
   name: string;
   /** Optional. If set to true, and the OS policy assignment is not found, a new OS policy assignment will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: OSPolicyAssignment | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound
@@ -1705,13 +1704,15 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(478, __c14, 30).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(478, __c14, 30),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1744,12 +1745,14 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(478, __c14, 30).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(478, __c14, 30),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/osPolicyAssignments",

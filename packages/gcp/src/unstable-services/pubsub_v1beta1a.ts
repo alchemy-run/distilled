@@ -91,10 +91,7 @@ export interface AcknowledgeRequest {
   /** The acknowledgment ID for the message being acknowledged. This was returned by the Pub/Sub system in the Pull response. */
   ackId?: StringList | undefined;
 }
-export interface AcknowledgeSubscriptionsRequest {
-  /** Request body */
-  body?: AcknowledgeRequest | undefined;
-}
+export interface AcknowledgeSubscriptionsRequest extends AcknowledgeRequest {}
 /** An empty message that you can re-use to avoid defining duplicated empty messages in your project. A typical example is to use it as argument or the return value of a service API. For instance: service Foo { rpc Bar (proto2.Empty) returns (proto2.Empty) { }; }; BEGIN GOOGLE-INTERNAL The difference between this one and net/rpc/empty-message.proto is that 1) The generated message here is in proto2 C++ API. 2) The proto2.Empty has minimum dependencies (no message_set or net/rpc dependencies) END GOOGLE-INTERNAL */
 export interface Empty {}
 /** Configuration for a push delivery endpoint. */
@@ -113,19 +110,13 @@ export interface Subscription {
   /** If push delivery is used with this subscription, this field is used to configure it. */
   pushConfig?: PushConfig | undefined;
 }
-export interface CreateSubscriptionsRequest {
-  /** Request body */
-  body?: Subscription | undefined;
-}
+export interface CreateSubscriptionsRequest extends Subscription {}
 /** A topic resource. */
 export interface Topic {
   /** Name of the topic. */
   name?: string | undefined;
 }
-export interface CreateTopicsRequest {
-  /** Request body */
-  body?: Topic | undefined;
-}
+export interface CreateTopicsRequest extends Topic {}
 export interface DeleteSubscriptionsRequest {
   /** The subscription to delete. */
   subscription: string;
@@ -185,10 +176,7 @@ export interface ModifyAckDeadlineRequest {
   /** The new ack deadline with respect to the time this request was sent to the Pub/Sub system. Must be >= 0. For example, if the value is 10, the new ack deadline will expire 10 seconds after the ModifyAckDeadline call was made. Specifying zero may immediately make the message available for another pull request. */
   ackDeadlineSeconds?: number | undefined;
 }
-export interface ModifyAckDeadlineSubscriptionsRequest {
-  /** Request body */
-  body?: ModifyAckDeadlineRequest | undefined;
-}
+export interface ModifyAckDeadlineSubscriptionsRequest extends ModifyAckDeadlineRequest {}
 /** Request for the ModifyPushConfig method. */
 export interface ModifyPushConfigRequest {
   /** The name of the subscription. */
@@ -196,10 +184,7 @@ export interface ModifyPushConfigRequest {
   /** An empty push_config indicates that the Pub/Sub system should pause pushing messages from the given subscription. */
   pushConfig?: PushConfig | undefined;
 }
-export interface ModifyPushConfigSubscriptionsRequest {
-  /** Request body */
-  body?: ModifyPushConfigRequest | undefined;
-}
+export interface ModifyPushConfigSubscriptionsRequest extends ModifyPushConfigRequest {}
 /** A key-value pair applied to a given object. */
 export interface Label {
   /** An integer value. */
@@ -229,10 +214,7 @@ export interface PublishBatchRequest {
   /** The messages in the request will be published on this topic. */
   topic?: string | undefined;
 }
-export interface PublishBatchTopicsRequest {
-  /** Request body */
-  body?: PublishBatchRequest | undefined;
-}
+export interface PublishBatchTopicsRequest extends PublishBatchRequest {}
 /** Response for the PublishBatch method. */
 export interface PublishBatchResponse {
   /** The server-assigned ID of each published message, in the same order as the messages in the request. IDs are guaranteed to be unique within the topic. */
@@ -245,10 +227,7 @@ export interface PublishRequest {
   /** The message in the request will be published on this topic. */
   topic?: string | undefined;
 }
-export interface PublishTopicsRequest {
-  /** Request body */
-  body?: PublishRequest | undefined;
-}
+export interface PublishTopicsRequest extends PublishRequest {}
 /** Request for the PullBatch method. */
 export interface PullBatchRequest {
   /** The maximum number of PubsubEvents returned for this request. The Pub/Sub system may return fewer than the number of events specified. */
@@ -258,10 +237,7 @@ export interface PullBatchRequest {
   /** The subscription from which messages should be pulled. */
   subscription?: string | undefined;
 }
-export interface PullBatchSubscriptionsRequest {
-  /** Request body */
-  body?: PullBatchRequest | undefined;
-}
+export interface PullBatchSubscriptionsRequest extends PullBatchRequest {}
 /** An event indicating a received message or truncation event. */
 export interface PubsubEvent {
   /** Indicates that this subscription has been deleted. (Note that pull subscribers will always receive NOT_FOUND in response in their pull request on the subscription, rather than seeing this boolean.) */
@@ -293,10 +269,7 @@ export interface PullRequest {
   /** The subscription from which a message should be pulled. */
   subscription?: string | undefined;
 }
-export interface PullSubscriptionsRequest {
-  /** Request body */
-  body?: PullRequest | undefined;
-}
+export interface PullSubscriptionsRequest extends PullRequest {}
 export type AcknowledgeSubscriptionsError =
   | NotFound
   | Forbidden
@@ -651,9 +624,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ModifyAckDeadlineRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(12, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/subscriptions/modifyAckDeadline",
@@ -674,9 +645,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ModifyPushConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(16, __c4, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/subscriptions/modifyPushConfig",
@@ -699,9 +668,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PublishBatchRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(21, __c5, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(21, __c5, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/topics/publishBatch",
@@ -751,9 +718,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "PublishRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(28, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(28, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/topics/publish",
@@ -775,9 +740,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PullBatchRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(32, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/subscriptions/pullBatch",
@@ -826,9 +789,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PullRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(40, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(40, __c10, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/subscriptions/pull",
@@ -849,9 +810,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "AcknowledgeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(44, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(44, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/subscriptions/acknowledge",
@@ -877,9 +836,7 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(60, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(60, __c15, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/subscriptions",
@@ -916,9 +873,7 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(72, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(72, __c18, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1a/topics",

@@ -109,10 +109,7 @@ export interface VerifyChallengeResponseRequest {
   /** The generated response to the challenge */
   challengeResponse?: SignedData | undefined;
 }
-export interface VerifyChallengeRequest {
-  /** Request body */
-  body?: VerifyChallengeResponseRequest | undefined;
-}
+export interface VerifyChallengeRequest extends VerifyChallengeResponseRequest {}
 /** Result message for VerifiedAccess.VerifyChallengeResponse. */
 export interface VerifyChallengeResponseResult {
   /** Device enrollment id is returned in this field (for the machine response only). */
@@ -208,9 +205,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "VerifyChallengeResponseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(8, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(8, __c2, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/challenge:verify",

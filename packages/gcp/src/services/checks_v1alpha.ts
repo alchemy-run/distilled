@@ -150,10 +150,7 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentRequest {
   /** Required. List of policies to classify against. */
   policies?: GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfigList | undefined;
 }
-export interface ClassifyContentAisafetyRequest {
-  /** Request body */
-  body?: GoogleChecksAisafetyV1alphaClassifyContentRequest | undefined;
-}
+export interface ClassifyContentAisafetyRequest extends GoogleChecksAisafetyV1alphaClassifyContentRequest {}
 export type GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResultPolicyTypeEnum =
   | "POLICY_TYPE_UNSPECIFIED"
   | "DANGEROUS_CONTENT"
@@ -363,11 +360,9 @@ export interface GoogleChecksRepoScanV1alphaGenerateScanRequest {
   /** Required. CLI version. */
   cliVersion?: string | undefined;
 }
-export interface GenerateAccountsReposScansRequest {
+export interface GenerateAccountsReposScansRequest extends GoogleChecksRepoScanV1alphaGenerateScanRequest {
   /** Required. Resource name of the repo. Example: `accounts/123/repos/456` */
   parent: string;
-  /** Request body */
-  body?: GoogleChecksRepoScanV1alphaGenerateScanRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1109,22 +1104,18 @@ export interface GoogleChecksReportV1alphaAnalyzeUploadRequest {
     | (string & {})
     | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends GoogleChecksReportV1alphaAnalyzeUploadRequest {
   /** Required. Resource name of the app. Example: `accounts/123/apps/456` */
   parent: string;
-  /** Request body */
-  body?: GoogleChecksReportV1alphaAnalyzeUploadRequest | undefined;
 }
 /** The request message for Operations.WaitOperation. */
 export interface WaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
   timeout?: string | undefined;
 }
-export interface WaitAccountsAppsOperationsRequest {
+export interface WaitAccountsAppsOperationsRequest extends WaitOperationRequest {
   /** The name of the operation resource to wait on. */
   name: string;
-  /** Request body */
-  body?: WaitOperationRequest | undefined;
 }
 export type CancelAccountsAppsOperationsError =
   | NotFound
@@ -1874,10 +1865,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GoogleChecksReportV1alphaAnalyzeUploadRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/reports:analyzeUpload",
@@ -1897,10 +1890,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "WaitOperationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:wait",
@@ -1974,9 +1969,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GoogleChecksAisafetyV1alphaClassifyContentRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(485, __c15, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(485, __c15, 5), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/aisafety:classifyContent",
@@ -2065,10 +2058,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GoogleChecksRepoScanV1alphaGenerateScanRequest" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(550, __c17, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(550, __c17, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/scans:generate",

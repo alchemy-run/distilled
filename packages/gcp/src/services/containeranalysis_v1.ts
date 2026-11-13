@@ -796,11 +796,9 @@ export interface BatchCreateNotesRequest {
   /** Required. The notes to create. Max allowed length is 1000. */
   notes?: NoteMap | undefined;
 }
-export interface BatchCreateProjectsLocationsNotesRequest {
+export interface BatchCreateProjectsLocationsNotesRequest extends BatchCreateNotesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the notes are to be created. */
   parent: string;
-  /** Request body */
-  body?: BatchCreateNotesRequest | undefined;
 }
 export type NoteList = Array<Note>;
 /** Response for creating notes in batch. */
@@ -1835,56 +1833,42 @@ export interface BatchCreateOccurrencesRequest {
   /** Required. The occurrences to create. Max allowed length is 1000. */
   occurrences?: OccurrenceList | undefined;
 }
-export interface BatchCreateProjectsLocationsOccurrencesRequest {
+export interface BatchCreateProjectsLocationsOccurrencesRequest extends BatchCreateOccurrencesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrences are to be created. */
   parent: string;
-  /** Request body */
-  body?: BatchCreateOccurrencesRequest | undefined;
 }
 /** Response for creating occurrences in batch. */
 export interface BatchCreateOccurrencesResponse {
   /** The occurrences that were created. */
   occurrences?: OccurrenceList | undefined;
 }
-export interface BatchCreateProjectsNotesRequest {
+export interface BatchCreateProjectsNotesRequest extends BatchCreateNotesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the notes are to be created. */
   parent: string;
-  /** Request body */
-  body?: BatchCreateNotesRequest | undefined;
 }
-export interface BatchCreateProjectsOccurrencesRequest {
+export interface BatchCreateProjectsOccurrencesRequest extends BatchCreateOccurrencesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrences are to be created. */
   parent: string;
-  /** Request body */
-  body?: BatchCreateOccurrencesRequest | undefined;
 }
-export interface CreateProjectsLocationsNotesRequest {
+export interface CreateProjectsLocationsNotesRequest extends Note {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the note is to be created. */
   parent: string;
   /** Required. The ID to use for this note. */
   noteId?: string | undefined;
-  /** Request body */
-  body?: Note | undefined;
 }
-export interface CreateProjectsLocationsOccurrencesRequest {
+export interface CreateProjectsLocationsOccurrencesRequest extends Occurrence {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrence is to be created. */
   parent: string;
-  /** Request body */
-  body?: Occurrence | undefined;
 }
-export interface CreateProjectsNotesRequest {
+export interface CreateProjectsNotesRequest extends Note {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the note is to be created. */
   parent: string;
   /** Required. The ID to use for this note. */
   noteId?: string | undefined;
-  /** Request body */
-  body?: Note | undefined;
 }
-export interface CreateProjectsOccurrencesRequest {
+export interface CreateProjectsOccurrencesRequest extends Occurrence {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrence is to be created. */
   parent: string;
-  /** Request body */
-  body?: Occurrence | undefined;
 }
 export interface DeleteProjectsLocationsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
@@ -1911,22 +1895,18 @@ export interface ExportSBOMRequest {
   /** Optional. Empty placeholder to denote that this is a Google Cloud Storage export request. */
   cloudStorageLocation?: AISkillAnalysisNote | undefined;
 }
-export interface ExportSBOMProjectsLocationsResourcesRequest {
+export interface ExportSBOMProjectsLocationsResourcesRequest extends ExportSBOMRequest {
   /** Required. The name of the resource in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
   name: string;
-  /** Request body */
-  body?: ExportSBOMRequest | undefined;
 }
 /** The response from a call to ExportSBOM. */
 export interface ExportSBOMResponse {
   /** The name of the discovery occurrence in the form "projects/{project_id}/occurrences/{OCCURRENCE_ID} It can be used to track the progress of the SBOM export. */
   discoveryOccurrence?: string | undefined;
 }
-export interface ExportSBOMProjectsResourcesRequest {
+export interface ExportSBOMProjectsResourcesRequest extends ExportSBOMRequest {
   /** Required. The name of the resource in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
   name: string;
-  /** Request body */
-  body?: ExportSBOMRequest | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
@@ -1938,11 +1918,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsLocationsNotesRequest {
+export interface GetIamPolicyProjectsLocationsNotesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1974,23 +1952,17 @@ export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
 }
-export interface GetIamPolicyProjectsLocationsOccurrencesRequest {
+export interface GetIamPolicyProjectsLocationsOccurrencesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsNotesRequest {
+export interface GetIamPolicyProjectsNotesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsOccurrencesRequest {
+export interface GetIamPolicyProjectsOccurrencesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetNotesProjectsLocationsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
@@ -2151,100 +2123,76 @@ export interface ListProjectsOccurrencesRequest {
   /** The filter expression. */
   filter?: string | undefined;
 }
-export interface PatchProjectsLocationsNotesRequest {
+export interface PatchProjectsLocationsNotesRequest extends Omit<Note, "name"> {
   /** The fields to update. */
   updateMask?: string | undefined;
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
-  /** Request body */
-  body?: Note | undefined;
 }
-export interface PatchProjectsLocationsOccurrencesRequest {
+export interface PatchProjectsLocationsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Occurrence | undefined;
 }
-export interface PatchProjectsNotesRequest {
+export interface PatchProjectsNotesRequest extends Omit<Note, "name"> {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Note | undefined;
 }
-export interface PatchProjectsOccurrencesRequest {
+export interface PatchProjectsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Occurrence | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsNotesRequest {
+export interface SetIamPolicyProjectsLocationsNotesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsOccurrencesRequest {
+export interface SetIamPolicyProjectsLocationsOccurrencesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsNotesRequest {
+export interface SetIamPolicyProjectsNotesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsOccurrencesRequest {
+export interface SetIamPolicyProjectsOccurrencesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsNotesRequest {
+export interface TestIamPermissionsProjectsLocationsNotesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsOccurrencesRequest {
+export interface TestIamPermissionsProjectsLocationsOccurrencesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsNotesRequest {
+export interface TestIamPermissionsProjectsNotesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsOccurrencesRequest {
+export interface TestIamPermissionsProjectsOccurrencesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type BatchCreateProjectsLocationsNotesError =
   | NotFound
@@ -3157,11 +3105,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          noteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1405, __c43, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            noteId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes",
@@ -3175,10 +3125,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1932, __c60, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences",
@@ -3256,10 +3208,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:exportSBOM",
@@ -3289,10 +3243,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:exportSBOM",
@@ -3306,10 +3262,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c10, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3370,10 +3328,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c10, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3387,10 +3347,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c10, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3404,10 +3366,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c10, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3728,11 +3692,13 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1405, __c43, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3746,11 +3712,13 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1932, __c60, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3764,11 +3732,13 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1405, __c43, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3782,11 +3752,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1932, __c60, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3800,10 +3772,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes:batchCreate",
@@ -4240,10 +4214,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4267,10 +4243,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4284,10 +4262,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4301,10 +4281,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4318,10 +4300,12 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4345,10 +4329,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4362,10 +4348,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4379,10 +4367,12 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4396,10 +4386,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences:batchCreate",
@@ -5253,10 +5245,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes:batchCreate",
@@ -5270,10 +5264,12 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences:batchCreate",
@@ -5287,11 +5283,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          noteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1405, __c43, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            noteId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes",
@@ -5305,10 +5303,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1932, __c60, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences",

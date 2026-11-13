@@ -119,11 +119,9 @@ export interface Profile {
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name?: string | undefined;
 }
-export interface CreateOfflineProjectsProfilesRequest {
+export interface CreateOfflineProjectsProfilesRequest extends Profile {
   /** Parent project to create the profile in. */
   parent: string;
-  /** Request body */
-  body?: Profile | undefined;
 }
 export type CreateProfileRequestProfileTypeItemEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
@@ -144,11 +142,9 @@ export interface CreateProfileRequest {
   /** Deployment details. */
   deployment?: Deployment | undefined;
 }
-export interface CreateProjectsProfilesRequest {
+export interface CreateProjectsProfilesRequest extends CreateProfileRequest {
   /** Parent project to create the profile in. */
   parent: string;
-  /** Request body */
-  body?: CreateProfileRequest | undefined;
 }
 export interface ListProjectsProfilesRequest {
   /** Optional. The token to continue pagination and get profiles from a particular page. When paginating, all other parameters provided to `ListProfiles` must match the call that provided the page token. */
@@ -168,13 +164,11 @@ export interface ListProfilesResponse {
   /** List of profiles fetched. */
   profiles?: ProfileList | undefined;
 }
-export interface PatchProjectsProfilesRequest {
+export interface PatchProjectsProfilesRequest extends Omit<Profile, "name"> {
   /** Field mask used to specify the fields to be overwritten. Currently only profile_bytes and labels fields are supported by UpdateProfile, so only those fields can be specified in the mask. When no mask is provided, all fields are overwritten. */
   updateMask?: string | undefined;
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name: string;
-  /** Request body */
-  body?: Profile | undefined;
 }
 export type CreateOfflineProjectsProfilesError =
   | NotFound
@@ -256,10 +250,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/profiles:createOffline",
@@ -308,10 +304,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateProfileRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c2, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/profiles",
@@ -353,11 +351,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6, __c1, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",

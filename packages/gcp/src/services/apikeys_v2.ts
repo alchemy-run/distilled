@@ -159,13 +159,11 @@ export interface V2Key {
   /** Human-readable display name of this key that you can modify. The maximum length is 63 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsKeysRequest {
+export interface CreateProjectsLocationsKeysRequest extends V2Key {
   /** User specified key id (optional). If specified, it will become the final component of the key resource name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. In another word, the id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. The id must NOT be a UUID-like string. */
   keyId?: string | undefined;
   /** Required. The project in which the API key is created. The parent field must be in format of "projects//locations/global". */
   parent: string;
-  /** Request body */
-  body?: V2Key | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -256,15 +254,13 @@ export type PatchProjectsLocationsKeysCheckExistingUsageEnum =
   | "CHECK_EXISTING_USAGE_UNSPECIFIED"
   | "SKIP"
   | "CHECK";
-export interface PatchProjectsLocationsKeysRequest {
+export interface PatchProjectsLocationsKeysRequest extends Omit<V2Key, "name"> {
   /** Identifier. The resource name of the key. The `name` has the form: `projects//locations/global/keys/`. For example: `projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2` NOTE: Key is a global resource; hence the only supported value for location is `global`. */
   name: string;
   /** Optional. Defines the behavior for checking existing usage when updating a key. */
   checkExistingUsage?: PatchProjectsLocationsKeysCheckExistingUsageEnum | (string & {}) | undefined;
   /** The field mask specifies which fields to be updated as part of this request. All other fields are ignored. Mutable fields are: `display_name`, `restrictions`, and `annotations`. If an update mask is not provided, the service treats it as an implied mask equivalent to all allowed fields that are set on the wire. If the field mask has a special value "*", the service treats it equivalent to replace all allowed mutable fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: V2Key | undefined;
 }
 /** Request message for `UndeleteKey` method. */
 export interface V2UndeleteKeyRequest {}
@@ -477,12 +473,14 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          checkExistingUsage: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(91, __c5, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(91, __c5, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            checkExistingUsage: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -515,11 +513,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          keyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(91, __c5, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(91, __c5, 11),
+          S.Struct({
+            keyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/keys",

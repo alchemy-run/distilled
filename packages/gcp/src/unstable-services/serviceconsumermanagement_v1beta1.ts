@@ -106,7 +106,7 @@ export interface V1Beta1QuotaOverride {
   /** If this map is nonempty, then this override applies only to specific values for dimensions defined in the limit unit. For example, an override on a limit with the unit 1/{project}/{region} could contain an entry with the key "region" and the value "us-east-1"; the override is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in {brackets} in the unit (besides {project} or {user}) is a defined key. * "project" is not a valid key; the project is already specified in the parent resource name. * "user" is not a valid key; the API does not support quota overrides that apply only to a specific user. * If "region" appears as a key, its value must be a valid Cloud region. * If "zone" appears as a key, its value must be a valid Cloud zone. * If any valid key other than "region" or "zone" appears in the map, then all valid keys other than "region" or "zone" must also appear in the map. */
   dimensions?: StringMap | undefined;
 }
-export interface CreateServicesConsumerQuotaMetricsLimitsProducerOverridesRequest {
+export interface CreateServicesConsumerQuotaMetricsLimitsProducerOverridesRequest extends V1Beta1QuotaOverride {
   /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
   /** Whether to force the creation of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. */
@@ -117,8 +117,6 @@ export interface CreateServicesConsumerQuotaMetricsLimitsProducerOverridesReques
   forceOnly?:
     | CreateServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList
     | undefined;
-  /** Request body */
-  body?: V1Beta1QuotaOverride | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -159,7 +157,7 @@ export interface V1Beta1ProducerQuotaPolicy {
   /** If this map is nonempty, then this policy applies only to specific values for dimensions defined in the limit unit. For example, a policy on a limit with the unit 1/{project}/{region} could contain an entry with the key "region" and the value "us-east-1"; the policy is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in {brackets} in the unit (besides {project} or {user}) is a defined key. * "project" is not a valid key; the project is already specified in the parent resource name. * "user" is not a valid key; the API does not support quota polcies that apply only to a specific user. * If "region" appears as a key, its value must be a valid Cloud region. * If "zone" appears as a key, its value must be a valid Cloud zone. * If any valid key other than "region" or "zone" appears in the map, then all valid keys other than "region" or "zone" must also appear in the map. */
   dimensions?: StringMap | undefined;
 }
-export interface CreateServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest {
+export interface CreateServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest extends V1Beta1ProducerQuotaPolicy {
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
   forceJustification?: string | undefined;
   /** If set to true, validate the request, but do not actually update. */
@@ -168,8 +166,6 @@ export interface CreateServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRe
   parent: string;
   /** Whether to force the creation of the quota policy. If the policy creation would decrease the default limit of any consumer tier by more than 10 percent, the call is rejected, as a safety measure to avoid accidentally decreasing quota too quickly. Setting the force parameter to true ignores this restriction. */
   force?: boolean | undefined;
-  /** Request body */
-  body?: V1Beta1ProducerQuotaPolicy | undefined;
 }
 export type DeleteServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -302,11 +298,9 @@ export interface V1Beta1ImportProducerOverridesRequest {
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. */
   forceOnly?: V1Beta1ImportProducerOverridesRequestForceOnlyItemEnumList | undefined;
 }
-export interface ImportProducerOverridesServicesConsumerQuotaMetricsRequest {
+export interface ImportProducerOverridesServicesConsumerQuotaMetricsRequest extends V1Beta1ImportProducerOverridesRequest {
   /** The resource name of the consumer. An example name would be: `services/compute.googleapis.com/projects/123` */
   parent: string;
-  /** Request body */
-  body?: V1Beta1ImportProducerOverridesRequest | undefined;
 }
 export type V1Beta1ProducerQuotaPolicyList = Array<V1Beta1ProducerQuotaPolicy>;
 /** Import data embedded in the request message */
@@ -327,11 +321,9 @@ export interface V1Beta1ImportProducerQuotaPoliciesRequest {
   /** The import data is specified in the request message itself */
   inlineSource?: V1Beta1PolicyInlineSource | undefined;
 }
-export interface ImportProducerQuotaPoliciesServicesConsumerQuotaMetricsRequest {
+export interface ImportProducerQuotaPoliciesServicesConsumerQuotaMetricsRequest extends V1Beta1ImportProducerQuotaPoliciesRequest {
   /** The resource name of the consumer. An example name would be: `services/compute.googleapis.com/organizations/123` */
   parent: string;
-  /** Request body */
-  body?: V1Beta1ImportProducerQuotaPoliciesRequest | undefined;
 }
 export type ListServicesConsumerQuotaMetricsViewEnum = "QUOTA_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface ListServicesConsumerQuotaMetricsRequest {
@@ -389,7 +381,10 @@ export type PatchServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnu
 export type PatchServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList = Array<
   PatchServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnum | (string & {})
 >;
-export interface PatchServicesConsumerQuotaMetricsLimitsProducerOverridesRequest {
+export interface PatchServicesConsumerQuotaMetricsLimitsProducerOverridesRequest extends Omit<
+  V1Beta1QuotaOverride,
+  "name"
+> {
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
   forceJustification?: string | undefined;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. */
@@ -400,10 +395,11 @@ export interface PatchServicesConsumerQuotaMetricsLimitsProducerOverridesRequest
   force?: boolean | undefined;
   /** Update only the specified fields. If unset, all modifiable fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: V1Beta1QuotaOverride | undefined;
 }
-export interface PatchServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest {
+export interface PatchServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest extends Omit<
+  V1Beta1ProducerQuotaPolicy,
+  "name"
+> {
   /** Update only the specified fields. If unset, all modifiable fields will be updated. */
   updateMask?: string | undefined;
   /** Whether to force the update of the quota policy. If the policy update would decrease the default limit of any consumer tier by more than 10 percent, the call is rejected, as a safety measure to avoid accidentally decreasing quota too quickly. Setting the force parameter to true ignores this restriction. */
@@ -414,8 +410,6 @@ export interface PatchServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesReq
   name: string;
   /** If set to true, validate the request, but do not actually update. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: V1Beta1ProducerQuotaPolicy | undefined;
 }
 export type CreateServicesConsumerQuotaMetricsLimitsProducerOverridesError =
   | NotFound
@@ -784,10 +778,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "V1Beta1ImportProducerOverridesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consumerQuotaMetrics:importProducerOverrides",
@@ -823,10 +819,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "V1Beta1ImportProducerQuotaPoliciesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(25, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25, __c3, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consumerQuotaMetrics:importProducerQuotaPolicies",
@@ -926,14 +924,16 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forceJustification: S.optional(S.String.pipe(T.Query())),
-          forceOnly: S.optional(__S(104, __c13, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            forceJustification: S.optional(S.String.pipe(T.Query())),
+            forceOnly: S.optional(__S(104, __c13, 0).pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -947,14 +947,16 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          forceJustification: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            forceJustification: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -970,13 +972,15 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          forceJustification: S.optional(S.String.pipe(T.Query())),
-          forceOnly: S.optional(__S(104, __c13, 0).pipe(T.Query())),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            forceJustification: S.optional(S.String.pipe(T.Query())),
+            forceOnly: S.optional(__S(104, __c13, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/producerOverrides",
@@ -1045,13 +1049,15 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forceJustification: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            forceJustification: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/producerQuotaPolicies",

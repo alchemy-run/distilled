@@ -305,11 +305,9 @@ export interface SynthesizeLongAudioRequest {
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig | undefined;
 }
-export interface SynthesizeLongAudioProjectsLocationsRequest {
+export interface SynthesizeLongAudioProjectsLocationsRequest extends SynthesizeLongAudioRequest {
   /** The resource states of the request in the form of `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: SynthesizeLongAudioRequest | undefined;
 }
 export type SafetySettingThresholdEnum =
   | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
@@ -359,10 +357,7 @@ export interface SynthesizeSpeechRequest {
   /** Optional. Advanced voice options. */
   advancedVoiceOptions?: AdvancedVoiceOptions | undefined;
 }
-export interface SynthesizeTextRequest {
-  /** Request body */
-  body?: SynthesizeSpeechRequest | undefined;
-}
+export interface SynthesizeTextRequest extends SynthesizeSpeechRequest {}
 /** The message returned to the client by the `SynthesizeSpeech` method. */
 export interface SynthesizeSpeechResponse {
   /** The audio data bytes encoded as specified in the request, including the header for encodings that are wrapped in containers (e.g. MP3, OGG_OPUS). For LINEAR16 audio, we include the WAV header. Note: as with all bytes fields, protobuffers use a pure binary representation, whereas JSON representations use base64. */
@@ -532,9 +527,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "SynthesizeSpeechRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(4, __c0, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(4, __c0, 4), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/text:synthesize",
@@ -713,10 +706,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SynthesizeLongAudioRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:synthesizeLongAudio",

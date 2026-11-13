@@ -310,10 +310,8 @@ export interface GoogleCloudDialogflowV2beta1AnalyzeContentRequest {
   eventInput?: GoogleCloudDialogflowV2beta1EventInput | undefined;
   requestId?: string | undefined;
 }
-export interface AnalyzeContentProjectsConversationsParticipantsRequest {
+export interface AnalyzeContentProjectsConversationsParticipantsRequest extends GoogleCloudDialogflowV2beta1AnalyzeContentRequest {
   participant: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1AnalyzeContentRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1IntentMessageSimpleResponse {
   textToSpeech?: string | undefined;
@@ -1381,19 +1379,15 @@ export interface GoogleCloudDialogflowV2beta1AnalyzeContentResponse {
   replyAudio?: GoogleCloudDialogflowV2beta1OutputAudio | undefined;
   dtmfParameters?: GoogleCloudDialogflowV2beta1DtmfParameters | undefined;
 }
-export interface AnalyzeContentProjectsLocationsConversationsParticipantsRequest {
+export interface AnalyzeContentProjectsLocationsConversationsParticipantsRequest extends GoogleCloudDialogflowV2beta1AnalyzeContentRequest {
   participant: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1AnalyzeContentRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1BatchCreateEntitiesRequest {
   languageCode?: string | undefined;
   entities?: GoogleCloudDialogflowV2beta1EntityTypeEntityList | undefined;
 }
-export interface BatchCreateProjectsAgentEntityTypesEntitiesRequest {
+export interface BatchCreateProjectsAgentEntityTypesEntitiesRequest extends GoogleCloudDialogflowV2beta1BatchCreateEntitiesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchCreateEntitiesRequest | undefined;
 }
 export interface GoogleLongrunningOperation {
   error?: GoogleRpcStatus | undefined;
@@ -1411,65 +1405,47 @@ export type GoogleCloudDialogflowV2beta1CreateMessageRequestList =
 export interface GoogleCloudDialogflowV2beta1BatchCreateMessagesRequest {
   requests?: GoogleCloudDialogflowV2beta1CreateMessageRequestList | undefined;
 }
-export interface BatchCreateProjectsConversationsMessagesRequest {
+export interface BatchCreateProjectsConversationsMessagesRequest extends GoogleCloudDialogflowV2beta1BatchCreateMessagesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchCreateMessagesRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1MessageList = Array<GoogleCloudDialogflowV2beta1Message>;
 export interface GoogleCloudDialogflowV2beta1BatchCreateMessagesResponse {
   messages?: GoogleCloudDialogflowV2beta1MessageList | undefined;
 }
-export interface BatchCreateProjectsLocationsAgentEntityTypesEntitiesRequest {
+export interface BatchCreateProjectsLocationsAgentEntityTypesEntitiesRequest extends GoogleCloudDialogflowV2beta1BatchCreateEntitiesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchCreateEntitiesRequest | undefined;
 }
-export interface BatchCreateProjectsLocationsConversationsMessagesRequest {
+export interface BatchCreateProjectsLocationsConversationsMessagesRequest extends GoogleCloudDialogflowV2beta1BatchCreateMessagesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchCreateMessagesRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1BatchDeleteEntityTypesRequest {
   entityTypeNames?: StringList | undefined;
 }
-export interface BatchDeleteProjectsAgentEntityTypesRequest {
+export interface BatchDeleteProjectsAgentEntityTypesRequest extends GoogleCloudDialogflowV2beta1BatchDeleteEntityTypesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchDeleteEntityTypesRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest {
   languageCode?: string | undefined;
   entityValues?: StringList | undefined;
 }
-export interface BatchDeleteProjectsAgentEntityTypesEntitiesRequest {
+export interface BatchDeleteProjectsAgentEntityTypesEntitiesRequest extends GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1IntentList = Array<GoogleCloudDialogflowV2beta1Intent>;
 export interface GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest {
   intents?: GoogleCloudDialogflowV2beta1IntentList | undefined;
 }
-export interface BatchDeleteProjectsAgentIntentsRequest {
+export interface BatchDeleteProjectsAgentIntentsRequest extends GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest | undefined;
 }
-export interface BatchDeleteProjectsLocationsAgentEntityTypesRequest {
+export interface BatchDeleteProjectsLocationsAgentEntityTypesRequest extends GoogleCloudDialogflowV2beta1BatchDeleteEntityTypesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchDeleteEntityTypesRequest | undefined;
 }
-export interface BatchDeleteProjectsLocationsAgentEntityTypesEntitiesRequest {
+export interface BatchDeleteProjectsLocationsAgentEntityTypesEntitiesRequest extends GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest | undefined;
 }
-export interface BatchDeleteProjectsLocationsAgentIntentsRequest {
+export interface BatchDeleteProjectsLocationsAgentIntentsRequest extends GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1EntityTypeKindEnum =
   | "KIND_UNSPECIFIED"
@@ -1501,20 +1477,16 @@ export interface GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest {
   languageCode?: string | undefined;
   entityTypeBatchUri?: string | undefined;
 }
-export interface BatchUpdateProjectsAgentEntityTypesRequest {
+export interface BatchUpdateProjectsAgentEntityTypesRequest extends GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest {
   entities?: GoogleCloudDialogflowV2beta1EntityTypeEntityList | undefined;
   languageCode?: string | undefined;
   updateMask?: string | undefined;
 }
-export interface BatchUpdateProjectsAgentEntityTypesEntitiesRequest {
+export interface BatchUpdateProjectsAgentEntityTypesEntitiesRequest extends GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequestIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
@@ -1531,25 +1503,17 @@ export interface GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest {
   languageCode?: string | undefined;
   updateMask?: string | undefined;
 }
-export interface BatchUpdateProjectsAgentIntentsRequest {
+export interface BatchUpdateProjectsAgentIntentsRequest extends GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest | undefined;
 }
-export interface BatchUpdateProjectsLocationsAgentEntityTypesRequest {
+export interface BatchUpdateProjectsLocationsAgentEntityTypesRequest extends GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest | undefined;
 }
-export interface BatchUpdateProjectsLocationsAgentEntityTypesEntitiesRequest {
+export interface BatchUpdateProjectsLocationsAgentEntityTypesEntitiesRequest extends GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest | undefined;
 }
-export interface BatchUpdateProjectsLocationsAgentIntentsRequest {
+export interface BatchUpdateProjectsLocationsAgentIntentsRequest extends GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   name: string;
@@ -1582,24 +1546,18 @@ export interface GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequest
     | (string & {})
     | undefined;
 }
-export interface ClearSuggestionFeatureConfigProjectsConversationProfilesRequest {
+export interface ClearSuggestionFeatureConfigProjectsConversationProfilesRequest extends GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequest {
   conversationProfile: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequest | undefined;
 }
-export interface ClearSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest {
+export interface ClearSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest extends GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequest {
   conversationProfile: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1CompileSuggestionRequest {
   contextSize?: number | undefined;
   latestMessage?: string | undefined;
 }
-export interface CompileProjectsConversationsParticipantsSuggestionsRequest {
+export interface CompileProjectsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1CompileSuggestionRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1CompileSuggestionRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SuggestionArticle {
   answerRecord?: string | undefined;
@@ -2024,11 +1982,9 @@ export interface CompleteProjectsLocationsConversationsRequest {
     | GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation
     | undefined;
 }
-export interface CreateProjectsAgentEntityTypesRequest {
+export interface CreateProjectsAgentEntityTypesRequest extends GoogleCloudDialogflowV2beta1EntityType {
   parent: string;
   languageCode?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1EntityType | undefined;
 }
 export type GoogleCloudDialogflowV2beta1EnvironmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2086,41 +2042,31 @@ export interface GoogleCloudDialogflowV2beta1Environment {
   agentVersion?: string | undefined;
   textToSpeechSettings?: GoogleCloudDialogflowV2beta1TextToSpeechSettings | undefined;
 }
-export interface CreateProjectsAgentEnvironmentsRequest {
+export interface CreateProjectsAgentEnvironmentsRequest extends GoogleCloudDialogflowV2beta1Environment {
   parent: string;
   environmentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Environment | undefined;
 }
-export interface CreateProjectsAgentEnvironmentsUsersSessionsContextsRequest {
+export interface CreateProjectsAgentEnvironmentsUsersSessionsContextsRequest extends GoogleCloudDialogflowV2beta1Context {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface CreateProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest {
+export interface CreateProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest extends GoogleCloudDialogflowV2beta1SessionEntityType {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
 export type CreateProjectsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export interface CreateProjectsAgentIntentsRequest {
+export interface CreateProjectsAgentIntentsRequest extends GoogleCloudDialogflowV2beta1Intent {
   intentView?: CreateProjectsAgentIntentsIntentViewEnum | (string & {}) | undefined;
   parent: string;
   languageCode?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Intent | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1KnowledgeBase {
   name?: string | undefined;
   languageCode?: string | undefined;
   displayName?: string | undefined;
 }
-export interface CreateProjectsAgentKnowledgeBasesRequest {
+export interface CreateProjectsAgentKnowledgeBasesRequest extends GoogleCloudDialogflowV2beta1KnowledgeBase {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1KnowledgeBase | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1DocumentReloadStatus {
   status?: GoogleRpcStatus | undefined;
@@ -2156,21 +2102,15 @@ export interface GoogleCloudDialogflowV2beta1Document {
   name?: string | undefined;
   metadata?: StringMap | undefined;
 }
-export interface CreateProjectsAgentKnowledgeBasesDocumentsRequest {
+export interface CreateProjectsAgentKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1Document {
   importGcsCustomMetadata?: boolean | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Document | undefined;
 }
-export interface CreateProjectsAgentSessionsContextsRequest {
+export interface CreateProjectsAgentSessionsContextsRequest extends GoogleCloudDialogflowV2beta1Context {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface CreateProjectsAgentSessionsEntityTypesRequest {
+export interface CreateProjectsAgentSessionsEntityTypesRequest extends GoogleCloudDialogflowV2beta1SessionEntityType {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
 export type GoogleCloudDialogflowV2beta1VersionStatusEnum =
   | "VERSION_STATUS_UNSPECIFIED"
@@ -2184,21 +2124,15 @@ export interface GoogleCloudDialogflowV2beta1Version {
   status?: GoogleCloudDialogflowV2beta1VersionStatusEnum | (string & {}) | undefined;
   description?: string | undefined;
 }
-export interface CreateProjectsAgentVersionsRequest {
+export interface CreateProjectsAgentVersionsRequest extends GoogleCloudDialogflowV2beta1Version {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Version | undefined;
 }
-export interface CreateProjectsConversationProfilesRequest {
+export interface CreateProjectsConversationProfilesRequest extends GoogleCloudDialogflowV2beta1ConversationProfile {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ConversationProfile | undefined;
 }
-export interface CreateProjectsConversationsRequest {
+export interface CreateProjectsConversationsRequest extends GoogleCloudDialogflowV2beta1Conversation {
   parent: string;
   conversationId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Conversation | undefined;
 }
 export type GoogleCloudDialogflowV2beta1ParticipantRoleEnum =
   | "ROLE_UNSPECIFIED"
@@ -2222,10 +2156,8 @@ export interface GoogleCloudDialogflowV2beta1Participant {
   obfuscatedExternalUserId?: string | undefined;
   documentsMetadataFilters?: StringMap | undefined;
 }
-export interface CreateProjectsConversationsParticipantsRequest {
+export interface CreateProjectsConversationsParticipantsRequest extends GoogleCloudDialogflowV2beta1Participant {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Participant | undefined;
 }
 export type GoogleCloudDialogflowV2beta1FreeFormContext =
   GoogleCloudDialogflowV2beta1IntentMessageTableCardCell;
@@ -2374,69 +2306,47 @@ export interface GoogleCloudDialogflowV2beta1Generator {
   agentCoachingContext?: GoogleCloudDialogflowV2beta1AgentCoachingContext | undefined;
   cesAppSpecs?: GoogleCloudDialogflowV2beta1CesAppSpecList | undefined;
 }
-export interface CreateProjectsGeneratorsRequest {
+export interface CreateProjectsGeneratorsRequest extends GoogleCloudDialogflowV2beta1Generator {
   parent: string;
   generatorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Generator | undefined;
 }
-export interface CreateProjectsKnowledgeBasesRequest {
+export interface CreateProjectsKnowledgeBasesRequest extends GoogleCloudDialogflowV2beta1KnowledgeBase {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1KnowledgeBase | undefined;
 }
-export interface CreateProjectsKnowledgeBasesDocumentsRequest {
+export interface CreateProjectsKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1Document {
   importGcsCustomMetadata?: boolean | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Document | undefined;
 }
-export interface CreateProjectsLocationsAgentEntityTypesRequest {
+export interface CreateProjectsLocationsAgentEntityTypesRequest extends GoogleCloudDialogflowV2beta1EntityType {
   parent: string;
   languageCode?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1EntityType | undefined;
 }
-export interface CreateProjectsLocationsAgentEnvironmentsRequest {
+export interface CreateProjectsLocationsAgentEnvironmentsRequest extends GoogleCloudDialogflowV2beta1Environment {
   environmentId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Environment | undefined;
 }
-export interface CreateProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest {
+export interface CreateProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest extends GoogleCloudDialogflowV2beta1Context {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest {
+export interface CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest extends GoogleCloudDialogflowV2beta1SessionEntityType {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
 export type CreateProjectsLocationsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export interface CreateProjectsLocationsAgentIntentsRequest {
+export interface CreateProjectsLocationsAgentIntentsRequest extends GoogleCloudDialogflowV2beta1Intent {
   parent: string;
   languageCode?: string | undefined;
   intentView?: CreateProjectsLocationsAgentIntentsIntentViewEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Intent | undefined;
 }
-export interface CreateProjectsLocationsAgentSessionsContextsRequest {
+export interface CreateProjectsLocationsAgentSessionsContextsRequest extends GoogleCloudDialogflowV2beta1Context {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface CreateProjectsLocationsAgentSessionsEntityTypesRequest {
+export interface CreateProjectsLocationsAgentSessionsEntityTypesRequest extends GoogleCloudDialogflowV2beta1SessionEntityType {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
-export interface CreateProjectsLocationsAgentVersionsRequest {
+export interface CreateProjectsLocationsAgentVersionsRequest extends GoogleCloudDialogflowV2beta1Version {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Version | undefined;
 }
 export type GoogleCloudDialogflowV2beta1CompanionAgentKnowledgeSource =
   GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
@@ -2473,33 +2383,23 @@ export interface GoogleCloudDialogflowV2beta1CompanionAgent {
   createTime?: string | undefined;
   toolsetTools?: GoogleCloudDialogflowV2beta1ToolsetToolList | undefined;
 }
-export interface CreateProjectsLocationsCompanionAgentsRequest {
+export interface CreateProjectsLocationsCompanionAgentsRequest extends GoogleCloudDialogflowV2beta1CompanionAgent {
   parent: string;
   companionAgentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1CompanionAgent | undefined;
 }
-export interface CreateProjectsLocationsConversationProfilesRequest {
+export interface CreateProjectsLocationsConversationProfilesRequest extends GoogleCloudDialogflowV2beta1ConversationProfile {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ConversationProfile | undefined;
 }
-export interface CreateProjectsLocationsConversationsRequest {
+export interface CreateProjectsLocationsConversationsRequest extends GoogleCloudDialogflowV2beta1Conversation {
   conversationId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Conversation | undefined;
 }
-export interface CreateProjectsLocationsConversationsParticipantsRequest {
+export interface CreateProjectsLocationsConversationsParticipantsRequest extends GoogleCloudDialogflowV2beta1Participant {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Participant | undefined;
 }
-export interface CreateProjectsLocationsGeneratorsRequest {
+export interface CreateProjectsLocationsGeneratorsRequest extends GoogleCloudDialogflowV2beta1Generator {
   parent: string;
   generatorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Generator | undefined;
 }
 export type GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum =
   | "INPUT_DATA_SOURCE_TYPE_UNSPECIFIED"
@@ -2683,21 +2583,15 @@ export interface GoogleCloudDialogflowV2beta1GeneratorEvaluation {
   name?: string | undefined;
   completeTime?: string | undefined;
 }
-export interface CreateProjectsLocationsGeneratorsEvaluationsRequest {
+export interface CreateProjectsLocationsGeneratorsEvaluationsRequest extends GoogleCloudDialogflowV2beta1GeneratorEvaluation {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1GeneratorEvaluation | undefined;
 }
-export interface CreateProjectsLocationsKnowledgeBasesRequest {
+export interface CreateProjectsLocationsKnowledgeBasesRequest extends GoogleCloudDialogflowV2beta1KnowledgeBase {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1KnowledgeBase | undefined;
 }
-export interface CreateProjectsLocationsKnowledgeBasesDocumentsRequest {
+export interface CreateProjectsLocationsKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1Document {
   importGcsCustomMetadata?: boolean | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Document | undefined;
 }
 export type GoogleCloudDialogflowV2beta1ProbeDetailsProbeStatusEnum =
   | "PROBE_STATUS_UNSPECIFIED"
@@ -2790,10 +2684,8 @@ export interface GoogleCloudDialogflowV2beta1SipTrunk {
     | undefined;
   connections?: GoogleCloudDialogflowV2beta1ConnectionList | undefined;
 }
-export interface CreateProjectsLocationsSipTrunksRequest {
+export interface CreateProjectsLocationsSipTrunksRequest extends GoogleCloudDialogflowV2beta1SipTrunk {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SipTrunk | undefined;
 }
 export type GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum =
   | "CONFIRMATION_REQUIREMENT_UNSPECIFIED"
@@ -2933,11 +2825,9 @@ export interface GoogleCloudDialogflowV2beta1Tool {
   satisfiesPzi?: boolean | undefined;
   extensionSpec?: GoogleCloudDialogflowV2beta1ToolExtensionTool | undefined;
 }
-export interface CreateProjectsLocationsToolsRequest {
+export interface CreateProjectsLocationsToolsRequest extends GoogleCloudDialogflowV2beta1Tool {
   parent: string;
   toolId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Tool | undefined;
 }
 export interface DeleteAgentProjectsRequest {
   parent: string;
@@ -3109,38 +2999,26 @@ export interface GoogleCloudDialogflowV2beta1DetectIntentRequest {
   queryInput?: GoogleCloudDialogflowV2beta1QueryInput | undefined;
   outputAudioConfig?: GoogleCloudDialogflowV2beta1OutputAudioConfig | undefined;
 }
-export interface DetectIntentProjectsAgentEnvironmentsUsersSessionsRequest {
+export interface DetectIntentProjectsAgentEnvironmentsUsersSessionsRequest extends GoogleCloudDialogflowV2beta1DetectIntentRequest {
   session: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1DetectIntentRequest | undefined;
 }
-export interface DetectIntentProjectsAgentSessionsRequest {
+export interface DetectIntentProjectsAgentSessionsRequest extends GoogleCloudDialogflowV2beta1DetectIntentRequest {
   session: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1DetectIntentRequest | undefined;
 }
-export interface DetectIntentProjectsLocationsAgentEnvironmentsUsersSessionsRequest {
+export interface DetectIntentProjectsLocationsAgentEnvironmentsUsersSessionsRequest extends GoogleCloudDialogflowV2beta1DetectIntentRequest {
   session: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1DetectIntentRequest | undefined;
 }
-export interface DetectIntentProjectsLocationsAgentSessionsRequest {
+export interface DetectIntentProjectsLocationsAgentSessionsRequest extends GoogleCloudDialogflowV2beta1DetectIntentRequest {
   session: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1DetectIntentRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1ExportAgentRequest {
   agentUri?: string | undefined;
 }
-export interface ExportProjectsAgentRequest {
+export interface ExportProjectsAgentRequest extends GoogleCloudDialogflowV2beta1ExportAgentRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ExportAgentRequest | undefined;
 }
-export interface ExportProjectsLocationsAgentRequest {
+export interface ExportProjectsLocationsAgentRequest extends GoogleCloudDialogflowV2beta1ExportAgentRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ExportAgentRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnum =
   | "TRIGGER_EVENT_UNSPECIFIED"
@@ -3157,15 +3035,11 @@ export interface GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest {
     | GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnumList
     | undefined;
 }
-export interface GenerateProjectsConversationsSuggestionsRequest {
+export interface GenerateProjectsConversationsSuggestionsRequest extends GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest {
   conversation: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest | undefined;
 }
-export interface GenerateProjectsLocationsConversationsSuggestionsRequest {
+export interface GenerateProjectsLocationsConversationsSuggestionsRequest extends GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest {
   conversation: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTriggerEventsItemEnum =
   | "TRIGGER_EVENT_UNSPECIFIED"
@@ -3188,10 +3062,8 @@ export interface GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequest 
   securitySettings?: string | undefined;
   conversationContext?: GoogleCloudDialogflowV2beta1ConversationContext | undefined;
 }
-export interface GenerateProjectsLocationsStatelessSuggestionRequest {
+export interface GenerateProjectsLocationsStatelessSuggestionRequest extends GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionResponse {
   generatorSuggestion?: GoogleCloudDialogflowV2beta1GeneratorSuggestion | undefined;
@@ -3207,10 +3079,8 @@ export interface GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest {
     | undefined;
   latestMessage?: string | undefined;
 }
-export interface GenerateStatelessSummaryProjectsLocationsSuggestionsRequest {
+export interface GenerateStatelessSummaryProjectsLocationsSuggestionsRequest extends GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary {
   textSections?: StringMap | undefined;
@@ -3222,10 +3092,8 @@ export interface GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponse {
   latestMessage?: string | undefined;
   summary?: GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary | undefined;
 }
-export interface GenerateStatelessSummaryProjectsSuggestionsRequest {
+export interface GenerateStatelessSummaryProjectsSuggestionsRequest extends GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest | undefined;
 }
 export interface GetAgentProjectsRequest {
   parent: string;
@@ -3545,10 +3413,8 @@ export interface GoogleCloudDialogflowV2beta1ImportAgentRequest {
   agentUri?: string | undefined;
   agentContent?: string | undefined;
 }
-export interface ImportProjectsAgentRequest {
+export interface ImportProjectsAgentRequest extends GoogleCloudDialogflowV2beta1ImportAgentRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ImportAgentRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1GcsSources {
   uris?: StringList | undefined;
@@ -3575,28 +3441,20 @@ export interface GoogleCloudDialogflowV2beta1ImportDocumentsRequest {
   documentTemplate?: GoogleCloudDialogflowV2beta1ImportDocumentTemplate | undefined;
   importGcsCustomMetadata?: boolean | undefined;
 }
-export interface ImportProjectsKnowledgeBasesDocumentsRequest {
+export interface ImportProjectsKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1ImportDocumentsRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ImportDocumentsRequest | undefined;
 }
-export interface ImportProjectsLocationsAgentRequest {
+export interface ImportProjectsLocationsAgentRequest extends GoogleCloudDialogflowV2beta1ImportAgentRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ImportAgentRequest | undefined;
 }
-export interface ImportProjectsLocationsKnowledgeBasesDocumentsRequest {
+export interface ImportProjectsLocationsKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1ImportDocumentsRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ImportDocumentsRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1IngestContextReferencesRequest {
   contextReferences?: GoogleCloudDialogflowV2beta1ConversationContextReferenceMap | undefined;
 }
-export interface IngestContextReferencesProjectsLocationsConversationsRequest {
+export interface IngestContextReferencesProjectsLocationsConversationsRequest extends GoogleCloudDialogflowV2beta1IngestContextReferencesRequest {
   conversation: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1IngestContextReferencesRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1IngestContextReferencesResponse {
   ingestedContextReferences?:
@@ -3606,10 +3464,8 @@ export interface GoogleCloudDialogflowV2beta1IngestContextReferencesResponse {
 export interface GoogleCloudDialogflowV2beta1InitializeEncryptionSpecRequest {
   encryptionSpec?: GoogleCloudDialogflowV2beta1EncryptionSpec | undefined;
 }
-export interface InitializeProjectsLocationsEncryptionSpecRequest {
+export interface InitializeProjectsLocationsEncryptionSpecRequest extends GoogleCloudDialogflowV2beta1InitializeEncryptionSpecRequest {
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1InitializeEncryptionSpecRequest | undefined;
 }
 export interface ListProjectsAgentEntityTypesRequest {
   parent: string;
@@ -4002,223 +3858,257 @@ export interface ListProjectsPhoneNumbersRequest {
   showDeleted?: boolean | undefined;
   pageSize?: number | undefined;
 }
-export interface PatchProjectsAgentEntityTypesRequest {
+export interface PatchProjectsAgentEntityTypesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1EntityType,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
   languageCode?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1EntityType | undefined;
 }
-export interface PatchProjectsAgentEnvironmentsRequest {
+export interface PatchProjectsAgentEnvironmentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Environment,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
   allowLoadToDraftAndDiscardChanges?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Environment | undefined;
 }
-export interface PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest {
+export interface PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Context,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface PatchProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest {
+export interface PatchProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SessionEntityType,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
 export type PatchProjectsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export interface PatchProjectsAgentIntentsRequest {
+export interface PatchProjectsAgentIntentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Intent,
+  "name"
+> {
   intentView?: PatchProjectsAgentIntentsIntentViewEnum | (string & {}) | undefined;
   languageCode?: string | undefined;
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Intent | undefined;
 }
-export interface PatchProjectsAgentKnowledgeBasesRequest {
+export interface PatchProjectsAgentKnowledgeBasesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1KnowledgeBase,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1KnowledgeBase | undefined;
 }
-export interface PatchProjectsAgentKnowledgeBasesDocumentsRequest {
+export interface PatchProjectsAgentKnowledgeBasesDocumentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Document,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Document | undefined;
 }
-export interface PatchProjectsAgentSessionsContextsRequest {
+export interface PatchProjectsAgentSessionsContextsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Context,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface PatchProjectsAgentSessionsEntityTypesRequest {
+export interface PatchProjectsAgentSessionsEntityTypesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SessionEntityType,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
-export interface PatchProjectsAgentVersionsRequest {
+export interface PatchProjectsAgentVersionsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Version,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Version | undefined;
 }
-export interface PatchProjectsAnswerRecordsRequest {
+export interface PatchProjectsAnswerRecordsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1AnswerRecord,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1AnswerRecord | undefined;
 }
-export interface PatchProjectsConversationProfilesRequest {
+export interface PatchProjectsConversationProfilesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1ConversationProfile,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ConversationProfile | undefined;
 }
-export interface PatchProjectsConversationsParticipantsRequest {
+export interface PatchProjectsConversationsParticipantsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Participant,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Participant | undefined;
 }
-export interface PatchProjectsKnowledgeBasesRequest {
+export interface PatchProjectsKnowledgeBasesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1KnowledgeBase,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1KnowledgeBase | undefined;
 }
-export interface PatchProjectsKnowledgeBasesDocumentsRequest {
+export interface PatchProjectsKnowledgeBasesDocumentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Document,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Document | undefined;
 }
-export interface PatchProjectsLocationsAgentEntityTypesRequest {
+export interface PatchProjectsLocationsAgentEntityTypesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1EntityType,
+  "name"
+> {
   name: string;
   languageCode?: string | undefined;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1EntityType | undefined;
 }
-export interface PatchProjectsLocationsAgentEnvironmentsRequest {
+export interface PatchProjectsLocationsAgentEnvironmentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Environment,
+  "name"
+> {
   name: string;
   allowLoadToDraftAndDiscardChanges?: boolean | undefined;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Environment | undefined;
 }
-export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest {
+export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Context,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest {
+export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SessionEntityType,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
 export type PatchProjectsLocationsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export interface PatchProjectsLocationsAgentIntentsRequest {
+export interface PatchProjectsLocationsAgentIntentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Intent,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
   intentView?: PatchProjectsLocationsAgentIntentsIntentViewEnum | (string & {}) | undefined;
   languageCode?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Intent | undefined;
 }
-export interface PatchProjectsLocationsAgentSessionsContextsRequest {
+export interface PatchProjectsLocationsAgentSessionsContextsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Context,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Context | undefined;
 }
-export interface PatchProjectsLocationsAgentSessionsEntityTypesRequest {
+export interface PatchProjectsLocationsAgentSessionsEntityTypesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SessionEntityType,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SessionEntityType | undefined;
 }
-export interface PatchProjectsLocationsAgentVersionsRequest {
+export interface PatchProjectsLocationsAgentVersionsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Version,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Version | undefined;
 }
-export interface PatchProjectsLocationsAnswerRecordsRequest {
+export interface PatchProjectsLocationsAnswerRecordsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1AnswerRecord,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1AnswerRecord | undefined;
 }
-export interface PatchProjectsLocationsCompanionAgentsRequest {
+export interface PatchProjectsLocationsCompanionAgentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1CompanionAgent,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1CompanionAgent | undefined;
 }
-export interface PatchProjectsLocationsConversationProfilesRequest {
+export interface PatchProjectsLocationsConversationProfilesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1ConversationProfile,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ConversationProfile | undefined;
 }
-export interface PatchProjectsLocationsConversationsParticipantsRequest {
+export interface PatchProjectsLocationsConversationsParticipantsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Participant,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Participant | undefined;
 }
-export interface PatchProjectsLocationsGeneratorsRequest {
+export interface PatchProjectsLocationsGeneratorsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Generator,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Generator | undefined;
 }
-export interface PatchProjectsLocationsKnowledgeBasesRequest {
+export interface PatchProjectsLocationsKnowledgeBasesRequest extends Omit<
+  GoogleCloudDialogflowV2beta1KnowledgeBase,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1KnowledgeBase | undefined;
 }
-export interface PatchProjectsLocationsKnowledgeBasesDocumentsRequest {
+export interface PatchProjectsLocationsKnowledgeBasesDocumentsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Document,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Document | undefined;
 }
-export interface PatchProjectsLocationsPhoneNumbersRequest {
+export interface PatchProjectsLocationsPhoneNumbersRequest extends Omit<
+  GoogleCloudDialogflowV2beta1PhoneNumber,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1PhoneNumber | undefined;
 }
-export interface PatchProjectsLocationsSipTrunksRequest {
+export interface PatchProjectsLocationsSipTrunksRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SipTrunk,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SipTrunk | undefined;
 }
-export interface PatchProjectsLocationsToolsRequest {
+export interface PatchProjectsLocationsToolsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Tool,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Tool | undefined;
 }
-export interface PatchProjectsPhoneNumbersRequest {
+export interface PatchProjectsPhoneNumbersRequest extends Omit<
+  GoogleCloudDialogflowV2beta1PhoneNumber,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1PhoneNumber | undefined;
 }
 export type GoogleCloudDialogflowV2beta1GcsSource =
   GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionOpenUri;
@@ -4228,34 +4118,24 @@ export interface GoogleCloudDialogflowV2beta1ReloadDocumentRequest {
     | GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionOpenUri
     | undefined;
 }
-export interface ReloadProjectsAgentKnowledgeBasesDocumentsRequest {
+export interface ReloadProjectsAgentKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1ReloadDocumentRequest {
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ReloadDocumentRequest | undefined;
 }
-export interface ReloadProjectsKnowledgeBasesDocumentsRequest {
+export interface ReloadProjectsKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1ReloadDocumentRequest {
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ReloadDocumentRequest | undefined;
 }
-export interface ReloadProjectsLocationsKnowledgeBasesDocumentsRequest {
+export interface ReloadProjectsLocationsKnowledgeBasesDocumentsRequest extends GoogleCloudDialogflowV2beta1ReloadDocumentRequest {
   name: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1ReloadDocumentRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1RestoreAgentRequest {
   agentContent?: string | undefined;
   agentUri?: string | undefined;
 }
-export interface RestoreProjectsAgentRequest {
+export interface RestoreProjectsAgentRequest extends GoogleCloudDialogflowV2beta1RestoreAgentRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1RestoreAgentRequest | undefined;
 }
-export interface RestoreProjectsLocationsAgentRequest {
+export interface RestoreProjectsLocationsAgentRequest extends GoogleCloudDialogflowV2beta1RestoreAgentRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1RestoreAgentRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1SearchKnowledgeRequestQuerySourceEnum =
   | "QUERY_SOURCE_UNSPECIFIED"
@@ -4341,10 +4221,11 @@ export interface GoogleCloudDialogflowV2beta1SearchKnowledgeRequest {
   searchConfig?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfig | undefined;
   sessionId?: string | undefined;
 }
-export interface SearchKnowledgeProjectsConversationsSuggestionsRequest {
+export interface SearchKnowledgeProjectsConversationsSuggestionsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SearchKnowledgeRequest,
+  "conversation"
+> {
   conversation: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior {
   endUserMetadataIncluded?: boolean | undefined;
@@ -4403,20 +4284,23 @@ export interface GoogleCloudDialogflowV2beta1SearchKnowledgeResponse {
   searchKnowledgeDebugInfo?: GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfo | undefined;
   answers?: GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerList | undefined;
 }
-export interface SearchKnowledgeProjectsLocationsConversationsSuggestionsRequest {
+export interface SearchKnowledgeProjectsLocationsConversationsSuggestionsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SearchKnowledgeRequest,
+  "conversation"
+> {
   conversation: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequest | undefined;
 }
-export interface SearchKnowledgeProjectsLocationsSuggestionsRequest {
+export interface SearchKnowledgeProjectsLocationsSuggestionsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SearchKnowledgeRequest,
+  "parent"
+> {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequest | undefined;
 }
-export interface SearchKnowledgeProjectsSuggestionsRequest {
+export interface SearchKnowledgeProjectsSuggestionsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1SearchKnowledgeRequest,
+  "parent"
+> {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequest | undefined;
 }
 export interface SearchProjectsAgentRequest {
   parent: string;
@@ -4433,17 +4317,16 @@ export interface SearchProjectsLocationsAgentRequest {
   parent: string;
   pageToken?: string | undefined;
 }
-export interface SetAgentProjectsRequest {
+export interface SetAgentProjectsRequest extends Omit<GoogleCloudDialogflowV2beta1Agent, "parent"> {
   parent: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Agent | undefined;
 }
-export interface SetAgentProjectsLocationsRequest {
+export interface SetAgentProjectsLocationsRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Agent,
+  "parent"
+> {
   updateMask?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Agent | undefined;
 }
 export type GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequestParticipantRoleEnum =
   | "ROLE_UNSPECIFIED"
@@ -4459,40 +4342,30 @@ export interface GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequest {
     | (string & {})
     | undefined;
 }
-export interface SetSuggestionFeatureConfigProjectsConversationProfilesRequest {
+export interface SetSuggestionFeatureConfigProjectsConversationProfilesRequest extends GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequest {
   conversationProfile: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequest | undefined;
 }
-export interface SetSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest {
+export interface SetSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest extends GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequest {
   conversationProfile: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SuggestArticlesRequest {
   contextSize?: number | undefined;
   latestMessage?: string | undefined;
   assistQueryParams?: GoogleCloudDialogflowV2beta1AssistQueryParameters | undefined;
 }
-export interface SuggestArticlesProjectsConversationsParticipantsSuggestionsRequest {
+export interface SuggestArticlesProjectsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestArticlesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestArticlesRequest | undefined;
 }
-export interface SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsRequest {
+export interface SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestArticlesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestArticlesRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest {
   latestMessage?: string | undefined;
   assistQueryParams?: GoogleCloudDialogflowV2beta1AssistQueryParameters | undefined;
   contextSize?: number | undefined;
 }
-export interface SuggestConversationSummaryProjectsConversationsSuggestionsRequest {
+export interface SuggestConversationSummaryProjectsConversationsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest {
   conversation: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummarySummarySection =
   GoogleCloudDialogflowV2beta1SummarySuggestionSummarySection;
@@ -4512,55 +4385,41 @@ export interface GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponse 
   summary?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummary | undefined;
   latestMessage?: string | undefined;
 }
-export interface SuggestConversationSummaryProjectsLocationsConversationsSuggestionsRequest {
+export interface SuggestConversationSummaryProjectsLocationsConversationsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest {
   conversation: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SuggestFaqAnswersRequest {
   assistQueryParams?: GoogleCloudDialogflowV2beta1AssistQueryParameters | undefined;
   contextSize?: number | undefined;
   latestMessage?: string | undefined;
 }
-export interface SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsRequest {
+export interface SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestFaqAnswersRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestFaqAnswersRequest | undefined;
 }
-export interface SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsRequest {
+export interface SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestFaqAnswersRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestFaqAnswersRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistRequest {
   previousSuggestedQuery?: string | undefined;
   contextSize?: number | undefined;
   latestMessage?: string | undefined;
 }
-export interface SuggestKnowledgeAssistProjectsConversationsParticipantsSuggestionsRequest {
+export interface SuggestKnowledgeAssistProjectsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistRequest | undefined;
 }
-export interface SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestionsRequest {
+export interface SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistRequest | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest {
   currentTextInput?: GoogleCloudDialogflowV2beta1TextInput | undefined;
   contextSize?: number | undefined;
   latestMessage?: string | undefined;
 }
-export interface SuggestSmartRepliesProjectsConversationsParticipantsSuggestionsRequest {
+export interface SuggestSmartRepliesProjectsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest | undefined;
 }
-export interface SuggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestionsRequest {
+export interface SuggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestionsRequest extends GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest | undefined;
 }
 export type GoogleCloudDialogflowV2beta1TrainAgentRequest =
   GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
@@ -4594,17 +4453,19 @@ export interface UndeleteProjectsPhoneNumbersRequest {
     | GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation
     | undefined;
 }
-export interface UpdateFulfillmentProjectsAgentRequest {
+export interface UpdateFulfillmentProjectsAgentRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Fulfillment,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Fulfillment | undefined;
 }
-export interface UpdateFulfillmentProjectsLocationsAgentRequest {
+export interface UpdateFulfillmentProjectsLocationsAgentRequest extends Omit<
+  GoogleCloudDialogflowV2beta1Fulfillment,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDialogflowV2beta1Fulfillment | undefined;
 }
 export type AnalyzeContentProjectsConversationsParticipantsError =
   | NotFound
@@ -10488,10 +10349,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes:batchDelete",
@@ -10515,10 +10378,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c3, 2),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+session}:detectIntent",
@@ -10561,10 +10426,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c3, 2),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+session}:detectIntent",
@@ -10578,10 +10445,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c3, 2),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+session}:detectIntent",
@@ -10597,10 +10466,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c3, 2),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+session}:detectIntent",
@@ -10614,10 +10485,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent:export",
@@ -10641,10 +10514,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent:export",
@@ -10658,10 +10533,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversation: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            conversation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversation}/suggestions:generate",
@@ -10686,10 +10563,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversation: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            conversation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversation}/suggestions:generate",
@@ -10714,10 +10593,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/statelessSuggestion:generate",
@@ -10737,10 +10618,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:generateStatelessSummary",
@@ -10785,10 +10668,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entities:batchDelete",
@@ -10813,10 +10698,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:generateStatelessSummary",
@@ -11033,10 +10920,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/intents:batchDelete",
@@ -11314,10 +11203,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes:batchDelete",
@@ -11512,10 +11403,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entities:batchDelete",
@@ -11689,10 +11582,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/intents:batchDelete",
@@ -11856,10 +11751,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent:import",
@@ -11884,10 +11781,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2594, __c81, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2594, __c81, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/documents:import",
@@ -11927,10 +11826,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2657, __c83, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2657, __c83, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes:batchUpdate",
@@ -11984,10 +11885,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent:import",
@@ -12001,10 +11904,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2594, __c81, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2594, __c81, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/documents:import",
@@ -12024,10 +11929,12 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GoogleCloudDialogflowV2beta1IngestContextReferencesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          conversation: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            conversation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversation}:ingestContextReferences",
@@ -12053,10 +11960,12 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GoogleCloudDialogflowV2beta1InitializeEncryptionSpecRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+name}:initialize",
@@ -12240,10 +12149,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entities:batchUpdate",
@@ -12556,10 +12467,12 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3904, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3904, __c122, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/intents:batchUpdate",
@@ -12810,10 +12723,12 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2657, __c83, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2657, __c83, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes:batchUpdate",
@@ -13021,10 +12936,12 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entities:batchUpdate",
@@ -13280,10 +13197,12 @@ function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3904, __c122, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3904, __c122, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/intents:batchUpdate",
@@ -13297,12 +13216,14 @@ function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13316,12 +13237,14 @@ function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowLoadToDraftAndDiscardChanges: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(8034, __c251, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8034, __c251, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowLoadToDraftAndDiscardChanges: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13335,11 +13258,13 @@ function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13353,11 +13278,13 @@ function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13371,13 +13298,15 @@ function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          intentView: S.optional(S.String.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8858, __c276, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8858, __c276, 26),
+          S.Struct({
+            intentView: S.optional(S.String.pipe(T.Query())),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13391,11 +13320,13 @@ function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8192, __c256, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8192, __c256, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13409,11 +13340,13 @@ function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8257, __c258, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8257, __c258, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13427,11 +13360,13 @@ function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13445,11 +13380,13 @@ function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13463,11 +13400,13 @@ function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8384, __c262, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8384, __c262, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13497,11 +13436,13 @@ function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1383, __c43, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1383, __c43, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13515,11 +13456,13 @@ function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7628, __c238, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7628, __c238, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13533,11 +13476,13 @@ function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9728, __c304, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9728, __c304, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13551,11 +13496,13 @@ function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8192, __c256, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8192, __c256, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13569,11 +13516,13 @@ function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8257, __c258, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8257, __c258, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13587,12 +13536,14 @@ function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13606,12 +13557,14 @@ function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowLoadToDraftAndDiscardChanges: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8034, __c251, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8034, __c251, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowLoadToDraftAndDiscardChanges: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13625,11 +13578,13 @@ function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13645,11 +13600,13 @@ function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13665,13 +13622,15 @@ function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          intentView: S.optional(S.String.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8858, __c276, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8858, __c276, 26),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            intentView: S.optional(S.String.pipe(T.Query())),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13701,11 +13660,13 @@ function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13719,11 +13680,13 @@ function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13737,11 +13700,13 @@ function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8384, __c262, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8384, __c262, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13755,11 +13720,13 @@ function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1383, __c43, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1383, __c43, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13773,11 +13740,13 @@ function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10244, __c320, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10244, __c320, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13791,11 +13760,13 @@ function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7628, __c238, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7628, __c238, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13809,11 +13780,13 @@ function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9728, __c304, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9728, __c304, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13827,11 +13800,13 @@ function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9838, __c307, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9838, __c307, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13845,11 +13820,13 @@ function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8192, __c256, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8192, __c256, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13863,11 +13840,13 @@ function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8257, __c258, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8257, __c258, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13881,10 +13860,12 @@ function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversationProfile: S.String.pipe(T.Label()),
-          body: S.optional(__S(6144, __c192, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6144, __c192, 0),
+          S.Struct({
+            conversationProfile: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversationProfile}:clearSuggestionFeatureConfig",
@@ -13909,11 +13890,13 @@ function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12033, __c376, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12033, __c376, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13927,11 +13910,13 @@ function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10662, __c333, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10662, __c333, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13945,11 +13930,13 @@ function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(10737, __c335, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10737, __c335, 17),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13963,11 +13950,13 @@ function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12033, __c376, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12033, __c376, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -13981,10 +13970,12 @@ function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6336, __c198, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+name}:reload",
@@ -14009,10 +14000,12 @@ function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6336, __c198, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+name}:reload",
@@ -14026,10 +14019,12 @@ function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6336, __c198, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+name}:reload",
@@ -14043,10 +14038,12 @@ function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6464, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6464, __c202, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent:restore",
@@ -14071,10 +14068,12 @@ function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6464, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6464, __c202, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent:restore",
@@ -14088,10 +14087,12 @@ function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversation: S.String.pipe(T.Label()),
-          body: S.optional(__S(6572, __c205, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6572, __c205, 12),
+          S.Struct({
+            conversation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversation}/suggestions:searchKnowledge",
@@ -14251,10 +14252,12 @@ function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversationProfile: S.String.pipe(T.Label()),
-          body: S.optional(__S(6144, __c192, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6144, __c192, 0),
+          S.Struct({
+            conversationProfile: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversationProfile}:clearSuggestionFeatureConfig",
@@ -14270,10 +14273,12 @@ function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversation: S.String.pipe(T.Label()),
-          body: S.optional(__S(6572, __c205, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6572, __c205, 12),
+          S.Struct({
+            conversation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversation}/suggestions:searchKnowledge",
@@ -14287,10 +14292,12 @@ function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6572, __c205, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6572, __c205, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:searchKnowledge",
@@ -14304,10 +14311,12 @@ function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6572, __c205, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6572, __c205, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:searchKnowledge",
@@ -14370,11 +14379,13 @@ function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent",
@@ -14388,11 +14399,13 @@ function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/agent",
@@ -14406,10 +14419,12 @@ function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversationProfile: S.String.pipe(T.Label()),
-          body: S.optional(__S(6912, __c216, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6912, __c216, 0),
+          S.Struct({
+            conversationProfile: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversationProfile}:setSuggestionFeatureConfig",
@@ -14434,10 +14449,12 @@ function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversationProfile: S.String.pipe(T.Label()),
-          body: S.optional(__S(6912, __c216, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6912, __c216, 0),
+          S.Struct({
+            conversationProfile: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversationProfile}:setSuggestionFeatureConfig",
@@ -14453,10 +14470,12 @@ function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7008, __c219, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7008, __c219, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestArticles",
@@ -14491,10 +14510,12 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GoogleCloudDialogflowV2beta1CompileSuggestionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7040, __c220, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7040, __c220, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:compile",
@@ -14555,10 +14576,12 @@ function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7008, __c219, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7008, __c219, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestArticles",
@@ -14574,10 +14597,12 @@ function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversation: S.String.pipe(T.Label()),
-          body: S.optional(__S(7168, __c224, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7168, __c224, 0),
+          S.Struct({
+            conversation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversation}/suggestions:suggestConversationSummary",
@@ -14625,10 +14650,12 @@ function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversation: S.String.pipe(T.Label()),
-          body: S.optional(__S(7168, __c224, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7168, __c224, 0),
+          S.Struct({
+            conversation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+conversation}/suggestions:suggestConversationSummary",
@@ -14644,10 +14671,12 @@ function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7264, __c227, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestFaqAnswers",
@@ -14675,10 +14704,12 @@ function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7264, __c227, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestFaqAnswers",
@@ -14694,10 +14725,12 @@ function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7360, __c230, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7360, __c230, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestKnowledgeAssist",
@@ -14725,10 +14758,12 @@ function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7360, __c230, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7360, __c230, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestKnowledgeAssist",
@@ -14745,10 +14780,12 @@ function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7456, __c233, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7456, __c233, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestSmartReplies",
@@ -14776,10 +14813,12 @@ function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7456, __c233, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7456, __c233, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/suggestions:suggestSmartReplies",
@@ -15254,11 +15293,13 @@ function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8002, __c250, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8002, __c250, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -15272,11 +15313,13 @@ function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8002, __c250, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8002, __c250, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",
@@ -15307,11 +15350,13 @@ function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes",
@@ -15325,11 +15370,13 @@ function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          environmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8034, __c251, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8034, __c251, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            environmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/environments",
@@ -15396,10 +15443,12 @@ function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/contexts",
@@ -15413,10 +15462,12 @@ function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes",
@@ -15430,12 +15481,14 @@ function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          intentView: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8858, __c276, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8858, __c276, 26),
+          S.Struct({
+            intentView: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/intents",
@@ -15449,10 +15502,12 @@ function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8192, __c256, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8192, __c256, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/knowledgeBases",
@@ -15478,11 +15533,13 @@ function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          importGcsCustomMetadata: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8257, __c258, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8257, __c258, 1),
+          S.Struct({
+            importGcsCustomMetadata: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/documents",
@@ -15523,10 +15580,12 @@ function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/contexts",
@@ -15540,10 +15599,12 @@ function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes",
@@ -15557,10 +15618,12 @@ function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8384, __c262, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8384, __c262, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/versions",
@@ -15588,10 +15651,12 @@ function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7628, __c238, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7628, __c238, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/conversationProfiles",
@@ -15605,10 +15670,12 @@ function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          participant: S.String.pipe(T.Label()),
-          body: S.optional(__S(8483, __c265, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8483, __c265, 3),
+          S.Struct({
+            participant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+participant}:analyzeContent",
@@ -17235,11 +17302,13 @@ function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          conversationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7720, __c241, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7720, __c241, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            conversationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/conversations",
@@ -17253,10 +17322,12 @@ function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9728, __c304, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9728, __c304, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/participants",
@@ -17284,11 +17355,13 @@ function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          generatorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9838, __c307, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9838, __c307, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            generatorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/generators",
@@ -17454,10 +17527,12 @@ function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8192, __c256, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8192, __c256, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/knowledgeBases",
@@ -17471,11 +17546,13 @@ function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          importGcsCustomMetadata: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8257, __c258, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8257, __c258, 1),
+          S.Struct({
+            importGcsCustomMetadata: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/documents",
@@ -17489,11 +17566,13 @@ function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes",
@@ -17507,11 +17586,13 @@ function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          environmentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8034, __c251, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8034, __c251, 2),
+          S.Struct({
+            environmentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/environments",
@@ -17525,10 +17606,12 @@ function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/contexts",
@@ -17544,10 +17627,12 @@ function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes",
@@ -17563,12 +17648,14 @@ function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          intentView: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8858, __c276, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8858, __c276, 26),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+            intentView: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/intents",
@@ -17582,10 +17669,12 @@ function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          participant: S.String.pipe(T.Label()),
-          body: S.optional(__S(8483, __c265, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8483, __c265, 3),
+          S.Struct({
+            participant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+participant}:analyzeContent",
@@ -17599,10 +17688,12 @@ function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8704, __c272, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8704, __c272, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/contexts",
@@ -17616,10 +17707,12 @@ function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9280, __c290, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9280, __c290, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entityTypes",
@@ -17633,10 +17726,12 @@ function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8384, __c262, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8384, __c262, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/versions",
@@ -17650,11 +17745,13 @@ function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          companionAgentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10244, __c320, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10244, __c320, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            companionAgentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/companionAgents",
@@ -17704,10 +17801,12 @@ function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7628, __c238, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7628, __c238, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/conversationProfiles",
@@ -17721,11 +17820,13 @@ function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7720, __c241, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7720, __c241, 8),
+          S.Struct({
+            conversationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/conversations",
@@ -17739,10 +17840,12 @@ function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9728, __c304, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9728, __c304, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/participants",
@@ -17756,11 +17859,13 @@ function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          generatorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9838, __c307, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9838, __c307, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            generatorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/generators",
@@ -17774,10 +17879,12 @@ function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10459, __c326, 27).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10459, __c326, 27),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/evaluations",
@@ -18023,10 +18130,12 @@ function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8192, __c256, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8192, __c256, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/knowledgeBases",
@@ -18040,10 +18149,12 @@ function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10528, __c329, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10528, __c329, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entities:batchCreate",
@@ -18082,11 +18193,13 @@ function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          importGcsCustomMetadata: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8257, __c258, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8257, __c258, 1),
+          S.Struct({
+            importGcsCustomMetadata: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/documents",
@@ -18100,10 +18213,12 @@ function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10662, __c333, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10662, __c333, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/sipTrunks",
@@ -18172,11 +18287,13 @@ function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          toolId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10737, __c335, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10737, __c335, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            toolId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/tools",
@@ -18443,10 +18560,12 @@ function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11010, __c344, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11010, __c344, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/messages:batchCreate",
@@ -18656,10 +18775,12 @@ function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10528, __c329, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10528, __c329, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/entities:batchCreate",
@@ -18838,10 +18959,12 @@ function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11010, __c344, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11010, __c344, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/messages:batchCreate",

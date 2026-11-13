@@ -292,11 +292,9 @@ export interface SynthesizeLongAudioRequest {
   /** Required. The Synthesizer requires either plain text or SSML as input. */
   input?: SynthesisInput | undefined;
 }
-export interface SynthesizeLongAudioProjectsLocationsRequest {
+export interface SynthesizeLongAudioProjectsLocationsRequest extends SynthesizeLongAudioRequest {
   /** The resource states of the request in the form of `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: SynthesizeLongAudioRequest | undefined;
 }
 export type SafetySettingThresholdEnum =
   | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
@@ -354,10 +352,7 @@ export interface SynthesizeSpeechRequest {
   /** Required. The Synthesizer requires either plain text or SSML as input. */
   input?: SynthesisInput | undefined;
 }
-export interface SynthesizeTextRequest {
-  /** Request body */
-  body?: SynthesizeSpeechRequest | undefined;
-}
+export interface SynthesizeTextRequest extends SynthesizeSpeechRequest {}
 /** This contains a mapping between a certain point in the input text and a corresponding time in the output audio. */
 export interface Timepoint {
   /** Time offset in seconds from the start of the synthesized audio. */
@@ -592,10 +587,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "SynthesizeLongAudioRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:synthesizeLongAudio",
@@ -742,9 +739,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SynthesizeSpeechRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(117, __c7, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(117, __c7, 5), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/text:synthesize",

@@ -107,11 +107,9 @@ export interface AddAttestationRuleRequest {
   /** Required. The attestation rule to be added. */
   attestationRule?: AttestationRule | undefined;
 }
-export interface AddAttestationRuleProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface AddAttestationRuleProjectsLocationsWorkloadIdentityPoolsRequest extends AddAttestationRuleRequest {
   /** Required. The resource name of the managed identity or namespace resource to add an attestation rule to. */
   resource: string;
-  /** Request body */
-  body?: AddAttestationRuleRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -137,11 +135,9 @@ export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
-export interface AddAttestationRuleProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
+export interface AddAttestationRuleProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest extends AddAttestationRuleRequest {
   /** Required. The resource name of the managed identity or namespace resource to add an attestation rule to. */
   resource: string;
-  /** Request body */
-  body?: AddAttestationRuleRequest | undefined;
 }
 export type WorkforcePoolStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** Configuration for a service. */
@@ -178,13 +174,11 @@ export interface WorkforcePool {
   /** Optional. A display name for the pool. Cannot exceed 32 characters. */
   displayName?: string | undefined;
 }
-export interface CreateLocationsWorkforcePoolsRequest {
+export interface CreateLocationsWorkforcePoolsRequest extends WorkforcePool {
   /** Optional. The location of the pool to create. Format: `locations/{location}`. */
   location: string;
   /** Optional. The ID to use for the pool, which becomes the final component of the resource name. The IDs must be a globally unique string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   workforcePoolId?: string | undefined;
-  /** Request body */
-  body?: WorkforcePool | undefined;
 }
 /** Representation of the value of the client secret. */
 export interface GoogleIamAdminV1WorkforcePoolProviderOidcClientSecretValue {
@@ -322,13 +316,11 @@ export interface WorkforcePoolProvider {
     | GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client
     | undefined;
 }
-export interface CreateLocationsWorkforcePoolsProvidersRequest {
+export interface CreateLocationsWorkforcePoolsProvidersRequest extends WorkforcePoolProvider {
   /** Required. The pool to create this provider in. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
   parent: string;
   /** Required. The ID for the provider, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters `[a-z0-9-]`. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   workforcePoolProviderId?: string | undefined;
-  /** Request body */
-  body?: WorkforcePoolProvider | undefined;
 }
 export type WorkforcePoolProviderKeyStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 export type WorkforcePoolProviderKeyUseEnum = "KEY_USE_UNSPECIFIED" | "ENCRYPTION";
@@ -360,13 +352,11 @@ export interface WorkforcePoolProviderKey {
   /** Immutable. Public half of the asymmetric key. */
   keyData?: KeyData | undefined;
 }
-export interface CreateLocationsWorkforcePoolsProvidersKeysRequest {
+export interface CreateLocationsWorkforcePoolsProvidersKeysRequest extends WorkforcePoolProviderKey {
   /** Required. The ID to use for the key, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters `[a-z0-9-]`. */
   workforcePoolProviderKeyId?: string | undefined;
   /** Required. The provider to create this key in. */
   parent: string;
-  /** Request body */
-  body?: WorkforcePoolProviderKey | undefined;
 }
 export type WorkforcePoolProviderScimTenantStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** Gemini Enterprise only. Represents a SCIM tenant. Used for provisioning and managing identity data (such as Users and Groups) in cross-domain environments. */
@@ -388,13 +378,11 @@ export interface WorkforcePoolProviderScimTenant {
   /** Identifier. Gemini Enterprise only. The resource name of the SCIM Tenant. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}` */
   name?: string | undefined;
 }
-export interface CreateLocationsWorkforcePoolsProvidersScimTenantsRequest {
+export interface CreateLocationsWorkforcePoolsProvidersScimTenantsRequest extends WorkforcePoolProviderScimTenant {
   /** Required. Gemini Enterprise only. The ID to use for the SCIM tenant, which becomes the final component of the resource name. This value should be 4-32 characters, containing the characters `[a-z0-9-]`. */
   workforcePoolProviderScimTenantId?: string | undefined;
   /** Required. Gemini Enterprise only. The parent to create SCIM tenant. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}' */
   parent: string;
-  /** Request body */
-  body?: WorkforcePoolProviderScimTenant | undefined;
 }
 export type WorkforcePoolProviderScimTokenStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** Gemini Enterprise only. Represents a token for the WorkforcePoolProviderScimTenant. Used for authenticating SCIM provisioning requests. */
@@ -408,13 +396,11 @@ export interface WorkforcePoolProviderScimToken {
   /** Identifier. Gemini Enterprise only. The resource name of the SCIM Token. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}/tokens/{token}` */
   name?: string | undefined;
 }
-export interface CreateLocationsWorkforcePoolsProvidersScimTenantsTokensRequest {
+export interface CreateLocationsWorkforcePoolsProvidersScimTenantsTokensRequest extends WorkforcePoolProviderScimToken {
   /** Required. Gemini Enterprise only. The parent tenant to create SCIM token. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}/scimTenants/{scim_tenant}' */
   parent: string;
   /** Required. Gemini Enterprise only. The ID to use for the SCIM token, which becomes the final component of the resource name. This value should be 4-32 characters and follow the pattern: `([a-z]([a-z0-9\\-]{2,30}[a-z0-9]))` */
   workforcePoolProviderScimTokenId?: string | undefined;
-  /** Request body */
-  body?: WorkforcePoolProviderScimToken | undefined;
 }
 export type RoleStageEnum = "ALPHA" | "BETA" | "GA" | "DEPRECATED" | "DISABLED" | "EAP";
 /** A role in the Identity and Access Management API. */
@@ -441,11 +427,9 @@ export interface CreateRoleRequest {
   /** The Role resource to create. */
   role?: Role | undefined;
 }
-export interface CreateOrganizationsRolesRequest {
+export interface CreateOrganizationsRolesRequest extends CreateRoleRequest {
   /** The `parent` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `parent` value format is described below: * [projects.roles.create](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/create): `projects/{PROJECT_ID}`. This method creates project-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles` * [organizations.roles.create](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/create): `organizations/{ORGANIZATION_ID}`. This method creates organization-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   parent: string;
-  /** Request body */
-  body?: CreateRoleRequest | undefined;
 }
 export type OauthClientStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 export type OauthClientClientTypeEnum =
@@ -484,13 +468,11 @@ export interface OauthClient {
   /** Optional. A user-specified description of the OauthClient. Cannot exceed 256 characters. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsOauthClientsRequest {
+export interface CreateProjectsLocationsOauthClientsRequest extends OauthClient {
   /** Required. The parent resource to create the OauthClient in. The only supported location is `global`. */
   parent: string;
   /** Required. The ID to use for the OauthClient, which becomes the final component of the resource name. This value should be a string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   oauthClientId?: string | undefined;
-  /** Request body */
-  body?: OauthClient | undefined;
 }
 /** Represents an OauthClientCredential. Used to authenticate an OauthClient while accessing Google Cloud resources on behalf of a user by using OAuth 2.0 Protocol. */
 export interface OauthClientCredential {
@@ -503,13 +485,11 @@ export interface OauthClientCredential {
   /** Optional. Whether the OauthClientCredential is disabled. You cannot use a disabled OauthClientCredential. */
   disabled?: boolean | undefined;
 }
-export interface CreateProjectsLocationsOauthClientsCredentialsRequest {
+export interface CreateProjectsLocationsOauthClientsCredentialsRequest extends OauthClientCredential {
   /** Required. The ID to use for the OauthClientCredential, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   oauthClientCredentialId?: string | undefined;
   /** Required. The parent resource to create the OauthClientCredential in. */
   parent: string;
-  /** Request body */
-  body?: OauthClientCredential | undefined;
 }
 export type InlineCertificateIssuanceConfigKeyAlgorithmEnum =
   | "KEY_ALGORITHM_UNSPECIFIED"
@@ -585,13 +565,11 @@ export interface WorkloadIdentityPool {
   /** Optional. A description of the pool. Cannot exceed 256 characters. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface CreateProjectsLocationsWorkloadIdentityPoolsRequest extends WorkloadIdentityPool {
   /** Required. The parent resource to create the pool in. The only supported location is `global`. */
   parent: string;
   /** Required. The ID to use for the pool, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   workloadIdentityPoolId?: string | undefined;
-  /** Request body */
-  body?: WorkloadIdentityPool | undefined;
 }
 export type WorkloadIdentityPoolNamespaceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** The Google Cloud service that owns this namespace. */
@@ -614,13 +592,11 @@ export interface WorkloadIdentityPoolNamespace {
   /** Identifier. The resource name of the namespace. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkloadIdentityPoolsNamespacesRequest {
+export interface CreateProjectsLocationsWorkloadIdentityPoolsNamespacesRequest extends WorkloadIdentityPoolNamespace {
   /** Required. The ID to use for the namespace. This value must: * contain at most 63 characters * contain only lowercase alphanumeric characters or `-` * start with an alphanumeric character * end with an alphanumeric character The prefix "gcp-" will be reserved for future uses. */
   workloadIdentityPoolNamespaceId?: string | undefined;
   /** Required. The parent resource to create the namespace in. The only supported location is `global`. */
   parent: string;
-  /** Request body */
-  body?: WorkloadIdentityPoolNamespace | undefined;
 }
 export type WorkloadIdentityPoolManagedIdentityStateEnum =
   | "STATE_UNSPECIFIED"
@@ -639,13 +615,11 @@ export interface WorkloadIdentityPoolManagedIdentity {
   /** Output only. Time after which the managed identity will be permanently purged and cannot be recovered. */
   expireTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
+export interface CreateProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest extends WorkloadIdentityPoolManagedIdentity {
   /** Required. The parent resource to create the manage identity in. The only supported location is `global`. */
   parent: string;
   /** Required. The ID to use for the managed identity. This value must: * contain at most 63 characters * contain only lowercase alphanumeric characters or `-` * start with an alphanumeric character * end with an alphanumeric character The prefix "gcp-" will be reserved for future uses. */
   workloadIdentityPoolManagedIdentityId?: string | undefined;
-  /** Request body */
-  body?: WorkloadIdentityPoolManagedIdentity | undefined;
 }
 export type WorkloadIdentityPoolProviderStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** An X.509-type identity provider represents a CA. It is trusted to assert a client identity if the client has a certificate that chains up to this CA. */
@@ -703,13 +677,11 @@ export interface WorkloadIdentityPoolProvider {
   /** Optional. [A Common Expression Language](https://opensource.google/projects/cel) expression, in plain text, to restrict what otherwise valid authentication credentials issued by the provider should not be accepted. The expression must output a boolean representing whether to allow the federation. The following keywords may be referenced in the expressions: * `assertion`: JSON representing the authentication credential issued by the provider. * `google`: The Google attributes mapped from the assertion in the `attribute_mappings`. * `attribute`: The custom attributes mapped from the assertion in the `attribute_mappings`. The maximum length of the `attribute_condition` expression is 4,096 characters. Providing a condition longer than this will result in an error. If unspecified, all valid authentication credentials are accepted. However, multi-tenant identity providers (such as GitHub or Terraform Cloud) require an `attribute_condition` to prevent token spoofing. The following example shows how to only allow credentials with a mapped `google.groups` value of `admins`: ``` "'admins' in google.groups" ``` */
   attributeCondition?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkloadIdentityPoolsProvidersRequest {
+export interface CreateProjectsLocationsWorkloadIdentityPoolsProvidersRequest extends WorkloadIdentityPoolProvider {
   /** Required. The ID for the provider, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   workloadIdentityPoolProviderId?: string | undefined;
   /** Required. The pool to create this provider in. */
   parent: string;
-  /** Request body */
-  body?: WorkloadIdentityPoolProvider | undefined;
 }
 export type WorkloadIdentityPoolProviderKeyStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 export type WorkloadIdentityPoolProviderKeyUseEnum = "KEY_USE_UNSPECIFIED" | "ENCRYPTION";
@@ -726,19 +698,15 @@ export interface WorkloadIdentityPoolProviderKey {
   /** Required. The purpose of the key. */
   use?: WorkloadIdentityPoolProviderKeyUseEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsWorkloadIdentityPoolsProvidersKeysRequest {
+export interface CreateProjectsLocationsWorkloadIdentityPoolsProvidersKeysRequest extends WorkloadIdentityPoolProviderKey {
   /** Required. The ID to use for the key, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. */
   workloadIdentityPoolProviderKeyId?: string | undefined;
   /** Required. The parent provider resource to create the key in. */
   parent: string;
-  /** Request body */
-  body?: WorkloadIdentityPoolProviderKey | undefined;
 }
-export interface CreateProjectsRolesRequest {
+export interface CreateProjectsRolesRequest extends CreateRoleRequest {
   /** The `parent` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `parent` value format is described below: * [projects.roles.create](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/create): `projects/{PROJECT_ID}`. This method creates project-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles` * [organizations.roles.create](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/create): `organizations/{ORGANIZATION_ID}`. This method creates organization-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   parent: string;
-  /** Request body */
-  body?: CreateRoleRequest | undefined;
 }
 /** An IAM service account. A service account is an account for an application or a virtual machine (VM) instance, not a person. You can use a service account to call Google APIs. To learn more, read the [overview of service accounts](https://cloud.google.com/iam/help/service-accounts/overview). When you create a service account, you specify the project ID that owns the service account, as well as a name that must be unique within the project. IAM uses these values to create an email address that identifies the service account. // */
 export interface ServiceAccount {
@@ -768,11 +736,9 @@ export interface CreateServiceAccountRequest {
   /** Required. The account id that is used to generate the service account email address and a stable unique id. It is unique within a project, must be 6-30 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])` to comply with RFC1035. */
   accountId?: string | undefined;
 }
-export interface CreateProjectsServiceAccountsRequest {
+export interface CreateProjectsServiceAccountsRequest extends CreateServiceAccountRequest {
   /** Required. The resource name of the project associated with the service accounts, such as `projects/my-project-123`. */
   name: string;
-  /** Request body */
-  body?: CreateServiceAccountRequest | undefined;
 }
 export type CreateServiceAccountKeyRequestPrivateKeyTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -789,11 +755,9 @@ export interface CreateServiceAccountKeyRequest {
   /** Which type of key and algorithm to use for the key. The default is currently a 2K RSA key. However this may change in the future. */
   keyAlgorithm?: CreateServiceAccountKeyRequestKeyAlgorithmEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsServiceAccountsKeysRequest {
+export interface CreateProjectsServiceAccountsKeysRequest extends CreateServiceAccountKeyRequest {
   /** Required. The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
-  /** Request body */
-  body?: CreateServiceAccountKeyRequest | undefined;
 }
 export type ServiceAccountKeyKeyAlgorithmEnum =
   | "KEY_ALG_UNSPECIFIED"
@@ -973,11 +937,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyLocationsWorkforcePoolsRequest {
+export interface GetIamPolicyLocationsWorkforcePoolsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1032,17 +994,13 @@ export interface Policy {
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
 }
-export interface GetIamPolicyLocationsWorkforcePoolsProvidersScimTenantsRequest {
+export interface GetIamPolicyLocationsWorkforcePoolsProvidersScimTenantsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface GetIamPolicyProjectsLocationsWorkloadIdentityPoolsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsServiceAccountsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1171,10 +1129,7 @@ export interface LintPolicyRequest {
   /** google.iam.v1.Binding.condition object to be linted. */
   condition?: Expr | undefined;
 }
-export interface LintPolicyIamPoliciesRequest {
-  /** Request body */
-  body?: LintPolicyRequest | undefined;
-}
+export interface LintPolicyIamPoliciesRequest extends LintPolicyRequest {}
 export type LintResultLevelEnum = "LEVEL_UNSPECIFIED" | "CONDITION";
 export type LintResultSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -1524,122 +1479,117 @@ export interface ListRolesRequest {
   /** Optional view for the returned Role objects. When `FULL` is specified, the `includedPermissions` field is returned, which includes a list of all permissions in the role. The default value is `BASIC`, which does not return the `includedPermissions` field. */
   view?: ListRolesViewEnum | (string & {}) | undefined;
 }
-export interface PatchLocationsWorkforcePoolsRequest {
+export interface PatchLocationsWorkforcePoolsRequest extends Omit<WorkforcePool, "name"> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the pool. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
   name: string;
-  /** Request body */
-  body?: WorkforcePool | undefined;
 }
-export interface PatchLocationsWorkforcePoolsProvidersRequest {
+export interface PatchLocationsWorkforcePoolsProvidersRequest extends Omit<
+  WorkforcePoolProvider,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the provider. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}` */
   name: string;
-  /** Request body */
-  body?: WorkforcePoolProvider | undefined;
 }
-export interface PatchLocationsWorkforcePoolsProvidersScimTenantsRequest {
+export interface PatchLocationsWorkforcePoolsProvidersScimTenantsRequest extends Omit<
+  WorkforcePoolProviderScimTenant,
+  "name"
+> {
   /** Optional. Gemini Enterprise only. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Gemini Enterprise only. The resource name of the SCIM Tenant. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}` */
   name: string;
-  /** Request body */
-  body?: WorkforcePoolProviderScimTenant | undefined;
 }
-export interface PatchLocationsWorkforcePoolsProvidersScimTenantsTokensRequest {
+export interface PatchLocationsWorkforcePoolsProvidersScimTenantsTokensRequest extends Omit<
+  WorkforcePoolProviderScimToken,
+  "name"
+> {
   /** Optional. Gemini Enterprise only. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Gemini Enterprise only. The resource name of the SCIM Token. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}/tokens/{token}` */
   name: string;
-  /** Request body */
-  body?: WorkforcePoolProviderScimToken | undefined;
 }
-export interface PatchOrganizationsRolesRequest {
+export interface PatchOrganizationsRolesRequest extends Omit<Role, "name"> {
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/patch): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/patch): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
   /** A mask describing which fields in the Role have changed. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Role | undefined;
 }
-export interface PatchProjectsLocationsOauthClientsRequest {
+export interface PatchProjectsLocationsOauthClientsRequest extends Omit<OauthClient, "name"> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of the OauthClient. Format:`projects/{project}/locations/{location}/oauthClients/{oauth_client}`. */
   name: string;
-  /** Request body */
-  body?: OauthClient | undefined;
 }
-export interface PatchProjectsLocationsOauthClientsCredentialsRequest {
+export interface PatchProjectsLocationsOauthClientsCredentialsRequest extends Omit<
+  OauthClientCredential,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of the OauthClientCredential. Format: `projects/{project}/locations/{location}/oauthClients/{oauth_client}/credentials/{credential}` */
   name: string;
-  /** Request body */
-  body?: OauthClientCredential | undefined;
 }
-export interface PatchProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface PatchProjectsLocationsWorkloadIdentityPoolsRequest extends Omit<
+  WorkloadIdentityPool,
+  "name"
+> {
   /** Identifier. The resource name of the pool. */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: WorkloadIdentityPool | undefined;
 }
-export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest {
+export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest extends Omit<
+  WorkloadIdentityPoolNamespace,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the namespace. */
   name: string;
-  /** Request body */
-  body?: WorkloadIdentityPoolNamespace | undefined;
 }
-export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
+export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest extends Omit<
+  WorkloadIdentityPoolManagedIdentity,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the managed identity. */
   name: string;
-  /** Request body */
-  body?: WorkloadIdentityPoolManagedIdentity | undefined;
 }
-export interface PatchProjectsLocationsWorkloadIdentityPoolsProvidersRequest {
+export interface PatchProjectsLocationsWorkloadIdentityPoolsProvidersRequest extends Omit<
+  WorkloadIdentityPoolProvider,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the provider. */
   name: string;
-  /** Request body */
-  body?: WorkloadIdentityPoolProvider | undefined;
 }
-export interface PatchProjectsRolesRequest {
+export interface PatchProjectsRolesRequest extends Omit<Role, "name"> {
   /** A mask describing which fields in the Role have changed. */
   updateMask?: string | undefined;
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/patch): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/patch): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
-  /** Request body */
-  body?: Role | undefined;
 }
 /** The service account patch request. You can patch only the `display_name` and `description` fields. You must use the `update_mask` field to specify which of these fields you want to patch. Only the fields specified in the request are guaranteed to be returned in the response. Other fields may be empty in the response. */
 export interface PatchServiceAccountRequest {
   serviceAccount?: ServiceAccount | undefined;
   updateMask?: string | undefined;
 }
-export interface PatchProjectsServiceAccountsRequest {
+export interface PatchProjectsServiceAccountsRequest extends PatchServiceAccountRequest {
   /** The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
-  /** Request body */
-  body?: PatchServiceAccountRequest | undefined;
 }
 /** A request to get the list of auditable services for a resource. */
 export interface QueryAuditableServicesRequest {
   /** Required. The full resource name to query from the list of auditable services. The name follows the Google Cloud Platform resource format. For example, a Cloud Platform project with id `my-project` will be named `//cloudresourcemanager.googleapis.com/projects/my-project`. */
   fullResourceName?: string | undefined;
 }
-export interface QueryAuditableServicesIamPoliciesRequest {
-  /** Request body */
-  body?: QueryAuditableServicesRequest | undefined;
-}
+export interface QueryAuditableServicesIamPoliciesRequest extends QueryAuditableServicesRequest {}
 /** Contains information about an auditable service. */
 export interface AuditableService {
   /** Public name of the service. For example, the service name for IAM is 'iam.googleapis.com'. */
@@ -1662,10 +1612,7 @@ export interface QueryGrantableRolesRequest {
   /** Optional pagination token returned in an earlier QueryGrantableRolesResponse. */
   pageToken?: string | undefined;
 }
-export interface QueryGrantableRolesRolesRequest {
-  /** Request body */
-  body?: QueryGrantableRolesRequest | undefined;
-}
+export interface QueryGrantableRolesRolesRequest extends QueryGrantableRolesRequest {}
 /** The grantable role query response. */
 export interface QueryGrantableRolesResponse {
   /** To retrieve the next page of results, set `QueryGrantableRolesRequest.page_token` to this value. */
@@ -1682,10 +1629,7 @@ export interface QueryTestablePermissionsRequest {
   /** Required. The full resource name to query from the list of testable permissions. The name follows the Google Cloud Platform resource format. For example, a Cloud Platform project with id `my-project` will be named `//cloudresourcemanager.googleapis.com/projects/my-project`. */
   fullResourceName?: string | undefined;
 }
-export interface QueryTestablePermissionsPermissionsRequest {
-  /** Request body */
-  body?: QueryTestablePermissionsRequest | undefined;
-}
+export interface QueryTestablePermissionsPermissionsRequest extends QueryTestablePermissionsRequest {}
 export type PermissionCustomRolesSupportLevelEnum = "SUPPORTED" | "TESTING" | "NOT_SUPPORTED";
 export type PermissionStageEnum = "ALPHA" | "BETA" | "GA" | "DEPRECATED";
 /** A permission which can be included by a role. */
@@ -1719,17 +1663,13 @@ export interface RemoveAttestationRuleRequest {
   /** Required. The attestation rule to be removed. */
   attestationRule?: AttestationRule | undefined;
 }
-export interface RemoveAttestationRuleProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface RemoveAttestationRuleProjectsLocationsWorkloadIdentityPoolsRequest extends RemoveAttestationRuleRequest {
   /** Required. The resource name of the managed identity or namespace resource to remove an attestation rule from. */
   resource: string;
-  /** Request body */
-  body?: RemoveAttestationRuleRequest | undefined;
 }
-export interface RemoveAttestationRuleProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
+export interface RemoveAttestationRuleProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest extends RemoveAttestationRuleRequest {
   /** Required. The resource name of the managed identity or namespace resource to remove an attestation rule from. */
   resource: string;
-  /** Request body */
-  body?: RemoveAttestationRuleRequest | undefined;
 }
 /** Request message for RevokeWorkforcePoolSubjectSessions. */
 export type RevokeWorkforcePoolSubjectSessionsRequest = DisableServiceAccountRequest;
@@ -1744,17 +1684,13 @@ export interface SetAttestationRulesRequest {
   /** Required. The attestation rules to be set. At most 50 attestation rules can be set. */
   attestationRules?: AttestationRuleList | undefined;
 }
-export interface SetAttestationRulesProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface SetAttestationRulesProjectsLocationsWorkloadIdentityPoolsRequest extends SetAttestationRulesRequest {
   /** Required. The resource name of the managed identity or namespace resource to add an attestation rule to. */
   resource: string;
-  /** Request body */
-  body?: SetAttestationRulesRequest | undefined;
 }
-export interface SetAttestationRulesProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
+export interface SetAttestationRulesProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest extends SetAttestationRulesRequest {
   /** Required. The resource name of the managed identity or namespace resource to add an attestation rule to. */
   resource: string;
-  /** Request body */
-  body?: SetAttestationRulesRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1763,40 +1699,30 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyLocationsWorkforcePoolsRequest {
+export interface SetIamPolicyLocationsWorkforcePoolsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyLocationsWorkforcePoolsProvidersScimTenantsRequest {
+export interface SetIamPolicyLocationsWorkforcePoolsProvidersScimTenantsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface SetIamPolicyProjectsLocationsWorkloadIdentityPoolsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsServiceAccountsRequest {
+export interface SetIamPolicyProjectsServiceAccountsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The service account sign blob request. */
 export interface SignBlobRequest {
   /** Required. Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The bytes to sign. */
   bytesToSign?: string | undefined;
 }
-export interface SignBlobProjectsServiceAccountsRequest {
+export interface SignBlobProjectsServiceAccountsRequest extends SignBlobRequest {
   /** Required. Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
-  /** Request body */
-  body?: SignBlobRequest | undefined;
 }
 /** Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The service account sign blob response. */
 export interface SignBlobResponse {
@@ -1810,11 +1736,9 @@ export interface SignJwtRequest {
   /** Required. Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The JWT payload to sign. Must be a serialized JSON object that contains a JWT Claims Set. For example: `{"sub": "user@example.com", "iat": 313435}` If the JWT Claims Set contains an expiration time (`exp`) claim, it must be an integer timestamp that is not in the past and no more than 12 hours in the future. If the JWT Claims Set does not contain an expiration time (`exp`) claim, this claim is added automatically, with a timestamp that is 1 hour in the future. */
   payload?: string | undefined;
 }
-export interface SignJwtProjectsServiceAccountsRequest {
+export interface SignJwtProjectsServiceAccountsRequest extends SignJwtRequest {
   /** Required. Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
-  /** Request body */
-  body?: SignJwtRequest | undefined;
 }
 /** Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The service account sign JWT response. */
 export interface SignJwtResponse {
@@ -1828,34 +1752,26 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsLocationsWorkforcePoolsRequest {
+export interface TestIamPermissionsLocationsWorkforcePoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsLocationsWorkforcePoolsProvidersScimTenantsRequest {
+export interface TestIamPermissionsLocationsWorkforcePoolsProvidersScimTenantsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkloadIdentityPoolsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkloadIdentityPoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsServiceAccountsRequest {
+export interface TestIamPermissionsProjectsServiceAccountsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for UndeleteWorkforcePool. */
 export type UndeleteWorkforcePoolRequest = DisableServiceAccountRequest;
@@ -1902,11 +1818,9 @@ export interface UndeleteRoleRequest {
   /** Used to perform a consistent read-modify-write. */
   etag?: string | undefined;
 }
-export interface UndeleteOrganizationsRolesRequest {
+export interface UndeleteOrganizationsRolesRequest extends UndeleteRoleRequest {
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.undelete](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/undelete): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method undeletes only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.undelete](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/undelete): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method undeletes only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
-  /** Request body */
-  body?: UndeleteRoleRequest | undefined;
 }
 /** Request message for UndeleteOauthClient. */
 export type UndeleteOauthClientRequest = DisableServiceAccountRequest;
@@ -1956,11 +1870,9 @@ export interface UndeleteProjectsLocationsWorkloadIdentityPoolsProvidersKeysRequ
   /** Request body */
   body?: DisableServiceAccountRequest | undefined;
 }
-export interface UndeleteProjectsRolesRequest {
+export interface UndeleteProjectsRolesRequest extends UndeleteRoleRequest {
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.undelete](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/undelete): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method undeletes only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.undelete](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/undelete): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method undeletes only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
-  /** Request body */
-  body?: UndeleteRoleRequest | undefined;
 }
 /** The service account undelete request. */
 export type UndeleteServiceAccountRequest = DisableServiceAccountRequest;
@@ -1974,22 +1886,18 @@ export interface UndeleteServiceAccountResponse {
   /** Metadata for the restored service account. */
   restoredAccount?: ServiceAccount | undefined;
 }
-export interface UpdateProjectsServiceAccountsRequest {
+export interface UpdateProjectsServiceAccountsRequest extends Omit<ServiceAccount, "name"> {
   /** The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
-  /** Request body */
-  body?: ServiceAccount | undefined;
 }
 /** The service account key upload request. */
 export interface UploadServiceAccountKeyRequest {
   /** The public key to associate with the service account. Must be an RSA public key that is wrapped in an X.509 v3 certificate. Include the first line, `-----BEGIN CERTIFICATE-----`, and the last line, `-----END CERTIFICATE-----`. */
   publicKeyData?: string | undefined;
 }
-export interface UploadProjectsServiceAccountsKeysRequest {
+export interface UploadProjectsServiceAccountsKeysRequest extends UploadServiceAccountKeyRequest {
   /** The resource name of the service account key. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
-  /** Request body */
-  body?: UploadServiceAccountKeyRequest | undefined;
 }
 export type AddAttestationRuleProjectsLocationsWorkloadIdentityPoolsError =
   | NotFound
@@ -5098,11 +5006,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workforcePoolProviderScimTenantId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            workforcePoolProviderScimTenantId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/scimTenants",
@@ -5133,11 +5043,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(328, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(328, __c41, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsOauthClientsRequest" });
@@ -5147,11 +5059,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(440, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(440, __c55, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsOauthClientsCredentialsRequest" });
@@ -5161,11 +5075,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(483, __c60, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(483, __c60, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsWorkloadIdentityPoolsRequest" });
@@ -5175,11 +5091,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(497, __c62, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(497, __c62, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest" });
@@ -5189,11 +5107,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c64, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({
@@ -5205,11 +5125,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(531, __c66, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(531, __c66, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsWorkloadIdentityPoolsProvidersRequest" });
@@ -5219,11 +5141,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c28, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsRolesRequest" });
@@ -5240,10 +5164,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PatchServiceAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsServiceAccountsRequest" });
@@ -5259,9 +5185,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "QueryAuditableServicesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(80, __c10, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/iamPolicies:queryAuditableServices",
@@ -5298,9 +5222,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "QueryGrantableRolesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(88, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(88, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/roles:queryGrantableRoles",
@@ -5314,11 +5236,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workforcePoolProviderScimTokenId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workforcePoolProviderScimTokenId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tokens",
@@ -5353,9 +5277,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "QueryTestablePermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(112, __c14, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/permissions:queryTestablePermissions",
@@ -5391,10 +5313,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(848, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(848, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:removeAttestationRule",
@@ -5410,10 +5334,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(848, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(848, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:removeAttestationRule",
@@ -5447,10 +5373,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(152, __c19, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setAttestationRules",
@@ -5476,10 +5404,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(152, __c19, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setAttestationRules",
@@ -5496,10 +5426,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5524,10 +5456,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5541,10 +5475,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5558,10 +5494,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5575,10 +5513,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(216, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(216, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/roles",
@@ -5625,10 +5565,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "SignBlobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(232, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:signBlob",
@@ -5655,10 +5597,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SignJwtRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c30, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:signJwt",
@@ -5679,10 +5623,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5706,10 +5652,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5725,10 +5673,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5742,10 +5692,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5827,11 +5779,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          oauthClientId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(328, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(328, __c41, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            oauthClientId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/oauthClients",
@@ -5888,10 +5842,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(360, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:undelete",
@@ -6022,10 +5978,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(360, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:undelete",
@@ -6062,11 +6020,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          oauthClientCredentialId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(440, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(440, __c55, 0),
+          S.Struct({
+            oauthClientCredentialId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/credentials",
@@ -6093,10 +6053,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateProjectsServiceAccountsRequest" });
@@ -6112,10 +6074,12 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UploadServiceAccountKeyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(456, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(456, __c57, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/keys:upload",
@@ -6129,11 +6093,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workloadIdentityPoolId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(483, __c60, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(483, __c60, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workloadIdentityPoolId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workloadIdentityPools",
@@ -6203,11 +6169,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workloadIdentityPoolNamespaceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(497, __c62, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(497, __c62, 1),
+          S.Struct({
+            workloadIdentityPoolNamespaceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/namespaces",
@@ -6242,11 +6210,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workloadIdentityPoolManagedIdentityId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(512, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workloadIdentityPoolManagedIdentityId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/managedIdentities",
@@ -6277,11 +6247,13 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workloadIdentityPoolProviderId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(531, __c66, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(531, __c66, 3),
+          S.Struct({
+            workloadIdentityPoolProviderId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/providers",
@@ -6338,11 +6310,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workloadIdentityPoolProviderKeyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c68, 0),
+          S.Struct({
+            workloadIdentityPoolProviderKeyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keys",
@@ -6372,10 +6346,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(216, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(216, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/roles",
@@ -6396,10 +6372,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(560, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(560, __c70, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/serviceAccounts",
@@ -6438,10 +6416,12 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountKeyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c72, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c72, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/keys",
@@ -6771,10 +6751,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(777, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(777, __c97, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -6858,10 +6840,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(777, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(777, __c97, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -6875,10 +6859,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(777, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(777, __c97, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -6933,10 +6919,12 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(848, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(848, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:addAttestationRule",
@@ -7116,10 +7104,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(848, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(848, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:addAttestationRule",
@@ -7268,11 +7258,13 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          workforcePoolId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1051, __c131, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1051, __c131, 3),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            workforcePoolId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}/workforcePools",
@@ -7389,9 +7381,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "LintPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1096, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1096, __c137, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/iamPolicies:lintPolicy",
@@ -7541,11 +7531,13 @@ function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workforcePoolProviderId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1190, __c148, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1190, __c148, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workforcePoolProviderId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/providers",
@@ -7940,11 +7932,13 @@ function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workforcePoolProviderKeyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1296, __c162, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c162, 0),
+          S.Struct({
+            workforcePoolProviderKeyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keys",
@@ -8096,11 +8090,13 @@ function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1051, __c131, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1051, __c131, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchLocationsWorkforcePoolsRequest" });
@@ -8110,11 +8106,13 @@ function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1190, __c148, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1190, __c148, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchLocationsWorkforcePoolsProvidersRequest" });
@@ -8124,11 +8122,13 @@ function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchLocationsWorkforcePoolsProvidersScimTenantsRequest" });
@@ -8138,11 +8138,13 @@ function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchLocationsWorkforcePoolsProvidersScimTenantsTokensRequest" });
@@ -8152,11 +8154,13 @@ function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(224, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsRolesRequest" });

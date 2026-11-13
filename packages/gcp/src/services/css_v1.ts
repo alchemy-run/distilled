@@ -99,11 +99,9 @@ export interface AccountLabel {
   /** Output only. The ID of the label. */
   labelId?: string | undefined;
 }
-export interface CreateAccountsLabelsRequest {
+export interface CreateAccountsLabelsRequest extends AccountLabel {
   /** Required. The parent account. Format: accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: AccountLabel | undefined;
 }
 export interface DeleteAccountsCssProductInputsRequest {
   /** The Content API Supplemental Feed ID. The field must not be set if the action applies to a primary feed. If the field is set, then product action applies to a supplemental feed instead of primary Content API feed. */
@@ -424,13 +422,11 @@ export interface CssProductInput {
   /** Output only. The name of the processed CSS Product. Format: `accounts/{account}/cssProducts/{css_product}` " */
   finalName?: string | undefined;
 }
-export interface InsertAccountsCssProductInputsRequest {
+export interface InsertAccountsCssProductInputsRequest extends CssProductInput {
   /** Optional. DEPRECATED. Feed id is not required for CSS Products. The primary or supplemental feed id. If CSS Product already exists and feed id provided is different, then the CSS Product will be moved to a new feed. Note: For now, CSSs do not need to provide feed ids as we create feeds on the fly. We do not have supplemental feed support for CSS Products yet. */
   feedId?: string | undefined;
   /** Required. The account where this CSS Product will be inserted. Format: accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: CssProductInput | undefined;
 }
 export interface ListAccountsCssProductsRequest {
   /** A page token, received from a previous `ListCssProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCssProducts` must match the call that provided the page token. */
@@ -525,19 +521,15 @@ export interface ListChildAccountsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchAccountsCssProductInputsRequest {
+export interface PatchAccountsCssProductInputsRequest extends Omit<CssProductInput, "name"> {
   /** The list of CSS product attributes to be updated. If the update mask is omitted, then it is treated as implied field mask equivalent to all fields that are populated (have a non-empty value). Attributes specified in the update mask without a value specified in the body will be deleted from the CSS product. Update mask can only be specified for top level fields in attributes and custom attributes. To specify the update mask for custom attributes you need to add the `custom_attribute.` prefix. Providing special "*" value for full CSS product replacement is not supported. */
   updateMask?: string | undefined;
   /** Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
   name: string;
-  /** Request body */
-  body?: CssProductInput | undefined;
 }
-export interface PatchAccountsLabelsRequest {
+export interface PatchAccountsLabelsRequest extends Omit<AccountLabel, "name"> {
   /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
   name: string;
-  /** Request body */
-  body?: AccountLabel | undefined;
 }
 /** The request message for the `UpdateLabels` method. */
 export interface UpdateAccountLabelsRequest {
@@ -546,11 +538,9 @@ export interface UpdateAccountLabelsRequest {
   /** Optional. Only required when updating MC account labels. The CSS domain that is the parent resource of the MC account. Format: accounts/{account} */
   parent?: string | undefined;
 }
-export interface UpdateLabelsAccountsRequest {
+export interface UpdateLabelsAccountsRequest extends UpdateAccountLabelsRequest {
   /** Required. The label resource name. Format: accounts/{account} */
   name: string;
-  /** Request body */
-  body?: UpdateAccountLabelsRequest | undefined;
 }
 export type CreateAccountsLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new label, not assigned to any account. */
@@ -932,11 +922,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://css.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchAccountsCssProductInputsRequest" });
@@ -946,10 +938,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://css.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchAccountsLabelsRequest" });
@@ -966,10 +960,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateAccountLabelsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:updateLabels",
@@ -983,10 +979,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/labels",
@@ -1277,11 +1275,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          feedId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            feedId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cssProductInputs:insert",

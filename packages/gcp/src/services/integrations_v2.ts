@@ -260,11 +260,9 @@ export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest {
   /** Required. The integration branch request payload. */
   integrationBranchRequest?: GoogleCloudIntegrationsV2DuetIntegrationBranchRequest | undefined;
 }
-export interface GenerateIntegrationBranchProjectsLocationsIntegrationsRequest {
+export interface GenerateIntegrationBranchProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest {
   /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest | undefined;
 }
 /** An integration branch skeleton containing basic fields which can be used to create an integration branch on the UI. */
 export interface GoogleCloudIntegrationsV2DuetIntegrationBranch {
@@ -406,11 +404,9 @@ export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest
   /** Required. The integration document request payload. */
   integrationDocumentRequest?: GoogleCloudIntegrationsV2DuetIntegrationDocumentRequest | undefined;
 }
-export interface GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest {
+export interface GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest {
   /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest | undefined;
 }
 /** Response message containing generated integration documentation text. */
 export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentResponse {
@@ -424,11 +420,9 @@ export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest {
   /** Optional. Indicates if copilot is enabled. Copilot features may alter the generated integration structure. */
   copilotEnabled?: boolean | undefined;
 }
-export interface GenerateIntegrationProjectsLocationsRequest {
+export interface GenerateIntegrationProjectsLocationsRequest extends GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest {
   /** Required. The location in which the integration will be generated. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest | undefined;
 }
 /** An integration skeleton containing basic fields which can be used to create an integration on the UI. */
 export interface GoogleCloudIntegrationsV2DuetIntegrationSkeleton {
@@ -466,11 +460,9 @@ export interface GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest {
   /** Required. The javascript request payload. */
   javascriptRequest?: GoogleCloudIntegrationsV2DuetJavascriptRequest | undefined;
 }
-export interface GenerateJavascriptProjectsLocationsIntegrationsRequest {
+export interface GenerateJavascriptProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest {
   /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest | undefined;
 }
 /** Individual Javascript recommendation containing the task config with the new code, integration parameters and the explanation. */
 export interface GoogleCloudIntegrationsV2DuetJavascriptRecommendation {
@@ -667,11 +659,9 @@ export interface GoogleCloudIntegrationsV2DuetRecommendTasksRequest {
   /** Required. The current task to replace and options. */
   replaceTaskRequest?: GoogleCloudIntegrationsV2DuetReplaceTaskRequest | undefined;
 }
-export interface RecommendTasksProjectsLocationsIntegrationsRequest {
+export interface RecommendTasksProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV2DuetRecommendTasksRequest {
   /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetRecommendTasksRequest | undefined;
 }
 export type GoogleCloudIntegrationsV2DuetTaskResponseStatusTaskTypeEnum =
   | "TASK_TYPE_UNSPECIFIED"
@@ -1063,10 +1053,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetRecommendTasksRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(18, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}:recommendTasks",
@@ -1195,10 +1187,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(113, __c7, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}:generateIntegrationBranch",
@@ -1346,10 +1340,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(177, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(177, __c11, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}:generateIntegrationDocument",
@@ -1454,10 +1450,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}:generateIntegration",
@@ -1504,10 +1502,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}:generateJavascript",

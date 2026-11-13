@@ -141,11 +141,9 @@ export interface CommitRepositoryChangesRequest {
   /** Required. The changes to commit to the repository. */
   commitMetadata?: CommitMetadata | undefined;
 }
-export interface CommitProjectsLocationsRepositoriesRequest {
+export interface CommitProjectsLocationsRepositoriesRequest extends CommitRepositoryChangesRequest {
   /** Required. The repository's name. */
   name: string;
-  /** Request body */
-  body?: CommitRepositoryChangesRequest | undefined;
 }
 /** `CommitRepositoryChanges` response message. */
 export interface CommitRepositoryChangesResponse {
@@ -162,11 +160,9 @@ export interface CommitWorkspaceChangesRequest {
   /** Optional. Full file paths to commit including filename, rooted at workspace root. If left empty, all files will be committed. */
   paths?: StringList | undefined;
 }
-export interface CommitProjectsLocationsRepositoriesWorkspacesRequest {
+export interface CommitProjectsLocationsRepositoriesWorkspacesRequest extends CommitWorkspaceChangesRequest {
   /** Required. The workspace's name. */
   name: string;
-  /** Request body */
-  body?: CommitWorkspaceChangesRequest | undefined;
 }
 /** `CommitWorkspaceChanges` response message. */
 export interface CommitWorkspaceChangesResponse {}
@@ -306,11 +302,9 @@ export interface CompilationResult {
   /** Output only. The timestamp of when the compilation result was created. */
   createTime?: string | undefined;
 }
-export interface CreateLongRunningProjectsLocationsRepositoriesCompilationResultsRequest {
+export interface CreateLongRunningProjectsLocationsRepositoriesCompilationResultsRequest extends CompilationResult {
   /** Required. The repository in which to create the compilation result. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
-  /** Request body */
-  body?: CompilationResult | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -355,11 +349,9 @@ export interface Folder {
   /** Output only. The IAM principal identifier of the creator of the Folder. */
   creatorIamPrincipal?: string | undefined;
 }
-export interface CreateProjectsLocationsFoldersRequest {
+export interface CreateProjectsLocationsFoldersRequest extends Folder {
   /** Required. The location in which to create the Folder. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: Folder | undefined;
 }
 /** Configures workspace compilation overrides for a repository. */
 export interface WorkspaceCompilationOverrides {
@@ -442,19 +434,15 @@ export interface Repository {
   /** Optional. The name of the Secret Manager secret version to be used to interpolate variables into the .npmrc file for package installation operations. Must be in the format `projects/*\/secrets/*\/versions/*`. The file itself must be in a JSON format. */
   npmrcEnvironmentVariablesSecretVersion?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesRequest {
+export interface CreateProjectsLocationsRepositoriesRequest extends Repository {
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. */
   repositoryId?: string | undefined;
   /** Required. The location in which to create the repository. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: Repository | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesCompilationResultsRequest {
+export interface CreateProjectsLocationsRepositoriesCompilationResultsRequest extends CompilationResult {
   /** Required. The repository in which to create the compilation result. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
-  /** Request body */
-  body?: CompilationResult | undefined;
 }
 /** A record of an attempt to create a compilation result for this release config. */
 export interface ScheduledReleaseRecord {
@@ -487,13 +475,11 @@ export interface ReleaseConfig {
   /** Optional. Specifies the time zone to be used when interpreting cron_schedule. Must be a time zone name from the [time zone database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). If left unspecified, the default is `UTC`. */
   timeZone?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesReleaseConfigsRequest {
+export interface CreateProjectsLocationsRepositoriesReleaseConfigsRequest extends ReleaseConfig {
   /** Required. The ID to use for the release config, which will become the final component of the release config's resource name. */
   releaseConfigId?: string | undefined;
   /** Required. The repository in which to create the release config. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
-  /** Request body */
-  body?: ReleaseConfig | undefined;
 }
 export type TargetList = Array<Target>;
 /** Includes configuration options for end user authentication. */
@@ -568,13 +554,11 @@ export interface WorkflowConfig {
   /** Output only. The timestamp of when the WorkflowConfig was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesWorkflowConfigsRequest {
+export interface CreateProjectsLocationsRepositoriesWorkflowConfigsRequest extends WorkflowConfig {
   /** Required. The ID to use for the workflow config, which will become the final component of the workflow config's resource name. */
   workflowConfigId?: string | undefined;
   /** Required. The repository in which to create the workflow config. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
-  /** Request body */
-  body?: WorkflowConfig | undefined;
 }
 export type WorkflowInvocationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -615,11 +599,9 @@ export interface WorkflowInvocation {
   /** Immutable. The name of the compilation result to use for this invocation. Must be in the format `projects/*\/locations/*\/repositories/*\/compilationResults/*`. */
   compilationResult?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest {
+export interface CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest extends WorkflowInvocation {
   /** Required. The repository in which to create the workflow invocation. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
-  /** Request body */
-  body?: WorkflowInvocation | undefined;
 }
 /** Represents a Dataform Git workspace. */
 export interface Workspace {
@@ -636,13 +618,11 @@ export interface Workspace {
   /** Identifier. The workspace's name. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesWorkspacesRequest {
+export interface CreateProjectsLocationsRepositoriesWorkspacesRequest extends Workspace {
   /** Required. The ID to use for the workspace, which will become the final component of the workspace's resource name. */
   workspaceId?: string | undefined;
   /** Required. The repository in which to create the workspace. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
-  /** Request body */
-  body?: Workspace | undefined;
 }
 /** Represents a Dataform TeamFolder. This is a resource that sits at the project level and is used to organize Repositories and Folders with hierarchical access controls. They provide a team context and stricter access controls. */
 export interface TeamFolder {
@@ -659,11 +639,9 @@ export interface TeamFolder {
   /** Output only. The timestamp of when the TeamFolder was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsTeamFoldersRequest {
+export interface CreateProjectsLocationsTeamFoldersRequest extends TeamFolder {
   /** Required. The location in which to create the TeamFolder. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: TeamFolder | undefined;
 }
 export interface DeleteProjectsLocationsFoldersRequest {
   /** Required. The Folder's name. */
@@ -704,19 +682,15 @@ export interface DeleteFolderTreeRequest {
   /** Optional. If `false` (default): The operation will fail if any Repository within the folder hierarchy has associated Release Configs or Workflow Configs. If `true`: The operation will attempt to delete everything, including any Release Configs and Workflow Configs linked to Repositories within the folder hierarchy. This permanently removes schedules and resources. */
   force?: boolean | undefined;
 }
-export interface DeleteTreeProjectsLocationsFoldersRequest {
+export interface DeleteTreeProjectsLocationsFoldersRequest extends DeleteFolderTreeRequest {
   /** Required. The Folder's name. Format: projects/{project}/locations/{location}/folders/{folder} */
   name: string;
-  /** Request body */
-  body?: DeleteFolderTreeRequest | undefined;
 }
 /** `DeleteTeamFolderTree` request message. */
 export type DeleteTeamFolderTreeRequest = DeleteFolderTreeRequest;
-export interface DeleteTreeProjectsLocationsTeamFoldersRequest {
+export interface DeleteTreeProjectsLocationsTeamFoldersRequest extends DeleteFolderTreeRequest {
   /** Required. The TeamFolder's name. Format: projects/{project}/locations/{location}/teamFolders/{team_folder} */
   name: string;
-  /** Request body */
-  body?: DeleteFolderTreeRequest | undefined;
 }
 export interface FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
@@ -926,11 +900,9 @@ export interface InstallNpmPackagesRequest {
   /** Optional. The pipeline options which defines the pipeline type and path within the Git repository. */
   pipelineConfig?: PipelineConfig | undefined;
 }
-export interface InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest {
+export interface InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest extends InstallNpmPackagesRequest {
   /** Required. The workspace's name. */
   workspace: string;
-  /** Request body */
-  body?: InstallNpmPackagesRequest | undefined;
 }
 /** `InstallNpmPackages` response message. */
 export interface InstallNpmPackagesResponse {}
@@ -1105,11 +1077,9 @@ export interface MakeDirectoryRequest {
   /** Required. The directory's full path including directory name, relative to the workspace root. */
   path?: string | undefined;
 }
-export interface MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
+export interface MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest extends MakeDirectoryRequest {
   /** Required. The workspace's name. */
   workspace: string;
-  /** Request body */
-  body?: MakeDirectoryRequest | undefined;
 }
 /** `MakeDirectory` response message. */
 export interface MakeDirectoryResponse {}
@@ -1120,11 +1090,9 @@ export interface MoveDirectoryRequest {
   /** Required. The new path for the directory including directory name, rooted at workspace root. */
   newPath?: string | undefined;
 }
-export interface MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
+export interface MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest extends MoveDirectoryRequest {
   /** Required. The workspace's name. */
   workspace: string;
-  /** Request body */
-  body?: MoveDirectoryRequest | undefined;
 }
 /** `MoveDirectory` response message. */
 export interface MoveDirectoryResponse {}
@@ -1135,11 +1103,9 @@ export interface MoveFileRequest {
   /** Required. The file's new path including filename, relative to the workspace root. */
   newPath?: string | undefined;
 }
-export interface MoveFileProjectsLocationsRepositoriesWorkspacesRequest {
+export interface MoveFileProjectsLocationsRepositoriesWorkspacesRequest extends MoveFileRequest {
   /** Required. The workspace's name. */
   workspace: string;
-  /** Request body */
-  body?: MoveFileRequest | undefined;
 }
 /** `MoveFile` response message. */
 export interface MoveFileResponse {}
@@ -1148,62 +1114,54 @@ export interface MoveFolderRequest {
   /** Optional. The name of the Folder, TeamFolder, or root location to move the Folder to. Can be in the format of: "" to move into the root User folder, `projects/*\/locations/*\/folders/*`, `projects/*\/locations/*\/teamFolders/*` */
   destinationContainingFolder?: string | undefined;
 }
-export interface MoveProjectsLocationsFoldersRequest {
+export interface MoveProjectsLocationsFoldersRequest extends MoveFolderRequest {
   /** Required. The full resource name of the Folder to move. */
   name: string;
-  /** Request body */
-  body?: MoveFolderRequest | undefined;
 }
 /** `MoveRepository` request message. */
 export interface MoveRepositoryRequest {
   /** Optional. The name of the Folder, TeamFolder, or root location to move the repository to. Can be in the format of: "" to move into the root User folder, `projects/*\/locations/*\/folders/*`, `projects/*\/locations/*\/teamFolders/*` */
   destinationContainingFolder?: string | undefined;
 }
-export interface MoveProjectsLocationsRepositoriesRequest {
+export interface MoveProjectsLocationsRepositoriesRequest extends MoveRepositoryRequest {
   /** Required. The full resource name of the repository to move. */
   name: string;
-  /** Request body */
-  body?: MoveRepositoryRequest | undefined;
 }
-export interface PatchProjectsLocationsFoldersRequest {
+export interface PatchProjectsLocationsFoldersRequest extends Omit<Folder, "name"> {
   /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields that can be updated, will be updated. A few fields cannot be updated and will be ignored if specified in the update_mask (e.g. parent_name, team_folder_name). */
   updateMask?: string | undefined;
   /** Identifier. The Folder's name. */
   name: string;
-  /** Request body */
-  body?: Folder | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesRequest {
+export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
   /** Identifier. The repository's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the repository. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Repository | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesReleaseConfigsRequest {
+export interface PatchProjectsLocationsRepositoriesReleaseConfigsRequest extends Omit<
+  ReleaseConfig,
+  "name"
+> {
   /** Identifier. The release config's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the release config. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ReleaseConfig | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesWorkflowConfigsRequest {
+export interface PatchProjectsLocationsRepositoriesWorkflowConfigsRequest extends Omit<
+  WorkflowConfig,
+  "name"
+> {
   /** Identifier. The workflow config's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the workflow config. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: WorkflowConfig | undefined;
 }
-export interface PatchProjectsLocationsTeamFoldersRequest {
+export interface PatchProjectsLocationsTeamFoldersRequest extends Omit<TeamFolder, "name"> {
   /** Identifier. The TeamFolder's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TeamFolder | undefined;
 }
 /** `PullGitCommits` request message. */
 export interface PullGitCommitsRequest {
@@ -1212,11 +1170,9 @@ export interface PullGitCommitsRequest {
   /** Optional. The name of the branch in the Git remote from which to pull commits. If left unset, the repository's default branch name will be used. */
   remoteBranch?: string | undefined;
 }
-export interface PullProjectsLocationsRepositoriesWorkspacesRequest {
+export interface PullProjectsLocationsRepositoriesWorkspacesRequest extends PullGitCommitsRequest {
   /** Required. The workspace's name. */
   name: string;
-  /** Request body */
-  body?: PullGitCommitsRequest | undefined;
 }
 /** `PullGitCommits` response message. */
 export interface PullGitCommitsResponse {}
@@ -1225,11 +1181,9 @@ export interface PushGitCommitsRequest {
   /** Optional. The name of the branch in the Git remote to which commits should be pushed. If left unset, the repository's default branch name will be used. */
   remoteBranch?: string | undefined;
 }
-export interface PushProjectsLocationsRepositoriesWorkspacesRequest {
+export interface PushProjectsLocationsRepositoriesWorkspacesRequest extends PushGitCommitsRequest {
   /** Required. The workspace's name. */
   name: string;
-  /** Request body */
-  body?: PushGitCommitsRequest | undefined;
 }
 /** `PushGitCommits` response message. */
 export interface PushGitCommitsResponse {}
@@ -1747,11 +1701,9 @@ export interface ReadFileResponse {
 }
 /** `RemoveDirectory` request message. */
 export type RemoveDirectoryRequest = MakeDirectoryRequest;
-export interface RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
+export interface RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest extends MakeDirectoryRequest {
   /** Required. The workspace's name. */
   workspace: string;
-  /** Request body */
-  body?: MakeDirectoryRequest | undefined;
 }
 /** `RemoveDirectory` response message. */
 export interface RemoveDirectoryResponse {}
@@ -1760,11 +1712,9 @@ export interface RemoveFileRequest {
   /** Required. The file's full path including filename, relative to the workspace root. */
   path?: string | undefined;
 }
-export interface RemoveFileProjectsLocationsRepositoriesWorkspacesRequest {
+export interface RemoveFileProjectsLocationsRepositoriesWorkspacesRequest extends RemoveFileRequest {
   /** Required. The workspace's name. */
   workspace: string;
-  /** Request body */
-  body?: RemoveFileRequest | undefined;
 }
 /** `RemoveFile` response message. */
 export interface RemoveFileResponse {}
@@ -1775,11 +1725,9 @@ export interface ResetWorkspaceChangesRequest {
   /** Optional. If set to true, untracked files will be deleted. */
   clean?: boolean | undefined;
 }
-export interface ResetProjectsLocationsRepositoriesWorkspacesRequest {
+export interface ResetProjectsLocationsRepositoriesWorkspacesRequest extends ResetWorkspaceChangesRequest {
   /** Required. The workspace's name. */
   name: string;
-  /** Request body */
-  body?: ResetWorkspaceChangesRequest | undefined;
 }
 /** `ResetWorkspaceChanges` response message. */
 export interface ResetWorkspaceChangesResponse {}
@@ -1848,71 +1796,53 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFoldersRequest {
+export interface SetIamPolicyProjectsLocationsFoldersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
+export interface SetIamPolicyProjectsLocationsRepositoriesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest {
+export interface SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsTeamFoldersRequest {
+export interface SetIamPolicyProjectsLocationsTeamFoldersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsFoldersRequest {
+export interface TestIamPermissionsProjectsLocationsFoldersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
+export interface TestIamPermissionsProjectsLocationsRepositoriesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest {
+export interface TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsTeamFoldersRequest {
+export interface TestIamPermissionsProjectsLocationsTeamFoldersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdateConfigProjectsLocationsRequest {
+export interface UpdateConfigProjectsLocationsRequest extends Omit<Config, "name"> {
   /** Optional. Specifies the fields to be updated in the config. */
   updateMask?: string | undefined;
   /** Identifier. The config name. */
   name: string;
-  /** Request body */
-  body?: Config | undefined;
 }
 /** `WriteFile` request message. */
 export interface WriteFileRequest {
@@ -1921,11 +1851,9 @@ export interface WriteFileRequest {
   /** Required. The file. */
   path?: string | undefined;
 }
-export interface WriteFileProjectsLocationsRepositoriesWorkspacesRequest {
+export interface WriteFileProjectsLocationsRepositoriesWorkspacesRequest extends WriteFileRequest {
   /** Required. The workspace's name. */
   workspace: string;
-  /** Request body */
-  body?: WriteFileRequest | undefined;
 }
 /** `WriteFile` response message. */
 export interface WriteFileResponse {}
@@ -3969,10 +3897,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/folders",
@@ -4003,11 +3933,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(132, __c4, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(132, __c4, 4),
+          S.Struct({
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/repositories",
@@ -4088,10 +4020,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3811, __c119, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3811, __c119, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/compilationResults",
@@ -4105,11 +4039,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          releaseConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(226, __c7, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(226, __c7, 2),
+          S.Struct({
+            releaseConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/releaseConfigs",
@@ -4151,11 +4087,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workflowConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(354, __c11, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(354, __c11, 2),
+          S.Struct({
+            workflowConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflowConfigs",
@@ -4230,10 +4168,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflowInvocations",
@@ -4278,11 +4218,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            workspaceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workspaces",
@@ -4311,10 +4253,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/teamFolders",
@@ -4472,10 +4416,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deleteTree",
@@ -4499,10 +4445,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deleteTree",
@@ -4942,10 +4890,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "InstallNpmPackagesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          workspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            workspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workspace}:installNpmPackages",
@@ -5213,10 +5163,12 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            workspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workspace}:makeDirectory",
@@ -5240,10 +5192,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c68, 0),
+          S.Struct({
+            workspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workspace}:moveDirectory",
@@ -5268,10 +5222,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c68, 0),
+          S.Struct({
+            workspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workspace}:moveFile",
@@ -5309,10 +5265,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CommitRepositoryChangesRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2243, __c70, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2243, __c70, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:commit",
@@ -5353,10 +5311,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -5380,10 +5340,12 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -5397,11 +5359,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5415,11 +5379,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(132, __c4, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(132, __c4, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5433,11 +5399,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(226, __c7, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(226, __c7, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5451,11 +5419,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(354, __c11, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(354, __c11, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5469,11 +5439,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5494,10 +5466,12 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PullGitCommitsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:pull",
@@ -5517,10 +5491,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PushGitCommitsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:push",
@@ -5582,10 +5558,12 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CommitWorkspaceChangesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:commit",
@@ -6046,10 +6024,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            workspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workspace}:removeDirectory",
@@ -6063,10 +6043,12 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            workspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workspace}:removeFile",
@@ -6109,10 +6091,12 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ResetWorkspaceChangesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:reset",
@@ -6196,10 +6180,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6223,10 +6209,12 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6240,10 +6228,12 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6257,10 +6247,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6274,10 +6266,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6301,10 +6295,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6318,10 +6314,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6337,10 +6335,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3811, __c119, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3811, __c119, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/compilationResults:createLongRunning",
@@ -6514,10 +6514,12 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6531,11 +6533,13 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6556,10 +6560,12 @@ function __c125(j: number): any {
       ).annotate({ identifier: "WriteFileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          workspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(4000, __c125, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            workspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workspace}:writeFile",

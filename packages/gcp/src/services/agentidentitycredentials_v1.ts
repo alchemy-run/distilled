@@ -92,11 +92,9 @@ export interface GoogleCloudAgentidentitycredentialsV1_FinalizeCredentialsReques
   /** Required. The same `consent_nonce` value that was provided during retrieval in the [UriConsentRequired](https://cloud.google.com/iam/docs/reference/agentidentitycredentials/rest/v1/projects.locations.authProviders.credentials/retrieve#UriConsentRequired) metadata. */
   consentNonce?: string | undefined;
 }
-export interface FinalizeProjectsLocationsAuthProvidersCredentialsRequest {
+export interface FinalizeProjectsLocationsAuthProvidersCredentialsRequest extends GoogleCloudAgentidentitycredentialsV1_FinalizeCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
-  /** Request body */
-  body?: GoogleCloudAgentidentitycredentialsV1_FinalizeCredentialsRequest | undefined;
 }
 /** Response message for `FinalizeCredentials`. Intentionally empty. */
 export interface GoogleCloudAgentidentitycredentialsV1_FinalizeCredentialsResponse {}
@@ -112,11 +110,9 @@ export interface GoogleCloudAgentidentitycredentialsV1_RetrieveCredentialsReques
   /** Optional. The OAuth scopes required for this access. */
   scopes?: StringList | undefined;
 }
-export interface GetProjectsLocationsAuthProvidersCredentialsRequest {
+export interface GetProjectsLocationsAuthProvidersCredentialsRequest extends GoogleCloudAgentidentitycredentialsV1_RetrieveCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
-  /** Request body */
-  body?: GoogleCloudAgentidentitycredentialsV1_RetrieveCredentialsRequest | undefined;
 }
 /** Indicates the user has rejected the permission delegation or canceled the request. */
 export interface GoogleCloudAgentidentitycredentialsV1_ConsentRejected {}
@@ -225,10 +221,12 @@ function __c0(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          authProvider: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            authProvider: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+authProvider}/credentials:finalize",
@@ -263,10 +261,12 @@ function __c2(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          authProvider: S.String.pipe(T.Label()),
-          body: S.optional(__S(17, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17, __c2, 1),
+          S.Struct({
+            authProvider: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+authProvider}/credentials:retrieve",

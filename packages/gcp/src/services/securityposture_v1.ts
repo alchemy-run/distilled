@@ -103,11 +103,9 @@ export interface CreateIaCValidationReportRequest {
   /** Required. The infrastructure-as-code (IaC) configuration to validate. */
   iac?: IaC | undefined;
 }
-export interface CreateIaCValidationReportOrganizationsLocationsReportsRequest {
+export interface CreateIaCValidationReportOrganizationsLocationsReportsRequest extends CreateIaCValidationReportRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
-  /** Request body */
-  body?: CreateIaCValidationReportRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -185,13 +183,11 @@ export interface PostureDeployment {
   /** Output only. The categories that the posture deployment belongs to, as determined by the Security Posture API. */
   categories?: PostureDeploymentCategoriesItemEnumList | undefined;
 }
-export interface CreateOrganizationsLocationsPostureDeploymentsRequest {
+export interface CreateOrganizationsLocationsPostureDeploymentsRequest extends PostureDeployment {
   /** Required. An identifier for the posture deployment. */
   postureDeploymentId?: string | undefined;
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
-  /** Request body */
-  body?: PostureDeployment | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -424,13 +420,11 @@ export interface Posture {
   /** Optional. An opaque identifier for the current version of the posture at the specified `revision_id`. To prevent concurrent updates from overwriting each other, always provide the `etag` when you update a posture. You can also provide the `etag` when you delete a posture, to help ensure that you're deleting the intended version of the posture. */
   etag?: string | undefined;
 }
-export interface CreateOrganizationsLocationsPosturesRequest {
+export interface CreateOrganizationsLocationsPosturesRequest extends Posture {
   /** Required. An identifier for the posture. */
   postureId?: string | undefined;
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
-  /** Request body */
-  body?: Posture | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -455,11 +449,9 @@ export interface ExtractPostureRequest {
   /** Required. The organization, folder, or project from which policies are extracted. Must be within the organization defined in parent. Use one of the following formats: * `organization/{organization_number}` * `folder/{folder_number}` * `project/{project_number}` */
   workload?: string | undefined;
 }
-export interface ExtractOrganizationsLocationsPosturesRequest {
+export interface ExtractOrganizationsLocationsPosturesRequest extends ExtractPostureRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
-  /** Request body */
-  body?: ExtractPostureRequest | undefined;
 }
 export interface GetOrganizationsLocationsRequest {
   /** Resource name for the location. */
@@ -735,23 +727,25 @@ export interface ListPostureRevisionsResponse {
   /** A pagination token. To retrieve the next page of results, call the method again with this token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchOrganizationsLocationsPostureDeploymentsRequest {
+export interface PatchOrganizationsLocationsPostureDeploymentsRequest extends Omit<
+  PostureDeployment,
+  "name"
+> {
   /** Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
   name: string;
   /** Required. The fields in the PostureDeployment to update. You can update only the following fields: * PostureDeployment.posture_id * PostureDeployment.posture_revision_id */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PostureDeployment | undefined;
 }
-export interface PatchOrganizationsLocationsPosturesRequest {
+export interface PatchOrganizationsLocationsPosturesRequest extends Omit<
+  Posture,
+  "revisionId" | "name"
+> {
   /** Required. The fields in the Posture to update. You can update only the following fields: * Posture.description * Posture.policy_sets * Posture.state */
   updateMask?: string | undefined;
   /** Required. Identifier. The name of the posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
   /** Required. The revision ID of the posture to update. If the posture revision that you update is currently deployed, then a new revision of the posture is created. */
   revisionId?: string | undefined;
-  /** Request body */
-  body?: Posture | undefined;
 }
 export type CancelOrganizationsLocationsOperationsError =
   | NotFound
@@ -1253,10 +1247,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ExtractPostureRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/postures:extract",
@@ -1660,11 +1656,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1678,12 +1676,14 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          revisionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            revisionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1732,10 +1732,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateIaCValidationReportRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(737, __c23, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(737, __c23, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reports:createIaCValidationReport",
@@ -1779,11 +1781,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          postureDeploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            postureDeploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/postureDeployments",
@@ -1833,11 +1837,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          postureId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            postureId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/postures",

@@ -131,11 +131,9 @@ export interface ManageLoyaltyCustomerMatchRequest {
   /** Required. The loyalty customer to insert, update, or remove. */
   loyaltyCustomer?: LoyaltyCustomer | undefined;
 }
-export interface ManageAccountsLoyaltyCustomersRequest {
+export interface ManageAccountsLoyaltyCustomersRequest extends ManageLoyaltyCustomerMatchRequest {
   /** Required. The parent account where this loyalty customer will be handled. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: ManageLoyaltyCustomerMatchRequest | undefined;
 }
 /** Response message for the ManageLoyaltyCustomerMatch method. */
 export interface ManageLoyaltyCustomerMatchResponse {
@@ -202,10 +200,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ManageLoyaltyCustomerMatchRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3, __c0, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3, __c0, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "loyaltyCustomers/v1/{+parent}/loyaltyCustomers:manage",

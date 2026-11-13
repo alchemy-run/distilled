@@ -340,11 +340,9 @@ export interface ConversionsBatchInsertRequest {
   /** Describes how encryptedUserId or encryptedUserIdCandidates[] is encrypted. This is a required field if encryptedUserId or encryptedUserIdCandidates[] is used. */
   encryptionInfo?: EncryptionInfo | undefined;
 }
-export interface BatchinsertConversionsRequest {
+export interface BatchinsertConversionsRequest extends ConversionsBatchInsertRequest {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: ConversionsBatchInsertRequest | undefined;
 }
 export type ConversionErrorCodeEnum =
   | "INVALID_ARGUMENT"
@@ -389,11 +387,9 @@ export interface ConversionsBatchUpdateRequest {
   /** The set of conversions to update. */
   conversions?: ConversionList | undefined;
 }
-export interface BatchupdateConversionsRequest {
+export interface BatchupdateConversionsRequest extends ConversionsBatchUpdateRequest {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: ConversionsBatchUpdateRequest | undefined;
 }
 /** Update Conversions Response. */
 export interface ConversionsBatchUpdateResponse {
@@ -4914,35 +4910,25 @@ export interface VideoFormat {
   /** ID of the video format. */
   id?: number | undefined;
 }
-export interface InsertAccountUserProfilesRequest {
+export interface InsertAccountUserProfilesRequest extends AccountUserProfile {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: AccountUserProfile | undefined;
 }
-export interface InsertAdsRequest {
+export interface InsertAdsRequest extends Ad {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Ad | undefined;
 }
-export interface InsertAdvertiserGroupsRequest {
+export interface InsertAdvertiserGroupsRequest extends AdvertiserGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: AdvertiserGroup | undefined;
 }
-export interface InsertAdvertiserLandingPagesRequest {
+export interface InsertAdvertiserLandingPagesRequest extends LandingPage {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: LandingPage | undefined;
 }
-export interface InsertAdvertisersRequest {
+export interface InsertAdvertisersRequest extends Advertiser {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Advertiser | undefined;
 }
 /** List account, subaccount, advertiser, and campaign associated with a given Billing Profile. */
 export interface BillingAssignment {
@@ -4957,13 +4943,11 @@ export interface BillingAssignment {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignment". */
   kind?: string | undefined;
 }
-export interface InsertBillingAssignmentsRequest {
+export interface InsertBillingAssignmentsRequest extends BillingAssignment {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Billing profile ID of this billing assignment. */
   billingProfileId: string;
-  /** Request body */
-  body?: BillingAssignment | undefined;
 }
 /** Identifies a creative which has been associated with a given campaign. */
 export interface CampaignCreativeAssociation {
@@ -4972,25 +4956,19 @@ export interface CampaignCreativeAssociation {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociation". */
   kind?: string | undefined;
 }
-export interface InsertCampaignCreativeAssociationsRequest {
+export interface InsertCampaignCreativeAssociationsRequest extends CampaignCreativeAssociation {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Campaign ID in this association. */
   campaignId: string;
-  /** Request body */
-  body?: CampaignCreativeAssociation | undefined;
 }
-export interface InsertCampaignsRequest {
+export interface InsertCampaignsRequest extends Campaign {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Campaign | undefined;
 }
-export interface InsertContentCategoriesRequest {
+export interface InsertContentCategoriesRequest extends ContentCategory {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: ContentCategory | undefined;
 }
 export type CreativeAssetMetadataWarnedValidationRulesItemEnum =
   | "CLICK_TAG_NON_TOP_LEVEL"
@@ -5117,45 +5095,33 @@ export interface CreativeAssetMetadata {
   /** ID of the creative asset. This is a required field. */
   assetIdentifier?: CreativeAssetId | undefined;
 }
-export interface InsertCreativeAssetsRequest {
+export interface InsertCreativeAssetsRequest extends CreativeAssetMetadata {
   /** Advertiser ID of this creative. This is a required field. */
   advertiserId: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeAssetMetadata | undefined;
 }
-export interface InsertCreativeFieldsRequest {
+export interface InsertCreativeFieldsRequest extends CreativeField {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeField | undefined;
 }
-export interface InsertCreativeFieldValuesRequest {
+export interface InsertCreativeFieldValuesRequest extends CreativeFieldValue {
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeFieldValue | undefined;
 }
-export interface InsertCreativeGroupsRequest {
+export interface InsertCreativeGroupsRequest extends CreativeGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeGroup | undefined;
 }
-export interface InsertCreativesRequest {
+export interface InsertCreativesRequest extends Creative {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Creative | undefined;
 }
-export interface InsertDirectorySitesRequest {
+export interface InsertDirectorySitesRequest extends DirectorySite {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: DirectorySite | undefined;
 }
 /** Dynamic profile ID is required for dynamic feed insert as the current GPA API only can create a dynamic feed under profile context,even though the dynamic feed itself don't need the dynamic profile id. */
 export interface DynamicFeedsInsertRequest {
@@ -5164,14 +5130,8 @@ export interface DynamicFeedsInsertRequest {
   /** Required. Dynamic profile ID of the inserted dynamic feed. */
   dynamicProfileId?: string | undefined;
 }
-export interface InsertDynamicFeedsRequest {
-  /** Request body */
-  body?: DynamicFeedsInsertRequest | undefined;
-}
-export interface InsertDynamicProfilesRequest {
-  /** Request body */
-  body?: DynamicProfile | undefined;
-}
+export interface InsertDynamicFeedsRequest extends DynamicFeedsInsertRequest {}
+export interface InsertDynamicProfilesRequest extends DynamicProfile {}
 export type DynamicTargetingKeyObjectTypeEnum =
   | "OBJECT_ADVERTISER"
   | "OBJECT_AD"
@@ -5188,71 +5148,49 @@ export interface DynamicTargetingKey {
   /** ID of the object of this dynamic targeting key. This is a required field. */
   objectId?: string | undefined;
 }
-export interface InsertDynamicTargetingKeysRequest {
+export interface InsertDynamicTargetingKeysRequest extends DynamicTargetingKey {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: DynamicTargetingKey | undefined;
 }
-export interface InsertEventTagsRequest {
+export interface InsertEventTagsRequest extends EventTag {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: EventTag | undefined;
 }
-export interface InsertFloodlightActivitiesRequest {
+export interface InsertFloodlightActivitiesRequest extends FloodlightActivity {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: FloodlightActivity | undefined;
 }
-export interface InsertFloodlightActivityGroupsRequest {
+export interface InsertFloodlightActivityGroupsRequest extends FloodlightActivityGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: FloodlightActivityGroup | undefined;
 }
-export interface InsertPlacementGroupsRequest {
+export interface InsertPlacementGroupsRequest extends PlacementGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: PlacementGroup | undefined;
 }
-export interface InsertPlacementsRequest {
+export interface InsertPlacementsRequest extends Placement {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Placement | undefined;
 }
-export interface InsertPlacementStrategiesRequest {
+export interface InsertPlacementStrategiesRequest extends PlacementStrategy {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: PlacementStrategy | undefined;
 }
-export interface InsertRemarketingListsRequest {
+export interface InsertRemarketingListsRequest extends RemarketingList {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: RemarketingList | undefined;
 }
-export interface InsertReportsRequest {
+export interface InsertReportsRequest extends Report {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** Request body */
-  body?: Report | undefined;
 }
-export interface InsertSitesRequest {
+export interface InsertSitesRequest extends Site {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Site | undefined;
 }
-export interface InsertSizesRequest {
+export interface InsertSizesRequest extends Size {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Size | undefined;
 }
 /** Request message for DfareportingStudioCreativeAssets.Insert. */
 export interface DfareportingStudioCreativeAssetsInsertRequest {
@@ -5263,10 +5201,7 @@ export interface DfareportingStudioCreativeAssetsInsertRequest {
   /** Optional. Studio account ID of the studio creative asset. It is a optional. */
   studioAccountId?: string | undefined;
 }
-export interface InsertStudioCreativeAssetsRequest {
-  /** Request body */
-  body?: DfareportingStudioCreativeAssetsInsertRequest | undefined;
-}
+export interface InsertStudioCreativeAssetsRequest extends DfareportingStudioCreativeAssetsInsertRequest {}
 export type VideoProcessingDataProcessingStateEnum =
   | "UNKNOWN"
   | "PROCESSING"
@@ -5309,27 +5244,18 @@ export interface StudioCreativeAssetsResponse {
   /** The list of studio creative assets. */
   assets?: StudioCreativeAssetList | undefined;
 }
-export interface InsertStudioCreativesRequest {
-  /** Request body */
-  body?: StudioCreative | undefined;
-}
-export interface InsertSubaccountsRequest {
+export interface InsertStudioCreativesRequest extends StudioCreative {}
+export interface InsertSubaccountsRequest extends Subaccount {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Subaccount | undefined;
 }
-export interface InsertTargetingTemplatesRequest {
+export interface InsertTargetingTemplatesRequest extends TargetingTemplate {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: TargetingTemplate | undefined;
 }
-export interface InsertUserRolesRequest {
+export interface InsertUserRolesRequest extends UserRole {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: UserRole | undefined;
 }
 export interface ListAccountPermissionGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7135,207 +7061,157 @@ export interface VideoFormatsListResponse {
   /** Video format collection. */
   videoFormats?: VideoFormatList | undefined;
 }
-export interface PatchAccountsRequest {
+export interface PatchAccountsRequest extends Omit<Account, "id"> {
   /** Required. Account ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Account | undefined;
 }
-export interface PatchAccountUserProfilesRequest {
+export interface PatchAccountUserProfilesRequest extends Omit<AccountUserProfile, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. AccountUserProfile ID. */
   id: string;
-  /** Request body */
-  body?: AccountUserProfile | undefined;
 }
-export interface PatchAdsRequest {
+export interface PatchAdsRequest extends Omit<Ad, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
-  /** Request body */
-  body?: Ad | undefined;
 }
-export interface PatchAdvertiserGroupsRequest {
+export interface PatchAdvertiserGroupsRequest extends Omit<AdvertiserGroup, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Advertiser Group ID. */
   id: string;
-  /** Request body */
-  body?: AdvertiserGroup | undefined;
 }
-export interface PatchAdvertiserLandingPagesRequest {
+export interface PatchAdvertiserLandingPagesRequest extends Omit<LandingPage, "id"> {
   /** Required. Landing Page ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: LandingPage | undefined;
 }
-export interface PatchAdvertisersRequest {
+export interface PatchAdvertisersRequest extends Omit<Advertiser, "id"> {
   /** Required. Advertiser ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Advertiser | undefined;
 }
-export interface PatchCampaignsRequest {
+export interface PatchCampaignsRequest extends Omit<Campaign, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Campaign ID. */
   id: string;
-  /** Request body */
-  body?: Campaign | undefined;
 }
-export interface PatchContentCategoriesRequest {
+export interface PatchContentCategoriesRequest extends Omit<ContentCategory, "id"> {
   /** Required. ContentCategory ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: ContentCategory | undefined;
 }
-export interface PatchCreativeFieldsRequest {
+export interface PatchCreativeFieldsRequest extends Omit<CreativeField, "id"> {
   /** CreativeField ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeField | undefined;
 }
-export interface PatchCreativeFieldValuesRequest {
+export interface PatchCreativeFieldValuesRequest extends Omit<CreativeFieldValue, "id"> {
   /** CreativeFieldValue ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
   /** CreativeField ID. */
   creativeFieldId: string;
-  /** Request body */
-  body?: CreativeFieldValue | undefined;
 }
-export interface PatchCreativeGroupsRequest {
+export interface PatchCreativeGroupsRequest extends Omit<CreativeGroup, "id"> {
   /** Required. Creative Group ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeGroup | undefined;
 }
-export interface PatchCreativesRequest {
+export interface PatchCreativesRequest extends Omit<Creative, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Creative ID. */
   id: string;
-  /** Request body */
-  body?: Creative | undefined;
 }
-export interface PatchEventTagsRequest {
+export interface PatchEventTagsRequest extends Omit<EventTag, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. EventTag ID. */
   id: string;
-  /** Request body */
-  body?: EventTag | undefined;
 }
-export interface PatchFloodlightActivitiesRequest {
+export interface PatchFloodlightActivitiesRequest extends Omit<FloodlightActivity, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. EventTag ID. */
   id: string;
-  /** Request body */
-  body?: FloodlightActivity | undefined;
 }
-export interface PatchFloodlightActivityGroupsRequest {
+export interface PatchFloodlightActivityGroupsRequest extends Omit<FloodlightActivityGroup, "id"> {
   /** Required. EventTag ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: FloodlightActivityGroup | undefined;
 }
-export interface PatchFloodlightConfigurationsRequest {
+export interface PatchFloodlightConfigurationsRequest extends Omit<FloodlightConfiguration, "id"> {
   /** Required. EventTag ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: FloodlightConfiguration | undefined;
 }
-export interface PatchPlacementGroupsRequest {
+export interface PatchPlacementGroupsRequest extends Omit<PlacementGroup, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Placement ID. */
   id: string;
-  /** Request body */
-  body?: PlacementGroup | undefined;
 }
-export interface PatchPlacementsRequest {
+export interface PatchPlacementsRequest extends Omit<Placement, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Placement ID. */
   id: string;
-  /** Request body */
-  body?: Placement | undefined;
 }
-export interface PatchPlacementStrategiesRequest {
+export interface PatchPlacementStrategiesRequest extends Omit<PlacementStrategy, "id"> {
   /** Required. PlacementStrategy ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: PlacementStrategy | undefined;
 }
-export interface PatchRemarketingListsRequest {
+export interface PatchRemarketingListsRequest extends Omit<RemarketingList, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
-  /** Request body */
-  body?: RemarketingList | undefined;
 }
-export interface PatchRemarketingListSharesRequest {
+export interface PatchRemarketingListSharesRequest extends RemarketingListShare {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
-  /** Request body */
-  body?: RemarketingListShare | undefined;
 }
-export interface PatchSitesRequest {
+export interface PatchSitesRequest extends Omit<Site, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Site ID. */
   id: string;
-  /** Request body */
-  body?: Site | undefined;
 }
-export interface PatchSubaccountsRequest {
+export interface PatchSubaccountsRequest extends Omit<Subaccount, "id"> {
   /** Required. Subaccount ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Subaccount | undefined;
 }
-export interface PatchTargetingTemplatesRequest {
+export interface PatchTargetingTemplatesRequest extends Omit<TargetingTemplate, "id"> {
   /** Required. RemarketingList ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: TargetingTemplate | undefined;
 }
-export interface PatchUserRolesRequest {
+export interface PatchUserRolesRequest extends Omit<UserRole, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. UserRole ID. */
   id: string;
-  /** Request body */
-  body?: UserRole | undefined;
 }
 export interface PublishDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
@@ -7368,15 +7244,13 @@ export interface DimensionValueRequest {
   /** The name of the dimension for which values should be requested. */
   dimensionName?: string | undefined;
 }
-export interface QueryDimensionValuesRequest {
+export interface QueryDimensionValuesRequest extends DimensionValueRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
   /** The value of the nextToken from the previous result page. */
   pageToken?: string | undefined;
-  /** Request body */
-  body?: DimensionValueRequest | undefined;
 }
 /** Represents the list of DimensionValue resources. */
 export interface DimensionValueList {
@@ -7415,11 +7289,9 @@ export interface ReportDataQueryRequest {
   /** Optional. Maximum number of result rows to return per page. The default value is 100. The maximum allowed value is 1000. Values above 1000 will be coerced (clamped) down to 1000. Negative values will be rejected. */
   maxResults?: number | undefined;
 }
-export interface QueryReportDataRequest {
+export interface QueryReportDataRequest extends ReportDataQueryRequest {
   /** Required. The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** Request body */
-  body?: ReportDataQueryRequest | undefined;
 }
 export type ColumnHeaderTypeEnum = "COLUMN_TYPE_UNSPECIFIED" | "DIMENSION" | "METRIC";
 /** A column header in the report. */
@@ -7447,11 +7319,9 @@ export interface ReportDataResponse {
   /** Output only. Singular aggregate total row for the entire query matching the criteria. Column headers apply in the exact same order as data rows. In the total_row: - All dimension columns contain an empty string (""), as aggregation does not apply. - Non-summable metric columns (e.g. Reach metrics) contain an empty string (""), as grand total aggregation cannot be mathematically/logically computed for them. */
   totalRow?: ReportDataRow | undefined;
 }
-export interface QueryReportsCompatibleFieldsRequest {
+export interface QueryReportsCompatibleFieldsRequest extends Report {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** Request body */
-  body?: Report | undefined;
 }
 /** Represents a dimension. */
 export interface Dimension {
@@ -7574,179 +7444,119 @@ export interface RunReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
 }
-export interface UpdateAccountsRequest {
+export interface UpdateAccountsRequest extends Account {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Account | undefined;
 }
-export interface UpdateAccountUserProfilesRequest {
+export interface UpdateAccountUserProfilesRequest extends AccountUserProfile {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: AccountUserProfile | undefined;
 }
-export interface UpdateAdsRequest {
+export interface UpdateAdsRequest extends Ad {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Ad | undefined;
 }
-export interface UpdateAdvertiserGroupsRequest {
+export interface UpdateAdvertiserGroupsRequest extends AdvertiserGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: AdvertiserGroup | undefined;
 }
-export interface UpdateAdvertiserLandingPagesRequest {
+export interface UpdateAdvertiserLandingPagesRequest extends LandingPage {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: LandingPage | undefined;
 }
-export interface UpdateAdvertisersRequest {
+export interface UpdateAdvertisersRequest extends Advertiser {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Advertiser | undefined;
 }
-export interface UpdateBillingProfilesRequest {
+export interface UpdateBillingProfilesRequest extends BillingProfile {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: BillingProfile | undefined;
 }
-export interface UpdateCampaignsRequest {
+export interface UpdateCampaignsRequest extends Campaign {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Campaign | undefined;
 }
-export interface UpdateContentCategoriesRequest {
+export interface UpdateContentCategoriesRequest extends ContentCategory {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: ContentCategory | undefined;
 }
-export interface UpdateCreativeFieldsRequest {
+export interface UpdateCreativeFieldsRequest extends CreativeField {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeField | undefined;
 }
-export interface UpdateCreativeFieldValuesRequest {
+export interface UpdateCreativeFieldValuesRequest extends CreativeFieldValue {
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeFieldValue | undefined;
 }
-export interface UpdateCreativeGroupsRequest {
+export interface UpdateCreativeGroupsRequest extends CreativeGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: CreativeGroup | undefined;
 }
-export interface UpdateCreativesRequest {
+export interface UpdateCreativesRequest extends Creative {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Creative | undefined;
 }
-export interface UpdateDynamicFeedsRequest {
-  /** Request body */
-  body?: DynamicFeed | undefined;
-}
-export interface UpdateDynamicProfilesRequest {
-  /** Request body */
-  body?: DynamicProfile | undefined;
-}
-export interface UpdateEventTagsRequest {
+export interface UpdateDynamicFeedsRequest extends DynamicFeed {}
+export interface UpdateDynamicProfilesRequest extends DynamicProfile {}
+export interface UpdateEventTagsRequest extends EventTag {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: EventTag | undefined;
 }
-export interface UpdateFloodlightActivitiesRequest {
+export interface UpdateFloodlightActivitiesRequest extends FloodlightActivity {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: FloodlightActivity | undefined;
 }
-export interface UpdateFloodlightActivityGroupsRequest {
+export interface UpdateFloodlightActivityGroupsRequest extends FloodlightActivityGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: FloodlightActivityGroup | undefined;
 }
-export interface UpdateFloodlightConfigurationsRequest {
+export interface UpdateFloodlightConfigurationsRequest extends FloodlightConfiguration {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: FloodlightConfiguration | undefined;
 }
-export interface UpdatePlacementGroupsRequest {
+export interface UpdatePlacementGroupsRequest extends PlacementGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: PlacementGroup | undefined;
 }
-export interface UpdatePlacementsRequest {
+export interface UpdatePlacementsRequest extends Placement {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Placement | undefined;
 }
-export interface UpdatePlacementStrategiesRequest {
+export interface UpdatePlacementStrategiesRequest extends PlacementStrategy {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: PlacementStrategy | undefined;
 }
-export interface UpdateRemarketingListsRequest {
+export interface UpdateRemarketingListsRequest extends RemarketingList {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: RemarketingList | undefined;
 }
-export interface UpdateRemarketingListSharesRequest {
+export interface UpdateRemarketingListSharesRequest extends RemarketingListShare {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: RemarketingListShare | undefined;
 }
-export interface UpdateReportsRequest {
+export interface UpdateReportsRequest extends Report {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** The ID of the report. */
   reportId: string;
-  /** Request body */
-  body?: Report | undefined;
 }
-export interface UpdateSitesRequest {
+export interface UpdateSitesRequest extends Site {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Site | undefined;
 }
-export interface UpdateSubaccountsRequest {
+export interface UpdateSubaccountsRequest extends Subaccount {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: Subaccount | undefined;
 }
-export interface UpdateTargetingTemplatesRequest {
+export interface UpdateTargetingTemplatesRequest extends TargetingTemplate {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: TargetingTemplate | undefined;
 }
-export interface UpdateUserRolesRequest {
+export interface UpdateUserRolesRequest extends UserRole {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Request body */
-  body?: UserRole | undefined;
 }
 export type BatchinsertConversionsError =
   | NotFound
@@ -12235,9 +12045,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DfareportingStudioCreativeAssetsInsertRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(32, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/creativeAssets",
@@ -12281,9 +12089,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(7905, __c247, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(7905, __c247, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/creatives",
@@ -12297,10 +12103,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7968, __c249, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/subaccounts",
@@ -12314,10 +12122,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8096, __c253, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/targetingTemplates",
@@ -12331,10 +12141,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8480, __c265, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8480, __c265, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/userRoles",
@@ -14285,11 +14097,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4545, __c142, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4545, __c142, 1),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/accounts",
@@ -14303,11 +14117,13 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(4641, __c145, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4641, __c145, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/accountUserProfiles",
@@ -14321,11 +14137,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(5518, __c172, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5518, __c172, 14),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/ads",
@@ -14339,11 +14157,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/advertiserGroups",
@@ -14357,11 +14177,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5666, __c177, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5666, __c177, 2),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/advertiserLandingPages",
@@ -14375,11 +14197,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5729, __c179, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5729, __c179, 1),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/advertisers",
@@ -14393,11 +14217,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(5866, __c183, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5866, __c183, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/campaigns",
@@ -14411,11 +14237,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/contentCategories",
@@ -14451,11 +14279,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creativeFields",
@@ -14469,12 +14299,14 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          creativeFieldId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6176, __c193, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6176, __c193, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+            creativeFieldId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
@@ -14488,11 +14320,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6240, __c195, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6240, __c195, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creativeGroups",
@@ -14506,11 +14340,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(6410, __c200, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6410, __c200, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creatives",
@@ -14524,11 +14360,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(6656, __c208, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/eventTags",
@@ -14542,11 +14380,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(6820, __c213, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6820, __c213, 4),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/floodlightActivities",
@@ -14560,11 +14400,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6880, __c215, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/floodlightActivityGroups",
@@ -14578,11 +14420,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6952, __c217, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6952, __c217, 8),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/floodlightConfigurations",
@@ -14596,11 +14440,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(7264, __c227, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/placementGroups",
@@ -14614,11 +14460,13 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(7369, __c230, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7369, __c230, 9),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/placements",
@@ -14657,11 +14505,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/placementStrategies",
@@ -14675,11 +14525,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(7525, __c235, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7525, __c235, 5),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/remarketingLists",
@@ -14693,11 +14545,13 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(7584, __c237, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7584, __c237, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/remarketingListShares",
@@ -14711,11 +14565,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(7815, __c244, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7815, __c244, 7),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/sites",
@@ -14729,11 +14585,13 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7968, __c249, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/subaccounts",
@@ -14747,11 +14605,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8096, __c253, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/targetingTemplates",
@@ -14765,11 +14625,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          body: S.optional(__S(8480, __c265, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8480, __c265, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/userRoles",
@@ -14835,12 +14697,14 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DimensionValueRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3202, __c100, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3202, __c100, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/dimensionvalues/query",
@@ -14940,10 +14804,12 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ReportDataQueryRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3298, __c103, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3298, __c103, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/reportdata/query",
@@ -14983,10 +14849,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7695, __c240, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7695, __c240, 15),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/reports/compatiblefields/query",
@@ -15123,10 +14991,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4545, __c142, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4545, __c142, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/accounts",
@@ -15140,10 +15010,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4641, __c145, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4641, __c145, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/accountUserProfiles",
@@ -15157,10 +15029,12 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5518, __c172, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5518, __c172, 14),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/ads",
@@ -15174,10 +15048,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/advertiserGroups",
@@ -15191,10 +15067,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5666, __c177, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5666, __c177, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/advertiserLandingPages",
@@ -15208,10 +15086,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5729, __c179, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5729, __c179, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/advertisers",
@@ -15252,10 +15132,12 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5792, __c181, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5792, __c181, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/billingProfiles",
@@ -15269,10 +15151,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5866, __c183, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5866, __c183, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/campaigns",
@@ -15286,10 +15170,12 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/contentCategories",
@@ -15303,10 +15189,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creativeFields",
@@ -15320,11 +15208,13 @@ function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          creativeFieldId: S.String.pipe(T.Label()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6176, __c193, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6176, __c193, 0),
+          S.Struct({
+            creativeFieldId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
@@ -15338,10 +15228,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6240, __c195, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6240, __c195, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creativeGroups",
@@ -15355,10 +15247,12 @@ function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6410, __c200, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6410, __c200, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creatives",
@@ -15372,9 +15266,7 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(6540, __c204, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(6540, __c204, 12), S.Struct({})).pipe(
           T.Http({
             method: "PUT",
             uri: "studio/dynamicFeeds",
@@ -15388,9 +15280,7 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(6609, __c206, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(6609, __c206, 17), S.Struct({})).pipe(
           T.Http({
             method: "PUT",
             uri: "studio/dynamicProfiles",
@@ -15404,10 +15294,12 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6656, __c208, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/eventTags",
@@ -15450,10 +15342,12 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6820, __c213, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6820, __c213, 4),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/floodlightActivities",
@@ -15467,10 +15361,12 @@ function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6880, __c215, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/floodlightActivityGroups",
@@ -15484,10 +15380,12 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6952, __c217, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6952, __c217, 8),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/floodlightConfigurations",
@@ -15501,10 +15399,12 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7264, __c227, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/placementGroups",
@@ -15518,10 +15418,12 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7369, __c230, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7369, __c230, 9),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/placements",
@@ -15535,10 +15437,12 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/placementStrategies",
@@ -15552,10 +15456,12 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7525, __c235, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7525, __c235, 5),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/remarketingLists",
@@ -15569,10 +15475,12 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7584, __c237, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7584, __c237, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/remarketingListShares",
@@ -15586,11 +15494,13 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          reportId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7695, __c240, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7695, __c240, 15),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            reportId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{profileId}/reports/{reportId}",
@@ -15604,10 +15514,12 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7815, __c244, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7815, __c244, 7),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/sites",
@@ -15653,10 +15565,12 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7968, __c249, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/subaccounts",
@@ -15670,10 +15584,12 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8096, __c253, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/targetingTemplates",
@@ -15687,10 +15603,12 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8480, __c265, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8480, __c265, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/userRoles",
@@ -17823,10 +17741,12 @@ function __c221(j: number): any {
       ).annotate({ identifier: "ConversionsBatchInsertRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7072, __c221, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7072, __c221, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/conversions/batchinsert",
@@ -18592,10 +18512,12 @@ function __c242(j: number): any {
       ).annotate({ identifier: "ConversionsBatchUpdateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7744, __c242, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7744, __c242, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/conversions/batchupdate",
@@ -19119,10 +19041,12 @@ function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4641, __c145, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4641, __c145, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/accountUserProfiles",
@@ -19136,10 +19060,12 @@ function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5518, __c172, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5518, __c172, 14),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/ads",
@@ -19153,10 +19079,12 @@ function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/advertiserGroups",
@@ -19170,10 +19098,12 @@ function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5666, __c177, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5666, __c177, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/advertiserLandingPages",
@@ -19187,10 +19117,12 @@ function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5729, __c179, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5729, __c179, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/advertisers",
@@ -19204,11 +19136,13 @@ function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          billingProfileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8768, __c274, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8768, __c274, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            billingProfileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/billingProfiles/{+billingProfileId}/billingAssignments",
@@ -19236,11 +19170,13 @@ function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          campaignId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8832, __c276, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8832, __c276, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            campaignId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/campaigns/{+campaignId}/campaignCreativeAssociations",
@@ -19265,10 +19201,12 @@ function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5866, __c183, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5866, __c183, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/campaigns",
@@ -19299,10 +19237,12 @@ function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/contentCategories",
@@ -19332,11 +19272,13 @@ function __c280(j: number): any {
       ).annotate({ identifier: "CreativeAssetMetadata" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8960, __c280, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8960, __c280, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeAssets/{+advertiserId}/creativeAssets",
@@ -19350,10 +19292,12 @@ function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeFields",
@@ -19367,11 +19311,13 @@ function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          creativeFieldId: S.String.pipe(T.Label()),
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6176, __c193, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6176, __c193, 0),
+          S.Struct({
+            creativeFieldId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
@@ -19385,10 +19331,12 @@ function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6240, __c195, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6240, __c195, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeGroups",
@@ -19402,10 +19350,12 @@ function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6410, __c200, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6410, __c200, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creatives",
@@ -19419,10 +19369,12 @@ function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6466, __c202, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6466, __c202, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/directorySites",
@@ -19443,9 +19395,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "DynamicFeedsInsertRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(9152, __c286, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(9152, __c286, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/dynamicFeeds",
@@ -19459,9 +19409,7 @@ function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(6609, __c206, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(6609, __c206, 17), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/dynamicProfiles",
@@ -19475,10 +19423,12 @@ function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(9248, __c289, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9248, __c289, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/dynamicTargetingKeys",
@@ -19522,10 +19472,12 @@ function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6656, __c208, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/eventTags",
@@ -19539,10 +19491,12 @@ function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6820, __c213, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6820, __c213, 4),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/floodlightActivities",
@@ -19556,10 +19510,12 @@ function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6880, __c215, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/floodlightActivityGroups",
@@ -19573,10 +19529,12 @@ function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7264, __c227, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/placementGroups",
@@ -19590,10 +19548,12 @@ function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7369, __c230, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7369, __c230, 9),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/placements",
@@ -19607,10 +19567,12 @@ function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/placementStrategies",
@@ -19624,10 +19586,12 @@ function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7525, __c235, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7525, __c235, 5),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/remarketingLists",
@@ -19641,10 +19605,12 @@ function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7695, __c240, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7695, __c240, 15),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/reports",
@@ -19658,10 +19624,12 @@ function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7815, __c244, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7815, __c244, 7),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/sites",
@@ -19675,10 +19643,12 @@ function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4864, __c152, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4864, __c152, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/sizes",

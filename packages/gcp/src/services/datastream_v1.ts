@@ -483,7 +483,7 @@ export interface ConnectionProfile {
   /** Output only. Identifier. The resource's name. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
   /** Optional. Only validate the connection profile, but don't create any resources. The default is false. */
   validateOnly?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -494,8 +494,6 @@ export interface CreateProjectsLocationsConnectionProfilesRequest {
   parent: string;
   /** Optional. Create the connection profile without validating it. */
   force?: boolean | undefined;
-  /** Request body */
-  body?: ConnectionProfile | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -578,7 +576,7 @@ export interface PrivateConnection {
   /** Output only. The state of the Private Connection. */
   state?: PrivateConnectionStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRequest {
+export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent that owns the collection of PrivateConnections. */
@@ -589,8 +587,6 @@ export interface CreateProjectsLocationsPrivateConnectionsRequest {
   privateConnectionId?: string | undefined;
   /** Optional. When supplied with PSC Interface config, will get/create the tenant project required for the customer to allow list and won't actually create the private connection. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: PrivateConnection | undefined;
 }
 /** The route resource is the child of the private connection resource, used for defining a route for a private connection. */
 export interface Route {
@@ -609,15 +605,13 @@ export interface Route {
   /** Destination port for connection */
   destinationPort?: number | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
+export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest extends Route {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The Route identifier. */
   routeId?: string | undefined;
   /** Required. The parent that owns the collection of Routes. */
   parent: string;
-  /** Request body */
-  body?: Route | undefined;
 }
 /** Source property. */
 export interface SourceProperty {
@@ -1400,7 +1394,7 @@ export interface Stream {
   /** The state of the stream. */
   state?: StreamStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsStreamsRequest {
+export interface CreateProjectsLocationsStreamsRequest extends Stream {
   /** Optional. Create the stream without validating it. */
   force?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1411,8 +1405,6 @@ export interface CreateProjectsLocationsStreamsRequest {
   parent: string;
   /** Required. The stream identifier. */
   streamId?: string | undefined;
-  /** Request body */
-  body?: Stream | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to delete. */
@@ -1471,11 +1463,9 @@ export interface DiscoverConnectionProfileRequest {
   /** Optional. The number of hierarchy levels below the current level to be retrieved. */
   hierarchyDepth?: number | undefined;
 }
-export interface DiscoverProjectsLocationsConnectionProfilesRequest {
+export interface DiscoverProjectsLocationsConnectionProfilesRequest extends DiscoverConnectionProfileRequest {
   /** Required. The parent resource of the connection profile type. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: DiscoverConnectionProfileRequest | undefined;
 }
 /** Response from a discover request. */
 export interface DiscoverConnectionProfileResponse {
@@ -1752,13 +1742,14 @@ export interface LookupStreamObjectRequest {
   /** Required. The source object identifier which maps to the stream object. */
   sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
-export interface LookupProjectsLocationsStreamsObjectsRequest {
+export interface LookupProjectsLocationsStreamsObjectsRequest extends LookupStreamObjectRequest {
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
-  /** Request body */
-  body?: LookupStreamObjectRequest | undefined;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
   /** Optional. Update the connection profile without validating it. */
   force?: boolean | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -1769,10 +1760,8 @@ export interface PatchProjectsLocationsConnectionProfilesRequest {
   requestId?: string | undefined;
   /** Optional. Only validate the connection profile, but don't update any resources. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: ConnectionProfile | undefined;
 }
-export interface PatchProjectsLocationsStreamsRequest {
+export interface PatchProjectsLocationsStreamsRequest extends Omit<Stream, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. Update the stream without validating it. */
@@ -1783,8 +1772,6 @@ export interface PatchProjectsLocationsStreamsRequest {
   requestId?: string | undefined;
   /** Output only. Identifier. The stream's name. */
   name: string;
-  /** Request body */
-  body?: Stream | undefined;
 }
 /** MongoDB change stream position */
 export interface MongodbChangeStreamPosition {
@@ -1853,22 +1840,18 @@ export interface RunStreamRequest {
   /** Optional. Update the stream without validating it. */
   force?: boolean | undefined;
 }
-export interface RunProjectsLocationsStreamsRequest {
+export interface RunProjectsLocationsStreamsRequest extends RunStreamRequest {
   /** Required. Name of the stream resource to start, in the format: projects/{project_id}/locations/{location}/streams/{stream_name} */
   name: string;
-  /** Request body */
-  body?: RunStreamRequest | undefined;
 }
 /** Request for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobRequest {
   /** Optional. Optional event filter. If not set, or empty, the backfill will be performed on the entire object. This is currently used for partial backfill and only supported for SQL sources. */
   eventFilter?: EventFilter | undefined;
 }
-export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
+export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest extends StartBackfillJobRequest {
   /** Required. The name of the stream object resource to start a backfill job for. */
   object: string;
-  /** Request body */
-  body?: StartBackfillJobRequest | undefined;
 }
 /** Response for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobResponse {
@@ -2643,10 +2626,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DiscoverConnectionProfileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectionProfiles:discover",
@@ -3064,10 +3049,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1472, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/objects:lookup",
@@ -3081,14 +3068,16 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1055, __c32, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1055, __c32, 31),
+          S.Struct({
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3102,14 +3091,16 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1530, __c47, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1530, __c47, 26),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3180,10 +3171,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "RunStreamRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(807, __c25, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(807, __c25, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:run",
@@ -3203,10 +3196,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "StartBackfillJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          object: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            object: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+object}:startBackfillJob",
@@ -3270,14 +3265,16 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1055, __c32, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1055, __c32, 31),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectionProfiles",
@@ -3627,14 +3624,16 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          privateConnectionId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/privateConnections",
@@ -3695,12 +3694,14 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          routeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            routeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/routes",
@@ -3730,14 +3731,16 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          streamId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1530, __c47, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1530, __c47, 26),
+          S.Struct({
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            streamId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/streams",

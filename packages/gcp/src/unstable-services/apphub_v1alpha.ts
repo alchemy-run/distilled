@@ -199,15 +199,13 @@ export interface Application {
   /** Identifier. The resource name of an Application. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}"` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsApplicationsRequest {
+export interface CreateProjectsLocationsApplicationsRequest extends Application {
   /** Required. The Application identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   applicationId?: string | undefined;
   /** Required. Project and location to create Application in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Application | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -304,15 +302,13 @@ export interface Service {
   /** Optional. User-defined description of a Service. Can have a maximum length of 2048 characters. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsApplicationsServicesRequest {
+export interface CreateProjectsLocationsApplicationsServicesRequest extends Service {
   /** Required. The Service identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   serviceId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Fully qualified name of the parent Application to create the Service in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
   parent: string;
-  /** Request body */
-  body?: Service | undefined;
 }
 export type WorkloadStateEnum =
   | "STATE_UNSPECIFIED"
@@ -365,15 +361,13 @@ export interface Workload {
   /** Output only. Reference of an underlying compute resource represented by the Workload. These are immutable. */
   workloadReference?: WorkloadReference | undefined;
 }
-export interface CreateProjectsLocationsApplicationsWorkloadsRequest {
+export interface CreateProjectsLocationsApplicationsWorkloadsRequest extends Workload {
   /** Required. Fully qualified name of the Application to create Workload in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The Workload identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   workloadId?: string | undefined;
-  /** Request body */
-  body?: Workload | undefined;
 }
 export type ServiceProjectAttachmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -393,15 +387,13 @@ export interface ServiceProjectAttachment {
   /** Output only. ServiceProjectAttachment state. */
   state?: ServiceProjectAttachmentStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsServiceProjectAttachmentsRequest {
+export interface CreateProjectsLocationsServiceProjectAttachmentsRequest extends ServiceProjectAttachment {
   /** Required. Host project ID and location to which service project is being attached. Only global location is supported. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The service project attachment identifier must contain the project id of the service project specified in the service_project_attachment.service_project field. */
   serviceProjectAttachmentId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceProjectAttachment | undefined;
 }
 export interface DeleteProjectsLocationsApplicationsRequest {
   /** Required. Fully qualified name of the Application to delete. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
@@ -859,35 +851,29 @@ export interface LookupServiceProjectAttachmentResponse {
   /** Service project attachment for a project if exists, empty otherwise. */
   serviceProjectAttachment?: ServiceProjectAttachment | undefined;
 }
-export interface PatchProjectsLocationsApplicationsRequest {
+export interface PatchProjectsLocationsApplicationsRequest extends Omit<Application, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Application resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of an Application. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}"` */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Application | undefined;
 }
-export interface PatchProjectsLocationsApplicationsServicesRequest {
+export interface PatchProjectsLocationsApplicationsServicesRequest extends Omit<Service, "name"> {
   /** Identifier. The resource name of a Service. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/services/{service-id}"` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface PatchProjectsLocationsApplicationsWorkloadsRequest {
+export interface PatchProjectsLocationsApplicationsWorkloadsRequest extends Omit<Workload, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The resource name of the Workload. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Workload resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Workload | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -896,37 +882,31 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApplicationsRequest {
+export interface SetIamPolicyProjectsLocationsApplicationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApplicationsRequest {
+export interface TestIamPermissionsProjectsLocationsApplicationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateBoundaryProjectsLocationsRequest {
+export interface UpdateBoundaryProjectsLocationsRequest extends Omit<Boundary, "name"> {
   /** Identifier. The resource name of the boundary. Format: "projects/{project}/locations/{location}/boundary" */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Boundary resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Boundary | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -2595,12 +2575,14 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(385, __c48, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c48, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2614,12 +2596,14 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2633,12 +2617,14 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c60, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2659,10 +2645,12 @@ function __c44(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c44, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -2682,10 +2670,12 @@ function __c45(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(360, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -2699,12 +2689,14 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2718,12 +2710,14 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          applicationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(385, __c48, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c48, 1),
+          S.Struct({
+            applicationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/applications",
@@ -2860,12 +2854,14 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c56, 0),
+          S.Struct({
+            serviceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/services",
@@ -2932,12 +2928,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          workloadId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c60, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            workloadId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/workloads",
@@ -2986,12 +2984,14 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          serviceProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(496, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            serviceProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/serviceProjectAttachments",

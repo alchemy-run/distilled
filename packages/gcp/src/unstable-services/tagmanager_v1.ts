@@ -231,11 +231,9 @@ export interface Container {
   /** Container Time Zone ID. */
   timeZoneId?: string | undefined;
 }
-export interface CreateAccountsContainersRequest {
+export interface CreateAccountsContainersRequest extends Omit<Container, "accountId"> {
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: Container | undefined;
 }
 export type EnvironmentTypeEnum = "user" | "live" | "latest" | "draft";
 /** Represents a Google Tag Manager Environment. Note that a user can create, delete and update environments of type USER, but can only update the enable_debug and url fields of environments of other types. */
@@ -264,13 +262,14 @@ export interface Environment {
   containerId?: string | undefined;
   containerVersionId?: string | undefined;
 }
-export interface CreateAccountsContainersEnvironmentsRequest {
+export interface CreateAccountsContainersEnvironmentsRequest extends Omit<
+  Environment,
+  "accountId" | "containerId"
+> {
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** Request body */
-  body?: Environment | undefined;
 }
 /** Represents a Google Tag Manager Folder. */
 export interface Folder {
@@ -285,13 +284,14 @@ export interface Folder {
   /** The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
   fingerprint?: string | undefined;
 }
-export interface CreateAccountsContainersFoldersRequest {
+export interface CreateAccountsContainersFoldersRequest extends Omit<
+  Folder,
+  "accountId" | "containerId"
+> {
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: Folder | undefined;
 }
 export type ParameterTypeEnum =
   | "template"
@@ -371,13 +371,14 @@ export interface Tag {
   /** GTM Tag Type. */
   type?: string | undefined;
 }
-export interface CreateAccountsContainersTagsRequest {
+export interface CreateAccountsContainersTagsRequest extends Omit<
+  Tag,
+  "accountId" | "containerId"
+> {
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** Request body */
-  body?: Tag | undefined;
 }
 export type ConditionTypeEnum =
   | "equals"
@@ -478,13 +479,14 @@ export interface Trigger {
   /** Parent folder id. */
   parentFolderId?: string | undefined;
 }
-export interface CreateAccountsContainersTriggersRequest {
+export interface CreateAccountsContainersTriggersRequest extends Omit<
+  Trigger,
+  "containerId" | "accountId"
+> {
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** Request body */
-  body?: Trigger | undefined;
 }
 /** Represents a Google Tag Manager Variable. */
 export interface Variable {
@@ -515,13 +517,14 @@ export interface Variable {
   /** Variable display name. */
   name?: string | undefined;
 }
-export interface CreateAccountsContainersVariablesRequest {
+export interface CreateAccountsContainersVariablesRequest extends Omit<
+  Variable,
+  "containerId" | "accountId"
+> {
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: Variable | undefined;
 }
 /** Options for new container versions. */
 export interface CreateContainerVersionRequestVersionOptions {
@@ -532,13 +535,11 @@ export interface CreateContainerVersionRequestVersionOptions {
   /** The creation of this version may be for quick preview and shouldn't be saved. */
   quickPreview?: boolean | undefined;
 }
-export interface CreateAccountsContainersVersionsRequest {
+export interface CreateAccountsContainersVersionsRequest extends CreateContainerVersionRequestVersionOptions {
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: CreateContainerVersionRequestVersionOptions | undefined;
 }
 export type TagList = Array<Tag>;
 export type TriggerList = Array<Trigger>;
@@ -624,11 +625,9 @@ export interface UserAccess {
   /** GTM Container access permissions. */
   containerAccess?: ContainerAccessList | undefined;
 }
-export interface CreateAccountsPermissionsRequest {
+export interface CreateAccountsPermissionsRequest extends Omit<UserAccess, "accountId"> {
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: UserAccess | undefined;
 }
 export interface DeleteAccountsContainersRequest {
   /** The GTM Account ID. */
@@ -944,25 +943,27 @@ export interface UndeleteAccountsContainersVersionsRequest {
   /** The GTM Account ID. */
   accountId: string;
 }
-export interface UpdateAccountsRequest {
+export interface UpdateAccountsRequest extends Omit<Account, "fingerprint" | "accountId"> {
   /** When provided, this fingerprint must match the fingerprint of the account in storage. */
   fingerprint?: string | undefined;
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: Account | undefined;
 }
-export interface UpdateAccountsContainersRequest {
+export interface UpdateAccountsContainersRequest extends Omit<
+  Container,
+  "fingerprint" | "accountId" | "containerId"
+> {
   /** When provided, this fingerprint must match the fingerprint of the container in storage. */
   fingerprint?: string | undefined;
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
-  /** Request body */
-  body?: Container | undefined;
 }
-export interface UpdateAccountsContainersEnvironmentsRequest {
+export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
+  Environment,
+  "accountId" | "fingerprint" | "environmentId" | "containerId"
+> {
   /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
   fingerprint?: string | undefined;
   /** The GTM Environment ID. */
@@ -971,10 +972,11 @@ export interface UpdateAccountsContainersEnvironmentsRequest {
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: Environment | undefined;
 }
-export interface UpdateAccountsContainersFoldersRequest {
+export interface UpdateAccountsContainersFoldersRequest extends Omit<
+  Folder,
+  "accountId" | "folderId" | "containerId" | "fingerprint"
+> {
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Folder ID. */
@@ -983,10 +985,11 @@ export interface UpdateAccountsContainersFoldersRequest {
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
-export interface UpdateAccountsContainersMove_foldersRequest {
+export interface UpdateAccountsContainersMove_foldersRequest extends Omit<
+  Folder,
+  "accountId" | "folderId" | "containerId"
+> {
   /** The GTM Container ID. */
   containerId: string;
   /** The variables to be moved to the folder. */
@@ -999,21 +1002,23 @@ export interface UpdateAccountsContainersMove_foldersRequest {
   tagId?: StringList | undefined;
   /** The triggers to be moved to the folder. */
   triggerId?: StringList | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
 export interface UpdateAccountsContainersMove_foldersResponse {}
-export interface UpdateAccountsContainersReauthorize_environmentsRequest {
+export interface UpdateAccountsContainersReauthorize_environmentsRequest extends Omit<
+  Environment,
+  "accountId" | "environmentId" | "containerId"
+> {
   /** The GTM Environment ID. */
   environmentId: string;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: Environment | undefined;
 }
-export interface UpdateAccountsContainersTagsRequest {
+export interface UpdateAccountsContainersTagsRequest extends Omit<
+  Tag,
+  "fingerprint" | "accountId" | "tagId" | "containerId"
+> {
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Account ID. */
@@ -1022,10 +1027,11 @@ export interface UpdateAccountsContainersTagsRequest {
   tagId: string;
   /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Tag | undefined;
 }
-export interface UpdateAccountsContainersTriggersRequest {
+export interface UpdateAccountsContainersTriggersRequest extends Omit<
+  Trigger,
+  "fingerprint" | "triggerId" | "containerId" | "accountId"
+> {
   /** The GTM Trigger ID. */
   triggerId: string;
   /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
@@ -1034,10 +1040,11 @@ export interface UpdateAccountsContainersTriggersRequest {
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
-  /** Request body */
-  body?: Trigger | undefined;
 }
-export interface UpdateAccountsContainersVariablesRequest {
+export interface UpdateAccountsContainersVariablesRequest extends Omit<
+  Variable,
+  "containerId" | "variableId" | "accountId" | "fingerprint"
+> {
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Variable ID. */
@@ -1046,10 +1053,11 @@ export interface UpdateAccountsContainersVariablesRequest {
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Variable | undefined;
 }
-export interface UpdateAccountsContainersVersionsRequest {
+export interface UpdateAccountsContainersVersionsRequest extends Omit<
+  ContainerVersion,
+  "accountId" | "fingerprint" | "containerId" | "containerVersionId"
+> {
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container Version ID. */
@@ -1058,16 +1066,15 @@ export interface UpdateAccountsContainersVersionsRequest {
   fingerprint?: string | undefined;
   /** The GTM Container ID. */
   containerId: string;
-  /** Request body */
-  body?: ContainerVersion | undefined;
 }
-export interface UpdateAccountsPermissionsRequest {
+export interface UpdateAccountsPermissionsRequest extends Omit<
+  UserAccess,
+  "accountId" | "permissionId"
+> {
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM User ID. */
   permissionId: string;
-  /** Request body */
-  body?: UserAccess | undefined;
 }
 export type CreateAccountsContainersError =
   | NotFound
@@ -2064,11 +2071,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateContainerVersionRequestVersionOptions" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/versions",
@@ -2134,10 +2143,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(59, __c7, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59, __c7, 3),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/permissions",
@@ -2783,10 +2794,12 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c40, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/containers",
@@ -2868,11 +2881,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c18, 0),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}",
@@ -2886,12 +2901,14 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          accountId: S.String.pipe(T.Label()),
-          containerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c40, 0),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}",
@@ -2905,13 +2922,15 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          environmentId: S.String.pipe(T.Label()),
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(424, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(424, __c53, 0),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            environmentId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/environments/{environmentId}",
@@ -2925,13 +2944,15 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          folderId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c58, 0),
+          S.Struct({
+            containerId: S.String.pipe(T.Label()),
+            folderId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/folders/{folderId}",
@@ -2945,15 +2966,17 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          variableId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
-          accountId: S.String.pipe(T.Label()),
-          folderId: S.String.pipe(T.Label()),
-          tagId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
-          triggerId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c58, 0),
+          S.Struct({
+            containerId: S.String.pipe(T.Label()),
+            variableId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
+            accountId: S.String.pipe(T.Label()),
+            folderId: S.String.pipe(T.Label()),
+            tagId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
+            triggerId: S.optional(__S(328, __c41, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/move_folders/{folderId}",
@@ -2967,12 +2990,14 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          environmentId: S.String.pipe(T.Label()),
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(424, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(424, __c53, 0),
+          S.Struct({
+            environmentId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/reauthorize_environments/{environmentId}",
@@ -2986,13 +3011,15 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          tagId: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(484, __c60, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(484, __c60, 4),
+          S.Struct({
+            containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+            tagId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/tags/{tagId}",
@@ -3006,13 +3033,15 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          triggerId: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(506, __c63, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(506, __c63, 2),
+          S.Struct({
+            triggerId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/triggers/{triggerId}",
@@ -3026,11 +3055,13 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          containerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(424, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(424, __c53, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/environments",
@@ -3065,13 +3096,15 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          variableId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(520, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(520, __c65, 0),
+          S.Struct({
+            containerId: S.String.pipe(T.Label()),
+            variableId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/variables/{variableId}",
@@ -3085,13 +3118,15 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          containerVersionId: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          containerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            containerVersionId: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            containerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/versions/{containerVersionId}",
@@ -3105,11 +3140,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          permissionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(59, __c7, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59, __c7, 3),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            permissionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v1/accounts/{accountId}/permissions/{permissionId}",
@@ -3123,11 +3160,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c58, 0),
+          S.Struct({
+            containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/folders",
@@ -3155,11 +3194,13 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          containerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(484, __c60, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(484, __c60, 4),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/tags",
@@ -3235,11 +3276,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          containerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(506, __c63, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(506, __c63, 2),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            containerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/triggers",
@@ -3299,11 +3342,13 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          containerId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(520, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(520, __c65, 0),
+          S.Struct({
+            containerId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v1/accounts/{accountId}/containers/{containerId}/variables",

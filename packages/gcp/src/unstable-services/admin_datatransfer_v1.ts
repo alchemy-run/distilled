@@ -142,10 +142,7 @@ export interface DataTransfer {
   /** Read-only. Overall transfer status. */
   overallTransferStatusCode?: string | undefined;
 }
-export interface InsertTransfersRequest {
-  /** Request body */
-  body?: DataTransfer | undefined;
-}
+export interface InsertTransfersRequest extends DataTransfer {}
 export interface ListApplicationsRequest {
   /** Immutable ID of the Google Workspace account. */
   customerId?: string | undefined;
@@ -374,9 +371,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(18, __c4, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(18, __c4, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/datatransfer/v1/transfers",

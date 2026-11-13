@@ -152,11 +152,9 @@ export interface BatchCreatePullRequestCommentsRequest {
   /** Required. The request message specifying the resources to create. There should be exactly one CreatePullRequestCommentRequest with CommentDetail being REVIEW in the list, and no more than 100 CreatePullRequestCommentRequests with CommentDetail being CODE in the list */
   requests?: CreatePullRequestCommentRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
+export interface BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends BatchCreatePullRequestCommentsRequest {
   /** Required. The pull request in which to create the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
-  /** Request body */
-  body?: BatchCreatePullRequestCommentsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -197,11 +195,9 @@ export interface CloseIssueRequest {
   /** Optional. The current etag of the issue. If the etag is provided and does not match the current etag of the issue, closing will be blocked and an ABORTED error will be returned. */
   etag?: string | undefined;
 }
-export interface CloseProjectsLocationsRepositoriesIssuesRequest {
+export interface CloseProjectsLocationsRepositoriesIssuesRequest extends CloseIssueRequest {
   /** Required. Name of the issue to close. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
   name: string;
-  /** Request body */
-  body?: CloseIssueRequest | undefined;
 }
 /** ClosePullRequestRequest is the request to close a pull request. */
 export type ClosePullRequestRequest = CancelOperationRequest;
@@ -293,15 +289,13 @@ export interface Instance {
   /** Output only. A list of hostnames for this instance. */
   hostConfig?: HostConfig | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. ID of the instance to be created. */
   instanceId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: Instance | undefined;
 }
 /** URIs for the repository. */
 export interface URIs {
@@ -367,13 +361,11 @@ export interface Repository {
   /** Optional. Provides configuration for scanning. */
   scanConfig?: ScanConfig | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesRequest {
+export interface CreateProjectsLocationsRepositoriesRequest extends Repository {
   /** Required. The project in which to create the repository. Values are of the form `projects/{project_number}/locations/{location_id}` */
   parent: string;
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
   repositoryId?: string | undefined;
-  /** Request body */
-  body?: Repository | undefined;
 }
 /** Check is a type for status check. */
 export interface Check {
@@ -416,11 +408,9 @@ export interface BranchRule {
   /** Optional. Determines if the branch rule requires a pull request or not. */
   requirePullRequest?: boolean | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesBranchRulesRequest {
+export interface CreateProjectsLocationsRepositoriesBranchRulesRequest extends BranchRule {
   parent: string;
   branchRuleId?: string | undefined;
-  /** Request body */
-  body?: BranchRule | undefined;
 }
 export type HookEventsItemEnum = "UNSPECIFIED" | "PUSH" | "PULL_REQUEST" | "PULL_REQUEST_COMMENT";
 export type HookEventsItemEnumList = Array<HookEventsItemEnum | (string & {})>;
@@ -451,13 +441,11 @@ export interface Hook {
   /** Identifier. A unique identifier for a Hook. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesHooksRequest {
+export interface CreateProjectsLocationsRepositoriesHooksRequest extends Hook {
   /** Required. The repository in which to create the hook. Values are of the form `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
   /** Required. The ID to use for the hook, which will become the final component of the hook's resource name. This value restricts to lower-case letters, numbers, and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   hookId?: string | undefined;
-  /** Request body */
-  body?: Hook | undefined;
 }
 export type IssueStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED";
 /** Metadata of an Issue. */
@@ -479,11 +467,9 @@ export interface Issue {
   /** Required. Issue title. */
   title?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesIssuesRequest {
+export interface CreateProjectsLocationsRepositoriesIssuesRequest extends Issue {
   /** Required. The repository in which to create the issue. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
-  /** Request body */
-  body?: Issue | undefined;
 }
 /** IssueComment represents a comment on an issue. */
 export interface IssueComment {
@@ -496,11 +482,9 @@ export interface IssueComment {
   /** Required. The comment body. */
   body?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
+export interface CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest extends IssueComment {
   /** Required. The issue in which to create the issue comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}` */
   parent: string;
-  /** Request body */
-  body?: IssueComment | undefined;
 }
 /** Branch represents a branch involved in a pull request. */
 export interface Branch {
@@ -531,17 +515,13 @@ export interface PullRequest {
   /** Output only. State of the pull request (open, closed or merged). */
   state?: PullRequestStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesPullRequestsRequest {
+export interface CreateProjectsLocationsRepositoriesPullRequestsRequest extends PullRequest {
   /** Required. The repository that the pull request is created from. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
-  /** Request body */
-  body?: PullRequest | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
+export interface CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends PullRequestComment {
   /** Required. The pull request in which to create the pull request comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
-  /** Request body */
-  body?: PullRequestComment | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Optional. If set to true, will force the deletion of the instance. */
@@ -1001,11 +981,9 @@ export interface OpenIssueRequest {
   /** Optional. The current etag of the issue. If the etag is provided and does not match the current etag of the issue, opening will be blocked and an ABORTED error will be returned. */
   etag?: string | undefined;
 }
-export interface OpenProjectsLocationsRepositoriesIssuesRequest {
+export interface OpenProjectsLocationsRepositoriesIssuesRequest extends OpenIssueRequest {
   /** Required. Name of the issue to open. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
   name: string;
-  /** Request body */
-  body?: OpenIssueRequest | undefined;
 }
 /** OpenPullRequestRequest is the request to open a pull request. */
 export type OpenPullRequestRequest = CancelOperationRequest;
@@ -1015,65 +993,63 @@ export interface OpenProjectsLocationsRepositoriesPullRequestsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesRequest {
+export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the repository resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. False by default. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
   /** Identifier. A unique identifier for a repository. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}` */
   name: string;
-  /** Request body */
-  body?: Repository | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesBranchRulesRequest {
+export interface PatchProjectsLocationsRepositoriesBranchRulesRequest extends Omit<
+  BranchRule,
+  "name"
+> {
   /** Optional. If set, validate the request and preview the review, but do not actually post it. (https://google.aip.dev/163, for declarative friendly) */
   validateOnly?: boolean | undefined;
   /** Identifier. A unique identifier for a BranchRule. The name should be of the format: `projects/{project}/locations/{location}/repositories/{repository}/branchRules/{branch_rule}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the branchRule resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BranchRule | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesHooksRequest {
+export interface PatchProjectsLocationsRepositoriesHooksRequest extends Omit<Hook, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the hook resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
   /** Identifier. A unique identifier for a Hook. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}` */
   name: string;
-  /** Request body */
-  body?: Hook | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesIssuesRequest {
+export interface PatchProjectsLocationsRepositoriesIssuesRequest extends Omit<Issue, "name"> {
   /** Identifier. Unique identifier for an issue. The issue id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the issue resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Issue | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
+export interface PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest extends Omit<
+  IssueComment,
+  "name"
+> {
   /** Identifier. Unique identifier for an issue comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue}/issueComments/{comment_id}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the issue comment resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: IssueComment | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPullRequestsRequest {
+export interface PatchProjectsLocationsRepositoriesPullRequestsRequest extends Omit<
+  PullRequest,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the pull request resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
   /** Output only. Identifier. A unique identifier for a PullRequest. The number appended at the end is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request_id}` */
   name: string;
-  /** Request body */
-  body?: PullRequest | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
+export interface PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends Omit<
+  PullRequestComment,
+  "name"
+> {
   /** Identifier. Unique identifier for the pull request comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request}/pullRequestComments/{comment_id}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the pull request comment resource by the update. Updatable fields are `body`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PullRequestComment | undefined;
 }
 /** The request to resolve multiple pull request comments. */
 export interface ResolvePullRequestCommentsRequest {
@@ -1082,11 +1058,9 @@ export interface ResolvePullRequestCommentsRequest {
   /** Optional. If set, at least one comment in a thread is required, rest of the comments in the same thread will be automatically updated to resolved. If unset, all comments in the same thread need be present. */
   autoFill?: boolean | undefined;
 }
-export interface ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
+export interface ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends ResolvePullRequestCommentsRequest {
   /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
-  /** Request body */
-  body?: ResolvePullRequestCommentsRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1095,39 +1069,31 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
+export interface SetIamPolicyProjectsLocationsRepositoriesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
+export interface TestIamPermissionsProjectsLocationsRepositoriesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** The request to unresolve multiple pull request comments. */
 export interface UnresolvePullRequestCommentsRequest {
@@ -1136,11 +1102,9 @@ export interface UnresolvePullRequestCommentsRequest {
   /** Optional. If set, at least one comment in a thread is required, rest of the comments in the same thread will be automatically updated to unresolved. If unset, all comments in the same thread need be present. */
   autoFill?: boolean | undefined;
 }
-export interface UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
+export interface UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends UnresolvePullRequestCommentsRequest {
   /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
-  /** Request body */
-  body?: UnresolvePullRequestCommentsRequest | undefined;
 }
 export type BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
   | NotFound
@@ -2514,11 +2478,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          branchRuleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            branchRuleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/branchRules",
@@ -2565,11 +2531,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          hookId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26, __c3, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            hookId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/hooks",
@@ -2610,10 +2578,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/issues",
@@ -2644,10 +2614,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/issueComments",
@@ -2674,10 +2646,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(73, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(73, __c9, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequests",
@@ -2716,10 +2690,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(308, __c38, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(308, __c38, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments",
@@ -3280,10 +3256,12 @@ function __c37(j: number): any {
       ).annotate({ identifier: "BatchCreatePullRequestCommentsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c37, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments:batchCreate",
@@ -3700,10 +3678,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:open",
@@ -3734,12 +3714,14 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(652, __c81, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(652, __c81, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3753,12 +3735,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10, __c1, 2),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3772,11 +3756,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(26, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26, __c3, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3790,11 +3776,13 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3808,11 +3796,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3826,11 +3816,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(73, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(73, __c9, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3844,11 +3836,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(308, __c38, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(308, __c38, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3864,10 +3858,12 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:close",
@@ -3891,10 +3887,12 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c66, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments:resolve",
@@ -3921,10 +3919,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c68, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3949,10 +3949,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c68, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3966,10 +3968,12 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3993,10 +3997,12 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4010,10 +4016,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c66, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments:unresolve",
@@ -4046,12 +4054,14 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(619, __c77, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(619, __c77, 3),
+          S.Struct({
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -4137,11 +4147,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(652, __c81, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(652, __c81, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/repositories",

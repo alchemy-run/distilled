@@ -139,15 +139,13 @@ export interface Endpoint {
   /** Output only. The IP address of the IDS Endpoint's ILB. */
   endpointIp?: string | undefined;
 }
-export interface CreateProjectsLocationsEndpointsRequest {
+export interface CreateProjectsLocationsEndpointsRequest extends Endpoint {
   /** Required. The endpoint's parent. */
   parent: string;
   /** Required. The endpoint identifier. This will be part of the endpoint's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. Values that do not match this pattern will trigger an INVALID_ARGUMENT error. */
   endpointId?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Endpoint | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -271,15 +269,13 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsEndpointsRequest {
+export interface PatchProjectsLocationsEndpointsRequest extends Omit<Endpoint, "name"> {
   /** Output only. The name of the endpoint. */
   name: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Endpoint | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -605,12 +601,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsEndpointsRequest" });
@@ -643,12 +641,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endpointId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c12, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            endpointId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/endpoints",

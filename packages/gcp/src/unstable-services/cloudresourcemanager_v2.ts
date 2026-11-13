@@ -108,11 +108,9 @@ export interface Folder {
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
   tags?: StringMap | undefined;
 }
-export interface CreateFoldersRequest {
+export interface CreateFoldersRequest extends Omit<Folder, "parent"> {
   /** Required. The resource name of the new Folder's parent. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
   parent?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -156,11 +154,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyFoldersRequest {
+export interface GetIamPolicyFoldersRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -242,19 +238,15 @@ export interface MoveFolderRequest {
   /** Required. The resource name of the Folder or Organization to reparent the folder under. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
   destinationParent?: string | undefined;
 }
-export interface MoveFoldersRequest {
+export interface MoveFoldersRequest extends MoveFolderRequest {
   /** Required. The resource name of the Folder to move. Must be of the form folders/{folder_id} */
   name: string;
-  /** Request body */
-  body?: MoveFolderRequest | undefined;
 }
-export interface PatchFoldersRequest {
+export interface PatchFoldersRequest extends Omit<Folder, "name"> {
   /** Output only. The resource name of the Folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
   name: string;
   /** Required. Fields to be updated. Only the `display_name` can be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
 /** The request message for searching folders. */
 export interface SearchFoldersRequest {
@@ -265,10 +257,7 @@ export interface SearchFoldersRequest {
   /** Search criteria used to select the Folders to return. If no search criteria is specified then all accessible folders will be returned. Query expressions can be used to restrict results based upon displayName, lifecycleState and parent, where the operators `=`, `NOT`, `AND` and `OR` can be used along with the suffix wildcard symbol `*`. The displayName field in a query expression should use escaped quotes for values that include whitespace to prevent unexpected behavior. Some example queries are: * Query `displayName=Test*` returns Folder resources whose display name starts with "Test". * Query `lifecycleState=ACTIVE` returns Folder resources with `lifecycleState` set to `ACTIVE`. * Query `parent=folders/123` returns Folder resources that have `folders/123` as a parent resource. * Query `parent=folders/123 AND lifecycleState=ACTIVE` returns active Folder resources that have `folders/123` as a parent resource. * Query `displayName=\\"Test String\\"` returns Folder resources with display names that include both "Test" and "String". */
   query?: string | undefined;
 }
-export interface SearchFoldersRequest_ {
-  /** Request body */
-  body?: SearchFoldersRequest | undefined;
-}
+export interface SearchFoldersRequest_ extends SearchFoldersRequest {}
 /** The response message for searching folders. */
 export interface SearchFoldersResponse {
   /** A possibly paginated folder search results. the specified parent resource. */
@@ -283,22 +272,18 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyFoldersRequest {
+export interface SetIamPolicyFoldersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsFoldersRequest {
+export interface TestIamPermissionsFoldersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -535,10 +520,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "MoveFolderRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:move",
@@ -552,11 +539,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -578,9 +567,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SearchFoldersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(16, __c2, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/folders:search",
@@ -601,10 +588,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c3, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -624,10 +613,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -660,10 +651,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/folders",
@@ -772,10 +765,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(97, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c12, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",

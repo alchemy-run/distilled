@@ -172,11 +172,9 @@ export interface Execution {
   /** Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
+export interface CreateProjectsLocationsWorkflowsExecutionsRequest extends Execution {
   /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
   parent: string;
-  /** Request body */
-  body?: Execution | undefined;
 }
 export type GetProjectsLocationsWorkflowsExecutionsViewEnum =
   | "EXECUTION_VIEW_UNSPECIFIED"
@@ -380,10 +378,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c1, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c1, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/executions",

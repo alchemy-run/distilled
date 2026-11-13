@@ -115,13 +115,11 @@ export interface BackupChannel {
   /** Optional. User specified descriptive string for this BackupChannel. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsBackupChannelsRequest {
+export interface CreateProjectsLocationsBackupChannelsRequest extends BackupChannel {
   /** Optional. The client-provided short name for the BackupChannel resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of BackupChannels in this location If the user does not provide a name, a uuid will be used as the name. */
   backupChannelId?: string | undefined;
   /** Required. The location within which to create the BackupChannel. Format: `projects/*\/locations/*` */
   parent: string;
-  /** Request body */
-  body?: BackupChannel | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -332,13 +330,11 @@ export interface BackupPlan {
   /** Output only. Human-readable description of why BackupPlan is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
   stateReason?: string | undefined;
 }
-export interface CreateProjectsLocationsBackupPlansRequest {
+export interface CreateProjectsLocationsBackupPlansRequest extends BackupPlan {
   /** Required. The client-provided short name for the BackupPlan resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of BackupPlans in this location */
   backupPlanId?: string | undefined;
   /** Required. The location within which to create the BackupPlan. Format: `projects/*\/locations/*` */
   parent: string;
-  /** Request body */
-  body?: BackupPlan | undefined;
 }
 /** Stores information about troubleshooting doc for debugging a particular state of an operation (eg - backup/restore). This will be used by the end user to debug their operation failure scenario easily. */
 export interface TroubleshootingInfo {
@@ -436,13 +432,11 @@ export interface Backup {
   /** Output only. Whether or not the Backup contains Kubernetes Secrets. Controlled by the parent BackupPlan's include_secrets value. */
   containsSecrets?: boolean | undefined;
 }
-export interface CreateProjectsLocationsBackupPlansBackupsRequest {
+export interface CreateProjectsLocationsBackupPlansBackupsRequest extends Backup {
   /** Required. The BackupPlan within which to create the Backup. Format: `projects/*\/locations/*\/backupPlans/*` */
   parent: string;
   /** Optional. The client-provided short name for the Backup resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of Backups in this BackupPlan */
   backupId?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
 /** A RestoreChannel imposes constraints on where backups can be restored. The RestoreChannel should be in the same project and region as the backups. The backups can only be restored in the `destination_project`. */
 export interface RestoreChannel {
@@ -465,13 +459,11 @@ export interface RestoreChannel {
   /** Output only. The project_id where backups will be restored. Example Project ID: "my-project-id". This will be an OUTPUT_ONLY field to return the project_id of the destination project. */
   destinationProjectId?: string | undefined;
 }
-export interface CreateProjectsLocationsRestoreChannelsRequest {
+export interface CreateProjectsLocationsRestoreChannelsRequest extends RestoreChannel {
   /** Required. The location within which to create the RestoreChannel. Format: `projects/*\/locations/*` */
   parent: string;
   /** Optional. The client-provided short name for the RestoreChannel resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of RestoreChannels in this location If the user does not provide a name, a uuid will be used as the name. */
   restoreChannelId?: string | undefined;
-  /** Request body */
-  body?: RestoreChannel | undefined;
 }
 export type RestoreConfigVolumeDataRestorePolicyEnum =
   | "VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED"
@@ -660,13 +652,11 @@ export interface RestorePlan {
   /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestorePlan`, and systems are expected to put that etag in the request to `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change will be applied to the same version of the resource. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsRestorePlansRequest {
+export interface CreateProjectsLocationsRestorePlansRequest extends RestorePlan {
   /** Required. The location within which to create the RestorePlan. Format: `projects/*\/locations/*` */
   parent: string;
   /** Required. The client-provided short name for the RestorePlan resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of RestorePlans in this location */
   restorePlanId?: string | undefined;
-  /** Request body */
-  body?: RestorePlan | undefined;
 }
 /** Defines a selector to identify a single or a group of resources. Conditions in the selector are optional, but at least one field should be set to a non-empty value. If a condition is not specified, no restrictions will be applied on that dimension. If more than one condition is specified, a resource will be selected if and only if all conditions are met. */
 export interface ResourceSelector {
@@ -751,13 +741,11 @@ export interface Restore {
   /** Output only. Timestamp of when the restore operation completed. */
   completeTime?: string | undefined;
 }
-export interface CreateProjectsLocationsRestorePlansRestoresRequest {
+export interface CreateProjectsLocationsRestorePlansRestoresRequest extends Restore {
   /** Required. The RestorePlan within which to create the Restore. Format: `projects/*\/locations/*\/restorePlans/*` */
   parent: string;
   /** Required. The client-provided short name for the Restore resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of Restores in this RestorePlan. */
   restoreId?: string | undefined;
-  /** Request body */
-  body?: Restore | undefined;
 }
 export interface DeleteProjectsLocationsBackupChannelsRequest {
   /** Optional. If provided, this value must match the current value of the target BackupChannel's etag field or the request is rejected. */
@@ -1406,53 +1394,41 @@ export interface ListVolumeRestoresResponse {
   /** A token which may be sent as page_token in a subsequent `ListVolumeRestores` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsBackupChannelsRequest {
+export interface PatchProjectsLocationsBackupChannelsRequest extends Omit<BackupChannel, "name"> {
   /** Identifier. The fully qualified name of the BackupChannel. `projects/*\/locations/*\/backupChannels/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the BackupChannel targeted for update. The values for each of these updated fields will be taken from the `backup_channel` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `labels`, etc.) If no `update_mask` is provided, all fields in `backup_channel` will be written to the target BackupChannel resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup_channel` are ignored and are not used to update the target BackupChannel. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BackupChannel | undefined;
 }
-export interface PatchProjectsLocationsBackupPlansRequest {
+export interface PatchProjectsLocationsBackupPlansRequest extends Omit<BackupPlan, "name"> {
   /** Optional. This is used to specify the fields to be overwritten in the BackupPlan targeted for update. The values for each of these updated fields will be taken from the `backup_plan` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `backup_config.include_volume_data`, etc.) If no `update_mask` is provided, all fields in `backup_plan` will be written to the target BackupPlan resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup_plan` are ignored and are not used to update the target BackupPlan. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The full name of the BackupPlan resource. Format: `projects/*\/locations/*\/backupPlans/*` */
   name: string;
-  /** Request body */
-  body?: BackupPlan | undefined;
 }
-export interface PatchProjectsLocationsBackupPlansBackupsRequest {
+export interface PatchProjectsLocationsBackupPlansBackupsRequest extends Omit<Backup, "name"> {
   /** Output only. Identifier. The fully qualified name of the Backup. `projects/*\/locations/*\/backupPlans/*\/backups/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the Backup targeted for update. The values for each of these updated fields will be taken from the `backup_plan` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `backup` will be written to the target Backup resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup` are ignored and are not used to update the target Backup. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface PatchProjectsLocationsRestoreChannelsRequest {
+export interface PatchProjectsLocationsRestoreChannelsRequest extends Omit<RestoreChannel, "name"> {
   /** Identifier. The fully qualified name of the RestoreChannel. `projects/*\/locations/*\/restoreChannels/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the RestoreChannel targeted for update. The values for each of these updated fields will be taken from the `restore_channel` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `destination_project_id`, etc.) If no `update_mask` is provided, all fields in `restore_channel` will be written to the target RestoreChannel resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore_channel` are ignored and are not used to update the target RestoreChannel. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RestoreChannel | undefined;
 }
-export interface PatchProjectsLocationsRestorePlansRequest {
+export interface PatchProjectsLocationsRestorePlansRequest extends Omit<RestorePlan, "name"> {
   /** Optional. This is used to specify the fields to be overwritten in the RestorePlan targeted for update. The values for each of these updated fields will be taken from the `restore_plan` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `restore_plan` will be written to the target RestorePlan resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore_plan` are ignored and are not used to update the target RestorePlan. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The full name of the RestorePlan resource. Format: `projects/*\/locations/*\/restorePlans/*`. */
   name: string;
-  /** Request body */
-  body?: RestorePlan | undefined;
 }
-export interface PatchProjectsLocationsRestorePlansRestoresRequest {
+export interface PatchProjectsLocationsRestorePlansRestoresRequest extends Omit<Restore, "name"> {
   /** Output only. Identifier. The full name of the Restore resource. Format: `projects/*\/locations/*\/restorePlans/*\/restores/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the Restore targeted for update. The values for each of these updated fields will be taken from the `restore` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `restore` will be written to the target Restore resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore` are ignored and are not used to update the target Restore. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Restore | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1461,41 +1437,29 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBackupPlansRequest {
+export interface SetIamPolicyProjectsLocationsBackupPlansRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBackupPlansBackupsRequest {
+export interface SetIamPolicyProjectsLocationsBackupPlansBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
+export interface SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRestorePlansRequest {
+export interface SetIamPolicyProjectsLocationsRestorePlansRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRestorePlansRestoresRequest {
+export interface SetIamPolicyProjectsLocationsRestorePlansRestoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
+export interface SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for SetTags. */
 export interface SetTagsRequest {
@@ -1508,11 +1472,9 @@ export interface SetTagsRequest {
   /** Required. These bindings will override any bindings previously set and will be effective immediately. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" */
   tags?: StringMap | undefined;
 }
-export interface SetTagsProjectsLocationsBackupPlansRequest {
+export interface SetTagsProjectsLocationsBackupPlansRequest extends Omit<SetTagsRequest, "name"> {
   /** Required. The full resource name of the service resource. */
   name: string;
-  /** Request body */
-  body?: SetTagsRequest | undefined;
 }
 /** Response message for SetTags. */
 export interface SetTagsResponse {
@@ -1523,57 +1485,43 @@ export interface SetTagsResponse {
   /** A checksum based on the current bindings. This field is always set in server responses. */
   etag?: string | undefined;
 }
-export interface SetTagsProjectsLocationsRestorePlansRequest {
+export interface SetTagsProjectsLocationsRestorePlansRequest extends Omit<SetTagsRequest, "name"> {
   /** Required. The full resource name of the service resource. */
   name: string;
-  /** Request body */
-  body?: SetTagsRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupPlansRequest {
+export interface TestIamPermissionsProjectsLocationsBackupPlansRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest {
+export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
+export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRestorePlansRequest {
+export interface TestIamPermissionsProjectsLocationsRestorePlansRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest {
+export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
+export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -3044,11 +2992,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restoreId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(21, __c1, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21, __c1, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/restores",
@@ -4133,11 +4083,13 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupChannelId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            backupChannelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backupChannels",
@@ -4234,11 +4186,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4252,11 +4206,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1082, __c67, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1082, __c67, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4270,11 +4226,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1393, __c87, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1393, __c87, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4288,11 +4246,13 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1440, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4306,11 +4266,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1488, __c93, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4324,11 +4286,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(21, __c1, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21, __c1, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4342,10 +4306,12 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4370,10 +4336,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4387,10 +4355,12 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4406,11 +4376,13 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupPlanId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1082, __c67, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1082, __c67, 10),
+          S.Struct({
+            backupPlanId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backupPlans",
@@ -4591,10 +4563,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4608,10 +4582,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4625,10 +4601,12 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4644,10 +4622,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setTags",
@@ -4674,10 +4654,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setTags",
@@ -4691,10 +4673,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4718,10 +4702,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4735,10 +4721,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4754,10 +4742,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4771,10 +4761,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4788,11 +4780,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1393, __c87, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1393, __c87, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups",
@@ -4869,10 +4863,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4888,11 +4884,13 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restoreChannelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1440, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restoreChannelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/restoreChannels",
@@ -4924,11 +4922,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restorePlanId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1488, __c93, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restorePlanId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/restorePlans",

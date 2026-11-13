@@ -114,11 +114,9 @@ export interface BatchUpdateIngressRulesRequest {
   /** A list of FirewallRules to replace the existing set. */
   ingressRules?: FirewallRuleList | undefined;
 }
-export interface BatchUpdateAppsFirewallIngressRulesRequest {
+export interface BatchUpdateAppsFirewallIngressRulesRequest extends BatchUpdateIngressRulesRequest {
   /** Part of `name`. Name of the Firewall collection to set. Example: apps/myapp/firewall/ingressRules. */
   appsId: string;
-  /** Request body */
-  body?: BatchUpdateIngressRulesRequest | undefined;
 }
 /** Response message for Firewall.UpdateAllIngressRules. */
 export interface BatchUpdateIngressRulesResponse {
@@ -200,10 +198,7 @@ export interface Application {
   /** The type of the Cloud Firestore or Cloud Datastore database associated with this application. */
   databaseType?: ApplicationDatabaseTypeEnum | (string & {}) | undefined;
 }
-export interface CreateAppsRequest {
-  /** Request body */
-  body?: Application | undefined;
-}
+export interface CreateAppsRequest extends Application {}
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
 export interface Status {
@@ -271,11 +266,9 @@ export interface AuthorizedCertificate {
   /** Aggregate count of the domain mappings with this certificate mapped. This count includes domain mappings on applications for which the user does not have VIEWER permissions.Only returned by GET or LIST requests when specifically requested by the view=FULL_CERTIFICATE option.@OutputOnly */
   domainMappingsCount?: number | undefined;
 }
-export interface CreateAppsAuthorizedCertificatesRequest {
+export interface CreateAppsAuthorizedCertificatesRequest extends AuthorizedCertificate {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
-  /** Request body */
-  body?: AuthorizedCertificate | undefined;
 }
 export type CreateAppsDomainMappingsOverrideStrategyEnum =
   | "UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY"
@@ -316,19 +309,15 @@ export interface DomainMapping {
   /** Output only. The resource records required to configure this domain mapping. These records must be added to the domain's DNS configuration in order to serve the application via this domain mapping.@OutputOnly */
   resourceRecords?: ResourceRecordList | undefined;
 }
-export interface CreateAppsDomainMappingsRequest {
+export interface CreateAppsDomainMappingsRequest extends DomainMapping {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
   /** Whether the domain creation should override any existing mappings for this domain. By default, overrides are rejected. */
   overrideStrategy?: CreateAppsDomainMappingsOverrideStrategyEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: DomainMapping | undefined;
 }
-export interface CreateAppsFirewallIngressRulesRequest {
+export interface CreateAppsFirewallIngressRulesRequest extends FirewallRule {
   /** Part of `parent`. Required. Name of the parent Firewall collection in which to create a new rule. Example: apps/myapp/firewall/ingressRules. */
   appsId: string;
-  /** Request body */
-  body?: FirewallRule | undefined;
 }
 export type VersionAppEngineBundledServicesItemEnum =
   | "BUNDLED_SERVICE_TYPE_UNSPECIFIED"
@@ -847,29 +836,25 @@ export interface Version {
   /** The entrypoint for the application. */
   entrypoint?: Entrypoint | undefined;
 }
-export interface CreateAppsServicesVersionsRequest {
+export interface CreateAppsServicesVersionsRequest extends Version {
   /** Part of `parent`. See documentation of `appsId`. */
   servicesId: string;
   /** Part of `parent`. Required. Name of the parent resource to create this version under. Example: apps/myapp/services/default. */
   appsId: string;
-  /** Request body */
-  body?: Version | undefined;
 }
-export interface CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest {
+export interface CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest extends AuthorizedCertificate {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   applicationsId: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Request body */
-  body?: AuthorizedCertificate | undefined;
 }
 export type CreateProjectsLocationsApplicationsDomainMappingsOverrideStrategyEnum =
   | "UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY"
   | "STRICT"
   | "OVERRIDE";
-export interface CreateProjectsLocationsApplicationsDomainMappingsRequest {
+export interface CreateProjectsLocationsApplicationsDomainMappingsRequest extends DomainMapping {
   /** Whether the domain creation should override any existing mappings for this domain. By default, overrides are rejected. */
   overrideStrategy?:
     | CreateProjectsLocationsApplicationsDomainMappingsOverrideStrategyEnum
@@ -881,15 +866,13 @@ export interface CreateProjectsLocationsApplicationsDomainMappingsRequest {
   applicationsId: string;
   /** Part of `parent`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Request body */
-  body?: DomainMapping | undefined;
 }
 /** Request message for Instances.DebugInstance. */
 export interface DebugInstanceRequest {
   /** Public SSH key to add to the instance. Examples: [USERNAME]:ssh-rsa [KEY_VALUE] [USERNAME] [USERNAME]:ssh-rsa [KEY_VALUE] google-ssh {"userName":"[USERNAME]","expireOn":"[EXPIRE_TIME]"}For more information, see Adding and Removing SSH Keys (https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys). */
   sshKey?: string | undefined;
 }
-export interface DebugAppsServicesVersionsInstancesRequest {
+export interface DebugAppsServicesVersionsInstancesRequest extends DebugInstanceRequest {
   /** Part of `name`. See documentation of `appsId`. */
   instancesId: string;
   /** Part of `name`. See documentation of `appsId`. */
@@ -898,10 +881,8 @@ export interface DebugAppsServicesVersionsInstancesRequest {
   versionsId: string;
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   appsId: string;
-  /** Request body */
-  body?: DebugInstanceRequest | undefined;
 }
-export interface DebugProjectsLocationsApplicationsServicesVersionsInstancesRequest {
+export interface DebugProjectsLocationsApplicationsServicesVersionsInstancesRequest extends DebugInstanceRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
@@ -914,8 +895,6 @@ export interface DebugProjectsLocationsApplicationsServicesVersionsInstancesRequ
   versionsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Request body */
-  body?: DebugInstanceRequest | undefined;
 }
 export interface DeleteAppsAuthorizedCertificatesRequest {
   /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/authorizedCertificates/12345. */
@@ -1022,17 +1001,15 @@ export interface ExportAppImageRequest {
   /** Optional. The full resource name of the AR repository to export to. Format: projects/{project}/locations/{location}/repositories/{repository} If not specified, defaults to projects/{project}/locations/{location}/repositories/gae-standard in the same region as the app. The default repository will be created if it does not exist. */
   destinationRepository?: string | undefined;
 }
-export interface ExportAppImageAppsServicesVersionsRequest {
+export interface ExportAppImageAppsServicesVersionsRequest extends ExportAppImageRequest {
   /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
   /** Part of `name`. See documentation of `appsId`. */
   versionsId: string;
   /** Part of `name`. Required. Name of the App Engine version resource. Format: apps/{app}/services/{service}/versions/{version} */
   appsId: string;
-  /** Request body */
-  body?: ExportAppImageRequest | undefined;
 }
-export interface ExportAppImageProjectsLocationsApplicationsServicesVersionsRequest {
+export interface ExportAppImageProjectsLocationsApplicationsServicesVersionsRequest extends ExportAppImageRequest {
   /** Part of `name`. Required. Name of the App Engine version resource. Format: apps/{app}/services/{service}/versions/{version} */
   projectsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
@@ -1043,8 +1020,6 @@ export interface ExportAppImageProjectsLocationsApplicationsServicesVersionsRequ
   applicationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Request body */
-  body?: ExportAppImageRequest | undefined;
 }
 export type GetAppsIncludeExtraDataEnum =
   | "INCLUDE_EXTRA_DATA_UNSPECIFIED"
@@ -1506,45 +1481,37 @@ export interface ListRuntimesResponse {
   /** Continuation token for fetching the next page of results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchAppsRequest {
+export interface PatchAppsRequest extends Application {
   /** Required. Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
   /** Part of `name`. Required. Name of the Application resource to update. Example: apps/myapp. */
   appsId: string;
-  /** Request body */
-  body?: Application | undefined;
 }
-export interface PatchAppsAuthorizedCertificatesRequest {
+export interface PatchAppsAuthorizedCertificatesRequest extends AuthorizedCertificate {
   /** Part of `name`. See documentation of `appsId`. */
   authorizedCertificatesId: string;
   /** Standard field mask for the set of fields to be updated. Updates are only supported on the certificate_raw_data and display_name fields. */
   updateMask?: string | undefined;
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/authorizedCertificates/12345. */
   appsId: string;
-  /** Request body */
-  body?: AuthorizedCertificate | undefined;
 }
-export interface PatchAppsDomainMappingsRequest {
+export interface PatchAppsDomainMappingsRequest extends DomainMapping {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/domainMappings/example.com. */
   appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   domainMappingsId: string;
   /** Required. Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DomainMapping | undefined;
 }
-export interface PatchAppsFirewallIngressRulesRequest {
+export interface PatchAppsFirewallIngressRulesRequest extends FirewallRule {
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
   /** Part of `name`. Name of the Firewall resource to update. Example: apps/myapp/firewall/ingressRules/100. */
   appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
   ingressRulesId: string;
-  /** Request body */
-  body?: FirewallRule | undefined;
 }
-export interface PatchAppsServicesRequest {
+export interface PatchAppsServicesRequest extends Service {
   /** Part of `name`. See documentation of `appsId`. */
   servicesId: string;
   /** Required. Standard field mask for the set of fields to be updated. */
@@ -1553,10 +1520,8 @@ export interface PatchAppsServicesRequest {
   appsId: string;
   /** Set to true to gradually shift traffic to one or more versions that you specify. By default, traffic is shifted immediately. For gradual traffic migration, the target versions must be located within instances that are configured for both warmup requests (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#InboundServiceType) and automatic scaling (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#AutomaticScaling). You must specify the shardBy (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services#ShardBy) field in the Service resource. Gradual traffic migration is not supported in the App Engine flexible environment. For examples, see Migrating and Splitting Traffic (https://cloud.google.com/appengine/docs/admin-api/migrating-splitting-traffic). */
   migrateTraffic?: boolean | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface PatchAppsServicesVersionsRequest {
+export interface PatchAppsServicesVersionsRequest extends Version {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default/versions/1. */
   appsId: string;
   /** Part of `name`. See documentation of `appsId`. */
@@ -1565,10 +1530,8 @@ export interface PatchAppsServicesVersionsRequest {
   updateMask?: string | undefined;
   /** Part of `name`. See documentation of `appsId`. */
   versionsId: string;
-  /** Request body */
-  body?: Version | undefined;
 }
-export interface PatchProjectsLocationsApplicationsRequest {
+export interface PatchProjectsLocationsApplicationsRequest extends Application {
   /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
   /** Part of `name`. Required. Name of the Application resource to update. Example: apps/myapp. */
@@ -1577,10 +1540,8 @@ export interface PatchProjectsLocationsApplicationsRequest {
   locationsId: string;
   /** Required. Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Application | undefined;
 }
-export interface PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest {
+export interface PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest extends AuthorizedCertificate {
   /** Standard field mask for the set of fields to be updated. Updates are only supported on the certificate_raw_data and display_name fields. */
   updateMask?: string | undefined;
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/authorizedCertificates/12345. */
@@ -1591,10 +1552,8 @@ export interface PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest
   applicationsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
   locationsId: string;
-  /** Request body */
-  body?: AuthorizedCertificate | undefined;
 }
-export interface PatchProjectsLocationsApplicationsDomainMappingsRequest {
+export interface PatchProjectsLocationsApplicationsDomainMappingsRequest extends DomainMapping {
   /** Part of `name`. See documentation of `projectsId`. */
   domainMappingsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
@@ -1605,10 +1564,8 @@ export interface PatchProjectsLocationsApplicationsDomainMappingsRequest {
   locationsId: string;
   /** Required. Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DomainMapping | undefined;
 }
-export interface PatchProjectsLocationsApplicationsServicesRequest {
+export interface PatchProjectsLocationsApplicationsServicesRequest extends Service {
   /** Part of `name`. See documentation of `projectsId`. */
   applicationsId: string;
   /** Set to true to gradually shift traffic to one or more versions that you specify. By default, traffic is shifted immediately. For gradual traffic migration, the target versions must be located within instances that are configured for both warmup requests (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#InboundServiceType) and automatic scaling (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#AutomaticScaling). You must specify the shardBy (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services#ShardBy) field in the Service resource. Gradual traffic migration is not supported in the App Engine flexible environment. For examples, see Migrating and Splitting Traffic (https://cloud.google.com/appengine/docs/admin-api/migrating-splitting-traffic). */
@@ -1621,10 +1578,8 @@ export interface PatchProjectsLocationsApplicationsServicesRequest {
   updateMask?: string | undefined;
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default. */
   projectsId: string;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface PatchProjectsLocationsApplicationsServicesVersionsRequest {
+export interface PatchProjectsLocationsApplicationsServicesVersionsRequest extends Version {
   /** Part of `name`. See documentation of `projectsId`. */
   versionsId: string;
   /** Part of `name`. See documentation of `projectsId`. */
@@ -1637,8 +1592,6 @@ export interface PatchProjectsLocationsApplicationsServicesVersionsRequest {
   servicesId: string;
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Version | undefined;
 }
 /** Request message for 'Applications.RepairApplication'. */
 export interface RepairApplicationRequest {}
@@ -2986,11 +2939,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servicesId: S.String.pipe(T.Label()),
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(102, __c3, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(102, __c3, 6),
+          S.Struct({
+            servicesId: S.String.pipe(T.Label()),
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/apps/{appsId}/services/{servicesId}/versions",
@@ -3355,12 +3310,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            projectsId: S.String.pipe(T.Label()),
+            applicationsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates",
@@ -3376,13 +3333,15 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          overrideStrategy: S.optional(S.String.pipe(T.Query())),
-          projectsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2467, __c77, 3),
+          S.Struct({
+            overrideStrategy: S.optional(S.String.pipe(T.Query())),
+            projectsId: S.String.pipe(T.Label()),
+            applicationsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings",
@@ -3396,13 +3355,15 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instancesId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            instancesId: S.String.pipe(T.Label()),
+            servicesId: S.String.pipe(T.Label()),
+            versionsId: S.String.pipe(T.Label()),
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/apps/{appsId}/services/{servicesId}/versions/{versionsId}/instances/{instancesId}:debug",
@@ -3426,15 +3387,17 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectsId: S.String.pipe(T.Label()),
-          instancesId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            projectsId: S.String.pipe(T.Label()),
+            instancesId: S.String.pipe(T.Label()),
+            applicationsId: S.String.pipe(T.Label()),
+            servicesId: S.String.pipe(T.Label()),
+            versionsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/services/{servicesId}/versions/{versionsId}/instances/{instancesId}:debug",
@@ -3663,12 +3626,14 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servicesId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            servicesId: S.String.pipe(T.Label()),
+            versionsId: S.String.pipe(T.Label()),
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/apps/{appsId}/services/{servicesId}/versions/{versionsId}:exportAppImage",
@@ -3692,14 +3657,16 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
-          versionsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            projectsId: S.String.pipe(T.Label()),
+            servicesId: S.String.pipe(T.Label()),
+            versionsId: S.String.pipe(T.Label()),
+            applicationsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/services/{servicesId}/versions/{versionsId}:exportAppImage",
@@ -4300,10 +4267,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "BatchUpdateIngressRulesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/apps/{appsId}/firewall/ingressRules:batchUpdate",
@@ -4404,11 +4373,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2116, __c66, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2116, __c66, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/apps/{appsId}",
@@ -4422,12 +4393,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authorizedCertificatesId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            authorizedCertificatesId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}",
@@ -4441,12 +4414,14 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          domainMappingsId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2467, __c77, 3),
+          S.Struct({
+            appsId: S.String.pipe(T.Label()),
+            domainMappingsId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/apps/{appsId}/domainMappings/{domainMappingsId}",
@@ -4460,12 +4435,14 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
-          ingressRulesId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            appsId: S.String.pipe(T.Label()),
+            ingressRulesId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/apps/{appsId}/firewall/ingressRules/{ingressRulesId}",
@@ -4479,13 +4456,15 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servicesId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          appsId: S.String.pipe(T.Label()),
-          migrateTraffic: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1027, __c32, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1027, __c32, 3),
+          S.Struct({
+            servicesId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            appsId: S.String.pipe(T.Label()),
+            migrateTraffic: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/apps/{appsId}/services/{servicesId}",
@@ -4499,13 +4478,15 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          versionsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(102, __c3, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(102, __c3, 6),
+          S.Struct({
+            appsId: S.String.pipe(T.Label()),
+            servicesId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            versionsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/apps/{appsId}/services/{servicesId}/versions/{versionsId}",
@@ -4519,13 +4500,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          applicationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2116, __c66, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2116, __c66, 4),
+          S.Struct({
+            applicationsId: S.String.pipe(T.Label()),
+            projectsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}",
@@ -4539,14 +4522,16 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          projectsId: S.String.pipe(T.Label()),
-          authorizedCertificatesId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            projectsId: S.String.pipe(T.Label()),
+            authorizedCertificatesId: S.String.pipe(T.Label()),
+            applicationsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedCertificates/{authorizedCertificatesId}",
@@ -4560,9 +4545,7 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2116, __c66, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2116, __c66, 4), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/apps", baseUrl: "https://appengine.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateAppsRequest" });
@@ -4654,14 +4637,16 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          domainMappingsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2467, __c77, 3),
+          S.Struct({
+            domainMappingsId: S.String.pipe(T.Label()),
+            applicationsId: S.String.pipe(T.Label()),
+            projectsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/domainMappings/{domainMappingsId}",
@@ -4675,15 +4660,17 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          applicationsId: S.String.pipe(T.Label()),
-          migrateTraffic: S.optional(S.Boolean.pipe(T.Query())),
-          locationsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          projectsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1027, __c32, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1027, __c32, 3),
+          S.Struct({
+            applicationsId: S.String.pipe(T.Label()),
+            migrateTraffic: S.optional(S.Boolean.pipe(T.Query())),
+            locationsId: S.String.pipe(T.Label()),
+            servicesId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            projectsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/services/{servicesId}",
@@ -4697,15 +4684,17 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          versionsId: S.String.pipe(T.Label()),
-          applicationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          servicesId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(102, __c3, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(102, __c3, 6),
+          S.Struct({
+            versionsId: S.String.pipe(T.Label()),
+            applicationsId: S.String.pipe(T.Label()),
+            projectsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+            servicesId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/services/{servicesId}/versions/{versionsId}",
@@ -4736,10 +4725,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/apps/{appsId}/authorizedCertificates",
@@ -4791,11 +4782,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          overrideStrategy: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2467, __c77, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2467, __c77, 3),
+          S.Struct({
+            appsId: S.String.pipe(T.Label()),
+            overrideStrategy: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/apps/{appsId}/domainMappings",
@@ -4840,10 +4833,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            appsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/apps/{appsId}/firewall/ingressRules",

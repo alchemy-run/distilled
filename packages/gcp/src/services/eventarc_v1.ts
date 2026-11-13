@@ -111,13 +111,11 @@ export interface ChannelConnection {
   /** Output only. The last-modified time. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsChannelConnectionsRequest {
+export interface CreateProjectsLocationsChannelConnectionsRequest extends ChannelConnection {
   /** Required. The user-provided ID to be assigned to the channel connection. */
   channelConnectionId?: string | undefined;
   /** Required. The parent collection in which to add this channel connection. */
   parent: string;
-  /** Request body */
-  body?: ChannelConnection | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -169,15 +167,13 @@ export interface Channel {
   /** Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsChannelsRequest {
+export interface CreateProjectsLocationsChannelsRequest extends Channel {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
   /** Required. The parent collection in which to add this channel. */
   parent: string;
   /** Required. The user-provided ID to be assigned to the channel. */
   channelId?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 /** An enrollment represents a subscription for messages on a particular message bus. It defines a matching criteria for messages on the bus and the subscriber endpoint where matched messages should be delivered. */
 export interface Enrollment {
@@ -204,15 +200,13 @@ export interface Enrollment {
   /** Optional. Resource labels. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsEnrollmentsRequest {
+export interface CreateProjectsLocationsEnrollmentsRequest extends Enrollment {
   /** Required. The parent collection in which to add this enrollment. */
   parent: string;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
   /** Required. The user-provided ID to be assigned to the Enrollment. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   enrollmentId?: string | undefined;
-  /** Request body */
-  body?: Enrollment | undefined;
 }
 export type StringList = Array<string>;
 /** Config to enable subscribing to all events from a list of projects. */
@@ -270,15 +264,13 @@ export interface GoogleApiSource {
   /** Output only. The last-modified time. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsGoogleApiSourcesRequest {
+export interface CreateProjectsLocationsGoogleApiSourcesRequest extends GoogleApiSource {
   /** Required. The user-provided ID to be assigned to the GoogleApiSource. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   googleApiSourceId?: string | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
   /** Required. The parent collection in which to add this google api source. */
   parent: string;
-  /** Request body */
-  body?: GoogleApiSource | undefined;
 }
 /** MessageBus for the messages flowing through the system. The admin has visibility and control over the messages being published and consumed and can restrict publishers and subscribers to only a subset of data available in the system by defining authorization policies. */
 export interface MessageBus {
@@ -303,15 +295,13 @@ export interface MessageBus {
   /** Optional. Config to control Platform logging for the Message Bus. This log configuration is applied to the Message Bus itself, and all the Enrollments attached to it. */
   loggingConfig?: LoggingConfig | undefined;
 }
-export interface CreateProjectsLocationsMessageBusesRequest {
+export interface CreateProjectsLocationsMessageBusesRequest extends MessageBus {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
   /** Required. The user-provided ID to be assigned to the MessageBus. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   messageBusId?: string | undefined;
   /** Required. The parent collection in which to add this message bus. */
   parent: string;
-  /** Request body */
-  body?: MessageBus | undefined;
 }
 /** The format of a Protobuf message payload. */
 export interface GoogleCloudEventarcV1PipelineMessagePayloadFormatProtobufFormat {
@@ -439,15 +429,13 @@ export interface Pipeline {
   /** Optional. List of mediation operations to be performed on the message. Currently, only one Transformation operation is allowed in each Pipeline. */
   mediations?: GoogleCloudEventarcV1PipelineMediationList | undefined;
 }
-export interface CreateProjectsLocationsPipelinesRequest {
+export interface CreateProjectsLocationsPipelinesRequest extends Pipeline {
   /** Required. The user-provided ID to be assigned to the Pipeline. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   pipelineId?: string | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
   /** Required. The parent collection in which to add this pipeline. */
   parent: string;
-  /** Request body */
-  body?: Pipeline | undefined;
 }
 /** Represents a Pub/Sub transport. */
 export interface Pubsub {
@@ -582,15 +570,13 @@ export interface Trigger {
   /** Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners. */
   channel?: string | undefined;
 }
-export interface CreateProjectsLocationsTriggersRequest {
+export interface CreateProjectsLocationsTriggersRequest extends Trigger {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
   /** Required. The user-provided ID to be assigned to the trigger. */
   triggerId?: string | undefined;
   /** Required. The parent collection in which to add this trigger. */
   parent: string;
-  /** Request body */
-  body?: Trigger | undefined;
 }
 export interface DeleteProjectsLocationsChannelConnectionsRequest {
   /** Required. The name of the channel connection to delete. */
@@ -1081,17 +1067,15 @@ export interface ListTriggersResponse {
   /** A page token that can be sent to `ListTriggers` to request the next page. If this is empty, then there are no more pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsChannelsRequest {
+export interface PatchProjectsLocationsChannelsRequest extends Omit<Channel, "name"> {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
   /** Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
   name: string;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface PatchProjectsLocationsEnrollmentsRequest {
+export interface PatchProjectsLocationsEnrollmentsRequest extends Omit<Enrollment, "name"> {
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
   /** Optional. If set to true, and the Enrollment is not found, a new Enrollment will be created. In this situation, `update_mask` is ignored. */
@@ -1100,10 +1084,11 @@ export interface PatchProjectsLocationsEnrollmentsRequest {
   validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/enrollments/{enrollment} */
   name: string;
-  /** Request body */
-  body?: Enrollment | undefined;
 }
-export interface PatchProjectsLocationsGoogleApiSourcesRequest {
+export interface PatchProjectsLocationsGoogleApiSourcesRequest extends Omit<
+  GoogleApiSource,
+  "name"
+> {
   /** Optional. If set to true, and the GoogleApiSource is not found, a new GoogleApiSource will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
@@ -1112,10 +1097,8 @@ export interface PatchProjectsLocationsGoogleApiSourcesRequest {
   name: string;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleApiSource | undefined;
 }
-export interface PatchProjectsLocationsMessageBusesRequest {
+export interface PatchProjectsLocationsMessageBusesRequest extends Omit<MessageBus, "name"> {
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus} */
   name: string;
   /** Optional. If set to true, and the MessageBus is not found, a new MessageBus will be created. In this situation, `update_mask` is ignored. */
@@ -1124,10 +1107,8 @@ export interface PatchProjectsLocationsMessageBusesRequest {
   validateOnly?: boolean | undefined;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: MessageBus | undefined;
 }
-export interface PatchProjectsLocationsPipelinesRequest {
+export interface PatchProjectsLocationsPipelinesRequest extends Omit<Pipeline, "name"> {
   /** Identifier. The resource name of the Pipeline. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/pipelines/{pipeline}` format. */
   name: string;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
@@ -1136,10 +1117,8 @@ export interface PatchProjectsLocationsPipelinesRequest {
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Pipeline | undefined;
 }
-export interface PatchProjectsLocationsTriggersRequest {
+export interface PatchProjectsLocationsTriggersRequest extends Omit<Trigger, "name"> {
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
   /** If set to true, and the trigger is not found, a new trigger will be created. In this situation, `update_mask` is ignored. */
@@ -1148,8 +1127,6 @@ export interface PatchProjectsLocationsTriggersRequest {
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the trigger. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/triggers/{trigger}` format. */
   name: string;
-  /** Request body */
-  body?: Trigger | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1158,107 +1135,80 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsChannelConnectionsRequest {
+export interface SetIamPolicyProjectsLocationsChannelConnectionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsChannelsRequest {
+export interface SetIamPolicyProjectsLocationsChannelsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEnrollmentsRequest {
+export interface SetIamPolicyProjectsLocationsEnrollmentsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGoogleApiSourcesRequest {
+export interface SetIamPolicyProjectsLocationsGoogleApiSourcesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsMessageBusesRequest {
+export interface SetIamPolicyProjectsLocationsMessageBusesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsPipelinesRequest {
+export interface SetIamPolicyProjectsLocationsPipelinesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsTriggersRequest {
+export interface SetIamPolicyProjectsLocationsTriggersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsChannelConnectionsRequest {
+export interface TestIamPermissionsProjectsLocationsChannelConnectionsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsChannelsRequest {
+export interface TestIamPermissionsProjectsLocationsChannelsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsEnrollmentsRequest {
+export interface TestIamPermissionsProjectsLocationsEnrollmentsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGoogleApiSourcesRequest {
+export interface TestIamPermissionsProjectsLocationsGoogleApiSourcesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsMessageBusesRequest {
+export interface TestIamPermissionsProjectsLocationsMessageBusesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsPipelinesRequest {
+export interface TestIamPermissionsProjectsLocationsPipelinesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsTriggersRequest {
+export interface TestIamPermissionsProjectsLocationsTriggersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdateGoogleChannelConfigProjectsLocationsRequest {
+export interface UpdateGoogleChannelConfigProjectsLocationsRequest extends Omit<
+  GoogleChannelConfig,
+  "name"
+> {
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
   /** Required. The resource name of the config. Must be in the format of, `projects/{project}/locations/{location}/googleChannelConfig`. In API responses, the config name always includes the projectID, regardless of whether the projectID or projectNumber was provided. */
   name: string;
-  /** Request body */
-  body?: GoogleChannelConfig | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -2633,12 +2583,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pipelineId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c2, 12),
+          S.Struct({
+            pipelineId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pipelines",
@@ -2768,12 +2720,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          triggerId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(75, __c4, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(75, __c4, 11),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            triggerId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/triggers",
@@ -3737,12 +3691,14 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c66, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3756,11 +3712,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          channelConnectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c50, 0),
+          S.Struct({
+            channelConnectionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/channelConnections",
@@ -3826,13 +3784,15 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3846,13 +3806,15 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1314, __c82, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1314, __c82, 2),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3866,13 +3828,15 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1360, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3886,13 +3850,15 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c2, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3906,13 +3872,15 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(75, __c4, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(75, __c4, 11),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3926,10 +3894,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3954,10 +3924,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3971,10 +3943,12 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3988,10 +3962,12 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4005,10 +3981,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4022,12 +4000,14 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          channelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c66, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            channelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/channels",
@@ -4061,10 +4041,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4078,10 +4060,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4095,10 +4079,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4122,10 +4108,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4139,10 +4127,12 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4156,10 +4146,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4173,10 +4165,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4190,10 +4184,12 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4207,10 +4203,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4224,11 +4222,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c14, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4242,12 +4242,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          enrollmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            enrollmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/enrollments",
@@ -4281,12 +4283,14 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          googleApiSourceId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1314, __c82, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1314, __c82, 2),
+          S.Struct({
+            googleApiSourceId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/googleApiSources",
@@ -4350,12 +4354,14 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          messageBusId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1360, __c85, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            messageBusId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/messageBuses",

@@ -173,15 +173,13 @@ export interface WorkstationCluster {
   /** Output only. Time when this workstation cluster was most recently updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersRequest {
+export interface CreateProjectsLocationsWorkstationClustersRequest extends WorkstationCluster {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Required. ID to use for the workstation cluster. */
   workstationClusterId?: string | undefined;
   /** Required. Parent resource name. */
   parent: string;
-  /** Request body */
-  body?: WorkstationCluster | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -439,15 +437,13 @@ export interface WorkstationConfig {
   /** Optional. Disables support for plain TCP connections in the workstation. By default the service supports TCP connections through a websocket relay. Setting this option to true disables that relay, which prevents the usage of services that require plain TCP connections, such as SSH. When enabled, all communication must occur over HTTPS or WSS. */
   disableTcpConnections?: boolean | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends WorkstationConfig {
   /** Required. ID to use for the workstation configuration. */
   workstationConfigId?: string | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Required. Parent resource name. */
   parent: string;
-  /** Request body */
-  body?: WorkstationConfig | undefined;
 }
 /** The Compute Engine instance host. */
 export interface GceInstanceHost {
@@ -518,15 +514,13 @@ export interface Workstation {
   /** Output only. Time when this workstation was most recently updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Workstation {
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Required. ID to use for the workstation. */
   workstationId?: string | undefined;
-  /** Request body */
-  body?: Workstation | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -569,11 +563,9 @@ export interface GenerateAccessTokenRequest {
   /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
   expireTime?: string | undefined;
 }
-export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends GenerateAccessTokenRequest {
   /** Required. Name of the workstation for which the access token should be generated. */
   workstation: string;
-  /** Request body */
-  body?: GenerateAccessTokenRequest | undefined;
 }
 /** Response message for GenerateAccessToken. */
 export interface GenerateAccessTokenResponse {
@@ -816,7 +808,10 @@ export interface ListUsableWorkstationsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersRequest {
+export interface PatchProjectsLocationsWorkstationClustersRequest extends Omit<
+  WorkstationCluster,
+  "name"
+> {
   /** Optional. If set, and the workstation cluster is not found, a new workstation cluster will be created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
@@ -825,10 +820,11 @@ export interface PatchProjectsLocationsWorkstationClustersRequest {
   name: string;
   /** Required. Mask that specifies which fields in the workstation cluster should be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: WorkstationCluster | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends Omit<
+  WorkstationConfig,
+  "name"
+> {
   /** Identifier. Full name of this workstation configuration. */
   name: string;
   /** Optional. If set and the workstation configuration is not found, a new workstation configuration will be created. In this situation, update_mask is ignored. */
@@ -837,10 +833,11 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequ
   validateOnly?: boolean | undefined;
   /** Required. Mask specifying which fields in the workstation configuration should be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: WorkstationConfig | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Omit<
+  Workstation,
+  "name"
+> {
   /** Identifier. Full name of this workstation. */
   name: string;
   /** Required. Mask specifying which fields in the workstation should be updated. */
@@ -849,8 +846,6 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWork
   validateOnly?: boolean | undefined;
   /** Optional. If set and the workstation is not found, a new workstation is created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: Workstation | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -859,17 +854,13 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for StartWorkstation. */
 export interface StartWorkstationRequest {
@@ -880,11 +871,9 @@ export interface StartWorkstationRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
 }
-export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StartWorkstationRequest {
   /** Required. Name of the workstation to start. */
   name: string;
-  /** Request body */
-  body?: StartWorkstationRequest | undefined;
 }
 /** Request message for StopWorkstation. */
 export interface StopWorkstationRequest {
@@ -893,41 +882,33 @@ export interface StopWorkstationRequest {
   /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
   etag?: string | undefined;
 }
-export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StopWorkstationRequest {
   /** Required. Name of the workstation to stop. */
   name: string;
-  /** Request body */
-  body?: StopWorkstationRequest | undefined;
 }
 /** Request message for SuspendWorkstation. */
 export type SuspendWorkstationRequest = StopWorkstationRequest;
-export interface SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StopWorkstationRequest {
   /** Required. Name of the workstation to suspend. */
   name: string;
-  /** Request body */
-  body?: StopWorkstationRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1766,10 +1747,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GenerateAccessTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          workstation: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            workstation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workstation}:generateAccessToken",
@@ -2195,13 +2178,15 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1187, __c37, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1187, __c37, 3),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2215,13 +2200,15 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1461, __c45, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1461, __c45, 21),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2237,13 +2224,15 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1508, __c47, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1508, __c47, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2260,10 +2249,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2290,10 +2281,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2318,10 +2311,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "StartWorkstationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:start",
@@ -2338,10 +2333,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:stop",
@@ -2368,10 +2365,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:suspend",
@@ -2388,10 +2387,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2418,10 +2419,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2461,12 +2464,14 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          workstationClusterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1187, __c37, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1187, __c37, 3),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            workstationClusterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workstationClusters",
@@ -2583,12 +2588,14 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workstationConfigId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1461, __c45, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1461, __c45, 21),
+          S.Struct({
+            workstationConfigId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workstationConfigs",
@@ -2790,12 +2797,14 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          workstationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1508, __c47, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1508, __c47, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            workstationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workstations",

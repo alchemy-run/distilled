@@ -131,13 +131,11 @@ export interface CertificateIssuanceConfig {
   /** Output only. The last update timestamp of a CertificateIssuanceConfig. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsCertificateIssuanceConfigsRequest {
+export interface CreateProjectsLocationsCertificateIssuanceConfigsRequest extends CertificateIssuanceConfig {
   /** Required. The parent resource of the certificate issuance config. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate config. */
   certificateIssuanceConfigId?: string | undefined;
-  /** Request body */
-  body?: CertificateIssuanceConfig | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -199,13 +197,11 @@ export interface CertificateMap {
   /** Optional. Set of labels associated with a Certificate Map. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsCertificateMapsRequest {
+export interface CreateProjectsLocationsCertificateMapsRequest extends CertificateMap {
   /** Required. The parent resource of the certificate map. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate map. */
   certificateMapId?: string | undefined;
-  /** Request body */
-  body?: CertificateMap | undefined;
 }
 export type StringList = Array<string>;
 export type CertificateMapEntryStateEnum = "SERVING_STATE_UNSPECIFIED" | "ACTIVE" | "PENDING";
@@ -231,13 +227,11 @@ export interface CertificateMapEntry {
   /** Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
+export interface CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest extends CertificateMapEntry {
   /** Required. The parent resource of the certificate map entry. Must be in the format `projects/*\/locations/*\/certificateMaps/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate map entry. */
   certificateMapEntryId?: string | undefined;
-  /** Request body */
-  body?: CertificateMapEntry | undefined;
 }
 export type ProvisioningIssueReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -392,13 +386,11 @@ export interface Certificate {
   /** Optional. Immutable. The scope of the certificate. */
   scope?: CertificateScopeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsCertificatesRequest {
+export interface CreateProjectsLocationsCertificatesRequest extends Certificate {
   /** Required. The parent resource of the certificate. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate. */
   certificateId?: string | undefined;
-  /** Request body */
-  body?: Certificate | undefined;
 }
 export type DnsAuthorizationTypeEnum = "TYPE_UNSPECIFIED" | "FIXED_RECORD" | "PER_PROJECT_RECORD";
 /** The structure describing the DNS Resource Record that needs to be added to DNS configuration for the authorization to be usable by certificate. */
@@ -431,13 +423,11 @@ export interface DnsAuthorization {
   /** Output only. The creation timestamp of a DnsAuthorization. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDnsAuthorizationsRequest {
+export interface CreateProjectsLocationsDnsAuthorizationsRequest extends DnsAuthorization {
   /** Required. The parent resource of the dns authorization. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the dns authorization. */
   dnsAuthorizationId?: string | undefined;
-  /** Request body */
-  body?: DnsAuthorization | undefined;
 }
 /** Defines a trust anchor. */
 export interface TrustAnchor {
@@ -489,13 +479,11 @@ export interface TrustConfig {
   /** Optional. A certificate matching an allowlisted certificate is always considered valid as long as the certificate is parseable, proof of private key possession is established, and constraints on the certificate's SAN field are met. */
   allowlistedCertificates?: AllowlistedCertificateList | undefined;
 }
-export interface CreateProjectsLocationsTrustConfigsRequest {
+export interface CreateProjectsLocationsTrustConfigsRequest extends TrustConfig {
   /** Required. The parent resource of the TrustConfig. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the TrustConfig. Must match the regexp `[a-z0-9-]{1,63}`. */
   trustConfigId?: string | undefined;
-  /** Request body */
-  body?: TrustConfig | undefined;
 }
 export interface DeleteProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. A name of the certificate issuance config to delete. Must be in the format `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
@@ -746,53 +734,50 @@ export interface ListTrustConfigsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsCertificateIssuanceConfigsRequest {
+export interface PatchProjectsLocationsCertificateIssuanceConfigsRequest extends Omit<
+  CertificateIssuanceConfig,
+  "name"
+> {
   /** Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CertificateIssuanceConfig | undefined;
 }
-export interface PatchProjectsLocationsCertificateMapsRequest {
+export interface PatchProjectsLocationsCertificateMapsRequest extends Omit<CertificateMap, "name"> {
   /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CertificateMap | undefined;
 }
-export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
+export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest extends Omit<
+  CertificateMapEntry,
+  "name"
+> {
   /** Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CertificateMapEntry | undefined;
 }
-export interface PatchProjectsLocationsCertificatesRequest {
+export interface PatchProjectsLocationsCertificatesRequest extends Omit<Certificate, "name"> {
   /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Certificate | undefined;
 }
-export interface PatchProjectsLocationsDnsAuthorizationsRequest {
+export interface PatchProjectsLocationsDnsAuthorizationsRequest extends Omit<
+  DnsAuthorization,
+  "name"
+> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
   /** Identifier. A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/*\/locations/*\/dnsAuthorizations/*`. */
   name: string;
-  /** Request body */
-  body?: DnsAuthorization | undefined;
 }
-export interface PatchProjectsLocationsTrustConfigsRequest {
+export interface PatchProjectsLocationsTrustConfigsRequest extends Omit<TrustConfig, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
   /** Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/*\/locations/*\/trustConfigs/*`. */
   name: string;
-  /** Request body */
-  body?: TrustConfig | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1576,11 +1561,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          trustConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(21, __c1, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21, __c1, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            trustConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/trustConfigs",
@@ -2130,11 +2117,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(562, __c35, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(562, __c35, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2148,11 +2137,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(645, __c40, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(645, __c40, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2166,11 +2157,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2186,11 +2179,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(732, __c45, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(732, __c45, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2204,11 +2199,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(753, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2222,11 +2219,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(21, __c1, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21, __c1, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2263,11 +2262,13 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          certificateIssuanceConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(562, __c35, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(562, __c35, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            certificateIssuanceConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificateIssuanceConfigs",
@@ -2348,11 +2349,13 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          certificateMapId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(645, __c40, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(645, __c40, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            certificateMapId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificateMaps",
@@ -2403,11 +2406,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          certificateMapEntryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c42, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            certificateMapEntryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificateMapEntries",
@@ -2447,11 +2452,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          certificateId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(732, __c45, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(732, __c45, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            certificateId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificates",
@@ -2568,11 +2575,13 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dnsAuthorizationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(753, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dnsAuthorizationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dnsAuthorizations",

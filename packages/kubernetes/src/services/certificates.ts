@@ -1208,8 +1208,16 @@ export interface PatchCertificatesV1beta1ClusterTrustBundleRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata contains the object metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the signer (if any) and trust anchors. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1beta1ClusterTrustBundleSpec> | undefined;
 }
 export interface PatchCertificatesV1beta1NamespacedPodCertificateRequestRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1228,8 +1236,18 @@ export interface PatchCertificatesV1beta1NamespacedPodCertificateRequestRequest 
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata contains the object metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the details about the certificate being requested. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1beta1PodCertificateRequestSpec> | undefined;
+  /** status contains the issued certificate, and a standard set of conditions. */
+  status?: T.MergePatch<IoK8sApiCertificatesV1beta1PodCertificateRequestStatus> | undefined;
 }
 export interface PatchCertificatesV1beta1NamespacedPodCertificateRequestStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1248,8 +1266,18 @@ export interface PatchCertificatesV1beta1NamespacedPodCertificateRequestStatusRe
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata contains the object metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the details about the certificate being requested. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1beta1PodCertificateRequestSpec> | undefined;
+  /** status contains the issued certificate, and a standard set of conditions. */
+  status?: T.MergePatch<IoK8sApiCertificatesV1beta1PodCertificateRequestStatus> | undefined;
 }
 export interface PatchCertificatesV1CertificateSigningRequestRequest {
   /** name of the CertificateSigningRequest */
@@ -1266,8 +1294,18 @@ export interface PatchCertificatesV1CertificateSigningRequestRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object's metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the certificate request, and is immutable after creation. Only the request, signerName, expirationSeconds, and usages fields can be set on creation. Other fields are derived by Kubernetes and cannot be modified by users. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1CertificateSigningRequestSpec> | undefined;
+  /** status contains information about whether the request is approved or denied, and the certificate issued by the signer, or the failure condition indicating signer failure. */
+  status?: T.MergePatch<IoK8sApiCertificatesV1CertificateSigningRequestStatus> | undefined;
 }
 export interface PatchCertificatesV1CertificateSigningRequestApprovalRequest {
   /** name of the CertificateSigningRequest */
@@ -1284,8 +1322,18 @@ export interface PatchCertificatesV1CertificateSigningRequestApprovalRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object's metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the certificate request, and is immutable after creation. Only the request, signerName, expirationSeconds, and usages fields can be set on creation. Other fields are derived by Kubernetes and cannot be modified by users. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1CertificateSigningRequestSpec> | undefined;
+  /** status contains information about whether the request is approved or denied, and the certificate issued by the signer, or the failure condition indicating signer failure. */
+  status?: T.MergePatch<IoK8sApiCertificatesV1CertificateSigningRequestStatus> | undefined;
 }
 export interface PatchCertificatesV1CertificateSigningRequestStatusRequest {
   /** name of the CertificateSigningRequest */
@@ -1302,8 +1350,18 @@ export interface PatchCertificatesV1CertificateSigningRequestStatusRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object's metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the certificate request, and is immutable after creation. Only the request, signerName, expirationSeconds, and usages fields can be set on creation. Other fields are derived by Kubernetes and cannot be modified by users. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1CertificateSigningRequestSpec> | undefined;
+  /** status contains information about whether the request is approved or denied, and the certificate issued by the signer, or the failure condition indicating signer failure. */
+  status?: T.MergePatch<IoK8sApiCertificatesV1CertificateSigningRequestStatus> | undefined;
 }
 export interface PatchCertificatesV1ClusterTrustBundleRequest {
   /** name of the ClusterTrustBundle */
@@ -1320,8 +1378,16 @@ export interface PatchCertificatesV1ClusterTrustBundleRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata contains the object metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the signer (if any) and trust anchors. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1beta1ClusterTrustBundleSpec> | undefined;
 }
 export interface PatchCertificatesV1NamespacedPodCertificateRequestRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1340,8 +1406,18 @@ export interface PatchCertificatesV1NamespacedPodCertificateRequestRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata contains the object metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the details about the certificate being requested. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1PodCertificateRequestSpec> | undefined;
+  /** status contains the issued certificate, and a standard set of conditions. */
+  status?: T.MergePatch<IoK8sApiCertificatesV1PodCertificateRequestStatus> | undefined;
 }
 export interface PatchCertificatesV1NamespacedPodCertificateRequestStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1360,8 +1436,18 @@ export interface PatchCertificatesV1NamespacedPodCertificateRequestStatusRequest
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata contains the object metadata. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the details about the certificate being requested. */
+  spec?: T.MergePatch<IoK8sApiCertificatesV1PodCertificateRequestSpec> | undefined;
+  /** status contains the issued certificate, and a standard set of conditions. */
+  status?: T.MergePatch<IoK8sApiCertificatesV1PodCertificateRequestStatus> | undefined;
 }
 export interface ReadCertificatesV1beta1ClusterTrustBundleRequest {
   /** name of the ClusterTrustBundle */
@@ -3888,7 +3974,11 @@ function __c22(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(216, __c27, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3912,7 +4002,12 @@ function __c23(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(312, __c39, 0)),
+          status: S.optional(__S(322, __c40, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4038,7 +4133,12 @@ function __c28(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(312, __c39, 0)),
+          status: S.optional(__S(322, __c40, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4063,7 +4163,12 @@ function __c29(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(417, __c52, 1)),
+          status: S.optional(__S(420, __c52, 4)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4086,7 +4191,12 @@ function __c30(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(417, __c52, 1)),
+          status: S.optional(__S(420, __c52, 4)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4109,7 +4219,12 @@ function __c31(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(417, __c52, 1)),
+          status: S.optional(__S(420, __c52, 4)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4132,7 +4247,11 @@ function __c32(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(216, __c27, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4156,7 +4275,12 @@ function __c33(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(584, __c73, 0)),
+          status: S.optional(__S(322, __c40, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4180,7 +4304,12 @@ function __c34(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(584, __c73, 0)),
+          status: S.optional(__S(322, __c40, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",

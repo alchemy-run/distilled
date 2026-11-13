@@ -608,11 +608,9 @@ export interface MarkAlertAsDuplicateRequest {
   /** Optional. Name of the alert to mark as a duplicate of. Format: projects/{project}/alerts/{alert} */
   duplicateOf?: string | undefined;
 }
-export interface DuplicateProjectsAlertsRequest {
+export interface DuplicateProjectsAlertsRequest extends MarkAlertAsDuplicateRequest {
   /** Required. Name of the alert to mark as a duplicate. Format: projects/{project}/alerts/{alert} */
   name: string;
-  /** Request body */
-  body?: MarkAlertAsDuplicateRequest | undefined;
 }
 export interface EnumerateFacetsProjectsAlertsRequest {
   /** Required. Parent of the alerts. */
@@ -672,11 +670,9 @@ export interface GenerateOrgProfileConfigurationRequest {
   /** Required. The domain of the organization to generate the profile for. */
   domain?: string | undefined;
 }
-export interface GenerateOrgProfileProjectsRequest {
+export interface GenerateOrgProfileProjectsRequest extends GenerateOrgProfileConfigurationRequest {
   /** Required. The name of the project to generate the profile for. Format: projects/{project} */
   name: string;
-  /** Request body */
-  body?: GenerateOrgProfileConfigurationRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1399,13 +1395,11 @@ export interface TriageProjectsAlertsRequest {
   /** Request body */
   body?: MarkAlertAsBenignRequest | undefined;
 }
-export interface UpsertProjectsConfigurationsRequest {
+export interface UpsertProjectsConfigurationsRequest extends Configuration {
   /** Required. Parent of the configuration. */
   parent: string;
   /** Optional. Time that the configuration should be considered to have been published. This is an advanced feature used when onboarding and bulk loading data from other systems. Do not set this field without consulting with the API team. */
   publishTime?: string | undefined;
-  /** Request body */
-  body?: Configuration | undefined;
 }
 /** Response message for UpsertConfiguration. */
 export interface UpsertConfigurationResponse {
@@ -2523,11 +2517,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          publishTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(164, __c5, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(164, __c5, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            publishTime: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/configurations:upsert",
@@ -2893,10 +2889,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "MarkAlertAsDuplicateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:duplicate",
@@ -2996,10 +2994,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GenerateOrgProfileConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:generateOrgProfile",

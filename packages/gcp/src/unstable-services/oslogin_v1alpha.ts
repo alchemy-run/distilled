@@ -94,11 +94,9 @@ export interface SshPublicKey {
   /** Output only. The canonical resource name. */
   name?: string | undefined;
 }
-export interface CreateUsersSshPublicKeysRequest {
+export interface CreateUsersSshPublicKeysRequest extends SshPublicKey {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
-  /** Request body */
-  body?: SshPublicKey | undefined;
 }
 export type DeleteUsersProjectsOperatingSystemTypeEnum =
   | "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
@@ -211,7 +209,7 @@ export type ImportSshPublicKeyUsersViewEnum =
   | "BASIC"
   | "SECURITY_KEY";
 export type StringList = Array<string>;
-export interface ImportSshPublicKeyUsersRequest {
+export interface ImportSshPublicKeyUsersRequest extends SshPublicKey {
   /** The unique ID for the user in format `users/{user}`. */
   parent: string;
   /** The project ID of the Google Cloud Platform project. */
@@ -220,8 +218,6 @@ export interface ImportSshPublicKeyUsersRequest {
   view?: ImportSshPublicKeyUsersViewEnum | (string & {}) | undefined;
   /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
   regions?: StringList | undefined;
-  /** Request body */
-  body?: SshPublicKey | undefined;
 }
 /** A response message for importing an SSH public key. */
 export interface ImportSshPublicKeyResponse {
@@ -230,24 +226,20 @@ export interface ImportSshPublicKeyResponse {
   /** The login profile information for the user. */
   loginProfile?: LoginProfile | undefined;
 }
-export interface PatchUsersSshPublicKeysRequest {
+export interface PatchUsersSshPublicKeysRequest extends Omit<SshPublicKey, "name"> {
   /** Required. The fingerprint of the public key to update. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
   name: string;
   /** Optional. Mask to control which fields get updated. Updates all if not present. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SshPublicKey | undefined;
 }
 /** A request message for creating a POSIX account entry. */
 export interface ProvisionPosixAccountRequest {
   /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
   regions?: StringList | undefined;
 }
-export interface ProvisionPosixAccountUsersProjectsRequest {
+export interface ProvisionPosixAccountUsersProjectsRequest extends ProvisionPosixAccountRequest {
   /** Required. The unique ID for the user in format `users/{user}/projects/{project}`. */
   name: string;
-  /** Request body */
-  body?: ProvisionPosixAccountRequest | undefined;
 }
 /** A request message for signing an SSH public key. */
 export interface GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest {
@@ -262,11 +254,9 @@ export interface GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRe
   /** Required. The SSH public key to sign. */
   sshPublicKey?: string | undefined;
 }
-export interface SignSshPublicKeyProjectsLocationsRequest {
+export interface SignSshPublicKeyProjectsLocationsRequest extends GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest {
   /** Required. The parent for the signing request. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest | undefined;
 }
 /** The response message for signing an SSH public key. */
 export interface GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyResponse {
@@ -277,21 +267,17 @@ export interface SignSshPublicKeyRequest {
   /** Required. The SSH public key to sign. */
   sshPublicKey?: string | undefined;
 }
-export interface SignSshPublicKeyUsersProjectsLocationsRequest {
+export interface SignSshPublicKeyUsersProjectsLocationsRequest extends SignSshPublicKeyRequest {
   /** Required. The parent project and region for the signing request. */
   parent: string;
-  /** Request body */
-  body?: SignSshPublicKeyRequest | undefined;
 }
 export interface SignSshPublicKeyResponse {
   /** The signed SSH public key to use in the SSH handshake. */
   signedSshPublicKey?: string | undefined;
 }
-export interface SignSshPublicKeyUsersProjectsZonesRequest {
+export interface SignSshPublicKeyUsersProjectsZonesRequest extends SignSshPublicKeyRequest {
   /** Required. The parent project and region for the signing request. */
   parent: string;
-  /** Request body */
-  body?: SignSshPublicKeyRequest | undefined;
 }
 export type CreateUsersSshPublicKeysError =
   | NotFound
@@ -529,11 +515,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -553,10 +541,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ProvisionPosixAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}",
@@ -582,10 +572,12 @@ function __c2(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:signSshPublicKey",
@@ -611,10 +603,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:signSshPublicKey",
@@ -638,10 +632,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:signSshPublicKey",
@@ -655,10 +651,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sshPublicKeys",
@@ -821,13 +819,15 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          regions: S.optional(__S(136, __c17, 0).pipe(T.Query())),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            projectId: S.optional(S.String.pipe(T.Query())),
+            view: S.optional(S.String.pipe(T.Query())),
+            regions: S.optional(__S(136, __c17, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:importSshPublicKey",

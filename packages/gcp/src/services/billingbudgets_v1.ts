@@ -238,11 +238,9 @@ export interface GoogleCloudBillingBudgetsV1Budget {
   /** Optional. When `spend_cap` is set, must be `OWNERSHIP_SCOPE_UNSPECIFIED` or `ALL_USERS`. `BILLING_ACCOUNT` is not supported for spend caps. */
   ownershipScope?: GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum | (string & {}) | undefined;
 }
-export interface CreateBillingAccountsBudgetsRequest {
+export interface CreateBillingAccountsBudgetsRequest extends GoogleCloudBillingBudgetsV1Budget {
   /** Required. The name of the billing account to create the budget in. Values are of the form `billingAccounts/{billingAccountId}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudBillingBudgetsV1Budget | undefined;
 }
 export interface DeleteBillingAccountsBudgetsRequest {
   /** Required. Name of the budget to delete. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
@@ -272,13 +270,14 @@ export interface GoogleCloudBillingBudgetsV1ListBudgetsResponse {
   /** List of the budgets owned by the requested billing account. */
   budgets?: GoogleCloudBillingBudgetsV1BudgetList | undefined;
 }
-export interface PatchBillingAccountsBudgetsRequest {
+export interface PatchBillingAccountsBudgetsRequest extends Omit<
+  GoogleCloudBillingBudgetsV1Budget,
+  "name"
+> {
   /** Optional. Indicates which fields in the provided budget to update. Read-only fields (such as `name`) cannot be changed. If this is not provided, then only fields with non-default values from the request are updated. See https://developers.google.com/protocol-buffers/docs/proto3#default for more details about default values. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudBillingBudgetsV1Budget | undefined;
 }
 export type CreateBillingAccountsBudgetsError =
   | NotFound
@@ -389,10 +388,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c2, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/budgets",
@@ -569,11 +570,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c2, 12),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

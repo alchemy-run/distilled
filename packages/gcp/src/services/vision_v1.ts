@@ -102,11 +102,9 @@ export interface AddProductToProductSetRequest {
   /** Required. The resource name for the Product to be added to this ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID` */
   product?: string | undefined;
 }
-export interface AddProductProjectsLocationsProductSetsRequest {
+export interface AddProductProjectsLocationsProductSetsRequest extends AddProductToProductSetRequest {
   /** Required. The resource name for the ProductSet to modify. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID` */
   name: string;
-  /** Request body */
-  body?: AddProductToProductSetRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -248,10 +246,7 @@ export interface BatchAnnotateFilesRequest {
   /** Required. The list of file annotation requests. Right now we support only one AnnotateFileRequest in BatchAnnotateFilesRequest. */
   requests?: AnnotateFileRequestList | undefined;
 }
-export interface AnnotateFilesRequest {
-  /** Request body */
-  body?: BatchAnnotateFilesRequest | undefined;
-}
+export interface AnnotateFilesRequest extends BatchAnnotateFilesRequest {}
 /** Detected entity location information. */
 export interface LocationInfo {
   /** lat/long location coordinates. */
@@ -854,38 +849,33 @@ export interface BatchAnnotateImagesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent?: string | undefined;
 }
-export interface AnnotateImagesRequest {
-  /** Request body */
-  body?: BatchAnnotateImagesRequest | undefined;
-}
+export interface AnnotateImagesRequest extends BatchAnnotateImagesRequest {}
 /** Response to a batch image annotation request. */
 export interface BatchAnnotateImagesResponse {
   /** Individual responses to image annotation requests within the batch. */
   responses?: AnnotateImageResponseList | undefined;
 }
-export interface AnnotateProjectsFilesRequest {
+export interface AnnotateProjectsFilesRequest extends Omit<BatchAnnotateFilesRequest, "parent"> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: BatchAnnotateFilesRequest | undefined;
 }
-export interface AnnotateProjectsImagesRequest {
+export interface AnnotateProjectsImagesRequest extends Omit<BatchAnnotateImagesRequest, "parent"> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: BatchAnnotateImagesRequest | undefined;
 }
-export interface AnnotateProjectsLocationsFilesRequest {
+export interface AnnotateProjectsLocationsFilesRequest extends Omit<
+  BatchAnnotateFilesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: BatchAnnotateFilesRequest | undefined;
 }
-export interface AnnotateProjectsLocationsImagesRequest {
+export interface AnnotateProjectsLocationsImagesRequest extends Omit<
+  BatchAnnotateImagesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: BatchAnnotateImagesRequest | undefined;
 }
 /** The Google Cloud Storage location where the output will be written to. */
 export interface GcsDestination {
@@ -920,10 +910,7 @@ export interface AsyncBatchAnnotateFilesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent?: string | undefined;
 }
-export interface AsyncBatchAnnotateFilesRequest_ {
-  /** Request body */
-  body?: AsyncBatchAnnotateFilesRequest | undefined;
-}
+export interface AsyncBatchAnnotateFilesRequest_ extends AsyncBatchAnnotateFilesRequest {}
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -948,33 +935,34 @@ export interface AsyncBatchAnnotateImagesRequest {
   /** Required. Individual image annotation requests for this batch. */
   requests?: AnnotateImageRequestList | undefined;
 }
-export interface AsyncBatchAnnotateImagesRequest_ {
-  /** Request body */
-  body?: AsyncBatchAnnotateImagesRequest | undefined;
-}
-export interface AsyncBatchAnnotateProjectsFilesRequest {
+export interface AsyncBatchAnnotateImagesRequest_ extends AsyncBatchAnnotateImagesRequest {}
+export interface AsyncBatchAnnotateProjectsFilesRequest extends Omit<
+  AsyncBatchAnnotateFilesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: AsyncBatchAnnotateFilesRequest | undefined;
 }
-export interface AsyncBatchAnnotateProjectsImagesRequest {
+export interface AsyncBatchAnnotateProjectsImagesRequest extends Omit<
+  AsyncBatchAnnotateImagesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: AsyncBatchAnnotateImagesRequest | undefined;
 }
-export interface AsyncBatchAnnotateProjectsLocationsFilesRequest {
+export interface AsyncBatchAnnotateProjectsLocationsFilesRequest extends Omit<
+  AsyncBatchAnnotateFilesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: AsyncBatchAnnotateFilesRequest | undefined;
 }
-export interface AsyncBatchAnnotateProjectsLocationsImagesRequest {
+export interface AsyncBatchAnnotateProjectsLocationsImagesRequest extends Omit<
+  AsyncBatchAnnotateImagesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: AsyncBatchAnnotateImagesRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -984,13 +972,11 @@ export interface CancelOperationsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface CreateProjectsLocationsProductsRequest {
+export interface CreateProjectsLocationsProductsRequest extends Product {
   /** A user-supplied resource id for this Product. If set, the server will attempt to use this value as the resource id. If it is already in use, an error is returned with code ALREADY_EXISTS. Must be at most 128 characters long. It cannot contain the character `/`. */
   productId?: string | undefined;
   /** Required. The project in which the Product should be created. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
-  /** Request body */
-  body?: Product | undefined;
 }
 /** A ProductSet contains Products. A ProductSet can contain a maximum of 1 million reference images. If the limit is exceeded, periodic indexing will fail. */
 export interface ProductSet {
@@ -1003,13 +989,11 @@ export interface ProductSet {
   /** The user-provided name for this ProductSet. Must not be empty. Must be at most 4096 characters long. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsProductSetsRequest {
+export interface CreateProjectsLocationsProductSetsRequest extends ProductSet {
   /** Required. The project in which the ProductSet should be created. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
   /** A user-supplied resource id for this ProductSet. If set, the server will attempt to use this value as the resource id. If it is already in use, an error is returned with code ALREADY_EXISTS. Must be at most 128 characters long. It cannot contain the character `/`. */
   productSetId?: string | undefined;
-  /** Request body */
-  body?: ProductSet | undefined;
 }
 export type BoundingPolyList = Array<BoundingPoly>;
 /** A `ReferenceImage` represents a product image and its associated metadata, such as bounding boxes. */
@@ -1021,13 +1005,11 @@ export interface ReferenceImage {
   /** Required. The Google Cloud Storage URI of the reference image. The URI must start with `gs://`. */
   uri?: string | undefined;
 }
-export interface CreateProjectsLocationsProductsReferenceImagesRequest {
+export interface CreateProjectsLocationsProductsReferenceImagesRequest extends ReferenceImage {
   /** Required. Resource name of the product in which to create the reference image. Format is `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. */
   parent: string;
   /** A user-supplied resource id for the ReferenceImage to be added. If set, the server will attempt to use this value as the resource id. If it is already in use, an error is returned with code ALREADY_EXISTS. Must be at most 128 characters long. It cannot contain the character `/`. */
   referenceImageId?: string | undefined;
-  /** Request body */
-  body?: ReferenceImage | undefined;
 }
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1088,11 +1070,9 @@ export interface ImportProductSetsRequest {
   /** Required. The input content for the list of requests. */
   inputConfig?: ImportProductSetsInputConfig | undefined;
 }
-export interface ImportProjectsLocationsProductSetsRequest {
+export interface ImportProjectsLocationsProductSetsRequest extends ImportProductSetsRequest {
   /** Required. The project in which the ProductSets should be imported. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
-  /** Request body */
-  body?: ImportProductSetsRequest | undefined;
 }
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
@@ -1181,21 +1161,17 @@ export interface ListReferenceImagesResponse {
   /** The next_page_token returned from a previous List request, if any. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsProductsRequest {
+export interface PatchProjectsLocationsProductsRequest extends Omit<Product, "name"> {
   /** The FieldMask that specifies which fields to update. If update_mask isn't specified, all mutable fields are to be updated. Valid mask paths include `product_labels`, `display_name`, and `description`. */
   updateMask?: string | undefined;
   /** The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
   name: string;
-  /** Request body */
-  body?: Product | undefined;
 }
-export interface PatchProjectsLocationsProductSetsRequest {
+export interface PatchProjectsLocationsProductSetsRequest extends Omit<ProductSet, "name"> {
   /** The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
   name: string;
   /** The FieldMask that specifies which fields to update. If update_mask isn't specified, all mutable fields are to be updated. Valid mask path is `display_name`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ProductSet | undefined;
 }
 /** Config to control which ProductSet contains the Products to be deleted. */
 export interface ProductSetPurgeConfig {
@@ -1211,22 +1187,18 @@ export interface PurgeProductsRequest {
   /** The default value is false. Override this value to true to actually perform the purge. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsProductsRequest {
+export interface PurgeProjectsLocationsProductsRequest extends PurgeProductsRequest {
   /** Required. The project and location in which the Products should be deleted. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
-  /** Request body */
-  body?: PurgeProductsRequest | undefined;
 }
 /** Request message for the `RemoveProductFromProductSet` method. */
 export interface RemoveProductFromProductSetRequest {
   /** Required. The resource name for the Product to be removed from this ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID` */
   product?: string | undefined;
 }
-export interface RemoveProductProjectsLocationsProductSetsRequest {
+export interface RemoveProductProjectsLocationsProductSetsRequest extends RemoveProductFromProductSetRequest {
   /** Required. The resource name for the ProductSet to modify. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID` */
   name: string;
-  /** Request body */
-  body?: RemoveProductFromProductSetRequest | undefined;
 }
 export type AddProductProjectsLocationsProductSetsError =
   | NotFound
@@ -2004,10 +1976,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1634, __c51, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1634, __c51, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/files:annotate",
@@ -2021,10 +1995,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/images:annotate",
@@ -2038,9 +2014,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(162, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(162, __c5, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/files:asyncBatchAnnotate",
@@ -2102,9 +2076,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(224, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/images:asyncBatchAnnotate",
@@ -2131,10 +2103,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c5, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/files:asyncBatchAnnotate",
@@ -2148,10 +2122,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/images:asyncBatchAnnotate",
@@ -2165,10 +2141,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c5, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/files:asyncBatchAnnotate",
@@ -2182,10 +2160,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/images:asyncBatchAnnotate",
@@ -2216,11 +2196,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1602, __c50, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1602, __c50, 2),
+          S.Struct({
+            productId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/products",
@@ -2234,11 +2216,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          productSetId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            productSetId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/productSets",
@@ -2265,11 +2249,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          referenceImageId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(545, __c17, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c17, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            referenceImageId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/referenceImages",
@@ -2463,10 +2449,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ImportProductSetsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(930, __c29, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(930, __c29, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/productSets:import",
@@ -2610,11 +2598,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1602, __c50, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1602, __c50, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vision.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsProductsRequest" });
@@ -2624,11 +2614,13 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vision.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsProductSetsRequest" });
@@ -2652,10 +2644,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "PurgeProductsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1217, __c38, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1217, __c38, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/products:purge",
@@ -2669,10 +2663,12 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:removeProduct",
@@ -2686,10 +2682,12 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:addProduct",
@@ -2719,9 +2717,7 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1634, __c51, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1634, __c51, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/files:annotate",
@@ -3288,9 +3284,7 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1760, __c55, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/images:annotate",
@@ -3350,10 +3344,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1634, __c51, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1634, __c51, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/files:annotate",
@@ -3367,10 +3363,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/images:annotate",

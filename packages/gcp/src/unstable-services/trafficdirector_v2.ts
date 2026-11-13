@@ -172,10 +172,7 @@ export interface ClientStatusRequest {
   /** Management server can use these match criteria to identify clients. The match follows OR semantics. */
   nodeMatchers?: NodeMatcherList | undefined;
 }
-export interface Client_statusDiscoveryRequest {
-  /** Request body */
-  body?: ClientStatusRequest | undefined;
-}
+export interface Client_statusDiscoveryRequest extends ClientStatusRequest {}
 /** Identifies location of where either Envoy runs or where upstream hosts run. */
 export interface Locality {
   /** Defines the local service zone where Envoy is running. Though optional, it should be set if discovery service routing is used and the discovery service exposes :ref:`zone data `, either in this message or via :option:`--service-zone`. The meaning of zone is context dependent, e.g. `Availability Zone (AZ) `_ on AWS, `Zone `_ on GCP, etc. */
@@ -523,9 +520,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ClientStatusRequest" });
     case 15:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(14, __c0, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(14, __c0, 14), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/discovery:client_status",

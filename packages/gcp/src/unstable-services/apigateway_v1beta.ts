@@ -118,13 +118,11 @@ export interface ApigatewayApi {
   /** Output only. State of the API. */
   state?: ApigatewayApiStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsApisRequest {
+export interface CreateProjectsLocationsApisRequest extends ApigatewayApi {
   /** Required. Parent resource of the API, of the form: `projects/*\/locations/global` */
   parent: string;
   /** Required. Identifier to assign to the API. Must be unique within scope of the parent resource. */
   apiId?: string | undefined;
-  /** Request body */
-  body?: ApigatewayApi | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -218,13 +216,11 @@ export interface ApigatewayApiConfig {
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsApisConfigsRequest {
+export interface CreateProjectsLocationsApisConfigsRequest extends ApigatewayApiConfig {
   /** Required. Identifier to assign to the API Config. Must be unique within scope of the parent resource. */
   apiConfigId?: string | undefined;
   /** Required. Parent resource of the API Config, of the form: `projects/*\/locations/global/apis/*` */
   parent: string;
-  /** Request body */
-  body?: ApigatewayApiConfig | undefined;
 }
 export type ApigatewayGatewayStreamingModeEnum =
   | "STREAMING_MODE_UNSPECIFIED"
@@ -263,13 +259,11 @@ export interface ApigatewayGateway {
   /** Optional. Display name. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsGatewaysRequest {
+export interface CreateProjectsLocationsGatewaysRequest extends ApigatewayGateway {
   /** Required. Identifier to assign to the Gateway. Must be unique within scope of the parent resource. */
   gatewayId?: string | undefined;
   /** Required. Parent resource of the Gateway, of the form: `projects/*\/locations/*` */
   parent: string;
-  /** Request body */
-  body?: ApigatewayGateway | undefined;
 }
 export interface DeleteProjectsLocationsApisRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/apis/*` */
@@ -503,29 +497,26 @@ export interface ApigatewayListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsApisRequest {
+export interface PatchProjectsLocationsApisRequest extends Omit<ApigatewayApi, "name"> {
   /** Identifier. Resource name of the API. Format: projects/{project}/locations/global/apis/{api} */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Api resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ApigatewayApi | undefined;
 }
-export interface PatchProjectsLocationsApisConfigsRequest {
+export interface PatchProjectsLocationsApisConfigsRequest extends Omit<
+  ApigatewayApiConfig,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ApiConfig resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
   name: string;
-  /** Request body */
-  body?: ApigatewayApiConfig | undefined;
 }
-export interface PatchProjectsLocationsGatewaysRequest {
+export interface PatchProjectsLocationsGatewaysRequest extends Omit<ApigatewayGateway, "name"> {
   /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Gateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ApigatewayGateway | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface ApigatewaySetIamPolicyRequest {
@@ -534,51 +525,39 @@ export interface ApigatewaySetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: ApigatewayPolicy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApisRequest {
+export interface SetIamPolicyProjectsLocationsApisRequest extends ApigatewaySetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: ApigatewaySetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApisConfigsRequest {
+export interface SetIamPolicyProjectsLocationsApisConfigsRequest extends ApigatewaySetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: ApigatewaySetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGatewaysRequest {
+export interface SetIamPolicyProjectsLocationsGatewaysRequest extends ApigatewaySetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: ApigatewaySetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface ApigatewayTestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApisRequest {
+export interface TestIamPermissionsProjectsLocationsApisRequest extends ApigatewayTestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: ApigatewayTestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface ApigatewayTestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApisConfigsRequest {
+export interface TestIamPermissionsProjectsLocationsApisConfigsRequest extends ApigatewayTestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: ApigatewayTestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGatewaysRequest {
+export interface TestIamPermissionsProjectsLocationsGatewaysRequest extends ApigatewayTestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: ApigatewayTestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1577,11 +1556,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1595,11 +1576,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(600, __c37, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(600, __c37, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1613,11 +1596,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1631,10 +1616,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1659,10 +1646,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1676,10 +1665,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1693,10 +1684,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1720,10 +1713,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1737,10 +1732,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1779,11 +1776,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          apiId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            apiId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/apis",
@@ -1849,11 +1848,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          apiConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(600, __c37, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(600, __c37, 8),
+          S.Struct({
+            apiConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/configs",
@@ -1926,11 +1927,13 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          gatewayId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            gatewayId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/gateways",

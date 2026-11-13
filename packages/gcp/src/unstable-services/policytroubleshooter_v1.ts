@@ -96,10 +96,7 @@ export interface GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest {
   /** The information to use for checking whether a principal has a permission for a resource. */
   accessTuple?: GoogleCloudPolicytroubleshooterV1AccessTuple | undefined;
 }
-export interface TroubleshootIamRequest {
-  /** Request body */
-  body?: GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest | undefined;
-}
+export interface TroubleshootIamRequest extends GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest {}
 export type GoogleCloudPolicytroubleshooterV1BindingExplanationRolePermissionEnum =
   | "ROLE_PERMISSION_UNSPECIFIED"
   | "ROLE_PERMISSION_INCLUDED"
@@ -314,9 +311,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1, __c0, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/iam:troubleshoot",

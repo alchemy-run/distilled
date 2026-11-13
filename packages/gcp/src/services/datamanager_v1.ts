@@ -140,10 +140,8 @@ export interface PartnerLink {
   featureSet?: PartnerLinkFeatureSetEnum | (string & {}) | undefined;
   owningAccount?: ProductAccount | undefined;
 }
-export interface CreateAccountTypesAccountsPartnerLinksRequest {
+export interface CreateAccountTypesAccountsPartnerLinksRequest extends PartnerLink {
   parent: string;
-  /** Request body */
-  body?: PartnerLink | undefined;
 }
 export type UserListLicensePricingBuyerApprovalStateEnum =
   | "USER_LIST_PRICING_BUYER_APPROVAL_STATE_UNSPECIFIED"
@@ -196,10 +194,8 @@ export interface UserListDirectLicense {
   name?: string | undefined;
   historicalPricings?: UserListLicensePricingList | undefined;
 }
-export interface CreateAccountTypesAccountsUserListDirectLicensesRequest {
+export interface CreateAccountTypesAccountsUserListDirectLicensesRequest extends UserListDirectLicense {
   parent: string;
-  /** Request body */
-  body?: UserListDirectLicense | undefined;
 }
 export type UserListGlobalLicenseLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_UNSPECIFIED"
@@ -220,10 +216,8 @@ export interface UserListGlobalLicense {
   licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {}) | undefined;
   status?: UserListGlobalLicenseStatusEnum | (string & {}) | undefined;
 }
-export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest {
+export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest extends UserListGlobalLicense {
   parent: string;
-  /** Request body */
-  body?: UserListGlobalLicense | undefined;
 }
 export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
 export interface SizeInfo {
@@ -336,11 +330,9 @@ export interface UserList {
   id?: string | undefined;
   targetNetworkInfo?: TargetNetworkInfo | undefined;
 }
-export interface CreateAccountTypesAccountsUserListsRequest {
+export interface CreateAccountTypesAccountsUserListsRequest extends UserList {
   parent: string;
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: UserList | undefined;
 }
 export interface DeleteAccountTypesAccountsPartnerLinksRequest {
   name: string;
@@ -362,10 +354,8 @@ export interface RetrieveInsightsRequest {
   userListId?: string | undefined;
   baseline?: Baseline | undefined;
 }
-export interface GetAccountTypesAccountsInsightsRequest {
+export interface GetAccountTypesAccountsInsightsRequest extends RetrieveInsightsRequest {
   parent: string;
-  /** Request body */
-  body?: RetrieveInsightsRequest | undefined;
 }
 export type MarketingDataInsightsAttributeGenderEnum =
   | "GENDER_UNSPECIFIED"
@@ -881,10 +871,7 @@ export interface IngestAdEventsRequest {
   validateOnly?: boolean | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
 }
-export interface IngestAdEventsRequest_ {
-  /** Request body */
-  body?: IngestAdEventsRequest | undefined;
-}
+export interface IngestAdEventsRequest_ extends IngestAdEventsRequest {}
 export interface IngestAdEventsResponse {}
 export type IngestAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export type ConsentAdUserDataEnum =
@@ -960,10 +947,7 @@ export interface IngestAudienceMembersRequest {
   termsOfService?: TermsOfService | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
 }
-export interface IngestAudienceMembersRequest_ {
-  /** Request body */
-  body?: IngestAudienceMembersRequest | undefined;
-}
+export interface IngestAudienceMembersRequest_ extends IngestAudienceMembersRequest {}
 export type FieldWarningReasonEnum =
   | "WARNING_REASON_UNSPECIFIED"
   | "WARNING_REASON_CUSTOM_VARIABLE_NOT_ENABLED"
@@ -1155,10 +1139,7 @@ export interface IngestEventsRequest {
   encoding?: IngestEventsRequestEncodingEnum | (string & {}) | undefined;
   destinations?: DestinationList | undefined;
 }
-export interface IngestEventsRequest_ {
-  /** Request body */
-  body?: IngestEventsRequest | undefined;
-}
+export interface IngestEventsRequest_ extends IngestEventsRequest {}
 export interface IngestEventsResponse {
   requestId?: string | undefined;
   fieldWarnings?: FieldWarningList | undefined;
@@ -1176,10 +1157,7 @@ export interface IngestUsersRequest {
   encoding?: IngestUsersRequestEncodingEnum | (string & {}) | undefined;
   destinations?: DestinationList | undefined;
 }
-export interface IngestUsersRequest_ {
-  /** Request body */
-  body?: IngestUsersRequest | undefined;
-}
+export interface IngestUsersRequest_ extends IngestUsersRequest {}
 export interface IngestUsersResponse {
   requestId?: string | undefined;
 }
@@ -1255,34 +1233,31 @@ export interface ListUserListsResponse {
   nextPageToken?: string | undefined;
   userLists?: UserListList | undefined;
 }
-export interface PatchAccountTypesAccountsUserListDirectLicensesRequest {
+export interface PatchAccountTypesAccountsUserListDirectLicensesRequest extends Omit<
+  UserListDirectLicense,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: UserListDirectLicense | undefined;
 }
-export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest {
+export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest extends Omit<
+  UserListGlobalLicense,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: UserListGlobalLicense | undefined;
 }
-export interface PatchAccountTypesAccountsUserListsRequest {
+export interface PatchAccountTypesAccountsUserListsRequest extends Omit<UserList, "name"> {
   name: string;
   updateMask?: string | undefined;
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: UserList | undefined;
 }
 export interface RemoveAllAudienceMembersRequest {
   destinations?: DestinationList | undefined;
   removeAsOfTime?: string | undefined;
   validateOnly?: boolean | undefined;
 }
-export interface RemoveAllAudienceMembersRequest_ {
-  /** Request body */
-  body?: RemoveAllAudienceMembersRequest | undefined;
-}
+export interface RemoveAllAudienceMembersRequest_ extends RemoveAllAudienceMembersRequest {}
 export interface RemoveAllAudienceMembersResponse {
   requestId?: string | undefined;
 }
@@ -1294,10 +1269,7 @@ export interface RemoveAudienceMembersRequest {
   encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {}) | undefined;
   destinations?: DestinationList | undefined;
 }
-export interface RemoveAudienceMembersRequest_ {
-  /** Request body */
-  body?: RemoveAudienceMembersRequest | undefined;
-}
+export interface RemoveAudienceMembersRequest_ extends RemoveAudienceMembersRequest {}
 export interface RemoveAudienceMembersResponse {
   requestId?: string | undefined;
 }
@@ -1310,10 +1282,7 @@ export interface RemoveUsersRequest {
   destinations?: DestinationList | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
 }
-export interface RemoveUsersRequest_ {
-  /** Request body */
-  body?: RemoveUsersRequest | undefined;
-}
+export interface RemoveUsersRequest_ extends RemoveUsersRequest {}
 export interface RemoveUsersResponse {
   requestId?: string | undefined;
 }
@@ -1939,10 +1908,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "RetrieveInsightsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/insights:retrieve",
@@ -2388,9 +2359,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "IngestAdEventsRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(291, __c9, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(291, __c9, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/adEvents:ingest",
@@ -2507,9 +2476,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "IngestAudienceMembersRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(385, __c12, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/audienceMembers:ingest",
@@ -2810,9 +2777,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "IngestEventsRequest" });
     case 22:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(597, __c18, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(597, __c18, 21), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/events:ingest",
@@ -2852,9 +2817,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "IngestUsersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(610, __c19, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(610, __c19, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/users:ingest",
@@ -3009,11 +2972,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3027,11 +2992,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3045,12 +3012,14 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1322, __c41, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1322, __c41, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3072,9 +3041,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RemoveAllAudienceMembersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(896, __c28, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/audienceMembers:removeAll",
@@ -3098,9 +3065,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RemoveAudienceMembersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(928, __c29, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/audienceMembers:remove",
@@ -3126,9 +3091,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RemoveUsersRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(961, __c30, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/users:remove",
@@ -3170,10 +3133,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1091, __c34, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1091, __c34, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/partnerLinks",
@@ -3231,10 +3196,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userListDirectLicenses",
@@ -3297,10 +3264,12 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userListGlobalLicenses",
@@ -3331,11 +3300,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1322, __c41, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1322, __c41, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userLists",

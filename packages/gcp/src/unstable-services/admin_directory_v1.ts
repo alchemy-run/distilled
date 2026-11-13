@@ -90,26 +90,22 @@ export interface ChromeOsDeviceAction {
   /** Only used when the action is `deprovision`. With the `deprovision` action, this field is required. *Note*: The deprovision reason is audited because it might have implications on licenses for perpetual subscription customers. */
   deprovisionReason?: string | undefined;
 }
-export interface ActionChromeosdevicesRequest {
+export interface ActionChromeosdevicesRequest extends ChromeOsDeviceAction {
   /** The unique ID of the device. The `resourceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method. */
   resourceId: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
-  /** Request body */
-  body?: ChromeOsDeviceAction | undefined;
 }
 export interface ActionChromeosdevicesResponse {}
 export interface MobileDeviceAction {
   /** The action to be performed on the device. */
   action?: string | undefined;
 }
-export interface ActionMobiledevicesRequest {
+export interface ActionMobiledevicesRequest extends MobileDeviceAction {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
   /** The unique ID the API service uses to identify the mobile device. */
   resourceId: string;
-  /** Request body */
-  body?: MobileDeviceAction | undefined;
 }
 export interface ActionMobiledevicesResponse {}
 export type BatchChangeChromeOsDeviceStatusRequestDeprovisionReasonEnum =
@@ -145,11 +141,9 @@ export interface BatchChangeChromeOsDeviceStatusRequest {
     | (string & {})
     | undefined;
 }
-export interface BatchChangeStatusCustomerDevicesChromeosRequest {
+export interface BatchChangeStatusCustomerDevicesChromeosRequest extends BatchChangeChromeOsDeviceStatusRequest {
   /** Required. Immutable ID of the Google Workspace account. */
   customerId: string;
-  /** Request body */
-  body?: BatchChangeChromeOsDeviceStatusRequest | undefined;
 }
 /** Response for a successful ChromeOS device status change. */
 export interface ChangeChromeOsDeviceStatusSucceeded {}
@@ -230,11 +224,9 @@ export interface BatchCreatePrintersRequest {
   /** A list of Printers to be created. Max 50 at a time. */
   requests?: CreatePrinterRequestList | undefined;
 }
-export interface BatchCreatePrintersCustomersChromePrintersRequest {
+export interface BatchCreatePrintersCustomersChromePrintersRequest extends BatchCreatePrintersRequest {
   /** Required. The name of the customer. Format: customers/{customer_id} */
   parent: string;
-  /** Request body */
-  body?: BatchCreatePrintersRequest | undefined;
 }
 export type FailureInfoErrorCodeEnum =
   | "OK"
@@ -304,11 +296,9 @@ export interface BatchCreatePrintServersRequest {
   /** Required. A list of `PrintServer` resources to be created (max `50` per batch). */
   requests?: CreatePrintServerRequestList | undefined;
 }
-export interface BatchCreatePrintServersCustomersChromePrintServersRequest {
+export interface BatchCreatePrintServersCustomersChromePrintServersRequest extends BatchCreatePrintServersRequest {
   /** Required. The [unique ID](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customers) of the customer's Google Workspace account. Format: `customers/{id}` */
   parent: string;
-  /** Request body */
-  body?: BatchCreatePrintServersRequest | undefined;
 }
 export type PrintServerList = Array<PrintServer>;
 export type PrintServerFailureInfoErrorCodeEnum =
@@ -352,11 +342,9 @@ export interface BatchDeletePrintersRequest {
   /** A list of Printer.id that should be deleted. Max 100 at a time. */
   printerIds?: StringList | undefined;
 }
-export interface BatchDeletePrintersCustomersChromePrintersRequest {
+export interface BatchDeletePrintersCustomersChromePrintersRequest extends BatchDeletePrintersRequest {
   /** Required. The name of the customer. Format: customers/{customer_id} */
   parent: string;
-  /** Request body */
-  body?: BatchDeletePrintersRequest | undefined;
 }
 /** Response for deleting existing printers in batch. */
 export interface BatchDeletePrintersResponse {
@@ -370,11 +358,9 @@ export interface BatchDeletePrintServersRequest {
   /** A list of print server IDs that should be deleted (max `100` per batch). */
   printServerIds?: StringList | undefined;
 }
-export interface BatchDeletePrintServersCustomersChromePrintServersRequest {
+export interface BatchDeletePrintServersCustomersChromePrintServersRequest extends BatchDeletePrintServersRequest {
   /** Required. The [unique ID](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customers) of the customer's Google Workspace account. Format: `customers/{customer.id}` */
   parent: string;
-  /** Request body */
-  body?: BatchDeletePrintServersRequest | undefined;
 }
 export interface BatchDeletePrintServersResponse {
   /** A list of print server IDs that were successfully deleted. */
@@ -397,17 +383,13 @@ export interface CountChromeOsDevicesResponse {
   /** The total number of devices matching the request. */
   count?: string | undefined;
 }
-export interface CreateCustomersChromePrintersRequest {
+export interface CreateCustomersChromePrintersRequest extends Printer {
   /** Required. The name of the customer. Format: customers/{customer_id} */
   parent: string;
-  /** Request body */
-  body?: Printer | undefined;
 }
-export interface CreateCustomersChromePrintServersRequest {
+export interface CreateCustomersChromePrintServersRequest extends PrintServer {
   /** Required. The [unique ID](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customers) of the customer's Google Workspace account. Format: `customers/{id}` */
   parent: string;
-  /** Request body */
-  body?: PrintServer | undefined;
 }
 /** Directory users guest creation request message. */
 export interface DirectoryUsersCreateGuestRequest {
@@ -416,10 +398,7 @@ export interface DirectoryUsersCreateGuestRequest {
   /** Required. External email of the guest user being created. */
   primaryGuestEmail?: string | undefined;
 }
-export interface CreateGuestUsersRequest {
-  /** Request body */
-  body?: DirectoryUsersCreateGuestRequest | undefined;
-}
+export interface CreateGuestUsersRequest extends DirectoryUsersCreateGuestRequest {}
 export interface UserName {
   /** The user's first name. Required when creating a user account. */
   givenName?: string | undefined;
@@ -1667,22 +1646,15 @@ export interface MembersHasMember {
   /** Output only. Identifies whether the given user is a member of the group. Membership can be direct or nested. */
   isMember?: boolean | undefined;
 }
-export interface InsertDomainAliasesRequest {
+export interface InsertDomainAliasesRequest extends DomainAlias {
   /** Immutable ID of the Google Workspace account. */
   customer: string;
-  /** Request body */
-  body?: DomainAlias | undefined;
 }
-export interface InsertDomainsRequest {
+export interface InsertDomainsRequest extends Domains {
   /** Immutable ID of the Google Workspace account. */
   customer: string;
-  /** Request body */
-  body?: Domains | undefined;
 }
-export interface InsertGroupsRequest {
-  /** Request body */
-  body?: Group | undefined;
-}
+export interface InsertGroupsRequest extends Group {}
 /** JSON template for Alias object in Directory API. */
 export interface Alias {
   primaryEmail?: string | undefined;
@@ -1691,77 +1663,55 @@ export interface Alias {
   kind?: string | undefined;
   etag?: string | undefined;
 }
-export interface InsertGroupsAliasesRequest {
+export interface InsertGroupsAliasesRequest extends Alias {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
-  /** Request body */
-  body?: Alias | undefined;
 }
-export interface InsertMembersRequest {
+export interface InsertMembersRequest extends Member {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
-  /** Request body */
-  body?: Member | undefined;
 }
-export interface InsertOrgunitsRequest {
+export interface InsertOrgunitsRequest extends OrgUnit {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
-  /** Request body */
-  body?: OrgUnit | undefined;
 }
 export type InsertResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
   | "RESOLVED_FROM_ADDRESS"
   | "SOURCE_UNSPECIFIED";
-export interface InsertResourcesBuildingsRequest {
+export interface InsertResourcesBuildingsRequest extends Building {
   /** Source from which Building.coordinates are derived. */
   coordinatesSource?: InsertResourcesBuildingsCoordinatesSourceEnum | (string & {}) | undefined;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Request body */
-  body?: Building | undefined;
 }
-export interface InsertResourcesCalendarsRequest {
+export interface InsertResourcesCalendarsRequest extends CalendarResource {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Request body */
-  body?: CalendarResource | undefined;
 }
-export interface InsertResourcesFeaturesRequest {
+export interface InsertResourcesFeaturesRequest extends Feature {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Request body */
-  body?: Feature | undefined;
 }
-export interface InsertRoleAssignmentsRequest {
+export interface InsertRoleAssignmentsRequest extends RoleAssignment {
   /** Immutable ID of the Google Workspace account. */
   customer: string;
-  /** Request body */
-  body?: RoleAssignment | undefined;
 }
-export interface InsertRolesRequest {
+export interface InsertRolesRequest extends Role {
   /** Immutable ID of the Google Workspace account. */
   customer: string;
-  /** Request body */
-  body?: Role | undefined;
 }
-export interface InsertSchemasRequest {
+export interface InsertSchemasRequest extends Admin_Schema {
   /** Immutable ID of the Google Workspace account. */
   customerId: string;
-  /** Request body */
-  body?: Admin_Schema | undefined;
 }
-export interface InsertUsersRequest {
+export interface InsertUsersRequest extends User {
   /** Optional. Applies the option selected for [Find and add unmanaged users](https://knowledge.workspace.google.com/admin/users/find-and-add-unmanaged-users) to resolve conflicting accounts when set to `true`. Default: `false` */
   resolveConflictAccount?: boolean | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
-export interface InsertUsersAliasesRequest {
+export interface InsertUsersAliasesRequest extends Alias {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
-  /** Request body */
-  body?: Alias | undefined;
 }
 export interface InvalidateVerificationCodesRequest {
   /** Email or immutable ID of the user */
@@ -1789,13 +1739,11 @@ export interface DirectoryChromeosdevicesIssueCommandRequest {
   /** The payload for the command, provide it only if command supports it. The following commands support adding payload: * `SET_VOLUME`: Payload is a stringified JSON object in the form: { "volume": 50 }. The volume has to be an integer in the range [0,100]. * `DEVICE_START_CRD_SESSION`: Payload is optionally a stringified JSON object in the form: { "ackedUserPresence": true, "crdSessionType": string }. `ackedUserPresence` is a boolean. By default, `ackedUserPresence` is set to `false`. To start a Chrome Remote Desktop session for an active device, set `ackedUserPresence` to `true`. `crdSessionType` can only select from values `private` (which grants the remote admin exclusive control of the ChromeOS device) or `shared` (which allows the admin and the local user to share control of the ChromeOS device). If not set, `crdSessionType` defaults to `shared`. The `FETCH_CRD_AVAILABILITY_INFO` command can be used to determine available session types on the device. * `REBOOT`: Payload is a stringified JSON object in the form: { "user_session_delay_seconds": 300 }. The `user_session_delay_seconds` is the amount of seconds to wait before rebooting the device if a user is logged in. It has to be an integer in the range [0,300]. When payload is not present for reboot, 0 delay is the default. Note: This only applies if an actual user is logged in, including a Guest. If the device is in the login screen or in Kiosk mode the value is not respected and the device immediately reboots. * `FETCH_SUPPORT_PACKET`: Payload is optionally a stringified JSON object in the form: {"supportPacketDetails":{ "issueCaseId": optional_support_case_id_string, "issueDescription": optional_issue_description_string, "requestedDataCollectors": []}} The list of available `data_collector_enums` are as following: Chrome System Information (1), Crash IDs (2), Memory Details (3), UI Hierarchy (4), Additional ChromeOS Platform Logs (5), Device Event (6), Intel WiFi NICs Debug Dump (7), Touch Events (8), Lacros (9), Lacros System Information (10), ChromeOS Flex Logs (11), DBus Details (12), ChromeOS Network Routes (13), ChromeOS Shill (Connection Manager) Logs (14), Policies (15), ChromeOS System State and Logs (16), ChromeOS System Logs (17), ChromeOS Chrome User Logs (18), ChromeOS Bluetooth (19), ChromeOS Connected Input Devices (20), ChromeOS Traffic Counters (21), ChromeOS Virtual Keyboard (22), ChromeOS Network Health (23). See more details in [help article](https://support.google.com/chrome/a?p=remote-log). */
   payload?: string | undefined;
 }
-export interface IssueCommandCustomerDevicesChromeosRequest {
+export interface IssueCommandCustomerDevicesChromeosRequest extends DirectoryChromeosdevicesIssueCommandRequest {
   /** Immutable. ID of the Google Workspace account. */
   customerId: string;
   /** Immutable. ID of Chrome OS Device. */
   deviceId: string;
-  /** Request body */
-  body?: DirectoryChromeosdevicesIssueCommandRequest | undefined;
 }
 /** A response for issuing a command. */
 export interface DirectoryChromeosdevicesIssueCommandResponse {
@@ -2314,152 +2262,118 @@ export interface UserMakeAdmin {
   /** Indicates the administrator status of the user. */
   status?: boolean | undefined;
 }
-export interface MakeAdminUsersRequest {
+export interface MakeAdminUsersRequest extends UserMakeAdmin {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
-  /** Request body */
-  body?: UserMakeAdmin | undefined;
 }
 export interface MakeAdminUsersResponse {}
 export interface ChromeOsMoveDevicesToOu {
   /** Chrome OS devices to be moved to OU */
   deviceIds?: StringList | undefined;
 }
-export interface MoveDevicesToOuChromeosdevicesRequest {
+export interface MoveDevicesToOuChromeosdevicesRequest extends ChromeOsMoveDevicesToOu {
   /** Immutable. ID of the Google Workspace account */
   customerId: string;
   /** Full path of the target organizational unit or its ID */
   orgUnitPath: string;
-  /** Request body */
-  body?: ChromeOsMoveDevicesToOu | undefined;
 }
 export interface MoveDevicesToOuChromeosdevicesResponse {}
 export type PatchChromeosdevicesProjectionEnum = "BASIC" | "FULL";
-export interface PatchChromeosdevicesRequest {
+export interface PatchChromeosdevicesRequest extends Omit<ChromeOsDevice, "deviceId"> {
   /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
   deviceId: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
   /** Determines whether the response contains the full list of properties or only a subset. */
   projection?: PatchChromeosdevicesProjectionEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: ChromeOsDevice | undefined;
 }
-export interface PatchCustomersRequest {
+export interface PatchCustomersRequest extends Customer {
   /** Id of the customer to be updated */
   customerKey: string;
-  /** Request body */
-  body?: Customer | undefined;
 }
-export interface PatchCustomersChromePrintersRequest {
+export interface PatchCustomersChromePrintersRequest extends Omit<Printer, "name"> {
   /** The list of fields to be updated. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
   updateMask?: string | undefined;
   /** The list of fields to be cleared. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
   clearMask?: string | undefined;
   /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
   name: string;
-  /** Request body */
-  body?: Printer | undefined;
 }
-export interface PatchCustomersChromePrintServersRequest {
+export interface PatchCustomersChromePrintServersRequest extends Omit<PrintServer, "name"> {
   /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
   name: string;
   /** The list of fields to update. Some fields are read-only and cannot be updated. Values for unspecified fields are patched. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PrintServer | undefined;
 }
-export interface PatchGroupsRequest {
+export interface PatchGroupsRequest extends Group {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
-  /** Request body */
-  body?: Group | undefined;
 }
-export interface PatchMembersRequest {
+export interface PatchMembersRequest extends Member {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
   /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
   memberKey: string;
-  /** Request body */
-  body?: Member | undefined;
 }
-export interface PatchOrgunitsRequest {
+export interface PatchOrgunitsRequest extends Omit<OrgUnit, "orgUnitPath"> {
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
-  /** Request body */
-  body?: OrgUnit | undefined;
 }
 export type PatchResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
   | "RESOLVED_FROM_ADDRESS"
   | "SOURCE_UNSPECIFIED";
-export interface PatchResourcesBuildingsRequest {
+export interface PatchResourcesBuildingsRequest extends Omit<Building, "buildingId"> {
   /** The id of the building to update. */
   buildingId: string;
   /** Source from which Building.coordinates are derived. */
   coordinatesSource?: PatchResourcesBuildingsCoordinatesSourceEnum | (string & {}) | undefined;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Request body */
-  body?: Building | undefined;
 }
-export interface PatchResourcesCalendarsRequest {
+export interface PatchResourcesCalendarsRequest extends CalendarResource {
   /** The unique ID of the calendar resource to update. */
   calendarResourceId: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Request body */
-  body?: CalendarResource | undefined;
 }
-export interface PatchResourcesFeaturesRequest {
+export interface PatchResourcesFeaturesRequest extends Feature {
   /** The unique ID of the feature to update. */
   featureKey: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Request body */
-  body?: Feature | undefined;
 }
-export interface PatchRolesRequest {
+export interface PatchRolesRequest extends Omit<Role, "roleId"> {
   /** Immutable ID of the Google Workspace account. */
   customer: string;
   /** Immutable ID of the role. */
   roleId: string;
-  /** Request body */
-  body?: Role | undefined;
 }
-export interface PatchSchemasRequest {
+export interface PatchSchemasRequest extends Admin_Schema {
   /** Name or immutable ID of the schema. */
   schemaKey: string;
   /** Immutable ID of the Google Workspace account. */
   customerId: string;
-  /** Request body */
-  body?: Admin_Schema | undefined;
 }
-export interface PatchUsersRequest {
+export interface PatchUsersRequest extends User {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
-  /** Request body */
-  body?: User | undefined;
 }
-export interface PatchUsersPhotosRequest {
+export interface PatchUsersPhotosRequest extends UserPhoto {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
-  /** Request body */
-  body?: UserPhoto | undefined;
 }
 export interface FeatureRename {
   /** New name of the feature. */
   newName?: string | undefined;
 }
-export interface RenameResourcesFeaturesRequest {
+export interface RenameResourcesFeaturesRequest extends FeatureRename {
   /** The unique ID of the feature to rename. */
   oldName: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Request body */
-  body?: FeatureRename | undefined;
 }
 export interface RenameResourcesFeaturesResponse {}
 export interface SignOutUsersRequest {
@@ -2491,10 +2405,7 @@ export interface Channel {
   /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
   token?: string | undefined;
 }
-export interface StopChannelsRequest {
-  /** Request body */
-  body?: Channel | undefined;
-}
+export interface StopChannelsRequest extends Channel {}
 export interface StopChannelsResponse {}
 export interface TurnOffTwoStepVerificationRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -2505,116 +2416,90 @@ export interface UserUndelete {
   /** OrgUnit of User */
   orgUnitPath?: string | undefined;
 }
-export interface UndeleteUsersRequest {
+export interface UndeleteUsersRequest extends UserUndelete {
   /** The immutable id of the user */
   userKey: string;
-  /** Request body */
-  body?: UserUndelete | undefined;
 }
 export interface UndeleteUsersResponse {}
 export type UpdateChromeosdevicesProjectionEnum = "BASIC" | "FULL";
-export interface UpdateChromeosdevicesRequest {
+export interface UpdateChromeosdevicesRequest extends Omit<ChromeOsDevice, "deviceId"> {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
   /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
   deviceId: string;
   /** Determines whether the response contains the full list of properties or only a subset. */
   projection?: UpdateChromeosdevicesProjectionEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: ChromeOsDevice | undefined;
 }
-export interface UpdateCustomersRequest {
+export interface UpdateCustomersRequest extends Customer {
   /** Id of the customer to be updated */
   customerKey: string;
-  /** Request body */
-  body?: Customer | undefined;
 }
-export interface UpdateGroupsRequest {
+export interface UpdateGroupsRequest extends Group {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
-  /** Request body */
-  body?: Group | undefined;
 }
-export interface UpdateMembersRequest {
+export interface UpdateMembersRequest extends Member {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
   /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
   memberKey: string;
-  /** Request body */
-  body?: Member | undefined;
 }
-export interface UpdateOrgunitsRequest {
+export interface UpdateOrgunitsRequest extends Omit<OrgUnit, "orgUnitPath"> {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath: string;
-  /** Request body */
-  body?: OrgUnit | undefined;
 }
 export type UpdateResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
   | "RESOLVED_FROM_ADDRESS"
   | "SOURCE_UNSPECIFIED";
-export interface UpdateResourcesBuildingsRequest {
+export interface UpdateResourcesBuildingsRequest extends Omit<Building, "buildingId"> {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
   /** Source from which Building.coordinates are derived. */
   coordinatesSource?: UpdateResourcesBuildingsCoordinatesSourceEnum | (string & {}) | undefined;
   /** The id of the building to update. */
   buildingId: string;
-  /** Request body */
-  body?: Building | undefined;
 }
-export interface UpdateResourcesCalendarsRequest {
+export interface UpdateResourcesCalendarsRequest extends CalendarResource {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
   /** The unique ID of the calendar resource to update. */
   calendarResourceId: string;
-  /** Request body */
-  body?: CalendarResource | undefined;
 }
-export interface UpdateResourcesFeaturesRequest {
+export interface UpdateResourcesFeaturesRequest extends Feature {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
   /** The unique ID of the feature to update. */
   featureKey: string;
-  /** Request body */
-  body?: Feature | undefined;
 }
-export interface UpdateRolesRequest {
+export interface UpdateRolesRequest extends Omit<Role, "roleId"> {
   /** Immutable ID of the Google Workspace account. */
   customer: string;
   /** Immutable ID of the role. */
   roleId: string;
-  /** Request body */
-  body?: Role | undefined;
 }
-export interface UpdateSchemasRequest {
+export interface UpdateSchemasRequest extends Admin_Schema {
   /** Immutable ID of the Google Workspace account. */
   customerId: string;
   /** Name or immutable ID of the schema. */
   schemaKey: string;
-  /** Request body */
-  body?: Admin_Schema | undefined;
 }
-export interface UpdateUsersRequest {
+export interface UpdateUsersRequest extends User {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
-  /** Request body */
-  body?: User | undefined;
 }
-export interface UpdateUsersPhotosRequest {
+export interface UpdateUsersPhotosRequest extends UserPhoto {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
   userKey: string;
-  /** Request body */
-  body?: UserPhoto | undefined;
 }
 export type WatchUsersViewTypeEnum = "admin_view" | "domain_public";
 export type WatchUsersProjectionEnum = "basic" | "custom" | "full";
 export type WatchUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
 export type WatchUsersSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type WatchUsersOrderByEnum = "email" | "familyName" | "givenName";
-export interface WatchUsersRequest {
+export interface WatchUsersRequest extends Channel {
   /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
   viewType?: WatchUsersViewTypeEnum | (string & {}) | undefined;
   /** What subset of fields to fetch for this user. */
@@ -2639,17 +2524,13 @@ export interface WatchUsersRequest {
   pageToken?: string | undefined;
   /** Column to use for sorting results */
   orderBy?: WatchUsersOrderByEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type WatchUsersAliasesEventEnum = "add" | "delete";
-export interface WatchUsersAliasesRequest {
+export interface WatchUsersAliasesRequest extends Channel {
   /** Email or immutable ID of the user */
   userKey: string;
   /** Events to watch for. */
   event?: WatchUsersAliasesEventEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type ActionChromeosdevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Use [BatchChangeChromeOsDeviceStatus](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customer.devices.chromeos/batchChangeStatus) instead. Takes an action that affects a Chrome OS Device. This includes deprovisioning, disabling, and re-enabling devices. *Warning:* * Deprovisioning a device will stop device policy syncing and remove device-level printers. After a device is deprovisioned, it must be wiped before it can be re-enrolled. * Lost or stolen devices should use the disable action. * Re-enabling a disabled device will consume a device license. If you do not have sufficient licenses available when completing the re-enable action, you will receive an error. For more information about deprovisioning and disabling devices, visit the [help center](https://support.google.com/chrome/a/answer/3523633). */
@@ -4988,10 +4869,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BatchDeletePrintServersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/{+parent}/chrome/printServers:batchDeletePrintServers",
@@ -5012,10 +4895,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2145, __c67, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2145, __c67, 1),
+          S.Struct({
+            customerKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customers/{customerKey}",
@@ -5029,12 +4914,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          clearMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3938, __c123, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3938, __c123, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            clearMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/{+name}",
@@ -5048,11 +4935,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4352, __c136, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4352, __c136, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/{+name}",
@@ -5066,10 +4955,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2498, __c78, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2498, __c78, 2),
+          S.Struct({
+            groupKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/groups/{groupKey}",
@@ -5083,11 +4974,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupKey: S.String.pipe(T.Label()),
-          memberKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            groupKey: S.String.pipe(T.Label()),
+            memberKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/groups/{groupKey}/members/{memberKey}",
@@ -5101,11 +4994,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          orgUnitPath: S.String.pipe(T.Label()),
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2688, __c84, 0),
+          S.Struct({
+            orgUnitPath: S.String.pipe(T.Label()),
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customer/{customerId}/orgunits/{+orgUnitPath}",
@@ -5119,12 +5014,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          buildingId: S.String.pipe(T.Label()),
-          coordinatesSource: S.optional(S.String.pipe(T.Query())),
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2754, __c86, 2),
+          S.Struct({
+            buildingId: S.String.pipe(T.Label()),
+            coordinatesSource: S.optional(S.String.pipe(T.Query())),
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}",
@@ -5138,11 +5035,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarResourceId: S.String.pipe(T.Label()),
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            calendarResourceId: S.String.pipe(T.Label()),
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}",
@@ -5156,11 +5055,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          featureKey: S.String.pipe(T.Label()),
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2912, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2912, __c91, 0),
+          S.Struct({
+            featureKey: S.String.pipe(T.Label()),
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}",
@@ -5174,11 +5075,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          roleId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3042, __c95, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3042, __c95, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+            roleId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customer/{customer}/roles/{roleId}",
@@ -5217,11 +5120,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          schemaKey: S.String.pipe(T.Label()),
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3107, __c97, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3107, __c97, 3),
+          S.Struct({
+            schemaKey: S.String.pipe(T.Label()),
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}",
@@ -5235,10 +5140,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(1219, __c38, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1219, __c38, 3),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/users/{userKey}",
@@ -5252,10 +5159,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/users/{userKey}/photos/thumbnail",
@@ -5275,11 +5184,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "FeatureRename" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          oldName: S.String.pipe(T.Label()),
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            oldName: S.String.pipe(T.Label()),
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/resources/features/{oldName}/rename",
@@ -5309,9 +5220,7 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(577, __c18, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory_v1/channels/stop",
@@ -5368,10 +5277,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UserUndelete" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/users/{userKey}/undelete",
@@ -5385,12 +5296,14 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          deviceId: S.String.pipe(T.Label()),
-          projection: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2052, __c64, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2052, __c64, 4),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+            deviceId: S.String.pipe(T.Label()),
+            projection: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}",
@@ -5404,10 +5317,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2145, __c67, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2145, __c67, 1),
+          S.Struct({
+            customerKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customers/{customerKey}",
@@ -5421,10 +5336,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3938, __c123, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3938, __c123, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/{+parent}/chrome/printers",
@@ -5438,10 +5355,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2498, __c78, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2498, __c78, 2),
+          S.Struct({
+            groupKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/groups/{groupKey}",
@@ -5455,11 +5374,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupKey: S.String.pipe(T.Label()),
-          memberKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            groupKey: S.String.pipe(T.Label()),
+            memberKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/groups/{groupKey}/members/{memberKey}",
@@ -5473,11 +5394,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          orgUnitPath: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2688, __c84, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+            orgUnitPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customer/{customerId}/orgunits/{+orgUnitPath}",
@@ -5491,12 +5414,14 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          coordinatesSource: S.optional(S.String.pipe(T.Query())),
-          buildingId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2754, __c86, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+            coordinatesSource: S.optional(S.String.pipe(T.Query())),
+            buildingId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customer/{customer}/resources/buildings/{buildingId}",
@@ -5510,11 +5435,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          calendarResourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+            calendarResourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customer/{customer}/resources/calendars/{calendarResourceId}",
@@ -5528,11 +5455,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          featureKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2912, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2912, __c91, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+            featureKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customer/{customer}/resources/features/{featureKey}",
@@ -5546,11 +5475,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          roleId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3042, __c95, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3042, __c95, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+            roleId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customer/{customer}/roles/{roleId}",
@@ -5564,11 +5495,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          schemaKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(3107, __c97, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3107, __c97, 3),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+            schemaKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/customer/{customerId}/schemas/{schemaKey}",
@@ -5582,10 +5515,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(1219, __c38, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1219, __c38, 3),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/users/{userKey}",
@@ -5599,10 +5534,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "admin/directory/v1/users/{userKey}/photos/thumbnail",
@@ -5616,10 +5553,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4352, __c136, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4352, __c136, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/{+parent}/chrome/printServers",
@@ -5633,21 +5572,23 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          viewType: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          event: S.optional(S.String.pipe(T.Query())),
-          customFieldMask: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          showDeleted: S.optional(S.String.pipe(T.Query())),
-          customer: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(577, __c18, 1),
+          S.Struct({
+            viewType: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            event: S.optional(S.String.pipe(T.Query())),
+            customFieldMask: S.optional(S.String.pipe(T.Query())),
+            sortOrder: S.optional(S.String.pipe(T.Query())),
+            query: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            showDeleted: S.optional(S.String.pipe(T.Query())),
+            customer: S.optional(S.String.pipe(T.Query())),
+            domain: S.optional(S.String.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            orderBy: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/users/watch",
@@ -5661,11 +5602,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          event: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(577, __c18, 1),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+            event: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/users/{userKey}/aliases/watch",
@@ -5686,9 +5629,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DirectoryUsersCreateGuestRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1184, __c37, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/users:createGuest",
@@ -6525,11 +6466,13 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ChromeOsDeviceAction" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c68, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customerId}/devices/chromeos/{resourceId}/action",
@@ -6947,11 +6890,13 @@ function __c89(j: number): any {
       ).annotate({ identifier: "MobileDeviceAction" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}/action",
@@ -7244,10 +7189,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/domainaliases",
@@ -7261,10 +7208,12 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/domains",
@@ -7286,10 +7235,12 @@ function __c106(j: number): any {
       ).annotate({ identifier: "BatchChangeChromeOsDeviceStatusRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customerId}/devices/chromeos:batchChangeStatus",
@@ -7341,9 +7292,7 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2498, __c78, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2498, __c78, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/groups",
@@ -7357,10 +7306,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(3552, __c111, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3552, __c111, 0),
+          S.Struct({
+            groupKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/groups/{groupKey}/aliases",
@@ -7388,10 +7339,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            groupKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/groups/{groupKey}/members",
@@ -7405,10 +7358,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2688, __c84, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customerId}/orgunits",
@@ -7422,11 +7377,13 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          coordinatesSource: S.optional(S.String.pipe(T.Query())),
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2754, __c86, 2),
+          S.Struct({
+            coordinatesSource: S.optional(S.String.pipe(T.Query())),
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/resources/buildings",
@@ -7440,10 +7397,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/resources/calendars",
@@ -7457,10 +7416,12 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2912, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2912, __c91, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/resources/features",
@@ -7474,10 +7435,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(2977, __c93, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2977, __c93, 1),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/roleassignments",
@@ -7491,10 +7454,12 @@ function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(3042, __c95, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3042, __c95, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customer}/roles",
@@ -7508,10 +7473,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3107, __c97, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3107, __c97, 3),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customerId}/schemas",
@@ -7540,10 +7507,12 @@ function __c120(j: number): any {
       ).annotate({ identifier: "BatchCreatePrintersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3842, __c120, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3842, __c120, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/{+parent}/chrome/printers:batchCreatePrinters",
@@ -7614,10 +7583,12 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resolveConflictAccount: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1219, __c38, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1219, __c38, 3),
+          S.Struct({
+            resolveConflictAccount: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/users",
@@ -7631,10 +7602,12 @@ function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(3552, __c111, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3552, __c111, 0),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/users/{userKey}/aliases",
@@ -7671,11 +7644,13 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DirectoryChromeosdevicesIssueCommandRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          deviceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4064, __c127, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+            deviceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}:issueCommand",
@@ -7878,10 +7853,12 @@ function __c134(j: number): any {
       ).annotate({ identifier: "BatchCreatePrintServersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4290, __c134, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4290, __c134, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/{+parent}/chrome/printServers:batchCreatePrintServers",
@@ -8264,10 +8241,12 @@ function __c149(j: number): any {
       ).annotate({ identifier: "BatchDeletePrintersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4768, __c149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4768, __c149, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/{+parent}/chrome/printers:batchDeletePrinters",
@@ -8498,10 +8477,12 @@ function __c157(j: number): any {
       ).annotate({ identifier: "UserMakeAdmin" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userKey: S.String.pipe(T.Label()),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            userKey: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/users/{userKey}/makeAdmin",
@@ -8521,11 +8502,13 @@ function __c158(j: number): any {
       ).annotate({ identifier: "ChromeOsMoveDevicesToOu" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          orgUnitPath: S.String.pipe(T.Query()),
-          body: S.optional(__S(5056, __c158, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5056, __c158, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+            orgUnitPath: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/directory/v1/customer/{customerId}/devices/chromeos/moveDevicesToOu",
@@ -8539,12 +8522,14 @@ function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          deviceId: S.String.pipe(T.Label()),
-          customerId: S.String.pipe(T.Label()),
-          projection: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2052, __c64, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2052, __c64, 4),
+          S.Struct({
+            deviceId: S.String.pipe(T.Label()),
+            customerId: S.String.pipe(T.Label()),
+            projection: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}",

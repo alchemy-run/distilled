@@ -108,10 +108,7 @@ export interface UrlNotificationMetadata {
   /** Latest notification received with type `URL_UPDATED`. */
   latestUpdate?: UrlNotification | undefined;
 }
-export interface PublishUrlNotificationsRequest {
-  /** Request body */
-  body?: UrlNotification | undefined;
-}
+export interface PublishUrlNotificationsRequest extends UrlNotification {}
 /** Output for PublishUrlNotification */
 export interface PublishUrlNotificationResponse {
   /** Description of the notification events received for this URL. */
@@ -197,9 +194,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/urlNotifications:publish",

@@ -205,10 +205,7 @@ export interface CreateManagedShortLinkRequest {
   /** Google SDK version. Version takes the form "$major.$minor.$patch" */
   sdkVersion?: string | undefined;
 }
-export interface CreateManagedShortLinksRequest {
-  /** Request body */
-  body?: CreateManagedShortLinkRequest | undefined;
-}
+export interface CreateManagedShortLinksRequest extends CreateManagedShortLinkRequest {}
 export type DynamicLinkWarningWarningCodeEnum =
   | "CODE_UNSPECIFIED"
   | "NOT_IN_PROJECT_ANDROID_PACKAGE_NAME"
@@ -293,10 +290,7 @@ export interface CreateShortDynamicLinkRequest {
   /** Short Dynamic Link suffix. Optional. */
   suffix?: Suffix | undefined;
 }
-export interface CreateShortLinksRequest {
-  /** Request body */
-  body?: CreateShortDynamicLinkRequest | undefined;
-}
+export interface CreateShortLinksRequest extends CreateShortDynamicLinkRequest {}
 /** Response to create a short Dynamic Link. */
 export interface CreateShortDynamicLinkResponse {
   /** Short Dynamic Link value. e.g. https://abcd.app.goo.gl/wxyz */
@@ -392,10 +386,7 @@ export interface GetIosPostInstallAttributionRequest {
     | (string & {})
     | undefined;
 }
-export interface InstallAttributionV1Request {
-  /** Request body */
-  body?: GetIosPostInstallAttributionRequest | undefined;
-}
+export interface InstallAttributionV1Request extends GetIosPostInstallAttributionRequest {}
 export type GetIosPostInstallAttributionResponseAttributionConfidenceEnum =
   | "UNKNOWN_ATTRIBUTION_CONFIDENCE"
   | "WEAK"
@@ -449,10 +440,7 @@ export interface GetIosReopenAttributionRequest {
   /** Google SDK version. Version takes the form "$major.$minor.$patch" */
   sdkVersion?: string | undefined;
 }
-export interface ReopenAttributionV1Request {
-  /** Request body */
-  body?: GetIosReopenAttributionRequest | undefined;
-}
+export interface ReopenAttributionV1Request extends GetIosReopenAttributionRequest {}
 /** Response for iSDK to get reopen attribution for app universal link open deeplinking. This endpoint is meant for only iOS requests. */
 export interface GetIosReopenAttributionResponse {
   /** Scion source value to be propagated by iSDK to Scion at app-reopen. */
@@ -581,9 +569,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateManagedShortLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/managedShortLinks:create",
@@ -734,9 +720,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateShortDynamicLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(48, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/shortLinks",
@@ -818,9 +802,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetIosPostInstallAttributionRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(81, __c5, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(81, __c5, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/installAttribution",
@@ -863,9 +845,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetIosReopenAttributionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(96, __c6, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/reopenAttribution",

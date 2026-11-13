@@ -90,10 +90,7 @@ export interface CreateProjectRequest {
   /** The Drive ID of a parent file that the created script project is bound to. This is usually the ID of a Google Doc, Google Sheet, Google Form, or Google Slides file. If not set, a standalone script project is created. */
   parentId?: string | undefined;
 }
-export interface CreateProjectsRequest {
-  /** Request body */
-  body?: CreateProjectRequest | undefined;
-}
+export interface CreateProjectsRequest extends CreateProjectRequest {}
 /** A simple user profile resource. */
 export interface GoogleAppsScriptTypeUser {
   /** The user's identifying email address. */
@@ -133,11 +130,9 @@ export interface DeploymentConfig {
   /** The version number on which this deployment is based. */
   versionNumber?: number | undefined;
 }
-export interface CreateProjectsDeploymentsRequest {
+export interface CreateProjectsDeploymentsRequest extends Omit<DeploymentConfig, "scriptId"> {
   /** The script project's Drive ID. */
   scriptId: string;
-  /** Request body */
-  body?: DeploymentConfig | undefined;
 }
 export type GoogleAppsScriptTypeAddOnEntryPointAddOnTypeEnum =
   | "UNKNOWN_ADDON_TYPE"
@@ -237,11 +232,9 @@ export interface Version {
   /** The incremental ID that is created by Apps Script when a version is created. This is system assigned number and is immutable once created. */
   versionNumber?: number | undefined;
 }
-export interface CreateProjectsVersionsRequest {
+export interface CreateProjectsVersionsRequest extends Omit<Version, "scriptId"> {
   /** The script project's Drive ID. */
   scriptId: string;
-  /** Request body */
-  body?: Version | undefined;
 }
 export interface DeleteProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
@@ -582,11 +575,9 @@ export interface ExecutionRequest {
   /** If `true` and the user is an owner of the script, the script runs at the most recently saved version rather than the version deployed for use with the Apps Script API. Optional; default is `false`. */
   devMode?: boolean | undefined;
 }
-export interface RunScriptsRequest {
+export interface RunScriptsRequest extends ExecutionRequest {
   /** The script ID of the script to be executed. Find the script ID on the **Project settings** page under "IDs." As multiple executable APIs can be deployed in new IDE for same script, this field should be populated with DeploymentID generated while deploying in new IDE instead of script ID. */
   scriptId: string;
-  /** Request body */
-  body?: ExecutionRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -608,24 +599,20 @@ export interface Operation {
   /** This field indicates whether the script execution has completed. A completed execution has a populated `response` field containing the ExecutionResponse from function that was executed. */
   done?: boolean | undefined;
 }
-export interface UpdateContentProjectsRequest {
+export interface UpdateContentProjectsRequest extends Omit<Content, "scriptId"> {
   /** The script project's Drive ID. */
   scriptId: string;
-  /** Request body */
-  body?: Content | undefined;
 }
 /** Request with deployment information to update an existing deployment. */
 export interface UpdateDeploymentRequest {
   /** The deployment configuration. */
   deploymentConfig?: DeploymentConfig | undefined;
 }
-export interface UpdateProjectsDeploymentsRequest {
+export interface UpdateProjectsDeploymentsRequest extends UpdateDeploymentRequest {
   /** The deployment ID for this deployment. */
   deploymentId: string;
   /** The script project's Drive ID. */
   scriptId: string;
-  /** Request body */
-  body?: UpdateDeploymentRequest | undefined;
 }
 export type CreateProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new, empty script project with no script files and a base manifest file. */
@@ -1123,10 +1110,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ExecutionRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(129, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(129, __c8, 1),
+          S.Struct({
+            scriptId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/scripts/{scriptId}:run",
@@ -1160,10 +1149,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(326, __c20, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(326, __c20, 6),
+          S.Struct({
+            scriptId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/projects/{scriptId}/content",
@@ -1183,11 +1174,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateDeploymentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String.pipe(T.Label()),
-          scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c10, 0),
+          S.Struct({
+            deploymentId: S.String.pipe(T.Label()),
+            scriptId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/projects/{scriptId}/deployments/{deploymentId}",
@@ -1208,9 +1201,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateProjectRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(176, __c11, 0), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/projects", baseUrl: "https://script.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateProjectsRequest" });
@@ -1249,10 +1240,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            scriptId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{scriptId}/deployments",
@@ -1336,10 +1329,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            scriptId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{scriptId}/versions",

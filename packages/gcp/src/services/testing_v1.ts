@@ -178,11 +178,9 @@ export interface DeviceSession {
   /** Output only. The time that the Session was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsDeviceSessionsRequest {
+export interface CreateProjectsDeviceSessionsRequest extends DeviceSession {
   /** Required. The Compute Engine project under which this device will be allocated. "projects/{project_id}" */
   parent: string;
-  /** Request body */
-  body?: DeviceSession | undefined;
 }
 export type TestMatrixInvalidMatrixDetailsEnum =
   | "INVALID_MATRIX_DETAILS_UNSPECIFIED"
@@ -745,19 +743,15 @@ export interface TestMatrix {
   /** Output only. Details about why a matrix was deemed invalid. If multiple checks can be safely performed, they will be reported but no assumptions should be made about the length of this list. */
   extendedInvalidMatrixDetails?: MatrixErrorDetailList | undefined;
 }
-export interface CreateProjectsTestMatricesRequest {
+export interface CreateProjectsTestMatricesRequest extends Omit<TestMatrix, "projectId"> {
   /** A string id used to detect duplicated requests. Ids are automatically scoped to a project, so users should ensure the ID is unique per-project. A UUID is recommended. Optional, but strongly recommended. */
   requestId?: string | undefined;
   /** The GCE project under which this job will run. */
   projectId: string;
-  /** Request body */
-  body?: TestMatrix | undefined;
 }
-export interface GetApkDetailsApplicationDetailServiceRequest {
+export interface GetApkDetailsApplicationDetailServiceRequest extends FileReference {
   /** A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk These paths are expected to be url encoded (percent encoding) */
   "bundleLocation.gcsPath"?: string | undefined;
-  /** Request body */
-  body?: FileReference | undefined;
 }
 /** The section of an tag. https://developer.android.com/guide/topics/manifest/intent-filter-element.html */
 export interface IntentFilter {
@@ -1182,13 +1176,11 @@ export interface ListDeviceSessionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsDeviceSessionsRequest {
+export interface PatchProjectsDeviceSessionsRequest extends Omit<DeviceSession, "name"> {
   /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DeviceSession | undefined;
 }
 export type CancelProjectsDeviceSessionsError =
   | NotFound
@@ -1696,11 +1688,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1760,10 +1754,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deviceSessions",
@@ -1819,11 +1815,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(439, __c13, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(439, __c13, 23),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/testMatrices",
@@ -2258,10 +2256,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "bundleLocation.gcsPath": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            "bundleLocation.gcsPath": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/applicationDetailService/getApkDetails",

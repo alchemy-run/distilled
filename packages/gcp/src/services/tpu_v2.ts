@@ -318,13 +318,11 @@ export interface Node {
   /** Output only. The API version that created this Node. */
   apiVersion?: NodeApiVersionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsNodesRequest {
+export interface CreateProjectsLocationsNodesRequest extends Node {
   /** Required. The parent resource name. */
   parent: string;
   /** The unqualified resource name. */
   nodeId?: string | undefined;
-  /** Request body */
-  body?: Node | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -477,15 +475,13 @@ export interface QueuedResource {
   /** Optional. The Guaranteed tier */
   guaranteed?: Guaranteed | undefined;
 }
-export interface CreateProjectsLocationsQueuedResourcesRequest {
+export interface CreateProjectsLocationsQueuedResourcesRequest extends QueuedResource {
   /** Required. The parent resource name. */
   parent: string;
   /** Optional. The unqualified resource name. Should follow the `^[A-Za-z0-9_.~+%-]+$` regex format. */
   queuedResourceId?: string | undefined;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: QueuedResource | undefined;
 }
 export interface DeleteProjectsLocationsNodesRequest {
   /** Required. The resource name. */
@@ -528,11 +524,9 @@ export interface GetGuestAttributesRequest {
   /** The 0-based worker ID. If it is empty, all workers' GuestAttributes will be returned. */
   workerIds?: StringList | undefined;
 }
-export interface GetGuestAttributesProjectsLocationsNodesRequest {
+export interface GetGuestAttributesProjectsLocationsNodesRequest extends GetGuestAttributesRequest {
   /** Required. The resource name. */
   name: string;
-  /** Request body */
-  body?: GetGuestAttributesRequest | undefined;
 }
 /** A guest attributes namespace/key/value entry. */
 export interface GuestAttributesEntry {
@@ -738,13 +732,11 @@ export interface ListRuntimeVersionsResponse {
   /** The listed nodes. */
   runtimeVersions?: RuntimeVersionList | undefined;
 }
-export interface PatchProjectsLocationsNodesRequest {
+export interface PatchProjectsLocationsNodesRequest extends Omit<Node, "name"> {
   /** Output only. Immutable. The name of the TPU. */
   name: string;
   /** Required. Mask of fields from Node to update. Supported fields: [description, tags, labels, metadata, network_config.enable_external_ips]. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Node | undefined;
 }
 /** Request for ResetQueuedResource. */
 export type ResetQueuedResourceRequest = SuspendedData;
@@ -1349,10 +1341,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetGuestAttributesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:getGuestAttributes",
@@ -1683,11 +1677,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(463, __c28, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(463, __c28, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://tpu.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsNodesRequest" });
@@ -1770,11 +1766,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          nodeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(463, __c28, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(463, __c28, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            nodeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/nodes",
@@ -1974,12 +1972,14 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          queuedResourceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(537, __c33, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(537, __c33, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            queuedResourceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/queuedResources",

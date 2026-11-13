@@ -744,11 +744,9 @@ export interface ProposedChange {
   /** The list of workspace changes to be applied. */
   changes?: EntityList | undefined;
 }
-export interface BulkUpdateAccountsContainersWorkspacesRequest {
+export interface BulkUpdateAccountsContainersWorkspacesRequest extends ProposedChange {
   /** GTM Workspace's API relative path. */
   path: string;
-  /** Request body */
-  body?: ProposedChange | undefined;
 }
 export interface BulkUpdateWorkspaceResponse {
   /** The entities that were added or updated during the bulk-update. Does not include entities that were deleted or updated by the system. */
@@ -839,11 +837,9 @@ export interface Container {
   /** GTM Account ID. */
   accountId?: string | undefined;
 }
-export interface CreateAccountsContainersRequest {
+export interface CreateAccountsContainersRequest extends Container {
   /** GTM Account's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Container | undefined;
 }
 export type EnvironmentTypeEnum = "user" | "live" | "latest" | "workspace";
 /** Represents a Google Tag Manager Environment. Note that a user can create, delete and update environments of type USER, but can only update the enable_debug and url fields of environments of other types. */
@@ -879,11 +875,9 @@ export interface Environment {
   /** GTM Environment ID uniquely identifies the GTM Environment. */
   environmentId?: string | undefined;
 }
-export interface CreateAccountsContainersEnvironmentsRequest {
+export interface CreateAccountsContainersEnvironmentsRequest extends Environment {
   /** GTM Container's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Environment | undefined;
 }
 /** Represents a Google Tag Manager Container Workspace. */
 export interface Workspace {
@@ -904,11 +898,9 @@ export interface Workspace {
   /** Workspace description. */
   description?: string | undefined;
 }
-export interface CreateAccountsContainersWorkspacesRequest {
+export interface CreateAccountsContainersWorkspacesRequest extends Workspace {
   /** GTM parent Container's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Workspace | undefined;
 }
 export type CreateAccountsContainersWorkspacesBuilt_in_variablesTypeEnum =
   | "builtInVariableTypeUnspecified"
@@ -1042,59 +1034,41 @@ export interface CreateBuiltInVariableResponse {
   /** List of created built-in variables. */
   builtInVariable?: BuiltInVariableList | undefined;
 }
-export interface CreateAccountsContainersWorkspacesClientsRequest {
+export interface CreateAccountsContainersWorkspacesClientsRequest extends Client {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Client | undefined;
 }
-export interface CreateAccountsContainersWorkspacesFoldersRequest {
+export interface CreateAccountsContainersWorkspacesFoldersRequest extends Folder {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Folder | undefined;
 }
-export interface CreateAccountsContainersWorkspacesGtag_configRequest {
+export interface CreateAccountsContainersWorkspacesGtag_configRequest extends GtagConfig {
   /** Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: GtagConfig | undefined;
 }
-export interface CreateAccountsContainersWorkspacesTagsRequest {
+export interface CreateAccountsContainersWorkspacesTagsRequest extends Tag {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Tag | undefined;
 }
-export interface CreateAccountsContainersWorkspacesTemplatesRequest {
+export interface CreateAccountsContainersWorkspacesTemplatesRequest extends CustomTemplate {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: CustomTemplate | undefined;
 }
-export interface CreateAccountsContainersWorkspacesTransformationsRequest {
+export interface CreateAccountsContainersWorkspacesTransformationsRequest extends Transformation {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Transformation | undefined;
 }
-export interface CreateAccountsContainersWorkspacesTriggersRequest {
+export interface CreateAccountsContainersWorkspacesTriggersRequest extends Trigger {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Trigger | undefined;
 }
-export interface CreateAccountsContainersWorkspacesVariablesRequest {
+export interface CreateAccountsContainersWorkspacesVariablesRequest extends Variable {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Variable | undefined;
 }
-export interface CreateAccountsContainersWorkspacesZonesRequest {
+export interface CreateAccountsContainersWorkspacesZonesRequest extends Zone {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Zone | undefined;
 }
 export type ContainerAccessPermissionEnum =
   | "containerPermissionUnspecified"
@@ -1134,11 +1108,9 @@ export interface UserPermission {
   /** GTM Account access permissions. */
   accountAccess?: AccountAccess | undefined;
 }
-export interface CreateAccountsUser_permissionsRequest {
+export interface CreateAccountsUser_permissionsRequest extends UserPermission {
   /** GTM Account's API relative path. */
   parent: string;
-  /** Request body */
-  body?: UserPermission | undefined;
 }
 /** Options for new container versions. */
 export interface CreateContainerVersionRequestVersionOptions {
@@ -1147,11 +1119,9 @@ export interface CreateContainerVersionRequestVersionOptions {
   /** The name of the container version to be created. */
   name?: string | undefined;
 }
-export interface CreateVersionAccountsContainersWorkspacesRequest {
+export interface CreateVersionAccountsContainersWorkspacesRequest extends CreateContainerVersionRequestVersionOptions {
   /** GTM Workspace's API relative path. */
   path: string;
-  /** Request body */
-  body?: CreateContainerVersionRequestVersionOptions | undefined;
 }
 /** The status of a workspace after synchronization. */
 export interface SyncStatus {
@@ -1852,7 +1822,10 @@ export interface LookupAccountsContainersRequest {
   /** Tag ID for a GTM Container, e.g. GTM-123456789. Only one of destination_id or tag_id should be set. */
   tagId?: string | undefined;
 }
-export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersRequest {
+export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersRequest extends Omit<
+  Folder,
+  "path"
+> {
   /** The tags to be moved to the folder. */
   tagId?: StringList | undefined;
   /** GTM Folder's API relative path. */
@@ -1861,8 +1834,6 @@ export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersRequest 
   variableId?: StringList | undefined;
   /** The triggers to be moved to the folder. */
   triggerId?: StringList | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
 export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersResponse {}
 export interface MoveTagIdAccountsContainersRequest {
@@ -1907,19 +1878,18 @@ export interface PublishContainerVersionResponse {
   /** Compiler errors or not. */
   compilerError?: boolean | undefined;
 }
-export interface ReauthorizeAccountsContainersEnvironmentsRequest {
+export interface ReauthorizeAccountsContainersEnvironmentsRequest extends Omit<
+  Environment,
+  "path"
+> {
   /** GTM Environment's API relative path. */
   path: string;
-  /** Request body */
-  body?: Environment | undefined;
 }
-export interface Resolve_conflictAccountsContainersWorkspacesRequest {
+export interface Resolve_conflictAccountsContainersWorkspacesRequest extends Entity {
   /** GTM Workspace's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the entity_in_workspace in the merge conflict. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Entity | undefined;
 }
 export interface Resolve_conflictAccountsContainersWorkspacesResponse {}
 export type RevertAccountsContainersWorkspacesBuilt_in_variablesTypeEnum =
@@ -2168,123 +2138,129 @@ export interface UndeleteAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
 }
-export interface UpdateAccountsRequest {
+export interface UpdateAccountsRequest extends Omit<Account, "fingerprint" | "path"> {
   /** When provided, this fingerprint must match the fingerprint of the account in storage. */
   fingerprint?: string | undefined;
   /** GTM Account's API relative path. */
   path: string;
-  /** Request body */
-  body?: Account | undefined;
 }
-export interface UpdateAccountsContainersRequest {
+export interface UpdateAccountsContainersRequest extends Omit<Container, "fingerprint" | "path"> {
   /** GTM Container's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the container in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Container | undefined;
 }
-export interface UpdateAccountsContainersEnvironmentsRequest {
+export interface UpdateAccountsContainersEnvironmentsRequest extends Omit<
+  Environment,
+  "fingerprint" | "path"
+> {
   /** GTM Environment's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Environment | undefined;
 }
-export interface UpdateAccountsContainersVersionsRequest {
+export interface UpdateAccountsContainersVersionsRequest extends Omit<
+  ContainerVersion,
+  "path" | "fingerprint"
+> {
   /** GTM ContainerVersion's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: ContainerVersion | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesRequest {
+export interface UpdateAccountsContainersWorkspacesRequest extends Omit<
+  Workspace,
+  "fingerprint" | "path"
+> {
   /** GTM Workspace's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the workspace in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Workspace | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesClientsRequest {
+export interface UpdateAccountsContainersWorkspacesClientsRequest extends Omit<
+  Client,
+  "fingerprint" | "path"
+> {
   /** When provided, this fingerprint must match the fingerprint of the client in storage. */
   fingerprint?: string | undefined;
   /** GTM Client's API relative path. */
   path: string;
-  /** Request body */
-  body?: Client | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesFoldersRequest {
+export interface UpdateAccountsContainersWorkspacesFoldersRequest extends Omit<
+  Folder,
+  "path" | "fingerprint"
+> {
   /** GTM Folder's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesGtag_configRequest {
+export interface UpdateAccountsContainersWorkspacesGtag_configRequest extends Omit<
+  GtagConfig,
+  "path" | "fingerprint"
+> {
   /** When provided, this fingerprint must match the fingerprint of the config in storage. */
   fingerprint?: string | undefined;
   /** Google tag config's API relative path. */
   path: string;
-  /** Request body */
-  body?: GtagConfig | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesTagsRequest {
+export interface UpdateAccountsContainersWorkspacesTagsRequest extends Omit<
+  Tag,
+  "path" | "fingerprint"
+> {
   /** GTM Tag's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Tag | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesTemplatesRequest {
+export interface UpdateAccountsContainersWorkspacesTemplatesRequest extends Omit<
+  CustomTemplate,
+  "fingerprint" | "path"
+> {
   /** When provided, this fingerprint must match the fingerprint of the templates in storage. */
   fingerprint?: string | undefined;
   /** GTM Custom Template's API relative path. */
   path: string;
-  /** Request body */
-  body?: CustomTemplate | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesTransformationsRequest {
+export interface UpdateAccountsContainersWorkspacesTransformationsRequest extends Omit<
+  Transformation,
+  "fingerprint" | "path"
+> {
   /** GTM Transformation's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the transformation in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Transformation | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesTriggersRequest {
+export interface UpdateAccountsContainersWorkspacesTriggersRequest extends Omit<
+  Trigger,
+  "fingerprint" | "path"
+> {
   /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
   fingerprint?: string | undefined;
   /** GTM Trigger's API relative path. */
   path: string;
-  /** Request body */
-  body?: Trigger | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesVariablesRequest {
+export interface UpdateAccountsContainersWorkspacesVariablesRequest extends Omit<
+  Variable,
+  "fingerprint" | "path"
+> {
   /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
   fingerprint?: string | undefined;
   /** GTM Variable's API relative path. */
   path: string;
-  /** Request body */
-  body?: Variable | undefined;
 }
-export interface UpdateAccountsContainersWorkspacesZonesRequest {
+export interface UpdateAccountsContainersWorkspacesZonesRequest extends Omit<
+  Zone,
+  "fingerprint" | "path"
+> {
   /** When provided, this fingerprint must match the fingerprint of the zone in storage. */
   fingerprint?: string | undefined;
   /** GTM Zone's API relative path. */
   path: string;
-  /** Request body */
-  body?: Zone | undefined;
 }
-export interface UpdateAccountsUser_permissionsRequest {
+export interface UpdateAccountsUser_permissionsRequest extends Omit<UserPermission, "path"> {
   /** GTM UserPermission's API relative path. */
   path: string;
-  /** Request body */
-  body?: UserPermission | undefined;
 }
 export type BulkUpdateAccountsContainersWorkspacesError =
   | NotFound
@@ -4788,11 +4764,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c132, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c132, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4806,11 +4784,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(560, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(560, __c70, 0),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4824,11 +4804,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4842,11 +4824,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c72, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c72, 0),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4860,11 +4844,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(589, __c73, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(589, __c73, 5),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4878,11 +4864,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(593, __c74, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(593, __c74, 1),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4896,11 +4884,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(600, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(600, __c75, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4914,11 +4904,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(616, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(616, __c77, 0),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4932,11 +4924,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(625, __c78, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(625, __c78, 1),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4950,11 +4944,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(636, __c79, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(636, __c79, 4),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -4968,10 +4964,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(560, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(560, __c70, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/clients",
@@ -4985,10 +4983,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(187, __c23, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(187, __c23, 3),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -5002,10 +5002,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/folders",
@@ -5019,10 +5021,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c72, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c72, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/gtag_config",
@@ -5036,10 +5040,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(589, __c73, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(589, __c73, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/tags",
@@ -5053,10 +5059,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(593, __c74, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(593, __c74, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/templates",
@@ -5070,10 +5078,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(600, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(600, __c75, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/transformations",
@@ -5087,10 +5097,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(616, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(616, __c77, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/triggers",
@@ -5104,10 +5116,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(625, __c78, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(625, __c78, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/variables",
@@ -5121,10 +5135,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(636, __c79, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(636, __c79, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/zones",
@@ -5138,10 +5154,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(187, __c23, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(187, __c23, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/user_permissions",
@@ -5191,10 +5209,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateContainerVersionRequestVersionOptions" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c24, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+path}:create_version",
@@ -5825,10 +5845,12 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ProposedChange" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(536, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(536, __c67, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+path}/bulk_update",
@@ -6755,10 +6777,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(777, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(777, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/containers",
@@ -6927,13 +6951,15 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tagId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          variableId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
-          triggerId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            tagId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+            variableId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
+            triggerId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+path}:move_entities_to_folder",
@@ -6993,10 +7019,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c120, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c120, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/environments",
@@ -7058,10 +7086,12 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c120, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c120, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+path}:reauthorize",
@@ -7075,11 +7105,13 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(648, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(648, __c81, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+path}:resolve_conflict",
@@ -7254,10 +7286,12 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c132, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c132, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "tagmanager/v2/{+parent}/workspaces",
@@ -7412,11 +7446,13 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(433, __c54, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(433, __c54, 1),
+          S.Struct({
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+            path: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -7430,11 +7466,13 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(777, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(777, __c97, 1),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -7448,11 +7486,13 @@ function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(960, __c120, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c120, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",
@@ -7466,11 +7506,13 @@ function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(272, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c34, 0),
+          S.Struct({
+            path: S.String.pipe(T.Label()),
+            fingerprint: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "tagmanager/v2/{+path}",

@@ -92,11 +92,9 @@ export interface ActivateConsentRequest {
   /** The time to live for this Consent from when it is marked as active. */
   ttl?: string | undefined;
 }
-export interface ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest {
+export interface ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest extends ActivateConsentRequest {
   /** Required. The resource name of the Consent to activate, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
   name: string;
-  /** Request body */
-  body?: ActivateConsentRequest | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type ConsentStateEnum =
@@ -179,11 +177,9 @@ export interface AnalyzeEntitiesRequest {
     | (string & {})
     | undefined;
 }
-export interface AnalyzeEntitiesProjectsLocationsServicesNlpRequest {
+export interface AnalyzeEntitiesProjectsLocationsServicesNlpRequest extends AnalyzeEntitiesRequest {
   /** The resource name of the service of the form: "projects/{project_id}/locations/{location_id}/services/nlp". */
   nlpService: string;
-  /** Request body */
-  body?: AnalyzeEntitiesRequest | undefined;
 }
 /** The candidate entities that an entity mention could link to. */
 export interface Entity {
@@ -268,11 +264,9 @@ export interface ApplyAdminConsentsRequest {
   /** Optional. If true, the method only validates Consent resources to make sure they are supported. Otherwise, the method applies the aggregate consent information to update the enforcement model and reindex the FHIR resources. If all Consent resources can be applied successfully, the ApplyAdminConsentsResponse is returned containing the following fields: * `consent_apply_success` to indicate the number of Consent resources applied. * `affected_resources` to indicate the number of resources that might have had their consent access changed. If, however, one or more Consent resources are unsupported or cannot be applied, the method fails and ApplyAdminConsentsErrorDetail is is returned with details about the unsupported Consent resources. */
   validateOnly?: boolean | undefined;
 }
-export interface ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresRequest {
+export interface ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresRequest extends ApplyAdminConsentsRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** Request body */
-  body?: ApplyAdminConsentsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -319,11 +313,9 @@ export interface ApplyConsentsRequest {
   /** Optional. If true, the method only validates Consent resources to make sure they are supported. When the operation completes, ApplyConsentsResponse is returned where `consent_apply_success` and `consent_apply_failure` indicate supported and unsupported (or invalid) Consent resources, respectively. Otherwise, the method propagates the aggregate consensual information to the patient's resources. Upon success, `affected_resources` in the ApplyConsentsResponse indicates the number of resources that may have consensual access changed. */
   validateOnly?: boolean | undefined;
 }
-export interface ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest {
+export interface ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest extends ApplyConsentsRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** Request body */
-  body?: ApplyConsentsRequest | undefined;
 }
 /** Archives the specified User data mapping. */
 export interface ArchiveUserDataMappingRequest {}
@@ -378,11 +370,9 @@ export interface BulkDeleteResourcesRequest {
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) will be deleted. */
   type?: string | undefined;
 }
-export interface BulkDeleteProjectsLocationsDatasetsFhirStoresRequest {
+export interface BulkDeleteProjectsLocationsDatasetsFhirStoresRequest extends BulkDeleteResourcesRequest {
   /** Required. The name of the FHIR store to bulk delete resources from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** Request body */
-  body?: BulkDeleteResourcesRequest | undefined;
 }
 export interface BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest {
   /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
@@ -437,11 +427,9 @@ export interface CheckDataAccessRequest {
   /** Optional. The view for CheckDataAccessResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
   responseView?: CheckDataAccessRequestResponseViewEnum | (string & {}) | undefined;
 }
-export interface CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest {
+export interface CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest extends CheckDataAccessRequest {
   /** Required. Name of the consent store where the requested data_id is stored, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. */
   consentStore: string;
-  /** Request body */
-  body?: CheckDataAccessRequest | undefined;
 }
 export type ConsentEvaluationEvaluationResultEnum =
   | "EVALUATION_RESULT_UNSPECIFIED"
@@ -468,31 +456,25 @@ export interface ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirRequest
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
 }
-export interface ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The FHIR resource type to update, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   type: string;
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The FHIR resource type to update, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 export interface Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the consent resource to find enforcement status, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{consent_id}` */
   name: string;
 }
-export interface CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 /** Represents a customer-managed encryption key spec that can be applied to a resource. */
 export interface EncryptionSpec {
@@ -512,13 +494,11 @@ export interface Dataset {
   /** Output only. Whether the dataset satisfies zone separation. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsLocationsDatasetsRequest {
+export interface CreateProjectsLocationsDatasetsRequest extends Dataset {
   /** Required. The name of the project where the server creates the dataset. For example, `projects/{project_id}/locations/{location_id}`. */
   parent: string;
   /** Required. The ID of the dataset that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
   datasetId?: string | undefined;
-  /** Request body */
-  body?: Dataset | undefined;
 }
 /** Represents a consent store. */
 export interface ConsentStore {
@@ -531,13 +511,11 @@ export interface ConsentStore {
   /** Optional. Default time to live for Consents created in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents. */
   defaultConsentTtl?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresRequest {
+export interface CreateProjectsLocationsDatasetsConsentStoresRequest extends ConsentStore {
   /** Required. The name of the dataset this consent store belongs to. */
   parent: string;
   /** Required. The ID of the consent store to create. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. Cannot be changed after creation. */
   consentStoreId?: string | undefined;
-  /** Request body */
-  body?: ConsentStore | undefined;
 }
 export type AttributeDefinitionCategoryEnum = "CATEGORY_UNSPECIFIED" | "RESOURCE" | "REQUEST";
 /** A client-defined consent attribute. */
@@ -555,13 +533,11 @@ export interface AttributeDefinition {
   /** Optional. Default values of the attribute in Consents. If no default values are specified, it defaults to an empty value. */
   consentDefaultValues?: StringList | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
+export interface CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest extends AttributeDefinition {
   /** Required. The ID of the Attribute definition to create. The string must match the following regex: `_a-zA-Z{0,255}` and must not be a reserved keyword within the Common Expression Language as listed on https://github.com/google/cel-spec/blob/master/doc/langdef.md. */
   attributeDefinitionId?: string | undefined;
   /** Required. The name of the consent store that this Attribute definition belongs to. */
   parent: string;
-  /** Request body */
-  body?: AttributeDefinition | undefined;
 }
 /** Raw bytes representing consent artifact content. */
 export interface Image {
@@ -601,17 +577,13 @@ export interface ConsentArtifact {
   /** Identifier. Resource name of the Consent artifact, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. Cannot be changed after creation. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest {
+export interface CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest extends ConsentArtifact {
   /** Required. The name of the consent store this Consent artifact belongs to. */
   parent: string;
-  /** Request body */
-  body?: ConsentArtifact | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresConsentsRequest {
+export interface CreateProjectsLocationsDatasetsConsentStoresConsentsRequest extends Consent {
   /** Required. Name of the consent store. */
   parent: string;
-  /** Request body */
-  body?: Consent | undefined;
 }
 /** Maps a resource to the associated user and Attributes. */
 export interface UserDataMapping {
@@ -628,11 +600,9 @@ export interface UserDataMapping {
   /** Required. User's UUID provided by the client. */
   userId?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
+export interface CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest extends UserDataMapping {
   /** Required. Name of the consent store. */
   parent: string;
-  /** Request body */
-  body?: UserDataMapping | undefined;
 }
 /** Specifies where to send notifications upon changes to a data store. */
 export interface NotificationConfig {
@@ -694,13 +664,11 @@ export interface DicomStore {
   /** Optional. Specifies where and whether to send notifications upon changes to a DICOM store. */
   notificationConfigs?: DicomNotificationConfigList | undefined;
 }
-export interface CreateProjectsLocationsDatasetsDicomStoresRequest {
+export interface CreateProjectsLocationsDatasetsDicomStoresRequest extends DicomStore {
   /** Required. The ID of the DICOM store that is being created. Any string value up to 256 characters in length. */
   dicomStoreId?: string | undefined;
   /** Required. The name of the dataset this DICOM store belongs to. */
   parent: string;
-  /** Request body */
-  body?: DicomStore | undefined;
 }
 export type FhirStoreVersionEnum = "VERSION_UNSPECIFIED" | "DSTU2" | "STU3" | "R4" | "R5";
 export type TimePartitioningTypeEnum =
@@ -993,21 +961,17 @@ export interface FhirStore {
   /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsFhirStoresRequest {
+export interface CreateProjectsLocationsDatasetsFhirStoresRequest extends FhirStore {
   /** Required. The ID of the FHIR store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
   fhirStoreId?: string | undefined;
   /** Required. The name of the dataset this FHIR store belongs to. */
   parent: string;
-  /** Request body */
-  body?: FhirStore | undefined;
 }
-export interface CreateProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface CreateProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
   /** Required. The FHIR resource type to create, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 /** Specifies where and whether to send notifications upon changes to a data store. */
 export interface Hl7V2NotificationConfig {
@@ -1145,13 +1109,11 @@ export interface Hl7V2Store {
   /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface CreateProjectsLocationsDatasetsHl7V2StoresRequest extends Hl7V2Store {
   /** Required. The name of the dataset this HL7v2 store belongs to. */
   parent: string;
   /** Required. The ID of the HL7v2 store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
   hl7V2StoreId?: string | undefined;
-  /** Request body */
-  body?: Hl7V2Store | undefined;
 }
 /** The content of an HL7v2 message in a structured format as specified by a schema. */
 export interface SchematizedData {
@@ -1210,11 +1172,9 @@ export interface CreateMessageRequest {
   /** Required. HL7v2 message. */
   message?: Message | undefined;
 }
-export interface CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
+export interface CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest extends CreateMessageRequest {
   /** Required. The name of the HL7v2 store this message belongs to. */
   parent: string;
-  /** Request body */
-  body?: CreateMessageRequest | undefined;
 }
 /** Redacts identifying information from the specified dataset. */
 export interface DeidentifyDatasetRequest {
@@ -1225,11 +1185,9 @@ export interface DeidentifyDatasetRequest {
   /** Required. The name of the dataset resource to create and write the redacted data to. * The destination dataset must not exist. * The destination dataset must be in the same location as the source dataset. De-identifying data across multiple locations is not supported. */
   destinationDataset?: string | undefined;
 }
-export interface DeidentifyProjectsLocationsDatasetsRequest {
+export interface DeidentifyProjectsLocationsDatasetsRequest extends DeidentifyDatasetRequest {
   /** Required. Source dataset resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. R5 FHIR stores are not supported and will be skipped. */
   sourceDataset: string;
-  /** Request body */
-  body?: DeidentifyDatasetRequest | undefined;
 }
 /** Specifies the filter configuration for DICOM resources. */
 export interface DicomFilterConfig {
@@ -1247,11 +1205,9 @@ export interface DeidentifyDicomStoreRequest {
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
   config?: DeidentifyConfig | undefined;
 }
-export interface DeidentifyProjectsLocationsDatasetsDicomStoresRequest {
+export interface DeidentifyProjectsLocationsDatasetsDicomStoresRequest extends DeidentifyDicomStoreRequest {
   /** Required. Source DICOM store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   sourceStore: string;
-  /** Request body */
-  body?: DeidentifyDicomStoreRequest | undefined;
 }
 /** A list of FHIR resources. */
 export interface Resources {
@@ -1276,11 +1232,9 @@ export interface DeidentifyFhirStoreRequest {
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
   config?: DeidentifyConfig | undefined;
 }
-export interface DeidentifyProjectsLocationsDatasetsFhirStoresRequest {
+export interface DeidentifyProjectsLocationsDatasetsFhirStoresRequest extends DeidentifyFhirStoreRequest {
   /** Required. Source FHIR store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. R5 stores are not supported. */
   sourceStore: string;
-  /** Request body */
-  body?: DeidentifyFhirStoreRequest | undefined;
 }
 export interface DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest {
   /** Required. Name of the operation to be deleted, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{operation_id}`. */
@@ -1372,11 +1326,9 @@ export interface EvaluateUserConsentsRequest {
   /** Required. The values of request attributes associated with this access request. */
   requestAttributes?: StringMap | undefined;
 }
-export interface EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest {
+export interface EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest extends EvaluateUserConsentsRequest {
   /** Required. Name of the consent store to retrieve User data mappings from. */
   consentStore: string;
-  /** Request body */
-  body?: EvaluateUserConsentsRequest | undefined;
 }
 /** The consent evaluation result for a single `data_id`. */
 export interface Result {
@@ -1394,11 +1346,9 @@ export interface EvaluateUserConsentsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. This token is valid for 72 hours after it is created. */
   nextPageToken?: string | undefined;
 }
-export interface ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. Name of the FHIR store in which this bundle will be executed. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 export interface ExplainDataAccessProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The ID (`{resourceType}/{id}`) of the resource to explain data access on. */
@@ -1483,11 +1433,9 @@ export interface ExportDicomDataRequest {
   /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. */
   gcsDestination?: GoogleCloudHealthcareV1DicomGcsDestination | undefined;
 }
-export interface ExportProjectsLocationsDatasetsDicomStoresRequest {
+export interface ExportProjectsLocationsDatasetsDicomStoresRequest extends ExportDicomDataRequest {
   /** Required. The DICOM store resource name from which to export the data. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
-  /** Request body */
-  body?: ExportDicomDataRequest | undefined;
 }
 /** Request to export resources. */
 export interface ExportResourcesRequest {
@@ -1500,11 +1448,9 @@ export interface ExportResourcesRequest {
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
   _type?: string | undefined;
 }
-export interface ExportProjectsLocationsDatasetsFhirStoresRequest {
+export interface ExportProjectsLocationsDatasetsFhirStoresRequest extends ExportResourcesRequest {
   /** Required. The name of the FHIR store to export resource from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** Request body */
-  body?: ExportResourcesRequest | undefined;
 }
 /** The Pub/Sub output destination. The Cloud Healthcare Service Agent requires the `roles/pubsub.publisher` Cloud IAM role on the Pub/Sub topic. */
 export interface PubsubDestination {
@@ -1541,11 +1487,9 @@ export interface ExportMessagesRequest {
   /** The end of the range in `send_time` (MSH.7, https://www.hl7.org/documentcenter/public_temp_2E58C1F9-1C23-BA17-0C6126475344DA9D/wg/conf/HL7MSH.htm) to process. If not specified, the time when the export is scheduled is used. This value has to come after the `start_time` defined below. Only messages whose `send_time` lies in the range `start_time` (inclusive) to `end_time` (exclusive) are exported. */
   endTime?: string | undefined;
 }
-export interface ExportProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface ExportProjectsLocationsDatasetsHl7V2StoresRequest extends ExportMessagesRequest {
   /** Required. The name of the source HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
   name: string;
-  /** Request body */
-  body?: ExportMessagesRequest | undefined;
 }
 export interface GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -1926,11 +1870,9 @@ export interface ImportDicomDataRequest {
   /** Optional. The blob storage settings for the data imported by this operation. */
   blobStorageSettings?: BlobStorageSettings | undefined;
 }
-export interface ImportProjectsLocationsDatasetsDicomStoresRequest {
+export interface ImportProjectsLocationsDatasetsDicomStoresRequest extends ImportDicomDataRequest {
   /** Required. The name of the DICOM store resource into which the data is imported. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
-  /** Request body */
-  body?: ImportDicomDataRequest | undefined;
 }
 export type ImportResourcesRequestContentStructureEnum =
   | "CONTENT_STRUCTURE_UNSPECIFIED"
@@ -1945,11 +1887,9 @@ export interface ImportResourcesRequest {
   /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
   contentStructure?: ImportResourcesRequestContentStructureEnum | (string & {}) | undefined;
 }
-export interface ImportProjectsLocationsDatasetsFhirStoresRequest {
+export interface ImportProjectsLocationsDatasetsFhirStoresRequest extends ImportResourcesRequest {
   /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** Request body */
-  body?: ImportResourcesRequest | undefined;
 }
 /** Specifies the configuration for importing data from Cloud Storage. */
 export interface GcsSource {
@@ -1961,22 +1901,18 @@ export interface ImportMessagesRequest {
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. */
   gcsSource?: GcsSource | undefined;
 }
-export interface ImportProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface ImportProjectsLocationsDatasetsHl7V2StoresRequest extends ImportMessagesRequest {
   /** Required. The name of the target HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
   name: string;
-  /** Request body */
-  body?: ImportMessagesRequest | undefined;
 }
 /** Ingests a message into the specified HL7v2 store. */
 export interface IngestMessageRequest {
   /** Required. HL7v2 message to ingest. */
   message?: Message | undefined;
 }
-export interface IngestProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
+export interface IngestProjectsLocationsDatasetsHl7V2StoresMessagesRequest extends IngestMessageRequest {
   /** Required. The name of the HL7v2 store this message belongs to. */
   parent: string;
-  /** Request body */
-  body?: IngestMessageRequest | undefined;
 }
 /** Acknowledges that a message has been ingested into the specified HL7v2 store. */
 export interface IngestMessageResponse {
@@ -2227,83 +2163,78 @@ export interface ListConsentRevisionsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsDatasetsRequest {
+export interface PatchProjectsLocationsDatasetsRequest extends Omit<Dataset, "name"> {
   /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Dataset | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresRequest extends Omit<
+  ConsentStore,
+  "name"
+> {
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `labels`, `default_consent_ttl`, and `enable_consent_create_on_update` fields are allowed to be updated. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
   name: string;
-  /** Request body */
-  body?: ConsentStore | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest extends Omit<
+  AttributeDefinition,
+  "name"
+> {
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `description`, `allowed_values`, `consent_default_values` and `data_mapping_default_value` fields can be updated. The updated `allowed_values` must contain all values from the previous `allowed_values`. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
   name: string;
-  /** Request body */
-  body?: AttributeDefinition | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresConsentsRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresConsentsRequest extends Omit<
+  Consent,
+  "name"
+> {
   /** Required. The update mask to apply to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `user_id`, `policies`, `consent_artifact`, and `metadata` fields can be updated. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
   name: string;
-  /** Request body */
-  body?: Consent | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest extends Omit<
+  UserDataMapping,
+  "name"
+> {
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `data_id`, `user_id` and `resource_attributes` fields can be updated. */
   updateMask?: string | undefined;
   /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
   name: string;
-  /** Request body */
-  body?: UserDataMapping | undefined;
 }
-export interface PatchProjectsLocationsDatasetsDicomStoresRequest {
+export interface PatchProjectsLocationsDatasetsDicomStoresRequest extends Omit<DicomStore, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
-  /** Request body */
-  body?: DicomStore | undefined;
 }
-export interface PatchProjectsLocationsDatasetsFhirStoresRequest {
+export interface PatchProjectsLocationsDatasetsFhirStoresRequest extends Omit<FhirStore, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** Request body */
-  body?: FhirStore | undefined;
 }
-export interface PatchProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface PatchProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the resource to update. */
   name: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface PatchProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface PatchProjectsLocationsDatasetsHl7V2StoresRequest extends Omit<Hl7V2Store, "name"> {
   /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Hl7V2Store | undefined;
 }
-export interface PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
+export interface PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest extends Omit<
+  Message,
+  "name"
+> {
   /** Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Message | undefined;
 }
 export interface Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Optional. The maximum number of results on a page. If not specified, 100 is used. May not be larger than 1000. */
@@ -2347,11 +2278,9 @@ export interface QueryAccessibleDataRequest {
   /** The values of request attributes associated with this access request. */
   requestAttributes?: StringMap | undefined;
 }
-export interface QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest {
+export interface QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest extends QueryAccessibleDataRequest {
   /** Required. Name of the consent store to retrieve User data mappings from. */
   consentStore: string;
-  /** Request body */
-  body?: QueryAccessibleDataRequest | undefined;
 }
 export interface ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the Binary resource to retrieve. */
@@ -2366,22 +2295,18 @@ export interface RejectConsentRequest {
   /** Optional. The resource name of the Consent artifact that contains documentation of the user's rejection of the draft Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. If the draft Consent had a Consent artifact, this Consent artifact overwrites it. */
   consentArtifact?: string | undefined;
 }
-export interface RejectProjectsLocationsDatasetsConsentStoresConsentsRequest {
+export interface RejectProjectsLocationsDatasetsConsentStoresConsentsRequest extends RejectConsentRequest {
   /** Required. The resource name of the Consent to reject, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
   name: string;
-  /** Request body */
-  body?: RejectConsentRequest | undefined;
 }
 /** Revokes the latest revision of the specified Consent by committing a new revision with `state` updated to `REVOKED`. If the latest revision of the given Consent is in the `REVOKED` state, no new revision is committed. */
 export interface RevokeConsentRequest {
   /** Optional. The resource name of the Consent artifact that contains proof of the user's revocation of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
   consentArtifact?: string | undefined;
 }
-export interface RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest {
+export interface RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest extends RevokeConsentRequest {
   /** Required. The resource name of the Consent to revoke, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
   name: string;
-  /** Request body */
-  body?: RevokeConsentRequest | undefined;
 }
 export type RollbackFhirResourcesRequestChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
@@ -2413,11 +2338,9 @@ export interface RollbackFhirResourcesRequest {
   /** Required. Time point to rollback to. */
   rollbackTime?: string | undefined;
 }
-export interface RollbackProjectsLocationsDatasetsFhirStoresRequest {
+export interface RollbackProjectsLocationsDatasetsFhirStoresRequest extends RollbackFhirResourcesRequest {
   /** Required. The name of the FHIR store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /fhirStores/{fhir_store_id}". */
   name: string;
-  /** Request body */
-  body?: RollbackFhirResourcesRequest | undefined;
 }
 export type RollbackHl7V2MessagesRequestChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
@@ -2447,11 +2370,9 @@ export interface RollbackHl7V2MessagesRequest {
   /** Required. Times point to rollback to. */
   rollbackTime?: string | undefined;
 }
-export interface RollbackProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface RollbackProjectsLocationsDatasetsHl7V2StoresRequest extends RollbackHl7V2MessagesRequest {
   /** Required. The name of the HL7v2 store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /hl7V2Stores/{hl7v2_store_id}". */
   name: string;
-  /** Request body */
-  body?: RollbackHl7V2MessagesRequest | undefined;
 }
 export interface SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2489,21 +2410,17 @@ export interface SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
 }
-export interface SearchProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface SearchProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html)), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   resourceType?: string | undefined;
   /** Required. Name of the FHIR store to retrieve resources from. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html)), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   resourceType: string;
   /** Required. Name of the FHIR store to retrieve resources from. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 /** Request message for `SetBlobStorageSettings` method. */
 export interface SetBlobStorageSettingsRequest {
@@ -2512,17 +2429,13 @@ export interface SetBlobStorageSettingsRequest {
   /** Optional. A filter configuration. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   filterConfig?: DicomFilterConfig | undefined;
 }
-export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresRequest {
+export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresRequest extends SetBlobStorageSettingsRequest {
   /** Required. The path of the resource to update the blob storage settings in the format of `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}`, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}`. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   resource: string;
-  /** Request body */
-  body?: SetBlobStorageSettingsRequest | undefined;
 }
-export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest {
+export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest extends SetBlobStorageSettingsRequest {
   /** Required. The path of the resource to update the blob storage settings in the format of `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}`, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}`. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   resource: string;
-  /** Request body */
-  body?: SetBlobStorageSettingsRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -2531,125 +2444,91 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsConsentStoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsConsentStoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsDicomStoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsDicomStoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsFhirStoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsFhirStoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface StoreInstancesProjectsLocationsDatasetsDicomStoresRequest {
+export interface StoreInstancesProjectsLocationsDatasetsDicomStoresRequest extends HttpBody {
   /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
+export interface StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest extends HttpBody {
   /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsConsentStoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsConsentStoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspacesRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspacesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsDicomStoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsDicomStoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsFhirStoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsFhirStoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the resource to update. */
   name: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface UpdateProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface UpdateProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the resource to update. */
   name: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The FHIR resource type of the resource being validated. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), or [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
   /** Optional. The canonical URL of a profile that this resource should be validated against. For example, to validate a Patient resource against the US Core Patient profile this parameter would be `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient`. A StructureDefinition with this canonical URL must exist in the FHIR store. */
   profile?: string | undefined;
   /** Required. The name of the FHIR store that holds the profiles being used for validation. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 export interface VreadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource version to retrieve. */
@@ -6347,10 +6226,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BulkDeleteResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:bulkDelete",
@@ -6691,11 +6572,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2497, __c78, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2497, __c78, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6709,11 +6592,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6727,11 +6612,13 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6747,11 +6634,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3714, __c116, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3714, __c116, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6765,11 +6654,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6785,11 +6676,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2947, __c92, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2947, __c92, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6803,11 +6696,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3081, __c96, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3081, __c96, 9),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6821,10 +6716,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6838,11 +6735,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3187, __c99, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3187, __c99, 19),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6856,11 +6755,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3238, __c101, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3238, __c101, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6962,10 +6863,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "QueryAccessibleDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          consentStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            consentStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+consentStore}:queryAccessibleData",
@@ -7013,10 +6916,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:reject",
@@ -7040,10 +6945,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:revoke",
@@ -7077,10 +6984,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "RollbackFhirResourcesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1121, __c35, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1121, __c35, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rollback",
@@ -7112,10 +7021,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "RollbackHl7V2MessagesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1153, __c36, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1153, __c36, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rollback",
@@ -7254,11 +7165,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceType: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            resourceType: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/fhir/_search",
@@ -7272,11 +7185,13 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceType: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            resourceType: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/fhir/{resourceType}/_search",
@@ -7290,10 +7205,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setBlobStorageSettings",
@@ -7320,10 +7237,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setBlobStorageSettings",
@@ -7356,10 +7275,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7384,10 +7305,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7401,10 +7324,12 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7420,10 +7345,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7437,10 +7364,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7454,10 +7383,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7471,11 +7402,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dicomWebPath: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            dicomWebPath: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dicomWeb/{+dicomWebPath}",
@@ -7489,11 +7422,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dicomWebPath: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            dicomWebPath: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dicomWeb/{+dicomWebPath}",
@@ -7509,10 +7444,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7536,10 +7473,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7562,10 +7501,12 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CheckDataAccessRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          consentStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            consentStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+consentStore}:checkDataAccess",
@@ -7604,10 +7545,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7623,10 +7566,12 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7640,10 +7585,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7657,10 +7604,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7674,10 +7623,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -7691,10 +7642,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -7708,12 +7661,14 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.String.pipe(T.Label()),
-          profile: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            type: S.String.pipe(T.Label()),
+            profile: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/fhir/{+type}/$validate",
@@ -7760,11 +7715,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            type: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+parent}/fhir/{+type}",
@@ -7778,11 +7735,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            type: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+parent}/fhir/{+type}",
@@ -7814,10 +7773,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/fhir/Binary",
@@ -7831,11 +7792,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          datasetId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2497, __c78, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2497, __c78, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            datasetId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/datasets",
@@ -7869,11 +7832,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          consentStoreId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            consentStoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/consentStores",
@@ -7900,11 +7865,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          attributeDefinitionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            attributeDefinitionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attributeDefinitions",
@@ -7935,10 +7902,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2691, __c84, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2691, __c84, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/consentArtifacts",
@@ -7989,10 +7958,12 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3714, __c116, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3714, __c116, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/consents",
@@ -8006,10 +7977,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userDataMappings",
@@ -8040,11 +8013,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dicomStoreId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2947, __c92, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2947, __c92, 3),
+          S.Struct({
+            dicomStoreId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dicomStores",
@@ -8118,11 +8093,13 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fhirStoreId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3081, __c96, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3081, __c96, 9),
+          S.Struct({
+            fhirStoreId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/fhirStores",
@@ -8351,11 +8328,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          type: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            type: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/fhir/{+type}",
@@ -8369,11 +8348,13 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          hl7V2StoreId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3187, __c99, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3187, __c99, 19),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            hl7V2StoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/hl7V2Stores",
@@ -8507,10 +8488,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/messages",
@@ -8593,10 +8576,12 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeidentifyDatasetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          sourceDataset: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            sourceDataset: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+sourceDataset}:deidentify",
@@ -8619,10 +8604,12 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeidentifyDicomStoreRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          sourceStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            sourceStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+sourceStore}:deidentify",
@@ -8668,10 +8655,12 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeidentifyFhirStoreRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          sourceStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(3394, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3394, __c106, 2),
+          S.Struct({
+            sourceStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+sourceStore}:deidentify",
@@ -8779,10 +8768,12 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ActivateConsentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3584, __c112, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3584, __c112, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:activate",
@@ -9037,10 +9028,12 @@ function __c128(j: number): any {
       ).annotate({ identifier: "AnalyzeEntitiesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          nlpService: S.String.pipe(T.Label()),
-          body: S.optional(__S(4096, __c128, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4096, __c128, 0),
+          S.Struct({
+            nlpService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+nlpService}:analyzeEntities",
@@ -9156,10 +9149,12 @@ function __c131(j: number): any {
       ).annotate({ identifier: "EvaluateUserConsentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          consentStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4192, __c131, 0),
+          S.Struct({
+            consentStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+consentStore}:evaluateUserConsents",
@@ -9192,10 +9187,12 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5760, __c180, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/fhir",
@@ -9283,10 +9280,12 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ExportDicomDataRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4289, __c134, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4289, __c134, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -9309,10 +9308,12 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ExportResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4320, __c135, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4320, __c135, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -9344,10 +9345,12 @@ function __c136(j: number): any {
       ).annotate({ identifier: "ExportMessagesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4353, __c136, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4353, __c136, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -9439,10 +9442,12 @@ function __c140(j: number): any {
       ).annotate({ identifier: "ApplyAdminConsentsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4481, __c140, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4481, __c140, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:applyAdminConsents",
@@ -9762,10 +9767,12 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ApplyConsentsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4962, __c155, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4962, __c155, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:applyConsents",
@@ -10303,10 +10310,12 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ImportDicomDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5888, __c184, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5888, __c184, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -10337,10 +10346,12 @@ function __c186(j: number): any {
       ).annotate({ identifier: "ImportResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5952, __c186, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5952, __c186, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -10360,10 +10371,12 @@ function __c187(j: number): any {
       ).annotate({ identifier: "ImportMessagesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5984, __c187, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5984, __c187, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -10377,10 +10390,12 @@ function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/messages:ingest",

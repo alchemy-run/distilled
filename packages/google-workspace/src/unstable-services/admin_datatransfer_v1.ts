@@ -140,10 +140,7 @@ export interface DataTransfer {
   /** The list of per-application data transfer resources. It contains details of the applications associated with this transfer resource, and also specifies the applications for which data transfer has to be done at the time of the transfer resource creation. */
   applicationDataTransfers?: ApplicationDataTransferList | undefined;
 }
-export interface InsertTransfersRequest {
-  /** Request body */
-  body?: DataTransfer | undefined;
-}
+export interface InsertTransfersRequest extends DataTransfer {}
 export interface ListApplicationsRequest {
   /** Immutable ID of the Google Workspace account. */
   customerId?: string | undefined;
@@ -377,9 +374,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(18, __c4, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(18, __c4, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/datatransfer/v1/transfers",

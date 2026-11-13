@@ -89,11 +89,9 @@ export interface BatchDeleteDataPointsRequest {
   /** Required. The names of the DataPoints to delete. A maximum of 10000 data points can be deleted in a single request. */
   names?: StringList | undefined;
 }
-export interface BatchDeleteUsersDataTypesDataPointsRequest {
+export interface BatchDeleteUsersDataTypesDataPointsRequest extends BatchDeleteDataPointsRequest {
   /** Optional. Parent (data type) for the Data Point collection Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/-` - `users/1234567890/dataTypes/-` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the DataPoint data union field. Deleting data points across multiple data type collections is supported following https://aip.dev/159. If this is set, the parent of all of the data points specified in `names` must match this field. */
   parent: string;
-  /** Request body */
-  body?: BatchDeleteDataPointsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -150,13 +148,11 @@ export interface CreateSubscriberPayload {
   /** Required. The full HTTPS URI where update notifications will be sent. The URI must be a valid URL and use HTTPS as the scheme. This endpoint will be verified during the `CreateSubscriber` call. See CreateSubscriber RPC documentation for verification details. */
   endpointUri?: string | undefined;
 }
-export interface CreateProjectsSubscribersRequest {
+export interface CreateProjectsSubscribersRequest extends CreateSubscriberPayload {
   /** Optional. The ID to use for the subscriber, which will become the final component of the subscriber's resource name. This value should be 4-36 characters, and valid characters are /[a-z]([a-z0-9-]{2,34}[a-z0-9])/. */
   subscriberId?: string | undefined;
   /** Required. The parent resource where this subscriber will be created. Format: projects/{project_number} Example: projects/1234567890 */
   parent: string;
-  /** Request body */
-  body?: CreateSubscriberPayload | undefined;
 }
 /** Payload for creating a subscription. */
 export interface CreateSubscriptionPayload {
@@ -165,13 +161,11 @@ export interface CreateSubscriptionPayload {
   /** Required. Immutable. The resource name of the user for whom this subscription is active. Format: `users/{user}` where `{user}` is the public `healthUserId` as returned by the `GetIdentity` action in the profile PAPI (see `google.devicesandservices.health.v4main.HealthProfileService.GetIdentity`). */
   user?: string | undefined;
 }
-export interface CreateProjectsSubscribersSubscriptionsRequest {
+export interface CreateProjectsSubscribersSubscriptionsRequest extends CreateSubscriptionPayload {
   /** Required. The parent subscriber. Format: projects/{project}/subscribers/{subscriber} The {subscriber} ID is user-settable (4-36 characters, matching /[a-z]([a-z0-9-]{2,34}[a-z0-9])/) if provided during creation, or system-generated otherwise. */
   parent: string;
   /** Optional. The {subscription_id} is user-settable (4-36 chars, matching /[a-z]([a-z0-9-]{2,34}[a-z0-9])/) or system-generated otherwise. If provided, the ID must be unique within the parent subscriber. */
   subscriptionId?: string | undefined;
-  /** Request body */
-  body?: CreateSubscriptionPayload | undefined;
 }
 /** A subscription to a data collection for a specific user, to be delivered to a subscriber. */
 export interface Subscription {
@@ -1775,11 +1769,9 @@ export interface DataPoint {
   /** Optional. Data for points in the `body-fat` sample data type collection. */
   bodyFat?: BodyFat | undefined;
 }
-export interface CreateUsersDataTypesDataPointsRequest {
+export interface CreateUsersDataTypesDataPointsRequest extends DataPoint {
   /** Required. The parent resource name where the data point will be created. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). */
   parent: string;
-  /** Request body */
-  body?: DataPoint | undefined;
 }
 /** Counterpart of google.type.Interval, but using CivilDateTime. */
 export interface CivilTimeInterval {
@@ -1801,11 +1793,9 @@ export interface DailyRollUpDataPointsRequest {
   /** Optional. The next_page_token from a previous request, if any. All other request fields need to be the same as in the initial request when the page token is specified. */
   pageToken?: string | undefined;
 }
-export interface DailyRollUpUsersDataTypesDataPointsRequest {
+export interface DailyRollUpUsersDataTypesDataPointsRequest extends DailyRollUpDataPointsRequest {
   /** Required. Parent data type of the Data Point collection. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/distance` - `users/1234567890/dataTypes/distance` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the DailyRollupDataPoint value union field. */
   parent: string;
-  /** Request body */
-  body?: DailyRollUpDataPointsRequest | undefined;
 }
 /** Represents the result of the rollup of the heart rate data type. */
 export interface HeartRateRollupValue {
@@ -2319,11 +2309,9 @@ export interface ManifestParams {
   /** Required. A string describing the recipient (e.g.,the name of an organization or person) suitable for display to the Receiving User */
   recipient?: string | undefined;
 }
-export interface GetShlManifestShlMRequest {
+export interface GetShlManifestShlMRequest extends ManifestParams {
   /** Required. External ID mapping to a ShlSharedLinkCapabilityToken object See https://docs.google.com/document/d/1Pch20pxJHRbsaMxp0EYgs3ZU0Gu7QTUznk8LhvbQvfY/edit?tab=t.0#heading=h.17wg41voij6q */
   externalShlId: string;
-  /** Request body */
-  body?: ManifestParams | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -2458,27 +2446,21 @@ export interface ListPairedDevicesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsSubscribersRequest {
+export interface PatchProjectsSubscribersRequest extends Omit<Subscriber, "name"> {
   /** Optional. A field mask that specifies which fields of the Subscriber message are to be updated. This allows for partial updates. Supported fields: - endpoint_uri - subscriber_configs - endpoint_authorization */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Subscriber. Format: projects/{project}/subscribers/{subscriber} The {project} ID is a Google Cloud Project ID or Project Number. The {subscriber} ID is user-settable (4-36 characters, matching /[a-z]([a-z0-9-]{2,34}[a-z0-9])/) if provided during creation, or system-generated otherwise (e.g., a UUID). Example (User-settable subscriber ID): projects/my-project/subscribers/my-sub-123 Example (System-generated subscriber ID): projects/my-project/subscribers/a1b2c3d4-e5f6-7890-1234-567890abcdef */
   name: string;
-  /** Request body */
-  body?: Subscriber | undefined;
 }
-export interface PatchProjectsSubscribersSubscriptionsRequest {
+export interface PatchProjectsSubscribersSubscriptionsRequest extends Omit<Subscription, "name"> {
   /** Identifier. The resource name of the Subscription. Format: `projects/{project}/subscribers/{subscriber}/subscriptions/{subscription}` Example: `projects/my-project/subscribers/my-subscriber-123/subscriptions/my-subscription-456` The {project} ID is mandatory (6-30 characters, matching /a-z{6,30}/) The {subscriber} ID is user-settable (4-36 characters, matching /[a-z]([a-z0-9-]{2,34}[a-z0-9])/) if provided during creation, or system-generated otherwise. The {subscription} ID is user-settable (4-36 chars, matching /[a-z]([a-z0-9-]{2,34}[a-z0-9])/) or system-generated otherwise. */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
 }
-export interface PatchUsersDataTypesDataPointsRequest {
+export interface PatchUsersDataTypesDataPointsRequest extends Omit<DataPoint, "name"> {
   /** Identifier. Data point name, only supported for the subset of identifiable data types. For the majority of the data types, individual data points do not need to be identified and this field would be empty. Format: `users/{user}/dataTypes/{data_type}/dataPoints/{data_point}` ## Examples: ## `users/me/dataTypes/sleep/dataPoints/a1b2c3d4-e5f6-7890-1234-567890abcdef` `users/1234567890/dataTypes/sleep/dataPoints/a1b2c3d4-e5f6-7890-1234-567890abcdef` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID, which can be retrieved by calling GetIdentity (see Identity.health_user_id). The `{data_type}` ID corresponds to the kebab-case version of the field names in the DataPoint data union field, e.g. `heart-rate` for the `heart_rate` field. The `{data_point}` ID can be client-provided or system-generated. If client-provided, it must be a string of 4-63 characters, containing only lowercase letters, numbers, and hyphens. */
   name: string;
-  /** Request body */
-  body?: DataPoint | undefined;
 }
 export interface ReconcileUsersDataTypesDataPointsRequest {
   /** Optional. The maximum number of data points to return. If unspecified, at most 1440 data points will be returned. The maximum page size is 10000; values above that will be truncated accordingly. For `exercise` and `sleep` the default page size is 25. The maximum page size for `exercise` and `sleep` is 25. */
@@ -2595,11 +2577,9 @@ export interface RollUpDataPointsRequest {
   /** Optional. The maximum number of data points to return. If unspecified, at most 1440 data points will be returned. The maximum page size is 10000; values above that will be truncated accordingly. */
   pageSize?: number | undefined;
 }
-export interface RollUpUsersDataTypesDataPointsRequest {
+export interface RollUpUsersDataTypesDataPointsRequest extends RollUpDataPointsRequest {
   /** Required. Parent data type of the Data Point collection. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/distance` - `users/1234567890/dataTypes/distance` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the RollupDataPoint value union field. */
   parent: string;
-  /** Request body */
-  body?: RollUpDataPointsRequest | undefined;
 }
 /** Value of a rollup for a single physical time interval (aggregation window) of reconciled data points from all data sources, excluding those data points that are identified as recorded by wearables in intervals when they were not actually worn. */
 export interface RollupDataPoint {
@@ -2658,21 +2638,17 @@ export interface RollUpDataPointsResponse {
   /** Values for each aggregation time window. */
   rollupDataPoints?: RollupDataPointList | undefined;
 }
-export interface UpdateProfileUsersRequest {
+export interface UpdateProfileUsersRequest extends Omit<Profile, "name"> {
   /** Identifier. The resource name of this Profile resource. Format: `users/{user}/profile` Example: `users/1234567890/profile` or `users/me/profile` The {user} ID is a system-generated Google Health API user ID, a string of 1-63 characters consisting of lowercase and uppercase letters, numbers, and hyphens. The literal `me` can also be used to refer to the authenticated user. This field is read-only. */
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Profile | undefined;
 }
-export interface UpdateSettingsUsersRequest {
+export interface UpdateSettingsUsersRequest extends Omit<Settings, "name"> {
   /** Identifier. The resource name of this Settings resource. Format: `users/{user}/settings` Example: `users/1234567890/settings` or `users/me/settings` The {user} ID is a system-generated Google Health API user ID, a string of 1-63 characters consisting of lowercase and uppercase letters, numbers, and hyphens. The literal `me` can also be used to refer to the authenticated user. This field is read-only. */
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
 }
 export type BatchDeleteUsersDataTypesDataPointsError =
   | NotFound
@@ -3369,10 +3345,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ManifestParams" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          externalShlId: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            externalShlId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4beta/shl/m/{externalShlId}",
@@ -3592,11 +3570,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v4beta/{+name}",
@@ -3610,11 +3590,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v4beta/{+name}",
@@ -3628,10 +3610,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1140, __c35, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1140, __c35, 20),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v4beta/{+name}",
@@ -3732,10 +3716,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "RollUpDataPointsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(737, __c23, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(737, __c23, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4beta/{+parent}/dataPoints:rollUp",
@@ -3786,11 +3772,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v4beta/{+name}",
@@ -3804,11 +3792,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v4beta/{+name}",
@@ -3828,10 +3818,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "BatchDeleteDataPointsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4beta/{+parent}/dataPoints:batchDelete",
@@ -3889,11 +3881,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateSubscriberPayload" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          subscriberId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            subscriberId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4beta/{+parent}/subscribers",
@@ -3934,11 +3928,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionPayload" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          subscriptionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            subscriptionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4beta/{+parent}/subscriptions",
@@ -3964,10 +3960,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1140, __c35, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1140, __c35, 20),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4beta/{+parent}/dataPoints",
@@ -4797,10 +4795,12 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DailyRollUpDataPointsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c41, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1313, __c41, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4beta/{+parent}/dataPoints:dailyRollUp",

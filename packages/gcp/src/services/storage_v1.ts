@@ -151,13 +151,11 @@ export interface AdvanceRelocateBucketOperationRequest {
   /** Specifies the time when the relocation will revert to the sync stage if the relocation hasn't succeeded. */
   expireTime?: string | undefined;
 }
-export interface AdvanceRelocateBucketOperationsRequest {
+export interface AdvanceRelocateBucketOperationsRequest extends AdvanceRelocateBucketOperationRequest {
   /** Name of the bucket to advance the relocate for. */
   bucket: string;
   /** ID of the operation resource. */
   operationId: string;
-  /** Request body */
-  body?: AdvanceRelocateBucketOperationRequest | undefined;
 }
 export interface AdvanceRelocateBucketOperationsResponse {}
 export type StringList = Array<string>;
@@ -178,11 +176,9 @@ export interface BulkRestoreObjectsRequest {
   /** Restores only the objects that were created before this time. */
   createdBeforeTime?: string | undefined;
 }
-export interface BulkRestoreObjectsRequest_ {
+export interface BulkRestoreObjectsRequest_ extends BulkRestoreObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
-  /** Request body */
-  body?: BulkRestoreObjectsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -402,7 +398,7 @@ export interface ComposeRequest {
   /** If true, the source objects will be deleted. */
   deleteSourceObjects?: boolean | undefined;
 }
-export interface ComposeObjectsRequest {
+export interface ComposeObjectsRequest extends ComposeRequest {
   /** Name of the bucket containing the source objects. The destination object is stored in this bucket. */
   destinationBucket: string;
   /** Name of the new object. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding). */
@@ -419,8 +415,6 @@ export interface ComposeObjectsRequest {
   kmsKeyName?: string | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: ComposeRequest | undefined;
 }
 export type CopyObjectsDestinationPredefinedAclEnum =
   | "authenticatedRead"
@@ -430,7 +424,7 @@ export type CopyObjectsDestinationPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type CopyObjectsProjectionEnum = "full" | "noAcl";
-export interface CopyObjectsRequest {
+export interface CopyObjectsRequest extends Storage_Object {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any.For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding). */
   destinationBucket: string;
   /** Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any. */
@@ -465,8 +459,6 @@ export interface CopyObjectsRequest {
   sourceObject: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Storage_Object | undefined;
 }
 export interface CreateProjectsHmacKeysRequest {
   /** Project ID owning the service account. */
@@ -1324,19 +1316,15 @@ export interface BucketStorageLayout {
   /** The type of the bucket location. */
   locationType?: string | undefined;
 }
-export interface InsertAnywhereCachesRequest {
+export interface InsertAnywhereCachesRequest extends Omit<AnywhereCache, "bucket"> {
   /** Name of the parent bucket. */
   bucket: string;
-  /** Request body */
-  body?: AnywhereCache | undefined;
 }
-export interface InsertBucketAccessControlsRequest {
+export interface InsertBucketAccessControlsRequest extends Omit<BucketAccessControl, "bucket"> {
   /** Name of a bucket. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: BucketAccessControl | undefined;
 }
 export type InsertBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1352,7 +1340,7 @@ export type InsertBucketsPredefinedDefaultObjectAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type InsertBucketsProjectionEnum = "full" | "noAcl";
-export interface InsertBucketsRequest {
+export interface InsertBucketsRequest extends Bucket {
   /** Apply a predefined set of access controls to this bucket. */
   predefinedAcl?: InsertBucketsPredefinedAclEnum | (string & {}) | undefined;
   /** Apply a predefined set of default object access controls to this bucket. */
@@ -1368,40 +1356,36 @@ export interface InsertBucketsRequest {
   userProject?: string | undefined;
   /** When set to true, object retention is enabled for this bucket. */
   enableObjectRetention?: boolean | undefined;
-  /** Request body */
-  body?: Bucket | undefined;
 }
-export interface InsertDefaultObjectAccessControlsRequest {
+export interface InsertDefaultObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: ObjectAccessControl | undefined;
 }
-export interface InsertFoldersRequest {
+export interface InsertFoldersRequest extends Omit<Folder, "bucket"> {
   /** Name of the bucket in which the folder resides. */
   bucket: string;
   /** If true, any parent folder which doesn't exist will be created automatically. */
   recursive?: boolean | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
-export interface InsertManagedFoldersRequest {
+export interface InsertManagedFoldersRequest extends Omit<ManagedFolder, "bucket"> {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
-  /** Request body */
-  body?: ManagedFolder | undefined;
 }
-export interface InsertNotificationsRequest {
+export interface InsertNotificationsRequest extends Notification {
   /** The parent bucket of the notification. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Notification | undefined;
 }
-export interface InsertObjectAccessControlsRequest {
+export interface InsertObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "generation" | "object"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -1410,8 +1394,6 @@ export interface InsertObjectAccessControlsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: ObjectAccessControl | undefined;
 }
 export type InsertObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1421,7 +1403,10 @@ export type InsertObjectsPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type InsertObjectsProjectionEnum = "full" | "noAcl";
-export interface InsertObjectsRequest {
+export interface InsertObjectsRequest extends Omit<
+  Storage_Object,
+  "bucket" | "contentEncoding" | "kmsKeyName" | "name"
+> {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any. */
   bucket: string;
   /** If set, sets the contentEncoding property of the final object to this value. Setting this parameter is equivalent to setting the contentEncoding metadata property. This can be useful when uploading an object with uploadType=media to indicate the encoding of the content being uploaded. */
@@ -1444,14 +1429,10 @@ export interface InsertObjectsRequest {
   projection?: InsertObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Storage_Object | undefined;
 }
-export interface InsertRapidCachesRequest {
+export interface InsertRapidCachesRequest extends Omit<RapidCache, "bucket"> {
   /** Name of the parent bucket. */
   bucket: string;
-  /** Request body */
-  body?: RapidCache | undefined;
 }
 export interface ListAnywhereCachesRequest {
   /** Name of the parent bucket. */
@@ -1746,15 +1727,16 @@ export interface MoveObjectsRequest {
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
 }
-export interface PatchBucketAccessControlsRequest {
+export interface PatchBucketAccessControlsRequest extends Omit<
+  BucketAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: BucketAccessControl | undefined;
 }
 export type PatchBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1770,7 +1752,7 @@ export type PatchBucketsPredefinedDefaultObjectAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type PatchBucketsProjectionEnum = "full" | "noAcl";
-export interface PatchBucketsRequest {
+export interface PatchBucketsRequest extends Bucket {
   /** Name of a bucket. */
   bucket: string;
   /** Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value. */
@@ -1788,20 +1770,22 @@ export interface PatchBucketsRequest {
   projection?: PatchBucketsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Bucket | undefined;
 }
-export interface PatchDefaultObjectAccessControlsRequest {
+export interface PatchDefaultObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: ObjectAccessControl | undefined;
 }
-export interface PatchObjectAccessControlsRequest {
+export interface PatchObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity" | "generation" | "object"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
@@ -1812,8 +1796,6 @@ export interface PatchObjectAccessControlsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: ObjectAccessControl | undefined;
 }
 export type PatchObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1823,7 +1805,7 @@ export type PatchObjectsPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type PatchObjectsProjectionEnum = "full" | "noAcl";
-export interface PatchObjectsRequest {
+export interface PatchObjectsRequest extends Omit<Storage_Object, "bucket" | "generation"> {
   /** Name of the bucket in which the object resides. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -1846,8 +1828,6 @@ export interface PatchObjectsRequest {
   projection?: PatchObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request, for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Storage_Object | undefined;
 }
 export type RelocateBucketRequestDestinationCustomPlacementConfig = BucketCustomPlacementConfig;
 /** A Relocate Bucket request. */
@@ -1861,11 +1841,9 @@ export interface RelocateBucketRequest {
   /** Resource name of a Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key. If set, is used to encrypt all objects in the destination bucket. */
   destinationKmsKeyName?: string | undefined;
 }
-export interface RelocateBucketsRequest {
+export interface RelocateBucketsRequest extends RelocateBucketRequest {
   /** Name of the bucket to be moved. */
   bucket: string;
-  /** Request body */
-  body?: RelocateBucketRequest | undefined;
 }
 export interface RenameFoldersRequest {
   /** Name of the bucket in which the folders are in. */
@@ -1929,7 +1907,7 @@ export type RewriteObjectsDestinationPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type RewriteObjectsProjectionEnum = "full" | "noAcl";
-export interface RewriteObjectsRequest {
+export interface RewriteObjectsRequest extends Storage_Object {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any. */
   destinationBucket: string;
   /** Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any. */
@@ -1970,8 +1948,6 @@ export interface RewriteObjectsRequest {
   sourceObject: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Storage_Object | undefined;
 }
 /** A rewrite response. */
 export interface RewriteResponse {
@@ -1988,25 +1964,21 @@ export interface RewriteResponse {
   /** The total bytes written so far, which can be used to provide a waiting user with a progress indicator. This property is always present in the response. */
   totalBytesRewritten?: string | undefined;
 }
-export interface SetIamPolicyBucketsRequest {
+export interface SetIamPolicyBucketsRequest extends Policy {
   /** Name of a bucket. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Policy | undefined;
 }
-export interface SetIamPolicyManagedFoldersRequest {
+export interface SetIamPolicyManagedFoldersRequest extends Policy {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
   /** The managed folder name/path. */
   managedFolder: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Policy | undefined;
 }
-export interface SetIamPolicyObjectsRequest {
+export interface SetIamPolicyObjectsRequest extends Policy {
   /** Name of the bucket in which the object resides. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -2015,8 +1987,6 @@ export interface SetIamPolicyObjectsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Policy | undefined;
 }
 export interface TestIamPermissionsBucketsRequest {
   /** Name of a bucket. */
@@ -2055,23 +2025,25 @@ export interface TestIamPermissionsObjectsRequest {
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
 }
-export interface UpdateAnywhereCachesRequest {
+export interface UpdateAnywhereCachesRequest extends Omit<
+  AnywhereCache,
+  "bucket" | "anywhereCacheId"
+> {
   /** Name of the parent bucket. */
   bucket: string;
   /** The ID of requested Anywhere Cache instance. */
   anywhereCacheId: string;
-  /** Request body */
-  body?: AnywhereCache | undefined;
 }
-export interface UpdateBucketAccessControlsRequest {
+export interface UpdateBucketAccessControlsRequest extends Omit<
+  BucketAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: BucketAccessControl | undefined;
 }
 export type UpdateBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2087,7 +2059,7 @@ export type UpdateBucketsPredefinedDefaultObjectAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type UpdateBucketsProjectionEnum = "full" | "noAcl";
-export interface UpdateBucketsRequest {
+export interface UpdateBucketsRequest extends Bucket {
   /** Name of a bucket. */
   bucket: string;
   /** Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value. */
@@ -2105,20 +2077,19 @@ export interface UpdateBucketsRequest {
   projection?: UpdateBucketsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Bucket | undefined;
 }
-export interface UpdateDefaultObjectAccessControlsRequest {
+export interface UpdateDefaultObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: ObjectAccessControl | undefined;
 }
-export interface UpdateManagedFoldersRequest {
+export interface UpdateManagedFoldersRequest extends Omit<ManagedFolder, "bucket"> {
   /** The name of the bucket containing the managed folder. */
   bucket: string;
   /** The name of the managed folder. */
@@ -2127,10 +2098,11 @@ export interface UpdateManagedFoldersRequest {
   ifMetagenerationMatch?: string | undefined;
   /** Makes the operation conditional on whether the metageneration of the managed folder doesn't match the specified value. */
   ifMetagenerationNotMatch?: string | undefined;
-  /** Request body */
-  body?: ManagedFolder | undefined;
 }
-export interface UpdateObjectAccessControlsRequest {
+export interface UpdateObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity" | "generation" | "object"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
@@ -2141,8 +2113,6 @@ export interface UpdateObjectAccessControlsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: ObjectAccessControl | undefined;
 }
 export type UpdateObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2152,7 +2122,7 @@ export type UpdateObjectsPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type UpdateObjectsProjectionEnum = "full" | "noAcl";
-export interface UpdateObjectsRequest {
+export interface UpdateObjectsRequest extends Omit<Storage_Object, "bucket" | "generation"> {
   /** Name of the bucket in which the object resides. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -2175,26 +2145,23 @@ export interface UpdateObjectsRequest {
   projection?: UpdateObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: Storage_Object | undefined;
 }
-export interface UpdateProjectsHmacKeysRequest {
+export interface UpdateProjectsHmacKeysRequest extends Omit<
+  HmacKeyMetadata,
+  "accessId" | "projectId"
+> {
   /** Name of the HMAC key being updated. */
   accessId: string;
   /** Project ID owning the service account of the updated key. */
   projectId: string;
   /** The project to be billed for this request. */
   userProject?: string | undefined;
-  /** Request body */
-  body?: HmacKeyMetadata | undefined;
 }
-export interface UpdateRapidCachesRequest {
+export interface UpdateRapidCachesRequest extends Omit<RapidCache, "bucket" | "rapidCacheId"> {
   /** Name of the parent bucket. */
   bucket: string;
   /** The ID of the requested Rapid Cache instance. */
   rapidCacheId: string;
-  /** Request body */
-  body?: RapidCache | undefined;
 }
 export interface ViewFullContextObjectsRequest {
   /** Name of the bucket in which the object resides. */
@@ -3858,17 +3825,19 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ComposeRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          destinationBucket: S.String.pipe(T.Label()),
-          destinationObject: S.String.pipe(T.Label()),
-          destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
-          dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          kmsKeyName: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(35, __c1, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35, __c1, 3),
+          S.Struct({
+            destinationBucket: S.String.pipe(T.Label()),
+            destinationObject: S.String.pipe(T.Label()),
+            destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
+            dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            kmsKeyName: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{destinationBucket}/o/{destinationObject}/compose",
@@ -4016,26 +3985,28 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          destinationBucket: S.String.pipe(T.Label()),
-          destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
-          destinationObject: S.String.pipe(T.Label()),
-          destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          sourceBucket: S.String.pipe(T.Label()),
-          sourceGeneration: S.optional(S.String.pipe(T.Query())),
-          sourceObject: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(229, __c7, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            destinationBucket: S.String.pipe(T.Label()),
+            destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
+            destinationObject: S.String.pipe(T.Label()),
+            destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            sourceBucket: S.String.pipe(T.Label()),
+            sourceGeneration: S.optional(S.String.pipe(T.Query())),
+            sourceObject: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{sourceBucket}/o/{sourceObject}/copyTo/b/{destinationBucket}/o/{destinationObject}",
@@ -5069,10 +5040,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/anywhereCaches",
@@ -5086,11 +5059,13 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/acl",
@@ -5104,15 +5079,17 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Query()),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          enableObjectRetention: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1015, __c31, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1015, __c31, 23),
+          S.Struct({
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Query()),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+            enableObjectRetention: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b",
@@ -5126,11 +5103,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/defaultObjectAcl",
@@ -5144,11 +5123,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          recursive: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1089, __c34, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1089, __c34, 1),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            recursive: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/folders",
@@ -5162,10 +5143,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1283, __c40, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/managedFolders",
@@ -5179,11 +5162,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/notificationConfigs",
@@ -5197,13 +5182,15 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/o/{object}/acl",
@@ -5217,20 +5204,22 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          contentEncoding: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          kmsKeyName: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(229, __c7, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            contentEncoding: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            kmsKeyName: S.optional(S.String.pipe(T.Query())),
+            name: S.optional(S.String.pipe(T.Query())),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/o",
@@ -5244,10 +5233,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/rapidCaches",
@@ -5658,12 +5649,14 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/acl/{entity}",
@@ -5677,16 +5670,18 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1015, __c31, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1015, __c31, 23),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}",
@@ -5700,12 +5695,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/defaultObjectAcl/{entity}",
@@ -5719,14 +5716,16 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/o/{object}/acl/{entity}",
@@ -5740,20 +5739,22 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(229, __c7, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/o/{object}",
@@ -5776,10 +5777,12 @@ function __c81(j: number): any {
       ).annotate({ identifier: "RelocateBucketRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/relocate",
@@ -5875,29 +5878,31 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          destinationBucket: S.String.pipe(T.Label()),
-          destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
-          destinationObject: S.String.pipe(T.Label()),
-          destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
-          dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          maxBytesRewrittenPerCall: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          rewriteToken: S.optional(S.String.pipe(T.Query())),
-          sourceBucket: S.String.pipe(T.Label()),
-          sourceGeneration: S.optional(S.String.pipe(T.Query())),
-          sourceObject: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(229, __c7, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            destinationBucket: S.String.pipe(T.Label()),
+            destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
+            destinationObject: S.String.pipe(T.Label()),
+            destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
+            dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            maxBytesRewrittenPerCall: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            rewriteToken: S.optional(S.String.pipe(T.Query())),
+            sourceBucket: S.String.pipe(T.Label()),
+            sourceGeneration: S.optional(S.String.pipe(T.Query())),
+            sourceObject: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{sourceBucket}/o/{sourceObject}/rewriteTo/b/{destinationBucket}/o/{destinationObject}",
@@ -5922,11 +5927,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1155, __c36, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1155, __c36, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/iam",
@@ -5940,12 +5947,14 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1155, __c36, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1155, __c36, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            managedFolder: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/managedFolders/{managedFolder}/iam",
@@ -5966,11 +5975,13 @@ function __c89(j: number): any {
       ).annotate({ identifier: "AdvanceRelocateBucketOperationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            operationId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/operations/{operationId}/advanceRelocateBucket",
@@ -5992,13 +6003,15 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1155, __c36, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1155, __c36, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/o/{object}/iam",
@@ -6080,11 +6093,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          anywhereCacheId: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            anywhereCacheId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/anywhereCaches/{anywhereCacheId}",
@@ -6098,12 +6113,14 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/acl/{entity}",
@@ -6117,16 +6134,18 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1015, __c31, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1015, __c31, 23),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}",
@@ -6140,12 +6159,14 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/defaultObjectAcl/{entity}",
@@ -6159,13 +6180,15 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1283, __c40, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            managedFolder: S.String.pipe(T.Label()),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/managedFolders/{managedFolder}",
@@ -6179,14 +6202,16 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/o/{object}/acl/{entity}",
@@ -6212,10 +6237,12 @@ function __c102(j: number): any {
       ).annotate({ identifier: "BulkRestoreObjectsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/o/bulkRestore",
@@ -6267,20 +6294,22 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(229, __c7, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/o/{object}",
@@ -6294,12 +6323,14 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accessId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            accessId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{projectId}/hmacKeys/{accessId}",
@@ -6313,11 +6344,13 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          rapidCacheId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            rapidCacheId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/rapidCaches/{rapidCacheId}",

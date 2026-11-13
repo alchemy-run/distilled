@@ -282,11 +282,9 @@ export interface GoogleCloudDatapipelinesV1Pipeline {
   /** Workload information for creating new jobs. */
   workload?: GoogleCloudDatapipelinesV1Workload | undefined;
 }
-export interface CreateProjectsLocationsPipelinesRequest {
+export interface CreateProjectsLocationsPipelinesRequest extends GoogleCloudDatapipelinesV1Pipeline {
   /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatapipelinesV1Pipeline | undefined;
 }
 export interface DeleteProjectsLocationsPipelinesRequest {
   /** Required. The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. */
@@ -392,13 +390,14 @@ export interface GoogleCloudDatapipelinesV1ListJobsResponse {
   /** Results that were accessible to the caller. Results are always in descending order of job creation date. */
   jobs?: GoogleCloudDatapipelinesV1JobList | undefined;
 }
-export interface PatchProjectsLocationsPipelinesRequest {
+export interface PatchProjectsLocationsPipelinesRequest extends Omit<
+  GoogleCloudDatapipelinesV1Pipeline,
+  "name"
+> {
   /** The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), and periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects). * `LOCATION_ID` is the canonical ID for the pipeline's location. The list of available locations can be obtained by calling `google.cloud.location.Locations.ListLocations`. Note that the Data Pipelines service is not available in all regions. It depends on Cloud Scheduler, an App Engine application, so it's only available in [App Engine regions](https://cloud.google.com/about/locations#region). * `PIPELINE_ID` is the ID of the pipeline. Must be unique for the selected project and location. */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatapipelinesV1Pipeline | undefined;
 }
 /** Request message for RunPipeline */
 export interface GoogleCloudDatapipelinesV1RunPipelineRequest {}
@@ -632,10 +631,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(58, __c3, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(58, __c3, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pipelines",
@@ -910,11 +911,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(58, __c3, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(58, __c3, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

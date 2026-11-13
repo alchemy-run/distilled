@@ -98,11 +98,9 @@ export interface CommitServicePerimetersRequest {
   /** Optional. The etag for the version of the Access Policy that this commit operation is to be performed on. If, at the time of commit, the etag for the Access Policy stored in Access Context Manager is different from the specified etag, then the commit operation will not be performed and the call will fail. This field is not required. If etag is not provided, the operation will be performed as if a valid etag is provided. */
   etag?: string | undefined;
 }
-export interface CommitAccessPoliciesServicePerimetersRequest {
+export interface CommitAccessPoliciesServicePerimetersRequest extends CommitServicePerimetersRequest {
   /** Required. Resource name for the parent Access Policy which owns all Service Perimeters in scope for the commit operation. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Request body */
-  body?: CommitServicePerimetersRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -142,10 +140,7 @@ export interface AccessPolicy {
   /** Output only. An opaque identifier for the current version of the `AccessPolicy`. This will always be a strongly validated etag, meaning that two access policies will be identical if and only if their etags are identical. Clients should not expect this to be in any specific format. */
   etag?: string | undefined;
 }
-export interface CreateAccessPoliciesRequest {
-  /** Request body */
-  body?: AccessPolicy | undefined;
-}
+export interface CreateAccessPoliciesRequest extends AccessPolicy {}
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -264,11 +259,9 @@ export interface AccessLevel {
   /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
   name?: string | undefined;
 }
-export interface CreateAccessPoliciesAccessLevelsRequest {
+export interface CreateAccessPoliciesAccessLevelsRequest extends AccessLevel {
   /** Required. Resource name for the access policy which owns this Access Level. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Request body */
-  body?: AccessLevel | undefined;
 }
 export type AuthorizedOrgsDescAuthorizationTypeEnum =
   | "AUTHORIZATION_TYPE_UNSPECIFIED"
@@ -294,11 +287,9 @@ export interface AuthorizedOrgsDesc {
   /** The direction of the authorization relationship between this organization and the organizations listed in the `orgs` field. The valid values for this field include the following: `AUTHORIZATION_DIRECTION_FROM`: Allows this organization to evaluate traffic in the organizations listed in the `orgs` field. `AUTHORIZATION_DIRECTION_TO`: Allows the organizations listed in the `orgs` field to evaluate the traffic in this organization. For the authorization relationship to take effect, all of the organizations must authorize and specify the appropriate relationship direction. For example, if organization A authorizes organizations B and C to evaluate its traffic by specifying `AUTHORIZATION_DIRECTION_TO` as the authorization direction, organizations B and C must specify `AUTHORIZATION_DIRECTION_FROM` as the authorization direction in their `AuthorizedOrgsDesc` resource. */
   authorizationDirection?: AuthorizedOrgsDescAuthorizationDirectionEnum | (string & {}) | undefined;
 }
-export interface CreateAccessPoliciesAuthorizedOrgsDescsRequest {
+export interface CreateAccessPoliciesAuthorizedOrgsDescsRequest extends AuthorizedOrgsDesc {
   /** Required. Resource name for the access policy which owns this Authorized Orgs Desc. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Request body */
-  body?: AuthorizedOrgsDesc | undefined;
 }
 export type VpcAccessibleServicesServicePatternsEnforcementScopesItemEnum =
   | "SERVICE_PATTERNS_ENFORCEMENT_SCOPE_UNSPECIFIED"
@@ -492,11 +483,9 @@ export interface ServicePerimeter {
   /** Description of the `ServicePerimeter` and its use. Does not affect behavior. */
   description?: string | undefined;
 }
-export interface CreateAccessPoliciesServicePerimetersRequest {
+export interface CreateAccessPoliciesServicePerimetersRequest extends ServicePerimeter {
   /** Required. Resource name for the access policy which owns this Service Perimeter. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Request body */
-  body?: ServicePerimeter | undefined;
 }
 export type SessionSettingsSessionReauthMethodEnum =
   | "SESSION_REAUTH_METHOD_UNSPECIFIED"
@@ -586,11 +575,9 @@ export interface GcpUserAccessBinding {
   /** Optional. Deprecated: Use `scoped_access_settings` instead. A list of applications that are subject to this binding's restrictions. If the list is empty, the binding restrictions will universally apply to all applications. */
   restrictedClientApplications?: ApplicationList | undefined;
 }
-export interface CreateOrganizationsGcpUserAccessBindingsRequest {
+export interface CreateOrganizationsGcpUserAccessBindingsRequest extends GcpUserAccessBinding {
   /** Required. Example: "organizations/256" */
   parent: string;
-  /** Request body */
-  body?: GcpUserAccessBinding | undefined;
 }
 export interface DeleteAccessPoliciesRequest {
   /** Required. Resource name for the access policy to delete. Format: `accessPolicies/{policy_id}` */
@@ -660,11 +647,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyAccessPoliciesRequest {
+export interface GetIamPolicyAccessPoliciesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -919,35 +904,35 @@ export interface LookupConfiguredServicePerimeterProjectsRequest {
   /** Required. The resource to resolve (for example, `projects/123` or `folders/456`). */
   resource: string;
 }
-export interface PatchAccessPoliciesRequest {
+export interface PatchAccessPoliciesRequest extends Omit<AccessPolicy, "name"> {
   /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
   name: string;
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AccessPolicy | undefined;
 }
-export interface PatchAccessPoliciesAccessLevelsRequest {
+export interface PatchAccessPoliciesAccessLevelsRequest extends Omit<AccessLevel, "name"> {
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string | undefined;
   /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
   name: string;
-  /** Request body */
-  body?: AccessLevel | undefined;
 }
-export interface PatchAccessPoliciesAuthorizedOrgsDescsRequest {
+export interface PatchAccessPoliciesAuthorizedOrgsDescsRequest extends Omit<
+  AuthorizedOrgsDesc,
+  "name"
+> {
   /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
   name: string;
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AuthorizedOrgsDesc | undefined;
 }
 export type PatchAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
   | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_UNSPECIFIED"
   | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_DISABLED"
   | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_ENABLED";
-export interface PatchAccessPoliciesServicePerimetersRequest {
+export interface PatchAccessPoliciesServicePerimetersRequest extends Omit<
+  ServicePerimeter,
+  "name"
+> {
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string | undefined;
   /** Optional. If true, the response will contain the deleted principal syntax for identities that support it and the request can contain identities with deleted principal syntax. */
@@ -957,18 +942,17 @@ export interface PatchAccessPoliciesServicePerimetersRequest {
     | undefined;
   /** Identifier. Resource name for the `ServicePerimeter`. Format: `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The `service_perimeter` component must begin with a letter, followed by alphanumeric characters or `_`. After you create a `ServicePerimeter`, you cannot change its `name`. */
   name: string;
-  /** Request body */
-  body?: ServicePerimeter | undefined;
 }
-export interface PatchOrganizationsGcpUserAccessBindingsRequest {
+export interface PatchOrganizationsGcpUserAccessBindingsRequest extends Omit<
+  GcpUserAccessBinding,
+  "name"
+> {
   /** Required. Only the fields specified in this mask are updated. Because `name` and `group_key` cannot be changed, `update_mask` is required and may only contain the following fields: `access_levels`, `dry_run_access_levels`, `session_settings`, `scoped_access_settings`. update_mask { paths: "access_levels" } */
   updateMask?: string | undefined;
   /** Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: `"organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"` */
   name: string;
   /** Optional. This field controls whether or not certain repeated settings in the update request overwrite or append to existing settings on the binding. If true, then append. Otherwise overwrite. So far, only `scoped_access_settings` with `session_settings` supports appending. Global `access_levels`, `access_levels` in `scoped_access_settings`, `dry_run_access_levels`, and `session_settings` are not compatible with append functionality, and the request will return an error if `append=true` when these settings are in the `update_mask`. The request will also return an error if `append=true` when `"scoped_access_settings"` is not set in the `update_mask`. */
   append?: boolean | undefined;
-  /** Request body */
-  body?: GcpUserAccessBinding | undefined;
 }
 /** A request to replace all existing Access Levels in an Access Policy with the Access Levels provided. This is done atomically. */
 export interface ReplaceAccessLevelsRequest {
@@ -977,11 +961,9 @@ export interface ReplaceAccessLevelsRequest {
   /** Required. The desired Access Levels that should replace all existing Access Levels in the Access Policy. */
   accessLevels?: AccessLevelList | undefined;
 }
-export interface ReplaceAllAccessPoliciesAccessLevelsRequest {
+export interface ReplaceAllAccessPoliciesAccessLevelsRequest extends ReplaceAccessLevelsRequest {
   /** Required. Resource name for the access policy which owns these Access Levels. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Request body */
-  body?: ReplaceAccessLevelsRequest | undefined;
 }
 /** A request to replace all existing Service Perimeters in an Access Policy with the Service Perimeters provided. This is done atomically. */
 export interface ReplaceServicePerimetersRequest {
@@ -990,11 +972,9 @@ export interface ReplaceServicePerimetersRequest {
   /** Optional. The etag for the version of the Access Policy that this replace operation is to be performed on. If, at the time of replace, the etag for the Access Policy stored in Access Context Manager is different from the specified etag, then the replace operation will not be performed and the call will fail. This field is not required. If etag is not provided, the operation will be performed as if a valid etag is provided. */
   etag?: string | undefined;
 }
-export interface ReplaceAllAccessPoliciesServicePerimetersRequest {
+export interface ReplaceAllAccessPoliciesServicePerimetersRequest extends ReplaceServicePerimetersRequest {
   /** Required. Resource name for the access policy which owns these Service Perimeters. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Request body */
-  body?: ReplaceServicePerimetersRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1003,39 +983,31 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyAccessPoliciesRequest {
+export interface SetIamPolicyAccessPoliciesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsAccessPoliciesRequest {
+export interface TestIamPermissionsAccessPoliciesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsAccessPoliciesAccessLevelsRequest {
+export interface TestIamPermissionsAccessPoliciesAccessLevelsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsAccessPoliciesServicePerimetersRequest {
+export interface TestIamPermissionsAccessPoliciesServicePerimetersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
@@ -1880,10 +1852,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(42, __c1, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42, __c1, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/gcpUserAccessBindings",
@@ -2151,10 +2125,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c12, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -2544,11 +2520,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2562,11 +2540,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1674, __c52, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1674, __c52, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2580,11 +2560,13 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2598,12 +2580,14 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          deletedPrincipalSyntax: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1878, __c58, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1878, __c58, 22),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            deletedPrincipalSyntax: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2617,12 +2601,14 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          append: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(42, __c1, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42, __c1, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            append: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2666,10 +2652,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ReplaceAccessLevelsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/accessLevels:replaceAll",
@@ -2690,10 +2678,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ReplaceServicePerimetersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servicePerimeters:replaceAll",
@@ -2714,10 +2704,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2731,10 +2723,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2758,10 +2752,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2775,10 +2771,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2798,10 +2796,12 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CommitServicePerimetersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servicePerimeters:commit",
@@ -2841,9 +2841,7 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1536, __c48, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accessPolicies",
@@ -2877,10 +2875,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1674, __c52, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1674, __c52, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/accessLevels",
@@ -2990,10 +2990,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authorizedOrgsDescs",
@@ -3021,10 +3023,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1878, __c58, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1878, __c58, 22),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servicePerimeters",

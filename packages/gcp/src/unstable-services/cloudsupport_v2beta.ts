@@ -162,11 +162,9 @@ export interface Case {
   /** Whether the case is currently escalated. */
   escalated?: boolean | undefined;
 }
-export interface CreateCasesRequest {
+export interface CreateCasesRequest extends Case {
   /** Required. The name of the parent under which the case should be created. */
   parent: string;
-  /** Request body */
-  body?: Case | undefined;
 }
 /** A comment associated with a support case. Case comments are the primary way for Google Support to communicate with a user who has opened a case. When a user responds to Google Support, the user's responses also appear as comments. */
 export interface Comment {
@@ -181,11 +179,9 @@ export interface Comment {
   /** Output only. The user or Google Support agent who created the comment. */
   creator?: Actor | undefined;
 }
-export interface CreateCasesCommentsRequest {
+export interface CreateCasesCommentsRequest extends Comment {
   /** Required. The name of the case to which the comment should be added. */
   parent: string;
-  /** Request body */
-  body?: Comment | undefined;
 }
 export type SupportEventSubscriptionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -216,11 +212,9 @@ export interface SupportEventSubscription {
   /** Output only. Reason why subscription is failing. State of subscription must be FAILING in order for this to have a value. */
   failureReason?: SupportEventSubscriptionFailureReasonEnum | (string & {}) | undefined;
 }
-export interface CreateOrganizationsSupportEventSubscriptionsRequest {
+export interface CreateOrganizationsSupportEventSubscriptionsRequest extends SupportEventSubscription {
   /** Required. The parent resource name where the support event subscription will be created. Format: organizations/{organization_id} */
   parent: string;
-  /** Request body */
-  body?: SupportEventSubscription | undefined;
 }
 export interface DeleteOrganizationsSupportEventSubscriptionsRequest {
   /** Required. The name of the support event subscription to delete. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id} */
@@ -449,11 +443,9 @@ export interface EscalateCaseRequest {
   /** The escalation information to be sent with the escalation request. */
   escalation?: Escalation | undefined;
 }
-export interface EscalateCasesRequest {
+export interface EscalateCasesRequest extends EscalateCaseRequest {
   /** Required. The name of the case to be escalated. */
   name: string;
-  /** Request body */
-  body?: EscalateCaseRequest | undefined;
 }
 /** Request message for ExpungeSupportEventSubscription. */
 export type ExpungeSupportEventSubscriptionRequest = CloseCaseRequest;
@@ -622,21 +614,20 @@ export interface ListSupportEventSubscriptionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchCasesRequest {
+export interface PatchCasesRequest extends Omit<Case, "name"> {
   /** A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty. */
   updateMask?: string | undefined;
   /** Identifier. The resource name for the case. */
   name: string;
-  /** Request body */
-  body?: Case | undefined;
 }
-export interface PatchOrganizationsSupportEventSubscriptionsRequest {
+export interface PatchOrganizationsSupportEventSubscriptionsRequest extends Omit<
+  SupportEventSubscription,
+  "name"
+> {
   /** Identifier. The resource name of the support event subscription. */
   name: string;
   /** Optional. The list of fields to update. The only supported value is pub_sub_topic. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SupportEventSubscription | undefined;
 }
 export type SearchCaseClassificationsProduct_productLineEnum =
   | "PRODUCT_LINE_UNSPECIFIED"
@@ -693,11 +684,9 @@ export interface CreateAttachmentRequest {
   /** Required. The attachment to be created. */
   attachment?: Attachment | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends CreateAttachmentRequest {
   /** Required. The name of the case or Cloud resource to which the attachment should be attached. */
   parent: string;
-  /** Request body */
-  body?: CreateAttachmentRequest | undefined;
 }
 export type CloseCasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Close a case. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43595344" curl \ --request POST \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ "https://cloudsupport.googleapis.com/v2beta/$case:close" ``` Python: ```python import googleapiclient.discovery api_version = "v2beta" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().close( name="projects/some-project/cases/43595344" ) print(request.execute()) ``` */
@@ -1147,10 +1136,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "EscalateCaseRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:escalate",
@@ -1432,11 +1423,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(368, __c23, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta/{+name}",
@@ -1450,11 +1443,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta/{+name}",
@@ -1545,10 +1540,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateAttachmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c18, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/attachments",
@@ -1647,10 +1644,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(368, __c23, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/cases",
@@ -1664,10 +1663,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/comments",
@@ -1695,10 +1696,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/supportEventSubscriptions",

@@ -90,11 +90,9 @@ export interface AlterMetadataResourceLocationRequest {
   /** Required. The relative metadata resource name in the following format.databases/{database_id} or databases/{database_id}/tables/{table_id} or databases/{database_id}/tables/{table_id}/partitions/{partition_id} */
   resourceName?: string | undefined;
 }
-export interface AlterLocationProjectsLocationsServicesRequest {
+export interface AlterLocationProjectsLocationsServicesRequest extends AlterMetadataResourceLocationRequest {
   /** Required. The relative resource name of the metastore service to mutate metadata, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
   service: string;
-  /** Request body */
-  body?: AlterMetadataResourceLocationRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -130,11 +128,9 @@ export interface AlterTablePropertiesRequest {
   /** A map that describes the desired values to mutate. If update_mask is empty, the properties will not update. Otherwise, the properties only alters the value whose associated paths exist in the update mask */
   properties?: StringMap | undefined;
 }
-export interface AlterTablePropertiesProjectsLocationsServicesRequest {
+export interface AlterTablePropertiesProjectsLocationsServicesRequest extends AlterTablePropertiesRequest {
   /** Required. The relative resource name of the Dataproc Metastore service that's being used to mutate metadata table properties, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
   service: string;
-  /** Request body */
-  body?: AlterTablePropertiesRequest | undefined;
 }
 /** Request message for DataprocMetastore.CancelMigration. */
 export interface CancelMigrationRequest {}
@@ -207,15 +203,13 @@ export interface Federation {
   /** Immutable. The Apache Hive metastore version of the federation. All backend metastore versions must be compatible with the federation version. */
   version?: string | undefined;
 }
-export interface CreateProjectsLocationsFederationsRequest {
+export interface CreateProjectsLocationsFederationsRequest extends Federation {
   /** Required. The relative resource name of the location in which to create a federation service, in the following form:projects/{project_number}/locations/{location_id}. */
   parent: string;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
   /** Required. The ID of the metastore federation, which is used as the final component of the metastore federation's name.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
   federationId?: string | undefined;
-  /** Request body */
-  body?: Federation | undefined;
 }
 export type LatestBackupStateEnum = "STATE_UNSPECIFIED" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
 /** The details of the latest scheduled backup. */
@@ -541,15 +535,13 @@ export interface Service {
   /** Output only. The time when the metastore service was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsServicesRequest {
+export interface CreateProjectsLocationsServicesRequest extends Service {
   /** Required. The relative resource name of the location in which to create a metastore service, in the following form:projects/{project_number}/locations/{location_id}. */
   parent: string;
   /** Required. The ID of the metastore service, which is used as the final component of the metastore service's name.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
   serviceId?: string | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
 export type BackupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -575,15 +567,13 @@ export interface Backup {
   /** Output only. Services that are restoring from the backup. */
   restoringServices?: StringList | undefined;
 }
-export interface CreateProjectsLocationsServicesBackupsRequest {
+export interface CreateProjectsLocationsServicesBackupsRequest extends Backup {
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
   /** Required. The relative resource name of the service in which to create a backup of the following form:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   parent: string;
   /** Required. The ID of the backup, which is used as the final component of the backup's name.This value must be between 1 and 64 characters long, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
   backupId?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
 export type MetadataImportStateEnum =
   | "STATE_UNSPECIFIED"
@@ -621,15 +611,13 @@ export interface MetadataImport {
   /** Output only. The time when the metadata import finished. */
   endTime?: string | undefined;
 }
-export interface CreateProjectsLocationsServicesMetadataImportsRequest {
+export interface CreateProjectsLocationsServicesMetadataImportsRequest extends MetadataImport {
   /** Required. The relative resource name of the service in which to create a metastore import, in the following form:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   parent: string;
   /** Required. The ID of the metadata import, which is used as the final component of the metadata import's name.This value must be between 1 and 64 characters long, begin with a letter, end with a letter or number, and consist of alpha-numeric ASCII characters or hyphens. */
   metadataImportId?: string | undefined;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MetadataImport | undefined;
 }
 export interface DeleteProjectsLocationsFederationsRequest {
   /** Required. The relative resource name of the metastore federation to delete, in the following form:projects/{project_number}/locations/{location_id}/federations/{federation_id}. */
@@ -669,11 +657,9 @@ export interface ExportMetadataRequest {
   /** A Cloud Storage URI of a folder, in the format gs:///. A sub-folder containing exported files will be created below it. */
   destinationGcsFolder?: string | undefined;
 }
-export interface ExportMetadataProjectsLocationsServicesRequest {
+export interface ExportMetadataProjectsLocationsServicesRequest extends ExportMetadataRequest {
   /** Required. The relative resource name of the metastore service to run export, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}. */
   service: string;
-  /** Request body */
-  body?: ExportMetadataRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsFederationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1104,63 +1090,54 @@ export interface MoveTableToDatabaseRequest {
   /** Required. The name of the table to be moved. */
   tableName?: string | undefined;
 }
-export interface MoveTableToDatabaseProjectsLocationsServicesRequest {
+export interface MoveTableToDatabaseProjectsLocationsServicesRequest extends MoveTableToDatabaseRequest {
   /** Required. The relative resource name of the metastore service to mutate metadata, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
   service: string;
-  /** Request body */
-  body?: MoveTableToDatabaseRequest | undefined;
 }
-export interface PatchProjectsLocationsFederationsRequest {
+export interface PatchProjectsLocationsFederationsRequest extends Omit<Federation, "name"> {
   /** Required. A field mask used to specify the fields to be overwritten in the metastore federation resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Immutable. The relative resource name of the federation, of the form: projects/{project_number}/locations/{location_id}/federations/{federation_id}`. */
   name: string;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Federation | undefined;
 }
-export interface PatchProjectsLocationsServicesRequest {
+export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "name"> {
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
   /** Required. A field mask used to specify the fields to be overwritten in the metastore service resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The relative resource name of the metastore service, in the following format:projects/{project_number}/locations/{location_id}/services/{service_id}. */
   name: string;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface PatchProjectsLocationsServicesMetadataImportsRequest {
+export interface PatchProjectsLocationsServicesMetadataImportsRequest extends Omit<
+  MetadataImport,
+  "name"
+> {
   /** Required. A field mask used to specify the fields to be overwritten in the metadata import resource by the update. Fields specified in the update_mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The relative resource name of the metadata import, of the form:projects/{project_number}/locations/{location_id}/services/{service_id}/metadataImports/{metadata_import_id}. */
   name: string;
   /** Optional. A request ID. Specify a unique request ID to allow the server to ignore the request if it has completed. The server will ignore subsequent requests that provide a duplicate request ID for at least 60 minutes after the first request.For example, if an initial request times out, followed by another request with the same request ID, the server ignores the second request to prevent the creation of duplicate commitments.The request ID must be a valid UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero UUID (00000000-0000-0000-0000-000000000000) is not supported. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MetadataImport | undefined;
 }
 /** Request message for DataprocMetastore.QueryMetadata. */
 export interface QueryMetadataRequest {
   /** Required. A read-only SQL query to execute against the metadata database. The query cannot change or mutate the data. */
   query?: string | undefined;
 }
-export interface QueryMetadataProjectsLocationsServicesRequest {
+export interface QueryMetadataProjectsLocationsServicesRequest extends QueryMetadataRequest {
   /** Required. The relative resource name of the metastore service to query metadata, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
   service: string;
-  /** Request body */
-  body?: QueryMetadataRequest | undefined;
 }
 /** Request message for DataprocMetastore.RemoveIamPolicy. */
 export interface RemoveIamPolicyRequest {
   /** Optional. Removes IAM policy attached to database or table asynchronously when it is set. The default is false. */
   asynchronous?: boolean | undefined;
 }
-export interface RemoveIamPolicyProjectsLocationsServicesRequest {
+export interface RemoveIamPolicyProjectsLocationsServicesRequest extends RemoveIamPolicyRequest {
   /** Required. The relative resource name of the dataplane resource to remove IAM policy, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}/databases/{database_id} or projects/{project_id}/locations/{location_id}/services/{service_id}/databases/{database_id}/tables/{table_id}. */
   resource: string;
-  /** Request body */
-  body?: RemoveIamPolicyRequest | undefined;
 }
 /** Response message for DataprocMetastore.RemoveIamPolicy. */
 export interface RemoveIamPolicyResponse {
@@ -1182,11 +1159,9 @@ export interface RestoreServiceRequest {
   /** Optional. A Cloud Storage URI specifying the location of the backup artifacts, namely - backup avro files under "avro/", backup_metastore.json and service.json, in the following form:gs://. Mutually exclusive with backup, and exactly one of the two must be set. */
   backupLocation?: string | undefined;
 }
-export interface RestoreProjectsLocationsServicesRequest {
+export interface RestoreProjectsLocationsServicesRequest extends RestoreServiceRequest {
   /** Required. The relative resource name of the metastore service to run restore, in the following form:projects/{project_id}/locations/{location_id}/services/{service_id}. */
   service: string;
-  /** Request body */
-  body?: RestoreServiceRequest | undefined;
 }
 /** Request message for SetIamPolicy method. */
 export interface SetIamPolicyRequest {
@@ -1195,35 +1170,25 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFederationsRequest {
+export interface SetIamPolicyProjectsLocationsFederationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsServicesRequest {
+export interface SetIamPolicyProjectsLocationsServicesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsServicesBackupsRequest {
+export interface SetIamPolicyProjectsLocationsServicesBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsServicesDatabasesRequest {
+export interface SetIamPolicyProjectsLocationsServicesDatabasesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest {
+export interface SetIamPolicyProjectsLocationsServicesDatabasesTablesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for DataprocMetastore.StartMigration. */
 export interface StartMigrationRequest {
@@ -1234,51 +1199,39 @@ export interface StartMigrationRequest {
   /** Optional. The ID to use for the migration execution, which will become the final component of the migration execution's resource name. If not specified, a UUID will be generated.This value must be between 2 and 63 characters long inclusive, begin with a letter, end with a letter or number, and valid characters are a-z0-9-. */
   migrationExecutionId?: string | undefined;
 }
-export interface StartMigrationProjectsLocationsServicesRequest {
+export interface StartMigrationProjectsLocationsServicesRequest extends StartMigrationRequest {
   /** Required. The relative resource name of the metastore service to start migrating to, in the following format:projects/{project_id}/locations/{location_id}/services/{service_id}. */
   service: string;
-  /** Request body */
-  body?: StartMigrationRequest | undefined;
 }
 /** Request message for TestIamPermissions method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsFederationsRequest {
+export interface TestIamPermissionsProjectsLocationsFederationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for TestIamPermissions method. */
 export interface TestIamPermissionsResponse {
   /** A subset of TestPermissionsRequest.permissions that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServicesRequest {
+export interface TestIamPermissionsProjectsLocationsServicesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServicesBackupsRequest {
+export interface TestIamPermissionsProjectsLocationsServicesBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServicesDatabasesRequest {
+export interface TestIamPermissionsProjectsLocationsServicesDatabasesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest {
+export interface TestIamPermissionsProjectsLocationsServicesDatabasesTablesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type AlterLocationProjectsLocationsServicesError =
   | NotFound
@@ -2425,12 +2378,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(126, __c3, 30).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(126, __c3, 30),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            serviceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/services",
@@ -2694,12 +2649,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            backupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backups",
@@ -2729,12 +2686,14 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          metadataImportId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c7, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            metadataImportId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/metadataImports",
@@ -2865,10 +2824,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ExportMetadataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          service: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            service: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+service}:exportMetadata",
@@ -3444,10 +3405,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "MoveTableToDatabaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            service: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+service}:moveTableToDatabase",
@@ -3461,12 +3424,14 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2114, __c66, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2114, __c66, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3487,10 +3452,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "AlterMetadataResourceLocationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            service: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+service}:alterLocation",
@@ -3534,12 +3501,14 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(126, __c3, 30).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(126, __c3, 30),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3553,12 +3522,14 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c7, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3578,10 +3549,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "QueryMetadataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1376, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            service: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+service}:queryMetadata",
@@ -3601,10 +3574,12 @@ function __c44(j: number): any {
       ).annotate({ identifier: "RemoveIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:removeIamPolicy",
@@ -3633,10 +3608,12 @@ function __c45(j: number): any {
       ).annotate({ identifier: "RestoreServiceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            service: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+service}:restore",
@@ -3650,10 +3627,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -3678,10 +3657,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -3695,10 +3676,12 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -3712,10 +3695,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -3729,10 +3714,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -3754,10 +3741,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "AlterTablePropertiesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            service: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+service}:alterTableProperties",
@@ -3785,10 +3774,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "StartMigrationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          service: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            service: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+service}:startMigration",
@@ -3802,10 +3793,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -3829,10 +3822,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -3846,10 +3841,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -3863,10 +3860,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -3880,10 +3879,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -3956,12 +3957,14 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          federationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2114, __c66, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2114, __c66, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            federationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/federations",

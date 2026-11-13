@@ -168,10 +168,7 @@ export interface GoogleSecuritySafebrowsingV4ThreatHit {
   /** The threat entry responsible for the hit. Full hash should be reported for hash-based hits. */
   entry?: GoogleSecuritySafebrowsingV4ThreatEntry | undefined;
 }
-export interface CreateThreatHitsRequest {
-  /** Request body */
-  body?: GoogleSecuritySafebrowsingV4ThreatHit | undefined;
-}
+export interface CreateThreatHitsRequest extends GoogleSecuritySafebrowsingV4ThreatHit {}
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
 export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatTypeEnum =
@@ -272,10 +269,7 @@ export interface GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest {
     | GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestList
     | undefined;
 }
-export interface FetchThreatListUpdatesRequest {
-  /** Request body */
-  body?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest | undefined;
-}
+export interface FetchThreatListUpdatesRequest extends GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest {}
 export type IntegerList = Array<number>;
 /** A set of raw indices to remove from a local list. */
 export interface GoogleSecuritySafebrowsingV4RawIndices {
@@ -473,10 +467,7 @@ export interface GoogleSecuritySafebrowsingV4FindFullHashesRequest {
   /** The client metadata. */
   client?: GoogleSecuritySafebrowsingV4ClientInfo | undefined;
 }
-export interface FindFullHashesRequest {
-  /** Request body */
-  body?: GoogleSecuritySafebrowsingV4FindFullHashesRequest | undefined;
-}
+export interface FindFullHashesRequest extends GoogleSecuritySafebrowsingV4FindFullHashesRequest {}
 export type GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum =
   | "THREAT_TYPE_UNSPECIFIED"
   | "MALWARE"
@@ -560,10 +551,7 @@ export interface GoogleSecuritySafebrowsingV4FindThreatMatchesRequest {
   /** The client metadata. */
   client?: GoogleSecuritySafebrowsingV4ClientInfo | undefined;
 }
-export interface FindThreatMatchesRequest {
-  /** Request body */
-  body?: GoogleSecuritySafebrowsingV4FindThreatMatchesRequest | undefined;
-}
+export interface FindThreatMatchesRequest extends GoogleSecuritySafebrowsingV4FindThreatMatchesRequest {}
 export interface GoogleSecuritySafebrowsingV4FindThreatMatchesResponse {
   /** The threat list matches. */
   matches?: GoogleSecuritySafebrowsingV4ThreatMatchList | undefined;
@@ -830,9 +818,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV4ThreatHit" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(19, __c1, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(19, __c1, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v4/threatHits",
@@ -906,9 +892,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(67, __c4, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(67, __c4, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v4/threatListUpdates:fetch",
@@ -1009,9 +993,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV4FindFullHashesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(113, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v4/fullHashes:find",
@@ -1091,9 +1073,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GoogleSecuritySafebrowsingV4FindThreatMatchesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(176, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v4/threatMatches:find",

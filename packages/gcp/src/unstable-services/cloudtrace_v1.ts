@@ -154,11 +154,9 @@ export interface Traces {
   /** List of traces. */
   traces?: TraceList | undefined;
 }
-export interface PatchTracesProjectsRequest {
+export interface PatchTracesProjectsRequest extends Traces {
   /** Required. ID of the Cloud project where the trace data is stored. */
   projectId: string;
-  /** Request body */
-  body?: Traces | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -307,10 +305,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "Traces" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectId}/traces",

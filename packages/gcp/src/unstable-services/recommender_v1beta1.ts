@@ -642,29 +642,21 @@ export interface GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest {
   /** Required. Fingerprint of the Insight. Provides optimistic locking. */
   etag?: string | undefined;
 }
-export interface MarkAcceptedBillingAccountsLocationsInsightTypesInsightsRequest {
+export interface MarkAcceptedBillingAccountsLocationsInsightTypesInsightsRequest extends GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest {
   /** Required. Name of the insight. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
-export interface MarkAcceptedFoldersLocationsInsightTypesInsightsRequest {
+export interface MarkAcceptedFoldersLocationsInsightTypesInsightsRequest extends GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest {
   /** Required. Name of the insight. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
-export interface MarkAcceptedOrganizationsLocationsInsightTypesInsightsRequest {
+export interface MarkAcceptedOrganizationsLocationsInsightTypesInsightsRequest extends GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest {
   /** Required. Name of the insight. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
-export interface MarkAcceptedProjectsLocationsInsightTypesInsightsRequest {
+export interface MarkAcceptedProjectsLocationsInsightTypesInsightsRequest extends GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest {
   /** Required. Name of the insight. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkInsightAcceptedRequest | undefined;
 }
 /** Request for the `MarkRecommendationClaimed` Method. */
 export interface GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest {
@@ -673,58 +665,42 @@ export interface GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest {
   /** State properties to include with this state. Overwrites any existing `state_metadata`. Keys must match the regex `/^a-z0-9{0,62}$/`. Values must match the regex `/^[a-zA-Z0-9_./-]{0,255}$/`. */
   stateMetadata?: StringMap | undefined;
 }
-export interface MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRequest {
+export interface MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
-export interface MarkClaimedFoldersLocationsRecommendersRecommendationsRequest {
+export interface MarkClaimedFoldersLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
-export interface MarkClaimedOrganizationsLocationsRecommendersRecommendationsRequest {
+export interface MarkClaimedOrganizationsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
-export interface MarkClaimedProjectsLocationsRecommendersRecommendationsRequest {
+export interface MarkClaimedProjectsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationClaimedRequest | undefined;
 }
 /** Request for the `MarkRecommendationDismissed` Method. */
 export interface GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest {
   /** Fingerprint of the Recommendation. Provides optimistic locking. */
   etag?: string | undefined;
 }
-export interface MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRequest {
+export interface MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
-export interface MarkDismissedFoldersLocationsRecommendersRecommendationsRequest {
+export interface MarkDismissedFoldersLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
-export interface MarkDismissedOrganizationsLocationsRecommendersRecommendationsRequest {
+export interface MarkDismissedOrganizationsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
-export interface MarkDismissedProjectsLocationsRecommendersRecommendationsRequest {
+export interface MarkDismissedProjectsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationDismissedRequest | undefined;
 }
 /** Request for the `MarkRecommendationFailed` Method. */
 export interface GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
@@ -733,116 +709,106 @@ export interface GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Fingerprint of the Recommendation. Provides optimistic locking. */
   etag?: string | undefined;
 }
-export interface MarkFailedBillingAccountsLocationsRecommendersRecommendationsRequest {
+export interface MarkFailedBillingAccountsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
-export interface MarkFailedFoldersLocationsRecommendersRecommendationsRequest {
+export interface MarkFailedFoldersLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
-export interface MarkFailedOrganizationsLocationsRecommendersRecommendationsRequest {
+export interface MarkFailedOrganizationsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
-export interface MarkFailedProjectsLocationsRecommendersRecommendationsRequest {
+export interface MarkFailedProjectsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
 /** Request for the `MarkRecommendationSucceeded` Method. */
 export type GoogleCloudRecommenderV1beta1MarkRecommendationSucceededRequest =
   GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest;
-export interface MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRequest {
+export interface MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
-export interface MarkSucceededFoldersLocationsRecommendersRecommendationsRequest {
+export interface MarkSucceededFoldersLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
-export interface MarkSucceededOrganizationsLocationsRecommendersRecommendationsRequest {
+export interface MarkSucceededOrganizationsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
-export interface MarkSucceededProjectsLocationsRecommendersRecommendationsRequest {
+export interface MarkSucceededProjectsLocationsRecommendersRecommendationsRequest extends GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest {
   /** Required. Name of the recommendation. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1MarkRecommendationFailedRequest | undefined;
 }
-export interface UpdateConfigBillingAccountsLocationsInsightTypesRequest {
+export interface UpdateConfigBillingAccountsLocationsInsightTypesRequest extends Omit<
+  GoogleCloudRecommenderV1beta1InsightTypeConfig,
+  "name"
+> {
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig | undefined;
 }
-export interface UpdateConfigBillingAccountsLocationsRecommendersRequest {
+export interface UpdateConfigBillingAccountsLocationsRecommendersRequest extends Omit<
+  GoogleCloudRecommenderV1beta1RecommenderConfig,
+  "name"
+> {
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
   /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1RecommenderConfig | undefined;
 }
-export interface UpdateConfigOrganizationsLocationsInsightTypesRequest {
+export interface UpdateConfigOrganizationsLocationsInsightTypesRequest extends Omit<
+  GoogleCloudRecommenderV1beta1InsightTypeConfig,
+  "name"
+> {
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig | undefined;
 }
-export interface UpdateConfigOrganizationsLocationsRecommendersRequest {
+export interface UpdateConfigOrganizationsLocationsRecommendersRequest extends Omit<
+  GoogleCloudRecommenderV1beta1RecommenderConfig,
+  "name"
+> {
   /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
   name: string;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1RecommenderConfig | undefined;
 }
-export interface UpdateConfigProjectsLocationsInsightTypesRequest {
+export interface UpdateConfigProjectsLocationsInsightTypesRequest extends Omit<
+  GoogleCloudRecommenderV1beta1InsightTypeConfig,
+  "name"
+> {
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1InsightTypeConfig | undefined;
 }
-export interface UpdateConfigProjectsLocationsRecommendersRequest {
+export interface UpdateConfigProjectsLocationsRecommendersRequest extends Omit<
+  GoogleCloudRecommenderV1beta1RecommenderConfig,
+  "name"
+> {
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
   name: string;
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRecommenderV1beta1RecommenderConfig | undefined;
 }
 export type GetBillingAccountsLocationsInsightTypesInsightsError =
   | NotFound
@@ -2589,10 +2555,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markAccepted",
@@ -2617,10 +2585,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markAccepted",
@@ -2634,10 +2604,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markAccepted",
@@ -2651,10 +2623,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markAccepted",
@@ -2668,10 +2642,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markClaimed",
@@ -2698,10 +2674,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markClaimed",
@@ -2715,10 +2693,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markClaimed",
@@ -2734,10 +2714,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markClaimed",
@@ -2821,10 +2803,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markDismissed",
@@ -2850,10 +2834,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markDismissed",
@@ -2867,10 +2853,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markDismissed",
@@ -2886,10 +2874,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markDismissed",
@@ -2905,10 +2895,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markFailed",
@@ -2924,10 +2916,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markFailed",
@@ -2941,10 +2935,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markFailed",
@@ -2960,10 +2956,12 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markFailed",
@@ -2977,10 +2975,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markSucceeded",
@@ -2996,10 +2996,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markSucceeded",
@@ -3151,10 +3153,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markSucceeded",
@@ -3170,10 +3174,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:markSucceeded",
@@ -3189,12 +3195,14 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3208,12 +3216,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3227,12 +3237,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3246,12 +3258,14 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3265,12 +3279,14 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3284,12 +3300,14 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",

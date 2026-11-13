@@ -198,15 +198,13 @@ export interface Server {
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsLocationsServersRequest {
+export interface CreateProjectsLocationsServersRequest extends Server {
   /** Required. Value for parent. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. A unique ID for the server. Must start with a lowercase letter, and end with a lowercase letter or number. Can contain lowercase letters, numbers, and hyphens. Can't begin with the prefix `goog` or contain the string `google`, including close misspellings such as `g00gle`. Maximum length is 30 characters. */
   serverId?: string | undefined;
-  /** Request body */
-  body?: Server | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -287,15 +285,13 @@ export interface User {
   /** Optional. Labels as key value pairs */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsServersUsersRequest {
+export interface CreateProjectsLocationsServersUsersRequest extends User {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Required. A unique user ID for the SFTP user. The user ID must start with a lowercase letter and can include lowercase letters, numbers, or hyphens. */
   userId?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -450,23 +446,19 @@ export interface ListUsersResponse {
   /** The list of User */
   users?: UserList | undefined;
 }
-export interface PatchProjectsLocationsServersRequest {
+export interface PatchProjectsLocationsServersRequest extends Omit<Server, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Server resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. name of resource */
   name: string;
-  /** Request body */
-  body?: Server | undefined;
 }
-export interface PatchProjectsLocationsServersUsersRequest {
+export interface PatchProjectsLocationsServersUsersRequest extends Omit<User, "name"> {
   /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 /** Request message for starting a Server. */
 export type StartServerRequest = CancelOperationRequest;
@@ -1038,12 +1030,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(282, __c17, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(282, __c17, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ftp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsServersRequest" });
@@ -1053,11 +1047,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c22, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c22, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ftp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsServersUsersRequest" });
@@ -1124,12 +1120,14 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          serverId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(282, __c17, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(282, __c17, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            serverId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servers",
@@ -1265,12 +1263,14 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          userId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c22, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c22, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            userId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/users",

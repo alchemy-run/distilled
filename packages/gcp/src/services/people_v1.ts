@@ -735,10 +735,7 @@ export interface BatchCreateContactsRequest {
   /** Optional. A mask of what source types to return in the post mutate read. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
   sources?: BatchCreateContactsRequestSourcesItemEnumList | undefined;
 }
-export interface BatchCreateContactsPeopleRequest {
-  /** Request body */
-  body?: BatchCreateContactsRequest | undefined;
-}
+export interface BatchCreateContactsPeopleRequest extends BatchCreateContactsRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -772,10 +769,7 @@ export interface BatchDeleteContactsRequest {
   /** Required. The resource names of the contact to delete. It's repeatable. Allows up to 500 resource names in a single request. */
   resourceNames?: StringList | undefined;
 }
-export interface BatchDeleteContactsPeopleRequest {
-  /** Request body */
-  body?: BatchDeleteContactsRequest | undefined;
-}
+export interface BatchDeleteContactsPeopleRequest extends BatchDeleteContactsRequest {}
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface BatchGetContactGroupsRequest {
@@ -862,10 +856,7 @@ export interface BatchUpdateContactsRequest {
   /** Required. A field mask to restrict which fields on the person are updated. Multiple fields can be specified by separating them with commas. All specified fields will be replaced, or cleared if left empty for each person. Valid values are: * addresses * biographies * birthdays * calendarUrls * clientData * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * relations * sipAddresses * urls * userDefined */
   updateMask?: string | undefined;
 }
-export interface BatchUpdateContactsPeopleRequest {
-  /** Request body */
-  body?: BatchUpdateContactsRequest | undefined;
-}
+export interface BatchUpdateContactsPeopleRequest extends BatchUpdateContactsRequest {}
 export type PersonResponseMap = { [key: string]: PersonResponse | undefined };
 /** If not successful, returns BatchUpdateContactsErrorDetails, a list of errors corresponding to each contact. The response to a request to update a batch of contacts. */
 export interface BatchUpdateContactsResponse {
@@ -890,11 +881,9 @@ export interface CopyOtherContactToMyContactsGroupRequest {
   /** Required. A field mask to restrict which fields are copied into the new contact. Valid values are: * emailAddresses * names * phoneNumbers */
   copyMask?: string | undefined;
 }
-export interface CopyOtherContactToMyContactsGroupOtherContactsRequest {
+export interface CopyOtherContactToMyContactsGroupOtherContactsRequest extends CopyOtherContactToMyContactsGroupRequest {
   /** Required. The resource name of the "Other contact" to copy. */
   resourceName: string;
-  /** Request body */
-  body?: CopyOtherContactToMyContactsGroupRequest | undefined;
 }
 /** A request to create a new contact group. */
 export interface CreateContactGroupRequest {
@@ -903,10 +892,7 @@ export interface CreateContactGroupRequest {
   /** Required. The contact group to create. */
   contactGroup?: ContactGroup | undefined;
 }
-export interface CreateContactGroupsRequest {
-  /** Request body */
-  body?: CreateContactGroupRequest | undefined;
-}
+export interface CreateContactGroupsRequest extends CreateContactGroupRequest {}
 export type CreateContactPeopleSourcesEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
   | "READ_SOURCE_TYPE_PROFILE"
@@ -916,13 +902,11 @@ export type CreateContactPeopleSourcesEnum =
 export type CreateContactPeopleSourcesEnumList = Array<
   CreateContactPeopleSourcesEnum | (string & {})
 >;
-export interface CreateContactPeopleRequest {
+export interface CreateContactPeopleRequest extends Person {
   /** Required. A field mask to restrict which fields on each person are returned. Multiple fields can be specified by separating them with commas. Defaults to all fields if not set. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
   personFields?: string | undefined;
   /** Optional. A mask of what source types to return. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
   sources?: CreateContactPeopleSourcesEnumList | undefined;
-  /** Request body */
-  body?: Person | undefined;
 }
 export interface DeleteContactGroupsRequest {
   /** Optional. Set to true to also delete the contacts in the specified group. */
@@ -1150,11 +1134,9 @@ export interface ModifyContactGroupMembersRequest {
   /** Optional. The resource names of the contact people to add in the form of `people/{person_id}`. The total number of resource names in `resource_names_to_add` and `resource_names_to_remove` must be less than or equal to 1000. */
   resourceNamesToAdd?: StringList | undefined;
 }
-export interface ModifyContactGroupsMembersRequest {
+export interface ModifyContactGroupsMembersRequest extends ModifyContactGroupMembersRequest {
   /** Required. The resource name of the contact group to modify. */
   resourceName: string;
-  /** Request body */
-  body?: ModifyContactGroupMembersRequest | undefined;
 }
 /** The response to a modify contact group members request. */
 export interface ModifyContactGroupMembersResponse {
@@ -1246,11 +1228,9 @@ export interface UpdateContactGroupRequest {
   /** Optional. A field mask to restrict which fields on the group are returned. Defaults to `metadata`, `groupType`, and `name` if not set or set to empty. Valid fields are: * clientData * groupType * memberCount * metadata * name */
   readGroupFields?: string | undefined;
 }
-export interface UpdateContactGroupsRequest {
+export interface UpdateContactGroupsRequest extends UpdateContactGroupRequest {
   /** The resource name for the contact group, assigned by the server. An ASCII string, in the form of `contactGroups/{contact_group_id}`. */
   resourceName: string;
-  /** Request body */
-  body?: UpdateContactGroupRequest | undefined;
 }
 export type UpdateContactPeopleSourcesEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
@@ -1261,7 +1241,7 @@ export type UpdateContactPeopleSourcesEnum =
 export type UpdateContactPeopleSourcesEnumList = Array<
   UpdateContactPeopleSourcesEnum | (string & {})
 >;
-export interface UpdateContactPeopleRequest {
+export interface UpdateContactPeopleRequest extends Omit<Person, "resourceName"> {
   /** Optional. A mask of what source types to return. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
   sources?: UpdateContactPeopleSourcesEnumList | undefined;
   /** Required. A field mask to restrict which fields on the person are updated. Multiple fields can be specified by separating them with commas. All updated fields will be replaced. Valid values are: * addresses * biographies * birthdays * calendarUrls * clientData * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * relations * sipAddresses * urls * userDefined */
@@ -1270,8 +1250,6 @@ export interface UpdateContactPeopleRequest {
   resourceName: string;
   /** Optional. A field mask to restrict which fields on each person are returned. Multiple fields can be specified by separating them with commas. Defaults to all fields if not set. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
   personFields?: string | undefined;
-  /** Request body */
-  body?: Person | undefined;
 }
 export type UpdateContactPhotoRequestSourcesItemEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
@@ -1291,11 +1269,9 @@ export interface UpdateContactPhotoRequest {
   /** Required. Raw photo bytes */
   photoBytes?: string | undefined;
 }
-export interface UpdateContactPhotoPeopleRequest {
+export interface UpdateContactPhotoPeopleRequest extends UpdateContactPhotoRequest {
   /** Required. Person resource name */
   resourceName: string;
-  /** Request body */
-  body?: UpdateContactPhotoRequest | undefined;
 }
 /** The response for updating a contact's photo. */
 export interface UpdateContactPhotoResponse {
@@ -1764,11 +1740,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          personFields: S.optional(S.String.pipe(T.Query())),
-          sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
-          body: S.optional(__S(897, __c28, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c28, 1),
+          S.Struct({
+            personFields: S.optional(S.String.pipe(T.Query())),
+            sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:createContact",
@@ -2042,10 +2020,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ModifyContactGroupMembersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resourceName}/members:modify",
@@ -2152,10 +2132,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateContactGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+resourceName}",
@@ -2169,13 +2151,15 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
-          updatePersonFields: S.optional(S.String.pipe(T.Query())),
-          resourceName: S.String.pipe(T.Label()),
-          personFields: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(897, __c28, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c28, 1),
+          S.Struct({
+            sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+            updatePersonFields: S.optional(S.String.pipe(T.Query())),
+            resourceName: S.String.pipe(T.Label()),
+            personFields: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+resourceName}:updateContact",
@@ -2197,10 +2181,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UpdateContactPhotoRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+resourceName}:updateContactPhoto",
@@ -2230,9 +2216,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BatchCreateContactsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(674, __c21, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(674, __c21, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:batchCreateContacts",
@@ -2745,9 +2729,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "BatchDeleteContactsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(928, __c29, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:batchDeleteContacts",
@@ -2846,9 +2828,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "BatchUpdateContactsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1057, __c33, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1057, __c33, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:batchUpdateContacts",
@@ -2878,10 +2858,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CopyOtherContactToMyContactsGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resourceName}:copyOtherContactToMyContactsGroup",
@@ -2902,9 +2884,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateContactGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1120, __c35, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/contactGroups",

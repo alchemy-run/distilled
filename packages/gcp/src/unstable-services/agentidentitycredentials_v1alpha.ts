@@ -107,11 +107,9 @@ export interface GoogleCloudAgentidentitycredentialsV1alpha_ExchangeCredentialsR
   /** Optional. The desired downstream OAuth scopes to request for the exchanged token. */
   scopes?: StringList | undefined;
 }
-export interface ExchangeProjectsLocationsAuthProvidersCredentialsRequest {
+export interface ExchangeProjectsLocationsAuthProvidersCredentialsRequest extends GoogleCloudAgentidentitycredentialsV1alpha_ExchangeCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
-  /** Request body */
-  body?: GoogleCloudAgentidentitycredentialsV1alpha_ExchangeCredentialsRequest | undefined;
 }
 /** Response message for `ExchangeCredentials` containing the resulting credentials. */
 export interface GoogleCloudAgentidentitycredentialsV1alpha_ExchangeCredentialsResponse {
@@ -133,11 +131,9 @@ export interface GoogleCloudAgentidentitycredentialsV1alpha_FinalizeCredentialsR
   /** Required. The identity of the end user. */
   userId?: string | undefined;
 }
-export interface FinalizeProjectsLocationsAuthProvidersCredentialsRequest {
+export interface FinalizeProjectsLocationsAuthProvidersCredentialsRequest extends GoogleCloudAgentidentitycredentialsV1alpha_FinalizeCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
-  /** Request body */
-  body?: GoogleCloudAgentidentitycredentialsV1alpha_FinalizeCredentialsRequest | undefined;
 }
 /** Response message for `FinalizeCredentials`. Intentionally empty. */
 export interface GoogleCloudAgentidentitycredentialsV1alpha_FinalizeCredentialsResponse {}
@@ -152,11 +148,9 @@ export interface GoogleCloudAgentidentitycredentialsV1alpha_RetrieveCredentialsR
   /** Optional. Input only. Set this field only if the previous token was expired or invalid. This value must be the full, previously returned token string. Setting this field triggers a refresh of the access token with a stored refresh token, if possible, or a new consent flow. */
   forceRefreshToken?: string | undefined;
 }
-export interface GetProjectsLocationsAuthProvidersCredentialsRequest {
+export interface GetProjectsLocationsAuthProvidersCredentialsRequest extends GoogleCloudAgentidentitycredentialsV1alpha_RetrieveCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
-  /** Request body */
-  body?: GoogleCloudAgentidentitycredentialsV1alpha_RetrieveCredentialsRequest | undefined;
 }
 /** Indicates the user has rejected the permission delegation or canceled the request. */
 export interface GoogleCloudAgentidentitycredentialsV1alpha_ConsentRejected {}
@@ -302,10 +296,12 @@ function __c0(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          authProvider: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            authProvider: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+authProvider}/credentials:exchange",
@@ -346,10 +342,12 @@ function __c2(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          authProvider: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            authProvider: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+authProvider}/credentials:finalize",
@@ -382,10 +380,12 @@ function __c4(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          authProvider: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            authProvider: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+authProvider}/credentials:retrieve",

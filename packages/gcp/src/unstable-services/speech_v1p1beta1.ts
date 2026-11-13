@@ -127,11 +127,9 @@ export interface CreateCustomClassRequest {
   /** Required. The custom class to create. */
   customClass?: CustomClass | undefined;
 }
-export interface CreateProjectsLocationsCustomClassesRequest {
+export interface CreateProjectsLocationsCustomClassesRequest extends CreateCustomClassRequest {
   /** Required. The parent resource where this custom class will be created. Format: `projects/{project}/locations/{location}/customClasses` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
   parent: string;
-  /** Request body */
-  body?: CreateCustomClassRequest | undefined;
 }
 export type PhraseSetStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** A phrases containing words and phrase "hints" so that the speech recognition is more likely to recognize them. This can be used to improve the accuracy for specific words and phrases, for example, if specific commands are typically spoken by the user. This can also be used to add additional words to the vocabulary of the recognizer. See [usage limits](https://cloud.google.com/speech-to-text/quotas#content). List items can also include pre-built or custom classes containing groups of words that represent common concepts that occur in natural language. For example, rather than providing a phrase hint for every month of the year (e.g. "i was born in january", "i was born in febuary", ...), use the pre-built `$MONTH` class improves the likelihood of correctly transcribing audio that includes months (e.g. "i was born in $month"). To refer to pre-built classes, use the class' symbol prepended with `$` e.g. `$MONTH`. To refer to custom classes that were defined inline in the request, set the class's `custom_class_id` to a string unique to all class resources and inline classes. Then use the class' id wrapped in $`{...}` e.g. "${my-months}". To refer to custom classes resources, use the class' id wrapped in `${}` (e.g. `${my-months}`). Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
@@ -178,11 +176,9 @@ export interface CreatePhraseSetRequest {
   /** Required. The phrase set to create. */
   phraseSet?: PhraseSet | undefined;
 }
-export interface CreateProjectsLocationsPhraseSetsRequest {
+export interface CreateProjectsLocationsPhraseSetsRequest extends CreatePhraseSetRequest {
   /** Required. The parent resource where this phrase set will be created. Format: `projects/{project}/locations/{location}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
   parent: string;
-  /** Request body */
-  body?: CreatePhraseSetRequest | undefined;
 }
 export interface DeleteProjectsLocationsCustomClassesRequest {
   /** Required. The name of the custom class to delete. Format: `projects/{project}/locations/{location}/customClasses/{custom_class}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
@@ -462,25 +458,18 @@ export interface LongRunningRecognizeRequest {
   /** Optional. Specifies an optional destination for the recognition results. */
   outputConfig?: TranscriptOutputConfig | undefined;
 }
-export interface LongrunningrecognizeSpeechRequest {
-  /** Request body */
-  body?: LongRunningRecognizeRequest | undefined;
-}
-export interface PatchProjectsLocationsCustomClassesRequest {
+export interface LongrunningrecognizeSpeechRequest extends LongRunningRecognizeRequest {}
+export interface PatchProjectsLocationsCustomClassesRequest extends Omit<CustomClass, "name"> {
   /** The resource name of the custom class. */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CustomClass | undefined;
 }
-export interface PatchProjectsLocationsPhraseSetsRequest {
+export interface PatchProjectsLocationsPhraseSetsRequest extends Omit<PhraseSet, "name"> {
   /** The resource name of the phrase set. */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PhraseSet | undefined;
 }
 /** The top-level message sent by the client for the `Recognize` method. */
 export interface RecognizeRequest {
@@ -489,10 +478,7 @@ export interface RecognizeRequest {
   /** Required. Provides information to the recognizer that specifies how to process the request. */
   config?: RecognitionConfig | undefined;
 }
-export interface RecognizeSpeechRequest {
-  /** Request body */
-  body?: RecognizeRequest | undefined;
-}
+export interface RecognizeSpeechRequest extends RecognizeRequest {}
 /** Information on speech adaptation use in results */
 export interface SpeechAdaptationInfo {
   /** If set, returns a message specifying which part of the speech adaptation request timed out. */
@@ -963,9 +949,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "LongRunningRecognizeRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(113, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p1beta1/speech:longrunningrecognize",
@@ -1080,11 +1064,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(226, __c14, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(226, __c14, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1p1beta1/{+name}",
@@ -1098,11 +1084,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(258, __c16, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(258, __c16, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1p1beta1/{+name}",
@@ -1123,9 +1111,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "RecognizeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(176, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p1beta1/speech:recognize",
@@ -1197,10 +1183,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateCustomClassRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c12, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p1beta1/{+parent}/customClasses",
@@ -1257,10 +1245,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreatePhraseSetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p1beta1/{+parent}/phraseSets",

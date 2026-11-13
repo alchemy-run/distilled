@@ -98,11 +98,9 @@ export interface Job {
   /** The name of the job (max. 100 characters). */
   name?: string | undefined;
 }
-export interface CreateJobsRequest {
+export interface CreateJobsRequest extends Job {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
 }
 export interface DeleteJobsRequest {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
@@ -631,10 +629,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/jobs",

@@ -136,11 +136,9 @@ export interface AclEntry {
   /** Required. The host. Must be set to "*" for Managed Service for Apache Kafka. */
   host?: string | undefined;
 }
-export interface AddAclEntryProjectsLocationsClustersAclsRequest {
+export interface AddAclEntryProjectsLocationsClustersAclsRequest extends AclEntry {
   /** Required. The name of the acl to add the acl entry to. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   acl: string;
-  /** Request body */
-  body?: AclEntry | undefined;
 }
 export type AclEntryList = Array<AclEntry>;
 /** Represents the set of ACLs for a given Kafka Resource Pattern, which consists of resource_type, resource_name and pattern_type. */
@@ -201,11 +199,9 @@ export interface CheckCompatibilityRequest {
   /** Optional. The schema references used by the schema. */
   references?: SchemaReferenceList | undefined;
 }
-export interface CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest {
+export interface CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest extends CheckCompatibilityRequest {
   /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/*\/versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
   name: string;
-  /** Request body */
-  body?: CheckCompatibilityRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Response for CheckCompatibility. */
@@ -215,11 +211,9 @@ export interface CheckCompatibilityResponse {
   /** Failure reasons if verbose = true. */
   messages?: StringList | undefined;
 }
-export interface CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest {
+export interface CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest extends CheckCompatibilityRequest {
   /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/*\/versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
   name: string;
-  /** Request body */
-  body?: CheckCompatibilityRequest | undefined;
 }
 /** A capacity configuration of a Kafka cluster. */
 export interface CapacityConfig {
@@ -360,15 +354,13 @@ export interface Cluster {
   /** Required. Configuration properties for a Kafka cluster deployed to Google Cloud Platform. */
   gcpConfig?: GcpConfig | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
+export interface CreateProjectsLocationsClustersRequest extends Cluster {
   /** Required. The parent region in which to create the cluster. Structured like `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
   clusterId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -394,13 +386,11 @@ export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
 }
-export interface CreateProjectsLocationsClustersAclsRequest {
+export interface CreateProjectsLocationsClustersAclsRequest extends Acl {
   /** Required. The ID to use for the acl, which will become the final component of the acl's name. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
   aclId?: string | undefined;
   /** Required. The parent cluster in which to create the acl. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
-  /** Request body */
-  body?: Acl | undefined;
 }
 /** A Kafka topic in a given cluster. */
 export interface Topic {
@@ -413,13 +403,11 @@ export interface Topic {
   /** Required. The number of partitions this topic has. The partition count can only be increased, not decreased. Please note that if partitions are increased for a topic that has a key, the partitioning logic or the ordering of the messages will be affected. */
   partitionCount?: number | undefined;
 }
-export interface CreateProjectsLocationsClustersTopicsRequest {
+export interface CreateProjectsLocationsClustersTopicsRequest extends Topic {
   /** Required. The ID to use for the topic, which will become the final component of the topic's name. This value is structured like: `my-topic-name`. */
   topicId?: string | undefined;
   /** Required. The parent cluster in which to create the topic. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
-  /** Request body */
-  body?: Topic | undefined;
 }
 export type ConnectClusterStateEnum =
   | "STATE_UNSPECIFIED"
@@ -474,15 +462,13 @@ export interface ConnectCluster {
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
 }
-export interface CreateProjectsLocationsConnectClustersRequest {
+export interface CreateProjectsLocationsConnectClustersRequest extends ConnectCluster {
   /** Required. The parent project/location in which to create the Kafka Connect cluster. Structured like `projects/{project}/locations/{location}/`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID to use for the Connect cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
   connectClusterId?: string | undefined;
-  /** Request body */
-  body?: ConnectCluster | undefined;
 }
 export type ConnectorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -512,13 +498,11 @@ export interface Connector {
   /** Optional. Restarts the individual tasks of a Connector. */
   taskRestartPolicy?: TaskRetryPolicy | undefined;
 }
-export interface CreateProjectsLocationsConnectClustersConnectorsRequest {
+export interface CreateProjectsLocationsConnectClustersConnectorsRequest extends Connector {
   /** Required. The parent Connect cluster in which to create the connector. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   parent: string;
   /** Required. The ID to use for the connector, which will become the final component of the connector's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-connector-id`. */
   connectorId?: string | undefined;
-  /** Request body */
-  body?: Connector | undefined;
 }
 /** SchemaRegistry is a schema registry instance. */
 export interface SchemaRegistry {
@@ -534,11 +518,9 @@ export interface CreateSchemaRegistryRequest {
   /** Required. The schema registry instance to create. The name field is ignored. */
   schemaRegistry?: SchemaRegistry | undefined;
 }
-export interface CreateProjectsLocationsSchemaRegistriesRequest {
+export interface CreateProjectsLocationsSchemaRegistriesRequest extends CreateSchemaRegistryRequest {
   /** Required. The parent whose schema registry instance is to be created. Structured like: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: CreateSchemaRegistryRequest | undefined;
 }
 export type CreateVersionRequestSchemaTypeEnum =
   | "SCHEMA_TYPE_UNSPECIFIED"
@@ -560,22 +542,18 @@ export interface CreateVersionRequest {
   /** Optional. If true, the schema will be normalized before being stored. The default is false. */
   normalize?: boolean | undefined;
 }
-export interface CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
+export interface CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest extends CreateVersionRequest {
   /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
-  /** Request body */
-  body?: CreateVersionRequest | undefined;
 }
 /** Response for CreateVersion. */
 export interface CreateVersionResponse {
   /** The unique identifier of the schema created. */
   id?: number | undefined;
 }
-export interface CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
+export interface CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest extends CreateVersionRequest {
   /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
-  /** Request body */
-  body?: CreateVersionRequest | undefined;
 }
 export interface DeleteProjectsLocationsClustersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1142,69 +1120,59 @@ export interface LookupVersionRequest {
   /** Optional. If true, the schema will be normalized before being looked up. The default is false. */
   normalize?: boolean | undefined;
 }
-export interface LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
+export interface LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest extends LookupVersionRequest {
   /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
-  /** Request body */
-  body?: LookupVersionRequest | undefined;
 }
-export interface LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest {
+export interface LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest extends LookupVersionRequest {
   /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
-  /** Request body */
-  body?: LookupVersionRequest | undefined;
 }
-export interface PatchProjectsLocationsClustersRequest {
+export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
   /** Identifier. The name of the cluster. Structured like: projects/{project_number}/locations/{location}/clusters/{cluster_id} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
-export interface PatchProjectsLocationsClustersAclsRequest {
+export interface PatchProjectsLocationsClustersAclsRequest extends Omit<Acl, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Acl resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Identifier. The name for the acl. Represents a single Resource Pattern. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id} The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
   name: string;
-  /** Request body */
-  body?: Acl | undefined;
 }
-export interface PatchProjectsLocationsClustersConsumerGroupsRequest {
+export interface PatchProjectsLocationsClustersConsumerGroupsRequest extends Omit<
+  ConsumerGroup,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the ConsumerGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
   /** Identifier. The name of the consumer group. The `consumer_group` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/consumerGroups/{consumer_group} */
   name: string;
-  /** Request body */
-  body?: ConsumerGroup | undefined;
 }
-export interface PatchProjectsLocationsClustersTopicsRequest {
+export interface PatchProjectsLocationsClustersTopicsRequest extends Omit<Topic, "name"> {
   /** Identifier. The name of the topic. The `topic` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Topic resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Topic | undefined;
 }
-export interface PatchProjectsLocationsConnectClustersRequest {
+export interface PatchProjectsLocationsConnectClustersRequest extends Omit<ConnectCluster, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the Kafka Connect cluster. Structured like: projects/{project_number}/locations/{location}/connectClusters/{connect_cluster_id} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ConnectCluster | undefined;
 }
-export interface PatchProjectsLocationsConnectClustersConnectorsRequest {
+export interface PatchProjectsLocationsConnectClustersConnectorsRequest extends Omit<
+  Connector,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
   /** Identifier. The name of the connector. Structured like: projects/{project}/locations/{location}/connectClusters/{connect_cluster}/connectors/{connector} */
   name: string;
-  /** Request body */
-  body?: Connector | undefined;
 }
 /** Request for PauseConnector. */
 export type PauseConnectorRequest = CancelOperationRequest;
@@ -1216,11 +1184,9 @@ export interface PauseProjectsLocationsConnectClustersConnectorsRequest {
 }
 /** Response for PauseConnector. */
 export interface PauseConnectorResponse {}
-export interface RemoveAclEntryProjectsLocationsClustersAclsRequest {
+export interface RemoveAclEntryProjectsLocationsClustersAclsRequest extends AclEntry {
   /** Required. The name of the acl to remove the acl entry from. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   acl: string;
-  /** Request body */
-  body?: AclEntry | undefined;
 }
 /** Response for RemoveAclEntry. */
 export interface RemoveAclEntryResponse {
@@ -1274,17 +1240,13 @@ export interface UpdateSchemaConfigRequest {
   /** Optional. If true, the schema will be normalized before being stored or looked up. The default is false. Cannot be unset for a SchemaRegistry-level SchemaConfig. If unset on a SchemaSubject-level SchemaConfig, removes the normalize field for the SchemaConfig. */
   normalize?: boolean | undefined;
 }
-export interface UpdateProjectsLocationsSchemaRegistriesConfigRequest {
+export interface UpdateProjectsLocationsSchemaRegistriesConfigRequest extends UpdateSchemaConfigRequest {
   /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
   name: string;
-  /** Request body */
-  body?: UpdateSchemaConfigRequest | undefined;
 }
-export interface UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest {
+export interface UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest extends UpdateSchemaConfigRequest {
   /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
   name: string;
-  /** Request body */
-  body?: UpdateSchemaConfigRequest | undefined;
 }
 export type UpdateSchemaModeRequestModeEnum = "NONE" | "READONLY" | "READWRITE" | "IMPORT";
 /** Request for updating schema registry or subject mode. */
@@ -1292,17 +1254,13 @@ export interface UpdateSchemaModeRequest {
   /** Required. The mode type. */
   mode?: UpdateSchemaModeRequestModeEnum | (string & {}) | undefined;
 }
-export interface UpdateProjectsLocationsSchemaRegistriesContextsModeRequest {
+export interface UpdateProjectsLocationsSchemaRegistriesContextsModeRequest extends UpdateSchemaModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
-  /** Request body */
-  body?: UpdateSchemaModeRequest | undefined;
 }
-export interface UpdateProjectsLocationsSchemaRegistriesModeRequest {
+export interface UpdateProjectsLocationsSchemaRegistriesModeRequest extends UpdateSchemaModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
-  /** Request body */
-  body?: UpdateSchemaModeRequest | undefined;
 }
 export type AddAclEntryProjectsLocationsClustersAclsError =
   | NotFound
@@ -3574,10 +3532,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}",
@@ -3594,12 +3554,14 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(143, __c8, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(143, __c8, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters",
@@ -3786,11 +3748,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          aclId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1266, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1266, __c79, 2),
+          S.Struct({
+            aclId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/acls",
@@ -3804,11 +3768,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          topicId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            topicId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/topics",
@@ -3835,12 +3801,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          connectClusterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(212, __c13, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(212, __c13, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            connectClusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectClusters",
@@ -3897,11 +3865,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(241, __c15, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(241, __c15, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectors",
@@ -3943,10 +3913,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateSchemaRegistryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemaRegistries",
@@ -3971,10 +3943,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -4011,10 +3985,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -5091,10 +5067,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          acl: S.String.pipe(T.Label()),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            acl: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+acl}:addAclEntry",
@@ -5302,10 +5280,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}",
@@ -5358,10 +5338,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}",
@@ -5375,12 +5357,14 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(143, __c8, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(143, __c8, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5394,11 +5378,13 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1266, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1266, __c79, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5412,11 +5398,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(708, __c44, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(708, __c44, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5430,11 +5418,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5448,12 +5438,14 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(212, __c13, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(212, __c13, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5467,11 +5459,13 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(241, __c15, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(241, __c15, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5502,10 +5496,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          acl: S.String.pipe(T.Label()),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            acl: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+acl}:removeAclEntry",
@@ -5543,10 +5539,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}",
@@ -5636,10 +5634,12 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c110, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c110, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -5664,10 +5664,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c110, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c110, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -5681,10 +5683,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -5698,10 +5702,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",

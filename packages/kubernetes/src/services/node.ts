@@ -478,8 +478,20 @@ export interface PatchNodeV1RuntimeClassRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** handler specifies the underlying runtime and configuration that the CRI implementation will use to handle pods of this class. The possible values are specific to the node & CRI configuration. It is assumed that all handlers are available on every node, and handlers of the same name are equivalent on every node. For example, a handler called "runc" might specify that the runc OCI runtime (using native Linux containers) will be used to run the containers in a pod. The Handler must be lowercase, conform to the DNS Label (RFC 1123) requirements, and is immutable. */
+  handler?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** overhead represents the resource overhead associated with running a pod for a given RuntimeClass. For more details, see https://kubernetes.io/docs/concepts/scheduling-eviction/pod-overhead/ */
+  overhead?: T.MergePatch<IoK8sApiNodeV1Overhead> | undefined;
+  /** scheduling holds the scheduling constraints to ensure that pods running with this RuntimeClass are scheduled to nodes that support it. If scheduling is nil, this RuntimeClass is assumed to be supported by all nodes. */
+  scheduling?: T.MergePatch<IoK8sApiNodeV1Scheduling> | undefined;
 }
 export interface ReadNodeV1RuntimeClassRequest {
   /** name of the RuntimeClass */
@@ -1212,7 +1224,13 @@ function __c15(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          handler: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(117, __c7, 5)),
+          overhead: S.optional(__S(118, __c7, 6)),
+          scheduling: S.optional(__S(121, __c7, 9)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}", code: 200 }),
         ),

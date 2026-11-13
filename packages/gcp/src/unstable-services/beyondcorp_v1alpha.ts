@@ -294,11 +294,9 @@ export interface GoogleCloudBeyondcorpSaasplatformSubscriptionsV1alphaSubscripti
   /** Optional. Name of the billing account in the format. e.g. billingAccounts/123456-123456-123456 Required if Subscription is of Paid type. */
   billingAccount?: string | undefined;
 }
-export interface CreateOrganizationsLocationsSubscriptionsRequest {
+export interface CreateOrganizationsLocationsSubscriptionsRequest extends GoogleCloudBeyondcorpSaasplatformSubscriptionsV1alphaSubscription {
   /** Required. The resource name of the subscription location using the form: `organizations/{organization_id}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudBeyondcorpSaasplatformSubscriptionsV1alphaSubscription | undefined;
 }
 /** API operation descriptor. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1alphaServiceDiscoveryApiGatewayOperationDescriptor {
@@ -470,15 +468,13 @@ export interface GoogleCloudBeyondcorpSecuritygatewaysV1alphaSecurityGateway {
   /** Output only. Timestamp when the resource was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsSecurityGatewaysRequest {
+export interface CreateProjectsLocationsSecurityGatewaysRequest extends GoogleCloudBeyondcorpSecuritygatewaysV1alphaSecurityGateway {
   /** Required. The resource project name of the SecurityGateway location using the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
   requestId?: string | undefined;
   /** Optional. User-settable SecurityGateway resource ID. * Must start with a letter. * Must contain between 4-63 characters from `/a-z-/`. * Must end with a number or letter. */
   securityGatewayId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudBeyondcorpSecuritygatewaysV1alphaSecurityGateway | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -575,15 +571,13 @@ export interface GoogleCloudBeyondcorpSecuritygatewaysV1alphaApplication {
   /** Output only. Timestamp when the resource was last modified. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsSecurityGatewaysApplicationsRequest {
+export interface CreateProjectsLocationsSecurityGatewaysApplicationsRequest extends GoogleCloudBeyondcorpSecuritygatewaysV1alphaApplication {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
   requestId?: string | undefined;
   /** Optional. User-settable Application resource ID. * Must start with a letter. * Must contain between 4-63 characters from `/a-z-/`. * Must end with a number or letter. */
   applicationId?: string | undefined;
   /** Required. The resource name of the parent SecurityGateway using the form: `projects/{project_id}/locations/global/securityGateways/{security_gateway_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudBeyondcorpSecuritygatewaysV1alphaApplication | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1457,35 +1451,38 @@ export interface GoogleCloudBeyondcorpSecuritygatewaysV1alphaListApplicationsRes
   /** A list of BeyondCorp Application in the project. */
   applications?: GoogleCloudBeyondcorpSecuritygatewaysV1alphaApplicationList | undefined;
 }
-export interface PatchOrganizationsLocationsSubscriptionsRequest {
+export interface PatchOrganizationsLocationsSubscriptionsRequest extends Omit<
+  GoogleCloudBeyondcorpSaasplatformSubscriptionsV1alphaSubscription,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. Unique resource name of the Subscription. The name is ignored when creating a subscription. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Subscription resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. Mutable fields: seat_count. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudBeyondcorpSaasplatformSubscriptionsV1alphaSubscription | undefined;
 }
-export interface PatchProjectsLocationsSecurityGatewaysRequest {
+export interface PatchProjectsLocationsSecurityGatewaysRequest extends Omit<
+  GoogleCloudBeyondcorpSecuritygatewaysV1alphaSecurityGateway,
+  "name"
+> {
   /** Identifier. Name of the resource. */
   name: string;
   /** Optional. Mutable fields include: display_name, hubs. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudBeyondcorpSecuritygatewaysV1alphaSecurityGateway | undefined;
 }
-export interface PatchProjectsLocationsSecurityGatewaysApplicationsRequest {
+export interface PatchProjectsLocationsSecurityGatewaysApplicationsRequest extends Omit<
+  GoogleCloudBeyondcorpSecuritygatewaysV1alphaApplication,
+  "name"
+> {
   /** Optional. Mutable fields include: display_name. */
   updateMask?: string | undefined;
   /** Identifier. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudBeyondcorpSecuritygatewaysV1alphaApplication | undefined;
 }
 export interface ResolveInstanceConfigProjectsLocationsAppConnectorsRequest {
   /** Required. BeyondCorp AppConnector name using the form: `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector}` */
@@ -1635,111 +1632,79 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAppConnectionsRequest {
+export interface SetIamPolicyProjectsLocationsAppConnectionsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAppConnectorsRequest {
+export interface SetIamPolicyProjectsLocationsAppConnectorsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAppGatewaysRequest {
+export interface SetIamPolicyProjectsLocationsAppGatewaysRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApplicationDomainsRequest {
+export interface SetIamPolicyProjectsLocationsApplicationDomainsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApplicationsRequest {
+export interface SetIamPolicyProjectsLocationsApplicationsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
+export interface SetIamPolicyProjectsLocationsConnectionsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectorsRequest {
+export interface SetIamPolicyProjectsLocationsConnectorsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsSecurityGatewaysRequest {
+export interface SetIamPolicyProjectsLocationsSecurityGatewaysRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsSecurityGatewaysApplicationsRequest {
+export interface SetIamPolicyProjectsLocationsSecurityGatewaysApplicationsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAppConnectionsRequest {
+export interface TestIamPermissionsProjectsLocationsAppConnectionsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAppConnectorsRequest {
+export interface TestIamPermissionsProjectsLocationsAppConnectorsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAppGatewaysRequest {
+export interface TestIamPermissionsProjectsLocationsAppGatewaysRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApplicationDomainsRequest {
+export interface TestIamPermissionsProjectsLocationsApplicationDomainsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApplicationsRequest {
+export interface TestIamPermissionsProjectsLocationsApplicationsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsSecurityGatewaysRequest {
+export interface TestIamPermissionsProjectsLocationsSecurityGatewaysRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsSecurityGatewaysApplicationsRequest {
+export interface TestIamPermissionsProjectsLocationsSecurityGatewaysApplicationsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 export type CancelOrganizationsLocationsOperationsError =
   | NotFound
@@ -3430,12 +3395,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          securityGatewayId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(86, __c5, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(86, __c5, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            securityGatewayId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/securityGateways",
@@ -3575,12 +3542,14 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          applicationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(122, __c7, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(122, __c7, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            applicationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/applications",
@@ -4925,12 +4894,14 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1600, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c100, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -4944,12 +4915,14 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(86, __c5, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(86, __c5, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -4963,12 +4936,14 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(122, __c7, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(122, __c7, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -5192,10 +5167,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5220,10 +5197,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5237,10 +5216,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5254,10 +5235,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5271,10 +5254,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5288,10 +5273,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5391,10 +5378,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5408,10 +5397,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5425,10 +5416,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -5444,10 +5437,12 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1456, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1456, __c91, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -5471,10 +5466,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1456, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1456, __c91, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -5488,10 +5485,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1456, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1456, __c91, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -5505,10 +5504,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1456, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1456, __c91, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -5522,10 +5523,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1456, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1456, __c91, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -5539,10 +5542,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1456, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1456, __c91, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -5556,10 +5561,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1456, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1456, __c91, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -5600,10 +5607,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c100, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/subscriptions",

@@ -387,11 +387,9 @@ export interface InsertPromotionRequest {
   /** Required. The data source of the [promotion](https://support.google.com/merchants/answer/6396268?sjid=5155774230887277618-NC) Format: `accounts/{account}/dataSources/{datasource}`. */
   dataSource?: string | undefined;
 }
-export interface InsertAccountsPromotionsRequest {
+export interface InsertAccountsPromotionsRequest extends InsertPromotionRequest {
   /** Required. The account where the promotion will be inserted. Format: accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: InsertPromotionRequest | undefined;
 }
 export interface ListAccountsPromotionsRequest {
   /** Required. The account to list processed promotions for. Format: `accounts/{account}` */
@@ -622,10 +620,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "InsertPromotionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c2, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "promotions/v1/{+parent}/promotions:insert",

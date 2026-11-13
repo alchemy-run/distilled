@@ -116,13 +116,11 @@ export interface Repository {
   /** Output only. The time when the repository was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesRequest {
+export interface CreateProjectsLocationsRepositoriesRequest extends Repository {
   /** Required. The name of the parent resource where the repository will be created. */
   parent: string;
   /** Required. The repository id to use for this repository. */
   repositoryId?: string | undefined;
-  /** Request body */
-  body?: Repository | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -155,13 +153,11 @@ export interface Tag {
   /** The name of the version the tag refers to, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811` If the package or version ID parts contain slashes, the slashes are escaped. */
   version?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest {
+export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest extends Tag {
   /** The name of the parent resource where the tag will be created. */
   parent: string;
   /** The tag id to use for this repository. */
   tagId?: string | undefined;
-  /** Request body */
-  body?: Tag | undefined;
 }
 export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. The name of the repository to delete. */
@@ -431,43 +427,35 @@ export interface ListVersionsResponse {
   /** The token to retrieve the next page of versions, or empty if there are no more versions to return. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesRequest {
+export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Repository | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest {
+export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest extends Omit<Tag, "name"> {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
   name: string;
-  /** Request body */
-  body?: Tag | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
+export interface SetIamPolicyProjectsLocationsRepositoriesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
+export interface TestIamPermissionsProjectsLocationsRepositoriesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1389,11 +1377,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(108, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(108, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1407,11 +1397,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(124, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(124, __c31, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1431,10 +1423,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(92, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(92, __c23, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1454,10 +1448,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c24, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -1471,11 +1467,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(108, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(108, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/repositories",
@@ -1544,11 +1542,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          tagId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(124, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(124, __c31, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            tagId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tags",

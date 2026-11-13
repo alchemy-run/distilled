@@ -167,10 +167,7 @@ export interface Folder {
   /** Output only. A checksum computed by the server based on the current value of the folder resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
 }
-export interface CreateFoldersRequest {
-  /** Request body */
-  body?: Folder | undefined;
-}
+export interface CreateFoldersRequest extends Folder {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -227,13 +224,11 @@ export interface Boundary {
   /** Output only. The creation time of the Boundary. */
   createTime?: string | undefined;
 }
-export interface CreateFoldersBoundariesRequest {
+export interface CreateFoldersBoundariesRequest extends Boundary {
   /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
   parent: string;
   /** Required. The user-assigned ID for the Boundary, which will become the final component of the Boundary's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-boundary-123` */
   boundaryId?: string | undefined;
-  /** Request body */
-  body?: Boundary | undefined;
 }
 export type CapabilityConfigStateEnum = "STATE_UNSPECIFIED" | "ACTIVE";
 export type CapabilityConfigTypesItemEnum =
@@ -264,13 +259,11 @@ export interface CapabilityConfig {
   /** Required. The CapabilityConfig types. */
   types?: CapabilityConfigTypesItemEnumList | undefined;
 }
-export interface CreateFoldersCapabilityConfigsRequest {
+export interface CreateFoldersCapabilityConfigsRequest extends CapabilityConfig {
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
   /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
   capabilityConfigId?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
 /** A Lien represents an encumbrance on the actions that can be performed on a resource. */
 export interface Lien {
@@ -287,25 +280,18 @@ export interface Lien {
   /** Concise user-visible strings indicating why an action cannot be performed on a resource. Maximum length of 200 characters. Example: 'Holds production API key' */
   reason?: string | undefined;
 }
-export interface CreateLiensRequest {
-  /** Request body */
-  body?: Lien | undefined;
-}
-export interface CreateOrganizationsBoundariesRequest {
+export interface CreateLiensRequest extends Lien {}
+export interface CreateOrganizationsBoundariesRequest extends Boundary {
   /** Required. The parent resource under which the Boundary will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` */
   parent: string;
   /** Required. The user-assigned ID for the Boundary, which will become the final component of the Boundary's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-boundary-123` */
   boundaryId?: string | undefined;
-  /** Request body */
-  body?: Boundary | undefined;
 }
-export interface CreateOrganizationsCapabilityConfigsRequest {
+export interface CreateOrganizationsCapabilityConfigsRequest extends CapabilityConfig {
   /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
   capabilityConfigId?: string | undefined;
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
 export type ProjectManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "SELF_MANAGED" | "HUB";
 export type ProjectStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETE_REQUESTED";
@@ -340,17 +326,12 @@ export interface Project {
   /** Output only. The project lifecycle state. */
   state?: ProjectStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsRequest {
-  /** Request body */
-  body?: Project | undefined;
-}
-export interface CreateProjectsCapabilityConfigsRequest {
+export interface CreateProjectsRequest extends Project {}
+export interface CreateProjectsCapabilityConfigsRequest extends CapabilityConfig {
   /** Required. The parent resource under which the CapabilityConfig will be created. Format: `organizations/{organization_id}` or `folders/{folder_id}` or `projects/{project_number}` */
   parent: string;
   /** Required. The user-assigned ID for the CapabilityConfig, which will become the final component of the CapabilityConfig's resource name. Must be unique within the parent resource. It must be 6 to 30 lowercase ASCII letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `my-capability-config-123` */
   capabilityConfigId?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
 /** A TagBinding represents a connection between a TagValue and a cloud resource. When a TagBinding is created, the TagValue is applied to all the descendants of the Google Cloud resource. */
 export interface TagBinding {
@@ -363,11 +344,9 @@ export interface TagBinding {
   /** The TagValue of the TagBinding. Must be of the form `tagValues/456`. */
   tagValue?: string | undefined;
 }
-export interface CreateTagBindingsRequest {
+export interface CreateTagBindingsRequest extends TagBinding {
   /** Optional. Set to true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: TagBinding | undefined;
 }
 export type TagKeyPurposeEnum = "PURPOSE_UNSPECIFIED" | "GCE_FIREWALL" | "DATA_GOVERNANCE";
 /** A TagKey, used to group a set of TagValues. */
@@ -395,11 +374,9 @@ export interface TagKey {
   /** Output only. Immutable. Namespaced name of the TagKey. */
   namespacedName?: string | undefined;
 }
-export interface CreateTagKeysRequest {
+export interface CreateTagKeysRequest extends TagKey {
   /** Optional. Set to true to perform validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: TagKey | undefined;
 }
 /** A TagValue is a child of a particular TagKey. This is used to group cloud resources for the purpose of controlling them using policies. */
 export interface TagValue {
@@ -420,11 +397,9 @@ export interface TagValue {
   /** Immutable. The resource name of the new TagValue's parent TagKey. Must be of the form `tagKeys/{tag_key_id}`. */
   parent?: string | undefined;
 }
-export interface CreateTagValuesRequest {
+export interface CreateTagValuesRequest extends TagValue {
   /** Optional. Set as true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: TagValue | undefined;
 }
 /** A TagHold represents the use of a TagValue that is not captured by TagBindings. If a TagValue has any TagHolds, deletion will be blocked. This resource is intended to be created in the same cloud location as the `holder`. */
 export interface TagHold {
@@ -439,13 +414,11 @@ export interface TagHold {
   /** Output only. The time this TagHold was created. */
   createTime?: string | undefined;
 }
-export interface CreateTagValuesTagHoldsRequest {
+export interface CreateTagValuesTagHoldsRequest extends TagHold {
   /** Optional. Set to true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the TagHold's parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
   parent: string;
-  /** Request body */
-  body?: TagHold | undefined;
 }
 export interface DeleteFoldersRequest {
   /** Required. The resource name of the folder to be deleted. Must be of the form `folders/{folder_id}`. */
@@ -570,11 +543,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyFoldersRequest {
+export interface GetIamPolicyFoldersRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -629,29 +600,21 @@ export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
 }
-export interface GetIamPolicyOrganizationsRequest {
+export interface GetIamPolicyOrganizationsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsRequest {
+export interface GetIamPolicyProjectsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyTagKeysRequest {
+export interface GetIamPolicyTagKeysRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyTagValuesRequest {
+export interface GetIamPolicyTagValuesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetLiensRequest {
   /** Required. The name/identifier of the Lien. */
@@ -955,114 +918,91 @@ export interface MoveFolderRequest {
   /** Required. The resource name of the folder or organization which should be the folder's new parent. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
   destinationParent?: string | undefined;
 }
-export interface MoveFoldersRequest {
+export interface MoveFoldersRequest extends MoveFolderRequest {
   /** Required. The resource name of the Folder to move. Must be of the form folders/{folder_id} */
   name: string;
-  /** Request body */
-  body?: MoveFolderRequest | undefined;
 }
 /** The request sent to MoveProject method. */
 export interface MoveProjectRequest {
   /** Required. The new parent to move the Project under. */
   destinationParent?: string | undefined;
 }
-export interface MoveProjectsRequest {
+export interface MoveProjectsRequest extends MoveProjectRequest {
   /** Required. The name of the project to move. */
   name: string;
-  /** Request body */
-  body?: MoveProjectRequest | undefined;
 }
-export interface PatchFoldersRequest {
+export interface PatchFoldersRequest extends Omit<Folder, "name"> {
   /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
   name: string;
   /** Required. Fields to be updated. Only the `display_name` can be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
-export interface PatchFoldersBoundariesRequest {
+export interface PatchFoldersBoundariesRequest extends Omit<Boundary, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
-  /** Request body */
-  body?: Boundary | undefined;
 }
-export interface PatchFoldersCapabilitiesRequest {
+export interface PatchFoldersCapabilitiesRequest extends Omit<Capability, "name"> {
   /** Optional. The list of fields to update. Only [Capability.value] can be updated. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
   name: string;
-  /** Request body */
-  body?: Capability | undefined;
 }
-export interface PatchFoldersCapabilityConfigsRequest {
+export interface PatchFoldersCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
-export interface PatchLocationsTagBindingCollectionsRequest {
+export interface PatchLocationsTagBindingCollectionsRequest extends Omit<
+  TagBindingCollection,
+  "name"
+> {
   /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
   name: string;
   /** Optional. An update mask to selectively update fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TagBindingCollection | undefined;
 }
-export interface PatchOrganizationsBoundariesRequest {
+export interface PatchOrganizationsBoundariesRequest extends Omit<Boundary, "name"> {
   /** Identifier. The unique resource name of the Boundary. Format: - `organizations/{organization_id}/boundaries/{boundary_id}` - `folders/{folder_id}/boundaries/{boundary_id}` Example: `folders/123456789/boundaries/my-boundary` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Boundary | undefined;
 }
-export interface PatchOrganizationsCapabilityConfigsRequest {
+export interface PatchOrganizationsCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
-export interface PatchProjectsRequest {
+export interface PatchProjectsRequest extends Omit<Project, "name"> {
   /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
   name: string;
   /** Optional. An update mask to selectively update fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Project | undefined;
 }
-export interface PatchProjectsCapabilityConfigsRequest {
+export interface PatchProjectsCapabilityConfigsRequest extends Omit<CapabilityConfig, "name"> {
   /** Identifier. The unique resource name of the CapabilityConfig. Format: `organizations/{organization}/capabilityConfigs/{capabilityConfig}` or, `folders/{folder}/capabilityConfigs/{capabilityConfig}` or, `projects/{project}/capabilityConfigs/{capabilityConfig}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CapabilityConfig | undefined;
 }
-export interface PatchTagKeysRequest {
+export interface PatchTagKeysRequest extends Omit<TagKey, "name"> {
   /** Set as true to perform validations necessary for updating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
   /** Fields to be updated. The mask may only contain `description` or `etag`. If omitted entirely, both `description` and `etag` are assumed to be significant. */
   updateMask?: string | undefined;
   /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
   name: string;
-  /** Request body */
-  body?: TagKey | undefined;
 }
-export interface PatchTagValuesRequest {
+export interface PatchTagValuesRequest extends Omit<TagValue, "name"> {
   /** Optional. True to perform validations necessary for updating the resource, but not actually perform the action. */
   validateOnly?: boolean | undefined;
   /** Optional. Fields to be updated. */
   updateMask?: string | undefined;
   /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
   name: string;
-  /** Request body */
-  body?: TagValue | undefined;
 }
 export interface SearchFoldersRequest {
   /** Optional. Search criteria used to select the folders to return. If no search criteria is specified then all accessible folders will be returned. Query expressions can be used to restrict results based upon displayName, state and parent, where the operators `=` (`:`) `NOT`, `AND` and `OR` can be used along with the suffix wildcard symbol `*`. The `displayName` field in a query expression should use escaped quotes for values that include whitespace to prevent unexpected behavior. ``` | Field | Description | |-------------------------|----------------------------------------| | displayName | Filters by displayName. | | parent | Filters by parent (for example: folders/123). | | state, lifecycleState | Filters by state. | ``` Some example queries are: * Query `displayName=Test*` returns Folder resources whose display name starts with "Test". * Query `state=ACTIVE` returns Folder resources with `state` set to `ACTIVE`. * Query `parent=folders/123` returns Folder resources that have `folders/123` as a parent resource. * Query `parent=folders/123 AND state=ACTIVE` returns active Folder resources that have `folders/123` as a parent resource. * Query `displayName=\\"Test String\\"` returns Folder resources with display names that include both "Test" and "String". */
@@ -1117,75 +1057,55 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyFoldersRequest {
+export interface SetIamPolicyFoldersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyOrganizationsRequest {
+export interface SetIamPolicyOrganizationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsRequest {
+export interface SetIamPolicyProjectsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyTagKeysRequest {
+export interface SetIamPolicyTagKeysRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyTagValuesRequest {
+export interface SetIamPolicyTagValuesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsFoldersRequest {
+export interface TestIamPermissionsFoldersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsRequest {
+export interface TestIamPermissionsOrganizationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsRequest {
+export interface TestIamPermissionsProjectsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTagKeysRequest {
+export interface TestIamPermissionsTagKeysRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTagValuesRequest {
+export interface TestIamPermissionsTagValuesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** The UndeleteFolder request message. */
 export interface UndeleteFolderRequest {}
@@ -1203,21 +1123,17 @@ export interface UndeleteProjectsRequest {
   /** Request body */
   body?: UndeleteFolderRequest | undefined;
 }
-export interface UpdateBoundaryConfigFoldersRequest {
+export interface UpdateBoundaryConfigFoldersRequest extends Omit<BoundaryConfig, "name"> {
   /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BoundaryConfig | undefined;
 }
-export interface UpdateBoundaryConfigOrganizationsRequest {
+export interface UpdateBoundaryConfigOrganizationsRequest extends Omit<BoundaryConfig, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The unique resource name of the BoundaryConfig. Format: - `organizations/{organization}/boundaryConfig` - `folders/{folder}/boundaryConfig` Example: `folders/123456789/boundaryConfig` */
   name: string;
-  /** Request body */
-  body?: BoundaryConfig | undefined;
 }
 export type CreateFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a folder in the resource hierarchy. Returns an `Operation` which can be used to track the progress of the folder creation workflow. Upon success, the `Operation.response` field will be populated with the created Folder. In order to succeed, the addition of this new folder must not violate the folder naming, height, or fanout constraints. + The folder's `display_name` must be distinct from all other folders that share its parent. + The addition of the folder must not cause the active folder hierarchy to exceed a height of 10. Note, the full active + deleted folder hierarchy is allowed to reach a height of 20; this provides additional headroom when moving folders that contain deleted folders. + The addition of the folder must not cause the total number of folders under its parent to exceed 300. If the operation fails due to a folder constraint violation, some errors may be returned by the `CreateFolder` request, with status code `FAILED_PRECONDITION` and an error description. Other folder constraint violations will be communicated in the `Operation`, with the specific `PreconditionFailure` returned in the details list in the `Operation.error` field. The caller must have `resourcemanager.folders.create` permission on the identified parent. */
@@ -3041,11 +2957,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/capabilityConfigs",
@@ -3079,9 +2997,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(24, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/liens",
@@ -3110,11 +3026,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          boundaryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            boundaryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/boundaries",
@@ -3128,11 +3046,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/capabilityConfigs",
@@ -3146,9 +3066,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(56, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/projects",
@@ -3185,11 +3103,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          capabilityConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            capabilityConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/capabilityConfigs",
@@ -3203,10 +3123,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c10, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/tagBindings",
@@ -3233,10 +3155,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/tagKeys",
@@ -3270,10 +3194,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/tagValues",
@@ -3304,11 +3230,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/tagHolds",
@@ -3682,10 +3610,12 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3765,10 +3695,12 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3782,10 +3714,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3799,10 +3733,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -3816,10 +3752,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c40, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:getIamPolicy",
@@ -4433,10 +4371,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(632, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(632, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}:move",
@@ -4460,10 +4400,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(632, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(632, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}:move",
@@ -4477,11 +4419,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(736, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c92, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4495,11 +4439,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4513,11 +4459,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4531,11 +4479,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4549,11 +4499,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(392, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(392, __c49, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4567,11 +4519,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4585,11 +4539,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4603,11 +4559,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4621,9 +4579,7 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(736, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(736, __c92, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/folders",
@@ -4695,11 +4651,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4713,12 +4671,14 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4732,12 +4692,14 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -4821,10 +4783,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4849,10 +4813,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4866,10 +4832,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4883,10 +4851,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4900,11 +4870,13 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          boundaryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c106, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c106, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            boundaryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/boundaries",
@@ -4948,10 +4920,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(808, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(808, __c101, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:setIamPolicy",
@@ -4965,10 +4939,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -4992,10 +4968,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5009,10 +4987,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5026,10 +5006,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5043,10 +5025,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(872, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(872, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+resource}:testIamPermissions",
@@ -5094,11 +5078,13 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5112,11 +5098,13 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c32, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",

@@ -590,13 +590,11 @@ export interface Connection {
   /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
   asyncOperationsEnabled?: boolean | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
+export interface CreateProjectsLocationsConnectionsRequest extends Connection {
   /** Required. Identifier to assign to the Connection. Must be unique within scope of the parent resource. */
   connectionId?: string | undefined;
   /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
   parent: string;
-  /** Request body */
-  body?: Connection | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -830,13 +828,11 @@ export interface EndUserAuthentication {
   /** Output only. Created time. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest {
+export interface CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest extends EndUserAuthentication {
   /** Required. Parent resource of the EndUserAuthentication, of the form: `projects/*\/locations/*\/connections/*` */
   parent: string;
   /** Required. Identifier to assign to the EndUserAuthentication. Must be unique within scope of the parent resource. */
   endUserAuthenticationId?: string | undefined;
-  /** Request body */
-  body?: EndUserAuthentication | undefined;
 }
 /** Header details for a given header to be added to Endpoint. */
 export interface Header {
@@ -927,13 +923,11 @@ export interface EventSubscription {
   /** Optional. Status indicates the status of the event subscription resource */
   status?: EventSubscriptionStatus | undefined;
 }
-export interface CreateProjectsLocationsConnectionsEventSubscriptionsRequest {
+export interface CreateProjectsLocationsConnectionsEventSubscriptionsRequest extends EventSubscription {
   /** Required. Identifier to assign to the Event Subscription. Must be unique within scope of the parent resource. */
   eventSubscriptionId?: string | undefined;
   /** Required. Parent resource of the EventSubscription, of the form: `projects/*\/locations/*\/connections/*` */
   parent: string;
-  /** Request body */
-  body?: EventSubscription | undefined;
 }
 export type EndpointAttachmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -965,13 +959,11 @@ export interface EndpointAttachment {
   /** Optional. Description of the resource. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsEndpointAttachmentsRequest {
+export interface CreateProjectsLocationsEndpointAttachmentsRequest extends EndpointAttachment {
   /** Required. Parent resource of the EndpointAttachment, of the form: `projects/*\/locations/*` */
   parent: string;
   /** Required. Identifier to assign to the EndpointAttachment. Must be unique within scope of the parent resource. The regex is: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   endpointAttachmentId?: string | undefined;
-  /** Request body */
-  body?: EndpointAttachment | undefined;
 }
 export type CustomConnectorCustomConnectorTypeEnum =
   | "CUSTOM_CONNECTOR_TYPE_UNSPECIFIED"
@@ -1005,13 +997,11 @@ export interface CustomConnector {
   /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalCustomConnectorsRequest {
+export interface CreateProjectsLocationsGlobalCustomConnectorsRequest extends CustomConnector {
   /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/*` */
   parent: string;
   /** Required. Identifier to assign to the CreateCustomConnector. Must be unique within scope of the parent resource. */
   customConnectorId?: string | undefined;
-  /** Request body */
-  body?: CustomConnector | undefined;
 }
 export type PublishStatusPublishStateEnum =
   | "PUBLISH_STATE_UNSPECIFIED"
@@ -1276,13 +1266,11 @@ export interface CustomConnectorVersion {
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest {
+export interface CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest extends CustomConnectorVersion {
   /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}` */
   parent: string;
   /** Required. Identifier to assign to the CreateCustomConnectorVersion. Must be unique within scope of the parent resource. */
   customConnectorVersionId?: string | undefined;
-  /** Request body */
-  body?: CustomConnectorVersion | undefined;
 }
 /** represents the Connector's Managed Zone resource */
 export interface ManagedZone {
@@ -1303,13 +1291,11 @@ export interface ManagedZone {
   /** Required. The name of the Target Project */
   targetProject?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalManagedZonesRequest {
+export interface CreateProjectsLocationsGlobalManagedZonesRequest extends ManagedZone {
   /** Required. Parent resource of the ManagedZone, of the form: `projects/*\/locations/global` */
   parent: string;
   /** Required. Identifier to assign to the ManagedZone. Must be unique within scope of the parent resource. */
   managedZoneId?: string | undefined;
-  /** Request body */
-  body?: ManagedZone | undefined;
 }
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*` */
@@ -1466,11 +1452,9 @@ export interface FetchConnectionToolspecOverrideRequest {
   /** Required. List of tools for which the tool spec override is to be generated. */
   toolNames?: ToolNameList | undefined;
 }
-export interface FetchToolspecOverrideProjectsLocationsConnectionsRequest {
+export interface FetchToolspecOverrideProjectsLocationsConnectionsRequest extends FetchConnectionToolspecOverrideRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
-  /** Request body */
-  body?: FetchConnectionToolspecOverrideRequest | undefined;
 }
 /** Toolspec overrides for a connection only holds the information that is to be displayed in the UI for admins. */
 export interface ToolspecOverride {
@@ -1490,11 +1474,9 @@ export interface FetchConnectionToolspecOverrideResponse {
 }
 /** Request message for GenerateConnectionToolspecOverride API. */
 export type GenerateConnectionToolspecOverrideRequest = FetchConnectionToolspecOverrideRequest;
-export interface GenerateToolspecOverrideProjectsLocationsConnectionsRequest {
+export interface GenerateToolspecOverrideProjectsLocationsConnectionsRequest extends FetchConnectionToolspecOverrideRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
-  /** Request body */
-  body?: FetchConnectionToolspecOverrideRequest | undefined;
 }
 /** Response message for GenerateConnectionToolspecOverride API. */
 export interface GenerateConnectionToolspecOverrideResponse {
@@ -2540,11 +2522,9 @@ export interface ListenEventRequest {
   /** Optional. Request payload. */
   payload?: DocumentMap | undefined;
 }
-export interface ListenEventProjectsLocationsConnectionsRequest {
+export interface ListenEventProjectsLocationsConnectionsRequest extends ListenEventRequest {
   /** Required. Resource path for request. */
   resourcePath: string;
-  /** Request body */
-  body?: ListenEventRequest | undefined;
 }
 /** Expected response for ListenEvent API. */
 export interface ListenEventResponse {}
@@ -2984,75 +2964,71 @@ export interface ModifyConnectionToolspecOverrideRequest {
   /** Required. Toolspec overrides to be modified. */
   toolspecOverride?: ToolspecOverride | undefined;
 }
-export interface ModifyToolspecOverrideProjectsLocationsConnectionsRequest {
+export interface ModifyToolspecOverrideProjectsLocationsConnectionsRequest extends ModifyConnectionToolspecOverrideRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
-  /** Request body */
-  body?: ModifyConnectionToolspecOverrideRequest | undefined;
 }
 /** Response message for ModifyConnectionToolspecOverride API. */
 export interface ModifyConnectionToolspecOverrideResponse {
   /** Toolspec overrides for the connection. */
   toolspecOverrides?: ToolspecOverride | undefined;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends Omit<Connection, "name"> {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the connection. A field will be overwritten if it is in the mask. The field mask must not be empty, and it must not contain fields that are immutable or only set by the server. You can modify only the fields listed below. To lock/unlock a connection: * `lock_config` To suspend/resume a connection: * `suspended` To update the connection details: * `description` * `labels` * `connector_version` * `config_variables` * `auth_config` * `destination_configs` * `node_config` * `log_config` * `ssl_config` * `eventing_enablement_type` * `eventing_config` * `auth_override_enabled` * `async_operations_enabled` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Connection | undefined;
 }
-export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest {
+export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest extends Omit<
+  EndUserAuthentication,
+  "name"
+> {
   /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
   name: string;
   /** Required. The list of fields to update. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EndUserAuthentication details: * `notify_endpoint_destination` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EndUserAuthentication | undefined;
 }
-export interface PatchProjectsLocationsConnectionsEventSubscriptionsRequest {
+export interface PatchProjectsLocationsConnectionsEventSubscriptionsRequest extends Omit<
+  EventSubscription,
+  "name"
+> {
   /** Required. The list of fields to update. Fields are specified relative to the Subscription. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EventSubscription details: * `serviceAccount` */
   updateMask?: string | undefined;
   /** Required. Identifier. Resource name of the EventSubscription. Format: projects/{project}/locations/{location}/connections/{connection}/eventSubscriptions/{event_subscription} */
   name: string;
-  /** Request body */
-  body?: EventSubscription | undefined;
 }
-export interface PatchProjectsLocationsEndpointAttachmentsRequest {
+export interface PatchProjectsLocationsEndpointAttachmentsRequest extends Omit<
+  EndpointAttachment,
+  "name"
+> {
   /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the endpointAttachment. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the endpointAttachment details: * `description` * `labels` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EndpointAttachment | undefined;
 }
-export interface PatchProjectsLocationsGlobalCustomConnectorsRequest {
+export interface PatchProjectsLocationsGlobalCustomConnectorsRequest extends Omit<
+  CustomConnector,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. Set the mask as "*" for full replacement, which means all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
   name: string;
-  /** Request body */
-  body?: CustomConnector | undefined;
 }
-export interface PatchProjectsLocationsGlobalManagedZonesRequest {
+export interface PatchProjectsLocationsGlobalManagedZonesRequest extends Omit<ManagedZone, "name"> {
   /** Required. The list of fields to update. Fields are specified relative to the managedZone. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the managedZone details: * `description` * `labels` * `target_project` * `target_network` */
   updateMask?: string | undefined;
   /** Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
   name: string;
-  /** Request body */
-  body?: ManagedZone | undefined;
 }
 /** Request message for ConnectorsService.PublishCustomConnectorVersion */
 export interface PublishCustomConnectorVersionRequest {
   /** Required. Partner metadata details for validating and publishing the custom connector as a partner connector version. */
   partnerMetadata?: PartnerMetadata | undefined;
 }
-export interface PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest {
+export interface PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest extends PublishCustomConnectorVersionRequest {
   /** Required. Resource name of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version}` */
   name: string;
-  /** Request body */
-  body?: PublishCustomConnectorVersionRequest | undefined;
 }
 /** Request message for ConnectorsService.RefreshConnectionSchemaMetadata. */
 export type RefreshConnectionSchemaMetadataRequest = CancelOperationRequest;
@@ -3122,55 +3098,46 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
+export interface SetIamPolicyProjectsLocationsConnectionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsProvidersRequest {
+export interface SetIamPolicyProjectsLocationsProvidersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
+export interface TestIamPermissionsProjectsLocationsConnectionsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsProvidersRequest {
+export interface TestIamPermissionsProjectsLocationsProvidersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdateRegionalSettingsProjectsLocationsRequest {
+export interface UpdateRegionalSettingsProjectsLocationsRequest extends Omit<
+  RegionalSettings,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
   name: string;
-  /** Request body */
-  body?: RegionalSettings | undefined;
 }
-export interface UpdateSettingsProjectsLocationsGlobalRequest {
+export interface UpdateSettingsProjectsLocationsGlobalRequest extends Omit<Settings, "name"> {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/global/settings} */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
 }
 export type ValidateCustomConnectorSpecRequestSpecTypeEnum =
   | "CUSTOM_CONNECTOR_TYPE_UNSPECIFIED"
@@ -3186,11 +3153,9 @@ export interface ValidateCustomConnectorSpecRequest {
   /** Required. Spec type of the custom connector spec. */
   specType?: ValidateCustomConnectorSpecRequestSpecTypeEnum | (string & {}) | undefined;
 }
-export interface ValidateCustomConnectorSpecProjectsLocationsCustomConnectorsRequest {
+export interface ValidateCustomConnectorSpecProjectsLocationsCustomConnectorsRequest extends ValidateCustomConnectorSpecRequest {
   /** Required. Location at which the custom connector is being created. */
   parent: string;
-  /** Request body */
-  body?: ValidateCustomConnectorSpecRequest | undefined;
 }
 /** Response message for ConnectorsService.ValidateCustomConnectorSpec */
 export interface ValidateCustomConnectorSpecResponse {
@@ -5024,11 +4989,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customConnectorVersionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customConnectorVersionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customConnectorVersions",
@@ -5221,11 +5188,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          managedZoneId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            managedZoneId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/managedZones",
@@ -5486,10 +5455,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:fetchToolspecOverride",
@@ -5542,10 +5513,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateToolspecOverride",
@@ -6478,10 +6451,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ListenEventRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourcePath: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            resourcePath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resourcePath}:listenEvent",
@@ -6619,11 +6594,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          connectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2067, __c64, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2067, __c64, 19),
+          S.Struct({
+            connectionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connections",
@@ -7339,11 +7316,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endUserAuthenticationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2768, __c86, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c86, 16),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            endUserAuthenticationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/endUserAuthentications",
@@ -7597,10 +7576,12 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(577, __c18, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:modifyToolspecOverride",
@@ -7620,11 +7601,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2067, __c64, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2067, __c64, 19),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7638,11 +7621,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2768, __c86, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c86, 16),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7656,11 +7641,13 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3142, __c98, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3142, __c98, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7674,11 +7661,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3584, __c112, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3584, __c112, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7692,11 +7681,13 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3776, __c118, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3776, __c118, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7710,11 +7701,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7728,11 +7721,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          eventSubscriptionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3142, __c98, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3142, __c98, 6),
+          S.Struct({
+            eventSubscriptionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/eventSubscriptions",
@@ -7813,10 +7808,12 @@ function __c99(j: number): any {
       ).annotate({ identifier: "PublishCustomConnectorVersionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3168, __c99, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3168, __c99, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:publish",
@@ -7939,10 +7936,12 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7967,10 +7966,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7984,10 +7985,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8011,10 +8014,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8028,11 +8033,13 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endpointAttachmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3584, __c112, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3584, __c112, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            endpointAttachmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/endpointAttachments",
@@ -8064,11 +8071,13 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1506, __c47, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1506, __c47, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8082,11 +8091,13 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8108,10 +8119,12 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ValidateCustomConnectorSpecRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3680, __c115, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3680, __c115, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customConnectors:validateCustomConnectorSpec",
@@ -8152,11 +8165,13 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customConnectorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3776, __c118, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3776, __c118, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customConnectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customConnectors",

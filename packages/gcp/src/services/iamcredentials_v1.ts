@@ -92,11 +92,9 @@ export interface GenerateAccessTokenRequest {
   /** The sequence of service accounts in a delegation chain. This field is required for [delegated requests](https://cloud.google.com/iam/help/credentials/delegated-request). For [direct requests](https://cloud.google.com/iam/help/credentials/direct-request), which are more common, do not specify this field. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   delegates?: StringList | undefined;
 }
-export interface GenerateAccessTokenProjectsServiceAccountsRequest {
+export interface GenerateAccessTokenProjectsServiceAccountsRequest extends GenerateAccessTokenRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
-  /** Request body */
-  body?: GenerateAccessTokenRequest | undefined;
 }
 export interface GenerateAccessTokenResponse {
   /** The OAuth 2.0 access token. */
@@ -114,11 +112,9 @@ export interface GenerateIdTokenRequest {
   /** Include the service account email in the token. If set to `true`, the token will contain `email` and `email_verified` claims. */
   includeEmail?: boolean | undefined;
 }
-export interface GenerateIdTokenProjectsServiceAccountsRequest {
+export interface GenerateIdTokenProjectsServiceAccountsRequest extends GenerateIdTokenRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
-  /** Request body */
-  body?: GenerateIdTokenRequest | undefined;
 }
 export interface GenerateIdTokenResponse {
   /** The OpenId Connect ID token. The token is a JSON Web Token (JWT) that contains a payload with claims. See the [JSON Web Token spec](https://tools.ietf.org/html/rfc7519) for more information. Here is an example of a decoded JWT payload: ``` { "iss": "https://accounts.google.com", "iat": 1496953245, "exp": 1496953245, "aud": "https://www.example.com", "sub": "107517467455664443765", "azp": "107517467455664443765", "email": "my-iam-account@my-project.iam.gserviceaccount.com", "email_verified": true, "google": { "organization_number": 123456 } } ``` */
@@ -163,11 +159,9 @@ export interface SignBlobRequest {
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   delegates?: StringList | undefined;
 }
-export interface SignBlobProjectsServiceAccountsRequest {
+export interface SignBlobProjectsServiceAccountsRequest extends SignBlobRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
-  /** Request body */
-  body?: SignBlobRequest | undefined;
 }
 export interface SignBlobResponse {
   /** The ID of the key used to sign the blob. The key used for signing will remain valid for at least 12 hours after the blob is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
@@ -181,11 +175,9 @@ export interface SignJwtRequest {
   /** Required. The JWT payload to sign. Must be a serialized JSON object that contains a JWT Claims Set. For example: `{"sub": "user@example.com", "iat": 313435}` If the JWT Claims Set contains an expiration time (`exp`) claim, it must be an integer timestamp that is not in the past and no more than 12 hours in the future. */
   payload?: string | undefined;
 }
-export interface SignJwtProjectsServiceAccountsRequest {
+export interface SignJwtProjectsServiceAccountsRequest extends SignJwtRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
-  /** Request body */
-  body?: SignJwtRequest | undefined;
 }
 export interface SignJwtResponse {
   /** The ID of the key used to sign the JWT. The key used for signing will remain valid for at least 12 hours after the JWT is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
@@ -351,10 +343,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "SignJwtRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:signJwt",
@@ -383,10 +377,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GenerateAccessTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateAccessToken",
@@ -422,10 +418,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GenerateIdTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateIdToken",
@@ -520,10 +518,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SignBlobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:signBlob",

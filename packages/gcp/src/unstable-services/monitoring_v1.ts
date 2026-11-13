@@ -92,11 +92,9 @@ export interface MonitoredProject {
   /** Output only. Set if the project has been tombstoned by the user. */
   isTombstoned?: boolean | undefined;
 }
-export interface CreateLocationsGlobalMetricsScopesProjectsRequest {
+export interface CreateLocationsGlobalMetricsScopesProjectsRequest extends MonitoredProject {
   /** Required. The resource name of the existing Metrics Scope that will monitor this project. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER} */
   parent: string;
-  /** Request body */
-  body?: MonitoredProject | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -950,13 +948,11 @@ export interface Dashboard {
   /** Labels applied to the dashboard */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsDashboardsRequest {
+export interface CreateProjectsDashboardsRequest extends Dashboard {
   /** Required. The project on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] The [PROJECT_ID_OR_NUMBER] must match the dashboard resource name. */
   parent: string;
   /** If set, validate the request and preview the review, but do not actually save it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Dashboard | undefined;
 }
 export interface DeleteLocationsGlobalMetricsScopesProjectsRequest {
   /** Required. The resource name of the MonitoredProject. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER}/projects/{MONITORED_PROJECT_ID_OR_NUMBER}Authorization requires the following Google IAM (https://cloud.google.com/iam) permissions on both the Metrics Scope and on the MonitoredProject: monitoring.metricsScopes.link */
@@ -999,13 +995,11 @@ export interface QueryLabelsRequest {
   /** A list of matchers encoded in the Prometheus label matcher format to constrain the values to series that satisfy them. */
   match?: string | undefined;
 }
-export interface LabelsProjectsLocationPrometheusApiV1Request {
+export interface LabelsProjectsLocationPrometheusApiV1Request extends QueryLabelsRequest {
   /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
   name: string;
   /** Location of the resource information. Has to be "global" now. */
   location: string;
-  /** Request body */
-  body?: QueryLabelsRequest | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page.This message can be used both in streaming and non-streaming API methods in the request as well as the response.It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body.Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -1052,13 +1046,11 @@ export interface ListProjectsLocationPrometheusApiV1MetadataRequest {
   /** Maximum number of metrics to return. */
   limit?: string | undefined;
 }
-export interface PatchProjectsDashboardsRequest {
+export interface PatchProjectsDashboardsRequest extends Omit<Dashboard, "name"> {
   /** If set, validate the request and preview the review, but do not actually save it. */
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the dashboard. */
   name: string;
-  /** Request body */
-  body?: Dashboard | undefined;
 }
 /** QueryExemplarsRequest holds all parameters of the Prometheus upstream API for querying exemplars. */
 export interface QueryExemplarsRequest {
@@ -1069,13 +1061,11 @@ export interface QueryExemplarsRequest {
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   start?: string | undefined;
 }
-export interface Query_exemplarsProjectsLocationPrometheusApiV1Request {
+export interface Query_exemplarsProjectsLocationPrometheusApiV1Request extends QueryExemplarsRequest {
   /** Location of the resource information. Has to be "global" now. */
   location: string;
   /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
   name: string;
-  /** Request body */
-  body?: QueryExemplarsRequest | undefined;
 }
 /** QueryRangeRequest holds all parameters of the Prometheus upstream range query API plus GCM specific parameters. */
 export interface QueryRangeRequest {
@@ -1090,13 +1080,11 @@ export interface QueryRangeRequest {
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   start?: string | undefined;
 }
-export interface Query_rangeProjectsLocationPrometheusApiV1Request {
+export interface Query_rangeProjectsLocationPrometheusApiV1Request extends QueryRangeRequest {
   /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
   name: string;
   /** Location of the resource information. Has to be "global" now. */
   location: string;
-  /** Request body */
-  body?: QueryRangeRequest | undefined;
 }
 /** QueryInstantRequest holds all parameters of the Prometheus upstream instant query API plus GCM specific parameters. */
 export interface QueryInstantRequest {
@@ -1107,13 +1095,11 @@ export interface QueryInstantRequest {
   /** An upper bound timeout for the query. Either a Prometheus duration string (https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations) or floating point seconds. This non-standard encoding must be used for compatibility with the open source API. Clients may still implement timeouts at the connection level while ignoring this field. */
   timeout?: string | undefined;
 }
-export interface QueryProjectsLocationPrometheusApiV1Request {
+export interface QueryProjectsLocationPrometheusApiV1Request extends QueryInstantRequest {
   /** Location of the resource information. Has to be "global" now. */
   location: string;
   /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
   name: string;
-  /** Request body */
-  body?: QueryInstantRequest | undefined;
 }
 /** QuerySeries holds all parameters of the Prometheus upstream API for querying series. */
 export interface QuerySeriesRequest {
@@ -1122,13 +1108,11 @@ export interface QuerySeriesRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   end?: string | undefined;
 }
-export interface SeriesProjectsLocationPrometheusApiV1Request {
+export interface SeriesProjectsLocationPrometheusApiV1Request extends QuerySeriesRequest {
   /** Location of the resource information. Has to be "global" for now. */
   location: string;
   /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
   name: string;
-  /** Request body */
-  body?: QuerySeriesRequest | undefined;
 }
 export interface ValuesProjectsLocationPrometheusApiV1LabelRequest {
   /** Location of the resource information. Has to be "global" now. */
@@ -1525,11 +1509,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "QueryLabelsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/labels",
@@ -1627,11 +1613,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(625, __c19, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(625, __c19, 17),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1653,11 +1641,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "QueryExemplarsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/query_exemplars",
@@ -1681,11 +1671,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "QueryRangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/query_range",
@@ -1707,11 +1699,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "QueryInstantRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/query",
@@ -1732,11 +1726,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "QuerySeriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/series",
@@ -1771,10 +1767,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/projects",
@@ -1830,11 +1828,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(625, __c19, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(625, __c19, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dashboards",

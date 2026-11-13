@@ -93,10 +93,7 @@ export interface ArchiveInitiatePortabilityRequest {
   /** The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes. */
   resources?: StringList | undefined;
 }
-export interface ArchiveInitiatePortabilityRequest_ {
-  /** Request body */
-  body?: ArchiveInitiatePortabilityRequest | undefined;
-}
+export interface ArchiveInitiatePortabilityRequest_ extends ArchiveInitiatePortabilityRequest {}
 export type ArchiveInitiatePortabilityResponseAccessTypeEnum =
   | "ACCESS_TYPE_UNSPECIFIED"
   | "ACCESS_TYPE_ONE_TIME"
@@ -295,9 +292,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ArchiveInitiatePortabilityRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/portabilityArchive:initiate",

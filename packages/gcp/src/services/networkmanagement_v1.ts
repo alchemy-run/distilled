@@ -166,13 +166,11 @@ export interface VpcFlowLogsConfig {
   /** Optional. Export filter used to define which VPC Flow Logs should be logged. */
   filterExpr?: string | undefined;
 }
-export interface CreateOrganizationsLocationsVpcFlowLogsConfigsRequest {
+export interface CreateOrganizationsLocationsVpcFlowLogsConfigsRequest extends VpcFlowLogsConfig {
   /** Required. The parent resource of the VpcFlowLogsConfig to create, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global` - For organization-level resources: `organizations/{organization_id}/locations/global` */
   parent: string;
   /** Required. ID of the `VpcFlowLogsConfig`. */
   vpcFlowLogsConfigId?: string | undefined;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1486,13 +1484,11 @@ export interface ConnectivityTest {
   /** Other projects that may be relevant for reachability analysis. This is applicable to scenarios where a test can cross project boundaries. */
   relatedProjects?: StringList | undefined;
 }
-export interface CreateProjectsLocationsGlobalConnectivityTestsRequest {
+export interface CreateProjectsLocationsGlobalConnectivityTestsRequest extends ConnectivityTest {
   /** Required. The parent resource of the Connectivity Test to create: `projects/{project_id}/locations/global` */
   parent: string;
   /** Required. The logical name of the Connectivity Test in your project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the customer project */
   testId?: string | undefined;
-  /** Request body */
-  body?: ConnectivityTest | undefined;
 }
 export type NetworkMonitoringProviderStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1520,21 +1516,17 @@ export interface NetworkMonitoringProvider {
   /** Output only. Identifier. Name of the resource. Format: `projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsNetworkMonitoringProvidersRequest {
+export interface CreateProjectsLocationsNetworkMonitoringProvidersRequest extends NetworkMonitoringProvider {
   /** Required. Parent value for CreateNetworkMonitoringProviderRequest. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the NetworkMonitoringProvider resource, which will become the final component of the NetworkMonitoringProvider resource's name. */
   networkMonitoringProviderId?: string | undefined;
-  /** Request body */
-  body?: NetworkMonitoringProvider | undefined;
 }
-export interface CreateProjectsLocationsVpcFlowLogsConfigsRequest {
+export interface CreateProjectsLocationsVpcFlowLogsConfigsRequest extends VpcFlowLogsConfig {
   /** Required. The parent resource of the VpcFlowLogsConfig to create, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global` - For organization-level resources: `organizations/{organization_id}/locations/global` */
   parent: string;
   /** Required. ID of the `VpcFlowLogsConfig`. */
   vpcFlowLogsConfigId?: string | undefined;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
 }
 export interface DeleteOrganizationsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -2255,29 +2247,32 @@ export interface ListProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Optional. Page token from an earlier query, as returned in `next_page_token`. */
   pageToken?: string | undefined;
 }
-export interface PatchOrganizationsLocationsVpcFlowLogsConfigsRequest {
+export interface PatchOrganizationsLocationsVpcFlowLogsConfigsRequest extends Omit<
+  VpcFlowLogsConfig,
+  "name"
+> {
   /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For example, to change the state of the configuration to ENABLED, specify `update_mask` = `"state"`, and the `vpc_flow_logs_config` would be: `vpc_flow_logs_config = { name = "projects/my-project/locations/global/vpcFlowLogsConfigs/my-config" state = "ENABLED" }` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
 }
-export interface PatchProjectsLocationsGlobalConnectivityTestsRequest {
+export interface PatchProjectsLocationsGlobalConnectivityTestsRequest extends Omit<
+  ConnectivityTest,
+  "name"
+> {
   /** Identifier. Unique name of the resource using the form: `projects/{project_id}/locations/global/connectivityTests/{test_id}` */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ConnectivityTest | undefined;
 }
-export interface PatchProjectsLocationsVpcFlowLogsConfigsRequest {
+export interface PatchProjectsLocationsVpcFlowLogsConfigsRequest extends Omit<
+  VpcFlowLogsConfig,
+  "name"
+> {
   /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For example, to change the state of the configuration to ENABLED, specify `update_mask` = `"state"`, and the `vpc_flow_logs_config` would be: `vpc_flow_logs_config = { name = "projects/my-project/locations/global/vpcFlowLogsConfigs/my-config" state = "ENABLED" }` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
 }
 export interface QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Optional. Page token from an earlier query, as returned in `next_page_token`. */
@@ -2313,22 +2308,18 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest {
+export interface SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest {
+export interface TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -4426,11 +4417,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4444,11 +4437,13 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2135, __c66, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2135, __c66, 23),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4462,11 +4457,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4542,10 +4539,12 @@ function __c53(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4565,10 +4564,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4584,11 +4585,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          vpcFlowLogsConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            vpcFlowLogsConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vpcFlowLogsConfigs",
@@ -4679,11 +4682,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          testId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2135, __c66, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2135, __c66, 23),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            testId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectivityTests",
@@ -5317,11 +5322,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          networkMonitoringProviderId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c68, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            networkMonitoringProviderId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/networkMonitoringProviders",
@@ -5351,11 +5358,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          vpcFlowLogsConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            vpcFlowLogsConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vpcFlowLogsConfigs",

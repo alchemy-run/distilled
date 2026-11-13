@@ -185,10 +185,7 @@ export interface BatchQueryDomainStatsRequest {
   /** Required. A list of individual query requests. Each request can be for a different domain. A maximum of 100 requests can be included in a single batch. */
   requests?: QueryDomainStatsRequestList | undefined;
 }
-export interface BatchQueryDomainStatsRequest_ {
-  /** Request body */
-  body?: BatchQueryDomainStatsRequest | undefined;
-}
+export interface BatchQueryDomainStatsRequest_ extends BatchQueryDomainStatsRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -256,10 +253,7 @@ export interface CreateDomainRequest {
   /** Required. The domain to add. e.g., "example.com" */
   domainId?: string | undefined;
 }
-export interface CreateDomainsRequest {
-  /** Request body */
-  body?: CreateDomainRequest | undefined;
-}
+export interface CreateDomainsRequest extends CreateDomainRequest {}
 export type DomainPermissionEnum = "PERMISSION_UNSPECIFIED" | "READER" | "ADMIN" | "OWNER" | "NONE";
 export type DomainVerificationStateEnum =
   | "VERIFICATION_STATE_UNSPECIFIED"
@@ -291,11 +285,9 @@ export interface CreateUserRequest {
   /** Required. The user to create. */
   userId?: string | undefined;
 }
-export interface CreateDomainsUsersRequest {
+export interface CreateDomainsUsersRequest extends CreateUserRequest {
   /** Required. The parent resource where this user will be created. Format: domains/{domain} */
   parent: string;
-  /** Request body */
-  body?: CreateUserRequest | undefined;
 }
 export type UserPermissionEnum = "PERMISSION_UNSPECIFIED" | "READER" | "ADMIN" | "OWNER" | "NONE";
 /** [Developer Preview](https://developers.google.com/workspace/preview): Information about a user's access to a domain. */
@@ -478,19 +470,15 @@ export interface ListUsersResponse {
   /** The users that have access to the domain. */
   users?: UserList | undefined;
 }
-export interface PatchDomainsUsersRequest {
+export interface PatchDomainsUsersRequest extends Omit<User, "name"> {
   /** Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
   name: string;
   /** The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
-export interface QueryDomainsDomainStatsRequest {
+export interface QueryDomainsDomainStatsRequest extends Omit<QueryDomainStatsRequest, "parent"> {
   /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
   parent: string;
-  /** Request body */
-  body?: QueryDomainStatsRequest | undefined;
 }
 export type VerifyDomainRequestVerificationMethodEnum =
   | "DOMAIN_VERIFICATION_METHOD_UNSPECIFIED"
@@ -501,11 +489,9 @@ export interface VerifyDomainRequest {
   /** Required. The verification method used. Must be specified, i.e. TXT or CNAME. */
   verificationMethod?: VerifyDomainRequestVerificationMethodEnum | (string & {}) | undefined;
 }
-export interface VerifyDomainsRequest {
+export interface VerifyDomainsRequest extends VerifyDomainRequest {
   /** Required. The domain to verify. */
   name: string;
-  /** Request body */
-  body?: VerifyDomainRequest | undefined;
 }
 /** [Developer Preview](https://developers.google.com/workspace/preview): Response message for VerifyDomain. */
 export interface VerifyDomainResponse {}
@@ -985,11 +971,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1003,10 +991,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(330, __c10, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(330, __c10, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/domainStats:query",
@@ -1026,10 +1016,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "VerifyDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:verify",
@@ -1051,9 +1043,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "BatchQueryDomainStatsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(289, __c9, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/domainStats:batchQuery",
@@ -1205,9 +1195,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(352, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/domains",
@@ -1242,10 +1230,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/users",

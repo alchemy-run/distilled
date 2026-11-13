@@ -134,11 +134,9 @@ export interface GoogleCloudDatacatalogV1Taxonomy {
   /** Output only. Creation and modification timestamps of this taxonomy. */
   taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
 }
-export interface CreateProjectsLocationsTaxonomiesRequest {
+export interface CreateProjectsLocationsTaxonomiesRequest extends GoogleCloudDatacatalogV1Taxonomy {
   /** Required. Resource name of the project that the taxonomy will belong to. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1Taxonomy | undefined;
 }
 export type StringList = Array<string>;
 /** Denotes one policy tag in a taxonomy, for example, SSN. Policy tags can be defined in a hierarchy. For example: ``` + Geolocation + LatLong + City + ZipCode ``` Where the "Geolocation" policy tag contains three children. */
@@ -154,11 +152,9 @@ export interface GoogleCloudDatacatalogV1PolicyTag {
   /** Resource name of this policy tag's parent policy tag. If empty, this is a top level tag. If not set, defaults to an empty string. For example, for the "LatLong" policy tag in the example above, this field contains the resource name of the "Geolocation" policy tag, and, for "Geolocation", this field is empty. */
   parentPolicyTag?: string | undefined;
 }
-export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest {
+export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest extends GoogleCloudDatacatalogV1PolicyTag {
   /** Required. Resource name of the taxonomy that the policy tag will belong to. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1PolicyTag | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -268,11 +264,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsLocationsTaxonomiesRequest {
+export interface GetIamPolicyProjectsLocationsTaxonomiesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -304,11 +298,9 @@ export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
+export interface GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -363,11 +355,9 @@ export interface GoogleCloudDatacatalogV1ImportTaxonomiesRequest {
   /** Inline source taxonomy to import. */
   inlineSource?: GoogleCloudDatacatalogV1InlineSource | undefined;
 }
-export interface ImportProjectsLocationsTaxonomiesRequest {
+export interface ImportProjectsLocationsTaxonomiesRequest extends GoogleCloudDatacatalogV1ImportTaxonomiesRequest {
   /** Required. Resource name of project that the imported taxonomies will belong to. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1ImportTaxonomiesRequest | undefined;
 }
 export type GoogleCloudDatacatalogV1TaxonomyList = Array<GoogleCloudDatacatalogV1Taxonomy>;
 /** Response message for ImportTaxonomies. */
@@ -430,32 +420,32 @@ export interface GoogleCloudDatacatalogV1ListPolicyTagsResponse {
   /** Pagination token of the next results page. Empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsTaxonomiesRequest {
+export interface PatchProjectsLocationsTaxonomiesRequest extends Omit<
+  GoogleCloudDatacatalogV1Taxonomy,
+  "name"
+> {
   /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
   name: string;
   /** Specifies fields to update. If not set, defaults to all fields you can update. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1Taxonomy | undefined;
 }
-export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest {
+export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest extends Omit<
+  GoogleCloudDatacatalogV1PolicyTag,
+  "name"
+> {
   /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
   name: string;
   /** Specifies the fields to update. You can update only display name, description, and parent policy tag. If not set, defaults to all updatable fields. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1PolicyTag | undefined;
 }
 /** Request message for ReplaceTaxonomy. */
 export interface GoogleCloudDatacatalogV1ReplaceTaxonomyRequest {
   /** Required. Taxonomy to update along with its child policy tags. */
   serializedTaxonomy?: GoogleCloudDatacatalogV1SerializedTaxonomy | undefined;
 }
-export interface ReplaceProjectsLocationsTaxonomiesRequest {
+export interface ReplaceProjectsLocationsTaxonomiesRequest extends GoogleCloudDatacatalogV1ReplaceTaxonomyRequest {
   /** Required. Resource name of the taxonomy to update. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1ReplaceTaxonomyRequest | undefined;
 }
 /** The criteria that select the subspace used for query matching. */
 export interface GoogleCloudDatacatalogV1SearchCatalogRequestScope {
@@ -487,10 +477,7 @@ export interface GoogleCloudDatacatalogV1SearchCatalogRequest {
   /** Optional. The query string with a minimum of 3 characters and specific syntax. For more information, see [Data Catalog search syntax](https://cloud.google.com/data-catalog/docs/how-to/search-reference). An empty query string returns all data assets (in the specified scope) that you have access to. A query string can be a simple `xyz` or qualified by predicates: * `name:x` * `column:y` * `description:z` */
   query?: string | undefined;
 }
-export interface SearchCatalogRequest {
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1SearchCatalogRequest | undefined;
-}
+export interface SearchCatalogRequest extends GoogleCloudDatacatalogV1SearchCatalogRequest {}
 export type GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum =
   | "INTEGRATED_SYSTEM_UNSPECIFIED"
   | "BIGQUERY"
@@ -564,56 +551,44 @@ export interface GoogleCloudDatacatalogV1SetConfigRequest {
     | (string & {})
     | undefined;
 }
-export interface SetConfigOrganizationsLocationsRequest {
+export interface SetConfigOrganizationsLocationsRequest extends GoogleCloudDatacatalogV1SetConfigRequest {
   /** Required. The organization or project whose config is being specified. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1SetConfigRequest | undefined;
 }
-export interface SetConfigProjectsLocationsRequest {
+export interface SetConfigProjectsLocationsRequest extends GoogleCloudDatacatalogV1SetConfigRequest {
   /** Required. The organization or project whose config is being specified. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1SetConfigRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsTaxonomiesRequest {
+export interface SetIamPolicyProjectsLocationsTaxonomiesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
+export interface SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsTaxonomiesRequest {
+export interface TestIamPermissionsProjectsLocationsTaxonomiesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest {
+export interface TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1347,10 +1322,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -1411,10 +1388,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -1515,10 +1494,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GoogleCloudDatacatalogV1ImportTaxonomiesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(121, __c15, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(121, __c15, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/taxonomies:import",
@@ -1627,11 +1608,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c37, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1645,11 +1628,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(320, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c40, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1669,10 +1654,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GoogleCloudDatacatalogV1ReplaceTaxonomyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:replace",
@@ -1708,9 +1695,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(185, __c23, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(185, __c23, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/catalog:search",
@@ -1750,10 +1735,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setConfig",
@@ -1778,10 +1765,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setConfig",
@@ -1795,10 +1784,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c28, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1822,10 +1813,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c28, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1839,10 +1832,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(248, __c31, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1866,10 +1861,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(248, __c31, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1905,10 +1902,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c37, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/taxonomies",
@@ -1959,10 +1958,12 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c40, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/policyTags",

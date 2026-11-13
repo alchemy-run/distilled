@@ -1,5 +1,5 @@
 {
-  "description": "The spec types every PATCH body as io.k8s.apimachinery.pkg.apis.meta.v1.Patch, a bare object, which convert drops, and names the patch types only in `consumes`. Patch operations had no body member, and a patch passed as extra keys went out as application/json, which the API server refuses with 415 Unsupported Media Type (kube-apiserver v1.36.2, 2026-10-29). Each patch operation gets a required `body` document and a required `contentType` header that names the patch type, as client-go does. application/apply-patch+cbor is left out: it needs a body of CBOR bytes.",
+  "description": "The spec types every PATCH body as io.k8s.apimachinery.pkg.apis.meta.v1.Patch, a bare object, which convert drops, and names the patch types only in `consumes`. Patch operations had no body member, and a patch passed as extra keys went out as application/json, which the API server refuses with 415 Unsupported Media Type (kube-apiserver v1.36.2, 2026-10-29). Each patch operation gets a required `contentType` header that names the patch type, as client-go does, and an optional `patch` document that carries a JSON patch (an array of operations). For the other patch types, scripts/generate.ts adds the resource's own fields to the input, so a merge patch reads like a replace. application/apply-patch+cbor is left out: it needs a body of CBOR bytes.",
   "patches": [
     {
       "op": "add",
@@ -51,13 +51,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyBindingRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyBindingRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -75,13 +74,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -99,13 +97,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingWebhookConfigurationRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingWebhookConfigurationRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -123,13 +120,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -147,13 +143,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -171,13 +166,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -195,13 +189,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingWebhookConfigurationRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingWebhookConfigurationRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -219,13 +212,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -243,13 +235,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -267,13 +258,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     },
@@ -291,13 +281,12 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyRequest/members/body",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyRequest/members/patch",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
           "smithy.api#httpPayload": {},
-          "smithy.api#required": {},
-          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+          "smithy.api#documentation": "A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead."
         }
       }
     }

@@ -524,7 +524,7 @@ export interface BareMetalAdminCluster {
   /** Output only. The time at which this bare metal admin cluster was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBareMetalAdminClustersRequest {
+export interface CreateProjectsLocationsBareMetalAdminClustersRequest extends BareMetalAdminCluster {
   /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
   parent: string;
   /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
@@ -533,8 +533,6 @@ export interface CreateProjectsLocationsBareMetalAdminClustersRequest {
   allowPreflightFailure?: boolean | undefined;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: BareMetalAdminCluster | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -818,7 +816,7 @@ export interface BareMetalCluster {
   /** Output only. The time when the bare metal user cluster was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBareMetalClustersRequest {
+export interface CreateProjectsLocationsBareMetalClustersRequest extends BareMetalCluster {
   /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
   parent: string;
   /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
@@ -827,8 +825,6 @@ export interface CreateProjectsLocationsBareMetalClustersRequest {
   validateOnly?: boolean | undefined;
   /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
   bareMetalClusterId?: string | undefined;
-  /** Request body */
-  body?: BareMetalCluster | undefined;
 }
 /** BareMetalParallelUpgradeConfig defines the parallel upgrade settings for worker node pools. */
 export interface BareMetalParallelUpgradeConfig {
@@ -879,15 +875,13 @@ export interface BareMetalNodePool {
   /** Output only. The time at which this bare metal node pool was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends BareMetalNodePool {
   /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 63 characters, and valid characters are /a-z-/. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
   bareMetalNodePoolId?: string | undefined;
   /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
   parent: string;
   /** If set, only validate the request, but do not actually create the node pool. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: BareMetalNodePool | undefined;
 }
 /** VmwareAdminControlPlaneNodeConfig contains control plane node configuration for VMware admin cluster. */
 export interface VmwareAdminControlPlaneNodeConfig {
@@ -1173,7 +1167,7 @@ export interface VmwareAdminCluster {
   /** Configuration for registry. */
   privateRegistryConfig?: VmwareAdminPrivateRegistryConfig | undefined;
 }
-export interface CreateProjectsLocationsVmwareAdminClustersRequest {
+export interface CreateProjectsLocationsVmwareAdminClustersRequest extends VmwareAdminCluster {
   /** Optional. If set, skip the specified validations. */
   skipValidations?: StringList | undefined;
   /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
@@ -1184,8 +1178,6 @@ export interface CreateProjectsLocationsVmwareAdminClustersRequest {
   parent: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: VmwareAdminCluster | undefined;
 }
 /** VmwareSeesawConfig represents configuration parameters for an already existing Seesaw load balancer. IMPORTANT: Please note that the Anthos On-Prem API will not generate or update Seesaw configurations it can only bind a pre-existing configuration to a new user cluster. IMPORTANT: When attempting to create a user cluster with a pre-existing Seesaw load balancer you will need to follow some preparation steps before calling the 'CreateVmwareCluster' API method. First you will need to create the user cluster's namespace via kubectl. The namespace will need to use the following naming convention : -gke-onprem-mgmt or -gke-onprem-mgmt depending on whether you used the 'VmwareCluster.local_name' to disambiguate collisions; for more context see the documentation of 'VmwareCluster.local_name'. Once the namespace is created you will need to create a secret resource via kubectl. This secret will contain copies of your Seesaw credentials. The Secret must be called 'user-cluster-creds' and contain Seesaw's SSH and Cert credentials. The credentials must be keyed with the following names: 'seesaw-ssh-private-key', 'seesaw-ssh-public-key', 'seesaw-ssh-ca-key', 'seesaw-ssh-ca-cert'. */
 export interface VmwareSeesawConfig {
@@ -1418,7 +1410,7 @@ export interface VmwareCluster {
   /** Output only. The time at which VMware user cluster was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsVmwareClustersRequest {
+export interface CreateProjectsLocationsVmwareClustersRequest extends VmwareCluster {
   /** User provided identifier that is used as part of the resource name; This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. */
   vmwareClusterId?: string | undefined;
   /** Required. The parent of the project and location where this cluster is created in. Format: "projects/{project}/locations/{location}" */
@@ -1429,8 +1421,6 @@ export interface CreateProjectsLocationsVmwareClustersRequest {
   skipValidations?: StringList | undefined;
   /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
   allowPreflightFailure?: boolean | undefined;
-  /** Request body */
-  body?: VmwareCluster | undefined;
 }
 export type VmwareNodePoolStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1520,15 +1510,13 @@ export interface VmwareNodePool {
   /** The validation check for the node pool. */
   validationCheck?: ValidationCheck | undefined;
 }
-export interface CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends VmwareNodePool {
   /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
   vmwareNodePoolId?: string | undefined;
   /** If set, only validate the request, but do not actually create the node pool. */
   validateOnly?: boolean | undefined;
   /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/vmwareClusters/{cluster} */
   parent: string;
-  /** Request body */
-  body?: VmwareNodePool | undefined;
 }
 export interface DeleteProjectsLocationsBareMetalClustersRequest {
   /** If set to true, the deletion of a bare metal user cluster resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's cluster resource and the on-prem admin cluster that hosts your user cluster is disconnected / unreachable or deleted. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP user cluster but an existing on-prem user cluster. */
@@ -1593,11 +1581,9 @@ export interface EnrollBareMetalAdminClusterRequest {
   /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all GKE on-prem clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
   bareMetalAdminClusterId?: string | undefined;
 }
-export interface EnrollProjectsLocationsBareMetalAdminClustersRequest {
+export interface EnrollProjectsLocationsBareMetalAdminClustersRequest extends EnrollBareMetalAdminClusterRequest {
   /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
-  /** Request body */
-  body?: EnrollBareMetalAdminClusterRequest | undefined;
 }
 /** Message for enrolling an existing bare metal cluster to the Anthos On-Prem API. */
 export interface EnrollBareMetalClusterRequest {
@@ -1610,11 +1596,9 @@ export interface EnrollBareMetalClusterRequest {
   /** Required. The admin cluster this bare metal user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
   adminClusterMembership?: string | undefined;
 }
-export interface EnrollProjectsLocationsBareMetalClustersRequest {
+export interface EnrollProjectsLocationsBareMetalClustersRequest extends EnrollBareMetalClusterRequest {
   /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
-  /** Request body */
-  body?: EnrollBareMetalClusterRequest | undefined;
 }
 /** Message for enrolling an existing bare metal node pool to the GKE on-prem API. */
 export interface EnrollBareMetalNodePoolRequest {
@@ -1623,11 +1607,9 @@ export interface EnrollBareMetalNodePoolRequest {
   /** If set, only validate the request, but do not actually enroll the node pool. */
   validateOnly?: boolean | undefined;
 }
-export interface EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends EnrollBareMetalNodePoolRequest {
   /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
   parent: string;
-  /** Request body */
-  body?: EnrollBareMetalNodePoolRequest | undefined;
 }
 /** Message for enrolling an existing VMware admin cluster to the GKE on-prem API. */
 export interface EnrollVmwareAdminClusterRequest {
@@ -1636,11 +1618,9 @@ export interface EnrollVmwareAdminClusterRequest {
   /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all GKE on-prem clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
   vmwareAdminClusterId?: string | undefined;
 }
-export interface EnrollProjectsLocationsVmwareAdminClustersRequest {
+export interface EnrollProjectsLocationsVmwareAdminClustersRequest extends EnrollVmwareAdminClusterRequest {
   /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
-  /** Request body */
-  body?: EnrollVmwareAdminClusterRequest | undefined;
 }
 /** Message for enrolling an existing VMware cluster to the Anthos On-Prem API. */
 export interface EnrollVmwareClusterRequest {
@@ -1653,22 +1633,18 @@ export interface EnrollVmwareClusterRequest {
   /** Required. The admin cluster this VMware user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
   adminClusterMembership?: string | undefined;
 }
-export interface EnrollProjectsLocationsVmwareClustersRequest {
+export interface EnrollProjectsLocationsVmwareClustersRequest extends EnrollVmwareClusterRequest {
   /** Required. The parent of the project and location where the cluster is Enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
-  /** Request body */
-  body?: EnrollVmwareClusterRequest | undefined;
 }
 /** Message for enrolling a VMware node pool. */
 export interface EnrollVmwareNodePoolRequest {
   /** The target node pool id to be enrolled. */
   vmwareNodePoolId?: string | undefined;
 }
-export interface EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends EnrollVmwareNodePoolRequest {
   /** Required. The parent resource where the node pool is enrolled in. */
   parent: string;
-  /** Request body */
-  body?: EnrollVmwareNodePoolRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsBareMetalAdminClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -2125,17 +2101,21 @@ export interface ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsReq
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
 }
-export interface PatchProjectsLocationsBareMetalAdminClustersRequest {
+export interface PatchProjectsLocationsBareMetalAdminClustersRequest extends Omit<
+  BareMetalAdminCluster,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string | undefined;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
   /** Immutable. The bare metal admin cluster resource name. */
   name: string;
-  /** Request body */
-  body?: BareMetalAdminCluster | undefined;
 }
-export interface PatchProjectsLocationsBareMetalClustersRequest {
+export interface PatchProjectsLocationsBareMetalClustersRequest extends Omit<
+  BareMetalCluster,
+  "name"
+> {
   /** If set to true, and the bare metal cluster is not found, the request will create a new bare metal cluster with the provided configuration. The user must have both create and update permission to call Update with allow_missing set to true. */
   allowMissing?: boolean | undefined;
   /** Validate the request without actually doing any updates. */
@@ -2144,10 +2124,11 @@ export interface PatchProjectsLocationsBareMetalClustersRequest {
   updateMask?: string | undefined;
   /** Immutable. The bare metal user cluster resource name. */
   name: string;
-  /** Request body */
-  body?: BareMetalCluster | undefined;
 }
-export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends Omit<
+  BareMetalNodePool,
+  "name"
+> {
   /** If set to true, and the bare metal node pool is not found, the request will create a new bare metal node pool with the provided configuration. The user must have both create and update permission to call Update with allow_missing set to true. */
   allowMissing?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
@@ -2156,10 +2137,11 @@ export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsReques
   name: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: BareMetalNodePool | undefined;
 }
-export interface PatchProjectsLocationsVmwareAdminClustersRequest {
+export interface PatchProjectsLocationsVmwareAdminClustersRequest extends Omit<
+  VmwareAdminCluster,
+  "name"
+> {
   /** Optional. If set, the server-side preflight checks will be skipped. */
   skipValidations?: StringList | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
@@ -2168,10 +2150,8 @@ export interface PatchProjectsLocationsVmwareAdminClustersRequest {
   validateOnly?: boolean | undefined;
   /** Immutable. The VMware admin cluster resource name. */
   name: string;
-  /** Request body */
-  body?: VmwareAdminCluster | undefined;
 }
-export interface PatchProjectsLocationsVmwareClustersRequest {
+export interface PatchProjectsLocationsVmwareClustersRequest extends Omit<VmwareCluster, "name"> {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
@@ -2179,18 +2159,17 @@ export interface PatchProjectsLocationsVmwareClustersRequest {
   /** Immutable. The VMware user cluster resource name. */
   name: string;
   skipValidations?: StringList | undefined;
-  /** Request body */
-  body?: VmwareCluster | undefined;
 }
-export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends Omit<
+  VmwareNodePool,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VMwareNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string | undefined;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
   /** Immutable. The resource name of this node pool. */
   name: string;
-  /** Request body */
-  body?: VmwareNodePool | undefined;
 }
 export interface QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest {
   /** The admin cluster resource name. This is the full resource name of the admin cluster resource. Format: "projects/{project}/locations/{location}/bareMetalAdminClusters/{bare_metal_admin_cluster}" */
@@ -2272,87 +2251,63 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest {
+export interface SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBareMetalClustersRequest {
+export interface SetIamPolicyProjectsLocationsBareMetalClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsVmwareAdminClustersRequest {
+export interface SetIamPolicyProjectsLocationsVmwareAdminClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsVmwareClustersRequest {
+export interface SetIamPolicyProjectsLocationsVmwareClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest {
+export interface TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBareMetalClustersRequest {
+export interface TestIamPermissionsProjectsLocationsBareMetalClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest {
+export interface TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsVmwareClustersRequest {
+export interface TestIamPermissionsProjectsLocationsVmwareClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UnenrollProjectsLocationsBareMetalAdminClustersRequest {
   /** If set to true, and the bare metal admin cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
@@ -4275,14 +4230,16 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          vmwareClusterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(47, __c1, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47, __c1, 15),
+          S.Struct({
+            vmwareClusterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareClusters",
@@ -4463,12 +4420,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          vmwareNodePoolId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(101, __c3, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            vmwareNodePoolId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareNodePools",
@@ -4652,10 +4611,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EnrollBareMetalAdminClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalAdminClusters:enroll",
@@ -4678,10 +4639,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "EnrollBareMetalClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalClusters:enroll",
@@ -4702,10 +4665,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "EnrollBareMetalNodePoolRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalNodePools:enroll",
@@ -4728,10 +4693,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "EnrollVmwareAdminClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareAdminClusters:enroll",
@@ -4754,10 +4721,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "EnrollVmwareClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareClusters:enroll",
@@ -4777,10 +4746,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "EnrollVmwareNodePoolRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareNodePools:enroll",
@@ -5573,12 +5544,14 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1873, __c58, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1873, __c58, 17),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5592,13 +5565,15 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2707, __c84, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2707, __c84, 19),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5612,13 +5587,15 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(3106, __c97, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3106, __c97, 2),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5634,13 +5611,15 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bareMetalAdminClusterId: S.optional(S.String.pipe(T.Query())),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1873, __c58, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1873, __c58, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bareMetalAdminClusterId: S.optional(S.String.pipe(T.Query())),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalAdminClusters",
@@ -6075,13 +6054,15 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3343, __c104, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3343, __c104, 15),
+          S.Struct({
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6095,13 +6076,15 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
-          body: S.optional(__S(47, __c1, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47, __c1, 15),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6115,12 +6098,14 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(101, __c3, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6243,10 +6228,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6270,10 +6257,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6287,10 +6276,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6306,10 +6297,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6323,13 +6316,15 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          bareMetalClusterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2707, __c84, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2707, __c84, 19),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bareMetalClusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalClusters",
@@ -6507,10 +6502,12 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6524,10 +6521,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6543,10 +6542,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6572,10 +6573,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6589,10 +6592,12 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6608,10 +6613,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6625,10 +6632,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6642,10 +6651,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6701,12 +6712,14 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bareMetalNodePoolId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(3106, __c97, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3106, __c97, 2),
+          S.Struct({
+            bareMetalNodePoolId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalNodePools",
@@ -6837,14 +6850,16 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
-          vmwareAdminClusterId: S.optional(S.String.pipe(T.Query())),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(3343, __c104, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3343, __c104, 15),
+          S.Struct({
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+            vmwareAdminClusterId: S.optional(S.String.pipe(T.Query())),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareAdminClusters",

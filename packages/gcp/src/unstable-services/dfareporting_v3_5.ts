@@ -339,13 +339,11 @@ export interface CreativeAssetMetadata {
   /** Numeric ID of the asset. This is a read-only, auto-generated field. */
   id?: string | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends CreativeAssetMetadata {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Advertiser ID of this creative. This is a required field. */
   advertiserId: string;
-  /** Request body */
-  body?: CreativeAssetMetadata | undefined;
 }
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Inserts a new creative asset. */
@@ -471,11 +469,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreativeAssetMetadata" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(11, __c0, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11, __c0, 11),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeAssets/{+advertiserId}/creativeAssets",

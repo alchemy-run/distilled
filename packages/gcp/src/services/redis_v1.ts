@@ -100,11 +100,9 @@ export interface AddAuthTokenRequest {
   /** Required. The auth token to add. */
   authToken?: AuthToken | undefined;
 }
-export interface AddAuthTokenProjectsLocationsClustersTokenAuthUsersRequest {
+export interface AddAuthTokenProjectsLocationsClustersTokenAuthUsersRequest extends AddAuthTokenRequest {
   /** Required. The name of the token auth user resource that this auth token will be added for. Format: projects/{project}/locations/{location}/clusters/{cluster}/tokenAuthUsers/{token_auth_user} */
   tokenAuthUser: string;
-  /** Request body */
-  body?: AddAuthTokenRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -135,11 +133,9 @@ export interface AddTokenAuthUserRequest {
   /** Required. The id of the token auth user to add. */
   tokenAuthUser?: string | undefined;
 }
-export interface AddTokenAuthUserProjectsLocationsClustersRequest {
+export interface AddTokenAuthUserProjectsLocationsClustersRequest extends AddTokenAuthUserRequest {
   /** Required. The cluster resource that this token auth user will be added for. Format: projects/{project}/locations/{location}/clusters/{cluster} */
   cluster: string;
-  /** Request body */
-  body?: AddTokenAuthUserRequest | undefined;
 }
 /** Request for `BackupCluster`. */
 export interface BackupClusterRequest {
@@ -148,11 +144,9 @@ export interface BackupClusterRequest {
   /** Optional. The id of the backup to be created. If not specified, the default value ([YYYYMMDDHHMMSS]_[Shortened Cluster UID] is used. */
   backupId?: string | undefined;
 }
-export interface BackupProjectsLocationsClustersRequest {
+export interface BackupProjectsLocationsClustersRequest extends BackupClusterRequest {
   /** Required. Redis cluster resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
-  /** Request body */
-  body?: BackupClusterRequest | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -213,15 +207,13 @@ export interface AclPolicy {
   /** Output only. The timestamp that the ACL policy was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAclPoliciesRequest {
+export interface CreateProjectsLocationsAclPoliciesRequest extends AclPolicy {
   /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
   parent: string;
   /** Required. The logical name of the ACL policy in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
   aclPolicyId?: string | undefined;
   /** Optional. Idempotent request UUID. . */
   requestId?: string | undefined;
-  /** Request body */
-  body?: AclPolicy | undefined;
 }
 export type PscAutoConnectionPscConnectionStatusEnum =
   | "PSC_CONNECTION_STATUS_UNSPECIFIED"
@@ -662,15 +654,13 @@ export interface Cluster {
   /** Optional. The delete operation will fail when the value is set to true. */
   deletionProtectionEnabled?: boolean | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
+export interface CreateProjectsLocationsClustersRequest extends Cluster {
   /** Required. The logical name of the Redis cluster in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
   clusterId?: string | undefined;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
   /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
   parent: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 /** TlsCertificate Resource */
 export interface TlsCertificate {
@@ -864,13 +854,11 @@ export interface Instance {
   /** Output only. Info per node. */
   nodes?: NodeInfoList | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region. */
   parent: string;
   /** Required. The logical name of the Redis instance in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
   instanceId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export interface DeleteProjectsLocationsAclPoliciesRequest {
   /** Required. Redis ACL policy resource name using the form: `projects/{project_id}/locations/{location_id}/aclPolicies/{acl_policy_id}` where `location_id` refers to a Google Cloud region. */
@@ -917,11 +905,9 @@ export interface ExportBackupRequest {
   /** Google Cloud Storage bucket, like "my-bucket". */
   gcsBucket?: string | undefined;
 }
-export interface ExportProjectsLocationsBackupCollectionsBackupsRequest {
+export interface ExportProjectsLocationsBackupCollectionsBackupsRequest extends ExportBackupRequest {
   /** Required. Redis backup resource name using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}/backups/{backup_id}` */
   name: string;
-  /** Request body */
-  body?: ExportBackupRequest | undefined;
 }
 /** The Cloud Storage location for the output content */
 export interface GcsDestination {
@@ -938,11 +924,9 @@ export interface ExportInstanceRequest {
   /** Required. Specify data to be exported. */
   outputConfig?: OutputConfig | undefined;
 }
-export interface ExportProjectsLocationsInstancesRequest {
+export interface ExportProjectsLocationsInstancesRequest extends ExportInstanceRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
-  /** Request body */
-  body?: ExportInstanceRequest | undefined;
 }
 export type FailoverInstanceRequestDataProtectionModeEnum =
   | "DATA_PROTECTION_MODE_UNSPECIFIED"
@@ -953,11 +937,9 @@ export interface FailoverInstanceRequest {
   /** Optional. Available data protection modes that the user can choose. If it's unspecified, data protection mode will be LIMITED_DATA_LOSS by default. */
   dataProtectionMode?: FailoverInstanceRequestDataProtectionModeEnum | (string & {}) | undefined;
 }
-export interface FailoverProjectsLocationsInstancesRequest {
+export interface FailoverProjectsLocationsInstancesRequest extends FailoverInstanceRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
-  /** Request body */
-  body?: FailoverInstanceRequest | undefined;
 }
 export interface GetAuthStringProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
@@ -1180,11 +1162,9 @@ export interface ImportInstanceRequest {
   /** Required. Specify data to be imported. */
   inputConfig?: InputConfig | undefined;
 }
-export interface ImportProjectsLocationsInstancesRequest {
+export interface ImportProjectsLocationsInstancesRequest extends ImportInstanceRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
-  /** Request body */
-  body?: ImportInstanceRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -1380,33 +1360,27 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsAclPoliciesRequest {
+export interface PatchProjectsLocationsAclPoliciesRequest extends Omit<AclPolicy, "name"> {
   /** Identifier. Full resource path of the ACL policy. */
   name: string;
   /** Optional. Mask of fields to be updated. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from `AclPolicy`: * `rules` */
   updateMask?: string | undefined;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: AclPolicy | undefined;
 }
-export interface PatchProjectsLocationsClustersRequest {
+export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Cluster: * `size_gb` * `replica_count` * `cluster_endpoints` */
   updateMask?: string | undefined;
   /** Required. Identifier. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` */
   name: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Redis instances are managed and addressed at regional level so location_id here refers to a GCP region; however, users may choose which specific zone (or collection of zones for cross-zone instances) an instance should be provisioned in. Refer to location_id and alternative_location_id fields for more details. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Instance: * `displayName` * `labels` * `memorySizeGb` * `redisConfig` * `replica_count` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type RescheduleClusterMaintenanceRequestRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -1422,11 +1396,9 @@ export interface RescheduleClusterMaintenanceRequest {
     | (string & {})
     | undefined;
 }
-export interface RescheduleClusterMaintenanceProjectsLocationsClustersRequest {
+export interface RescheduleClusterMaintenanceProjectsLocationsClustersRequest extends RescheduleClusterMaintenanceRequest {
   /** Required. Redis Cluster instance resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
-  /** Request body */
-  body?: RescheduleClusterMaintenanceRequest | undefined;
 }
 export type RescheduleMaintenanceRequestRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -1440,22 +1412,18 @@ export interface RescheduleMaintenanceRequest {
   /** Optional. Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format, for example `2012-11-15T16:19:00.094Z`. */
   scheduleTime?: string | undefined;
 }
-export interface RescheduleMaintenanceProjectsLocationsInstancesRequest {
+export interface RescheduleMaintenanceProjectsLocationsInstancesRequest extends RescheduleMaintenanceRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
-  /** Request body */
-  body?: RescheduleMaintenanceRequest | undefined;
 }
 /** Request for UpgradeInstance. */
 export interface UpgradeInstanceRequest {
   /** Required. Specifies the target version of Redis software to upgrade to. */
   redisVersion?: string | undefined;
 }
-export interface UpgradeProjectsLocationsInstancesRequest {
+export interface UpgradeProjectsLocationsInstancesRequest extends UpgradeInstanceRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
-  /** Request body */
-  body?: UpgradeInstanceRequest | undefined;
 }
 export type AddAuthTokenProjectsLocationsClustersTokenAuthUsersError =
   | NotFound
@@ -2457,11 +2425,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(42, __c1, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42, __c1, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -2678,10 +2648,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ExportBackupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -2707,10 +2679,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ExportInstanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c10, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -2740,10 +2714,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "FailoverInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:failover",
@@ -3051,10 +3027,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ImportInstanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1025, __c32, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1025, __c32, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -3215,10 +3193,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "AddAuthTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          tokenAuthUser: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            tokenAuthUser: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tokenAuthUser}:addAuthToken",
@@ -3421,12 +3401,14 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1860, __c58, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1860, __c58, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://redis.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAclPoliciesRequest" });
@@ -3436,12 +3418,14 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://redis.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsClustersRequest" });
@@ -3451,11 +3435,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(42, __c1, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42, __c1, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://redis.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
@@ -3472,10 +3458,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RescheduleClusterMaintenanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rescheduleClusterMaintenance",
@@ -3496,10 +3484,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "RescheduleMaintenanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rescheduleMaintenance",
@@ -3519,10 +3509,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "AddTokenAuthUserRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          cluster: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            cluster: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+cluster}:addTokenAuthUser",
@@ -3542,10 +3534,12 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpgradeInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:upgrade",
@@ -3566,10 +3560,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "BackupClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:backup",
@@ -3605,12 +3601,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          aclPolicyId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1860, __c58, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1860, __c58, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            aclPolicyId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/aclPolicies",
@@ -3674,12 +3672,14 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            clusterId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters",

@@ -88,11 +88,9 @@ export interface ApproveApprovalRequestMessage {
   /** The expiration time of this approval. */
   expireTime?: string | undefined;
 }
-export interface ApproveFoldersApprovalRequestsRequest {
+export interface ApproveFoldersApprovalRequestsRequest extends ApproveApprovalRequestMessage {
   /** Name of the approval request to approve. */
   name: string;
-  /** Request body */
-  body?: ApproveApprovalRequestMessage | undefined;
 }
 /** A decision that has been made to dismiss an approval request. */
 export interface DismissDecision {
@@ -236,17 +234,13 @@ export interface ApprovalRequest {
   /** Access was approved. */
   approve?: ApproveDecision | undefined;
 }
-export interface ApproveOrganizationsApprovalRequestsRequest {
+export interface ApproveOrganizationsApprovalRequestsRequest extends ApproveApprovalRequestMessage {
   /** Name of the approval request to approve. */
   name: string;
-  /** Request body */
-  body?: ApproveApprovalRequestMessage | undefined;
 }
-export interface ApproveProjectsApprovalRequestsRequest {
+export interface ApproveProjectsApprovalRequestsRequest extends ApproveApprovalRequestMessage {
   /** Name of the approval request to approve. */
   name: string;
-  /** Request body */
-  body?: ApproveApprovalRequestMessage | undefined;
 }
 export interface DeleteAccessApprovalSettingsFoldersRequest {
   /** Name of the AccessApprovalSettings to delete. */
@@ -448,29 +442,32 @@ export interface ListProjectsApprovalRequestsRequest {
   /** A token identifying the page of results to return. */
   pageToken?: string | undefined;
 }
-export interface UpdateAccessApprovalSettingsFoldersRequest {
+export interface UpdateAccessApprovalSettingsFoldersRequest extends Omit<
+  AccessApprovalSettings,
+  "name"
+> {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AccessApprovalSettings | undefined;
 }
-export interface UpdateAccessApprovalSettingsOrganizationsRequest {
+export interface UpdateAccessApprovalSettingsOrganizationsRequest extends Omit<
+  AccessApprovalSettings,
+  "name"
+> {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AccessApprovalSettings | undefined;
 }
-export interface UpdateAccessApprovalSettingsProjectsRequest {
+export interface UpdateAccessApprovalSettingsProjectsRequest extends Omit<
+  AccessApprovalSettings,
+  "name"
+> {
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
   updateMask?: string | undefined;
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
-  /** Request body */
-  body?: AccessApprovalSettings | undefined;
 }
 export type ApproveFoldersApprovalRequestsError =
   | NotFound
@@ -1385,11 +1382,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(36, __c4, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c4, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1403,11 +1402,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(36, __c4, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c4, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1421,11 +1422,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c4, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c4, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1439,10 +1442,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -1540,10 +1545,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -1557,10 +1564,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",

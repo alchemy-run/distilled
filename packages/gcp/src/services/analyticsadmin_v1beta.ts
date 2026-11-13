@@ -102,11 +102,9 @@ export interface GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest 
   /** Required. An acknowledgement that the caller of this method understands the terms of user data collection. This field must contain the exact value: "I acknowledge that I have the necessary privacy disclosures and rights from my end users for the collection and processing of their data, including the association of such data with the visitation information Google Analytics collects from my site and/or app property." */
   acknowledgement?: string | undefined;
 }
-export interface AcknowledgeUserDataCollectionPropertiesRequest {
+export interface AcknowledgeUserDataCollectionPropertiesRequest extends GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest {
   /** Required. The property for which to acknowledge user data collection. */
   property: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest | undefined;
 }
 /** Response message for AcknowledgeUserDataCollection RPC. */
 export interface GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionResponse {}
@@ -198,10 +196,7 @@ export interface GoogleAnalyticsAdminV1betaProperty {
   /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
   name?: string | undefined;
 }
-export interface CreatePropertiesRequest {
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaProperty | undefined;
-}
+export interface CreatePropertiesRequest extends GoogleAnalyticsAdminV1betaProperty {}
 export type GoogleAnalyticsAdminV1betaConversionEventCountingMethodEnum =
   | "CONVERSION_COUNTING_METHOD_UNSPECIFIED"
   | "ONCE_PER_EVENT"
@@ -235,11 +230,9 @@ export interface GoogleAnalyticsAdminV1betaConversionEvent {
   /** Output only. Time when this conversion event was created in the property. */
   createTime?: string | undefined;
 }
-export interface CreatePropertiesConversionEventsRequest {
+export interface CreatePropertiesConversionEventsRequest extends GoogleAnalyticsAdminV1betaConversionEvent {
   /** Required. The resource name of the parent property where this conversion event will be created. Format: properties/123 */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaConversionEvent | undefined;
 }
 export type GoogleAnalyticsAdminV1betaCustomDimensionScopeEnum =
   | "DIMENSION_SCOPE_UNSPECIFIED"
@@ -261,11 +254,9 @@ export interface GoogleAnalyticsAdminV1betaCustomDimension {
   /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
   name?: string | undefined;
 }
-export interface CreatePropertiesCustomDimensionsRequest {
+export interface CreatePropertiesCustomDimensionsRequest extends GoogleAnalyticsAdminV1betaCustomDimension {
   /** Required. Example format: properties/1234 */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomDimension | undefined;
 }
 export type GoogleAnalyticsAdminV1betaCustomMetricMeasurementUnitEnum =
   | "MEASUREMENT_UNIT_UNSPECIFIED"
@@ -309,11 +300,9 @@ export interface GoogleAnalyticsAdminV1betaCustomMetric {
   /** Required. Immutable. Tagging name for this custom metric. If this is an event-scoped metric, then this is the event parameter name. May only contain alphanumeric and underscore charactes, starting with a letter. Max length of 40 characters for event-scoped metrics. */
   parameterName?: string | undefined;
 }
-export interface CreatePropertiesCustomMetricsRequest {
+export interface CreatePropertiesCustomMetricsRequest extends GoogleAnalyticsAdminV1betaCustomMetric {
   /** Required. Example format: properties/1234 */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomMetric | undefined;
 }
 /** Data specific to web streams. */
 export interface GoogleAnalyticsAdminV1betaDataStreamWebStreamData {
@@ -362,11 +351,9 @@ export interface GoogleAnalyticsAdminV1betaDataStream {
   /** Required. Immutable. The type of this DataStream resource. */
   type?: GoogleAnalyticsAdminV1betaDataStreamTypeEnum | (string & {}) | undefined;
 }
-export interface CreatePropertiesDataStreamsRequest {
+export interface CreatePropertiesDataStreamsRequest extends GoogleAnalyticsAdminV1betaDataStream {
   /** Required. Example format: properties/1234 */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaDataStream | undefined;
 }
 /** A secret value used for sending hits to Measurement Protocol. */
 export interface GoogleAnalyticsAdminV1betaMeasurementProtocolSecret {
@@ -377,11 +364,9 @@ export interface GoogleAnalyticsAdminV1betaMeasurementProtocolSecret {
   /** Required. Human-readable display name for this secret. */
   displayName?: string | undefined;
 }
-export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest {
+export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest extends GoogleAnalyticsAdminV1betaMeasurementProtocolSecret {
   /** Required. The parent resource where this secret will be created. Format: properties/{property}/dataStreams/{dataStream} */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaMeasurementProtocolSecret | undefined;
 }
 /** A link between a Google Analytics property and a Firebase project. */
 export interface GoogleAnalyticsAdminV1betaFirebaseLink {
@@ -392,11 +377,9 @@ export interface GoogleAnalyticsAdminV1betaFirebaseLink {
   /** Identifier. Example format: properties/1234/firebaseLinks/5678 */
   name?: string | undefined;
 }
-export interface CreatePropertiesFirebaseLinksRequest {
+export interface CreatePropertiesFirebaseLinksRequest extends GoogleAnalyticsAdminV1betaFirebaseLink {
   /** Required. Format: properties/{property_id} Example: `properties/1234` */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaFirebaseLink | undefined;
 }
 /** A link between a Google Analytics property and a Google Ads account. */
 export interface GoogleAnalyticsAdminV1betaGoogleAdsLink {
@@ -415,11 +398,9 @@ export interface GoogleAnalyticsAdminV1betaGoogleAdsLink {
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name?: string | undefined;
 }
-export interface CreatePropertiesGoogleAdsLinksRequest {
+export interface CreatePropertiesGoogleAdsLinksRequest extends GoogleAnalyticsAdminV1betaGoogleAdsLink {
   /** Required. Example format: properties/1234 */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaGoogleAdsLink | undefined;
 }
 /** Defines a default value/currency for a key event. */
 export interface GoogleAnalyticsAdminV1betaKeyEventDefaultValue {
@@ -449,11 +430,9 @@ export interface GoogleAnalyticsAdminV1betaKeyEvent {
   /** Required. The method by which Key Events will be counted across multiple events within a session. */
   countingMethod?: GoogleAnalyticsAdminV1betaKeyEventCountingMethodEnum | (string & {}) | undefined;
 }
-export interface CreatePropertiesKeyEventsRequest {
+export interface CreatePropertiesKeyEventsRequest extends GoogleAnalyticsAdminV1betaKeyEvent {
   /** Required. The resource name of the parent property where this Key Event will be created. Format: properties/123 */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaKeyEvent | undefined;
 }
 export interface DeleteAccountsRequest {
   /** Required. The name of the Account to soft-delete. Format: accounts/{account} Example: "accounts/100" */
@@ -804,77 +783,80 @@ export interface GoogleAnalyticsAdminV1betaListKeyEventsResponse {
   /** The requested Key Events */
   keyEvents?: GoogleAnalyticsAdminV1betaKeyEventList | undefined;
 }
-export interface PatchAccountsRequest {
+export interface PatchAccountsRequest extends Omit<GoogleAnalyticsAdminV1betaAccount, "name"> {
   /** Identifier. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaAccount | undefined;
 }
-export interface PatchPropertiesRequest {
+export interface PatchPropertiesRequest extends Omit<GoogleAnalyticsAdminV1betaProperty, "name"> {
   /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaProperty | undefined;
 }
-export interface PatchPropertiesConversionEventsRequest {
+export interface PatchPropertiesConversionEventsRequest extends Omit<
+  GoogleAnalyticsAdminV1betaConversionEvent,
+  "name"
+> {
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
   name: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaConversionEvent | undefined;
 }
-export interface PatchPropertiesCustomDimensionsRequest {
+export interface PatchPropertiesCustomDimensionsRequest extends Omit<
+  GoogleAnalyticsAdminV1betaCustomDimension,
+  "name"
+> {
   /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomDimension | undefined;
 }
-export interface PatchPropertiesCustomMetricsRequest {
+export interface PatchPropertiesCustomMetricsRequest extends Omit<
+  GoogleAnalyticsAdminV1betaCustomMetric,
+  "name"
+> {
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
   /** Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
   name: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomMetric | undefined;
 }
-export interface PatchPropertiesDataStreamsRequest {
+export interface PatchPropertiesDataStreamsRequest extends Omit<
+  GoogleAnalyticsAdminV1betaDataStream,
+  "name"
+> {
   /** Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaDataStream | undefined;
 }
-export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest {
+export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest extends Omit<
+  GoogleAnalyticsAdminV1betaMeasurementProtocolSecret,
+  "name"
+> {
   /** Required. The list of fields to be updated. Omitted fields will not be updated. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
   name: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaMeasurementProtocolSecret | undefined;
 }
-export interface PatchPropertiesGoogleAdsLinksRequest {
+export interface PatchPropertiesGoogleAdsLinksRequest extends Omit<
+  GoogleAnalyticsAdminV1betaGoogleAdsLink,
+  "name"
+> {
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaGoogleAdsLink | undefined;
 }
-export interface PatchPropertiesKeyEventsRequest {
+export interface PatchPropertiesKeyEventsRequest extends Omit<
+  GoogleAnalyticsAdminV1betaKeyEvent,
+  "name"
+> {
   /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaKeyEvent | undefined;
 }
 /** Request message for ProvisionAccountTicket RPC. */
 export interface GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest {
@@ -883,10 +865,7 @@ export interface GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest {
   /** Redirect URI where the user will be sent after accepting Terms of Service. */
   redirectUri?: string | undefined;
 }
-export interface ProvisionAccountTicketAccountsRequest {
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest | undefined;
-}
+export interface ProvisionAccountTicketAccountsRequest extends GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest {}
 /** Response message for ProvisionAccountTicket RPC. */
 export interface GoogleAnalyticsAdminV1betaProvisionAccountTicketResponse {
   /** The param to be passed in the ToS link. */
@@ -1060,11 +1039,9 @@ export interface GoogleAnalyticsAdminV1betaRunAccessReportRequest {
   /** Toggles whether to return the current state of this Analytics Property's quota. Quota is returned in [AccessQuota](#AccessQuota). For account-level requests, this field must be false. */
   returnEntityQuota?: boolean | undefined;
 }
-export interface RunAccessReportAccountsRequest {
+export interface RunAccessReportAccountsRequest extends GoogleAnalyticsAdminV1betaRunAccessReportRequest {
   /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
   entity: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaRunAccessReportRequest | undefined;
 }
 /** Describes a dimension column in the report. Dimensions requested in a report produce column entries within rows and DimensionHeaders. However, dimensions used exclusively within filters or expressions do not produce columns in a report; correspondingly, those dimensions do not produce headers. */
 export interface GoogleAnalyticsAdminV1betaAccessDimensionHeader {
@@ -1135,11 +1112,9 @@ export interface GoogleAnalyticsAdminV1betaRunAccessReportResponse {
   /** The total number of rows in the query result. `rowCount` is independent of the number of rows returned in the response, the `limit` request parameter, and the `offset` request parameter. For example if a query returns 175 rows and includes `limit` of 50 in the API request, the response will contain `rowCount` of 175 but only 50 rows. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
   rowCount?: number | undefined;
 }
-export interface RunAccessReportPropertiesRequest {
+export interface RunAccessReportPropertiesRequest extends GoogleAnalyticsAdminV1betaRunAccessReportRequest {
   /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
   entity: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaRunAccessReportRequest | undefined;
 }
 export type GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequestResourceTypeItemEnum =
   | "CHANGE_HISTORY_RESOURCE_TYPE_UNSPECIFIED"
@@ -1190,11 +1165,9 @@ export interface GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest {
   /** Optional. A page token, received from a previous `SearchChangeHistoryEvents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchChangeHistoryEvents` must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
-export interface SearchChangeHistoryEventsAccountsRequest {
+export interface SearchChangeHistoryEventsAccountsRequest extends GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest {
   /** Required. The account resource for which to return change history resources. Format: accounts/{account} Example: `accounts/100` */
   account: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest | undefined;
 }
 export type GoogleAnalyticsAdminV1betaChangeHistoryEventActorTypeEnum =
   | "ACTOR_TYPE_UNSPECIFIED"
@@ -1266,13 +1239,14 @@ export interface GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsResponse {
   /** Results that were accessible to the caller. */
   changeHistoryEvents?: GoogleAnalyticsAdminV1betaChangeHistoryEventList | undefined;
 }
-export interface UpdateDataRetentionSettingsPropertiesRequest {
+export interface UpdateDataRetentionSettingsPropertiesRequest extends Omit<
+  GoogleAnalyticsAdminV1betaDataRetentionSettings,
+  "name"
+> {
   /** Identifier. Resource name for this DataRetentionSetting resource. Format: properties/{property}/dataRetentionSettings */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaDataRetentionSettings | undefined;
 }
 export type AcknowledgeUserDataCollectionPropertiesError =
   | NotFound
@@ -2556,10 +2530,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/customDimensions",
@@ -2588,10 +2564,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/customMetrics",
@@ -2627,10 +2605,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(195, __c6, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/dataStreams",
@@ -2683,10 +2663,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/measurementProtocolSecrets",
@@ -2712,10 +2694,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/firebaseLinks",
@@ -2741,10 +2725,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/googleAdsLinks",
@@ -2774,10 +2760,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(449, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(449, __c14, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/keyEvents",
@@ -3462,11 +3450,13 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3480,11 +3470,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3498,11 +3490,13 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2209, __c69, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2209, __c69, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3516,11 +3510,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3540,10 +3536,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          property: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            property: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+property}:acknowledgeUserDataCollection",
@@ -3565,11 +3563,13 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3583,11 +3583,13 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(195, __c6, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3601,11 +3603,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3619,11 +3623,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3637,11 +3643,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(449, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(449, __c14, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3662,9 +3670,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1824, __c57, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/accounts:provisionAccountTicket",
@@ -3684,10 +3690,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          entity: S.String.pipe(T.Label()),
-          body: S.optional(__S(1906, __c59, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1906, __c59, 18),
+          S.Struct({
+            entity: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+entity}:runAccessReport",
@@ -3877,10 +3885,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          entity: S.String.pipe(T.Label()),
-          body: S.optional(__S(1906, __c59, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1906, __c59, 18),
+          S.Struct({
+            entity: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+entity}:runAccessReport",
@@ -3907,10 +3917,12 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          account: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            account: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+account}:searchChangeHistoryEvents",
@@ -3970,11 +3982,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -4022,9 +4036,7 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2144, __c67, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/properties",
@@ -4060,10 +4072,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2209, __c69, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2209, __c69, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/conversionEvents",

@@ -225,15 +225,13 @@ export interface AuthProvider {
   /** Output only. The state of the auth provider. */
   state?: AuthProviderStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsAuthProvidersRequest {
+export interface CreateProjectsLocationsAuthProvidersRequest extends AuthProvider {
   /** Required. The parent resource where the auth provider is created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the auth provider, which will become the final segment of the auth provider's resource name. This value should be 1-63 characters, and valid characters are /a-z-/. The first character must be a lowercase letter, and the last character must be a lowercase letter or a number. */
   authProviderId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: AuthProvider | undefined;
 }
 export interface DeleteProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. */
@@ -254,19 +252,15 @@ export interface DisableAuthProviderRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface DisableProjectsLocationsAuthProvidersRequest {
+export interface DisableProjectsLocationsAuthProvidersRequest extends DisableAuthProviderRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: DisableAuthProviderRequest | undefined;
 }
 /** Request message for `EnableAuthProvider`. */
 export type EnableAuthProviderRequest = DisableAuthProviderRequest;
-export interface EnableProjectsLocationsAuthProvidersRequest {
+export interface EnableProjectsLocationsAuthProvidersRequest extends DisableAuthProviderRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: DisableAuthProviderRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAuthProvidersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -499,15 +493,13 @@ export interface ListAuthorizationsResponse {
   /** The list of authorizations. */
   authorizations?: AuthorizationList | undefined;
 }
-export interface PatchProjectsLocationsAuthProvidersRequest {
+export interface PatchProjectsLocationsAuthProvidersRequest extends Omit<AuthProvider, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the auth provider resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AuthProvider | undefined;
 }
 export interface QueryProjectsLocationsAuthProvidersRequest {
   /** Required. The workload identifier to filter by. */
@@ -546,11 +538,9 @@ export interface ResolveAuthorizationRequest {
   /** Required. The user ID of the client for whom the authorization is resolved. */
   clientUserId?: string | undefined;
 }
-export interface ResolveAuthorizationProjectsLocationsAuthProvidersRequest {
+export interface ResolveAuthorizationProjectsLocationsAuthProvidersRequest extends ResolveAuthorizationRequest {
   /** Required. The name of the auth provider to resolve authorization for. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: ResolveAuthorizationRequest | undefined;
 }
 /** Response message for `ResolveAuthorization`. */
 export interface ResolveAuthorizationResponse {
@@ -562,11 +552,9 @@ export interface RevokeAuthorizationRequest {
   /** Required. The identity of the user to revoke authorization for. */
   userId?: string | undefined;
 }
-export interface RevokeAuthorizationProjectsLocationsAuthProvidersRequest {
+export interface RevokeAuthorizationProjectsLocationsAuthProvidersRequest extends RevokeAuthorizationRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: RevokeAuthorizationRequest | undefined;
 }
 /** Response message for `RevokeAuthorization`. */
 export interface RevokeAuthorizationResponse {}
@@ -577,47 +565,37 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAuthProvidersRequest {
+export interface SetIamPolicyProjectsLocationsAuthProvidersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest {
+export interface SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAuthProvidersRequest {
+export interface TestIamPermissionsProjectsLocationsAuthProvidersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest {
+export interface TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for `UndeleteAuthProvider`. */
 export type UndeleteAuthProviderRequest = DisableAuthProviderRequest;
-export interface UndeleteProjectsLocationsAuthProvidersRequest {
+export interface UndeleteProjectsLocationsAuthProvidersRequest extends DisableAuthProviderRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: DisableAuthProviderRequest | undefined;
 }
 export type CreateProjectsLocationsAuthProvidersError =
   | NotFound
@@ -1421,12 +1399,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(459, __c28, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(459, __c28, 11),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1497,10 +1477,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ResolveAuthorizationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:resolveAuthorization",
@@ -1526,10 +1508,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RevokeAuthorizationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c16, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:revokeAuthorization",
@@ -1543,10 +1527,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c18, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1571,10 +1557,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c18, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1588,10 +1576,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1615,10 +1605,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1634,10 +1626,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:undelete",
@@ -1651,12 +1645,14 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authProviderId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(459, __c28, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(459, __c28, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            authProviderId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/authProviders",
@@ -1838,10 +1834,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:disable",
@@ -1865,10 +1863,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:enable",

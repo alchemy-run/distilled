@@ -181,10 +181,7 @@ export interface ReportRequest {
   /** Synchronous report only. Zero-based index of the first row to return. Acceptable values are `0` to `50000`, inclusive. Defaults to `0`. */
   startRow?: number | undefined;
 }
-export interface GenerateReportsRequest {
-  /** Request body */
-  body?: ReportRequest | undefined;
-}
+export interface GenerateReportsRequest extends ReportRequest {}
 export interface ReportFilesItem {
   /** Use this url to download the report file. */
   url?: string | undefined;
@@ -385,10 +382,7 @@ export interface GetReportsRequest {
   /** ID of the report request being polled. */
   reportId: string;
 }
-export interface InsertConversionRequest {
-  /** Request body */
-  body?: ConversionList | undefined;
-}
+export interface InsertConversionRequest extends ConversionList {}
 export interface ListSavedColumnsRequest {
   /** DS ID of the agency. */
   agencyId: string;
@@ -412,10 +406,7 @@ export interface SavedColumnList {
   /** Identifies this as a SavedColumnList resource. Value: the fixed string doubleclicksearch#savedColumnList. */
   kind?: string | undefined;
 }
-export interface RequestReportsRequest {
-  /** Request body */
-  body?: ReportRequest | undefined;
-}
+export interface RequestReportsRequest extends ReportRequest {}
 /** A message containing availability data relevant to DoubleClick Search. */
 export interface Availability {
   /** The friendly segmentation identifier (for example, DoubleClick Search Floodlight activity name). */
@@ -439,19 +430,13 @@ export interface UpdateAvailabilityRequest {
   /** The availabilities being requested. */
   availabilities?: AvailabilityList | undefined;
 }
-export interface UpdateAvailabilityConversionRequest {
-  /** Request body */
-  body?: UpdateAvailabilityRequest | undefined;
-}
+export interface UpdateAvailabilityConversionRequest extends UpdateAvailabilityRequest {}
 /** The response to a update availability request. */
 export interface UpdateAvailabilityResponse {
   /** The availabilities being returned. */
   availabilities?: AvailabilityList | undefined;
 }
-export interface UpdateConversionRequest {
-  /** Request body */
-  body?: ConversionList | undefined;
-}
+export interface UpdateConversionRequest extends ConversionList {}
 export type GenerateReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Generates and returns a report immediately. */
 export const generateReports: API.OperationMethod<
@@ -649,9 +634,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(134, __c8, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(134, __c8, 6), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "doubleclicksearch/v2/conversion",
@@ -699,9 +682,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(105, __c6, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(105, __c6, 9), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "doubleclicksearch/v2/reports",
@@ -735,9 +716,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateAvailabilityRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(50, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(50, __c3, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "doubleclicksearch/v2/conversion/updateAvailability",
@@ -751,9 +730,7 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(134, __c8, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(134, __c8, 6), S.Struct({})).pipe(
           T.Http({
             method: "PUT",
             uri: "doubleclicksearch/v2/conversion",
@@ -767,9 +744,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(105, __c6, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(105, __c6, 9), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "doubleclicksearch/v2/reports/generate",

@@ -226,17 +226,13 @@ export interface LeaderboardConfiguration {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
   kind?: string | undefined;
 }
-export interface InsertAchievementConfigurationsRequest {
+export interface InsertAchievementConfigurationsRequest extends AchievementConfiguration {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
-  /** Request body */
-  body?: AchievementConfiguration | undefined;
 }
-export interface InsertLeaderboardConfigurationsRequest {
+export interface InsertLeaderboardConfigurationsRequest extends LeaderboardConfiguration {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
-  /** Request body */
-  body?: LeaderboardConfiguration | undefined;
 }
 export interface ListAchievementConfigurationsRequest {
   /** The token returned by the previous request. */
@@ -274,17 +270,13 @@ export interface LeaderboardConfigurationListResponse {
   /** The leaderboard configurations. */
   items: LeaderboardConfigurationList;
 }
-export interface UpdateAchievementConfigurationsRequest {
+export interface UpdateAchievementConfigurationsRequest extends AchievementConfiguration {
   /** The ID of the achievement used by this method. */
   achievementId: string;
-  /** Request body */
-  body?: AchievementConfiguration | undefined;
 }
-export interface UpdateLeaderboardConfigurationsRequest {
+export interface UpdateLeaderboardConfigurationsRequest extends LeaderboardConfiguration {
   /** The ID of the leaderboard. */
   leaderboardId: string;
-  /** Request body */
-  body?: LeaderboardConfiguration | undefined;
 }
 export type DeleteAchievementConfigurationsError =
   | NotFound
@@ -551,10 +543,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          achievementId: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37, __c9, 1),
+          S.Struct({
+            achievementId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "games/v1configuration/achievements/{achievementId}",
@@ -568,10 +562,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          leaderboardId: S.String.pipe(T.Label()),
-          body: S.optional(__S(47, __c11, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47, __c11, 3),
+          S.Struct({
+            leaderboardId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "games/v1configuration/leaderboards/{leaderboardId}",
@@ -753,10 +749,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          applicationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37, __c9, 1),
+          S.Struct({
+            applicationId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1configuration/applications/{applicationId}/achievements",
@@ -770,10 +768,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          applicationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(47, __c11, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47, __c11, 3),
+          S.Struct({
+            applicationId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1configuration/applications/{applicationId}/leaderboards",

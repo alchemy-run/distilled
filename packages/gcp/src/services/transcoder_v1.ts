@@ -746,11 +746,9 @@ export interface Job {
   /** Output only. An error object that describes the reason for the failure. This property is always present when ProcessingState is `FAILED`. */
   error?: Status | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
+export interface CreateProjectsLocationsJobsRequest extends Job {
   /** Required. The parent location to create and process this job. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 /** Transcoding job template resource. */
 export interface JobTemplate {
@@ -761,13 +759,11 @@ export interface JobTemplate {
   /** The labels associated with this job template. You can use these to organize and group your job templates. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsJobTemplatesRequest {
+export interface CreateProjectsLocationsJobTemplatesRequest extends JobTemplate {
   /** Required. The ID to use for the job template, which will become the final component of the job template's resource name. This value should be 4-63 characters, and valid characters must match the regular expression `a-zA-Z*`. */
   jobTemplateId?: string | undefined;
   /** Required. The parent location to create this job template. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: JobTemplate | undefined;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** If set to true, and the job is not found, the request will succeed but no action will be taken on the server. */
@@ -1060,10 +1056,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(195, __c6, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/jobs",
@@ -1575,11 +1573,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobTemplateId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            jobTemplateId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/jobTemplates",

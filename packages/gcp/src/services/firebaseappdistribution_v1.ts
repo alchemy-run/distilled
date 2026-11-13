@@ -103,11 +103,9 @@ export interface GoogleFirebaseAppdistroV1BatchAddTestersRequest {
   /** Required. The email addresses of the tester resources to create. A maximum of 999 and a minimum of 1 tester can be created in a batch. */
   emails?: StringList | undefined;
 }
-export interface BatchAddProjectsTestersRequest {
+export interface BatchAddProjectsTestersRequest extends GoogleFirebaseAppdistroV1BatchAddTestersRequest {
   /** Required. The name of the project resource. Format: `projects/{project_number}` */
   project: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchAddTestersRequest | undefined;
 }
 /** A person that can be invited to test apps in a Firebase project. */
 export interface GoogleFirebaseAppdistroV1Tester {
@@ -131,11 +129,9 @@ export interface GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest {
   /** Required. The names of the release resources to delete. Format: `projects/{project_number}/apps/{app}/releases/{release}` A maximum of 100 releases can be deleted per request. */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsAppsReleasesRequest {
+export interface BatchDeleteProjectsAppsReleasesRequest extends GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest {
   /** Required. The name of the app resource, which is the parent of the release resources. Format: `projects/{project_number}/apps/{app}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -146,33 +142,27 @@ export interface GoogleFirebaseAppdistroV1BatchJoinGroupRequest {
   /** Indicates whether to create tester resources based on `emails` if they don't exist yet. */
   createMissingTesters?: boolean | undefined;
 }
-export interface BatchJoinProjectsGroupsRequest {
+export interface BatchJoinProjectsGroupsRequest extends GoogleFirebaseAppdistroV1BatchJoinGroupRequest {
   /** Required. The name of the group resource to which testers are added. Format: `projects/{project_number}/groups/{group_alias}` */
   group: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchJoinGroupRequest | undefined;
 }
 /** Request message for `BatchLeaveGroup` */
 export interface GoogleFirebaseAppdistroV1BatchLeaveGroupRequest {
   /** Required. The email addresses of the testers to be removed from the group. A maximum of 999 and a minimum of 1 testers can be removed in a batch. */
   emails?: StringList | undefined;
 }
-export interface BatchLeaveProjectsGroupsRequest {
+export interface BatchLeaveProjectsGroupsRequest extends GoogleFirebaseAppdistroV1BatchLeaveGroupRequest {
   /** Required. The name of the group resource from which testers are removed. Format: `projects/{project_number}/groups/{group_alias}` */
   group: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchLeaveGroupRequest | undefined;
 }
 /** The request message for `BatchRemoveTesters`. */
 export interface GoogleFirebaseAppdistroV1BatchRemoveTestersRequest {
   /** Required. The email addresses of the tester resources to removed. A maximum of 999 and a minimum of 1 testers can be deleted in a batch. */
   emails?: StringList | undefined;
 }
-export interface BatchRemoveProjectsTestersRequest {
+export interface BatchRemoveProjectsTestersRequest extends GoogleFirebaseAppdistroV1BatchRemoveTestersRequest {
   /** Required. The name of the project resource. Format: `projects/{project_number}` */
   project: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchRemoveTestersRequest | undefined;
 }
 /** The response message for `BatchRemoveTesters` */
 export interface GoogleFirebaseAppdistroV1BatchRemoveTestersResponse {
@@ -200,13 +190,11 @@ export interface GoogleFirebaseAppdistroV1Group {
   /** Output only. The number of invite links for this group. */
   inviteLinkCount?: number | undefined;
 }
-export interface CreateProjectsGroupsRequest {
+export interface CreateProjectsGroupsRequest extends GoogleFirebaseAppdistroV1Group {
   /** Optional. The "alias" to use for the group, which will become the final component of the group's resource name. This value must be unique per project. The field is named `groupId` to comply with AIP guidance for user-specified IDs. This value should be 4-63 characters, and valid characters are `/a-z-/`. If not set, it will be generated based on the display name. */
   groupId?: string | undefined;
   /** Required. The name of the project resource, which is the parent of the group resource. Format: `projects/{project_number}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Group | undefined;
 }
 export interface DeleteProjectsAppsReleasesFeedbackReportsRequest {
   /** Required. The name of the feedback report to delete. Format: projects/{project_number}/apps/{app}/releases/{release}/feedbackReports/{feedback_report} */
@@ -227,11 +215,9 @@ export interface GoogleFirebaseAppdistroV1DistributeReleaseRequest {
   /** Optional. A list of tester email addresses to be given access to this release. A combined maximum of 999 `testerEmails` and `groupAliases` can be specified in a single request. */
   testerEmails?: StringList | undefined;
 }
-export interface DistributeProjectsAppsReleasesRequest {
+export interface DistributeProjectsAppsReleasesRequest extends GoogleFirebaseAppdistroV1DistributeReleaseRequest {
   /** Required. The name of the release resource to distribute. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1DistributeReleaseRequest | undefined;
 }
 /** The response message for `DistributeRelease`. */
 export interface GoogleFirebaseAppdistroV1DistributeReleaseResponse {}
@@ -480,29 +466,26 @@ export interface GoogleFirebaseAppdistroV1ListTestersResponse {
   /** The testers listed. */
   testers?: GoogleFirebaseAppdistroV1TesterList | undefined;
 }
-export interface PatchProjectsAppsReleasesRequest {
+export interface PatchProjectsAppsReleasesRequest extends Omit<
+  GoogleFirebaseAppdistroV1Release,
+  "name"
+> {
   /** The name of the release resource. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Release | undefined;
 }
-export interface PatchProjectsGroupsRequest {
+export interface PatchProjectsGroupsRequest extends Omit<GoogleFirebaseAppdistroV1Group, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Group | undefined;
 }
-export interface PatchProjectsTestersRequest {
+export interface PatchProjectsTestersRequest extends Omit<GoogleFirebaseAppdistroV1Tester, "name"> {
   /** The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Tester | undefined;
 }
 /** This is a copy of the tech.blob.ObjectId proto, which could not be used directly here due to transitive closure issues with JavaScript support; see http://b/8801763. */
 export interface GdataObjectId {
@@ -711,22 +694,18 @@ export interface GoogleFirebaseAppdistroV1UploadReleaseRequest {
   /** Binary to upload */
   blob?: GdataMedia | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends GoogleFirebaseAppdistroV1UploadReleaseRequest {
   /** Required. The name of the app resource. Format: `projects/{project_number}/apps/{app}` */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1UploadReleaseRequest | undefined;
 }
 /** The request message for Operations.WaitOperation. */
 export interface GoogleLongrunningWaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
   timeout?: string | undefined;
 }
-export interface WaitProjectsAppsReleasesOperationsRequest {
+export interface WaitProjectsAppsReleasesOperationsRequest extends GoogleLongrunningWaitOperationRequest {
   /** The name of the operation resource to wait on. */
   name: string;
-  /** Request body */
-  body?: GoogleLongrunningWaitOperationRequest | undefined;
 }
 export type BatchAddProjectsTestersError =
   | NotFound
@@ -1322,11 +1301,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c2, 0),
+          S.Struct({
+            groupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/groups",
@@ -1409,10 +1390,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1DistributeReleaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:distribute",
@@ -1735,11 +1718,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(145, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(145, __c9, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1753,11 +1738,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c2, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1771,11 +1758,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1926,10 +1915,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1UploadReleaseRequest" });
     case 13:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(380, __c23, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(380, __c23, 12),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+app}/releases:upload",
@@ -1949,10 +1940,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleLongrunningWaitOperationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:wait",
@@ -1966,10 +1959,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+project}/testers:batchAdd",
@@ -2030,10 +2025,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c30, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/releases:batchDelete",
@@ -2060,10 +2057,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1BatchJoinGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            group: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+group}:batchJoin",
@@ -2077,10 +2076,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            group: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+group}:batchLeave",
@@ -2094,10 +2095,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+project}/testers:batchRemove",

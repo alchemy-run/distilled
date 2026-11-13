@@ -3152,13 +3152,11 @@ export interface GetLodgingLocationsRequest {
   /** Required. The specific fields to return. Use "*" to include all fields. Repeated field items cannot be individually specified. */
   readMask?: string | undefined;
 }
-export interface UpdateLodgingLocationsRequest {
+export interface UpdateLodgingLocationsRequest extends Omit<Lodging, "name"> {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
   /** Required. The specific fields to update. Use "*" to update all fields, which may include unsetting empty fields in the request. Repeated field items cannot be individually updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Lodging | undefined;
 }
 export type GetGoogleUpdatedLocationsLodgingError = NotFound | Forbidden | GcpOpError;
 /** Returns the Google updated Lodging of a specific location. */
@@ -4072,11 +4070,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(77, __c2, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(77, __c2, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

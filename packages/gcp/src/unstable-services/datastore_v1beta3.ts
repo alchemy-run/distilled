@@ -113,11 +113,9 @@ export interface AllocateIdsRequest {
   /** Required. A list of keys with incomplete key paths for which to allocate IDs. No key may be reserved/read-only. */
   keys?: KeyList | undefined;
 }
-export interface AllocateIdsProjectsRequest {
+export interface AllocateIdsProjectsRequest extends AllocateIdsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: AllocateIdsRequest | undefined;
 }
 /** The response for Datastore.AllocateIds. */
 export interface AllocateIdsResponse {
@@ -146,11 +144,9 @@ export interface BeginTransactionRequest {
   /** Options for a new transaction. */
   transactionOptions?: TransactionOptions | undefined;
 }
-export interface BeginTransactionProjectsRequest {
+export interface BeginTransactionProjectsRequest extends BeginTransactionRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: BeginTransactionRequest | undefined;
 }
 /** The response for Datastore.BeginTransaction. */
 export interface BeginTransactionResponse {
@@ -269,11 +265,9 @@ export interface CommitRequest {
   /** The identifier of the transaction associated with the commit. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
   transaction?: string | undefined;
 }
-export interface CommitProjectsRequest {
+export interface CommitProjectsRequest extends CommitRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: CommitRequest | undefined;
 }
 /** The result of applying a mutation. */
 export interface MutationResult {
@@ -319,11 +313,9 @@ export interface LookupRequest {
   /** Required. Keys of entities to look up. */
   keys?: KeyList | undefined;
 }
-export interface LookupProjectsRequest {
+export interface LookupProjectsRequest extends LookupRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: LookupRequest | undefined;
 }
 /** The result of fetching an entity from Datastore. */
 export interface EntityResult {
@@ -357,11 +349,9 @@ export interface ReserveIdsRequest {
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
   databaseId?: string | undefined;
 }
-export interface ReserveIdsProjectsRequest {
+export interface ReserveIdsProjectsRequest extends ReserveIdsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: ReserveIdsRequest | undefined;
 }
 /** The response for Datastore.ReserveIds. */
 export interface ReserveIdsResponse {}
@@ -370,11 +360,9 @@ export interface RollbackRequest {
   /** Required. The transaction identifier, returned by a call to Datastore.BeginTransaction. */
   transaction?: string | undefined;
 }
-export interface RollbackProjectsRequest {
+export interface RollbackProjectsRequest extends RollbackRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: RollbackRequest | undefined;
 }
 /** The response for Datastore.Rollback. (an empty message). */
 export interface RollbackResponse {}
@@ -553,11 +541,9 @@ export interface RunAggregationQueryRequest {
   /** The options for this query. */
   readOptions?: ReadOptions | undefined;
 }
-export interface RunAggregationQueryProjectsRequest {
+export interface RunAggregationQueryProjectsRequest extends RunAggregationQueryRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: RunAggregationQueryRequest | undefined;
 }
 /** The result of a single bucket from a Datastore aggregation query. The keys of `aggregate_properties` are the same for all results in an aggregation query, unlike entity queries which can have different fields present for each result. */
 export interface AggregationResult {
@@ -629,11 +615,9 @@ export interface RunQueryRequest {
   /** The options for this query. */
   readOptions?: ReadOptions | undefined;
 }
-export interface RunQueryProjectsRequest {
+export interface RunQueryProjectsRequest extends RunQueryRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: RunQueryRequest | undefined;
 }
 export type QueryResultBatchMoreResultsEnum =
   | "MORE_RESULTS_TYPE_UNSPECIFIED"
@@ -859,10 +843,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "RunAggregationQueryRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c0, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c0, 4),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:runAggregationQuery",
@@ -1042,10 +1028,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RunQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:runQuery",
@@ -1086,10 +1074,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "AllocateIdsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:allocateIds",
@@ -1162,10 +1152,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "BeginTransactionRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(195, __c6, 3),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:beginTransaction",
@@ -1227,10 +1219,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CommitRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(260, __c8, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(260, __c8, 4),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:commit",
@@ -1331,10 +1325,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "LookupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:lookup",
@@ -1392,10 +1388,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ReserveIdsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:reserveIds",
@@ -1415,10 +1413,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta3/projects/{projectId}:rollback",

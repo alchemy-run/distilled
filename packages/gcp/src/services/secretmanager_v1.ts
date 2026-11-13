@@ -127,11 +127,9 @@ export interface AddSecretVersionRequest {
   /** Required. The secret payload of the SecretVersion. */
   payload?: SecretPayload | undefined;
 }
-export interface AddVersionProjectsLocationsSecretsRequest {
+export interface AddVersionProjectsLocationsSecretsRequest extends AddSecretVersionRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*` or `projects/*\/locations/*\/secrets/*`. */
   parent: string;
-  /** Request body */
-  body?: AddSecretVersionRequest | undefined;
 }
 /** Describes the status of customer-managed encryption. */
 export interface CustomerManagedEncryptionStatus {
@@ -185,11 +183,9 @@ export interface SecretVersion {
   /** Output only. The current state of the SecretVersion. */
   state?: SecretVersionStateEnum | undefined;
 }
-export interface AddVersionProjectsSecretsRequest {
+export interface AddVersionProjectsSecretsRequest extends AddSecretVersionRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*` or `projects/*\/locations/*\/secrets/*`. */
   parent: string;
-  /** Request body */
-  body?: AddSecretVersionRequest | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type SecretSecretTypeEnum =
@@ -305,21 +301,17 @@ export interface Secret {
   /** Optional. Rotation policy attached to the Secret. May be excluded if there is no rotation policy. */
   rotation?: Rotation | undefined;
 }
-export interface CreateProjectsLocationsSecretsRequest {
+export interface CreateProjectsLocationsSecretsRequest extends Secret {
   /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
   secretId?: string | undefined;
   /** Required. The resource name of the project to associate with the Secret, in the format `projects/*` or `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: Secret | undefined;
 }
-export interface CreateProjectsSecretsRequest {
+export interface CreateProjectsSecretsRequest extends Secret {
   /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
   secretId?: string | undefined;
   /** Required. The resource name of the project to associate with the Secret, in the format `projects/*` or `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: Secret | undefined;
 }
 export interface DeleteProjectsLocationsSecretsRequest {
   /** Required. The resource name of the Secret to delete in the format `projects/*\/secrets/*`. */
@@ -340,31 +332,23 @@ export interface DestroySecretVersionRequest {
   /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
   etag?: string | undefined;
 }
-export interface DestroyProjectsLocationsSecretsVersionsRequest {
+export interface DestroyProjectsLocationsSecretsVersionsRequest extends DestroySecretVersionRequest {
   /** Required. The resource name of the SecretVersion to destroy in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
 }
-export interface DestroyProjectsSecretsVersionsRequest {
+export interface DestroyProjectsSecretsVersionsRequest extends DestroySecretVersionRequest {
   /** Required. The resource name of the SecretVersion to destroy in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
 }
 /** Request message for SecretManagerService.DisableSecretVersion. */
 export type DisableSecretVersionRequest = DestroySecretVersionRequest;
-export interface DisableProjectsLocationsSecretsVersionsRequest {
+export interface DisableProjectsLocationsSecretsVersionsRequest extends DestroySecretVersionRequest {
   /** Required. The resource name of the SecretVersion to disable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
 }
-export interface DisableProjectsSecretsVersionsRequest {
+export interface DisableProjectsSecretsVersionsRequest extends DestroySecretVersionRequest {
   /** Required. The resource name of the SecretVersion to disable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
 }
 /** These are the credentials required for Cloud SQL DB for Single user Managed Rotation. */
 export interface CloudSqlSingleUserCredentials {
@@ -380,31 +364,23 @@ export interface EnableManagedRotationRequest {
   /** Credentials required for Cloud SQL DB for Single user Managed Rotation. */
   cloudSqlSingleUserCredentials?: CloudSqlSingleUserCredentials | undefined;
 }
-export interface EnableManagedRotationProjectsLocationsSecretsRequest {
+export interface EnableManagedRotationProjectsLocationsSecretsRequest extends EnableManagedRotationRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*` or `projects/*\/locations/*\/secrets/*`. */
   parent: string;
-  /** Request body */
-  body?: EnableManagedRotationRequest | undefined;
 }
-export interface EnableManagedRotationProjectsSecretsRequest {
+export interface EnableManagedRotationProjectsSecretsRequest extends EnableManagedRotationRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*` or `projects/*\/locations/*\/secrets/*`. */
   parent: string;
-  /** Request body */
-  body?: EnableManagedRotationRequest | undefined;
 }
 /** Request message for SecretManagerService.EnableSecretVersion. */
 export type EnableSecretVersionRequest = DestroySecretVersionRequest;
-export interface EnableProjectsLocationsSecretsVersionsRequest {
+export interface EnableProjectsLocationsSecretsVersionsRequest extends DestroySecretVersionRequest {
   /** Required. The resource name of the SecretVersion to enable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
 }
-export interface EnableProjectsSecretsVersionsRequest {
+export interface EnableProjectsSecretsVersionsRequest extends DestroySecretVersionRequest {
   /** Required. The resource name of the SecretVersion to enable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsSecretsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -585,21 +561,17 @@ export interface ListProjectsSecretsVersionsRequest {
   /** Optional. Pagination token, returned earlier via ListSecretVersionsResponse.next_page_token][]. */
   pageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsSecretsRequest {
+export interface PatchProjectsLocationsSecretsRequest extends Omit<Secret, "name"> {
   /** Required. Specifies the fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
   name: string;
-  /** Request body */
-  body?: Secret | undefined;
 }
-export interface PatchProjectsSecretsRequest {
+export interface PatchProjectsSecretsRequest extends Omit<Secret, "name"> {
   /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
   name: string;
   /** Required. Specifies the fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Secret | undefined;
 }
 /** Request message for SecretManagerService.RotateSecret. */
 export interface RotateSecretRequest {}
@@ -622,39 +594,31 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsSecretsRequest {
+export interface SetIamPolicyProjectsLocationsSecretsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsSecretsRequest {
+export interface SetIamPolicyProjectsSecretsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsSecretsRequest {
+export interface TestIamPermissionsProjectsLocationsSecretsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsSecretsRequest {
+export interface TestIamPermissionsProjectsSecretsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type AccessProjectsLocationsSecretsVersionsError =
   | NotFound
@@ -1386,11 +1350,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          secretId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(829, __c51, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(829, __c51, 13),
+          S.Struct({
+            secretId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/secrets",
@@ -1444,10 +1410,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:destroy",
@@ -1471,10 +1439,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:destroy",
@@ -1488,10 +1458,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:disable",
@@ -1505,10 +1477,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:disable",
@@ -1522,10 +1496,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c10, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(161, __c10, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:enableManagedRotation",
@@ -1557,10 +1533,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c10, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(161, __c10, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:enableManagedRotation",
@@ -1574,10 +1552,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:enable",
@@ -1591,10 +1571,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:enable",
@@ -1925,11 +1907,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(829, __c51, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(829, __c51, 13),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1943,11 +1927,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(829, __c51, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(829, __c51, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1995,10 +1981,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2023,10 +2011,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2040,10 +2030,12 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2067,10 +2059,12 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2138,10 +2132,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(736, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:addVersion",
@@ -2217,10 +2213,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(736, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:addVersion",
@@ -2234,11 +2232,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          secretId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(829, __c51, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(829, __c51, 13),
+          S.Struct({
+            secretId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/secrets",

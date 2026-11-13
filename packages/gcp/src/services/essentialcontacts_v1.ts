@@ -199,23 +199,17 @@ export interface ComputeProjectsContactsRequest {
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
 }
-export interface CreateFoldersContactsRequest {
+export interface CreateFoldersContactsRequest extends GoogleCloudEssentialcontactsV1Contact {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
-export interface CreateOrganizationsContactsRequest {
+export interface CreateOrganizationsContactsRequest extends GoogleCloudEssentialcontactsV1Contact {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
-export interface CreateProjectsContactsRequest {
+export interface CreateProjectsContactsRequest extends GoogleCloudEssentialcontactsV1Contact {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export interface DeleteFoldersContactsRequest {
   /** Required. The name of the contact to delete. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
@@ -274,29 +268,32 @@ export interface ListProjectsContactsRequest {
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
 }
-export interface PatchFoldersContactsRequest {
+export interface PatchFoldersContactsRequest extends Omit<
+  GoogleCloudEssentialcontactsV1Contact,
+  "name"
+> {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
-export interface PatchOrganizationsContactsRequest {
+export interface PatchOrganizationsContactsRequest extends Omit<
+  GoogleCloudEssentialcontactsV1Contact,
+  "name"
+> {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
-export interface PatchProjectsContactsRequest {
+export interface PatchProjectsContactsRequest extends Omit<
+  GoogleCloudEssentialcontactsV1Contact,
+  "name"
+> {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1Contact | undefined;
 }
 export type GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum =
   | "NOTIFICATION_CATEGORY_UNSPECIFIED"
@@ -319,23 +316,17 @@ export interface GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The list of names of the contacts to send a test message to. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
   contacts?: StringList | undefined;
 }
-export interface SendTestMessageFoldersContactsRequest {
+export interface SendTestMessageFoldersContactsRequest extends GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest | undefined;
 }
-export interface SendTestMessageOrganizationsContactsRequest {
+export interface SendTestMessageOrganizationsContactsRequest extends GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest | undefined;
 }
-export interface SendTestMessageProjectsContactsRequest {
+export interface SendTestMessageProjectsContactsRequest extends GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
-  /** Request body */
-  body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest | undefined;
 }
 export type ComputeFoldersContactsError = NotFound | Forbidden | GcpOpError;
 /** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
@@ -909,11 +900,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(39, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -927,11 +920,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(39, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -945,11 +940,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(39, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -963,10 +960,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(29, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}/contacts:sendTestMessage",
@@ -993,10 +992,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(29, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}/contacts:sendTestMessage",
@@ -1010,10 +1011,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(29, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}/contacts:sendTestMessage",
@@ -1114,10 +1117,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(39, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/contacts",
@@ -1131,10 +1136,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(39, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/contacts",
@@ -1148,10 +1155,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(39, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/contacts",

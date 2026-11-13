@@ -116,11 +116,9 @@ export interface AdapterSession {
   /** Identifier. The name of the session. This is always system-assigned. */
   name?: string | undefined;
 }
-export interface AdapterProjectsInstancesDatabasesSessionsRequest {
+export interface AdapterProjectsInstancesDatabasesSessionsRequest extends AdapterSession {
   /** Required. The database in which the new session is created. */
   parent: string;
-  /** Request body */
-  body?: AdapterSession | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Message sent by the client to the adapter. */
@@ -132,11 +130,9 @@ export interface AdaptMessageRequest {
   /** Optional. Opaque request state passed by the client to the server. */
   attachments?: StringMap | undefined;
 }
-export interface AdaptMessageProjectsInstancesDatabasesSessionsRequest {
+export interface AdaptMessageProjectsInstancesDatabasesSessionsRequest extends AdaptMessageRequest {
   /** Required. The database session in which the adapter request is processed. */
   name: string;
-  /** Request body */
-  body?: AdaptMessageRequest | undefined;
 }
 /** Message sent by the adapter to the client. */
 export interface AdaptMessageResponse {
@@ -173,11 +169,9 @@ export interface AddSplitPointsRequest {
   /** Optional. A user-supplied tag associated with the split points. For example, "initial_data_load", "special_event_1". Defaults to "CloudAddSplitPointsAPI" if not specified. The length of the tag must not exceed 50 characters, or else it is trimmed. Only valid UTF8 characters are allowed. */
   initiator?: string | undefined;
 }
-export interface AddSplitPointsProjectsInstancesDatabasesRequest {
+export interface AddSplitPointsProjectsInstancesDatabasesRequest extends AddSplitPointsRequest {
   /** Required. The database on whose tables or indexes the split points are to be added. Values are of the form `projects//instances//databases/`. */
   database: string;
-  /** Request body */
-  body?: AddSplitPointsRequest | undefined;
 }
 /** The response for AddSplitPoints. */
 export interface AddSplitPointsResponse {}
@@ -203,11 +197,9 @@ export interface BatchCreateSessionsRequest {
   /** Parameters to apply to each created session. */
   sessionTemplate?: Session | undefined;
 }
-export interface BatchCreateProjectsInstancesDatabasesSessionsRequest {
+export interface BatchCreateProjectsInstancesDatabasesSessionsRequest extends BatchCreateSessionsRequest {
   /** Required. The database in which the new sessions are created. */
   database: string;
-  /** Request body */
-  body?: BatchCreateSessionsRequest | undefined;
 }
 export type SessionList = Array<Session>;
 /** The response for BatchCreateSessions. */
@@ -329,11 +321,9 @@ export interface BatchWriteRequest {
   /** Required. The groups of mutations to be applied. */
   mutationGroups?: MutationGroupList | undefined;
 }
-export interface BatchWriteProjectsInstancesDatabasesSessionsRequest {
+export interface BatchWriteProjectsInstancesDatabasesSessionsRequest extends BatchWriteRequest {
   /** Required. The session in which the batch request is to be run. */
   session: string;
-  /** Request body */
-  body?: BatchWriteRequest | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -406,11 +396,9 @@ export interface BeginTransactionRequest {
   /** Optional. Required for read-write transactions on a multiplexed session that commit mutations but don't perform any reads or queries. You must randomly select one of the mutations from the mutation set and send it as a part of this request. */
   mutationKey?: Mutation | undefined;
 }
-export interface BeginTransactionProjectsInstancesDatabasesSessionsRequest {
+export interface BeginTransactionProjectsInstancesDatabasesSessionsRequest extends BeginTransactionRequest {
   /** Required. The session in which the transaction runs. */
   session: string;
-  /** Request body */
-  body?: BeginTransactionRequest | undefined;
 }
 /** When a read-write transaction is executed on a multiplexed session, this precommit token is sent back to the client as a part of the Transaction message in the BeginTransaction response and also as a part of the ResultSet and PartialResultSet responses. */
 export interface MultiplexedSessionPrecommitToken {
@@ -477,11 +465,12 @@ export interface ChangeQuorumRequest {
   /** Required. Name of the database in which to apply `ChangeQuorum`. Values are of the form `projects//instances//databases/`. */
   name?: string | undefined;
 }
-export interface ChangequorumProjectsInstancesDatabasesRequest {
+export interface ChangequorumProjectsInstancesDatabasesRequest extends Omit<
+  ChangeQuorumRequest,
+  "name"
+> {
   /** Required. Name of the database in which to apply `ChangeQuorum`. Values are of the form `projects//instances//databases/`. */
   name: string;
-  /** Request body */
-  body?: ChangeQuorumRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -513,11 +502,9 @@ export interface CommitRequest {
   /** Commit a previously-started transaction. */
   transactionId?: string | undefined;
 }
-export interface CommitProjectsInstancesDatabasesSessionsRequest {
+export interface CommitProjectsInstancesDatabasesSessionsRequest extends CommitRequest {
   /** Required. The session in which the transaction to be committed is running. */
   session: string;
-  /** Request body */
-  body?: CommitRequest | undefined;
 }
 export type CommitResponseReadLockModeEnum =
   | "READ_LOCK_MODE_UNSPECIFIED"
@@ -572,11 +559,9 @@ export interface CopyBackupRequest {
   /** Required. The source backup to be copied. The source backup needs to be in READY state for it to be copied. Once CopyBackup is in progress, the source backup cannot be deleted or cleaned up on expiration until CopyBackup is finished. Values are of the form: `projects/{project}/instances/{instance}/backups/{backup}`. */
   sourceBackup?: string | undefined;
 }
-export interface CopyProjectsInstancesBackupsRequest {
+export interface CopyProjectsInstancesBackupsRequest extends CopyBackupRequest {
   /** Required. The name of the destination instance that will contain the backup copy. Values are of the form: `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: CopyBackupRequest | undefined;
 }
 export type ReplicaInfoTypeEnum = "TYPE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY" | "WITNESS";
 export interface ReplicaInfo {
@@ -641,11 +626,9 @@ export interface CreateInstanceConfigRequest {
   /** Required. The ID of the instance configuration to create. Valid identifiers are of the form `custom-[-a-z0-9]*[a-z0-9]` and must be between 2 and 64 characters in length. The `custom-` prefix is required to avoid name conflicts with Google-managed configurations. */
   instanceConfigId?: string | undefined;
 }
-export interface CreateProjectsInstanceConfigsRequest {
+export interface CreateProjectsInstanceConfigsRequest extends CreateInstanceConfigRequest {
   /** Required. The name of the project in which to create the instance configuration. Values are of the form `projects/`. */
   parent: string;
-  /** Request body */
-  body?: CreateInstanceConfigRequest | undefined;
 }
 export type InstanceInstanceTypeEnum =
   | "INSTANCE_TYPE_UNSPECIFIED"
@@ -783,11 +766,9 @@ export interface CreateInstanceRequest {
   /** Required. The instance to create. The name may be omitted, but if specified must be `/instances/`. */
   instance?: Instance | undefined;
 }
-export interface CreateProjectsInstancesRequest {
+export interface CreateProjectsInstancesRequest extends CreateInstanceRequest {
   /** Required. The name of the project in which to create the instance. Values are of the form `projects/`. */
   parent: string;
-  /** Request body */
-  body?: CreateInstanceRequest | undefined;
 }
 export type CreateProjectsInstancesBackupsEncryptionConfig_encryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
@@ -867,7 +848,7 @@ export interface Backup {
   /** Output only. The database dialect information for the backup. */
   databaseDialect?: BackupDatabaseDialectEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsInstancesBackupsRequest {
+export interface CreateProjectsInstancesBackupsRequest extends Backup {
   /** Optional. Specifies the KMS configuration for the one or more keys used to protect the backup. Values are of the form `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{kms_key_name}`. The keys referenced by `kms_key_names` must fully cover all regions of the backup's instance configuration. Some examples: * For regional (single-region) instance configurations, specify a regional location KMS key. * For multi-region instance configurations of type `GOOGLE_MANAGED`, either specify a multi-region location KMS key or multiple regional location KMS keys that cover all regions in the instance configuration. * For an instance configuration of type `USER_MANAGED`, specify only regional location KMS keys to cover each region in the instance configuration. Multi-region location KMS keys aren't supported for `USER_MANAGED` type instance configurations. */
   "encryptionConfig.kmsKeyNames"?: StringList | undefined;
   /** Optional. This field is maintained for backwards compatibility. For new callers, we recommend using `kms_key_names` to specify the KMS key. Only use `kms_key_name` if the location of the KMS key matches the database instance's configuration (location) exactly. For example, if the KMS location is in `us-central1` or `nam3`, then the database instance must also be in `us-central1` or `nam3`. The Cloud KMS key that is used to encrypt and decrypt the restored database. Set this field only when encryption_type is `CUSTOMER_MANAGED_ENCRYPTION`. Values are of the form `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{kms_key_name}`. */
@@ -881,8 +862,6 @@ export interface CreateProjectsInstancesBackupsRequest {
   backupId?: string | undefined;
   /** Required. The name of the instance in which the backup is created. This must be the same instance that contains the database the backup is created from. The backup will be stored in the locations specified in the instance configuration of this instance. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
 /** Encryption configuration for a Cloud Spanner database. */
 export interface EncryptionConfig {
@@ -908,11 +887,9 @@ export interface CreateDatabaseRequest {
   /** Optional. The dialect of the Cloud Spanner Database. */
   databaseDialect?: CreateDatabaseRequestDatabaseDialectEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsInstancesDatabasesRequest {
+export interface CreateProjectsInstancesDatabasesRequest extends CreateDatabaseRequest {
   /** Required. The name of the instance that will serve the new database. Values are of the form `projects//instances/`. */
   parent: string;
-  /** Request body */
-  body?: CreateDatabaseRequest | undefined;
 }
 /** The specification for full backups. A full backup stores the entire contents of the database at a given version time. */
 export type FullBackupSpec = PartitionedDml;
@@ -963,24 +940,20 @@ export interface BackupSchedule {
   /** Optional. The retention duration of a backup that must be at least 6 hours and at most 366 days. The backup is eligible to be automatically deleted once the retention period has elapsed. */
   retentionDuration?: string | undefined;
 }
-export interface CreateProjectsInstancesDatabasesBackupSchedulesRequest {
+export interface CreateProjectsInstancesDatabasesBackupSchedulesRequest extends BackupSchedule {
   /** Required. The name of the database that this backup schedule applies to. */
   parent: string;
   /** Required. The Id to use for the backup schedule. The `backup_schedule_id` appended to `parent` forms the full backup schedule name of the form `projects//instances//databases//backupSchedules/`. */
   backupScheduleId?: string | undefined;
-  /** Request body */
-  body?: BackupSchedule | undefined;
 }
 /** The request for CreateSession. */
 export interface CreateSessionRequest {
   /** Required. The session to create. */
   session?: Session | undefined;
 }
-export interface CreateProjectsInstancesDatabasesSessionsRequest {
+export interface CreateProjectsInstancesDatabasesSessionsRequest extends CreateSessionRequest {
   /** Required. The database in which the new session is created. */
   database: string;
-  /** Request body */
-  body?: CreateSessionRequest | undefined;
 }
 export type InstancePartitionStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY";
 /** An isolated set of Cloud Spanner resources that databases can define placements on. */
@@ -1017,11 +990,9 @@ export interface CreateInstancePartitionRequest {
   /** Required. The ID of the instance partition to create. Valid identifiers are of the form `a-z*[a-z0-9]` and must be between 2 and 64 characters in length. */
   instancePartitionId?: string | undefined;
 }
-export interface CreateProjectsInstancesInstancePartitionsRequest {
+export interface CreateProjectsInstancesInstancePartitionsRequest extends CreateInstancePartitionRequest {
   /** Required. The name of the instance in which to create the instance partition. Values are of the form `projects//instances/`. */
   parent: string;
-  /** Request body */
-  body?: CreateInstancePartitionRequest | undefined;
 }
 export interface DeleteProjectsInstanceConfigsRequest {
   /** An option to validate, but not actually execute, a request, and provide the same response. */
@@ -1163,11 +1134,9 @@ export interface ExecuteBatchDmlRequest {
   /** Required. The transaction to use. Must be a read-write transaction. To protect against replays, single-use transactions are not supported. The caller must either supply an existing transaction ID or begin a new transaction. */
   transaction?: TransactionSelector | undefined;
 }
-export interface ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest {
+export interface ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest extends ExecuteBatchDmlRequest {
   /** Required. The session in which the DML statements should be performed. */
   session: string;
-  /** Request body */
-  body?: ExecuteBatchDmlRequest | undefined;
 }
 /** Metadata about a ResultSet or PartialResultSet. */
 export interface ResultSetMetadata {
@@ -1337,17 +1306,13 @@ export interface ExecuteSqlRequest {
   /** Required. The SQL string. */
   sql?: string | undefined;
 }
-export interface ExecuteSqlProjectsInstancesDatabasesSessionsRequest {
+export interface ExecuteSqlProjectsInstancesDatabasesSessionsRequest extends ExecuteSqlRequest {
   /** Required. The session in which the SQL query should be performed. */
   session: string;
-  /** Request body */
-  body?: ExecuteSqlRequest | undefined;
 }
-export interface ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest {
+export interface ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest extends ExecuteSqlRequest {
   /** Required. The session in which the SQL query should be performed. */
   session: string;
-  /** Request body */
-  body?: ExecuteSqlRequest | undefined;
 }
 /** Partial results from a streaming read or SQL query. Streaming reads and SQL queries better tolerate large result sets, large rows, and large values, but are a little trickier to consume. */
 export interface PartialResultSet {
@@ -1387,11 +1352,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesRequest {
+export interface GetIamPolicyProjectsInstancesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being retrieved. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1423,23 +1386,17 @@ export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
 }
-export interface GetIamPolicyProjectsInstancesBackupsRequest {
+export interface GetIamPolicyProjectsInstancesBackupsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being retrieved. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsInstancesDatabasesRequest {
+export interface GetIamPolicyProjectsInstancesDatabasesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being retrieved. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest {
+export interface GetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being retrieved. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetProjectsInstanceConfigsRequest {
   /** Required. The name of the requested instance configuration. Values are of the form `projects//instanceConfigs/`. */
@@ -2110,11 +2067,9 @@ export interface MoveInstanceRequest {
   /** Optional. The configuration for each database in the target instance configuration. */
   targetDatabaseMoveConfigs?: DatabaseMoveConfigList | undefined;
 }
-export interface MoveProjectsInstancesRequest {
+export interface MoveProjectsInstancesRequest extends MoveInstanceRequest {
   /** Required. The instance to move. Values are of the form `projects//instances/`. */
   name: string;
-  /** Request body */
-  body?: MoveInstanceRequest | undefined;
 }
 /** Options for a `PartitionQueryRequest` and `PartitionReadRequest`. */
 export interface PartitionOptions {
@@ -2136,11 +2091,9 @@ export interface PartitionQueryRequest {
   /** Optional. Parameter names and values that bind to placeholders in the SQL string. A parameter placeholder consists of the `@` character followed by the parameter name (for example, `@firstName`). Parameter names can contain letters, numbers, and underscores. Parameters can appear anywhere that a literal value is expected. The same parameter name can be used more than once, for example: `"WHERE id > @msg_id AND id < @msg_id + 100"` It's an error to execute a SQL statement with unbound parameters. */
   params?: DocumentMap | undefined;
 }
-export interface PartitionQueryProjectsInstancesDatabasesSessionsRequest {
+export interface PartitionQueryProjectsInstancesDatabasesSessionsRequest extends PartitionQueryRequest {
   /** Required. The session used to create the partitions. */
   session: string;
-  /** Request body */
-  body?: PartitionQueryRequest | undefined;
 }
 /** Information returned for each partition returned in a PartitionResponse. */
 export interface Partition {
@@ -2170,11 +2123,9 @@ export interface PartitionReadRequest {
   /** The columns of table to be returned for each row matching this request. */
   columns?: StringList | undefined;
 }
-export interface PartitionReadProjectsInstancesDatabasesSessionsRequest {
+export interface PartitionReadProjectsInstancesDatabasesSessionsRequest extends PartitionReadRequest {
   /** Required. The session used to create the partitions. */
   session: string;
-  /** Request body */
-  body?: PartitionReadRequest | undefined;
 }
 /** The request for UpdateInstanceConfig. */
 export interface UpdateInstanceConfigRequest {
@@ -2185,11 +2136,9 @@ export interface UpdateInstanceConfigRequest {
   /** Required. The user instance configuration to update, which must always include the instance configuration name. Otherwise, only fields mentioned in update_mask need be included. To prevent conflicts of concurrent updates, etag can be used. */
   instanceConfig?: InstanceConfig | undefined;
 }
-export interface PatchProjectsInstanceConfigsRequest {
+export interface PatchProjectsInstanceConfigsRequest extends UpdateInstanceConfigRequest {
   /** A unique identifier for the instance configuration. Values are of the form `projects//instanceConfigs/a-z*`. User instance configuration must start with `custom-`. */
   name: string;
-  /** Request body */
-  body?: UpdateInstanceConfigRequest | undefined;
 }
 /** The request for UpdateInstance. */
 export interface UpdateInstanceRequest {
@@ -2198,35 +2147,30 @@ export interface UpdateInstanceRequest {
   /** Required. The instance to update, which must always include the instance name. Otherwise, only fields mentioned in field_mask need be included. */
   instance?: Instance | undefined;
 }
-export interface PatchProjectsInstancesRequest {
+export interface PatchProjectsInstancesRequest extends UpdateInstanceRequest {
   /** Required. A unique identifier for the instance, which cannot be changed after the instance is created. Values are of the form `projects//instances/a-z*[a-z0-9]`. The final segment of the name must be between 2 and 64 characters in length. */
   name: string;
-  /** Request body */
-  body?: UpdateInstanceRequest | undefined;
 }
-export interface PatchProjectsInstancesBackupsRequest {
+export interface PatchProjectsInstancesBackupsRequest extends Omit<Backup, "name"> {
   /** Required. A mask specifying which fields (for example, `expire_time`) in the backup resource should be updated. This mask is relative to the backup resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally by clients that do not know about them. */
   updateMask?: string | undefined;
   /** Output only for the CreateBackup operation. Required for the UpdateBackup operation. A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/backups/a-z*[a-z0-9]` The final segment of the name must be between 2 and 60 characters in length. The backup is stored in the location(s) specified in the instance configuration of the instance containing the backup, identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}`. */
   name: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface PatchProjectsInstancesDatabasesRequest {
+export interface PatchProjectsInstancesDatabasesRequest extends Omit<Database, "name"> {
   /** Required. The name of the database. Values are of the form `projects//instances//databases/`, where `` is as specified in the `CREATE DATABASE` statement. This name can be passed to other API methods to identify the database. */
   name: string;
   /** Required. The list of fields to update. Currently, only `enable_drop_protection` field can be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Database | undefined;
 }
-export interface PatchProjectsInstancesDatabasesBackupSchedulesRequest {
+export interface PatchProjectsInstancesDatabasesBackupSchedulesRequest extends Omit<
+  BackupSchedule,
+  "name"
+> {
   /** Required. A mask specifying which fields in the BackupSchedule resource should be updated. This mask is relative to the BackupSchedule resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally. */
   updateMask?: string | undefined;
   /** Identifier. Output only for the CreateBackupSchedule operation. Required for the UpdateBackupSchedule operation. A globally unique identifier for the backup schedule which cannot be changed. Values are of the form `projects//instances//databases//backupSchedules/a-z*[a-z0-9]` The final segment of the name must be between 2 and 60 characters in length. */
   name: string;
-  /** Request body */
-  body?: BackupSchedule | undefined;
 }
 /** The request for UpdateInstancePartition. */
 export interface UpdateInstancePartitionRequest {
@@ -2235,11 +2179,9 @@ export interface UpdateInstancePartitionRequest {
   /** Required. The instance partition to update, which must always include the instance partition name. Otherwise, only fields mentioned in field_mask need be included. */
   instancePartition?: InstancePartition | undefined;
 }
-export interface PatchProjectsInstancesInstancePartitionsRequest {
+export interface PatchProjectsInstancesInstancePartitionsRequest extends UpdateInstancePartitionRequest {
   /** Required. A unique identifier for the instance partition. Values are of the form `projects//instances//instancePartitions/a-z*[a-z0-9]`. The final segment of the name must be between 2 and 64 characters in length. An instance partition's name cannot be changed after the instance partition is created. */
   name: string;
-  /** Request body */
-  body?: UpdateInstancePartitionRequest | undefined;
 }
 export type ReadRequestLockHintEnum =
   | "LOCK_HINT_UNSPECIFIED"
@@ -2278,11 +2220,9 @@ export interface ReadRequest {
   /** Required. The name of the table in the database to be read. */
   table?: string | undefined;
 }
-export interface ReadProjectsInstancesDatabasesSessionsRequest {
+export interface ReadProjectsInstancesDatabasesSessionsRequest extends ReadRequest {
   /** Required. The session in which the read should be performed. */
   session: string;
-  /** Request body */
-  body?: ReadRequest | undefined;
 }
 export type RestoreDatabaseEncryptionConfigEncryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
@@ -2307,97 +2247,73 @@ export interface RestoreDatabaseRequest {
   /** Optional. An encryption configuration describing the encryption type and key resources in Cloud KMS used to encrypt/decrypt the database to restore to. If this field is not specified, the restored database will use the same encryption configuration as the backup by default, namely encryption_type = `USE_CONFIG_DEFAULT_OR_BACKUP_ENCRYPTION`. */
   encryptionConfig?: RestoreDatabaseEncryptionConfig | undefined;
 }
-export interface RestoreProjectsInstancesDatabasesRequest {
+export interface RestoreProjectsInstancesDatabasesRequest extends RestoreDatabaseRequest {
   /** Required. The name of the instance in which to create the restored database. This instance must be in the same project and have the same instance configuration as the instance containing the source backup. Values are of the form `projects//instances/`. */
   parent: string;
-  /** Request body */
-  body?: RestoreDatabaseRequest | undefined;
 }
 /** The request for Rollback. */
 export interface RollbackRequest {
   /** Required. The transaction to roll back. */
   transactionId?: string | undefined;
 }
-export interface RollbackProjectsInstancesDatabasesSessionsRequest {
+export interface RollbackProjectsInstancesDatabasesSessionsRequest extends RollbackRequest {
   /** Required. The session in which the transaction to roll back is running. */
   session: string;
-  /** Request body */
-  body?: RollbackRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsInstancesRequest {
+export interface SetIamPolicyProjectsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being set. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for databases resources. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesBackupsRequest {
+export interface SetIamPolicyProjectsInstancesBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being set. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for databases resources. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesDatabasesRequest {
+export interface SetIamPolicyProjectsInstancesDatabasesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being set. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for databases resources. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest {
+export interface SetIamPolicyProjectsInstancesDatabasesBackupSchedulesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The Cloud Spanner resource for which the policy is being set. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for databases resources. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface StreamingReadProjectsInstancesDatabasesSessionsRequest {
+export interface StreamingReadProjectsInstancesDatabasesSessionsRequest extends ReadRequest {
   /** Required. The session in which the read should be performed. */
   session: string;
-  /** Request body */
-  body?: ReadRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** REQUIRED: The set of permissions to check for 'resource'. Permissions with wildcards (such as '*', 'spanner.*', 'spanner.instances.*') are not allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesRequest {
+export interface TestIamPermissionsProjectsInstancesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The Cloud Spanner resource for which permissions are being tested. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesBackupsRequest {
+export interface TestIamPermissionsProjectsInstancesBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The Cloud Spanner resource for which permissions are being tested. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesDatabasesRequest {
+export interface TestIamPermissionsProjectsInstancesDatabasesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The Cloud Spanner resource for which permissions are being tested. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest {
+export interface TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The Cloud Spanner resource for which permissions are being tested. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest {
+export interface TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The Cloud Spanner resource for which permissions are being tested. The format is `projects//instances/` for instance resources and `projects//instances//databases/` for database resources. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Enqueues the given DDL statements to be applied, in order but not necessarily all at once, to the database schema at some point (or points) in the future. The server checks that the statements are executable (syntactically valid, name tables that exist, etc.) before enqueueing them, but they may still fail upon later execution (for example, if a statement from another batch of statements is applied first and it conflicts in some way, or if there is some data-related problem like a `NULL` value in a column to which `NOT NULL` would be added). If a statement fails, all subsequent statements in the batch are automatically cancelled. Each batch of statements is assigned a name which can be used with the Operations API to monitor progress. See the operation_id field for more details. */
 export interface UpdateDatabaseDdlRequest {
@@ -2408,11 +2324,9 @@ export interface UpdateDatabaseDdlRequest {
   /** If empty, the new update request is assigned an automatically-generated operation ID. Otherwise, `operation_id` is used to construct the name of the resulting Operation. Specifying an explicit operation ID simplifies determining whether the statements were executed in the event that the UpdateDatabaseDdl call is replayed, or the return value is otherwise lost: the database and `operation_id` fields can be combined to form the `name` of the resulting longrunning.Operation: `/operations/`. `operation_id` should be unique within the database, and must be a valid identifier: `a-z*`. Note that automatically-generated operation IDs always begin with an underscore. If the named operation already exists, UpdateDatabaseDdl returns `ALREADY_EXISTS`. */
   operationId?: string | undefined;
 }
-export interface UpdateDdlProjectsInstancesDatabasesRequest {
+export interface UpdateDdlProjectsInstancesDatabasesRequest extends UpdateDatabaseDdlRequest {
   /** Required. The database to update. */
   database: string;
-  /** Request body */
-  body?: UpdateDatabaseDdlRequest | undefined;
 }
 export type AdapterProjectsInstancesDatabasesSessionsError =
   | NotFound
@@ -4608,10 +4522,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BatchWriteRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:batchWrite",
@@ -4767,10 +4683,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4672, __c146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4672, __c146, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4784,10 +4702,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4672, __c146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4672, __c146, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4801,10 +4721,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4672, __c146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4672, __c146, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4820,10 +4742,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4672, __c146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4672, __c146, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4847,10 +4771,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseDdlRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+database}/ddl",
@@ -4872,10 +4798,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "BeginTransactionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:beginTransaction",
@@ -5044,10 +4972,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ChangeQuorumRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:changequorum",
@@ -5104,10 +5034,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CommitRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:commit",
@@ -5147,10 +5079,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CopyBackupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups:copy",
@@ -5184,10 +5118,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateInstanceConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instanceConfigs",
@@ -5241,10 +5177,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -5356,14 +5294,16 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "encryptionConfig.kmsKeyNames": S.optional(__S(96, __c3, 0).pipe(T.Query())),
-          "encryptionConfig.kmsKeyName": S.optional(S.String.pipe(T.Query())),
-          "encryptionConfig.encryptionType": S.optional(S.String.pipe(T.Query())),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            "encryptionConfig.kmsKeyNames": S.optional(__S(96, __c3, 0).pipe(T.Query())),
+            "encryptionConfig.kmsKeyName": S.optional(S.String.pipe(T.Query())),
+            "encryptionConfig.encryptionType": S.optional(S.String.pipe(T.Query())),
+            backupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups",
@@ -5438,10 +5378,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateDatabaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/databases",
@@ -5466,11 +5408,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupScheduleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1315, __c41, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1315, __c41, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupScheduleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backupSchedules",
@@ -5528,10 +5472,12 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CreateSessionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/sessions",
@@ -5552,10 +5498,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateInstancePartitionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1376, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instancePartitions",
@@ -5821,10 +5769,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ExecuteBatchDmlRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(1858, __c58, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1858, __c58, 2),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:executeBatchDml",
@@ -5988,10 +5938,12 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(2113, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2113, __c66, 1),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:executeSql",
@@ -6067,10 +6019,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(2113, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2113, __c66, 1),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:executeStreamingSql",
@@ -6123,10 +6077,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2305, __c72, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2305, __c72, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -6187,10 +6143,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2305, __c72, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2305, __c72, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -6204,10 +6162,12 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2305, __c72, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2305, __c72, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -6221,10 +6181,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2305, __c72, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2305, __c72, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -6418,10 +6380,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sessions:adapter",
@@ -6848,10 +6812,12 @@ function __c105(j: number): any {
       ).annotate({ identifier: "AdaptMessageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:adaptMessage",
@@ -7136,10 +7102,12 @@ function __c117(j: number): any {
       ).annotate({ identifier: "AddSplitPointsRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(3748, __c117, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3748, __c117, 4),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}:addSplitPoints",
@@ -7226,10 +7194,12 @@ function __c122(j: number): any {
       ).annotate({ identifier: "MoveInstanceRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3906, __c122, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3906, __c122, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -7253,10 +7223,12 @@ function __c123(j: number): any {
       ).annotate({ identifier: "PartitionQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(3936, __c123, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:partitionQuery",
@@ -7307,10 +7279,12 @@ function __c125(j: number): any {
       ).annotate({ identifier: "PartitionReadRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(4000, __c125, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:partitionRead",
@@ -7332,10 +7306,12 @@ function __c126(j: number): any {
       ).annotate({ identifier: "UpdateInstanceConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4032, __c126, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4032, __c126, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7356,10 +7332,12 @@ function __c127(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4064, __c127, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7373,11 +7351,13 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7391,11 +7371,13 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2691, __c84, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2691, __c84, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7409,11 +7391,13 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1315, __c41, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1315, __c41, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7434,10 +7418,12 @@ function __c131(j: number): any {
       ).annotate({ identifier: "BatchCreateSessionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4192, __c131, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/sessions:batchCreate",
@@ -7485,10 +7471,12 @@ function __c134(j: number): any {
       ).annotate({ identifier: "UpdateInstancePartitionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4288, __c134, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4288, __c134, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7502,10 +7490,12 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(4352, __c136, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4352, __c136, 0),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:read",
@@ -7549,10 +7539,12 @@ function __c137(j: number): any {
       ).annotate({ identifier: "RestoreDatabaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/databases:restore",
@@ -7572,10 +7564,12 @@ function __c138(j: number): any {
       ).annotate({ identifier: "RollbackRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(4416, __c138, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4416, __c138, 0),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:rollback",
@@ -7589,10 +7583,12 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7616,10 +7612,12 @@ function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7633,10 +7631,12 @@ function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7650,10 +7650,12 @@ function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7667,10 +7669,12 @@ function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(4352, __c136, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4352, __c136, 0),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:streamingRead",
@@ -7684,10 +7688,12 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4672, __c146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4672, __c146, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",

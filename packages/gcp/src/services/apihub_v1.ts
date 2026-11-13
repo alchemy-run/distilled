@@ -546,11 +546,9 @@ export interface GoogleCloudApihubV1CollectApiDataRequest {
   /** Required. The plugin instance collecting the API data. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}`. */
   pluginInstance?: string | undefined;
 }
-export interface CollectApiDataProjectsLocationsRequest {
+export interface CollectApiDataProjectsLocationsRequest extends GoogleCloudApihubV1CollectApiDataRequest {
   /** Required. The regional location of the API hub instance and its resources. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1CollectApiDataRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -644,11 +642,9 @@ export interface GoogleCloudApihubV1ConfigureAndDeployServerRequest {
   /** MCP (Model Context Protocol) server configuration. */
   mcpServerConfig?: GoogleCloudApihubV1McpServerConfig | undefined;
 }
-export interface ConfigureAndDeployServerProjectsLocationsServersRequest {
+export interface ConfigureAndDeployServerProjectsLocationsServersRequest extends GoogleCloudApihubV1ConfigureAndDeployServerRequest {
   /** Required. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1ConfigureAndDeployServerRequest | undefined;
 }
 export type GoogleCloudApihubV1ConfigEncryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
@@ -699,29 +695,23 @@ export interface GoogleCloudApihubV1ApiHubInstance {
   /** Output only. Extra information about ApiHub instance state. Currently the message would be populated when state is `FAILED`. */
   stateMessage?: string | undefined;
 }
-export interface CreateProjectsLocationsApiHubInstancesRequest {
+export interface CreateProjectsLocationsApiHubInstancesRequest extends GoogleCloudApihubV1ApiHubInstance {
   /** Required. The parent resource for the Api Hub instance resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Optional. Identifier to assign to the Api Hub instance. Must be unique within scope of the parent resource. If the field is not provided, system generated id will be used. This value should be 4-40 characters, and valid characters are `/a-z[0-9]-_/`. */
   apiHubInstanceId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1ApiHubInstance | undefined;
 }
-export interface CreateProjectsLocationsApisRequest {
+export interface CreateProjectsLocationsApisRequest extends GoogleCloudApihubV1Api {
   /** Optional. The ID to use for the API resource, which will become the final component of the API's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another API resource in the API hub. * If not provided, a system generated id will be used. This value should be 4-500 characters, and valid characters are /a-z[0-9]-_/. */
   apiId?: string | undefined;
   /** Required. The parent resource for the API resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1Api | undefined;
 }
-export interface CreateProjectsLocationsApisVersionsRequest {
+export interface CreateProjectsLocationsApisVersionsRequest extends GoogleCloudApihubV1Version {
   /** Required. The parent resource for API version. Format: `projects/{project}/locations/{location}/apis/{api}` */
   parent: string;
   /** Optional. The ID to use for the API version, which will become the final component of the version's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another version in the API resource. * If not provided, a system generated id will be used. This value should be 4-500 characters, overall resource name which will be of format `projects/{project}/locations/{location}/apis/{api}/versions/{version}`, its length is limited to 700 characters and valid characters are /a-z[0-9]-_/. */
   versionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Version | undefined;
 }
 /** The operation schema needed for an operation. */
 export interface GoogleCloudApihubV1OperationSchema {
@@ -814,21 +804,17 @@ export interface GoogleCloudApihubV1ApiOperation {
   /** Output only. The name of the spec will be of the format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` Note:The name of the spec will be empty if the operation is created via CreateApiOperation API. */
   spec?: string | undefined;
 }
-export interface CreateProjectsLocationsApisVersionsOperationsRequest {
+export interface CreateProjectsLocationsApisVersionsOperationsRequest extends GoogleCloudApihubV1ApiOperation {
   /** Required. The parent resource for the operation resource. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   parent: string;
   /** Optional. The ID to use for the operation resource, which will become the final component of the operation's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another operation resource in the API hub. * If not provided, a system generated id will be used. This value should be 4-500 characters, overall resource name which will be of format `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}`, its length is limited to 1000 characters, and valid characters are /a-z[0-9]-_/. */
   apiOperationId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1ApiOperation | undefined;
 }
-export interface CreateProjectsLocationsApisVersionsSpecsRequest {
+export interface CreateProjectsLocationsApisVersionsSpecsRequest extends GoogleCloudApihubV1Spec {
   /** Required. The parent resource for Spec. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   parent: string;
   /** Optional. The ID to use for the spec, which will become the final component of the spec's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another spec in the API resource. * If not provided, a system generated id will be used. This value should be 4-500 characters, overall resource name which will be of format `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}`, its length is limited to 1000 characters and valid characters are /a-z[0-9]-_/. */
   specId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Spec | undefined;
 }
 export type GoogleCloudApihubV1AttributeDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -876,13 +862,11 @@ export interface GoogleCloudApihubV1Attribute {
   /** Output only. When mandatory is true, the attribute is mandatory for the resource specified in the scope. Only System defined attributes can be mandatory. */
   mandatory?: boolean | undefined;
 }
-export interface CreateProjectsLocationsAttributesRequest {
+export interface CreateProjectsLocationsAttributesRequest extends GoogleCloudApihubV1Attribute {
   /** Required. The parent resource for Attribute. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Optional. The ID to use for the attribute, which will become the final component of the attribute's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another attribute resource in the API hub. * If not provided, a system generated id will be used. This value should be 4-500 characters, and valid characters are /a-z[0-9]-_/. */
   attributeId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Attribute | undefined;
 }
 export type GoogleCloudApihubV1CurationLastExecutionErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -944,13 +928,11 @@ export interface GoogleCloudApihubV1Curation {
   /** Identifier. The name of the curation. Format: `projects/{project}/locations/{location}/curations/{curation}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsCurationsRequest {
+export interface CreateProjectsLocationsCurationsRequest extends GoogleCloudApihubV1Curation {
   /** Required. The parent resource for the curation resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Optional. The ID to use for the curation resource, which will become the final component of the curations's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified ID is already used by another curation resource in the API hub. * If not provided, a system generated ID will be used. This value should be 4-500 characters, and valid characters are /a-z[0-9]-_/. */
   curationId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Curation | undefined;
 }
 /** Reference to an entity participating in a dependency. */
 export interface GoogleCloudApihubV1DependencyEntityReference {
@@ -999,21 +981,17 @@ export interface GoogleCloudApihubV1Dependency {
   /** Required. Immutable. The entity acting as the supplier in the dependency. */
   supplier?: GoogleCloudApihubV1DependencyEntityReference | undefined;
 }
-export interface CreateProjectsLocationsDependenciesRequest {
+export interface CreateProjectsLocationsDependenciesRequest extends GoogleCloudApihubV1Dependency {
   /** Optional. The ID to use for the dependency resource, which will become the final component of the dependency's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if duplicate id is provided by the client. * If not provided, a system generated id will be used. This value should be 4-500 characters, and valid characters are `a-z[0-9]-_`. */
   dependencyId?: string | undefined;
   /** Required. The parent resource for the dependency resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1Dependency | undefined;
 }
-export interface CreateProjectsLocationsDeploymentsRequest {
+export interface CreateProjectsLocationsDeploymentsRequest extends GoogleCloudApihubV1Deployment {
   /** Optional. The ID to use for the deployment resource, which will become the final component of the deployment's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another deployment resource in the API hub. * If not provided, a system generated id will be used. This value should be 4-500 characters, and valid characters are /a-z[0-9]-_/. */
   deploymentId?: string | undefined;
   /** Required. The parent resource for the deployment resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1Deployment | undefined;
 }
 /** An external API represents an API being provided by external sources. This can be used to model third-party APIs and can be used to define dependencies. */
 export interface GoogleCloudApihubV1ExternalApi {
@@ -1036,13 +1014,11 @@ export interface GoogleCloudApihubV1ExternalApi {
   /** Output only. Last update timestamp. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsExternalApisRequest {
+export interface CreateProjectsLocationsExternalApisRequest extends GoogleCloudApihubV1ExternalApi {
   /** Optional. The ID to use for the External API resource, which will become the final component of the External API's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another External API resource in the API hub. * If not provided, a system generated id will be used. This value should be 4-500 characters, and valid characters are /a-z[0-9]-_/. */
   externalApiId?: string | undefined;
   /** Required. The parent resource for the External API resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1ExternalApi | undefined;
 }
 /** Host project registration refers to the registration of a Google cloud project with Api Hub as a host project. This is the project where Api Hub is provisioned. It acts as the consumer project for the Api Hub instance provisioned. Multiple runtime projects can be attached to the host project and these attachments define the scope of Api Hub. */
 export interface GoogleCloudApihubV1HostProjectRegistration {
@@ -1053,13 +1029,11 @@ export interface GoogleCloudApihubV1HostProjectRegistration {
   /** Required. Immutable. Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number. */
   gcpProject?: string | undefined;
 }
-export interface CreateProjectsLocationsHostProjectRegistrationsRequest {
+export interface CreateProjectsLocationsHostProjectRegistrationsRequest extends GoogleCloudApihubV1HostProjectRegistration {
   /** Required. The parent resource for the host project. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the Host Project Registration, which will become the final component of the host project registration's resource name. The ID must be the same as the Google cloud project specified in the host_project_registration.gcp_project field. */
   hostProjectRegistrationId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1HostProjectRegistration | undefined;
 }
 export type GoogleCloudApihubV1PluginPluginCategoryEnum =
   | "PLUGIN_CATEGORY_UNSPECIFIED"
@@ -1205,13 +1179,11 @@ export interface GoogleCloudApihubV1Plugin {
   /** Optional. This field is optional. It is used to notify the plugin hosting service for any lifecycle changes of the plugin instance and trigger execution of plugin instance actions in case of API hub managed actions. This field should be provided if the plugin instance lifecycle of the developed plugin needs to be managed from API hub. Also, in this case the plugin hosting service interface needs to be implemented. This field should not be provided if the plugin wants to manage plugin instance lifecycle events outside of hub interface and use plugin framework for only registering of plugin and plugin instances to capture the source of data into hub. Note, in this case the plugin hosting service interface is not required to be implemented. Also, the plugin instance lifecycle actions will be disabled from API hub's UI. */
   hostingService?: GoogleCloudApihubV1HostingService | undefined;
 }
-export interface CreateProjectsLocationsPluginsRequest {
+export interface CreateProjectsLocationsPluginsRequest extends GoogleCloudApihubV1Plugin {
   /** Required. The parent resource where this plugin will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. The ID to use for the Plugin resource, which will become the final component of the Plugin's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another Plugin resource in the API hub instance. * If not provided, a system generated id will be used. This value should be 4-63 characters, overall resource name which will be of format `projects/{project}/locations/{location}/plugins/{plugin}`, its length is limited to 1000 characters and valid characters are /a-z[0-9]-_/. */
   pluginId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Plugin | undefined;
 }
 export type GoogleCloudApihubV1PluginInstanceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1444,13 +1416,11 @@ export interface GoogleCloudApihubV1PluginInstance {
   /** Output only. Error message describing the failure, if any, during Create, Delete or ApplyConfig operation corresponding to the plugin instance.This field will only be populated if the plugin instance is in the ERROR or FAILED state. */
   errorMessage?: string | undefined;
 }
-export interface CreateProjectsLocationsPluginsInstancesRequest {
+export interface CreateProjectsLocationsPluginsInstancesRequest extends GoogleCloudApihubV1PluginInstance {
   /** Required. The parent of the plugin instance resource. Format: `projects/{project}/locations/{location}/plugins/{plugin}` */
   parent: string;
   /** Optional. The ID to use for the plugin instance, which will become the final component of the plugin instance's resource name. This field is optional. * If provided, the same will be used. The service will throw an error if the specified id is already used by another plugin instance in the plugin resource. * If not provided, a system generated id will be used. This value should be 4-63 characters, and valid characters are /a-z[0-9]-_/. */
   pluginInstanceId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1PluginInstance | undefined;
 }
 /** Runtime project attachment represents an attachment from the runtime project to the host project. Api Hub looks for deployments in the attached runtime projects and creates corresponding resources in Api Hub for the discovered deployments. */
 export interface GoogleCloudApihubV1RuntimeProjectAttachment {
@@ -1461,13 +1431,11 @@ export interface GoogleCloudApihubV1RuntimeProjectAttachment {
   /** Required. Immutable. Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number. */
   runtimeProject?: string | undefined;
 }
-export interface CreateProjectsLocationsRuntimeProjectAttachmentsRequest {
+export interface CreateProjectsLocationsRuntimeProjectAttachmentsRequest extends GoogleCloudApihubV1RuntimeProjectAttachment {
   /** Required. The parent resource for the Runtime Project Attachment. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the Runtime Project Attachment, which will become the final component of the Runtime Project Attachment's name. The ID must be the same as the project ID of the Google cloud project specified in the runtime_project_attachment.runtime_project field. */
   runtimeProjectAttachmentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1RuntimeProjectAttachment | undefined;
 }
 export interface DeleteProjectsLocationsApiHubInstancesRequest {
   /** Required. The name of the Api Hub instance to delete. Format: `projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}`. */
@@ -1534,11 +1502,9 @@ export interface GoogleCloudApihubV1DisablePluginInstanceActionRequest {
   /** Required. The action id to disable. */
   actionId?: string | undefined;
 }
-export interface DisableActionProjectsLocationsPluginsInstancesRequest {
+export interface DisableActionProjectsLocationsPluginsInstancesRequest extends GoogleCloudApihubV1DisablePluginInstanceActionRequest {
   /** Required. The name of the plugin instance to disable. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1DisablePluginInstanceActionRequest | undefined;
 }
 /** The DisablePlugin method's request. */
 export type GoogleCloudApihubV1DisablePluginRequest = GoogleLongrunningCancelOperationRequest;
@@ -1553,11 +1519,9 @@ export interface GoogleCloudApihubV1EnablePluginInstanceActionRequest {
   /** Required. The action id to enable. */
   actionId?: string | undefined;
 }
-export interface EnableActionProjectsLocationsPluginsInstancesRequest {
+export interface EnableActionProjectsLocationsPluginsInstancesRequest extends GoogleCloudApihubV1EnablePluginInstanceActionRequest {
   /** Required. The name of the plugin instance to enable. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1EnablePluginInstanceActionRequest | undefined;
 }
 /** The EnablePlugin method's request. */
 export type GoogleCloudApihubV1EnablePluginRequest = GoogleLongrunningCancelOperationRequest;
@@ -1577,11 +1541,9 @@ export interface GoogleCloudApihubV1ExecutePluginInstanceActionRequest {
   /** Required. The execution details for the action to execute. */
   actionExecutionDetail?: GoogleCloudApihubV1ActionExecutionDetail | undefined;
 }
-export interface ExecuteActionProjectsLocationsPluginsInstancesRequest {
+export interface ExecuteActionProjectsLocationsPluginsInstancesRequest extends GoogleCloudApihubV1ExecutePluginInstanceActionRequest {
   /** Required. The name of the plugin instance to execute. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1ExecutePluginInstanceActionRequest | undefined;
 }
 export type FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsSpecContentTypeEnum =
   | "SPEC_CONTENT_TYPE_UNSPECIFIED"
@@ -1613,11 +1575,9 @@ export interface GoogleCloudApihubV1GenerateSpecRequest {
   /** Required. The observation window. The server quantizes to day boundaries and caps the span at 90 days. */
   observationWindow?: GoogleTypeInterval | undefined;
 }
-export interface GenerateSpecProjectsLocationsGeneratedSpecApisRequest {
+export interface GenerateSpecProjectsLocationsGeneratedSpecApisRequest extends GoogleCloudApihubV1GenerateSpecRequest {
   /** Required. The resource name of the GeneratedSpecApi to generate from. Format: `projects/{project}/locations/{location}/generatedSpecApis/{generated_spec_api}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1GenerateSpecRequest | undefined;
 }
 /** Response for GenerateSpec. */
 export interface GoogleCloudApihubV1GenerateSpecResponse {
@@ -2475,11 +2435,9 @@ export interface GoogleCloudApihubV1ManageAddonConfigRequest {
   /** Required. The config of the addon to be managed. This config will replace the config present in the addon. The type of the config should match the config type already present in the addon. */
   config?: GoogleCloudApihubV1AddonConfig | undefined;
 }
-export interface ManageConfigProjectsLocationsAddonsRequest {
+export interface ManageConfigProjectsLocationsAddonsRequest extends GoogleCloudApihubV1ManageAddonConfigRequest {
   /** Required. The name of the addon for which the config is to be managed. Format: `projects/{project}/locations/{location}/addons/{addon}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1ManageAddonConfigRequest | undefined;
 }
 export type GoogleCloudApihubV1ManagePluginInstanceSourceDataRequestDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -2508,101 +2466,107 @@ export interface GoogleCloudApihubV1ManagePluginInstanceSourceDataRequest {
     | (string & {})
     | undefined;
 }
-export interface ManageSourceDataProjectsLocationsPluginsInstancesRequest {
+export interface ManageSourceDataProjectsLocationsPluginsInstancesRequest extends GoogleCloudApihubV1ManagePluginInstanceSourceDataRequest {
   /** Required. The name of the plugin instance for which data needs to be managed. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1ManagePluginInstanceSourceDataRequest | undefined;
 }
 /** The ManagePluginInstanceSourceData method's response. */
 export interface GoogleCloudApihubV1ManagePluginInstanceSourceDataResponse {}
-export interface PatchProjectsLocationsApiHubInstancesRequest {
+export interface PatchProjectsLocationsApiHubInstancesRequest extends Omit<
+  GoogleCloudApihubV1ApiHubInstance,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Format: `projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1ApiHubInstance | undefined;
 }
-export interface PatchProjectsLocationsApisRequest {
+export interface PatchProjectsLocationsApisRequest extends Omit<GoogleCloudApihubV1Api, "name"> {
   /** Identifier. The name of the API resource in the API Hub. Format: `projects/{project}/locations/{location}/apis/{api}` */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Api | undefined;
 }
-export interface PatchProjectsLocationsApisVersionsRequest {
+export interface PatchProjectsLocationsApisVersionsRequest extends Omit<
+  GoogleCloudApihubV1Version,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The name of the version. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1Version | undefined;
 }
-export interface PatchProjectsLocationsApisVersionsOperationsRequest {
+export interface PatchProjectsLocationsApisVersionsOperationsRequest extends Omit<
+  GoogleCloudApihubV1ApiOperation,
+  "name"
+> {
   /** Identifier. The name of the operation. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}` */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1ApiOperation | undefined;
 }
-export interface PatchProjectsLocationsApisVersionsSpecsRequest {
+export interface PatchProjectsLocationsApisVersionsSpecsRequest extends Omit<
+  GoogleCloudApihubV1Spec,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The name of the spec. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1Spec | undefined;
 }
-export interface PatchProjectsLocationsAttributesRequest {
+export interface PatchProjectsLocationsAttributesRequest extends Omit<
+  GoogleCloudApihubV1Attribute,
+  "name"
+> {
   /** Identifier. The name of the attribute in the API Hub. Format: `projects/{project}/locations/{location}/attributes/{attribute}` */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Attribute | undefined;
 }
-export interface PatchProjectsLocationsCurationsRequest {
+export interface PatchProjectsLocationsCurationsRequest extends Omit<
+  GoogleCloudApihubV1Curation,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The name of the curation. Format: `projects/{project}/locations/{location}/curations/{curation}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1Curation | undefined;
 }
-export interface PatchProjectsLocationsDependenciesRequest {
+export interface PatchProjectsLocationsDependenciesRequest extends Omit<
+  GoogleCloudApihubV1Dependency,
+  "name"
+> {
   /** Identifier. The name of the dependency in the API Hub. Format: `projects/{project}/locations/{location}/dependencies/{dependency}` */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1Dependency | undefined;
 }
-export interface PatchProjectsLocationsDeploymentsRequest {
+export interface PatchProjectsLocationsDeploymentsRequest extends Omit<
+  GoogleCloudApihubV1Deployment,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1Deployment | undefined;
 }
-export interface PatchProjectsLocationsExternalApisRequest {
+export interface PatchProjectsLocationsExternalApisRequest extends Omit<
+  GoogleCloudApihubV1ExternalApi,
+  "name"
+> {
   /** Identifier. Format: `projects/{project}/locations/{location}/externalApi/{externalApi}`. */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1ExternalApi | undefined;
 }
-export interface PatchProjectsLocationsPluginsInstancesRequest {
+export interface PatchProjectsLocationsPluginsInstancesRequest extends Omit<
+  GoogleCloudApihubV1PluginInstance,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The unique name of the plugin instance resource. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1PluginInstance | undefined;
 }
 /** The SearchResources method's request. */
 export interface GoogleCloudApihubV1SearchResourcesRequest {
@@ -2615,11 +2579,9 @@ export interface GoogleCloudApihubV1SearchResourcesRequest {
   /** Required. The free text search query. This query can contain keywords which could be related to any detail of the API-Hub resources such display names, descriptions, attributes etc. */
   query?: string | undefined;
 }
-export interface SearchResourcesProjectsLocationsRequest {
+export interface SearchResourcesProjectsLocationsRequest extends GoogleCloudApihubV1SearchResourcesRequest {
   /** Required. The resource name of the location which will be of the type `projects/{project_id}/locations/{location_id}`. This field is used to identify the instance of API-Hub in which resources should be searched. */
   location: string;
-  /** Request body */
-  body?: GoogleCloudApihubV1SearchResourcesRequest | undefined;
 }
 /** ApiHubResource is one of the resources such as Api, Operation, Deployment, Definition, Spec and Version resources stored in API-Hub. */
 export interface GoogleCloudApihubV1ApiHubResource {
@@ -2649,13 +2611,14 @@ export interface GoogleCloudApihubV1SearchResourcesResponse {
   /** List of search results according to the filter and search query specified. The order of search results represents the ranking. */
   searchResults?: GoogleCloudApihubV1SearchResultList | undefined;
 }
-export interface UpdateStyleGuideProjectsLocationsPluginsRequest {
+export interface UpdateStyleGuideProjectsLocationsPluginsRequest extends Omit<
+  GoogleCloudApihubV1StyleGuide,
+  "name"
+> {
   /** Identifier. The name of the style guide. Format: `projects/{project}/locations/{location}/plugins/{plugin}/styleGuide` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApihubV1StyleGuide | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -5011,11 +4974,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          versionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            versionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -5029,11 +4994,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDeploymentsRequest" });
@@ -5043,11 +5010,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsExternalApisRequest" });
@@ -5057,11 +5026,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(851, __c26, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(851, __c26, 19),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsPluginsInstancesRequest" });
@@ -5080,10 +5051,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GoogleCloudApihubV1SearchResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:searchResources",
@@ -5123,11 +5096,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateStyleGuideProjectsLocationsPluginsRequest" });
@@ -5137,11 +5112,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          apiOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(260, __c8, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(260, __c8, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            apiOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/operations",
@@ -5228,11 +5205,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          specId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2602, __c81, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2602, __c81, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            specId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/specs",
@@ -5246,11 +5225,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          attributeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            attributeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attributes",
@@ -5284,11 +5265,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          curationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(420, __c13, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(420, __c13, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            curationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/curations",
@@ -5343,11 +5326,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dependencyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(482, __c15, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(482, __c15, 2),
+          S.Struct({
+            dependencyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dependencies",
@@ -5395,11 +5380,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            deploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deployments",
@@ -5413,11 +5400,13 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          externalApiId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            externalApiId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/externalApis",
@@ -5449,11 +5438,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          hostProjectRegistrationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            hostProjectRegistrationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/hostProjectRegistrations",
@@ -5479,11 +5470,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pluginId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(775, __c24, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(775, __c24, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            pluginId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/plugins",
@@ -5591,11 +5584,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pluginInstanceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(851, __c26, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(851, __c26, 19),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            pluginInstanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -5760,11 +5755,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          runtimeProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            runtimeProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/runtimeProjectAttachments",
@@ -6016,10 +6013,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:disableAction",
@@ -6060,10 +6059,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:enableAction",
@@ -6100,10 +6101,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GoogleCloudApihubV1ExecutePluginInstanceActionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeAction",
@@ -6155,10 +6158,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GoogleCloudApihubV1GenerateSpecRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1601, __c50, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1601, __c50, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateSpec",
@@ -6742,10 +6747,12 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GoogleCloudApihubV1CollectApiDataRequest" });
     case 11:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(2474, __c77, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2474, __c77, 10),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:collectApiData",
@@ -7334,10 +7341,12 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GoogleCloudApihubV1ConfigureAndDeployServerRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3463, __c108, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3463, __c108, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servers:configureAndDeployServer",
@@ -7630,11 +7639,13 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          apiHubInstanceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3842, __c120, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3842, __c120, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            apiHubInstanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apiHubInstances",
@@ -7953,11 +7964,13 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          apiId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3040, __c95, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3040, __c95, 0),
+          S.Struct({
+            apiId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apis",
@@ -7977,10 +7990,12 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GoogleCloudApihubV1ManageAddonConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4224, __c132, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4224, __c132, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:manageConfig",
@@ -8003,10 +8018,12 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GoogleCloudApihubV1ManagePluginInstanceSourceDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4256, __c133, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4256, __c133, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:manageSourceData",
@@ -8020,11 +8037,13 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3842, __c120, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3842, __c120, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsApiHubInstancesRequest" });
@@ -8034,11 +8053,13 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3040, __c95, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3040, __c95, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsApisRequest" });
@@ -8048,11 +8069,13 @@ function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsApisVersionsRequest" });
@@ -8062,11 +8085,13 @@ function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(260, __c8, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(260, __c8, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsApisVersionsOperationsRequest" });
@@ -8076,11 +8101,13 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2602, __c81, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2602, __c81, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsApisVersionsSpecsRequest" });
@@ -8090,11 +8117,13 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAttributesRequest" });
@@ -8104,11 +8133,13 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(420, __c13, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(420, __c13, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsCurationsRequest" });
@@ -8118,11 +8149,13 @@ function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(482, __c15, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(482, __c15, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apihub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDependenciesRequest" });

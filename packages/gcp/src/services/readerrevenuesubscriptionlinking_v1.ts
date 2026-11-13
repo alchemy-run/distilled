@@ -131,13 +131,14 @@ export interface Reader {
   /** Output only. The publisher provided id of the reader. */
   ppid?: string | undefined;
 }
-export interface UpdateEntitlementsPublicationsReadersRequest {
+export interface UpdateEntitlementsPublicationsReadersRequest extends Omit<
+  ReaderEntitlements,
+  "name"
+> {
   /** Output only. The resource name of the singleton. */
   name: string;
   /** Optional. The list of fields to update. Defaults to all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ReaderEntitlements | undefined;
 }
 export type DeletePublicationsReadersError =
   | NotFound
@@ -305,11 +306,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10, __c2, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

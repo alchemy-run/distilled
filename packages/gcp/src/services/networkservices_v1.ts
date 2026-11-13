@@ -178,13 +178,11 @@ export interface AgentConnectivityTemplate {
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAgentConnectivityTemplatesRequest {
+export interface CreateProjectsLocationsAgentConnectivityTemplatesRequest extends AgentConnectivityTemplate {
   /** Required. The parent resource of the AgentConnectivityTemplate. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. Short name of the AgentConnectivityTemplate resource to be created. */
   agentConnectivityTemplateId?: string | undefined;
-  /** Request body */
-  body?: AgentConnectivityTemplate | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -289,13 +287,11 @@ export interface AgentGateway {
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAgentGatewaysRequest {
+export interface CreateProjectsLocationsAgentGatewaysRequest extends AgentGateway {
   /** Required. Short name of the AgentGateway resource to be created. */
   agentGatewayId?: string | undefined;
   /** Required. The parent resource of the AgentGateway. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: AgentGateway | undefined;
 }
 export type AuthzExtensionWireFormatEnum =
   | "WIRE_FORMAT_UNSPECIFIED"
@@ -336,15 +332,13 @@ export interface AuthzExtension {
   /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
   authority?: string | undefined;
 }
-export interface CreateProjectsLocationsAuthzExtensionsRequest {
+export interface CreateProjectsLocationsAuthzExtensionsRequest extends AuthzExtension {
   /** Required. User-provided ID of the `AuthzExtension` resource to be created. */
   authzExtensionId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource of the `AuthzExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: AuthzExtension | undefined;
 }
 export type EndpointPolicyTypeEnum =
   | "ENDPOINT_POLICY_TYPE_UNSPECIFIED"
@@ -408,13 +402,11 @@ export interface EndpointPolicy {
   /** Optional. Port selector for the (matched) endpoints. If no port selector is provided, the matched config is applied to all ports. */
   trafficPortSelector?: TrafficPortSelector | undefined;
 }
-export interface CreateProjectsLocationsEndpointPoliciesRequest {
+export interface CreateProjectsLocationsEndpointPoliciesRequest extends EndpointPolicy {
   /** Required. The parent resource of the EndpointPolicy. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. Short name of the EndpointPolicy resource to be created. E.g. "CustomECS". */
   endpointPolicyId?: string | undefined;
-  /** Request body */
-  body?: EndpointPolicy | undefined;
 }
 export type ExtensionBindingTargetScopeResourceTypesItemEnum =
   | "RESOURCE_TYPE_UNSPECIFIED"
@@ -517,13 +509,11 @@ export interface ExtensionBinding {
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsExtensionBindingsRequest {
+export interface CreateProjectsLocationsExtensionBindingsRequest extends ExtensionBinding {
   /** Required. The parent resource of the `ExtensionBinding` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. Short name of the `ExtensionBinding` resource to be created. */
   extensionBindingId?: string | undefined;
-  /** Request body */
-  body?: ExtensionBinding | undefined;
 }
 export type GatewayTypeEnum = "TYPE_UNSPECIFIED" | "OPEN_MESH" | "SECURE_WEB_GATEWAY";
 export type GatewayRoutingModeEnum = "EXPLICIT_ROUTING_MODE" | "NEXT_HOP_ROUTING_MODE";
@@ -573,13 +563,11 @@ export interface Gateway {
   /** Optional. The IP Version that will be used by this gateway. Valid options are IPV4 or IPV6. Default is IPV4. */
   ipVersion?: GatewayIpVersionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsGatewaysRequest {
+export interface CreateProjectsLocationsGatewaysRequest extends Gateway {
   /** Required. The parent resource of the Gateway. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. Short name of the Gateway resource to be created. */
   gatewayId?: string | undefined;
-  /** Request body */
-  body?: Gateway | undefined;
 }
 /** The specifications for retries. Specifies one or more conditions for which this retry rule applies. Valid values are: */
 export interface GrpcRouteRetryPolicy {
@@ -699,13 +687,11 @@ export interface GrpcRoute {
   /** Required. Service hostnames with an optional port for which this route describes traffic. Format: [:] Hostname is the fully qualified domain name of a network host. This matches the RFC 1123 definition of a hostname with 2 notable exceptions: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateway must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. If a port is specified, then gRPC clients must use the channel URI with the port to match this rule (i.e. "xds:///service:123"), otherwise they must supply the URI without a port (i.e. "xds:///service"). */
   hostnames?: StringList | undefined;
 }
-export interface CreateProjectsLocationsGrpcRoutesRequest {
+export interface CreateProjectsLocationsGrpcRoutesRequest extends GrpcRoute {
   /** Required. The parent resource of the GrpcRoute. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. Short name of the GrpcRoute resource to be created. */
   grpcRouteId?: string | undefined;
-  /** Request body */
-  body?: GrpcRoute | undefined;
 }
 /** Specifications to match a query parameter in the request. */
 export interface HttpRouteQueryParameterMatch {
@@ -936,15 +922,13 @@ export interface HttpRoute {
   /** Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList | undefined;
 }
-export interface CreateProjectsLocationsHttpRoutesRequest {
+export interface CreateProjectsLocationsHttpRoutesRequest extends HttpRoute {
   /** Required. The parent resource of the HttpRoute. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. Short name of the HttpRoute resource to be created. */
   httpRouteId?: string | undefined;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: HttpRoute | undefined;
 }
 export type ExtensionChainExtensionSupportedEventsItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -1034,15 +1018,13 @@ export interface LbEdgeExtension {
   /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsLbEdgeExtensionsRequest {
+export interface CreateProjectsLocationsLbEdgeExtensionsRequest extends LbEdgeExtension {
   /** Required. The parent resource of the `LbEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. User-provided ID of the `LbEdgeExtension` resource to be created. */
   lbEdgeExtensionId?: string | undefined;
-  /** Request body */
-  body?: LbEdgeExtension | undefined;
 }
 export type LbRouteExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
@@ -1069,15 +1051,13 @@ export interface LbRouteExtension {
   /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
   metadata?: DocumentMap | undefined;
 }
-export interface CreateProjectsLocationsLbRouteExtensionsRequest {
+export interface CreateProjectsLocationsLbRouteExtensionsRequest extends LbRouteExtension {
   /** Required. User-provided ID of the `LbRouteExtension` resource to be created. */
   lbRouteExtensionId?: string | undefined;
   /** Required. The parent resource of the `LbRouteExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: LbRouteExtension | undefined;
 }
 export type LbTrafficExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
@@ -1104,15 +1084,13 @@ export interface LbTrafficExtension {
   /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
   metadata?: DocumentMap | undefined;
 }
-export interface CreateProjectsLocationsLbTrafficExtensionsRequest {
+export interface CreateProjectsLocationsLbTrafficExtensionsRequest extends LbTrafficExtension {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. User-provided ID of the `LbTrafficExtension` resource to be created. */
   lbTrafficExtensionId?: string | undefined;
   /** Required. The parent resource of the `LbTrafficExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: LbTrafficExtension | undefined;
 }
 export type MeshEnvoyHeadersEnum = "ENVOY_HEADERS_UNSPECIFIED" | "NONE" | "DEBUG_HEADERS";
 /** Mesh represents a logical configuration grouping for workload to workload communication within a service mesh. Routes that point to mesh dictate how requests are routed within this logical mesh boundary. */
@@ -1134,13 +1112,11 @@ export interface Mesh {
   /** Output only. Server-defined URL of this resource */
   selfLink?: string | undefined;
 }
-export interface CreateProjectsLocationsMeshesRequest {
+export interface CreateProjectsLocationsMeshesRequest extends Mesh {
   /** Required. The parent resource of the Mesh. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. Short name of the Mesh resource to be created. */
   meshId?: string | undefined;
-  /** Request body */
-  body?: Mesh | undefined;
 }
 export type MulticastResourceStateStateEnum =
   | "STATE_ENUM_UNSPECIFIED"
@@ -1186,15 +1162,13 @@ export interface MulticastConsumerAssociation {
   /** Output only. [Deprecated] The resource state of the multicast consumer association. Use the state field instead. */
   resourceState?: MulticastConsumerAssociationResourceStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsMulticastConsumerAssociationsRequest {
+export interface CreateProjectsLocationsMulticastConsumerAssociationsRequest extends MulticastConsumerAssociation {
   /** Required. The parent resource of the multicast consumer association. Use the following format: `projects/*\/locations/*`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. A unique name for the multicast consumer association. The name is restricted to lower-case letters, numbers, and hyphen, with the first character a lower-case letter, and the last a letter or a number. The name must not exceed 48 characters. */
   multicastConsumerAssociationId?: string | undefined;
-  /** Request body */
-  body?: MulticastConsumerAssociation | undefined;
 }
 export type MulticastGroupConsumerActivationResourceStateEnum =
   | "CONSUMER_RESOURCE_STATE_UNSPECIFIED"
@@ -1232,15 +1206,13 @@ export interface MulticastGroupConsumerActivation {
   /** Output only. [Output only] The timestamp when the multicast group consumer activation was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMulticastGroupConsumerActivationsRequest {
+export interface CreateProjectsLocationsMulticastGroupConsumerActivationsRequest extends MulticastGroupConsumerActivation {
   /** Required. The parent resource of the multicast group consumer activation. Use the following format: `projects/*\/locations/*`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. A unique name for the multicast group consumer activation. The name is restricted to lower-case letters, numbers, and hyphen, with the first character a lower-case letter, and the last a letter or a number. The name must not exceed 48 characters. */
   multicastGroupConsumerActivationId?: string | undefined;
-  /** Request body */
-  body?: MulticastGroupConsumerActivation | undefined;
 }
 export type ProducerExtensionPhaseEnum = "PHASE_UNSPECIFIED" | "TRAFFIC" | "AUTHZ";
 export type ProducerExtensionExtensionSettingsSupportedEventsItemEnum =
@@ -1284,13 +1256,11 @@ export interface ProducerExtension {
   /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsProducerExtensionsRequest {
+export interface CreateProjectsLocationsProducerExtensionsRequest extends ProducerExtension {
   /** Required. The parent resource of the `ProducerExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. Short name of the `ProducerExtension` resource to be created. */
   producerExtensionId?: string | undefined;
-  /** Request body */
-  body?: ProducerExtension | undefined;
 }
 /** ServiceBinding can be used to: - Bind a Service Directory Service to be used in a BackendService resource. This feature will be deprecated soon. - Bind a Private Service Connect producer service to be used in consumer Cloud Service Mesh or Application Load Balancers. - Bind a Cloud Run service to be used in consumer Cloud Service Mesh or Application Load Balancers. */
 export interface ServiceBinding {
@@ -1309,15 +1279,13 @@ export interface ServiceBinding {
   /** Optional. Set of label tags associated with the ServiceBinding resource. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsServiceBindingsRequest {
+export interface CreateProjectsLocationsServiceBindingsRequest extends ServiceBinding {
   /** Required. Short name of the ServiceBinding resource to be created. */
   serviceBindingId?: string | undefined;
   /** Required. The parent resource of the ServiceBinding. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceBinding | undefined;
 }
 export type ServiceLbPolicyIsolationConfigIsolationModeEnum =
   | "ISOLATION_MODE_UNSPECIFIED"
@@ -1373,13 +1341,11 @@ export interface ServiceLbPolicy {
   /** Optional. Set of label tags associated with the ServiceLbPolicy resource. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsServiceLbPoliciesRequest {
+export interface CreateProjectsLocationsServiceLbPoliciesRequest extends ServiceLbPolicy {
   /** Required. The parent resource of the ServiceLbPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. Short name of the ServiceLbPolicy resource to be created. E.g. for resource name `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. the id is value of {service_lb_policy_name} */
   serviceLbPolicyId?: string | undefined;
-  /** Request body */
-  body?: ServiceLbPolicy | undefined;
 }
 /** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
 export interface TcpRouteRouteMatch {
@@ -1435,13 +1401,11 @@ export interface TcpRoute {
   /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsTcpRoutesRequest {
+export interface CreateProjectsLocationsTcpRoutesRequest extends TcpRoute {
   /** Required. Short name of the TcpRoute resource to be created. */
   tcpRouteId?: string | undefined;
   /** Required. The parent resource of the TcpRoute. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: TcpRoute | undefined;
 }
 /** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "AND"ed for evaluation. */
 export interface TlsRouteRouteMatch {
@@ -1497,13 +1461,11 @@ export interface TlsRoute {
   /** Optional. Gateways defines a list of gateways this TlsRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList | undefined;
 }
-export interface CreateProjectsLocationsTlsRoutesRequest {
+export interface CreateProjectsLocationsTlsRoutesRequest extends TlsRoute {
   /** Required. The parent resource of the TlsRoute. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. Short name of the TlsRoute resource to be created. */
   tlsRouteId?: string | undefined;
-  /** Request body */
-  body?: TlsRoute | undefined;
 }
 /** Details of a `WasmPluginVersion` resource to be inlined in the `WasmPlugin` resource. */
 export interface WasmPluginVersionDetails {
@@ -1571,13 +1533,11 @@ export interface WasmPlugin {
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWasmPluginsRequest {
+export interface CreateProjectsLocationsWasmPluginsRequest extends WasmPlugin {
   /** Required. The parent resource of the `WasmPlugin` resource. Must be in the format `projects/{project}/locations/global`. */
   parent: string;
   /** Required. User-provided ID of the `WasmPlugin` resource to be created. */
   wasmPluginId?: string | undefined;
-  /** Request body */
-  body?: WasmPlugin | undefined;
 }
 /** A single immutable version of a `WasmPlugin` resource. Defines the Wasm module used and optionally its runtime config. */
 export interface WasmPluginVersion {
@@ -1602,13 +1562,11 @@ export interface WasmPluginVersion {
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWasmPluginsVersionsRequest {
+export interface CreateProjectsLocationsWasmPluginsVersionsRequest extends WasmPluginVersion {
   /** Required. The parent resource of the `WasmPluginVersion` resource. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
   parent: string;
   /** Required. User-provided ID of the `WasmPluginVersion` resource to be created. */
   wasmPluginVersionId?: string | undefined;
-  /** Request body */
-  body?: WasmPluginVersion | undefined;
 }
 export interface DeleteProjectsLocationsAgentConnectivityTemplatesRequest {
   /** Required. A name of the AgentConnectivityTemplate to delete. Must be in the format `projects/*\/locations/*\/agentConnectivityTemplates/*`. */
@@ -2436,171 +2394,160 @@ export interface ListWasmPluginVersionsResponse {
   /** Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest {
+export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest extends Omit<
+  AgentConnectivityTemplate,
+  "name"
+> {
   /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentConnectivityTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AgentConnectivityTemplate | undefined;
 }
-export interface PatchProjectsLocationsAgentGatewaysRequest {
+export interface PatchProjectsLocationsAgentGatewaysRequest extends Omit<AgentGateway, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentGateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
   name: string;
-  /** Request body */
-  body?: AgentGateway | undefined;
 }
-export interface PatchProjectsLocationsAuthzExtensionsRequest {
+export interface PatchProjectsLocationsAuthzExtensionsRequest extends Omit<AuthzExtension, "name"> {
   /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Used to specify the fields to be overwritten in the `AuthzExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AuthzExtension | undefined;
 }
-export interface PatchProjectsLocationsEndpointPoliciesRequest {
+export interface PatchProjectsLocationsEndpointPoliciesRequest extends Omit<
+  EndpointPolicy,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the EndpointPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
   name: string;
-  /** Request body */
-  body?: EndpointPolicy | undefined;
 }
-export interface PatchProjectsLocationsExtensionBindingsRequest {
+export interface PatchProjectsLocationsExtensionBindingsRequest extends Omit<
+  ExtensionBinding,
+  "name"
+> {
   /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the `ExtensionBinding` resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ExtensionBinding | undefined;
 }
-export interface PatchProjectsLocationsGatewaysRequest {
+export interface PatchProjectsLocationsGatewaysRequest extends Omit<Gateway, "name"> {
   /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Gateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Gateway | undefined;
 }
-export interface PatchProjectsLocationsGrpcRoutesRequest {
+export interface PatchProjectsLocationsGrpcRoutesRequest extends Omit<GrpcRoute, "name"> {
   /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the GrpcRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GrpcRoute | undefined;
 }
-export interface PatchProjectsLocationsHttpRoutesRequest {
+export interface PatchProjectsLocationsHttpRoutesRequest extends Omit<HttpRoute, "name"> {
   /** Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the HttpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: HttpRoute | undefined;
 }
-export interface PatchProjectsLocationsLbEdgeExtensionsRequest {
+export interface PatchProjectsLocationsLbEdgeExtensionsRequest extends Omit<
+  LbEdgeExtension,
+  "name"
+> {
   /** Optional. Used to specify the fields to be overwritten in the `LbEdgeExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name: string;
-  /** Request body */
-  body?: LbEdgeExtension | undefined;
 }
-export interface PatchProjectsLocationsLbRouteExtensionsRequest {
+export interface PatchProjectsLocationsLbRouteExtensionsRequest extends Omit<
+  LbRouteExtension,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
   name: string;
   /** Optional. Used to specify the fields to be overwritten in the `LbRouteExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LbRouteExtension | undefined;
 }
-export interface PatchProjectsLocationsLbTrafficExtensionsRequest {
+export interface PatchProjectsLocationsLbTrafficExtensionsRequest extends Omit<
+  LbTrafficExtension,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Used to specify the fields to be overwritten in the `LbTrafficExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
   name: string;
-  /** Request body */
-  body?: LbTrafficExtension | undefined;
 }
-export interface PatchProjectsLocationsMeshesRequest {
+export interface PatchProjectsLocationsMeshesRequest extends Omit<Mesh, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Mesh resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
   name: string;
-  /** Request body */
-  body?: Mesh | undefined;
 }
-export interface PatchProjectsLocationsMulticastConsumerAssociationsRequest {
+export interface PatchProjectsLocationsMulticastConsumerAssociationsRequest extends Omit<
+  MulticastConsumerAssociation,
+  "name"
+> {
   /** Identifier. The resource name of the multicast consumer association. Use the following format: `projects/*\/locations/*\/multicastConsumerAssociations/*`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the MulticastConsumerAssociation resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MulticastConsumerAssociation | undefined;
 }
-export interface PatchProjectsLocationsMulticastGroupConsumerActivationsRequest {
+export interface PatchProjectsLocationsMulticastGroupConsumerActivationsRequest extends Omit<
+  MulticastGroupConsumerActivation,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the MulticastGroupConsumerActivation resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroupConsumerActivations/*`. */
   name: string;
-  /** Request body */
-  body?: MulticastGroupConsumerActivation | undefined;
 }
-export interface PatchProjectsLocationsServiceBindingsRequest {
+export interface PatchProjectsLocationsServiceBindingsRequest extends Omit<ServiceBinding, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceBinding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ServiceBinding | undefined;
 }
-export interface PatchProjectsLocationsServiceLbPoliciesRequest {
+export interface PatchProjectsLocationsServiceLbPoliciesRequest extends Omit<
+  ServiceLbPolicy,
+  "name"
+> {
   /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceLbPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ServiceLbPolicy | undefined;
 }
-export interface PatchProjectsLocationsTcpRoutesRequest {
+export interface PatchProjectsLocationsTcpRoutesRequest extends Omit<TcpRoute, "name"> {
   /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TcpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TcpRoute | undefined;
 }
-export interface PatchProjectsLocationsTlsRoutesRequest {
+export interface PatchProjectsLocationsTlsRoutesRequest extends Omit<TlsRoute, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
   name: string;
-  /** Request body */
-  body?: TlsRoute | undefined;
 }
-export interface PatchProjectsLocationsWasmPluginsRequest {
+export interface PatchProjectsLocationsWasmPluginsRequest extends Omit<WasmPlugin, "name"> {
   /** Optional. Used to specify the fields to be overwritten in the `WasmPlugin` resource by the update. The fields specified in the `update_mask` field are relative to the resource, not the full request. An omitted `update_mask` field is treated as an implied `update_mask` field equivalent to all fields that are populated (that have a non-empty value). The `update_mask` field supports a special value `*`, which means that each field in the given `WasmPlugin` resource (including the empty ones) replaces the current value. */
   updateMask?: string | undefined;
   /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
   name: string;
-  /** Request body */
-  body?: WasmPlugin | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -2609,51 +2556,39 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEdgeCacheKeysetsRequest {
+export interface SetIamPolicyProjectsLocationsEdgeCacheKeysetsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEdgeCacheOriginsRequest {
+export interface SetIamPolicyProjectsLocationsEdgeCacheOriginsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEdgeCacheServicesRequest {
+export interface SetIamPolicyProjectsLocationsEdgeCacheServicesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsEdgeCacheKeysetsRequest {
+export interface TestIamPermissionsProjectsLocationsEdgeCacheKeysetsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsEdgeCacheOriginsRequest {
+export interface TestIamPermissionsProjectsLocationsEdgeCacheOriginsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsEdgeCacheServicesRequest {
+export interface TestIamPermissionsProjectsLocationsEdgeCacheServicesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -5240,11 +5175,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          gatewayId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            gatewayId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/gateways",
@@ -5317,11 +5254,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2947, __c92, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2947, __c92, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5335,11 +5274,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3558, __c111, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3558, __c111, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5353,12 +5294,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3968, __c124, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3968, __c124, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5372,11 +5315,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4357, __c136, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4357, __c136, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5390,11 +5335,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4747, __c148, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4747, __c148, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5408,11 +5355,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5426,11 +5375,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(491, __c15, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(491, __c15, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5444,11 +5395,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(885, __c27, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(885, __c27, 21),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5462,12 +5415,14 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5481,11 +5436,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          grpcRouteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(491, __c15, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(491, __c15, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            grpcRouteId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/grpcRoutes",
@@ -5617,12 +5574,14 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5636,12 +5595,14 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5655,11 +5616,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5673,12 +5636,14 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5692,12 +5657,14 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1569, __c49, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1569, __c49, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5711,12 +5678,14 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5730,11 +5699,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1763, __c55, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1763, __c55, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5748,11 +5719,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1829, __c57, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1829, __c57, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5766,11 +5739,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1895, __c59, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1895, __c59, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5784,11 +5759,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1957, __c61, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1957, __c61, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5802,12 +5779,14 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          httpRouteId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(885, __c27, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(885, __c27, 21),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            httpRouteId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/httpRoutes",
@@ -6001,10 +5980,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6029,10 +6010,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6046,10 +6029,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6063,10 +6048,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6090,10 +6077,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6107,10 +6096,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6124,12 +6115,14 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          lbEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            lbEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/lbEdgeExtensions",
@@ -6199,12 +6192,14 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          lbRouteExtensionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            lbRouteExtensionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/lbRouteExtensions",
@@ -6236,12 +6231,14 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          lbTrafficExtensionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            lbTrafficExtensionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/lbTrafficExtensions",
@@ -6273,11 +6270,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          meshId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            meshId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/meshes",
@@ -6308,12 +6307,14 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          multicastConsumerAssociationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            multicastConsumerAssociationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/multicastConsumerAssociations",
@@ -6357,12 +6358,14 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          multicastGroupConsumerActivationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1569, __c49, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1569, __c49, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            multicastGroupConsumerActivationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/multicastGroupConsumerActivations",
@@ -6403,11 +6406,13 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          producerExtensionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1633, __c51, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1633, __c51, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            producerExtensionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/producerExtensions",
@@ -6447,12 +6452,14 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceBindingId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            serviceBindingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/serviceBindings",
@@ -6482,11 +6489,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          serviceLbPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1763, __c55, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1763, __c55, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            serviceLbPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/serviceLbPolicies",
@@ -6537,11 +6546,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tcpRouteId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1829, __c57, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1829, __c57, 5),
+          S.Struct({
+            tcpRouteId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tcpRoutes",
@@ -6599,11 +6610,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          tlsRouteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1895, __c59, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1895, __c59, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            tlsRouteId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tlsRoutes",
@@ -6670,11 +6683,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          wasmPluginId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1957, __c61, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1957, __c61, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            wasmPluginId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/wasmPlugins",
@@ -6738,11 +6753,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          wasmPluginVersionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            wasmPluginVersionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -7245,11 +7262,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2947, __c92, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2947, __c92, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/agentConnectivityTemplates",
@@ -7545,11 +7564,13 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          agentGatewayId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3558, __c111, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3558, __c111, 6),
+          S.Struct({
+            agentGatewayId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/agentGateways",
@@ -7801,12 +7822,14 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authzExtensionId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3968, __c124, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3968, __c124, 0),
+          S.Struct({
+            authzExtensionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authzExtensions",
@@ -8058,11 +8081,13 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endpointPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4357, __c136, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4357, __c136, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            endpointPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/endpointPolicies",
@@ -8415,11 +8440,13 @@ function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          extensionBindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4747, __c148, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4747, __c148, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            extensionBindingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/extensionBindings",

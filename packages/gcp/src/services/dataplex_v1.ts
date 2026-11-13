@@ -90,11 +90,9 @@ export interface GoogleCloudDataplexV1ApproveChangeRequestRequest {
   /** Optional. The comment or reason for approving the ChangeRequest. Maximum length is 1024 characters. */
   comment?: string | undefined;
 }
-export interface ApproveProjectsLocationsChangeRequestsRequest {
+export interface ApproveProjectsLocationsChangeRequestsRequest extends GoogleCloudDataplexV1ApproveChangeRequestRequest {
   /** Required. The name of the ChangeRequest to approve. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1ApproveChangeRequestRequest | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** A Glossary represents a collection of GlossaryCategories and GlossaryTerms defined by the user. Glossary is a top level resource and is the Google Cloud parent resource of all the GlossaryCategories and GlossaryTerms within it. */
@@ -548,11 +546,12 @@ export interface GoogleCloudDataplexV1ChangeRequest {
   /** Optional. Justification of the ChangeRequest. This should explain why the change is needed or why it should be approved. */
   justification?: string | undefined;
 }
-export interface BatchChangeMetadataProjectsLocationsEntryGroupsRequest {
+export interface BatchChangeMetadataProjectsLocationsEntryGroupsRequest extends Omit<
+  GoogleCloudDataplexV1BatchChangeMetadataRequest,
+  "name"
+> {
   /** Required. The resource name of the EntryGroup on which the batch change applies. Format: projects/{project_number_or_id}/locations/{location_id}/entryGroups/{entry_group_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1BatchChangeMetadataRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -650,13 +649,11 @@ export interface GoogleCloudDataplexV1EncryptionConfig {
   /** Optional. If a key is chosen, it means that the customer is using CMEK. If a key is not chosen, it means that the customer is using Google managed encryption. */
   key?: string | undefined;
 }
-export interface CreateOrganizationsLocationsEncryptionConfigsRequest {
+export interface CreateOrganizationsLocationsEncryptionConfigsRequest extends GoogleCloudDataplexV1EncryptionConfig {
   /** Required. The location at which the EncryptionConfig is to be created. */
   parent: string;
   /** Required. The ID of the EncryptionConfig to create. Currently, only a value of "default" is supported. */
   encryptionConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EncryptionConfig | undefined;
 }
 /** Authorization for an AspectType. */
 export interface GoogleCloudDataplexV1AspectTypeAuthorization {
@@ -758,15 +755,13 @@ export interface GoogleCloudDataplexV1AspectType {
   /** Output only. System generated globally unique ID for the AspectType. If you delete and recreate the AspectType with the same name, then this ID will be different. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsAspectTypesRequest {
+export interface CreateProjectsLocationsAspectTypesRequest extends GoogleCloudDataplexV1AspectType {
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
   /** Required. AspectType identifier. */
   aspectTypeId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1AspectType | undefined;
 }
 /** Identity of a business contact. */
 export interface GoogleCloudDataplexV1ContactIdentity {
@@ -813,15 +808,13 @@ export interface GoogleCloudDataplexV1DataDomain {
   /** Identifier. The relative resource name of the DataDomain, of the form: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsDataDomainsRequest {
+export interface CreateProjectsLocationsDataDomainsRequest extends GoogleCloudDataplexV1DataDomain {
   /** Required. The resource name of the parent location: projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
   /** Optional. Only validate the request, but do not perform mutations. */
   validateOnly?: boolean | undefined;
   /** Required. DataDomain identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project and location. */
   dataDomainId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataDomain | undefined;
 }
 /** DataDomainBinding represents a rule that includes a Google Cloud resource and its contents into a DataDomain. */
 export interface GoogleCloudDataplexV1DataDomainBinding {
@@ -834,15 +827,13 @@ export interface GoogleCloudDataplexV1DataDomainBinding {
   /** Output only. System-generated unique ID. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsDataDomainsBindingsRequest {
+export interface CreateProjectsLocationsDataDomainsBindingsRequest extends GoogleCloudDataplexV1DataDomainBinding {
   /** Optional. Only validate the request, but do not perform mutations. */
   validateOnly?: boolean | undefined;
   /** Optional. DataDomainBinding identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent DataDomain. If not provided, a system-generated UUID will be used. */
   dataDomainBindingId?: string | undefined;
   /** Required. The resource name of the parent DataDomain: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataDomainBinding | undefined;
 }
 /** Configuration for access approval for the data product. */
 export interface GoogleCloudDataplexV1DataProductAccessApprovalConfig {
@@ -908,15 +899,13 @@ export interface GoogleCloudDataplexV1DataProduct {
   /** Optional. Data product access groups by access group id as key. If data product is used only for packaging data assets, then access groups may be empty. However, if a data product is used for sharing data assets, then at least one access group must be specified.Example: { "analyst": { "id": "analyst", "displayName": "Analyst", "description": "Access group for analysts", "principal": { "googleGroup": "analysts@example.com" } } } */
   accessGroups?: GoogleCloudDataplexV1DataProductAccessGroupMap | undefined;
 }
-export interface CreateProjectsLocationsDataProductsRequest {
+export interface CreateProjectsLocationsDataProductsRequest extends GoogleCloudDataplexV1DataProduct {
   /** Required. The parent resource where this data product will be created. Format: projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
   /** Optional. Validates the request without actually creating the data product. Default: false. */
   validateOnly?: boolean | undefined;
   /** Optional. The ID of the data product to create.The ID must conform to RFC-1034 and contain only lower-case letters (a-z), numbers (0-9), or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. Characters outside of ASCII are not permitted. Valid format regex: ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$ If not provided, a system generated ID will be used. */
   dataProductId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataProduct | undefined;
 }
 export type GoogleCloudDataplexV1DataAssetAccessGroupConfigStateEnum =
   | "STATE_UNSPECIFIED"
@@ -953,15 +942,13 @@ export interface GoogleCloudDataplexV1DataAsset {
   /** Optional. User-defined labels for the data asset.Example: { "environment": "production", "billing": "marketing-department" } */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsDataProductsDataAssetsRequest {
+export interface CreateProjectsLocationsDataProductsDataAssetsRequest extends GoogleCloudDataplexV1DataAsset {
   /** Optional. The ID of the data asset to create.The ID must conform to RFC-1034 and contain only lower-case letters (a-z), numbers (0-9), or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. Characters outside of ASCII are not permitted. Valid format regex: ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$ If not provided, a system generated ID will be used. */
   dataAssetId?: string | undefined;
   /** Optional. Validates the request without actually creating the data asset. Defaults to false. */
   validateOnly?: boolean | undefined;
   /** Required. The parent resource where this data asset will be created. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataAsset | undefined;
 }
 export type GoogleCloudDataplexV1DataScanStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2052,15 +2039,13 @@ export interface GoogleCloudDataplexV1DataScan {
   /** Output only. The result of an unstructured data profile scan. */
   unstructuredDataProfileResult?: GoogleCloudDataplexV1UnstructuredDataProfileResult | undefined;
 }
-export interface CreateProjectsLocationsDataScansRequest {
+export interface CreateProjectsLocationsDataScansRequest extends GoogleCloudDataplexV1DataScan {
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Optional. DataScan identifier. If not provided, a unique ID will be generated with the prefix "data-scan-". Must contain only lowercase letters, numbers and hyphens. Must start with a letter. Must end with a number or a letter. Must be between 1-63 characters. Must be unique within the customer project / location. */
   dataScanId?: string | undefined;
   /** Required. The resource name of the parent location: projects/{project}/locations/{location_id} where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataScan | undefined;
 }
 /** Specifies the configuration for requesting changes in the metadata belonging to the Entry Group. */
 export interface GoogleCloudDataplexV1EntryGroupChangeRequestConfig {
@@ -2096,31 +2081,25 @@ export interface GoogleCloudDataplexV1EntryGroup {
   /** Output only. Denotes the transfer status of the Entry Group. It is unspecified for Entry Group created from Dataplex API. */
   transferStatus?: GoogleCloudDataplexV1EntryGroupTransferStatusEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsEntryGroupsRequest {
+export interface CreateProjectsLocationsEntryGroupsRequest extends GoogleCloudDataplexV1EntryGroup {
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. EntryGroup identifier. */
   entryGroupId?: string | undefined;
   /** Required. The resource name of the entryGroup, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EntryGroup | undefined;
 }
-export interface CreateProjectsLocationsEntryGroupsEntriesRequest {
+export interface CreateProjectsLocationsEntryGroupsEntriesRequest extends GoogleCloudDataplexV1Entry {
   /** Required. Entry identifier. It has to be unique within an Entry Group.Entries corresponding to Google Cloud resources use an Entry ID format based on full resource names (https://cloud.google.com/apis/design/resource_names#full_resource_name). The format is a full resource name of the resource without the prefix double slashes in the API service name part of the full resource name. This allows retrieval of entries using their associated resource name.For example, if the full resource name of a resource is //library.googleapis.com/shelves/shelf1/books/book2, then the suggested entry_id is library.googleapis.com/shelves/shelf1/books/book2.It is also suggested to follow the same convention for entries corresponding to resources from providers or systems other than Google Cloud.The maximum size of the field is 4000 characters. */
   entryId?: string | undefined;
   /** Required. The resource name of the parent Entry Group: projects/{project}/locations/{location}/entryGroups/{entry_group}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Entry | undefined;
 }
-export interface CreateProjectsLocationsEntryGroupsEntryLinksRequest {
+export interface CreateProjectsLocationsEntryGroupsEntryLinksRequest extends GoogleCloudDataplexV1EntryLink {
   /** Required. The resource name of the parent Entry Group: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
   parent: string;
   /** Required. Entry Link identifier * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the EntryGroup. */
   entryLinkId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EntryLink | undefined;
 }
 /** Authorization for an Entry Type. */
 export interface GoogleCloudDataplexV1EntryTypeAuthorization {
@@ -2162,41 +2141,39 @@ export interface GoogleCloudDataplexV1EntryType {
   /** Optional. User friendly display name. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsEntryTypesRequest {
+export interface CreateProjectsLocationsEntryTypesRequest extends GoogleCloudDataplexV1EntryType {
   /** Required. EntryType identifier. */
   entryTypeId?: string | undefined;
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the EntryType, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EntryType | undefined;
 }
-export interface CreateProjectsLocationsGlossariesRequest {
+export interface CreateProjectsLocationsGlossariesRequest extends GoogleCloudDataplexV1Glossary {
   /** Required. The parent resource where this Glossary will be created. Format: projects/{project_id_or_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
   /** Required. Glossary ID: Glossary identifier. */
   glossaryId?: string | undefined;
   /** Optional. Validates the request without actually creating the Glossary. Default: false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Glossary | undefined;
 }
-export interface CreateProjectsLocationsGlossariesCategoriesRequest {
+export interface CreateProjectsLocationsGlossariesCategoriesRequest extends Omit<
+  GoogleCloudDataplexV1GlossaryCategory,
+  "parent"
+> {
   /** Required. GlossaryCategory identifier. */
   categoryId?: string | undefined;
   /** Required. The parent resource where this GlossaryCategory will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where locationId refers to a Google Cloud region. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1GlossaryCategory | undefined;
 }
-export interface CreateProjectsLocationsGlossariesTermsRequest {
+export interface CreateProjectsLocationsGlossariesTermsRequest extends Omit<
+  GoogleCloudDataplexV1GlossaryTerm,
+  "parent"
+> {
   /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
   parent: string;
   /** Required. GlossaryTerm identifier. */
   termId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1GlossaryTerm | undefined;
 }
 /** Aggregated status of the underlying assets of a lake or zone. */
 export interface GoogleCloudDataplexV1AssetStatus {
@@ -2262,15 +2239,13 @@ export interface GoogleCloudDataplexV1Lake {
   /** Output only. System generated globally unique ID for the lake. This ID will be different if the lake is deleted and re-created with the same name. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsLakesRequest {
+export interface CreateProjectsLocationsLakesRequest extends GoogleCloudDataplexV1Lake {
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the lake location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
   /** Required. Lake identifier. This ID will be used to generate names such as database and dataset names when publishing metadata to Hive Metastore and BigQuery. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must end with a number or a letter. * Must be between 1-63 characters. * Must be unique within the customer project / location. */
   lakeId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Lake | undefined;
 }
 /** Container Image Runtime Configuration used with Batch execution. */
 export interface GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime {
@@ -2450,15 +2425,13 @@ export interface GoogleCloudDataplexV1Task {
   /** Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsLakesTasksRequest {
+export interface CreateProjectsLocationsLakesTasksRequest extends GoogleCloudDataplexV1Task {
   /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
   parent: string;
   /** Required. Task identifier. */
   taskId?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Task | undefined;
 }
 /** Describe JSON data format. */
 export interface GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions {
@@ -2536,15 +2509,13 @@ export interface GoogleCloudDataplexV1Zone {
   /** Optional. User defined labels for the zone. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsLakesZonesRequest {
+export interface CreateProjectsLocationsLakesZonesRequest extends GoogleCloudDataplexV1Zone {
   /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
   parent: string;
   /** Required. Zone identifier. This ID will be used to generate names such as database and dataset names when publishing metadata to Hive Metastore and BigQuery. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must end with a number or a letter. * Must be between 1-63 characters. * Must be unique across all lakes from all locations in a project. * Must not be one of the reserved IDs (i.e. "default", "global-temp") */
   zoneId?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Zone | undefined;
 }
 export type GoogleCloudDataplexV1AssetResourceStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2683,15 +2654,13 @@ export interface GoogleCloudDataplexV1Asset {
   /** Optional. User friendly display name. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsLakesZonesAssetsRequest {
+export interface CreateProjectsLocationsLakesZonesAssetsRequest extends GoogleCloudDataplexV1Asset {
   /** Required. Asset identifier. This ID will be used to generate names such as table names when publishing metadata to Hive Metastore and BigQuery. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must end with a number or a letter. * Must be between 1-63 characters. * Must be unique within the zone. */
   assetId?: string | undefined;
   /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   parent: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Asset | undefined;
 }
 export type GoogleCloudDataplexV1EntityTypeEnum = "TYPE_UNSPECIFIED" | "TABLE" | "FILESET";
 export type GoogleCloudDataplexV1StorageFormatFormatEnum =
@@ -2894,13 +2863,11 @@ export interface GoogleCloudDataplexV1Entity {
   /** Output only. The name of the associated Data Catalog entry. */
   catalogEntry?: string | undefined;
 }
-export interface CreateProjectsLocationsLakesZonesEntitiesRequest {
+export interface CreateProjectsLocationsLakesZonesEntitiesRequest extends GoogleCloudDataplexV1Entity {
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Entity | undefined;
 }
 /** Represents partition metadata contained within entity instances. */
 export interface GoogleCloudDataplexV1Partition {
@@ -2913,13 +2880,11 @@ export interface GoogleCloudDataplexV1Partition {
   /** Required. Immutable. The location of the entity data within the partition, for example, gs://bucket/path/to/entity/key1=value1/key2=value2. Or projects//datasets//tables/ */
   location?: string | undefined;
 }
-export interface CreateProjectsLocationsLakesZonesEntitiesPartitionsRequest {
+export interface CreateProjectsLocationsLakesZonesEntitiesPartitionsRequest extends GoogleCloudDataplexV1Partition {
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Partition | undefined;
 }
 /** Scope defines the scope of the metadata feed. Scopes are exclusive. Only one of the scopes can be specified. */
 export interface GoogleCloudDataplexV1MetadataFeedScope {
@@ -2966,15 +2931,13 @@ export interface GoogleCloudDataplexV1MetadataFeed {
   /** Output only. The time when the feed was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMetadataFeedsRequest {
+export interface CreateProjectsLocationsMetadataFeedsRequest extends GoogleCloudDataplexV1MetadataFeed {
   /** Required. The resource name of the parent location, in the format projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
   /** Optional. The metadata job ID. If not provided, a unique ID is generated with the prefix metadata-job-. */
   metadataFeedId?: string | undefined;
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1MetadataFeed | undefined;
 }
 /** Results from a metadata import job. */
 export interface GoogleCloudDataplexV1MetadataJobImportJobResult {
@@ -3120,15 +3083,13 @@ export interface GoogleCloudDataplexV1MetadataJob {
   /** Import job specification. */
   importSpec?: GoogleCloudDataplexV1MetadataJobImportJobSpec | undefined;
 }
-export interface CreateProjectsLocationsMetadataJobsRequest {
+export interface CreateProjectsLocationsMetadataJobsRequest extends GoogleCloudDataplexV1MetadataJob {
   /** Optional. The metadata job ID. If not provided, a unique ID is generated with the prefix metadata-job-. */
   metadataJobId?: string | undefined;
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the parent location, in the format projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1MetadataJob | undefined;
 }
 export interface DeleteOrganizationsLocationsEncryptionConfigsRequest {
   /** Required. The name of the EncryptionConfig to delete. */
@@ -4351,11 +4312,9 @@ export interface GoogleCloudDataplexV1LookupContextRequest {
   /** Required. The entry names to look up the context for. The maximum number of resources for a request is limited to 10.Examples:projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry} */
   resources?: StringList | undefined;
 }
-export interface LookupContextProjectsLocationsRequest {
+export interface LookupContextProjectsLocationsRequest extends GoogleCloudDataplexV1LookupContextRequest {
   /** Required. The project to which the request should be attributed in the following form: projects/{project}/locations/{location}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1LookupContextRequest | undefined;
 }
 /** Lookup Context response. */
 export interface GoogleCloudDataplexV1LookupContextResponse {
@@ -4417,89 +4376,98 @@ export interface GoogleCloudDataplexV1ModifyEntryRequest {
   /** Optional. The aspect keys which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
   aspectKeys?: StringList | undefined;
 }
-export interface ModifyEntryProjectsLocationsRequest {
+export interface ModifyEntryProjectsLocationsRequest extends GoogleCloudDataplexV1ModifyEntryRequest {
   /** Required. The project to which the request should be attributed in the following form: projects/{project}/locations/{location}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1ModifyEntryRequest | undefined;
 }
-export interface PatchOrganizationsLocationsEncryptionConfigsRequest {
+export interface PatchOrganizationsLocationsEncryptionConfigsRequest extends Omit<
+  GoogleCloudDataplexV1EncryptionConfig,
+  "name"
+> {
   /** Identifier. The resource name of the EncryptionConfig. Format: organizations/{organization}/locations/{location}/encryptionConfigs/{encryption_config} Global location is not supported. */
   name: string;
   /** Optional. Mask of fields to update. The service treats an omitted field mask as an implied field mask equivalent to all fields that are populated (have a non-empty value). */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EncryptionConfig | undefined;
 }
-export interface PatchProjectsLocationsAspectTypesRequest {
+export interface PatchProjectsLocationsAspectTypesRequest extends Omit<
+  GoogleCloudDataplexV1AspectType,
+  "name"
+> {
   /** Output only. The relative resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}. */
   name: string;
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1AspectType | undefined;
 }
-export interface PatchProjectsLocationsChangeRequestsRequest {
+export interface PatchProjectsLocationsChangeRequestsRequest extends Omit<
+  GoogleCloudDataplexV1ChangeRequest,
+  "name"
+> {
   /** Identifier. The relative resource name of the ChangeRequest, of the form: projects/{project_number}/locations/{location_id}/changeRequests/{change_request_id} */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1ChangeRequest | undefined;
 }
-export interface PatchProjectsLocationsDataDomainsRequest {
+export interface PatchProjectsLocationsDataDomainsRequest extends Omit<
+  GoogleCloudDataplexV1DataDomain,
+  "name"
+> {
   /** Optional. Only validate the request, but do not perform mutations. */
   validateOnly?: boolean | undefined;
   /** Identifier. The relative resource name of the DataDomain, of the form: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
   name: string;
   /** Optional. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataDomain | undefined;
 }
-export interface PatchProjectsLocationsDataProductsRequest {
+export interface PatchProjectsLocationsDataProductsRequest extends Omit<
+  GoogleCloudDataplexV1DataProduct,
+  "name"
+> {
   /** Optional. The list of fields to update. If this is empty or not set, then all the fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the data product. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}. */
   name: string;
   /** Optional. Validates the request without actually updating the data product. Default: false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataProduct | undefined;
 }
-export interface PatchProjectsLocationsDataProductsDataAssetsRequest {
+export interface PatchProjectsLocationsDataProductsDataAssetsRequest extends Omit<
+  GoogleCloudDataplexV1DataAsset,
+  "name"
+> {
   /** Optional. The list of fields to update. If this is empty or not set, then all the fields will be updated. */
   updateMask?: string | undefined;
   /** Optional. Validates the request without actually updating the data asset. Defaults to false. */
   validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the data asset. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataAsset | undefined;
 }
-export interface PatchProjectsLocationsDataScansRequest {
+export interface PatchProjectsLocationsDataScansRequest extends Omit<
+  GoogleCloudDataplexV1DataScan,
+  "name"
+> {
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Output only. Identifier. The relative resource name of the scan, of the form: projects/{project}/locations/{location_id}/dataScans/{datascan_id}, where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
   name: string;
   /** Optional. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataScan | undefined;
 }
-export interface PatchProjectsLocationsEntryGroupsRequest {
+export interface PatchProjectsLocationsEntryGroupsRequest extends Omit<
+  GoogleCloudDataplexV1EntryGroup,
+  "name"
+> {
   /** Output only. The relative resource name of the EntryGroup, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
   name: string;
   /** Optional. The service validates the request, without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EntryGroup | undefined;
 }
-export interface PatchProjectsLocationsEntryGroupsEntriesRequest {
+export interface PatchProjectsLocationsEntryGroupsEntriesRequest extends Omit<
+  GoogleCloudDataplexV1Entry,
+  "name"
+> {
   /** Identifier. The relative resource name of the entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}. */
   name: string;
   /** Optional. If set to true and the aspect_keys specify aspect ranges, the service deletes any existing aspects from that range that weren't provided in the request. */
@@ -4510,104 +4478,112 @@ export interface PatchProjectsLocationsEntryGroupsEntriesRequest {
   allowMissing?: boolean | undefined;
   /** Optional. The map keys of the Aspects which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
   aspectKeys?: StringList | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Entry | undefined;
 }
-export interface PatchProjectsLocationsEntryGroupsEntryLinksRequest {
+export interface PatchProjectsLocationsEntryGroupsEntryLinksRequest extends Omit<
+  GoogleCloudDataplexV1EntryLink,
+  "name"
+> {
   /** Optional. If set to true and the entry link doesn't exist, the service will create it. */
   allowMissing?: boolean | undefined;
   /** Output only. Immutable. Identifier. The relative resource name of the Entry Link, of the form: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entryLinks/{entry_link_id} */
   name: string;
   /** Optional. The map keys of the Aspects which the service should modify. It should be the aspect type reference in the format {project_id_or_number}.{location_id}.{aspect_type_id}.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
   aspectKeys?: StringList | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EntryLink | undefined;
 }
-export interface PatchProjectsLocationsEntryTypesRequest {
+export interface PatchProjectsLocationsEntryTypesRequest extends Omit<
+  GoogleCloudDataplexV1EntryType,
+  "name"
+> {
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Output only. The relative resource name of the EntryType, of the form: projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1EntryType | undefined;
 }
-export interface PatchProjectsLocationsGlossariesRequest {
+export interface PatchProjectsLocationsGlossariesRequest extends Omit<
+  GoogleCloudDataplexV1Glossary,
+  "name"
+> {
   /** Optional. Validates the request without actually updating the Glossary. Default: false. */
   validateOnly?: boolean | undefined;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of the Glossary. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Glossary | undefined;
 }
-export interface PatchProjectsLocationsGlossariesCategoriesRequest {
+export interface PatchProjectsLocationsGlossariesCategoriesRequest extends Omit<
+  GoogleCloudDataplexV1GlossaryCategory,
+  "name"
+> {
   /** Output only. Identifier. The resource name of the GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1GlossaryCategory | undefined;
 }
-export interface PatchProjectsLocationsGlossariesTermsRequest {
+export interface PatchProjectsLocationsGlossariesTermsRequest extends Omit<
+  GoogleCloudDataplexV1GlossaryTerm,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of the GlossaryTerm. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1GlossaryTerm | undefined;
 }
-export interface PatchProjectsLocationsLakesRequest {
+export interface PatchProjectsLocationsLakesRequest extends Omit<
+  GoogleCloudDataplexV1Lake,
+  "name"
+> {
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Output only. The relative resource name of the lake, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Lake | undefined;
 }
-export interface PatchProjectsLocationsLakesTasksRequest {
+export interface PatchProjectsLocationsLakesTasksRequest extends Omit<
+  GoogleCloudDataplexV1Task,
+  "name"
+> {
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Task | undefined;
 }
-export interface PatchProjectsLocationsLakesZonesRequest {
+export interface PatchProjectsLocationsLakesZonesRequest extends Omit<
+  GoogleCloudDataplexV1Zone,
+  "name"
+> {
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Output only. The relative resource name of the zone, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Zone | undefined;
 }
-export interface PatchProjectsLocationsLakesZonesAssetsRequest {
+export interface PatchProjectsLocationsLakesZonesAssetsRequest extends Omit<
+  GoogleCloudDataplexV1Asset,
+  "name"
+> {
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Asset | undefined;
 }
-export interface PatchProjectsLocationsMetadataFeedsRequest {
+export interface PatchProjectsLocationsMetadataFeedsRequest extends Omit<
+  GoogleCloudDataplexV1MetadataFeed,
+  "name"
+> {
   /** Optional. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/metadataFeeds/{metadata_feed_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1MetadataFeed | undefined;
 }
 /** Request message for RejectChangeRequest. */
 export interface GoogleCloudDataplexV1RejectChangeRequestRequest {
@@ -4616,11 +4592,9 @@ export interface GoogleCloudDataplexV1RejectChangeRequestRequest {
   /** Optional. The reason for rejecting the ChangeRequest. */
   comment?: string | undefined;
 }
-export interface RejectProjectsLocationsChangeRequestsRequest {
+export interface RejectProjectsLocationsChangeRequestsRequest extends GoogleCloudDataplexV1RejectChangeRequestRequest {
   /** Required. The name of the ChangeRequest to reject. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1RejectChangeRequestRequest | undefined;
 }
 /** Message for requesting access to a Data Product. */
 export interface GoogleCloudDataplexV1RequestDataProductAccessRequest {
@@ -4629,11 +4603,9 @@ export interface GoogleCloudDataplexV1RequestDataProductAccessRequest {
   /** Optional. Validates the request without actually creating the access change request. Defaults to false. */
   validateOnly?: boolean | undefined;
 }
-export interface RequestAccessProjectsLocationsDataProductsRequest {
+export interface RequestAccessProjectsLocationsDataProductsRequest extends GoogleCloudDataplexV1RequestDataProductAccessRequest {
   /** Required. The resource name of the data product. Format: projects/{project_number}/locations/{location_id}/dataProducts/{data_product_id} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1RequestDataProductAccessRequest | undefined;
 }
 /** Response message for requesting access to a Data Product. */
 export interface GoogleCloudDataplexV1RequestDataProductAccessResponse {
@@ -4651,11 +4623,9 @@ export interface GoogleCloudDataplexV1RequestBatchMetadataChangeRequest {
   /** Optional. Justification for the metadata change request. */
   justification?: string | undefined;
 }
-export interface RequestBatchMetadataChangeProjectsLocationsEntryGroupsRequest {
+export interface RequestBatchMetadataChangeProjectsLocationsEntryGroupsRequest extends GoogleCloudDataplexV1RequestBatchMetadataChangeRequest {
   /** Required. The resource name of the Entry Group on which the change applies. Format: projects/{project}/locations/{location}/entryGroups/{entry_group} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1RequestBatchMetadataChangeRequest | undefined;
 }
 /** Response message containing the reference to the created change request. */
 export interface GoogleCloudDataplexV1RequestBatchMetadataChangeResponse {
@@ -4681,11 +4651,9 @@ export interface GoogleCloudDataplexV1RunTaskRequest {
   /** Optional. User-defined labels for the task. If the map is left empty, the task will run with existing labels from task definition. If the map contains an entry with a new key, the same will be added to existing set of labels. If the map contains an entry with an existing label key in task definition, the task will run with new label value for that entry. Clearing an existing label will require label value to be explicitly set to a hyphen "-". The label value cannot be empty. */
   labels?: StringMap | undefined;
 }
-export interface RunProjectsLocationsLakesTasksRequest {
+export interface RunProjectsLocationsLakesTasksRequest extends GoogleCloudDataplexV1RunTaskRequest {
   /** Required. The resource name of the task: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1RunTaskRequest | undefined;
 }
 export interface GoogleCloudDataplexV1RunTaskResponse {
   /** Jobs created by RunTask API. */
@@ -4741,275 +4709,192 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used:paths: "bindings, etag" */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyOrganizationsLocationsEncryptionConfigsRequest {
+export interface SetIamPolicyOrganizationsLocationsEncryptionConfigsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAgentTasksRequest {
+export interface SetIamPolicyProjectsLocationsAgentTasksRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAspectTypesRequest {
+export interface SetIamPolicyProjectsLocationsAspectTypesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsChangeRequestsRequest {
+export interface SetIamPolicyProjectsLocationsChangeRequestsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataAttributeBindingsRequest {
+export interface SetIamPolicyProjectsLocationsDataAttributeBindingsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataDomainsRequest {
+export interface SetIamPolicyProjectsLocationsDataDomainsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataProductsRequest {
+export interface SetIamPolicyProjectsLocationsDataProductsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataScansRequest {
+export interface SetIamPolicyProjectsLocationsDataScansRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataTaxonomiesRequest {
+export interface SetIamPolicyProjectsLocationsDataTaxonomiesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataTaxonomiesAttributesRequest {
+export interface SetIamPolicyProjectsLocationsDataTaxonomiesAttributesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEntryGroupsRequest {
+export interface SetIamPolicyProjectsLocationsEntryGroupsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEntryLinkTypesRequest {
+export interface SetIamPolicyProjectsLocationsEntryLinkTypesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEntryTypesRequest {
+export interface SetIamPolicyProjectsLocationsEntryTypesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlossariesRequest {
+export interface SetIamPolicyProjectsLocationsGlossariesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlossariesCategoriesRequest {
+export interface SetIamPolicyProjectsLocationsGlossariesCategoriesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlossariesTermsRequest {
+export interface SetIamPolicyProjectsLocationsGlossariesTermsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGovernanceRulesRequest {
+export interface SetIamPolicyProjectsLocationsGovernanceRulesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsLakesRequest {
+export interface SetIamPolicyProjectsLocationsLakesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsLakesTasksRequest {
+export interface SetIamPolicyProjectsLocationsLakesTasksRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsLakesZonesRequest {
+export interface SetIamPolicyProjectsLocationsLakesZonesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsLakesZonesAssetsRequest {
+export interface SetIamPolicyProjectsLocationsLakesZonesAssetsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for TestIamPermissions method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsLocationsEncryptionConfigsRequest {
+export interface TestIamPermissionsOrganizationsLocationsEncryptionConfigsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for TestIamPermissions method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of TestPermissionsRequest.permissions that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAgentTasksRequest {
+export interface TestIamPermissionsProjectsLocationsAgentTasksRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAspectTypesRequest {
+export interface TestIamPermissionsProjectsLocationsAspectTypesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsChangeRequestsRequest {
+export interface TestIamPermissionsProjectsLocationsChangeRequestsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataAttributeBindingsRequest {
+export interface TestIamPermissionsProjectsLocationsDataAttributeBindingsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataDomainsRequest {
+export interface TestIamPermissionsProjectsLocationsDataDomainsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataProductsRequest {
+export interface TestIamPermissionsProjectsLocationsDataProductsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataScansRequest {
+export interface TestIamPermissionsProjectsLocationsDataScansRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataTaxonomiesRequest {
+export interface TestIamPermissionsProjectsLocationsDataTaxonomiesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataTaxonomiesAttributesRequest {
+export interface TestIamPermissionsProjectsLocationsDataTaxonomiesAttributesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsEntryGroupsRequest {
+export interface TestIamPermissionsProjectsLocationsEntryGroupsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsEntryLinkTypesRequest {
+export interface TestIamPermissionsProjectsLocationsEntryLinkTypesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsEntryTypesRequest {
+export interface TestIamPermissionsProjectsLocationsEntryTypesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGlossariesRequest {
+export interface TestIamPermissionsProjectsLocationsGlossariesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGlossariesCategoriesRequest {
+export interface TestIamPermissionsProjectsLocationsGlossariesCategoriesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGlossariesTermsRequest {
+export interface TestIamPermissionsProjectsLocationsGlossariesTermsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGovernanceRulesRequest {
+export interface TestIamPermissionsProjectsLocationsGovernanceRulesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsLakesRequest {
+export interface TestIamPermissionsProjectsLocationsLakesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsLakesTasksRequest {
+export interface TestIamPermissionsProjectsLocationsLakesTasksRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsLakesZonesRequest {
+export interface TestIamPermissionsProjectsLocationsLakesZonesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsLakesZonesAssetsRequest {
+export interface TestIamPermissionsProjectsLocationsLakesZonesAssetsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface UpdateProjectsLocationsLakesZonesEntitiesRequest {
+export interface UpdateProjectsLocationsLakesZonesEntitiesRequest extends Omit<
+  GoogleCloudDataplexV1Entity,
+  "name"
+> {
   /** Output only. The resource name of the entity, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}. */
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDataplexV1Entity | undefined;
 }
 export type ApproveProjectsLocationsChangeRequestsError =
   | NotFound
@@ -9659,11 +9544,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          encryptionConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(417, __c13, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(417, __c13, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            encryptionConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/encryptionConfigs",
@@ -9995,12 +9882,14 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          aspectTypeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(838, __c26, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(838, __c26, 6),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            aspectTypeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/aspectTypes",
@@ -10436,12 +10325,14 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          dataDomainId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1252, __c39, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1252, __c39, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            dataDomainId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataDomains",
@@ -10706,10 +10597,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GoogleCloudDataplexV1LookupContextRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:lookupContext",
@@ -10759,12 +10652,14 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          dataDomainBindingId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            dataDomainBindingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bindings",
@@ -10820,10 +10715,12 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GoogleCloudDataplexV1ModifyEntryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:modifyEntry",
@@ -10837,11 +10734,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(417, __c13, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(417, __c13, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10855,12 +10754,14 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(838, __c26, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(838, __c26, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10874,11 +10775,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5930, __c185, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5930, __c185, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10892,12 +10795,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1252, __c39, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1252, __c39, 4),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10911,12 +10816,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2052, __c64, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2052, __c64, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10930,12 +10837,14 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2434, __c76, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2434, __c76, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10949,12 +10858,14 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2920, __c91, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2920, __c91, 8),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10968,12 +10879,14 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10987,12 +10900,14 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          dataProductId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2052, __c64, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2052, __c64, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            dataProductId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataProducts",
@@ -11063,14 +10978,16 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          deleteMissingAspects: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          aspectKeys: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
-          body: S.optional(__S(5827, __c182, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5827, __c182, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            deleteMissingAspects: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            aspectKeys: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11084,12 +11001,14 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          aspectKeys: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
-          body: S.optional(__S(5858, __c183, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5858, __c183, 2),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            aspectKeys: S.optional(__S(5728, __c179, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11103,12 +11022,14 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4514, __c141, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4514, __c141, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11122,12 +11043,14 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5536, __c173, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11141,11 +11064,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11159,11 +11084,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5600, __c175, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5600, __c175, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11177,12 +11104,14 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4706, __c147, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4706, __c147, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11196,12 +11125,14 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4808, __c150, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4808, __c150, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11215,12 +11146,14 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4866, __c152, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4866, __c152, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11234,12 +11167,14 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4966, __c155, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4966, __c155, 6),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11253,12 +11188,14 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataAssetId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2434, __c76, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2434, __c76, 2),
+          S.Struct({
+            dataAssetId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataAssets",
@@ -11298,12 +11235,14 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5154, __c161, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5154, __c161, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11317,10 +11256,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5504, __c172, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5504, __c172, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:reject",
@@ -11341,10 +11282,12 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GoogleCloudDataplexV1RequestDataProductAccessRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:requestAccess",
@@ -11373,10 +11316,12 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GoogleCloudDataplexV1RequestBatchMetadataChangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:requestBatchMetadataChange",
@@ -11426,10 +11371,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GoogleCloudDataplexV1RunTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:run",
@@ -11497,10 +11444,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -11525,10 +11474,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -11542,10 +11493,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -11559,12 +11512,14 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          dataScanId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2920, __c91, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2920, __c91, 8),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            dataScanId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataScans",
@@ -12419,10 +12374,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12436,10 +12393,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12453,10 +12412,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12470,10 +12431,12 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12487,10 +12450,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12504,10 +12469,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12521,10 +12488,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12538,10 +12507,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12555,10 +12526,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12572,10 +12545,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12589,12 +12564,14 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          entryGroupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            entryGroupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entryGroups",
@@ -12628,10 +12605,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12645,10 +12624,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12662,10 +12643,12 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12679,10 +12662,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12696,10 +12681,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12713,10 +12700,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12730,10 +12719,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12747,10 +12738,12 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -12764,10 +12757,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12793,10 +12788,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12810,11 +12807,13 @@ function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          entryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5827, __c182, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5827, __c182, 3),
+          S.Struct({
+            entryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entries",
@@ -12828,10 +12827,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12845,10 +12846,12 @@ function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12862,10 +12865,12 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12879,10 +12884,12 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12896,10 +12903,12 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12913,10 +12922,12 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12930,10 +12941,12 @@ function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12947,10 +12960,12 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12966,10 +12981,12 @@ function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -12983,10 +13000,12 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13000,11 +13019,13 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          entryLinkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5858, __c183, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5858, __c183, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            entryLinkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entryLinks",
@@ -13018,10 +13039,12 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13035,10 +13058,12 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13052,10 +13077,12 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13069,10 +13096,12 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13086,10 +13115,12 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13103,10 +13134,12 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13120,10 +13153,12 @@ function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13137,10 +13172,12 @@ function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13154,10 +13191,12 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -13171,11 +13210,13 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(5036, __c157, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5036, __c157, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateProjectsLocationsLakesZonesEntitiesRequest" });
@@ -13185,12 +13226,14 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          entryTypeId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4514, __c141, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4514, __c141, 2),
+          S.Struct({
+            entryTypeId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entryTypes",
@@ -13234,12 +13277,14 @@ function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          glossaryId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5536, __c173, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            glossaryId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/glossaries",
@@ -13253,11 +13298,13 @@ function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          categoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            categoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/categories",
@@ -13271,11 +13318,13 @@ function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          termId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5600, __c175, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5600, __c175, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            termId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/terms",
@@ -13289,12 +13338,14 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          lakeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4706, __c147, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4706, __c147, 2),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            lakeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/lakes",
@@ -13356,12 +13407,14 @@ function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          taskId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4808, __c150, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4808, __c150, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            taskId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tasks",
@@ -13503,12 +13556,14 @@ function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          zoneId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4866, __c152, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4866, __c152, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            zoneId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/zones",
@@ -13580,12 +13635,14 @@ function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          assetId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4966, __c155, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4966, __c155, 6),
+          S.Struct({
+            assetId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assets",
@@ -13677,11 +13734,13 @@ function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5036, __c157, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5036, __c157, 12),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entities",
@@ -13804,11 +13863,13 @@ function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5088, __c159, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5088, __c159, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/partitions",
@@ -13835,12 +13896,14 @@ function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          metadataFeedId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(5154, __c161, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5154, __c161, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            metadataFeedId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/metadataFeeds",
@@ -13887,12 +13950,14 @@ function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          metadataJobId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5223, __c163, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5223, __c163, 7),
+          S.Struct({
+            metadataJobId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/metadataJobs",
@@ -14112,10 +14177,12 @@ function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5504, __c172, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5504, __c172, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -14677,10 +14744,12 @@ function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5896, __c184, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5896, __c184, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:batchChangeMetadata",

@@ -238,7 +238,7 @@ export interface TransferConfig {
   /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
   scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
 }
-export interface CreateProjectsLocationsTransferConfigsRequest {
+export interface CreateProjectsLocationsTransferConfigsRequest extends TransferConfig {
   /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
   authorizationCode?: string | undefined;
   /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
@@ -247,10 +247,8 @@ export interface CreateProjectsLocationsTransferConfigsRequest {
   versionInfo?: string | undefined;
   /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
   serviceAccountName?: string | undefined;
-  /** Request body */
-  body?: TransferConfig | undefined;
 }
-export interface CreateProjectsTransferConfigsRequest {
+export interface CreateProjectsTransferConfigsRequest extends TransferConfig {
   /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
   parent: string;
   /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
@@ -259,8 +257,6 @@ export interface CreateProjectsTransferConfigsRequest {
   authorizationCode?: string | undefined;
   /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
   serviceAccountName?: string | undefined;
-  /** Request body */
-  body?: TransferConfig | undefined;
 }
 export interface DeleteProjectsLocationsTransferConfigsRequest {
   /** Required. The name of the resource to delete. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
@@ -285,17 +281,13 @@ export interface EnrollDataSourcesRequest {
   /** Data sources that are enrolled. It is required to provide at least one data source id. */
   dataSourceIds?: StringList | undefined;
 }
-export interface EnrollDataSourcesProjectsRequest {
+export interface EnrollDataSourcesProjectsRequest extends EnrollDataSourcesRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: EnrollDataSourcesRequest | undefined;
 }
-export interface EnrollDataSourcesProjectsLocationsRequest {
+export interface EnrollDataSourcesProjectsLocationsRequest extends EnrollDataSourcesRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: EnrollDataSourcesRequest | undefined;
 }
 export interface GetProjectsDataSourcesRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
@@ -804,7 +796,7 @@ export interface ListProjectsTransferConfigsTransferResourcesRequest {
   /** Required. Name of transfer configuration for which transfer resources should be retrieved. The name should be in one of the following forms: * `projects/{project}/transferConfigs/{transfer_config}` * `projects/{project}/locations/{location_id}/transferConfigs/{transfer_config}` */
   parent: string;
 }
-export interface PatchProjectsLocationsTransferConfigsRequest {
+export interface PatchProjectsLocationsTransferConfigsRequest extends Omit<TransferConfig, "name"> {
   /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
   serviceAccountName?: string | undefined;
   /** Required. Required list of fields to be updated in this request. */
@@ -815,10 +807,8 @@ export interface PatchProjectsLocationsTransferConfigsRequest {
   authorizationCode?: string | undefined;
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
   name: string;
-  /** Request body */
-  body?: TransferConfig | undefined;
 }
-export interface PatchProjectsTransferConfigsRequest {
+export interface PatchProjectsTransferConfigsRequest extends Omit<TransferConfig, "name"> {
   /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
   authorizationCode?: string | undefined;
   /** Required. Required list of fields to be updated in this request. */
@@ -829,8 +819,6 @@ export interface PatchProjectsTransferConfigsRequest {
   serviceAccountName?: string | undefined;
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
   name: string;
-  /** Request body */
-  body?: TransferConfig | undefined;
 }
 /** A request to schedule transfer runs for a time range. */
 export interface ScheduleTransferRunsRequest {
@@ -839,22 +827,18 @@ export interface ScheduleTransferRunsRequest {
   /** Required. Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. */
   startTime?: string | undefined;
 }
-export interface ScheduleRunsProjectsLocationsTransferConfigsRequest {
+export interface ScheduleRunsProjectsLocationsTransferConfigsRequest extends ScheduleTransferRunsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Request body */
-  body?: ScheduleTransferRunsRequest | undefined;
 }
 /** A response to schedule transfer runs for a time range. */
 export interface ScheduleTransferRunsResponse {
   /** The transfer runs that were scheduled. */
   runs?: TransferRunList | undefined;
 }
-export interface ScheduleRunsProjectsTransferConfigsRequest {
+export interface ScheduleRunsProjectsTransferConfigsRequest extends ScheduleTransferRunsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Request body */
-  body?: ScheduleTransferRunsRequest | undefined;
 }
 /** A specification for a time range, this will request transfer runs with run_time between start_time (inclusive) and end_time (exclusive). */
 export interface TimeRange {
@@ -870,33 +854,27 @@ export interface StartManualTransferRunsRequest {
   /** A time_range start and end timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_time_range must be a past time and cannot include future time values. */
   requestedTimeRange?: TimeRange | undefined;
 }
-export interface StartManualRunsProjectsLocationsTransferConfigsRequest {
+export interface StartManualRunsProjectsLocationsTransferConfigsRequest extends StartManualTransferRunsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Request body */
-  body?: StartManualTransferRunsRequest | undefined;
 }
 /** A response to start manual transfer runs. */
 export interface StartManualTransferRunsResponse {
   /** The transfer runs that were created. */
   runs?: TransferRunList | undefined;
 }
-export interface StartManualRunsProjectsTransferConfigsRequest {
+export interface StartManualRunsProjectsTransferConfigsRequest extends StartManualTransferRunsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Request body */
-  body?: StartManualTransferRunsRequest | undefined;
 }
 /** A request to unenroll a set of data sources so they are no longer visible in the BigQuery UI's `Transfer` tab. */
 export interface UnenrollDataSourcesRequest {
   /** Data sources that are unenrolled. It is required to provide at least one data source id. */
   dataSourceIds?: StringList | undefined;
 }
-export interface UnenrollDataSourcesProjectsLocationsRequest {
+export interface UnenrollDataSourcesProjectsLocationsRequest extends UnenrollDataSourcesRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: UnenrollDataSourcesRequest | undefined;
 }
 export type CheckValidCredsProjectsDataSourcesError =
   | NotFound
@@ -1696,10 +1674,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:enrollDataSources",
@@ -1723,10 +1703,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:enrollDataSources",
@@ -2350,14 +2332,16 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceAccountName: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          versionInfo: S.optional(S.String.pipe(T.Query())),
-          authorizationCode: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(888, __c55, 8),
+          S.Struct({
+            serviceAccountName: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            versionInfo: S.optional(S.String.pipe(T.Query())),
+            authorizationCode: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2371,14 +2355,16 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authorizationCode: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          versionInfo: S.optional(S.String.pipe(T.Query())),
-          serviceAccountName: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(888, __c55, 8),
+          S.Struct({
+            authorizationCode: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            versionInfo: S.optional(S.String.pipe(T.Query())),
+            serviceAccountName: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2392,10 +2378,12 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:scheduleRuns",
@@ -2430,10 +2418,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:scheduleRuns",
@@ -2447,10 +2437,12 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(689, __c43, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(689, __c43, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:startManualRuns",
@@ -2482,10 +2474,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(689, __c43, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(689, __c43, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:startManualRuns",
@@ -2532,10 +2526,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:unenrollDataSources",
@@ -2566,13 +2562,15 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authorizationCode: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          versionInfo: S.optional(S.String.pipe(T.Query())),
-          serviceAccountName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(888, __c55, 8),
+          S.Struct({
+            authorizationCode: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            versionInfo: S.optional(S.String.pipe(T.Query())),
+            serviceAccountName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/transferConfigs",
@@ -2714,13 +2712,15 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          versionInfo: S.optional(S.String.pipe(T.Query())),
-          authorizationCode: S.optional(S.String.pipe(T.Query())),
-          serviceAccountName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(888, __c55, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            versionInfo: S.optional(S.String.pipe(T.Query())),
+            authorizationCode: S.optional(S.String.pipe(T.Query())),
+            serviceAccountName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/transferConfigs",

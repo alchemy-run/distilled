@@ -99,10 +99,7 @@ export interface GoogleIdentityStsV1betaExchangeTokenRequest {
   /** A set of features that Security Token Service supports, in addition to the standard OAuth 2.0 token exchange, formatted as a serialized JSON object of Options. The size of the parameter value must not exceed 4096 characters. */
   options?: string | undefined;
 }
-export interface TokenV1betaRequest {
-  /** Request body */
-  body?: GoogleIdentityStsV1betaExchangeTokenRequest | undefined;
-}
+export interface TokenV1betaRequest extends GoogleIdentityStsV1betaExchangeTokenRequest {}
 /** Response message for ExchangeToken. */
 export interface GoogleIdentityStsV1betaExchangeTokenResponse {
   /** An OAuth 2.0 security token, issued by Google, in response to the token exchange request. Tokens can vary in size, depending in part on the size of mapped claims, up to a maximum of 12288 bytes (12 KB). Google reserves the right to change the token size and the maximum length at any time. */
@@ -148,9 +145,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleIdentityStsV1betaExchangeTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1beta/token", baseUrl: "https://sts.googleapis.com/" }),
         ),
       ).annotate({ identifier: "TokenV1betaRequest" });

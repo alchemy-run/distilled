@@ -450,11 +450,9 @@ export interface BatchUpdateFormRequest {
   /** Provides control over how write requests are executed. */
   writeControl?: WriteControl | undefined;
 }
-export interface BatchUpdateFormsRequest {
+export interface BatchUpdateFormsRequest extends BatchUpdateFormRequest {
   /** Required. The form ID. */
   formId: string;
-  /** Request body */
-  body?: BatchUpdateFormRequest | undefined;
 }
 export type StringList = Array<string>;
 /** The result of creating an item. */
@@ -511,11 +509,9 @@ export interface BatchUpdateFormResponse {
   /** The updated write control after applying the request. */
   writeControl?: WriteControl | undefined;
 }
-export interface CreateFormsRequest {
+export interface CreateFormsRequest extends Form {
   /** Optional. Whether the form is unpublished. If set to `true`, the form doesn't accept responses. If set to `false` or unset, the form is published and accepts responses. */
   unpublished?: boolean | undefined;
-  /** Request body */
-  body?: Form | undefined;
 }
 export type WatchStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED";
 /** A Pub/Sub topic. */
@@ -558,11 +554,9 @@ export interface CreateWatchRequest {
   /** The ID to use for the watch. If specified, the ID must not already be in use. If not specified, an ID is generated. This value should be 4-63 characters, and valid characters are /a-z-/. */
   watchId?: string | undefined;
 }
-export interface CreateFormsWatchesRequest {
+export interface CreateFormsWatchesRequest extends CreateWatchRequest {
   /** Required. ID of the Form to watch. */
   formId: string;
-  /** Request body */
-  body?: CreateWatchRequest | undefined;
 }
 export interface DeleteFormsWatchesRequest {
   /** Required. The ID of the Watch to delete. */
@@ -691,11 +685,9 @@ export interface SetPublishSettingsRequest {
   /** Required. The desired publish settings to apply to the form. */
   publishSettings?: PublishSettings | undefined;
 }
-export interface SetPublishSettingsFormsRequest {
+export interface SetPublishSettingsFormsRequest extends SetPublishSettingsRequest {
   /** Required. The ID of the form. You can get the id from Form.form_id field. */
   formId: string;
-  /** Request body */
-  body?: SetPublishSettingsRequest | undefined;
 }
 /** The response of a SetPublishSettings request. */
 export interface SetPublishSettingsResponse {
@@ -988,10 +980,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "SetPublishSettingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          formId: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            formId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/forms/{formId}:setPublishSettings",
@@ -1088,10 +1082,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "BatchUpdateFormRequest" });
     case 11:
       return S.suspend(() =>
-        S.Struct({
-          formId: S.String.pipe(T.Label()),
-          body: S.optional(__S(138, __c4, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(138, __c4, 10),
+          S.Struct({
+            formId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/forms/{formId}:batchUpdate",
@@ -1413,10 +1409,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          unpublished: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(219, __c6, 27).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(219, __c6, 27),
+          S.Struct({
+            unpublished: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/forms", baseUrl: "https://forms.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateFormsRequest" });
@@ -1433,10 +1431,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateWatchRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          formId: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            formId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/forms/{formId}/watches",

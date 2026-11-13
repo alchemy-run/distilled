@@ -89,11 +89,9 @@ export interface BatchEnableServicesRequest {
   /** The identifiers of the services to enable on the project. A valid identifier would be: serviceusage.googleapis.com Enabling services requires that each service is public or is shared with the user enabling the service. Two or more services must be specified. To enable a single service, use the `EnableService` method instead. A single request can enable a maximum of 20 services at a time. If more than 20 services are specified, the request will fail, and no state changes will occur. */
   serviceIds?: StringList | undefined;
 }
-export interface BatchEnableServicesRequest_ {
+export interface BatchEnableServicesRequest_ extends BatchEnableServicesRequest {
   /** Parent to enable services on. An example name would be: `projects/123` where `123` is the project number (not project ID). The `BatchEnableServices` method currently only supports projects. */
   parent: string;
-  /** Request body */
-  body?: BatchEnableServicesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -142,15 +140,13 @@ export interface QuotaOverride {
   /** The limit unit of the limit to which this override applies. An example unit would be: `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
   unit?: string | undefined;
 }
-export interface CreateServicesConsumerQuotaMetricsLimitsAdminOverridesRequest {
+export interface CreateServicesConsumerQuotaMetricsLimitsAdminOverridesRequest extends QuotaOverride {
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   forceOnly?: CreateServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumList | undefined;
   /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
   /** Whether to force the creation of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   force?: boolean | undefined;
-  /** Request body */
-  body?: QuotaOverride | undefined;
 }
 export type CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -159,7 +155,7 @@ export type CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEn
 export type CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnumList = Array<
   CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnum | (string & {})
 >;
-export interface CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest {
+export interface CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest extends QuotaOverride {
   /** Whether to force the creation of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   force?: boolean | undefined;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
@@ -168,8 +164,6 @@ export interface CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesReques
     | undefined;
   /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
-  /** Request body */
-  body?: QuotaOverride | undefined;
 }
 export type DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -679,11 +673,9 @@ export interface ImportAdminOverridesRequest {
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   forceOnly?: ImportAdminOverridesRequestForceOnlyItemEnumList | undefined;
 }
-export interface ImportAdminOverridesServicesConsumerQuotaMetricsRequest {
+export interface ImportAdminOverridesServicesConsumerQuotaMetricsRequest extends ImportAdminOverridesRequest {
   /** The resource name of the consumer. An example name would be: `projects/123/services/compute.googleapis.com` */
   parent: string;
-  /** Request body */
-  body?: ImportAdminOverridesRequest | undefined;
 }
 export type ImportConsumerOverridesRequestForceOnlyItemEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -701,11 +693,9 @@ export interface ImportConsumerOverridesRequest {
   /** Whether to force the creation of the quota overrides. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   force?: boolean | undefined;
 }
-export interface ImportConsumerOverridesServicesConsumerQuotaMetricsRequest {
+export interface ImportConsumerOverridesServicesConsumerQuotaMetricsRequest extends ImportConsumerOverridesRequest {
   /** The resource name of the consumer. An example name would be: `projects/123/services/compute.googleapis.com` */
   parent: string;
-  /** Request body */
-  body?: ImportConsumerOverridesRequest | undefined;
 }
 export interface ListOperationsRequest {
   /** The standard list page token. */
@@ -803,7 +793,10 @@ export type PatchServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnum =
 export type PatchServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumList = Array<
   PatchServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnum | (string & {})
 >;
-export interface PatchServicesConsumerQuotaMetricsLimitsAdminOverridesRequest {
+export interface PatchServicesConsumerQuotaMetricsLimitsAdminOverridesRequest extends Omit<
+  QuotaOverride,
+  "name"
+> {
   /** The resource name of the override to update. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d` */
   name: string;
   /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
@@ -812,8 +805,6 @@ export interface PatchServicesConsumerQuotaMetricsLimitsAdminOverridesRequest {
   forceOnly?: PatchServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumList | undefined;
   /** Update only the specified fields of the override. If unset, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: QuotaOverride | undefined;
 }
 export type PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -822,7 +813,10 @@ export type PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnu
 export type PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnumList = Array<
   PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnum | (string & {})
 >;
-export interface PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest {
+export interface PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest extends Omit<
+  QuotaOverride,
+  "name"
+> {
   /** Update only the specified fields of the override. If unset, all fields will be updated. */
   updateMask?: string | undefined;
   /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
@@ -831,8 +825,6 @@ export interface PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest
   forceOnly?: PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnumList | undefined;
   /** The resource name of the override to update. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/consumerOverrides/4a3f2c1d` */
   name: string;
-  /** Request body */
-  body?: QuotaOverride | undefined;
 }
 export type BatchEnableServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Enables multiple services on a project. The operation is atomic: if enabling any service fails, then the entire batch fails, and no state changes occur. Operation response type: `google.protobuf.Empty` */
@@ -1751,10 +1743,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ImportAdminOverridesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consumerQuotaMetrics:importAdminOverrides",
@@ -1792,10 +1786,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ImportConsumerOverridesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consumerQuotaMetrics:importConsumerOverrides",
@@ -1945,13 +1941,15 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1965,13 +1963,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1991,10 +1991,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BatchEnableServicesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/services:batchEnable",
@@ -2044,12 +2046,14 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/adminOverrides",
@@ -2090,12 +2094,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consumerOverrides",

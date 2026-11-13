@@ -91,15 +91,13 @@ export interface BatchDeleteRowAccessPoliciesRequest {
   /** If set to true, it deletes the row access policy even if it's the last row access policy on the table and the deletion will widen the access rather narrowing it. */
   force?: boolean | undefined;
 }
-export interface BatchDeleteRowAccessPoliciesRequest_ {
+export interface BatchDeleteRowAccessPoliciesRequest_ extends BatchDeleteRowAccessPoliciesRequest {
   /** Required. Project ID of the table to delete the row access policies. */
   projectId: string;
   /** Required. Dataset ID of the table to delete the row access policies. */
   datasetId: string;
   /** Required. Table ID of the table to delete the row access policies. */
   tableId: string;
-  /** Request body */
-  body?: BatchDeleteRowAccessPoliciesRequest | undefined;
 }
 export interface BatchDeleteRowAccessPoliciesResponse {}
 export interface CancelJobsRequest {
@@ -2903,11 +2901,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyRoutinesRequest {
+export interface GetIamPolicyRoutinesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -2951,17 +2947,13 @@ export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList | undefined;
 }
-export interface GetIamPolicyRowAccessPoliciesRequest {
+export interface GetIamPolicyRowAccessPoliciesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyTablesRequest {
+export interface GetIamPolicyTablesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetJobsRequest {
   /** The geographic location of the job. You must specify the location to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
@@ -3934,15 +3926,13 @@ export interface TableDataInsertAllRequest {
   skipInvalidRows?: boolean | undefined;
   rows?: TableDataInsertAllRequestRowsItemList | undefined;
 }
-export interface InsertAllTabledataRequest {
+export interface InsertAllTabledataRequest extends TableDataInsertAllRequest {
   /** Required. Dataset ID of the destination. */
   datasetId: string;
   /** Required. Table ID of the destination. */
   tableId: string;
   /** Required. Project ID of the destination. */
   projectId: string;
-  /** Request body */
-  body?: TableDataInsertAllRequest | undefined;
 }
 export interface TableDataInsertAllResponseInsertErrorsItem {
   /** Error information for the row indicated by the index property. */
@@ -3959,45 +3949,35 @@ export interface TableDataInsertAllResponse {
   /** Returns "bigquery#tableDataInsertAllResponse". */
   kind?: string | undefined;
 }
-export interface InsertDatasetsRequest {
+export interface InsertDatasetsRequest extends Dataset {
   /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Requests with conditional access policy binding in datasets must specify version 3. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
   accessPolicyVersion?: number | undefined;
   /** Required. Project ID of the new dataset */
   projectId: string;
-  /** Request body */
-  body?: Dataset | undefined;
 }
-export interface InsertJobsRequest {
+export interface InsertJobsRequest extends Job {
   /** Project ID of project that will be billed for the job. */
   projectId: string;
-  /** Request body */
-  body?: Job | undefined;
 }
-export interface InsertRoutinesRequest {
+export interface InsertRoutinesRequest extends Routine {
   /** Required. Dataset ID of the new routine */
   datasetId: string;
   /** Required. Project ID of the new routine */
   projectId: string;
-  /** Request body */
-  body?: Routine | undefined;
 }
-export interface InsertRowAccessPoliciesRequest {
+export interface InsertRowAccessPoliciesRequest extends RowAccessPolicy {
   /** Required. Dataset ID of the table to get the row access policy. */
   datasetId: string;
   /** Required. Table ID of the table to get the row access policy. */
   tableId: string;
   /** Required. Project ID of the table to get the row access policy. */
   projectId: string;
-  /** Request body */
-  body?: RowAccessPolicy | undefined;
 }
-export interface InsertTablesRequest {
+export interface InsertTablesRequest extends Table {
   /** Required. Dataset ID of the new table */
   datasetId: string;
   /** Required. Project ID of the new table */
   projectId: string;
-  /** Request body */
-  body?: Table | undefined;
 }
 export interface ListDatasetsRequest {
   /** Page token, returned by a previous call, to request the next page of results */
@@ -4304,7 +4284,7 @@ export type PatchDatasetsUpdateModeEnum =
   | "UPDATE_METADATA"
   | "UPDATE_ACL"
   | "UPDATE_FULL";
-export interface PatchDatasetsRequest {
+export interface PatchDatasetsRequest extends Dataset {
   /** Required. Project ID of the dataset being updated */
   projectId: string;
   /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
@@ -4313,20 +4293,16 @@ export interface PatchDatasetsRequest {
   updateMode?: PatchDatasetsUpdateModeEnum | (string & {}) | undefined;
   /** Required. Dataset ID of the dataset being updated */
   datasetId: string;
-  /** Request body */
-  body?: Dataset | undefined;
 }
-export interface PatchModelsRequest {
+export interface PatchModelsRequest extends Model {
   /** Required. Dataset ID of the model to patch. */
   datasetId: string;
   /** Required. Model ID of the model to patch. */
   modelId: string;
   /** Required. Project ID of the model to patch. */
   projectId: string;
-  /** Request body */
-  body?: Model | undefined;
 }
-export interface PatchTablesRequest {
+export interface PatchTablesRequest extends Table {
   /** Required. Project ID of the table to update */
   projectId: string;
   /** Required. Table ID of the table to update */
@@ -4335,8 +4311,6 @@ export interface PatchTablesRequest {
   autodetect_schema?: boolean | undefined;
   /** Required. Dataset ID of the table to update */
   datasetId: string;
-  /** Request body */
-  body?: Table | undefined;
 }
 export type ArrowSerializationOptionsPicosTimestampPrecisionEnum =
   | "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED"
@@ -4436,11 +4410,9 @@ export interface QueryRequest {
   /** Optional. A target limit on the rate of slot consumption by this query. If set to a value > 0, BigQuery will attempt to limit the rate of slot consumption by this query to keep it below the configured limit, even if the query is eligible for more slots based on fair scheduling. The unused slots will be available for other jobs and queries to use. Note: This feature is not yet generally available. */
   maxSlots?: number | undefined;
 }
-export interface QueryJobsRequest {
+export interface QueryJobsRequest extends QueryRequest {
   /** Required. Project ID of the query request. */
   projectId: string;
-  /** Request body */
-  body?: QueryRequest | undefined;
 }
 /** Arrow RecordBatch. This feature is not yet available. */
 export interface ArrowRecordBatch {
@@ -4511,65 +4483,53 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyRoutinesRequest {
+export interface SetIamPolicyRoutinesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyTablesRequest {
+export interface SetIamPolicyTablesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsRoutinesRequest {
+export interface TestIamPermissionsRoutinesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsRowAccessPoliciesRequest {
+export interface TestIamPermissionsRowAccessPoliciesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTablesRequest {
+export interface TestIamPermissionsTablesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request format for undeleting a dataset. */
 export interface UndeleteDatasetRequest {
   /** Optional. The exact time when the dataset was deleted. If not specified, the most recently deleted version is undeleted. Undeleting a dataset using deletion time is not supported. */
   deletionTime?: string | undefined;
 }
-export interface UndeleteDatasetsRequest {
+export interface UndeleteDatasetsRequest extends UndeleteDatasetRequest {
   /** Required. Dataset ID of dataset being deleted */
   datasetId: string;
   /** Required. Project ID of the dataset to be undeleted */
   projectId: string;
-  /** Request body */
-  body?: UndeleteDatasetRequest | undefined;
 }
 export type UpdateDatasetsUpdateModeEnum =
   | "UPDATE_MODE_UNSPECIFIED"
   | "UPDATE_METADATA"
   | "UPDATE_ACL"
   | "UPDATE_FULL";
-export interface UpdateDatasetsRequest {
+export interface UpdateDatasetsRequest extends Dataset {
   /** Required. Project ID of the dataset being updated */
   projectId: string;
   /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
@@ -4578,20 +4538,16 @@ export interface UpdateDatasetsRequest {
   datasetId: string;
   /** Optional. Specifies the fields of dataset that update/patch operation is targeting By default, both metadata and ACL fields are updated. */
   updateMode?: UpdateDatasetsUpdateModeEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Dataset | undefined;
 }
-export interface UpdateRoutinesRequest {
+export interface UpdateRoutinesRequest extends Routine {
   /** Required. Dataset ID of the routine to update */
   datasetId: string;
   /** Required. Routine ID of the routine to update */
   routineId: string;
   /** Required. Project ID of the routine to update */
   projectId: string;
-  /** Request body */
-  body?: Routine | undefined;
 }
-export interface UpdateRowAccessPoliciesRequest {
+export interface UpdateRowAccessPoliciesRequest extends RowAccessPolicy {
   /** Required. Project ID of the table to get the row access policy. */
   projectId: string;
   /** Required. Table ID of the table to get the row access policy. */
@@ -4600,10 +4556,8 @@ export interface UpdateRowAccessPoliciesRequest {
   policyId: string;
   /** Required. Dataset ID of the table to get the row access policy. */
   datasetId: string;
-  /** Request body */
-  body?: RowAccessPolicy | undefined;
 }
-export interface UpdateTablesRequest {
+export interface UpdateTablesRequest extends Table {
   /** Required. Project ID of the table to update */
   projectId: string;
   /** Required. Table ID of the table to update */
@@ -4612,8 +4566,6 @@ export interface UpdateTablesRequest {
   autodetect_schema?: boolean | undefined;
   /** Required. Dataset ID of the table to update */
   datasetId: string;
-  /** Request body */
-  body?: Table | undefined;
 }
 export type BatchDeleteRowAccessPoliciesError =
   | NotFound
@@ -5644,10 +5596,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(257, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:getIamPolicy",
@@ -5718,10 +5672,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(257, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:getIamPolicy",
@@ -5735,10 +5691,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(257, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:getIamPolicy",
@@ -6563,12 +6521,14 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TableDataInsertAllRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(803, __c25, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(803, __c25, 3),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/insertAll",
@@ -6598,11 +6558,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c6, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c6, 8),
+          S.Struct({
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets",
@@ -6616,10 +6578,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/jobs",
@@ -6633,11 +6597,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(586, __c18, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(586, __c18, 10),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/routines",
@@ -6651,12 +6617,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies",
@@ -6670,11 +6638,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(798, __c24, 30).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(798, __c24, 30),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables",
@@ -7007,13 +6977,15 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
-          updateMode: S.optional(S.String.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c6, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c6, 8),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+            updateMode: S.optional(S.String.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{+projectId}/datasets/{+datasetId}",
@@ -7027,12 +6999,14 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          modelId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(468, __c14, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(468, __c14, 20),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            modelId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{+projectId}/datasets/{+datasetId}/models/{+modelId}",
@@ -7046,13 +7020,15 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(798, __c24, 30).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(798, __c24, 30),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",
@@ -7073,12 +7049,14 @@ function __c42(j: number): any {
       ).annotate({ identifier: "BatchDeleteRowAccessPoliciesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          datasetId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies:batchDelete",
@@ -7153,10 +7131,12 @@ function __c45(j: number): any {
       ).annotate({ identifier: "QueryRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1442, __c45, 2),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/queries",
@@ -7212,10 +7192,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:setIamPolicy",
@@ -7240,10 +7222,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:setIamPolicy",
@@ -7257,10 +7241,12 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:testIamPermissions",
@@ -7284,10 +7270,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:testIamPermissions",
@@ -7301,10 +7289,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:testIamPermissions",
@@ -7324,11 +7314,13 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UndeleteDatasetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}:undelete",
@@ -7342,13 +7334,15 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          updateMode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(200, __c6, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c6, 8),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+            updateMode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}",
@@ -7362,12 +7356,14 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          routineId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(586, __c18, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(586, __c18, 10),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            routineId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}/routines/{+routineId}",
@@ -7381,13 +7377,15 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-          datasetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            policyId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies/{+policyId}",
@@ -9112,13 +9110,15 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(798, __c24, 30).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(798, __c24, 30),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",

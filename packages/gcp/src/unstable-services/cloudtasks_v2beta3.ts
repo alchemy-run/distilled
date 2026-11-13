@@ -245,11 +245,9 @@ export interface BatchCreateTasksRequest {
   /** Optional. This field will be used to identify the long running operation, avoiding duplication when user retries. If not provided, then a UUID will be generated at server side. */
   requestId?: string | undefined;
 }
-export interface BatchCreateProjectsLocationsQueuesTasksRequest {
+export interface BatchCreateProjectsLocationsQueuesTasksRequest extends BatchCreateTasksRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   parent: string;
-  /** Request body */
-  body?: BatchCreateTasksRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -272,11 +270,9 @@ export interface BatchDeleteTasksRequest {
   /** Optional. This field will be used to identify the long running operation, avoiding duplication when user retries. If not provided, then a UUID will be generated at server side. */
   requestId?: string | undefined;
 }
-export interface BatchDeleteProjectsLocationsQueuesTasksRequest {
+export interface BatchDeleteProjectsLocationsQueuesTasksRequest extends BatchDeleteTasksRequest {
   /** Required. The queue name. For example: Format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
   parent: string;
-  /** Request body */
-  body?: BatchDeleteTasksRequest | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -292,13 +288,11 @@ export interface BufferTaskRequest {
   /** Optional. Body of the HTTP request. The body can take any generic value. The value is written to the HttpRequest of the [Task]. */
   body?: HttpBody | undefined;
 }
-export interface BufferProjectsLocationsQueuesTasksRequest {
+export interface BufferProjectsLocationsQueuesTasksRequest extends BufferTaskRequest {
   /** Optional. Task ID for the task being created. If not provided, a random task ID is assigned to the task. */
   taskId: string;
   /** Required. The parent queue name. For example: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   queue: string;
-  /** Request body */
-  body?: BufferTaskRequest | undefined;
 }
 /** Response message for BufferTask. */
 export interface BufferTaskResponse {
@@ -431,17 +425,16 @@ export interface Queue {
   /** Immutable. The type of a queue (push or pull). `Queue.type` is an immutable property of the queue that is set at the queue creation time. When left unspecified, the default value of `PUSH` is selected. */
   type?: QueueTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsQueuesRequest {
+export interface CreateProjectsLocationsQueuesRequest extends Queue {
   /** Required. The location name in which the queue will be created. For example: `projects/PROJECT_ID/locations/LOCATION_ID` The list of allowed locations can be obtained by calling Cloud Tasks' implementation of ListLocations. */
   parent: string;
-  /** Request body */
-  body?: Queue | undefined;
 }
-export interface CreateProjectsLocationsQueuesTasksRequest {
+export interface CreateProjectsLocationsQueuesTasksRequest extends Omit<
+  CreateTaskRequest,
+  "parent"
+> {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   parent: string;
-  /** Request body */
-  body?: CreateTaskRequest | undefined;
 }
 export interface DeleteProjectsLocationsQueuesRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
@@ -474,11 +467,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsLocationsQueuesRequest {
+export interface GetIamPolicyProjectsLocationsQueuesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -606,13 +597,11 @@ export interface ListTasksResponse {
   /** A token to retrieve next page of results. To return the next page of results, call ListTasks with this value as the page_token. If the next_page_token is empty, there are no more results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsQueuesRequest {
+export interface PatchProjectsLocationsQueuesRequest extends Omit<Queue, "name"> {
   /** A mask used to specify which fields of the queue are being updated. If empty, then all fields will be updated. */
   updateMask?: string | undefined;
   /** Caller-specified and required in CreateQueue, after which it becomes output only. The queue name. The queue name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the queue's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. */
   name: string;
-  /** Request body */
-  body?: Queue | undefined;
 }
 /** Request message for PauseQueue. */
 export interface PauseQueueRequest {}
@@ -644,46 +633,38 @@ export interface RunTaskRequest {
   /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
   responseView?: RunTaskRequestResponseViewEnum | (string & {}) | undefined;
 }
-export interface RunProjectsLocationsQueuesTasksRequest {
+export interface RunProjectsLocationsQueuesTasksRequest extends RunTaskRequest {
   /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
   name: string;
-  /** Request body */
-  body?: RunTaskRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsQueuesRequest {
+export interface SetIamPolicyProjectsLocationsQueuesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsQueuesRequest {
+export interface TestIamPermissionsProjectsLocationsQueuesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateCmekConfigProjectsLocationsRequest {
+export interface UpdateCmekConfigProjectsLocationsRequest extends Omit<CmekConfig, "name"> {
   /** List of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Output only. The config resource name which includes the project and location and must end in 'cmekConfig', in the format projects/PROJECT_ID/locations/LOCATION_ID/cmekConfig` */
   name: string;
-  /** Request body */
-  body?: CmekConfig | undefined;
 }
 export type BatchCreateProjectsLocationsQueuesTasksError =
   | NotFound
@@ -1239,10 +1220,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+resource}:getIamPolicy",
@@ -1453,11 +1436,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(539, __c33, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(539, __c33, 11),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta3/{+name}",
@@ -1528,10 +1513,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RunTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+name}:run",
@@ -1551,10 +1538,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c18, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+resource}:setIamPolicy",
@@ -1574,10 +1563,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+resource}:testIamPermissions",
@@ -1591,11 +1582,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c2, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta3/{+name}",
@@ -1618,10 +1611,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BatchCreateTasksRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(337, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(337, __c21, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+parent}/tasks:batchCreate",
@@ -1790,10 +1785,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "BatchDeleteTasksRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+parent}/tasks:batchDelete",
@@ -1827,11 +1824,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "BufferTaskRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          taskId: S.String.pipe(T.Label()),
-          queue: S.String.pipe(T.Label()),
-          body: S.optional(__S(497, __c31, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(497, __c31, 1),
+          S.Struct({
+            taskId: S.String.pipe(T.Label()),
+            queue: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+queue}/tasks/{taskId}:buffer",
@@ -1851,10 +1850,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(539, __c33, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(539, __c33, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+parent}/queues",
@@ -1967,10 +1968,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c28, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta3/{+parent}/tasks",

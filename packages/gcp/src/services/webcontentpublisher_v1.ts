@@ -212,13 +212,11 @@ export interface Publication {
   /** Optional. The URL to the publisher's Privacy Policy. */
   publicationPrivacyPolicyUrl?: string | undefined;
 }
-export interface CreateOrganizationsPublicationsRequest {
+export interface CreateOrganizationsPublicationsRequest extends Omit<Publication, "publicationId"> {
   /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
   parent: string;
   /** Optional. The unique identifier of the publication to create. If not specified, the server will generate a random publication ID. */
   publicationId?: string | undefined;
-  /** Request body */
-  body?: Publication | undefined;
 }
 export type IntegerList = Array<number>;
 /** A preset question referencing a template in the survey question catalog. */
@@ -292,13 +290,11 @@ export interface Cta {
   /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
   newsletterConfig?: NewsletterConfig | undefined;
 }
-export interface CreateOrganizationsPublicationsCtasRequest {
+export interface CreateOrganizationsPublicationsCtasRequest extends Cta {
   /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
   parent: string;
   /** Optional. The unique identifier of the CTA to create. If not specified, the server will generate a random CTA ID. */
   ctaId?: string | undefined;
-  /** Request body */
-  body?: Cta | undefined;
 }
 /** Request message for `GeneratePlatformSiteTokens`. */
 export interface GeneratePlatformSiteTokensRequest {}
@@ -756,21 +752,17 @@ export interface ListCtasResponse {
   /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchOrganizationsPublicationsRequest {
+export interface PatchOrganizationsPublicationsRequest extends Omit<Publication, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
   name: string;
-  /** Request body */
-  body?: Publication | undefined;
 }
-export interface PatchOrganizationsPublicationsCtasRequest {
+export interface PatchOrganizationsPublicationsCtasRequest extends Omit<Cta, "name"> {
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Cta | undefined;
 }
 export type CheckFreeAccessPublicationsError = NotFound | Forbidden | GcpOpError;
 /** Checks if a user is eligible for free article access. */
@@ -1136,11 +1128,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(151, __c9, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(151, __c9, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1154,11 +1148,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(185, __c11, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(185, __c11, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1220,11 +1216,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          publicationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(151, __c9, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(151, __c9, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            publicationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/publications",
@@ -1304,11 +1302,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          ctaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(185, __c11, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(185, __c11, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            ctaId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/ctas",

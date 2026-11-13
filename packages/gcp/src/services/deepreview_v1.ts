@@ -336,15 +336,13 @@ export interface Review {
   /** Optional. Run configuration parameters used for this review. */
   runConfig?: DeepReviewRunConfig | undefined;
 }
-export interface CreateDocumentsReviewsRequest {
+export interface CreateDocumentsReviewsRequest extends Review {
   /** Required. The parent Document resource name where this review will be created. */
   parent: string;
   /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
   requestId?: string | undefined;
   /** Optional. The ID to use for the review, which will become the final component of the review's resource name. If not provided, a unique server-generated UUID will be assigned. */
   reviewId?: string | undefined;
-  /** Request body */
-  body?: Review | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -380,11 +378,9 @@ export interface EstimateReviewCostRequest {
   /** Required. The review to estimate, as it would be passed to `CreateReview`. Only its `run_config` is read, and `gemini_api_key` is ignored. */
   review?: Review | undefined;
 }
-export interface EstimateReviewCostDocumentsRequest {
+export interface EstimateReviewCostDocumentsRequest extends EstimateReviewCostRequest {
   /** Required. The document to review. */
   document: string;
-  /** Request body */
-  body?: EstimateReviewCostRequest | undefined;
 }
 /** Represents an amount of money with its currency type. */
 export interface Money {
@@ -514,13 +510,11 @@ export interface ListReviewsResponse {
   /** The list of Review resources. */
   reviews?: ReviewList | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends Document {
   /** Optional. The ID to use for the document, which will become the final component of the document's resource name. If not provided, a unique server-generated UUID will be assigned. */
   documentId?: string | undefined;
   /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Document | undefined;
 }
 export type CreateDocumentsReviewsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates and initiates an asynchronous multi-agent review for a document. Returns a google.longrunning.Operation. When the operation completes, the `response` field contains a `Review` and the `metadata` field contains `CreateReviewMetadata`. */
@@ -823,11 +817,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          documentId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(450, __c14, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(450, __c14, 2),
+          S.Struct({
+            documentId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents",
@@ -841,12 +837,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          reviewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(276, __c8, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(276, __c8, 20),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            reviewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reviews",
@@ -1102,10 +1100,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "EstimateReviewCostRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          document: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            document: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+document}:estimateReviewCost",

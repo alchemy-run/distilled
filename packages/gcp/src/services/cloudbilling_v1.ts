@@ -87,11 +87,9 @@ export interface CancelTaskRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant?: string | undefined;
 }
-export interface CancelTasksRequest {
+export interface CancelTasksRequest extends CancelTaskRequest {
   /** The resource name of the task to cancel. Format: tasks/{task_id} */
   name: string;
-  /** Request body */
-  body?: CancelTaskRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type StringList_ = Array<string>;
@@ -199,23 +197,17 @@ export interface BillingAccount {
   /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
   masterBillingAccount?: string | undefined;
 }
-export interface CreateBillingAccountsRequest {
+export interface CreateBillingAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent?: string | undefined;
-  /** Request body */
-  body?: BillingAccount | undefined;
 }
-export interface CreateBillingAccountsSubAccountsRequest {
+export interface CreateBillingAccountsSubAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
-  /** Request body */
-  body?: BillingAccount | undefined;
 }
-export interface CreateOrganizationsBillingAccountsRequest {
+export interface CreateOrganizationsBillingAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
-  /** Request body */
-  body?: BillingAccount | undefined;
 }
 /** Defines authentication details, used for push notifications. */
 export interface AuthenticationInfo {
@@ -241,15 +233,13 @@ export interface TaskPushNotificationConfig {
   /** The push notification configuration details. */
   pushNotificationConfig?: PushNotificationConfig | undefined;
 }
-export interface CreateTasksPushNotificationConfigsRequest {
+export interface CreateTasksPushNotificationConfigsRequest extends TaskPushNotificationConfig {
   /** Required. The ID for the new config. */
   configId?: string | undefined;
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant?: string | undefined;
   /** Required. The parent task resource for this config. Format: tasks/{task_id} */
   parent: string;
-  /** Request body */
-  body?: TaskPushNotificationConfig | undefined;
 }
 export interface DeleteTasksPushNotificationConfigsRequest {
   /** The resource name of the config to delete. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
@@ -771,11 +761,9 @@ export interface MoveBillingAccountRequest {
   /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
   destinationParent?: string | undefined;
 }
-export interface MoveBillingAccountsRequest {
+export interface MoveBillingAccountsRequest extends MoveBillingAccountRequest {
   /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
   name: string;
-  /** Request body */
-  body?: MoveBillingAccountRequest | undefined;
 }
 export interface MoveOrganizationsBillingAccountsRequest {
   /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
@@ -783,13 +771,11 @@ export interface MoveOrganizationsBillingAccountsRequest {
   /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
   destinationParent: string;
 }
-export interface PatchBillingAccountsRequest {
+export interface PatchBillingAccountsRequest extends Omit<BillingAccount, "name"> {
   /** Required. The name of the billing account resource to be updated. */
   name: string;
   /** The update mask applied to the resource. Only "display_name" is currently supported. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BillingAccount | undefined;
 }
 /** Configuration of a send message request. */
 export interface SendMessageConfiguration {
@@ -813,10 +799,7 @@ export interface SendMessageRequest {
   /** Optional metadata for the request. */
   metadata?: DocumentMap | undefined;
 }
-export interface SendMessageRequest_ {
-  /** Request body */
-  body?: SendMessageRequest | undefined;
-}
+export interface SendMessageRequest_ extends SendMessageRequest {}
 /** ////// Response Messages /////////// */
 export interface SendMessageResponse {
   task?: Task | undefined;
@@ -829,16 +812,11 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyBillingAccountsRequest {
+export interface SetIamPolicyBillingAccountsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface StreamMessageRequest {
-  /** Request body */
-  body?: SendMessageRequest | undefined;
-}
+export interface StreamMessageRequest extends SendMessageRequest {}
 /** TaskStatusUpdateEvent is a delta even on a task indicating that a task has changed. */
 export interface TaskStatusUpdateEvent {
   /** Optional metadata to associate with the task update. */
@@ -885,22 +863,18 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList_ | undefined;
 }
-export interface TestIamPermissionsBillingAccountsRequest {
+export interface TestIamPermissionsBillingAccountsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList_ | undefined;
 }
-export interface UpdateBillingInfoProjectsRequest {
+export interface UpdateBillingInfoProjectsRequest extends Omit<ProjectBillingInfo, "name"> {
   /** Required. The resource name of the project associated with the billing information that you want to update. For example, `projects/tokyo-rain-123`. */
   name: string;
-  /** Request body */
-  body?: ProjectBillingInfo | undefined;
 }
 export type CancelTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
@@ -2050,10 +2024,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "MoveBillingAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -2084,11 +2060,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2102,9 +2080,7 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(641, __c20, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(641, __c20, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/message:send",
@@ -2154,10 +2130,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2171,9 +2149,7 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(641, __c20, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(641, __c20, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/message:stream",
@@ -2244,10 +2220,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2261,10 +2239,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}/billingInfo",
@@ -2284,10 +2264,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CancelTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -2389,10 +2371,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/billingAccounts",
@@ -2421,10 +2405,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/subAccounts",
@@ -2438,10 +2424,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/billingAccounts",
@@ -2455,12 +2443,14 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          configId: S.optional(S.String.pipe(T.Query())),
-          tenant: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            configId: S.optional(S.String.pipe(T.Query())),
+            tenant: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}",

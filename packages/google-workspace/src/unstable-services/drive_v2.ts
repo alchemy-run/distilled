@@ -628,7 +628,7 @@ export interface File {
   /** Whether the options to copy, print, or download this file, should be disabled for readers and commenters. */
   copyRequiresWriterPermission?: boolean | undefined;
 }
-export interface CopyFilesRequest {
+export interface CopyFilesRequest extends File {
   /** The ID of the file to copy. */
   fileId: string;
   /** Whether to pin the head revision of the new copy. A file can have a maximum of 200 pinned revisions. */
@@ -655,8 +655,6 @@ export interface CopyFilesRequest {
   includePermissionsForView?: string | undefined;
   /** The language of the timed text. */
   timedTextLanguage?: string | undefined;
-  /** Request body */
-  body?: File | undefined;
 }
 export interface DeleteChildrenRequest {
   /** The ID of the folder. */
@@ -1451,7 +1449,7 @@ export interface HideDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
 }
-export interface InsertChildrenRequest {
+export interface InsertChildrenRequest extends ChildReference {
   /** The ID of the folder. */
   folderId: string;
   /** Deprecated: Use `supportsAllDrives` instead. */
@@ -1460,23 +1458,17 @@ export interface InsertChildrenRequest {
   enforceSingleParent?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
   supportsAllDrives?: boolean | undefined;
-  /** Request body */
-  body?: ChildReference | undefined;
 }
-export interface InsertCommentsRequest {
+export interface InsertCommentsRequest extends Omit<Comment, "fileId"> {
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Comment | undefined;
 }
-export interface InsertDrivesRequest {
+export interface InsertDrivesRequest extends Drive {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a shared drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same shared drive. If the shared drive already exists a 409 error will be returned. */
   requestId: string;
-  /** Request body */
-  body?: Drive | undefined;
 }
 export type InsertFilesVisibilityEnum = "DEFAULT" | "PRIVATE";
-export interface InsertFilesRequest {
+export interface InsertFilesRequest extends File {
   /** Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. */
   ocr?: boolean | undefined;
   /** The timed text track name. */
@@ -1503,10 +1495,8 @@ export interface InsertFilesRequest {
   enforceSingleParent?: boolean | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
   includePermissionsForView?: string | undefined;
-  /** Request body */
-  body?: File | undefined;
 }
-export interface InsertParentsRequest {
+export interface InsertParentsRequest extends ParentReference {
   /** The ID of the file. */
   fileId: string;
   /** Whether the requesting application supports both My Drives and shared drives. */
@@ -1515,10 +1505,8 @@ export interface InsertParentsRequest {
   supportsTeamDrives?: boolean | undefined;
   /** Deprecated: Adding files to multiple folders is no longer supported. Use `shortcuts` instead. */
   enforceSingleParent?: boolean | undefined;
-  /** Request body */
-  body?: ParentReference | undefined;
 }
-export interface InsertPermissionsRequest {
+export interface InsertPermissionsRequest extends Permission {
   /** A plain text custom message to include in notification emails. */
   emailMessage?: string | undefined;
   /** Deprecated: All requests use the expansive access rules. */
@@ -1537,28 +1525,20 @@ export interface InsertPermissionsRequest {
   enforceSingleParent?: boolean | undefined;
   /** Whether to send notification emails when sharing to users or groups. This parameter is ignored and an email is sent if the `role` is `owner`. */
   sendNotificationEmails?: boolean | undefined;
-  /** Request body */
-  body?: Permission | undefined;
 }
-export interface InsertPropertiesRequest {
+export interface InsertPropertiesRequest extends Property {
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Property | undefined;
 }
-export interface InsertRepliesRequest {
+export interface InsertRepliesRequest extends CommentReply {
   /** The ID of the file. */
   fileId: string;
   /** The ID of the comment. */
   commentId: string;
-  /** Request body */
-  body?: CommentReply | undefined;
 }
-export interface InsertTeamdrivesRequest {
+export interface InsertTeamdrivesRequest extends TeamDrive {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a Team Drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same Team Drive. If the Team Drive already exists a 409 error will be returned. */
   requestId: string;
-  /** Request body */
-  body?: TeamDrive | undefined;
 }
 export interface ListAppsRequest {
   /** A comma-separated list of MIME types for open with filtering. All apps within the given app query scope which can open any of the given MIME types will be included in the response. If `appFilterExtensions` are provided as well, the result is a union of the two resulting app lists. */
@@ -1944,11 +1924,9 @@ export interface ModifyLabelsRequest {
   /** The list of modifications to apply to the labels on the file. */
   labelModifications?: LabelModificationList | undefined;
 }
-export interface ModifyLabelsFilesRequest {
+export interface ModifyLabelsFilesRequest extends ModifyLabelsRequest {
   /** The ID of the file to which the labels belong. */
   fileId: string;
-  /** Request body */
-  body?: ModifyLabelsRequest | undefined;
 }
 /** Response to a ModifyLabels request. This contains only those labels which were added or updated by the request. */
 export interface ModifyLabelsResponse {
@@ -1957,13 +1935,11 @@ export interface ModifyLabelsResponse {
   /** The list of labels which were added or updated by the request. */
   modifiedLabels?: LabelList_ | undefined;
 }
-export interface PatchCommentsRequest {
+export interface PatchCommentsRequest extends Omit<Comment, "fileId" | "commentId"> {
   /** The ID of the comment. */
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Comment | undefined;
 }
 export type PatchFilesModifiedDateBehaviorEnum =
   | "fromBody"
@@ -1972,7 +1948,7 @@ export type PatchFilesModifiedDateBehaviorEnum =
   | "noChange"
   | "now"
   | "nowIfNeeded";
-export interface PatchFilesRequest {
+export interface PatchFilesRequest extends File {
   /** Whether to update the view date after successfully updating the file. */
   updateViewedDate?: boolean | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
@@ -2011,10 +1987,8 @@ export interface PatchFilesRequest {
   timedTextTrackName?: string | undefined;
   /** The language of the timed text. */
   timedTextLanguage?: string | undefined;
-  /** Request body */
-  body?: File | undefined;
 }
-export interface PatchPermissionsRequest {
+export interface PatchPermissionsRequest extends Permission {
   /** Whether changing a role to `owner` downgrades the current owners to writers. Does nothing if the specified role is not `owner`. */
   transferOwnership?: boolean | undefined;
   /** The ID for the file or shared drive. */
@@ -2031,36 +2005,28 @@ export interface PatchPermissionsRequest {
   removeExpiration?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
   supportsTeamDrives?: boolean | undefined;
-  /** Request body */
-  body?: Permission | undefined;
 }
-export interface PatchPropertiesRequest {
+export interface PatchPropertiesRequest extends Omit<Property, "visibility"> {
   /** The visibility of the property. Allowed values are PRIVATE and PUBLIC. (Default: PRIVATE) */
   visibility?: string | undefined;
   /** The key of the property. */
   propertyKey: string;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Property | undefined;
 }
-export interface PatchRepliesRequest {
+export interface PatchRepliesRequest extends Omit<CommentReply, "replyId"> {
   /** The ID of the reply. */
   replyId: string;
   /** The ID of the comment. */
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: CommentReply | undefined;
 }
-export interface PatchRevisionsRequest {
+export interface PatchRevisionsRequest extends Revision {
   /** The ID for the file. */
   fileId: string;
   /** The ID for the revision. */
   revisionId: string;
-  /** Request body */
-  body?: Revision | undefined;
 }
 /** A notification channel used to watch for resource changes. */
 export interface Channel {
@@ -2085,10 +2051,7 @@ export interface Channel {
   /** Identifies this as a notification channel used to watch for changes to a resource, which is `api#channel`. */
   kind?: string | undefined;
 }
-export interface StopChannelsRequest {
-  /** Request body */
-  body?: Channel | undefined;
-}
+export interface StopChannelsRequest extends Channel {}
 export interface StopChannelsResponse {}
 export interface TouchFilesRequest {
   /** The ID of the file to update. */
@@ -2130,21 +2093,17 @@ export interface UntrashFilesRequest {
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
   includeLabels?: string | undefined;
 }
-export interface UpdateCommentsRequest {
+export interface UpdateCommentsRequest extends Omit<Comment, "fileId" | "commentId"> {
   /** The ID of the comment. */
   commentId: string;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Comment | undefined;
 }
-export interface UpdateDrivesRequest {
+export interface UpdateDrivesRequest extends Drive {
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs. */
   useDomainAdminAccess?: boolean | undefined;
   /** The ID of the shared drive. */
   driveId: string;
-  /** Request body */
-  body?: Drive | undefined;
 }
 export type UpdateFilesModifiedDateBehaviorEnum =
   | "fromBody"
@@ -2153,7 +2112,7 @@ export type UpdateFilesModifiedDateBehaviorEnum =
   | "noChange"
   | "now"
   | "nowIfNeeded";
-export interface UpdateFilesRequest {
+export interface UpdateFilesRequest extends File {
   /** Deprecated: This parameter has no function. */
   convert?: boolean | undefined;
   /** Deprecated: Adding files to multiple folders is no longer supported. Use `shortcuts` instead. */
@@ -2192,10 +2151,8 @@ export interface UpdateFilesRequest {
   timedTextLanguage?: string | undefined;
   /** Comma-separated list of parent IDs to add. */
   addParents?: string | undefined;
-  /** Request body */
-  body?: File | undefined;
 }
-export interface UpdatePermissionsRequest {
+export interface UpdatePermissionsRequest extends Permission {
   /** Whether changing a role to `owner` downgrades the current owners to writers. Does nothing if the specified role is not `owner`. */
   transferOwnership?: boolean | undefined;
   /** The ID for the file or shared drive. */
@@ -2212,46 +2169,36 @@ export interface UpdatePermissionsRequest {
   enforceExpansiveAccess?: boolean | undefined;
   /** Whether to remove the expiration date. */
   removeExpiration?: boolean | undefined;
-  /** Request body */
-  body?: Permission | undefined;
 }
-export interface UpdatePropertiesRequest {
+export interface UpdatePropertiesRequest extends Omit<Property, "visibility"> {
   /** The key of the property. */
   propertyKey: string;
   /** The visibility of the property. Allowed values are PRIVATE and PUBLIC. (Default: PRIVATE) */
   visibility?: string | undefined;
   /** The ID of the file. */
   fileId: string;
-  /** Request body */
-  body?: Property | undefined;
 }
-export interface UpdateRepliesRequest {
+export interface UpdateRepliesRequest extends Omit<CommentReply, "replyId"> {
   /** The ID of the reply. */
   replyId: string;
   /** The ID of the file. */
   fileId: string;
   /** The ID of the comment. */
   commentId: string;
-  /** Request body */
-  body?: CommentReply | undefined;
 }
-export interface UpdateRevisionsRequest {
+export interface UpdateRevisionsRequest extends Revision {
   /** The ID for the file. */
   fileId: string;
   /** The ID for the revision. */
   revisionId: string;
-  /** Request body */
-  body?: Revision | undefined;
 }
-export interface UpdateTeamdrivesRequest {
+export interface UpdateTeamdrivesRequest extends TeamDrive {
   /** The ID of the Team Drive */
   teamDriveId: string;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the Team Drive belongs. */
   useDomainAdminAccess?: boolean | undefined;
-  /** Request body */
-  body?: TeamDrive | undefined;
 }
-export interface WatchChangesRequest {
+export interface WatchChangesRequest extends Channel {
   /** Maximum number of changes to return. */
   maxResults?: number | undefined;
   /** The shared drive from which changes will be returned. If specified the change IDs will be reflective of the shared drive; use the combined drive ID and change ID as an identifier. */
@@ -2282,11 +2229,9 @@ export interface WatchChangesRequest {
   supportsAllDrives?: boolean | undefined;
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from the previous response or to the response from the getStartPageToken method. */
   pageToken?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type WatchFilesProjectionEnum = "BASIC" | "FULL";
-export interface WatchFilesRequest {
+export interface WatchFilesRequest extends Channel {
   /** Specifies the Revision ID that should be downloaded. Ignored unless alt=media is specified. */
   revisionId?: string | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
@@ -2305,8 +2250,6 @@ export interface WatchFilesRequest {
   projection?: WatchFilesProjectionEnum | (string & {}) | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
   supportsTeamDrives?: boolean | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type CopyFilesError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
 /** Creates a copy of the specified file. */
@@ -4680,13 +4623,15 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          folderId: S.String.pipe(T.Label()),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            folderId: S.String.pipe(T.Label()),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{folderId}/children",
@@ -4700,10 +4645,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(673, __c21, 1),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/comments",
@@ -4717,10 +4664,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.String.pipe(T.Query()),
-          body: S.optional(__S(419, __c13, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(419, __c13, 3),
+          S.Struct({
+            requestId: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "drives",
@@ -4734,22 +4683,24 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ocr: S.optional(S.Boolean.pipe(T.Query())),
-          timedTextTrackName: S.optional(S.String.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          convert: S.optional(S.Boolean.pipe(T.Query())),
-          pinned: S.optional(S.Boolean.pipe(T.Query())),
-          visibility: S.optional(S.String.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          ocrLanguage: S.optional(S.String.pipe(T.Query())),
-          timedTextLanguage: S.optional(S.String.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1614, __c50, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1614, __c50, 14),
+          S.Struct({
+            ocr: S.optional(S.Boolean.pipe(T.Query())),
+            timedTextTrackName: S.optional(S.String.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            convert: S.optional(S.Boolean.pipe(T.Query())),
+            pinned: S.optional(S.Boolean.pipe(T.Query())),
+            visibility: S.optional(S.String.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            ocrLanguage: S.optional(S.String.pipe(T.Query())),
+            timedTextLanguage: S.optional(S.String.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "files", baseUrl: "https://www.googleapis.com/drive/v2/" }),
         ),
       ).annotate({ identifier: "InsertFilesRequest" });
@@ -4759,13 +4710,15 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/parents",
@@ -4779,22 +4732,24 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          pinned: S.optional(S.Boolean.pipe(T.Query())),
-          ocr: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          ocrLanguage: S.optional(S.String.pipe(T.Query())),
-          timedTextTrackName: S.optional(S.String.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          convert: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          visibility: S.optional(S.String.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          timedTextLanguage: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1614, __c50, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1614, __c50, 14),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            pinned: S.optional(S.Boolean.pipe(T.Query())),
+            ocr: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            ocrLanguage: S.optional(S.String.pipe(T.Query())),
+            timedTextTrackName: S.optional(S.String.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            convert: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            visibility: S.optional(S.String.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            timedTextLanguage: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/copy",
@@ -5228,18 +5183,20 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          emailMessage: S.optional(S.String.pipe(T.Query())),
-          enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          moveToNewOwnersRoot: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          sendNotificationEmails: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1380, __c43, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1380, __c43, 4),
+          S.Struct({
+            emailMessage: S.optional(S.String.pipe(T.Query())),
+            enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            moveToNewOwnersRoot: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            sendNotificationEmails: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/permissions",
@@ -5253,10 +5210,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/properties",
@@ -5270,11 +5229,13 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          commentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            commentId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/comments/{commentId}/replies",
@@ -5288,10 +5249,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.String.pipe(T.Query()),
-          body: S.optional(__S(451, __c14, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(451, __c14, 3),
+          S.Struct({
+            requestId: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "teamdrives",
@@ -5761,10 +5724,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ModifyLabelsRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2244, __c70, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2244, __c70, 4),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/modifyLabels",
@@ -5785,11 +5750,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          commentId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(673, __c21, 1),
+          S.Struct({
+            commentId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/comments/{commentId}",
@@ -5803,28 +5770,30 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateViewedDate: S.optional(S.Boolean.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          convert: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          setModifiedDate: S.optional(S.Boolean.pipe(T.Query())),
-          pinned: S.optional(S.Boolean.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          ocrLanguage: S.optional(S.String.pipe(T.Query())),
-          modifiedDateBehavior: S.optional(S.String.pipe(T.Query())),
-          newRevision: S.optional(S.Boolean.pipe(T.Query())),
-          removeParents: S.optional(S.String.pipe(T.Query())),
-          addParents: S.optional(S.String.pipe(T.Query())),
-          useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
-          ocr: S.optional(S.Boolean.pipe(T.Query())),
-          timedTextTrackName: S.optional(S.String.pipe(T.Query())),
-          timedTextLanguage: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1614, __c50, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1614, __c50, 14),
+          S.Struct({
+            updateViewedDate: S.optional(S.Boolean.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            convert: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            setModifiedDate: S.optional(S.Boolean.pipe(T.Query())),
+            pinned: S.optional(S.Boolean.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            ocrLanguage: S.optional(S.String.pipe(T.Query())),
+            modifiedDateBehavior: S.optional(S.String.pipe(T.Query())),
+            newRevision: S.optional(S.Boolean.pipe(T.Query())),
+            removeParents: S.optional(S.String.pipe(T.Query())),
+            addParents: S.optional(S.String.pipe(T.Query())),
+            useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
+            ocr: S.optional(S.Boolean.pipe(T.Query())),
+            timedTextTrackName: S.optional(S.String.pipe(T.Query())),
+            timedTextLanguage: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}",
@@ -5855,17 +5824,19 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          permissionId: S.String.pipe(T.Label()),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          removeExpiration: S.optional(S.Boolean.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1380, __c43, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1380, __c43, 4),
+          S.Struct({
+            transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            permissionId: S.String.pipe(T.Label()),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            removeExpiration: S.optional(S.Boolean.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/permissions/{permissionId}",
@@ -5879,12 +5850,14 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          visibility: S.optional(S.String.pipe(T.Query())),
-          propertyKey: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            visibility: S.optional(S.String.pipe(T.Query())),
+            propertyKey: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/properties/{propertyKey}",
@@ -5898,12 +5871,14 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          replyId: S.String.pipe(T.Label()),
-          commentId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            replyId: S.String.pipe(T.Label()),
+            commentId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/comments/{commentId}/replies/{replyId}",
@@ -5917,11 +5892,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          revisionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            revisionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "files/{fileId}/revisions/{revisionId}",
@@ -5935,9 +5912,7 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2528, __c79, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "channels/stop",
@@ -6046,11 +6021,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          commentId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(673, __c21, 1),
+          S.Struct({
+            commentId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "files/{fileId}/comments/{commentId}",
@@ -6082,11 +6059,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          driveId: S.String.pipe(T.Label()),
-          body: S.optional(__S(419, __c13, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(419, __c13, 3),
+          S.Struct({
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            driveId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "drives/{driveId}",
@@ -6100,28 +6079,30 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          convert: S.optional(S.Boolean.pipe(T.Query())),
-          enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          setModifiedDate: S.optional(S.Boolean.pipe(T.Query())),
-          ocr: S.optional(S.Boolean.pipe(T.Query())),
-          useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
-          timedTextTrackName: S.optional(S.String.pipe(T.Query())),
-          modifiedDateBehavior: S.optional(S.String.pipe(T.Query())),
-          updateViewedDate: S.optional(S.Boolean.pipe(T.Query())),
-          removeParents: S.optional(S.String.pipe(T.Query())),
-          newRevision: S.optional(S.Boolean.pipe(T.Query())),
-          pinned: S.optional(S.Boolean.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          ocrLanguage: S.optional(S.String.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          timedTextLanguage: S.optional(S.String.pipe(T.Query())),
-          addParents: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1614, __c50, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1614, __c50, 14),
+          S.Struct({
+            convert: S.optional(S.Boolean.pipe(T.Query())),
+            enforceSingleParent: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            setModifiedDate: S.optional(S.Boolean.pipe(T.Query())),
+            ocr: S.optional(S.Boolean.pipe(T.Query())),
+            useContentAsIndexableText: S.optional(S.Boolean.pipe(T.Query())),
+            timedTextTrackName: S.optional(S.String.pipe(T.Query())),
+            modifiedDateBehavior: S.optional(S.String.pipe(T.Query())),
+            updateViewedDate: S.optional(S.Boolean.pipe(T.Query())),
+            removeParents: S.optional(S.String.pipe(T.Query())),
+            newRevision: S.optional(S.Boolean.pipe(T.Query())),
+            pinned: S.optional(S.Boolean.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            ocrLanguage: S.optional(S.String.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            timedTextLanguage: S.optional(S.String.pipe(T.Query())),
+            addParents: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "files/{fileId}",
@@ -6135,17 +6116,19 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          permissionId: S.String.pipe(T.Label()),
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
-          removeExpiration: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1380, __c43, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1380, __c43, 4),
+          S.Struct({
+            transferOwnership: S.optional(S.Boolean.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            permissionId: S.String.pipe(T.Label()),
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            enforceExpansiveAccess: S.optional(S.Boolean.pipe(T.Query())),
+            removeExpiration: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "files/{fileId}/permissions/{permissionId}",
@@ -6159,12 +6142,14 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          propertyKey: S.String.pipe(T.Label()),
-          visibility: S.optional(S.String.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            propertyKey: S.String.pipe(T.Label()),
+            visibility: S.optional(S.String.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "files/{fileId}/properties/{propertyKey}",
@@ -6178,12 +6163,14 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          replyId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
-          commentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            replyId: S.String.pipe(T.Label()),
+            fileId: S.String.pipe(T.Label()),
+            commentId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "files/{fileId}/comments/{commentId}/replies/{replyId}",
@@ -6197,11 +6184,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileId: S.String.pipe(T.Label()),
-          revisionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            fileId: S.String.pipe(T.Label()),
+            revisionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "files/{fileId}/revisions/{revisionId}",
@@ -6215,11 +6204,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          teamDriveId: S.String.pipe(T.Label()),
-          useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(451, __c14, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(451, __c14, 3),
+          S.Struct({
+            teamDriveId: S.String.pipe(T.Label()),
+            useDomainAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "teamdrives/{teamDriveId}",
@@ -6233,24 +6224,26 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          driveId: S.optional(S.String.pipe(T.Query())),
-          includeItemsFromAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          includeSubscribed: S.optional(S.Boolean.pipe(T.Query())),
-          includeTeamDriveItems: S.optional(S.Boolean.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          includeCorpusRemovals: S.optional(S.Boolean.pipe(T.Query())),
-          spaces: S.optional(S.String.pipe(T.Query())),
-          includeDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          teamDriveId: S.optional(S.String.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          startChangeId: S.optional(S.String.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            driveId: S.optional(S.String.pipe(T.Query())),
+            includeItemsFromAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            includeSubscribed: S.optional(S.Boolean.pipe(T.Query())),
+            includeTeamDriveItems: S.optional(S.Boolean.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            includeCorpusRemovals: S.optional(S.Boolean.pipe(T.Query())),
+            spaces: S.optional(S.String.pipe(T.Query())),
+            includeDeleted: S.optional(S.Boolean.pipe(T.Query())),
+            teamDriveId: S.optional(S.String.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+            startChangeId: S.optional(S.String.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "changes/watch",
@@ -6264,18 +6257,20 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          revisionId: S.optional(S.String.pipe(T.Query())),
-          includeLabels: S.optional(S.String.pipe(T.Query())),
-          fileId: S.String.pipe(T.Label()),
-          acknowledgeAbuse: S.optional(S.Boolean.pipe(T.Query())),
-          updateViewedDate: S.optional(S.Boolean.pipe(T.Query())),
-          includePermissionsForView: S.optional(S.String.pipe(T.Query())),
-          supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            revisionId: S.optional(S.String.pipe(T.Query())),
+            includeLabels: S.optional(S.String.pipe(T.Query())),
+            fileId: S.String.pipe(T.Label()),
+            acknowledgeAbuse: S.optional(S.Boolean.pipe(T.Query())),
+            updateViewedDate: S.optional(S.Boolean.pipe(T.Query())),
+            includePermissionsForView: S.optional(S.String.pipe(T.Query())),
+            supportsAllDrives: S.optional(S.Boolean.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            supportsTeamDrives: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "files/{fileId}/watch",

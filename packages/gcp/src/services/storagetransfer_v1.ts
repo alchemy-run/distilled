@@ -124,13 +124,11 @@ export interface AgentPool {
   /** Specifies the client-specified AgentPool description. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsAgentPoolsRequest {
+export interface CreateProjectsAgentPoolsRequest extends AgentPool {
   /** Required. The ID of the Google Cloud project that owns the agent pool. */
   projectId: string;
   /** Required. The ID of the agent pool to create. The `agent_pool_id` must meet the following requirements: * Length of 128 characters or less. * Not start with the string `goog`. * Start with a lowercase ASCII character, followed by: * Zero or more: lowercase Latin alphabet characters, numerals, hyphens (`-`), periods (`.`), underscores (`_`), or tildes (`~`). * One or more numerals or lowercase ASCII characters. As expressed by the regular expression: `^(?!goog)[a-z]([a-z0-9-._~]*[a-z0-9])?$`. */
   agentPoolId?: string | undefined;
-  /** Request body */
-  body?: AgentPool | undefined;
 }
 export type LoggingConfigLogActionStatesItemEnum =
   | "LOGGABLE_ACTION_STATE_UNSPECIFIED"
@@ -509,10 +507,7 @@ export interface TransferJob {
   /** Status of the job. This value MUST be specified for `CreateTransferJobRequests`. **Note:** The effect of the new job status takes place during a subsequent job run. For example, if you change the job status from ENABLED to DISABLED, and an operation spawned by the transfer is running, the status change would not affect the current operation. */
   status?: TransferJobStatusEnum | (string & {}) | undefined;
 }
-export interface CreateTransferJobsRequest {
-  /** Request body */
-  body?: TransferJob | undefined;
-}
+export interface CreateTransferJobsRequest extends TransferJob {}
 export interface DeleteProjectsAgentPoolsRequest {
   /** Required. The name of the agent pool to delete. */
   name: string;
@@ -628,13 +623,11 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsAgentPoolsRequest {
+export interface PatchProjectsAgentPoolsRequest extends Omit<AgentPool, "name"> {
   /** The [field mask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf) of the fields in `agentPool` to update in this request. The following `agentPool` fields can be updated: * display_name * bandwidth_limit */
   updateMask?: string | undefined;
   /** Required. Specifies a unique string that identifies the agent pool. Format: `projects/{project_id}/agentPools/{agent_pool_id}` */
   name: string;
-  /** Request body */
-  body?: AgentPool | undefined;
 }
 /** Request passed to UpdateTransferJob. */
 export interface UpdateTransferJobRequest {
@@ -645,11 +638,9 @@ export interface UpdateTransferJobRequest {
   /** Required. The job to update. `transferJob` is expected to specify one or more of five fields: description, transfer_spec, notification_config, logging_config, and status. An `UpdateTransferJobRequest` that specifies other fields are rejected with the error INVALID_ARGUMENT. Updating a job status to DELETED requires `storagetransfer.jobs.delete` permission. */
   transferJob?: TransferJob | undefined;
 }
-export interface PatchTransferJobsRequest {
+export interface PatchTransferJobsRequest extends UpdateTransferJobRequest {
   /** Required. The name of job to update. */
   jobName: string;
-  /** Request body */
-  body?: UpdateTransferJobRequest | undefined;
 }
 /** Request passed to PauseTransferOperation. */
 export type PauseTransferOperationRequest = CancelOperationRequest;
@@ -672,11 +663,9 @@ export interface RunTransferJobRequest {
   /** Required. The ID of the Google Cloud project that owns the transfer job. */
   projectId?: string | undefined;
 }
-export interface RunTransferJobsRequest {
+export interface RunTransferJobsRequest extends RunTransferJobRequest {
   /** Required. The name of the transfer job. */
   jobName: string;
-  /** Request body */
-  body?: RunTransferJobRequest | undefined;
 }
 export type CancelTransferOperationsError =
   | NotFound
@@ -1221,11 +1210,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(513, __c16, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1247,10 +1238,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateTransferJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          jobName: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            jobName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+jobName}",
@@ -1304,10 +1297,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RunTransferJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          jobName: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            jobName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+jobName}:run",
@@ -1344,11 +1339,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          agentPoolId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(513, __c16, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            agentPoolId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+projectId}/agentPools",
@@ -1381,9 +1378,7 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(632, __c19, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(632, __c19, 24), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/transferJobs",

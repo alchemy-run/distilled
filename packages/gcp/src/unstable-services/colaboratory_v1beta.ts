@@ -114,13 +114,11 @@ export interface Runtime {
   /** Optional. The version of the runtime image. See [Colab Runtime Version FAQ](https://research.google.com/colaboratory/runtime-version-faq.html) for supported runtime versions. If omitted (empty), the latest runtime image is used. */
   version?: string | undefined;
 }
-export interface CreateRuntimesRequest {
+export interface CreateRuntimesRequest extends Runtime {
   /** Optional. A unique identifier for this request. This request is only idempotent if a `request_id` is provided. See [AIP-155](https://google.aip.dev/155) for more details. If provided, the request ID must be in UUID4 format per https://linter.aip.dev/155/request-id-format. */
   requestId?: string | undefined;
   /** Optional. A unique identifier for the runtime. If not supplied, a random ID will be generated. If a runtime with the given ID owned by the requesting user already exists, a completed Operation with an [`ALREADY_EXISTS` (code: 6)](https://github.com/googleapis/googleapis/blob/437254f595a380cd9323111700ce0fcf9d6d2c21/google/rpc/code.proto#L84) error will be returned. See [AIP-133](https://google.aip.dev/133#user-specified-ids) for more details. The ID must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034), specifically: - 1 to 63 characters - Lower-case letters, digits, and hyphens - Start with a letter - End with a letter or digit */
   runtimeId?: string | undefined;
-  /** Request body */
-  body?: Runtime | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -302,11 +300,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          runtimeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9, __c1, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            runtimeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/runtimes",

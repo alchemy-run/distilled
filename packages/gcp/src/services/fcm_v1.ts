@@ -92,13 +92,14 @@ export interface TopicSubscription {
   /** Output only. The ID of the TopicSubscription, which is the topic name. This corresponds to the {topicSubscription} segment in the resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
   topicName?: string | undefined;
 }
-export interface CreateProjectsRegistrationsTopicSubscriptionsRequest {
+export interface CreateProjectsRegistrationsTopicSubscriptionsRequest extends Omit<
+  TopicSubscription,
+  "topicName"
+> {
   /** Required. The parent resource where this subscription will be created. Format: projects/{project}/registrations/{registration} The {registration} part can be an FID or an FCM Token. */
   parent: string;
   /** Required. The ID to use for the subscription, which is the topic name. This will become the last segment of the TopicSubscription's resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
   topicName?: string | undefined;
-  /** Request body */
-  body?: TopicSubscription | undefined;
 }
 export interface DeleteProjectsRegistrationsTopicSubscriptionsRequest {
   /** Required. The name of the topic subscription to delete. Format: projects/{project}/registrations/{registration}/topicSubscriptions/{topicSubscription} */
@@ -128,13 +129,14 @@ export interface ListTopicSubscriptionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsRegistrationsTopicSubscriptionsRequest {
+export interface PatchProjectsRegistrationsTopicSubscriptionsRequest extends Omit<
+  TopicSubscription,
+  "name"
+> {
   /** Identifier. The resource name of the subscription. Format: projects/{project}/registrations/{registration}/topicSubscriptions/{topicSubscription} The {registration} part contains the registration ID (e.g., FID). */
   name: string;
   /** Optional. If set to true, and the topic subscription is not found, a new topic subscription will be created. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: TopicSubscription | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type AndroidConfigPriorityEnum = "NORMAL" | "HIGH";
@@ -453,11 +455,9 @@ export interface SendMessageRequest {
   /** Flag for testing the request without actually delivering the message. */
   validateOnly?: boolean | undefined;
 }
-export interface SendProjectsMessagesRequest {
+export interface SendProjectsMessagesRequest extends SendMessageRequest {
   /** Required. It contains the Firebase project id (i.e. the unique identifier for your Firebase project), in the format of `projects/{project_id}`. The numeric project number with no padding is also supported in the format of `projects/{project_number}`. */
   parent: string;
-  /** Request body */
-  body?: SendMessageRequest | undefined;
 }
 export type CreateProjectsRegistrationsTopicSubscriptionsError =
   | NotFound
@@ -583,11 +583,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          topicName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            topicName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/topicSubscriptions",
@@ -671,11 +673,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://fcm.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsRegistrationsTopicSubscriptionsRequest" });
@@ -887,10 +891,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SendMessageRequest" });
     case 19:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(242, __c7, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(242, __c7, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/messages:send",

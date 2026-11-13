@@ -88,11 +88,9 @@ export interface CancelJobRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID in case you need to retry your request. Requests with same `request_id` are ignored for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID isn't supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface CancelProjectsLocationsJobsRequest {
+export interface CancelProjectsLocationsJobsRequest extends CancelJobRequest {
   /** Required. The `name` of the job to cancel. Format: `projects/{project_id}/locations/global/jobs/{job_id}`. */
   name: string;
-  /** Request body */
-  body?: CancelJobRequest | undefined;
 }
 /** Message for response to cancel Job. */
 export interface CancelJobResponse {}
@@ -385,15 +383,13 @@ export interface Job {
   /** Optional. Logging configuration. */
   loggingConfig?: LoggingConfig | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
+export interface CreateProjectsLocationsJobsRequest extends Job {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID in case you need to retry your request. Requests with same `request_id` are ignored for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID isn't supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. A unique identifier for the job. `job_id` must be up to 128 characters and must include only characters available in DNS names, as defined by RFC-1123. */
   jobId?: string | undefined;
   /** Required. The value for parent. */
   parent: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1048,10 +1044,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CancelJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -1088,12 +1086,14 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          jobId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(453, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(453, __c14, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            jobId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/jobs",

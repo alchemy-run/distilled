@@ -1601,11 +1601,9 @@ export interface GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Deprecated. This field has no effect. */
   locationId?: string | undefined;
 }
-export interface CreateOrganizationsDeidentifyTemplatesRequest {
+export interface CreateOrganizationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest | undefined;
 }
 /** Request message for CreateInspectTemplate. */
 export interface GooglePrivacyDlpV2CreateInspectTemplateRequest {
@@ -1616,11 +1614,9 @@ export interface GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** The template id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
   templateId?: string | undefined;
 }
-export interface CreateOrganizationsInspectTemplatesRequest {
+export interface CreateOrganizationsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest | undefined;
 }
 /** A credential consisting of a username and password, where the password is stored in a Secret Manager resource. Note: Secret Manager [charges apply](https://cloud.google.com/secret-manager/pricing). */
 export interface GooglePrivacyDlpV2SecretManagerCredential {
@@ -1672,17 +1668,13 @@ export interface GooglePrivacyDlpV2CreateConnectionRequest {
   /** Required. The connection resource. */
   connection?: GooglePrivacyDlpV2Connection | undefined;
 }
-export interface CreateOrganizationsLocationsConnectionsRequest {
+export interface CreateOrganizationsLocationsConnectionsRequest extends GooglePrivacyDlpV2CreateConnectionRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateConnectionRequest | undefined;
 }
-export interface CreateOrganizationsLocationsDeidentifyTemplatesRequest {
+export interface CreateOrganizationsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest | undefined;
 }
 /** Processing occurs in a multi-region that contains the current region if available. */
 export type GooglePrivacyDlpV2MultiRegionProcessing = GooglePrivacyDlpV2ActivateJobTriggerRequest;
@@ -2522,17 +2514,13 @@ export interface GooglePrivacyDlpV2CreateDiscoveryConfigRequest {
   /** Required. The DiscoveryConfig to create. */
   discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig | undefined;
 }
-export interface CreateOrganizationsLocationsDiscoveryConfigsRequest {
+export interface CreateOrganizationsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2CreateDiscoveryConfigRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDiscoveryConfigRequest | undefined;
 }
-export interface CreateOrganizationsLocationsInspectTemplatesRequest {
+export interface CreateOrganizationsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest | undefined;
 }
 export type GooglePrivacyDlpV2JobTriggerStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -2586,11 +2574,9 @@ export interface GooglePrivacyDlpV2CreateJobTriggerRequest {
   /** Deprecated. This field has no effect. */
   locationId?: string | undefined;
 }
-export interface CreateOrganizationsLocationsJobTriggersRequest {
+export interface CreateOrganizationsLocationsJobTriggersRequest extends GooglePrivacyDlpV2CreateJobTriggerRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateJobTriggerRequest | undefined;
 }
 /** Message representing a set of files in Cloud Storage. */
 export interface GooglePrivacyDlpV2CloudStorageFileSet {
@@ -2635,11 +2621,9 @@ export interface GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Configuration of the storedInfoType to create. */
   config?: GooglePrivacyDlpV2StoredInfoTypeConfig | undefined;
 }
-export interface CreateOrganizationsLocationsStoredInfoTypesRequest {
+export interface CreateOrganizationsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest | undefined;
 }
 export type GooglePrivacyDlpV2StoredInfoTypeVersionStateEnum =
   | "STORED_INFO_TYPE_STATE_UNSPECIFIED"
@@ -2681,17 +2665,13 @@ export interface GooglePrivacyDlpV2StoredInfoType {
   /** Output only. Resource name. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsStoredInfoTypesRequest {
+export interface CreateOrganizationsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest | undefined;
 }
-export interface CreateProjectsDeidentifyTemplatesRequest {
+export interface CreateProjectsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest | undefined;
 }
 /** Request message for CreateDlpJobRequest. Used to initiate long running jobs such as calculating risk metrics or inspecting Google Cloud Storage. */
 export interface GooglePrivacyDlpV2CreateDlpJobRequest {
@@ -2704,29 +2684,21 @@ export interface GooglePrivacyDlpV2CreateDlpJobRequest {
   /** The job id can contain uppercase and lowercase letters, numbers, and hyphens; that is, it must match the regular expression: `[a-zA-Z\d-_]+`. The maximum length is 100 characters. Can be empty to allow the system to generate one. */
   jobId?: string | undefined;
 }
-export interface CreateProjectsDlpJobsRequest {
+export interface CreateProjectsDlpJobsRequest extends GooglePrivacyDlpV2CreateDlpJobRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDlpJobRequest | undefined;
 }
-export interface CreateProjectsInspectTemplatesRequest {
+export interface CreateProjectsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest | undefined;
 }
-export interface CreateProjectsJobTriggersRequest {
+export interface CreateProjectsJobTriggersRequest extends GooglePrivacyDlpV2CreateJobTriggerRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateJobTriggerRequest | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
+export interface CreateProjectsLocationsConnectionsRequest extends GooglePrivacyDlpV2CreateConnectionRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateConnectionRequest | undefined;
 }
 export type GooglePrivacyDlpV2PolicyActionReturnVerdictEnum =
   | "CONTENT_POLICY_VERDICT_UNSPECIFIED"
@@ -2814,53 +2786,37 @@ export interface GooglePrivacyDlpV2CreateContentPolicyRequest {
   /** Required. The content_policy resource. */
   contentPolicy?: GooglePrivacyDlpV2ContentPolicy | undefined;
 }
-export interface CreateProjectsLocationsContentPoliciesRequest {
+export interface CreateProjectsLocationsContentPoliciesRequest extends GooglePrivacyDlpV2CreateContentPolicyRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project): + Projects scope: `projects/{project_id}/locations/{location_id}` */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateContentPolicyRequest | undefined;
 }
-export interface CreateProjectsLocationsDeidentifyTemplatesRequest {
+export interface CreateProjectsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest | undefined;
 }
-export interface CreateProjectsLocationsDiscoveryConfigsRequest {
+export interface CreateProjectsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2CreateDiscoveryConfigRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDiscoveryConfigRequest | undefined;
 }
-export interface CreateProjectsLocationsDlpJobsRequest {
+export interface CreateProjectsLocationsDlpJobsRequest extends GooglePrivacyDlpV2CreateDlpJobRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateDlpJobRequest | undefined;
 }
-export interface CreateProjectsLocationsInspectTemplatesRequest {
+export interface CreateProjectsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2CreateInspectTemplateRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateInspectTemplateRequest | undefined;
 }
-export interface CreateProjectsLocationsJobTriggersRequest {
+export interface CreateProjectsLocationsJobTriggersRequest extends GooglePrivacyDlpV2CreateJobTriggerRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateJobTriggerRequest | undefined;
 }
-export interface CreateProjectsLocationsStoredInfoTypesRequest {
+export interface CreateProjectsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest | undefined;
 }
-export interface CreateProjectsStoredInfoTypesRequest {
+export interface CreateProjectsStoredInfoTypesRequest extends GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest | undefined;
 }
 export type GooglePrivacyDlpV2ByteContentItemTypeEnum =
   | "BYTES_TYPE_UNSPECIFIED"
@@ -3014,11 +2970,9 @@ export interface GooglePrivacyDlpV2DeidentifyContentRequest {
   /** Configuration for the inspector. Items specified here will override the template referenced by the inspect_template_name argument. */
   inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
 }
-export interface DeidentifyProjectsContentRequest {
+export interface DeidentifyProjectsContentRequest extends GooglePrivacyDlpV2DeidentifyContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2DeidentifyContentRequest | undefined;
 }
 export type GooglePrivacyDlpV2SummaryResultCodeEnum =
   | "TRANSFORMATION_RESULT_CODE_UNSPECIFIED"
@@ -3067,11 +3021,9 @@ export interface GooglePrivacyDlpV2DeidentifyContentResponse {
   /** An overview of the changes that were made on the `item`. */
   overview?: GooglePrivacyDlpV2TransformationOverview | undefined;
 }
-export interface DeidentifyProjectsLocationsContentRequest {
+export interface DeidentifyProjectsLocationsContentRequest extends GooglePrivacyDlpV2DeidentifyContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2DeidentifyContentRequest | undefined;
 }
 export interface DeleteOrganizationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be deleted, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
@@ -3744,22 +3696,18 @@ export interface GooglePrivacyDlpV2HybridInspectDlpJobRequest {
   /** The item to inspect. */
   hybridItem?: GooglePrivacyDlpV2HybridContentItem | undefined;
 }
-export interface HybridInspectProjectsLocationsDlpJobsRequest {
+export interface HybridInspectProjectsLocationsDlpJobsRequest extends GooglePrivacyDlpV2HybridInspectDlpJobRequest {
   /** Required. Resource name of the job to execute a hybrid inspect on, for example `projects/dlp-test-project/dlpJob/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2HybridInspectDlpJobRequest | undefined;
 }
 /** Quota exceeded errors will be thrown once quota has been met. */
 export interface GooglePrivacyDlpV2HybridInspectResponse {}
 /** Request to search for potentially sensitive info in a custom location. */
 export type GooglePrivacyDlpV2HybridInspectJobTriggerRequest =
   GooglePrivacyDlpV2HybridInspectDlpJobRequest;
-export interface HybridInspectProjectsLocationsJobTriggersRequest {
+export interface HybridInspectProjectsLocationsJobTriggersRequest extends GooglePrivacyDlpV2HybridInspectDlpJobRequest {
   /** Required. Resource name of the trigger to execute a hybrid inspect on, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2HybridInspectDlpJobRequest | undefined;
 }
 /** Request to search for potentially sensitive info in a ContentItem. */
 export interface GooglePrivacyDlpV2InspectContentRequest {
@@ -3772,11 +3720,9 @@ export interface GooglePrivacyDlpV2InspectContentRequest {
   /** Configuration for the inspector. What specified here will override the template referenced by the inspect_template_name argument. */
   inspectConfig?: GooglePrivacyDlpV2InspectConfig | undefined;
 }
-export interface InspectProjectsContentRequest {
+export interface InspectProjectsContentRequest extends GooglePrivacyDlpV2InspectContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2InspectContentRequest | undefined;
 }
 export type GooglePrivacyDlpV2FindingLikelihoodEnum =
   | "LIKELIHOOD_UNSPECIFIED"
@@ -4011,11 +3957,9 @@ export interface GooglePrivacyDlpV2InspectContentResponse {
   /** The findings. */
   result?: GooglePrivacyDlpV2InspectResult | undefined;
 }
-export interface InspectProjectsLocationsContentRequest {
+export interface InspectProjectsLocationsContentRequest extends GooglePrivacyDlpV2InspectContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2InspectContentRequest | undefined;
 }
 export interface ListInfoTypesRequest {
   /** Deprecated. This field has no effect. */
@@ -4710,11 +4654,9 @@ export interface GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** New DeidentifyTemplate value. */
   deidentifyTemplate?: GooglePrivacyDlpV2DeidentifyTemplate | undefined;
 }
-export interface PatchOrganizationsDeidentifyTemplatesRequest {
+export interface PatchOrganizationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest | undefined;
 }
 /** Request message for UpdateInspectTemplate. */
 export interface GooglePrivacyDlpV2UpdateInspectTemplateRequest {
@@ -4723,11 +4665,9 @@ export interface GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Mask to control which fields get updated. */
   updateMask?: string | undefined;
 }
-export interface PatchOrganizationsInspectTemplatesRequest {
+export interface PatchOrganizationsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest | undefined;
 }
 /** Request message for UpdateConnection. */
 export interface GooglePrivacyDlpV2UpdateConnectionRequest {
@@ -4736,17 +4676,13 @@ export interface GooglePrivacyDlpV2UpdateConnectionRequest {
   /** Optional. Mask to control which fields get updated. */
   updateMask?: string | undefined;
 }
-export interface PatchOrganizationsLocationsConnectionsRequest {
+export interface PatchOrganizationsLocationsConnectionsRequest extends GooglePrivacyDlpV2UpdateConnectionRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateConnectionRequest | undefined;
 }
-export interface PatchOrganizationsLocationsDeidentifyTemplatesRequest {
+export interface PatchOrganizationsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest | undefined;
 }
 /** Request message for UpdateDiscoveryConfig. */
 export interface GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
@@ -4755,17 +4691,13 @@ export interface GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
   /** Required. New DiscoveryConfig value. */
   discoveryConfig?: GooglePrivacyDlpV2DiscoveryConfig | undefined;
 }
-export interface PatchOrganizationsLocationsDiscoveryConfigsRequest {
+export interface PatchOrganizationsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDiscoveryConfigRequest | undefined;
 }
-export interface PatchOrganizationsLocationsInspectTemplatesRequest {
+export interface PatchOrganizationsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest | undefined;
 }
 /** Request message for UpdateJobTrigger. */
 export interface GooglePrivacyDlpV2UpdateJobTriggerRequest {
@@ -4774,11 +4706,9 @@ export interface GooglePrivacyDlpV2UpdateJobTriggerRequest {
   /** Mask to control which fields get updated. */
   updateMask?: string | undefined;
 }
-export interface PatchOrganizationsLocationsJobTriggersRequest {
+export interface PatchOrganizationsLocationsJobTriggersRequest extends GooglePrivacyDlpV2UpdateJobTriggerRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateJobTriggerRequest | undefined;
 }
 /** Request message for UpdateStoredInfoType. */
 export interface GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
@@ -4787,41 +4717,29 @@ export interface GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Updated configuration for the storedInfoType. If not provided, a new version of the storedInfoType will be created with the existing configuration. */
   config?: GooglePrivacyDlpV2StoredInfoTypeConfig | undefined;
 }
-export interface PatchOrganizationsLocationsStoredInfoTypesRequest {
+export interface PatchOrganizationsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest | undefined;
 }
-export interface PatchOrganizationsStoredInfoTypesRequest {
+export interface PatchOrganizationsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest | undefined;
 }
-export interface PatchProjectsDeidentifyTemplatesRequest {
+export interface PatchProjectsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest | undefined;
 }
-export interface PatchProjectsInspectTemplatesRequest {
+export interface PatchProjectsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest | undefined;
 }
-export interface PatchProjectsJobTriggersRequest {
+export interface PatchProjectsJobTriggersRequest extends GooglePrivacyDlpV2UpdateJobTriggerRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateJobTriggerRequest | undefined;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends GooglePrivacyDlpV2UpdateConnectionRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateConnectionRequest | undefined;
 }
 /** Request message for UpdateContentPolicy. */
 export interface GooglePrivacyDlpV2UpdateContentPolicyRequest {
@@ -4830,47 +4748,33 @@ export interface GooglePrivacyDlpV2UpdateContentPolicyRequest {
   /** Required. The content_policy with new values for the relevant fields. */
   contentPolicy?: GooglePrivacyDlpV2ContentPolicy | undefined;
 }
-export interface PatchProjectsLocationsContentPoliciesRequest {
+export interface PatchProjectsLocationsContentPoliciesRequest extends GooglePrivacyDlpV2UpdateContentPolicyRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/contentPolicies/{content_policy}`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateContentPolicyRequest | undefined;
 }
-export interface PatchProjectsLocationsDeidentifyTemplatesRequest {
+export interface PatchProjectsLocationsDeidentifyTemplatesRequest extends GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest | undefined;
 }
-export interface PatchProjectsLocationsDiscoveryConfigsRequest {
+export interface PatchProjectsLocationsDiscoveryConfigsRequest extends GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateDiscoveryConfigRequest | undefined;
 }
-export interface PatchProjectsLocationsInspectTemplatesRequest {
+export interface PatchProjectsLocationsInspectTemplatesRequest extends GooglePrivacyDlpV2UpdateInspectTemplateRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest | undefined;
 }
-export interface PatchProjectsLocationsJobTriggersRequest {
+export interface PatchProjectsLocationsJobTriggersRequest extends GooglePrivacyDlpV2UpdateJobTriggerRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateJobTriggerRequest | undefined;
 }
-export interface PatchProjectsLocationsStoredInfoTypesRequest {
+export interface PatchProjectsLocationsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest | undefined;
 }
-export interface PatchProjectsStoredInfoTypesRequest {
+export interface PatchProjectsStoredInfoTypesRequest extends GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest | undefined;
 }
 /** Configuration for determining how redaction of images should occur. */
 export interface GooglePrivacyDlpV2ImageRedactionConfig {
@@ -4900,11 +4804,9 @@ export interface GooglePrivacyDlpV2RedactImageRequest {
   /** Deprecated. This field has no effect. */
   locationId?: string | undefined;
 }
-export interface RedactProjectsImageRequest {
+export interface RedactProjectsImageRequest extends GooglePrivacyDlpV2RedactImageRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2RedactImageRequest | undefined;
 }
 /** Results of redacting an image. */
 export interface GooglePrivacyDlpV2RedactImageResponse {
@@ -4915,11 +4817,9 @@ export interface GooglePrivacyDlpV2RedactImageResponse {
   /** The findings. Populated when include_findings in the request is true. */
   inspectResult?: GooglePrivacyDlpV2InspectResult | undefined;
 }
-export interface RedactProjectsLocationsImageRequest {
+export interface RedactProjectsLocationsImageRequest extends GooglePrivacyDlpV2RedactImageRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2RedactImageRequest | undefined;
 }
 /** Request to re-identify an item. */
 export interface GooglePrivacyDlpV2ReidentifyContentRequest {
@@ -4936,11 +4836,9 @@ export interface GooglePrivacyDlpV2ReidentifyContentRequest {
   /** Configuration for the re-identification of the content item. This field shares the same proto message type that is used for de-identification, however its usage here is for the reversal of the previous de-identification. Re-identification is performed by examining the transformations used to de-identify the items and executing the reverse. This requires that only reversible transformations be provided here. The reversible transformations are: - `CryptoDeterministicConfig` - `CryptoReplaceFfxFpeConfig` */
   reidentifyConfig?: GooglePrivacyDlpV2DeidentifyConfig | undefined;
 }
-export interface ReidentifyProjectsContentRequest {
+export interface ReidentifyProjectsContentRequest extends GooglePrivacyDlpV2ReidentifyContentRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2ReidentifyContentRequest | undefined;
 }
 /** Results of re-identifying an item. */
 export interface GooglePrivacyDlpV2ReidentifyContentResponse {
@@ -4949,11 +4847,9 @@ export interface GooglePrivacyDlpV2ReidentifyContentResponse {
   /** The re-identified item. */
   item?: GooglePrivacyDlpV2ContentItem | undefined;
 }
-export interface ReidentifyProjectsLocationsContentRequest {
+export interface ReidentifyProjectsLocationsContentRequest extends GooglePrivacyDlpV2ReidentifyContentRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://docs.cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
-  /** Request body */
-  body?: GooglePrivacyDlpV2ReidentifyContentRequest | undefined;
 }
 export interface SearchOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name of the organization or project with a wildcard location, for example, `organizations/433245324/locations/-` or `projects/project-id/locations/-`. */
@@ -8084,10 +7980,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections",
@@ -8434,10 +8332,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6336, __c198, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -8662,10 +8562,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/discoveryConfigs",
@@ -9406,10 +9308,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsDeidentifyTemplatesRequest" });
@@ -9430,10 +9334,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsInspectTemplatesRequest" });
@@ -9454,10 +9360,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6784, __c212, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -9471,10 +9379,12 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsConnectionsRequest" });
@@ -9495,10 +9405,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsDeidentifyTemplatesRequest" });
@@ -9508,10 +9420,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsDiscoveryConfigsRequest" });
@@ -9532,10 +9446,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsInspectTemplatesRequest" });
@@ -9545,10 +9461,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsJobTriggersRequest" });
@@ -9569,10 +9487,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsLocationsStoredInfoTypesRequest" });
@@ -9593,10 +9513,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsStoredInfoTypesRequest" });
@@ -9606,10 +9528,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsDeidentifyTemplatesRequest" });
@@ -9619,10 +9543,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsInspectTemplatesRequest" });
@@ -9632,10 +9558,12 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsJobTriggersRequest" });
@@ -9645,10 +9573,12 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/jobTriggers",
@@ -9708,10 +9638,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsConnectionsRequest" });
@@ -9728,10 +9660,12 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GooglePrivacyDlpV2UpdateContentPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsContentPoliciesRequest" });
@@ -9741,10 +9675,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDeidentifyTemplatesRequest" });
@@ -9754,10 +9690,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDiscoveryConfigsRequest" });
@@ -9767,10 +9705,12 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInspectTemplatesRequest" });
@@ -9780,10 +9720,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsJobTriggersRequest" });
@@ -9793,10 +9735,12 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsStoredInfoTypesRequest" });
@@ -9806,10 +9750,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://dlp.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsStoredInfoTypesRequest" });
@@ -9819,10 +9765,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/image:redact",
@@ -9870,10 +9818,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/image:redact",
@@ -9887,10 +9837,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -9983,10 +9935,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:reidentify",
@@ -10022,10 +9976,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:reidentify",
@@ -10088,10 +10044,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -10105,10 +10063,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6336, __c198, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -10122,10 +10082,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/dlpJobs",
@@ -10152,10 +10114,12 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6784, __c212, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -10169,10 +10133,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/jobTriggers",
@@ -10186,10 +10152,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections",
@@ -10210,10 +10178,12 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GooglePrivacyDlpV2CreateContentPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/contentPolicies",
@@ -10301,10 +10271,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6336, __c198, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -10318,10 +10290,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/discoveryConfigs",
@@ -10335,10 +10309,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/dlpJobs",
@@ -10352,10 +10328,12 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6784, __c212, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -10369,10 +10347,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/jobTriggers",
@@ -10386,10 +10366,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -10403,10 +10385,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/storedInfoTypes",
@@ -10420,10 +10404,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:deidentify",
@@ -10613,10 +10599,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:deidentify",
@@ -12760,10 +12748,12 @@ function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6336, __c198, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6336, __c198, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/deidentifyTemplates",
@@ -12897,10 +12887,12 @@ function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6690, __c209, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6690, __c209, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:hybridInspect",
@@ -12957,10 +12949,12 @@ function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6784, __c212, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inspectTemplates",
@@ -12986,10 +12980,12 @@ function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6690, __c209, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6690, __c209, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:hybridInspect",
@@ -13003,10 +12999,12 @@ function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6880, __c215, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:inspect",
@@ -13220,10 +13218,12 @@ function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6880, __c215, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/content:inspect",

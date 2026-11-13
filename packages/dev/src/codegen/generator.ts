@@ -10,6 +10,7 @@ import {
   PURE,
   suspendConst,
 } from "./emit.ts";
+import { SPREAD_TRAIT } from "./flatten-payload.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
 import {
   ADDITIONAL_PROPERTIES_TRAIT,
@@ -950,9 +951,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
 
       // Paginated outputs always deliver their items member — required.
       const itemsRoot = paginatedItemsRoot.get(id);
-      const infos = memberInfos(d, id).map((info) =>
+      const allInfos = memberInfos(d, id).map((info) =>
         info.tsName === itemsRoot ? { ...info, required: true } : info,
       );
+      // An inlined request body (see ./flatten-payload.ts): the shape
+      // extends the body's struct and interface instead of copying them.
+      const spread = allInfos.find((info) => SPREAD_TRAIT in info.traits);
+      const infos = spread ? allInfos.filter((info) => info !== spread) : allInfos;
       const fields = infos.flatMap((info) =>
         interfaceField({
           name: info.tsName,
@@ -975,7 +980,11 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       // to accept every declared member's type too, so it stays `unknown`.
       const open = ADDITIONAL_PROPERTIES_TRAIT in (d.traits ?? {});
       if (open) fields.push(`  [key: string]: unknown;`);
-      const struct = open ? `S.StructWithRest(${closed}, [S.Record(S.String, S.Unknown)])` : closed;
+      const struct = spread
+        ? `S.Extend(${ref(spread.target, i)}, ${closed})`
+        : open
+          ? `S.StructWithRest(${closed}, [S.Record(S.String, S.Unknown)])`
+          : closed;
       const structCtx = {
         id,
         isOpIo: opIoShapes.has(id),
@@ -1011,7 +1020,24 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         if (!structCtx.isOpIo) {
           structBodies.set(bodyKey, { id, name });
         }
-        out.push(interfaceDecl(name, fields));
+        if (spread) {
+          // Body fields a path or query member shadows are left out.
+          const own = new Set(infos.map((info) => info.tsName));
+          const shadowed = memberInfos(shapes[spread.target] ?? {})
+            .map((m) => m.tsName)
+            .filter((n) => own.has(n));
+          const base = tsRefAt(spread.target, id);
+          const parent = shadowed.length
+            ? `Omit<${base}, ${shadowed.map((n) => JSON.stringify(n)).join(" | ")}>`
+            : base;
+          out.push(
+            fields.length
+              ? `export interface ${name} extends ${parent} {\n${fields.join("\n")}\n}`
+              : `export interface ${name} extends ${parent} {}`,
+          );
+        } else {
+          out.push(interfaceDecl(name, fields));
+        }
         out.push(
           suspendConst({
             name,

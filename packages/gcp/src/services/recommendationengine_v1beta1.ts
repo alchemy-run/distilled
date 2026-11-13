@@ -227,11 +227,9 @@ export interface GoogleCloudRecommendationengineV1beta1CatalogItem {
   /** Optional. Variant group identifier for prediction results. UTF-8 encoded string with a length limit of 128 bytes. This field must be enabled before it can be used. [Learn more](/recommendations-ai/docs/catalog#item-group-id). */
   itemGroupId?: string | undefined;
 }
-export interface CreateProjectsLocationsCatalogsCatalogItemsRequest {
+export interface CreateProjectsLocationsCatalogsCatalogItemsRequest extends GoogleCloudRecommendationengineV1beta1CatalogItem {
   /** Required. The parent catalog resource name, such as `projects/*\/locations/global/catalogs/default_catalog`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1CatalogItem | undefined;
 }
 /** Registered Api Key. */
 export interface GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration {
@@ -245,13 +243,9 @@ export interface GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyReg
     | GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration
     | undefined;
 }
-export interface CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest {
+export interface CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest extends GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest {
   /** Required. The parent resource path. `projects/*\/locations/global/catalogs/default_catalog/eventStores/default_event_store`. */
   parent: string;
-  /** Request body */
-  body?:
-    | GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest
-    | undefined;
 }
 export interface DeleteProjectsLocationsCatalogsCatalogItemsRequest {
   /** Required. Full resource name of catalog item, such as `projects/*\/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`. */
@@ -469,11 +463,9 @@ export interface GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest
   /** Optional. Unique identifier provided by client, within the ancestor dataset scope. Ensures idempotency and used for request deduplication. Server-generated if unspecified. Up to 128 characters long. This is returned as google.longrunning.Operation.name in the response. */
   requestId?: string | undefined;
 }
-export interface ImportProjectsLocationsCatalogsCatalogItemsRequest {
+export interface ImportProjectsLocationsCatalogsCatalogItemsRequest extends GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog` If no updateMask is specified, requires catalogItems.create permission. If updateMask is specified, requires catalogItems.update permission. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest | undefined;
 }
 /** Request message for the ImportUserEvents request. */
 export interface GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest {
@@ -484,11 +476,9 @@ export interface GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest {
   /** Optional. The desired location of errors incurred during the Import. */
   errorsConfig?: GoogleCloudRecommendationengineV1beta1ImportErrorsConfig | undefined;
 }
-export interface ImportProjectsLocationsCatalogsEventStoresUserEventsRequest {
+export interface ImportProjectsLocationsCatalogsEventStoresUserEventsRequest extends GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest | undefined;
 }
 export interface ListProjectsLocationsCatalogsRequest {
   /** Required. The account resource name with an associated location. */
@@ -626,21 +616,20 @@ export interface ListProjectsLocationsCatalogsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number | undefined;
 }
-export interface PatchProjectsLocationsCatalogsRequest {
+export interface PatchProjectsLocationsCatalogsRequest extends Omit<
+  GoogleCloudRecommendationengineV1beta1Catalog,
+  "name"
+> {
   /** Optional. Indicates which fields in the provided 'catalog' to update. If not set, will only update the catalog_item_level_config field. Currently only fields that can be updated are catalog_item_level_config. */
   updateMask?: string | undefined;
   /** The fully qualified resource name of the catalog. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1Catalog | undefined;
 }
-export interface PatchProjectsLocationsCatalogsCatalogItemsRequest {
+export interface PatchProjectsLocationsCatalogsCatalogItemsRequest extends GoogleCloudRecommendationengineV1beta1CatalogItem {
   /** Optional. Indicates which fields in the provided 'item' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
   /** Required. Full resource name of catalog item, such as `projects/*\/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1CatalogItem | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Request message for Predict method. Full resource name of the format: `{name=projects/*\/locations/global/catalogs/default_catalog/eventStores/default_event_store/placements/*}` The id of the recommendation engine placement. This id is used to identify the set of models that will be used to make the prediction. We currently support three placements with the following IDs by default: // * `shopping_cart`: Predicts items frequently bought together with one or more catalog items in the same shopping session. Commonly displayed after `add-to-cart` event, on product detail pages, or on the shopping cart page. * `home_page`: Predicts the next product that a user will most likely engage with or purchase based on the shopping or viewing history of the specified `userId` or `visitorId`. For example - Recommendations for you. * `product_detail`: Predicts the next product that a user will most likely engage with or purchase. The prediction is based on the shopping or viewing history of the specified `userId` or `visitorId` and its relevance to a specified `CatalogItem`. Typically used on product detail pages. For example - More items like this. * `recently_viewed_default`: Returns up to 75 items recently viewed by the specified `userId` or `visitorId`, most recent ones first. Returns nothing if neither of them has viewed any items yet. For example - Recently viewed. The full list of available placements can be seen at https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements */
@@ -660,10 +649,8 @@ export interface GoogleCloudRecommendationengineV1beta1PredictRequest {
   /** Optional. Additional domain specific parameters for the predictions. Allowed values: * `returnCatalogItem`: Boolean. If set to true, the associated catalogItem object will be returned in the `PredictResponse.PredictionResult.itemMetadata` object in the method response. * `returnItemScore`: Boolean. If set to true, the prediction 'score' corresponding to each returned item will be set in the `metadata` field in the prediction response. The given 'score' indicates the probability of an item being clicked/purchased given the user's context and history. * `strictFiltering`: Boolean. True by default. If set to false, the service will return generic (unfiltered) popular items instead of empty if your filter blocks all prediction results. * `priceRerankLevel`: String. Default empty. If set to be non-empty, then it needs to be one of {'no-price-reranking', 'low-price-reranking', 'medium-price-reranking', 'high-price-reranking'}. This gives request level control and adjust prediction results based on product price. * `diversityLevel`: String. Default empty. If set to be non-empty, then it needs to be one of {'no-diversity', 'low-diversity', 'medium-diversity', 'high-diversity', 'auto-diversity'}. This gives request level control and adjust prediction results based on product category. */
   params?: DocumentMap | undefined;
 }
-export interface PredictProjectsLocationsCatalogsEventStoresPlacementsRequest {
+export interface PredictProjectsLocationsCatalogsEventStoresPlacementsRequest extends GoogleCloudRecommendationengineV1beta1PredictRequest {
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1PredictRequest | undefined;
 }
 /** PredictionResult represents the recommendation prediction results. */
 export interface GoogleCloudRecommendationengineV1beta1PredictResponsePredictionResult {
@@ -696,11 +683,9 @@ export interface GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest {
   /** Optional. The default value is false. Override this flag to true to actually perform the purge. If the field is not set to true, a sampling of events to be deleted will be returned. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest {
+export interface PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest extends GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest {
   /** Required. The resource name of the event_store under which the events are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}/eventStores/${eventStoreId}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest | undefined;
 }
 export type GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequestUserEventRejoinScopeEnum =
   | "USER_EVENT_REJOIN_SCOPE_UNSPECIFIED"
@@ -714,17 +699,13 @@ export interface GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest {
     | (string & {})
     | undefined;
 }
-export interface RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest {
+export interface RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest extends GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest {
   /** Required. Full resource name of user event, such as `projects/*\/locations/*\/catalogs/default_catalog/eventStores/default_event_store`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest | undefined;
 }
-export interface WriteProjectsLocationsCatalogsEventStoresUserEventsRequest {
+export interface WriteProjectsLocationsCatalogsEventStoresUserEventsRequest extends GoogleCloudRecommendationengineV1beta1UserEvent {
   /** Required. The parent eventStore resource name, such as "projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store". */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1UserEvent | undefined;
 }
 export type CollectProjectsLocationsCatalogsEventStoresUserEventsError =
   | NotFound
@@ -1380,10 +1361,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/catalogItems:import",
@@ -1537,10 +1520,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/userEvents:import",
@@ -1739,11 +1724,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(177, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(177, __c11, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1757,11 +1744,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(485, __c30, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(485, __c30, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1789,10 +1778,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1PredictRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c20, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c20, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:predict",
@@ -1835,10 +1826,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/userEvents:purge",
@@ -1858,10 +1851,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/userEvents:rejoin",
@@ -1875,10 +1870,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(134, __c8, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(134, __c8, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/userEvents:write",
@@ -1931,10 +1928,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(485, __c30, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(485, __c30, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/catalogItems",
@@ -2063,10 +2062,12 @@ function __c31(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c31, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/predictionApiKeyRegistrations",

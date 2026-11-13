@@ -239,11 +239,9 @@ export interface AddDealsRequest {
   /** Required. The IDs of the deals to associate with the creative. This can include Programmatic Guaranteed, Private Auction, Preferred Deal, and Marketplace Package deal IDs. You can associate no more than 100 deal IDs per request. */
   dealIds?: StringList | undefined;
 }
-export interface AddDealsBuyersCreativesRequest {
+export interface AddDealsBuyersCreativesRequest extends AddDealsRequest {
   /** Required. Name of the creative to add the deals to. See creative.name. */
   name: string;
-  /** Request body */
-  body?: AddDealsRequest | undefined;
 }
 export type CreativeDeclaredRestrictedCategoriesItemEnum =
   | "RESTRICTED_CATEGORY_UNSPECIFIED"
@@ -719,11 +717,9 @@ export interface AddTargetedAppsRequest {
   /** A list of app IDs to target in the pretargeting configuration. These values will be added to the list of targeted app IDs in PretargetingConfig.appTargeting.mobileAppTargeting.values. */
   appIds?: StringList | undefined;
 }
-export interface AddTargetedAppsBiddersPretargetingConfigsRequest {
+export interface AddTargetedAppsBiddersPretargetingConfigsRequest extends AddTargetedAppsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
-  /** Request body */
-  body?: AddTargetedAppsRequest | undefined;
 }
 export type AddTargetedPublishersRequestTargetingModeEnum =
   | "TARGETING_MODE_UNSPECIFIED"
@@ -736,11 +732,9 @@ export interface AddTargetedPublishersRequest {
   /** A list of publisher IDs to target in the pretargeting configuration. These values will be added to the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
   publisherIds?: StringList | undefined;
 }
-export interface AddTargetedPublishersBiddersPretargetingConfigsRequest {
+export interface AddTargetedPublishersBiddersPretargetingConfigsRequest extends AddTargetedPublishersRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
-  /** Request body */
-  body?: AddTargetedPublishersRequest | undefined;
 }
 export type AddTargetedSitesRequestTargetingModeEnum =
   | "TARGETING_MODE_UNSPECIFIED"
@@ -753,22 +747,18 @@ export interface AddTargetedSitesRequest {
   /** Required. The targeting mode that should be applied to the list of site URLs. If there are existing targeted sites, must be equal to the existing PretargetingConfig.webTargeting.targetingMode or a 400 bad request error will be returned. */
   targetingMode?: AddTargetedSitesRequestTargetingModeEnum | (string & {}) | undefined;
 }
-export interface AddTargetedSitesBiddersPretargetingConfigsRequest {
+export interface AddTargetedSitesBiddersPretargetingConfigsRequest extends AddTargetedSitesRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
-  /** Request body */
-  body?: AddTargetedSitesRequest | undefined;
 }
 /** A request to approve a batch of publisher connections. */
 export interface BatchApprovePublisherConnectionsRequest {
   /** Required. The names of the publishers with which connections will be approved. In the pattern `bidders/{bidder}/publisherConnections/{publisher}` where `{bidder}` is the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   names?: StringList | undefined;
 }
-export interface BatchApproveBiddersPublisherConnectionsRequest {
+export interface BatchApproveBiddersPublisherConnectionsRequest extends BatchApprovePublisherConnectionsRequest {
   /** Required. The bidder for whom publisher connections will be approved. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
   parent: string;
-  /** Request body */
-  body?: BatchApprovePublisherConnectionsRequest | undefined;
 }
 export type PublisherConnectionPublisherPlatformEnum =
   | "PUBLISHER_PLATFORM_UNSPECIFIED"
@@ -803,11 +793,9 @@ export interface BatchRejectPublisherConnectionsRequest {
   /** Required. The names of the publishers with whom connection will be rejected. In the pattern `bidders/{bidder}/publisherConnections/{publisher}` where `{bidder}` is the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   names?: StringList | undefined;
 }
-export interface BatchRejectBiddersPublisherConnectionsRequest {
+export interface BatchRejectBiddersPublisherConnectionsRequest extends BatchRejectPublisherConnectionsRequest {
   /** Required. The bidder for whom publisher connections will be rejected. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
   parent: string;
-  /** Request body */
-  body?: BatchRejectPublisherConnectionsRequest | undefined;
 }
 /** A response for the request to reject a batch of publisher connections. */
 export interface BatchRejectPublisherConnectionsResponse {
@@ -868,23 +856,17 @@ export interface UserList {
   /** Output only. The status of the user list. A new user list starts out as open. */
   status?: UserListStatusEnum | (string & {}) | undefined;
 }
-export interface CreateBiddersPretargetingConfigsRequest {
+export interface CreateBiddersPretargetingConfigsRequest extends PretargetingConfig {
   /** Required. Name of the bidder to create the pretargeting configuration for. Format: bidders/{bidderAccountId} */
   parent: string;
-  /** Request body */
-  body?: PretargetingConfig | undefined;
 }
-export interface CreateBuyersCreativesRequest {
+export interface CreateBuyersCreativesRequest extends Creative {
   /** Required. The name of the parent buyer that the new creative belongs to that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns a creative. For a bidder accessing creatives on behalf of a child seat buyer, `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
-  /** Request body */
-  body?: Creative | undefined;
 }
-export interface CreateBuyersUserListsRequest {
+export interface CreateBuyersUserListsRequest extends UserList {
   /** Required. The name of the parent buyer of the user list to be retrieved, which must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
-  /** Request body */
-  body?: UserList | undefined;
 }
 export interface DeleteBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration to delete. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
@@ -1134,62 +1116,50 @@ export interface OpenBuyersUserListsRequest {
   /** Request body */
   body?: ActivatePretargetingConfigRequest | undefined;
 }
-export interface PatchBiddersEndpointsRequest {
+export interface PatchBiddersEndpointsRequest extends Omit<Endpoint, "name"> {
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
   /** Output only. Name of the endpoint resource that must follow the pattern `bidders/{bidderAccountId}/endpoints/{endpointId}`, where {bidderAccountId} is the account ID of the bidder who operates this endpoint, and {endpointId} is a unique ID assigned by the server. */
   name: string;
-  /** Request body */
-  body?: Endpoint | undefined;
 }
-export interface PatchBiddersPretargetingConfigsRequest {
+export interface PatchBiddersPretargetingConfigsRequest extends Omit<PretargetingConfig, "name"> {
   /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
   name: string;
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PretargetingConfig | undefined;
 }
-export interface PatchBuyersCreativesRequest {
+export interface PatchBuyersCreativesRequest extends Omit<Creative, "name"> {
   /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
   name: string;
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Creative | undefined;
 }
 /** A request to stop targeting the provided apps in a specific pretargeting configuration. The pretargeting configuration itself specifies how these apps are targeted. in PretargetingConfig.appTargeting.mobileAppTargeting. */
 export interface RemoveTargetedAppsRequest {
   /** A list of app IDs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted app IDs in PretargetingConfig.appTargeting.mobileAppTargeting.values. */
   appIds?: StringList | undefined;
 }
-export interface RemoveTargetedAppsBiddersPretargetingConfigsRequest {
+export interface RemoveTargetedAppsBiddersPretargetingConfigsRequest extends RemoveTargetedAppsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
-  /** Request body */
-  body?: RemoveTargetedAppsRequest | undefined;
 }
 /** A request to stop targeting publishers in a specific configuration. The pretargeting configuration itself specifies how these publishers are targeted in PretargetingConfig.publisherTargeting. */
 export interface RemoveTargetedPublishersRequest {
   /** A list of publisher IDs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
   publisherIds?: StringList | undefined;
 }
-export interface RemoveTargetedPublishersBiddersPretargetingConfigsRequest {
+export interface RemoveTargetedPublishersBiddersPretargetingConfigsRequest extends RemoveTargetedPublishersRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
-  /** Request body */
-  body?: RemoveTargetedPublishersRequest | undefined;
 }
 /** A request to stop targeting sites in a specific pretargeting configuration. The pretargeting configuration itself specifies how these sites are targeted in PretargetingConfig.webTargeting. */
 export interface RemoveTargetedSitesRequest {
   /** A list of site URLs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted URLs in PretargetingConfig.webTargeting.values. */
   sites?: StringList | undefined;
 }
-export interface RemoveTargetedSitesBiddersPretargetingConfigsRequest {
+export interface RemoveTargetedSitesBiddersPretargetingConfigsRequest extends RemoveTargetedSitesRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
-  /** Request body */
-  body?: RemoveTargetedSitesRequest | undefined;
 }
 /** A request to suspend a pretargeting configuration. Sets the configuration's state to SUSPENDED. */
 export type SuspendPretargetingConfigRequest = ActivatePretargetingConfigRequest;
@@ -1199,11 +1169,9 @@ export interface SuspendBiddersPretargetingConfigsRequest {
   /** Request body */
   body?: ActivatePretargetingConfigRequest | undefined;
 }
-export interface UpdateBuyersUserListsRequest {
+export interface UpdateBuyersUserListsRequest extends Omit<UserList, "name"> {
   /** Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
   name: string;
-  /** Request body */
-  body?: UserList | undefined;
 }
 /** A request to receive push notifications when any of the creatives belonging to the bidder changes status. */
 export type WatchCreativesRequest = ActivatePretargetingConfigRequest;
@@ -2067,10 +2035,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/publisherConnections:batchApprove",
@@ -2120,10 +2090,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/publisherConnections:batchReject",
@@ -2186,10 +2158,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1509, __c47, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1509, __c47, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pretargetingConfigs",
@@ -2203,10 +2177,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1596, __c49, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1596, __c49, 28),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/creatives",
@@ -2220,10 +2196,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(194, __c6, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(194, __c6, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userLists",
@@ -2681,11 +2659,13 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2699,11 +2679,13 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1509, __c47, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1509, __c47, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2717,11 +2699,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1596, __c49, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1596, __c49, 28),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2741,10 +2725,12 @@ function __c37(j: number): any {
       ).annotate({ identifier: "RemoveTargetedAppsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:removeTargetedApps",
@@ -2764,10 +2750,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "RemoveTargetedPublishersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:removeTargetedPublishers",
@@ -2787,10 +2775,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "RemoveTargetedSitesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:removeTargetedSites",
@@ -2821,10 +2811,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(194, __c6, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(194, __c6, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -2967,10 +2959,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "AddDealsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:addDeals",
@@ -3230,10 +3224,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "AddTargetedAppsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:addTargetedApps",
@@ -3254,10 +3250,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "AddTargetedPublishersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:addTargetedPublishers",
@@ -3278,10 +3276,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "AddTargetedSitesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:addTargetedSites",

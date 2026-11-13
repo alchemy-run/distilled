@@ -149,10 +149,7 @@ export interface GoogleCloudPolicytroubleshooterIamV3TroubleshootIamPolicyReques
   /** The information to use for checking whether a principal has a permission for a resource. */
   accessTuple?: GoogleCloudPolicytroubleshooterIamV3AccessTuple | undefined;
 }
-export interface TroubleshootIamRequest {
-  /** Request body */
-  body?: GoogleCloudPolicytroubleshooterIamV3TroubleshootIamPolicyRequest | undefined;
-}
+export interface TroubleshootIamRequest extends GoogleCloudPolicytroubleshooterIamV3TroubleshootIamPolicyRequest {}
 export type GoogleCloudPolicytroubleshooterIamV3TroubleshootIamPolicyResponseOverallAccessStateEnum =
   | "OVERALL_ACCESS_STATE_UNSPECIFIED"
   | "CAN_ACCESS"
@@ -705,9 +702,7 @@ function __c0(j: number): any {
       });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(7, __c0, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(7, __c0, 7), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/iam:troubleshoot",

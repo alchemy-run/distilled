@@ -254,15 +254,10 @@ export interface CustomEmoji {
   /** Output only. Unique key for the custom emoji resource. */
   uid?: string | undefined;
 }
-export interface CreateCustomEmojisRequest {
-  /** Request body */
-  body?: CustomEmoji | undefined;
-}
-export interface CreateSpacesRequest {
+export interface CreateCustomEmojisRequest extends CustomEmoji {}
+export interface CreateSpacesRequest extends Space {
   /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single space being created. Subsequent requests with the same request ID return the existing space and do not update the space, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a space was already created with the provided request ID, the request returns that space. Note that the returned space might not be fully populated; the API echoes the space in your request with the system-assigned resource name populated. To retrieve the latest metadata for the space, call `GetSpace`. - Reusing an existing request ID with a different authenticated user results in an error. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Space | undefined;
 }
 export type UserTypeEnum = "TYPE_UNSPECIFIED" | "HUMAN" | "BOT";
 /** If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output for a `User` resource (such as in the Messages and Memberships APIs) only populates the `name` and `type` fields for both internal and external users, unless they are members of the space or have prior affinity with the calling user. */
@@ -321,13 +316,11 @@ export interface Membership {
   /** Output only. State of the membership. */
   state?: MembershipStateEnum | (string & {}) | undefined;
 }
-export interface CreateSpacesMembersRequest {
+export interface CreateSpacesMembersRequest extends Membership {
   /** Required. The resource name of the space for which to create the membership. Format: spaces/{space} */
   parent: string;
   /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). Creating app memberships or creating memberships for users outside the administrator's Google Workspace organization isn't supported using admin access. */
   useAdminAccess?: boolean | undefined;
-  /** Request body */
-  body?: Membership | undefined;
 }
 /** A pin on a Chat message. For more information see [Pin a message](https://support.google.com/chat?p=chat-board-hc). */
 export interface MessagePin {
@@ -336,11 +329,9 @@ export interface MessagePin {
   /** Identifier. The resource name of the message pin. Format: `spaces/{space}/messagePins/{message_pin}` The resource ID component matches the resource ID component of the message. For example, a message with `spaces/AAA/messages/bbb.ccc` corresponds to the message pin with the resource name `spaces/AAA/messagePins/bbb.ccc`. */
   name?: string | undefined;
 }
-export interface CreateSpacesMessagePinsRequest {
+export interface CreateSpacesMessagePinsRequest extends MessagePin {
   /** Required. The parent space in which to create the message pin. Format: spaces/{space} */
   parent: string;
-  /** Request body */
-  body?: MessagePin | undefined;
 }
 export type CreateSpacesMessagesCreateMessageNotificationOptions_notificationTypeEnum =
   | "NOTIFICATION_TYPE_NONE"
@@ -1704,7 +1695,7 @@ export interface Message {
   /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
   markupSyntax?: MessageMarkupSyntaxEnum | (string & {}) | undefined;
 }
-export interface CreateSpacesMessagesRequest {
+export interface CreateSpacesMessagesRequest extends Message {
   /** Optional. A custom ID for a message. Lets Chat apps get, update, or delete a message without needing to store the system-assigned ID in the message's resource name (represented in the message `name` field). The value for this field must meet the following requirements: * Begins with `client-`. For example, `client-custom-name` is a valid custom ID, but `custom-name` is not. * Contains up to 63 characters and only lowercase letters, numbers, and hyphens. * Is unique within a space. A Chat app can't use the same custom ID for different messages. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
   messageId?: string | undefined;
   /** The notification type for the message. */
@@ -1720,8 +1711,6 @@ export interface CreateSpacesMessagesRequest {
   threadKey?: string | undefined;
   /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single message being created. Subsequent requests with the same request ID return the existing message and do not update the message, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a message was already created with the provided request ID, the request returns that message. Note that the returned message might not be fully populated; the API echoes the message in your request with the system-assigned resource names populated. To retrieve the latest metadata for the message, call `GetMessage`. - Reusing an existing request ID with a different authenticated user results in an error. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Message | undefined;
 }
 /** A reaction to a message. */
 export interface Reaction {
@@ -1732,11 +1721,9 @@ export interface Reaction {
   /** Output only. The user who created the reaction. */
   user?: User | undefined;
 }
-export interface CreateSpacesMessagesReactionsRequest {
+export interface CreateSpacesMessagesReactionsRequest extends Reaction {
   /** Required. The message where the reaction is created. Format: `spaces/{space}/messages/{message}` */
   parent: string;
-  /** Request body */
-  body?: Reaction | undefined;
 }
 export type GoogleChatV1SectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -1755,11 +1742,9 @@ export interface GoogleChatV1Section {
   /** Output only. The order of the section in relation to other sections. Sections with a lower `sort_order` value appear before sections with a higher value. */
   sortOrder?: number | undefined;
 }
-export interface CreateUsersSectionsRequest {
+export interface CreateUsersSectionsRequest extends GoogleChatV1Section {
   /** Required. The parent resource name where the section is created. Format: `users/{user}` */
   parent: string;
-  /** Request body */
-  body?: GoogleChatV1Section | undefined;
 }
 export interface DeleteCustomEmojisRequest {
   /** Required. Resource name of the custom emoji to delete. Format: `customEmojis/{customEmoji}` You can use the emoji name as an alias for `{customEmoji}`. For example, `customEmojis/:example-emoji:` where `:example-emoji:` is the emoji name for a custom emoji. */
@@ -2275,11 +2260,9 @@ export interface MarkAsActiveRequest {
   /** The absolute timestamp when the ACTIVE state expires. */
   expireTime?: string | undefined;
 }
-export interface MarkAsActiveUsersAvailabilityRequest {
+export interface MarkAsActiveUsersAvailabilityRequest extends MarkAsActiveRequest {
   /** Required. The resource name of the availability to mark as active. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
   name: string;
-  /** Request body */
-  body?: MarkAsActiveRequest | undefined;
 }
 /** Request message for the `MarkAsAway` method. */
 export type MarkAsAwayRequest = CompleteImportSpaceRequest;
@@ -2296,81 +2279,68 @@ export interface MarkAsDoNotDisturbRequest {
   /** The duration from the current time until the DND state expires. */
   ttl?: string | undefined;
 }
-export interface MarkAsDoNotDisturbUsersAvailabilityRequest {
+export interface MarkAsDoNotDisturbUsersAvailabilityRequest extends MarkAsDoNotDisturbRequest {
   /** Required. The resource name of the availability to mark as Do Not Disturb. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
   name: string;
-  /** Request body */
-  body?: MarkAsDoNotDisturbRequest | undefined;
 }
 /** Request message for moving a section item across sections. */
 export interface MoveSectionItemRequest {
   /** Required. The resource name of the section to move the section item to. Format: `users/{user}/sections/{section}` */
   targetSection?: string | undefined;
 }
-export interface MoveUsersSectionsItemsRequest {
+export interface MoveUsersSectionsItemsRequest extends MoveSectionItemRequest {
   /** Required. The resource name of the section item to move. Format: `users/{user}/sections/{section}/items/{item}` */
   name: string;
-  /** Request body */
-  body?: MoveSectionItemRequest | undefined;
 }
 /** Response message for moving a section item. */
 export interface MoveSectionItemResponse {
   /** The updated section item. */
   sectionItem?: SectionItem | undefined;
 }
-export interface PatchSpacesRequest {
+export interface PatchSpacesRequest extends Omit<Space, "name"> {
   /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.spaces` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). Some `FieldMask` values are not supported using admin access. For details, see the description of `update_mask`. */
   useAdminAccess?: boolean | undefined;
   /** Identifier. Resource name of the space. Format: `spaces/{space}` Where `{space}` represents the system-assigned ID for the space. You can obtain the space ID by calling the [`spaces.list()`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/list) method or from the space URL. For example, if the space URL is `https://mail.google.com/mail/u/0/#chat/space/AAAAAAAAA`, the space ID is `AAAAAAAAA`. */
   name: string;
   /** Required. The updated field paths, comma separated if there are multiple. You can update the following fields for a space: `space_details`: Updates the space's description and guidelines. You must pass both description and guidelines in the update request as `SpaceDetails`. If you only want to update one of the fields, pass the existing value for the other field. `display_name`: Only supports updating the display name for spaces where `spaceType` field is `SPACE`. If you receive the error message `ALREADY_EXISTS`, try a different value. An existing space within the Google Workspace organization might already use this display name. `space_type`: Only supports changing a `GROUP_CHAT` space type to `SPACE`. Include `display_name` together with `space_type` in the update mask and ensure that the specified space has a non-empty display name and the `SPACE` space type. Including the `space_type` mask and the `SPACE` type in the specified space when updating the display name is optional if the existing space already has the `SPACE` type. Trying to update the space type in other ways results in an invalid argument error. `space_type` is not supported with `useAdminAccess`. `space_history_state`: Updates [space history settings](https://support.google.com/chat/answer/7664687) by turning history on or off for the space. Only supported if history settings are enabled for the Google Workspace organization. To update the space history state, you must omit all other field masks in your request. `space_history_state` is not supported with `useAdminAccess`. `access_settings.audience`: Updates the [access setting](https://support.google.com/chat/answer/11971020) of who can discover the space, join the space, and preview the messages in named space where `spaceType` field is `SPACE`. If the existing space has a target audience, you can remove the audience and restrict space access by omitting a value for this field mask. To update access settings for a space, the authenticating user must be a space manager and omit all other field masks in your request. You can't update this field if the space is in [import mode](https://developers.google.com/workspace/chat/import-data-overview). To learn more, see [Make a space discoverable to specific users](https://developers.google.com/workspace/chat/space-target-audience). `access_settings.audience` is not supported with `useAdminAccess`. `access_settings.access_permission_settings`: Updates the [access permission settings](https://support.google.com/chat/answer/11971020) of who can discover and join the space where `spaceType` field is `SPACE`. Principals allowed to join the space must also be allowed to discover it. To update access permission settings for a space, the authenticating user must be a space manager or assistant manager and omit all other field masks in the request. You can't update this field if the space is in [import mode](https://developers.google.com/workspace/chat/import-data-overview). To learn more, see [Make a space discoverable to specific users](https://developers.google.com/workspace/chat/space-target-audience). `access_settings.access_permission_settings` is not supported with `useAdminAccess`. The supported field masks include: - `access_settings.access_permission_settings.discoverSpaceSetting` - `access_settings.access_permission_settings.joinSpaceSetting` - `access_settings.access_permission_settings.viewSpaceMembershipSetting` `permission_settings`: Supports changing the [permission settings](https://support.google.com/chat/answer/13340792) of a space. When updating permission settings, you can only specify `permissionSettings` field masks; you cannot update other field masks at the same time. The supported field masks include: - `permission_settings.manageMembersAndGroups` - `permission_settings.modifySpaceDetails` - `permission_settings.toggleHistory` - `permission_settings.useAtMentionAll` - `permission_settings.manageApps` - `permission_settings.manageWebhooks` - `permission_settings.replyMessages` - `permission_settings.viewSpaceMembership` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Space | undefined;
 }
-export interface PatchSpacesMembersRequest {
+export interface PatchSpacesMembersRequest extends Omit<Membership, "name"> {
   /** Identifier. Resource name of the membership, assigned by the server. Format: `spaces/{space}/members/{member}` */
   name: string;
   /** Required. The field paths to update. Separate multiple values with commas or use `*` to update all field paths. Currently supported field paths: - `role` */
   updateMask?: string | undefined;
   /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). */
   useAdminAccess?: boolean | undefined;
-  /** Request body */
-  body?: Membership | undefined;
 }
-export interface PatchSpacesMessagesRequest {
+export interface PatchSpacesMessagesRequest extends Omit<Message, "name"> {
   /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
   name: string;
   /** Optional. If `true` and the message isn't found, a new message is created and `updateMask` is ignored. The specified message ID must be [client-assigned](https://developers.google.com/workspace/chat/create-messages#name_a_created_message) or the request fails. */
   allowMissing?: boolean | undefined;
   /** Required. The field paths to update. Separate multiple values with commas or use `*` to update all field paths. Currently supported field paths: - `text` - `attachment` - `cards` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `cards_v2` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `accessory_widgets` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `quoted_message_metadata` (Only allows removal of the quoted message.) */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Message | undefined;
 }
-export interface PatchUsersAvailabilityRequest {
+export interface PatchUsersAvailabilityRequest extends Omit<Availability, "name"> {
   /** Required. The list of fields to update. The only field that can be updated is `custom_status`. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the user's availability. Format: `users/{user}/availability` `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
   name: string;
-  /** Request body */
-  body?: Availability | undefined;
 }
-export interface PatchUsersSectionsRequest {
+export interface PatchUsersSectionsRequest extends Omit<GoogleChatV1Section, "name"> {
   /** Identifier. Resource name of the section. For system sections, the section ID is a constant string: - DEFAULT_DIRECT_MESSAGES: `users/{user}/sections/default-direct-messages` - DEFAULT_SPACES: `users/{user}/sections/default-spaces` - DEFAULT_APPS: `users/{user}/sections/default-apps` Format: `users/{user}/sections/{section}` */
   name: string;
   /** Required. The mask to specify which fields to update. Currently supported field paths: - `display_name` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleChatV1Section | undefined;
 }
-export interface PatchUsersSpacesSpaceNotificationSettingRequest {
+export interface PatchUsersSpacesSpaceNotificationSettingRequest extends Omit<
+  SpaceNotificationSetting,
+  "name"
+> {
   /** Identifier. The resource name of the space notification setting. Format: `users/{user}/spaces/{space}/spaceNotificationSetting`. */
   name: string;
   /** Required. Supported field paths: - `notification_setting` - `mute_setting` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SpaceNotificationSetting | undefined;
 }
 export type PositionSectionRequestRelativePositionEnum = "POSITION_UNSPECIFIED" | "START" | "END";
 /** Request message for positioning a section. */
@@ -2380,11 +2350,9 @@ export interface PositionSectionRequest {
   /** Optional. The relative position of the section in the list of sections. */
   relativePosition?: PositionSectionRequestRelativePositionEnum | (string & {}) | undefined;
 }
-export interface PositionUsersSectionsRequest {
+export interface PositionUsersSectionsRequest extends PositionSectionRequest {
   /** Required. The resource name of the section to position. Format: `users/{user}/sections/{section}` */
   name: string;
-  /** Request body */
-  body?: PositionSectionRequest | undefined;
 }
 /** Response message for positioning a section. */
 export interface PositionSectionResponse {
@@ -2396,11 +2364,9 @@ export interface ReplaceMessageCardsRequest {
   /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards) to be included in the message. These cards will replace the existing cards of the message. If empty, the original cards included in the message will be cleared. */
   cardsV2?: CardWithIdList | undefined;
 }
-export interface ReplaceCardsSpacesMessagesRequest {
+export interface ReplaceCardsSpacesMessagesRequest extends ReplaceMessageCardsRequest {
   /** Required. The resource name of the message. Format: `spaces/{space}/messages/{message}` */
   name: string;
-  /** Request body */
-  body?: ReplaceMessageCardsRequest | undefined;
 }
 /** Response message for ReplaceMessageCards API. */
 export interface ReplaceMessageCardsResponse {}
@@ -2456,11 +2422,9 @@ export interface SearchMessagesRequest {
   /** Optional. Specifies the desired output syntax for the Chat message `formatted_text` field. */
   markupSyntax?: SearchMessagesRequestMarkupSyntaxEnum | (string & {}) | undefined;
 }
-export interface SearchSpacesMessagesRequest {
+export interface SearchSpacesMessagesRequest extends SearchMessagesRequest {
   /** Required. The resource name of the space to search within. To search across all spaces the user has access to, set this field to `spaces/-`. Using any other value for `parent` results in an `INVALID_ARGUMENT` error. To limit the search to one or more spaces, use `space.name` or `space.display_name` in the `filter`. */
   parent: string;
-  /** Request body */
-  body?: SearchMessagesRequest | undefined;
 }
 export type SearchMessageResultSpaceMuteSettingEnum =
   | "MUTE_SETTING_UNSPECIFIED"
@@ -2492,38 +2456,29 @@ export interface SetUpSpaceRequest {
   /** Optional. The Google Chat users or groups to invite to join the space. Omit the calling user, as they are added automatically. The set currently allows up to 49 memberships (in addition to the caller). For human membership, the `Membership.member` field must contain a `user` with `name` populated (format: `users/{user}`) and `type` set to `User.Type.HUMAN`. You can only add human users when setting up a space (adding Chat apps is only supported for direct message setup with the calling app). You can also add members using the user's email as an alias for {user}. For example, the `user.name` can be `users/example@gmail.com`. To invite Gmail users or users from external Google Workspace domains, user's email must be used for `{user}`. For Google group membership, the `Membership.group_member` field must contain a `group` with `name` populated (format `groups/{group}`). You can only add Google groups when setting `Space.spaceType` to `SPACE`. Optional when setting `Space.spaceType` to `SPACE`. Required when setting `Space.spaceType` to `GROUP_CHAT`, along with at least two memberships. Required when setting `Space.spaceType` to `DIRECT_MESSAGE` with a human user, along with exactly one membership. Must be empty when creating a 1:1 conversation between a human and the calling Chat app (when setting `Space.spaceType` to `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`). */
   memberships?: MembershipList | undefined;
 }
-export interface SetupSpacesRequest {
-  /** Request body */
-  body?: SetUpSpaceRequest | undefined;
-}
-export interface UpdateSpaceReadStateUsersSpacesRequest {
+export interface SetupSpacesRequest extends SetUpSpaceRequest {}
+export interface UpdateSpaceReadStateUsersSpacesRequest extends Omit<SpaceReadState, "name"> {
   /** Required. The field paths to update. Currently supported field paths: - `last_read_time` When the `last_read_time` is before the latest message create time, the space appears as unread in the UI. To mark the space as read, set `last_read_time` to any value later (larger) than the latest message create time. The `last_read_time` is coerced to match the latest message create time. Note that the space read state only affects the read state of messages that are visible in the space's top-level conversation. Replies in threads are unaffected by this timestamp, and instead rely on the thread read state. */
   updateMask?: string | undefined;
   /** Resource name of the space read state. Format: `users/{user}/spaces/{space}/spaceReadState` */
   name: string;
-  /** Request body */
-  body?: SpaceReadState | undefined;
 }
-export interface UpdateSpacesMessagesRequest {
+export interface UpdateSpacesMessagesRequest extends Omit<Message, "name"> {
   /** Optional. If `true` and the message isn't found, a new message is created and `updateMask` is ignored. The specified message ID must be [client-assigned](https://developers.google.com/workspace/chat/create-messages#name_a_created_message) or the request fails. */
   allowMissing?: boolean | undefined;
   /** Required. The field paths to update. Separate multiple values with commas or use `*` to update all field paths. Currently supported field paths: - `text` - `attachment` - `cards` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `cards_v2` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `accessory_widgets` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `quoted_message_metadata` (Only allows removal of the quoted message.) */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
   name: string;
-  /** Request body */
-  body?: Message | undefined;
 }
 /** Request to upload an attachment. */
 export interface UploadAttachmentRequest {
   /** Required. The filename of the attachment, including the file extension. */
   filename?: string | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends UploadAttachmentRequest {
   /** Required. Resource name of the Chat space in which the attachment is uploaded. Format "spaces/{space}". */
   parent: string;
-  /** Request body */
-  body?: UploadAttachmentRequest | undefined;
 }
 /** Response of uploading an attachment. */
 export interface UploadAttachmentResponse {
@@ -3658,10 +3613,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reactions",
@@ -3687,10 +3644,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sections",
@@ -4541,10 +4500,12 @@ function __c46(j: number): any {
       ).annotate({ identifier: "MarkAsActiveRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1472, __c46, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:markAsActive",
@@ -4582,10 +4543,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "MarkAsDoNotDisturbRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:markAsDoNotDisturb",
@@ -4605,10 +4568,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "MoveSectionItemRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -4628,12 +4593,14 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1353, __c42, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1353, __c42, 9),
+          S.Struct({
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesRequest" });
@@ -4643,12 +4610,14 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c68, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesMembersRequest" });
@@ -4658,12 +4627,14 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2616, __c81, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2616, __c81, 24),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesMessagesRequest" });
@@ -4673,11 +4644,13 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(866, __c27, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(866, __c27, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchUsersAvailabilityRequest" });
@@ -4687,11 +4660,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchUsersSectionsRequest" });
@@ -4701,9 +4676,7 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1793, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1793, __c56, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/customEmojis",
@@ -4738,11 +4711,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchUsersSpacesSpaceNotificationSettingRequest" });
@@ -4759,10 +4734,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "PositionSectionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:position",
@@ -4788,10 +4765,12 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ReplaceMessageCardsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:replaceCards",
@@ -4845,10 +4824,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "SearchMessagesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/messages:search",
@@ -4887,9 +4868,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetUpSpaceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1984, __c62, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/spaces:setup",
@@ -4903,11 +4882,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateSpaceReadStateUsersSpacesRequest" });
@@ -4917,12 +4898,14 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2616, __c81, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2616, __c81, 24),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateSpacesMessagesRequest" });
@@ -4938,10 +4921,12 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UploadAttachmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attachments:upload",
@@ -4961,10 +4946,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1353, __c42, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1353, __c42, 9),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/spaces", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateSpacesRequest" });
@@ -4974,11 +4961,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c68, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/members",
@@ -5025,10 +5014,12 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/messagePins",
@@ -5053,15 +5044,19 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          messageId: S.optional(S.String.pipe(T.Query())),
-          "createMessageNotificationOptions.notificationType": S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          messageReplyOption: S.optional(S.String.pipe(T.Query())),
-          threadKey: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2616, __c81, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2616, __c81, 24),
+          S.Struct({
+            messageId: S.optional(S.String.pipe(T.Query())),
+            "createMessageNotificationOptions.notificationType": S.optional(
+              S.String.pipe(T.Query()),
+            ),
+            parent: S.String.pipe(T.Label()),
+            messageReplyOption: S.optional(S.String.pipe(T.Query())),
+            threadKey: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/messages",

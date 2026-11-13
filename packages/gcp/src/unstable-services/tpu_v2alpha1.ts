@@ -320,15 +320,13 @@ export interface Node {
   /** Output only. The unique identifier for the TPU Node. */
   id?: string | undefined;
 }
-export interface CreateProjectsLocationsNodesRequest {
+export interface CreateProjectsLocationsNodesRequest extends Node {
   /** Idempotent request UUID. */
   requestId?: string | undefined;
   /** Required. The parent resource name. */
   parent: string;
   /** The unqualified resource name. */
   nodeId?: string | undefined;
-  /** Request body */
-  body?: Node | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -510,15 +508,13 @@ export interface QueuedResource {
   /** Output only. State of the QueuedResource request. */
   state?: QueuedResourceState | undefined;
 }
-export interface CreateProjectsLocationsQueuedResourcesRequest {
+export interface CreateProjectsLocationsQueuedResourcesRequest extends QueuedResource {
   /** Required. The parent resource name. */
   parent: string;
   /** The unqualified resource name. Should follow the `^[A-Za-z0-9_.~+%-]+$` regex format. */
   queuedResourceId?: string | undefined;
   /** Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: QueuedResource | undefined;
 }
 export interface DeleteProjectsLocationsNodesRequest {
   /** Idempotent request UUID. */
@@ -563,11 +559,9 @@ export interface GetGuestAttributesRequest {
   /** The guest attributes path to be queried. */
   queryPath?: string | undefined;
 }
-export interface GetGuestAttributesProjectsLocationsNodesRequest {
+export interface GetGuestAttributesProjectsLocationsNodesRequest extends GetGuestAttributesRequest {
   /** Required. The resource name. */
   name: string;
-  /** Request body */
-  body?: GetGuestAttributesRequest | undefined;
 }
 /** A guest attributes namespace/key/value entry. */
 export interface GuestAttributesEntry {
@@ -844,13 +838,11 @@ export interface ListRuntimeVersionsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsNodesRequest {
+export interface PatchProjectsLocationsNodesRequest extends Omit<Node, "name"> {
   /** Required. Mask of fields from Node to update. Supported fields: [description, tags, labels, metadata, network_config.enable_external_ips]. */
   updateMask?: string | undefined;
   /** Output only. Immutable. The name of the TPU. */
   name: string;
-  /** Request body */
-  body?: Node | undefined;
 }
 /** Request for PerformMaintenance. */
 export type PerformMaintenanceRequest = BestEffort;
@@ -865,11 +857,9 @@ export interface PerformMaintenanceQueuedResourceRequest {
   /** The names of the nodes to perform maintenance on. */
   nodeNames?: StringList | undefined;
 }
-export interface PerformMaintenanceQueuedResourceProjectsLocationsQueuedResourcesRequest {
+export interface PerformMaintenanceQueuedResourceProjectsLocationsQueuedResourcesRequest extends PerformMaintenanceQueuedResourceRequest {
   /** Required. The name of the QueuedResource which holds the nodes to perform maintenance on. */
   name: string;
-  /** Request body */
-  body?: PerformMaintenanceQueuedResourceRequest | undefined;
 }
 /** Request for ResetQueuedResource. */
 export type ResetQueuedResourceRequest = BestEffort;
@@ -884,11 +874,9 @@ export interface SimulateMaintenanceEventRequest {
   /** The 0-based worker ID. If it is empty, worker ID 0 will be selected for maintenance event simulation. A maintenance event will only be fired on the first specified worker ID. Future implementations may support firing on multiple workers. */
   workerIds?: StringList | undefined;
 }
-export interface SimulateMaintenanceEventProjectsLocationsNodesRequest {
+export interface SimulateMaintenanceEventProjectsLocationsNodesRequest extends SimulateMaintenanceEventRequest {
   /** Required. The resource name. */
   name: string;
-  /** Request body */
-  body?: SimulateMaintenanceEventRequest | undefined;
 }
 /** Request for StartNode. */
 export type StartNodeRequest = BestEffort;
@@ -1544,10 +1532,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetGuestAttributesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+name}:getGuestAttributes",
@@ -1985,11 +1975,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(542, __c33, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(542, __c33, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2alpha1/{+name}",
@@ -2026,10 +2018,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PerformMaintenanceQueuedResourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+name}:performMaintenanceQueuedResource",
@@ -2068,10 +2062,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SimulateMaintenanceEventRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(368, __c23, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+name}:simulateMaintenanceEvent",
@@ -2141,12 +2137,14 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          nodeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(542, __c33, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(542, __c33, 14),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            nodeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+parent}/nodes",
@@ -2360,12 +2358,14 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          queuedResourceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(617, __c38, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(617, __c38, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            queuedResourceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+parent}/queuedResources",

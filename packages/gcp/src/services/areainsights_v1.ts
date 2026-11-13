@@ -185,10 +185,7 @@ export interface ComputeInsightsRequest {
   /** Required. Insight filter. */
   filter?: Filter | undefined;
 }
-export interface ComputeInsightsV1Request {
-  /** Request body */
-  body?: ComputeInsightsRequest | undefined;
-}
+export interface ComputeInsightsV1Request extends ComputeInsightsRequest {}
 /** Holds information about a place */
 export interface PlaceInsight {
   /** The unique identifier of the place. This resource name can be used to retrieve details about the place using the [Places API](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places/get). */
@@ -304,9 +301,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ComputeInsightsRequest" });
     case 13:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(12, __c0, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(12, __c0, 12), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1:computeInsights",

@@ -232,11 +232,9 @@ export interface GoogleCloudAiplatformV1beta1AcceptPublisherModelEulaRequest {
   /** Required. The name of the PublisherModel resource. Format: `publishers/{publisher}/models/{publisher_model}`, or `publishers/hf-{hugging-face-author}/models/{hugging-face-model-name}` */
   publisherModel?: string | undefined;
 }
-export interface AcceptProjectsModelGardenEulaRequest {
+export interface AcceptProjectsModelGardenEulaRequest extends GoogleCloudAiplatformV1beta1AcceptPublisherModelEulaRequest {
   /** Required. The project requesting access for named model. The format is `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AcceptPublisherModelEulaRequest | undefined;
 }
 /** Response message for ModelGardenService.UpdatePublisherModelEula. */
 export interface GoogleCloudAiplatformV1beta1PublisherModelEulaAcceptance {
@@ -287,11 +285,9 @@ export interface GoogleCloudAiplatformV1beta1AddContextArtifactsAndExecutionsReq
   /** The resource names of the Artifacts to attribute to the Context. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/artifacts/{artifact}` */
   artifacts?: StringList | undefined;
 }
-export interface AddContextArtifactsAndExecutionsProjectsLocationsMetadataStoresContextsRequest {
+export interface AddContextArtifactsAndExecutionsProjectsLocationsMetadataStoresContextsRequest extends GoogleCloudAiplatformV1beta1AddContextArtifactsAndExecutionsRequest {
   /** Required. The resource name of the Context that the Artifacts and Executions belong to. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/contexts/{context}` */
   context: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AddContextArtifactsAndExecutionsRequest | undefined;
 }
 /** Response message for MetadataService.AddContextArtifactsAndExecutions. */
 export interface GoogleCloudAiplatformV1beta1AddContextArtifactsAndExecutionsResponse {}
@@ -300,11 +296,9 @@ export interface GoogleCloudAiplatformV1beta1AddContextChildrenRequest {
   /** The resource names of the child Contexts. */
   childContexts?: StringList | undefined;
 }
-export interface AddContextChildrenProjectsLocationsMetadataStoresContextsRequest {
+export interface AddContextChildrenProjectsLocationsMetadataStoresContextsRequest extends GoogleCloudAiplatformV1beta1AddContextChildrenRequest {
   /** Required. The resource name of the parent Context. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/contexts/{context}` */
   context: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AddContextChildrenRequest | undefined;
 }
 /** Response message for MetadataService.AddContextChildren. */
 export interface GoogleCloudAiplatformV1beta1AddContextChildrenResponse {}
@@ -329,11 +323,9 @@ export interface GoogleCloudAiplatformV1beta1AddExecutionEventsRequest {
   /** The Events to create and add. */
   events?: GoogleCloudAiplatformV1beta1EventList | undefined;
 }
-export interface AddExecutionEventsProjectsLocationsMetadataStoresExecutionsRequest {
+export interface AddExecutionEventsProjectsLocationsMetadataStoresExecutionsRequest extends GoogleCloudAiplatformV1beta1AddExecutionEventsRequest {
   /** Required. The resource name of the Execution that the Events connect Artifacts with. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/executions/{execution}` */
   execution: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AddExecutionEventsRequest | undefined;
 }
 /** Response message for MetadataService.AddExecutionEvents. */
 export interface GoogleCloudAiplatformV1beta1AddExecutionEventsResponse {}
@@ -379,22 +371,24 @@ export interface GoogleCloudAiplatformV1beta1AddArtifactRequest {
   /** Optional. The collaborative project to link the file to. Format: projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project} Exactly one of `task` and `collaborative_project` must be set. */
   collaborativeProject?: string | undefined;
 }
-export interface AddProjectsLocationsAgentsTasksArtifactsRequest {
+export interface AddProjectsLocationsAgentsTasksArtifactsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1AddArtifactRequest,
+  "task"
+> {
   /** Optional. The task to link the file to. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} Exactly one of `task` and `collaborative_project` must be set. */
   task: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AddArtifactRequest | undefined;
 }
 /** Response for ArtifactService.AddArtifact. */
 export interface GoogleCloudAiplatformV1beta1AddArtifactResponse {
   /** The ID of the added artifact. */
   artifactId?: string | undefined;
 }
-export interface AddProjectsLocationsCollaborativeProjectsArtifactsRequest {
+export interface AddProjectsLocationsCollaborativeProjectsArtifactsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1AddArtifactRequest,
+  "collaborativeProject"
+> {
   /** Optional. The collaborative project to link the file to. Format: projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project} Exactly one of `task` and `collaborative_project` must be set. */
   collaborativeProject: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AddArtifactRequest | undefined;
 }
 /** A message representing a metric in the measurement. */
 export interface GoogleCloudAiplatformV1beta1MeasurementMetric {
@@ -419,11 +413,9 @@ export interface GoogleCloudAiplatformV1beta1AddTrialMeasurementRequest {
   /** Required. The measurement to be added to a Trial. */
   measurement?: GoogleCloudAiplatformV1beta1Measurement | undefined;
 }
-export interface AddTrialMeasurementProjectsLocationsStudiesTrialsRequest {
+export interface AddTrialMeasurementProjectsLocationsStudiesTrialsRequest extends GoogleCloudAiplatformV1beta1AddTrialMeasurementRequest {
   /** Required. The name of the trial to add measurement. Format: `projects/{project}/locations/{location}/studies/{study}/trials/{trial}` */
   trialName: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AddTrialMeasurementRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1MeasurementList =
   Array<GoogleCloudAiplatformV1beta1Measurement>;
@@ -1023,19 +1015,21 @@ export interface GoogleCloudAiplatformV1beta1SessionEvent {
   /** Optional. Content of the event provided by the author. */
   content?: GoogleCloudAiplatformV1beta1Content | undefined;
 }
-export interface AppendEventProjectsLocationsReasoningEnginesSessionsRequest {
+export interface AppendEventProjectsLocationsReasoningEnginesSessionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SessionEvent,
+  "name"
+> {
   /** Required. The resource name of the session to append event to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SessionEvent | undefined;
 }
 /** Response message for SessionService.AppendEvent. */
 export interface GoogleCloudAiplatformV1beta1AppendEventResponse {}
-export interface AppendEventReasoningEnginesSessionsRequest {
+export interface AppendEventReasoningEnginesSessionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SessionEvent,
+  "name"
+> {
   /** Required. The resource name of the session to append event to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SessionEvent | undefined;
 }
 export type GoogleCloudAiplatformV1beta1A2aTaskMessageRoleEnum =
   | "ROLE_UNSPECIFIED"
@@ -1257,11 +1251,9 @@ export interface GoogleCloudAiplatformV1beta1AppendA2aTaskEventsRequest {
   /** Required. The events to append. The number of events to append must be less than or equal to 100. Otherwise, an exception will be thrown. Used only if the parent is a ReasoningEngine. */
   taskEvents?: GoogleCloudAiplatformV1beta1TaskEventList | undefined;
 }
-export interface AppendEventsProjectsLocationsReasoningEnginesA2aTasksRequest {
+export interface AppendEventsProjectsLocationsReasoningEnginesA2aTasksRequest extends GoogleCloudAiplatformV1beta1AppendA2aTaskEventsRequest {
   /** Required. The resource name of the A2aTask to append events to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/a2aTasks/{a2a_task}` or `projects/{project}/locations/{location}/taskStores/{task_store}/a2aTasks/{a2a_task}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AppendA2aTaskEventsRequest | undefined;
 }
 /** Response message for AppendA2aTaskEvents. */
 export interface GoogleCloudAiplatformV1beta1AppendA2aTaskEventsResponse {
@@ -1394,11 +1386,9 @@ export interface GoogleCloudAiplatformV1beta1AppendA2ATaskRecordEventsRequest {
   /** Required. The current task generation. */
   generation?: string | undefined;
 }
-export interface AppendEventsProjectsLocationsTaskStoresA2aTaskRecordsRequest {
+export interface AppendEventsProjectsLocationsTaskStoresA2aTaskRecordsRequest extends GoogleCloudAiplatformV1beta1AppendA2ATaskRecordEventsRequest {
   /** Required. The resource name of the A2ATaskRecord to append events to. Format: `projects/{project}/locations/{location}/taskStores/{task_store}/a2aTaskRecords/{a2a_task_record}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AppendA2ATaskRecordEventsRequest | undefined;
 }
 /** Response message for A2ATaskRecordService.AppendA2ATaskRecordEvents. */
 export interface GoogleCloudAiplatformV1beta1AppendA2ATaskRecordEventsResponse {
@@ -1899,11 +1889,9 @@ export interface GoogleCloudAiplatformV1beta1AskContextsRequest {
   /** Required. Single RAG retrieve query. */
   query?: GoogleCloudAiplatformV1beta1RagQuery | undefined;
 }
-export interface AskContextsProjectsLocationsRequest {
+export interface AskContextsProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1AskContextsRequest {
   /** Required. The resource name of the Location from which to retrieve RagContexts. The users must have permission to make a call in the project. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AskContextsRequest | undefined;
 }
 /** A context of the query. */
 export interface GoogleCloudAiplatformV1beta1RagContextsContext {
@@ -2439,11 +2427,9 @@ export interface GoogleCloudAiplatformV1beta1AssembleDataRequest {
   /** Optional. The read config for the dataset. */
   geminiRequestReadConfig?: GoogleCloudAiplatformV1beta1GeminiRequestReadConfig | undefined;
 }
-export interface AssembleProjectsLocationsDatasetsRequest {
+export interface AssembleProjectsLocationsDatasetsRequest extends GoogleCloudAiplatformV1beta1AssembleDataRequest {
   /** Required. The name of the Dataset resource (used only for MULTIMODAL datasets). Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AssembleDataRequest | undefined;
 }
 /** Configuration for the batch prediction validation assessment. */
 export interface GoogleCloudAiplatformV1beta1AssessDataRequestBatchPredictionValidationAssessmentConfig {
@@ -2493,11 +2479,9 @@ export interface GoogleCloudAiplatformV1beta1AssessDataRequest {
     | GoogleCloudAiplatformV1beta1AssessDataRequestTuningValidationAssessmentConfig
     | undefined;
 }
-export interface AssessProjectsLocationsDatasetsRequest {
+export interface AssessProjectsLocationsDatasetsRequest extends GoogleCloudAiplatformV1beta1AssessDataRequest {
   /** Required. The name of the Dataset resource. Used only for MULTIMODAL datasets. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AssessDataRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1NotebookRuntimeRuntimeStateEnum =
   | "RUNTIME_STATE_UNSPECIFIED"
@@ -2755,11 +2739,9 @@ export interface GoogleCloudAiplatformV1beta1AssignNotebookRuntimeRequest {
   /** Required. The resource name of the NotebookRuntimeTemplate based on which a NotebookRuntime will be assigned (reuse or create a new one). */
   notebookRuntimeTemplate?: string | undefined;
 }
-export interface AssignProjectsLocationsNotebookRuntimesRequest {
+export interface AssignProjectsLocationsNotebookRuntimesRequest extends GoogleCloudAiplatformV1beta1AssignNotebookRuntimeRequest {
   /** Required. The resource name of the Location to get the NotebookRuntime assignment. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AssignNotebookRuntimeRequest | undefined;
 }
 /** Request message for ReasoningEngineExecutionService.AsyncQueryReasoningEngine. */
 export interface GoogleCloudAiplatformV1beta1AsyncQueryReasoningEngineRequest {
@@ -2768,17 +2750,13 @@ export interface GoogleCloudAiplatformV1beta1AsyncQueryReasoningEngineRequest {
   /** Optional. Output Cloud Storage URI for the Async query. This contains the final response of the query. */
   outputGcsUri?: string | undefined;
 }
-export interface AsyncQueryProjectsLocationsReasoningEnginesRequest {
+export interface AsyncQueryProjectsLocationsReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1AsyncQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AsyncQueryReasoningEngineRequest | undefined;
 }
-export interface AsyncQueryReasoningEnginesRequest {
+export interface AsyncQueryReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1AsyncQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AsyncQueryReasoningEngineRequest | undefined;
 }
 /** Request message for VertexRagService.AsyncRetrieveContexts. */
 export interface GoogleCloudAiplatformV1beta1AsyncRetrieveContextsRequest {
@@ -2787,11 +2765,9 @@ export interface GoogleCloudAiplatformV1beta1AsyncRetrieveContextsRequest {
   /** Optional. The tools to use for AskContexts. */
   tools?: GoogleCloudAiplatformV1beta1ToolList | undefined;
 }
-export interface AsyncRetrieveContextsProjectsLocationsRequest {
+export interface AsyncRetrieveContextsProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1AsyncRetrieveContextsRequest {
   /** Required. The resource name of the Location from which to retrieve RagContexts. The users must have permission to make a call in the project. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AsyncRetrieveContextsRequest | undefined;
 }
 /** Metadata of the backend deployed model. */
 export interface GoogleCloudAiplatformV1beta1AugmentPromptRequestModel {
@@ -2809,11 +2785,9 @@ export interface GoogleCloudAiplatformV1beta1AugmentPromptRequest {
   /** Optional. Metadata of the backend deployed model. */
   model?: GoogleCloudAiplatformV1beta1AugmentPromptRequestModel | undefined;
 }
-export interface AugmentPromptProjectsLocationsRequest {
+export interface AugmentPromptProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1AugmentPromptRequest {
   /** Required. The resource name of the Location from which to augment prompt. The users must have permission to make a call in the project. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AugmentPromptRequest | undefined;
 }
 /** The fact used in grounding. */
 export interface GoogleCloudAiplatformV1beta1Fact {
@@ -2862,11 +2836,9 @@ export interface GoogleCloudAiplatformV1beta1BatchCancelPipelineJobsRequest {
   /** Required. The names of the PipelineJobs to cancel. A maximum of 32 PipelineJobs can be cancelled in a batch. Format: `projects/{project}/locations/{location}/pipelineJobs/{pipelineJob}` */
   names?: StringList | undefined;
 }
-export interface BatchCancelProjectsLocationsPipelineJobsRequest {
+export interface BatchCancelProjectsLocationsPipelineJobsRequest extends GoogleCloudAiplatformV1beta1BatchCancelPipelineJobsRequest {
   /** Required. The name of the PipelineJobs' parent resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchCancelPipelineJobsRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1FeatureMonitoringStatsAnomalyObjectiveEnum =
   | "OBJECTIVE_UNSPECIFIED"
@@ -3043,17 +3015,13 @@ export interface GoogleCloudAiplatformV1beta1BatchCreateFeaturesRequest {
   /** Required. The request message specifying the Features to create. All Features must be created under the same parent EntityType / FeatureGroup. The `parent` field in each child request message can be omitted. If `parent` is set in a child request, then the value must match the `parent` value in this request message. */
   requests?: GoogleCloudAiplatformV1beta1CreateFeatureRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsFeatureGroupsFeaturesRequest {
+export interface BatchCreateProjectsLocationsFeatureGroupsFeaturesRequest extends GoogleCloudAiplatformV1beta1BatchCreateFeaturesRequest {
   /** Required. The resource name of the EntityType/FeatureGroup to create the batch of Features under. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}` `projects/{project}/locations/{location}/featureGroups/{feature_group}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchCreateFeaturesRequest | undefined;
 }
-export interface BatchCreateProjectsLocationsFeaturestoresEntityTypesFeaturesRequest {
+export interface BatchCreateProjectsLocationsFeaturestoresEntityTypesFeaturesRequest extends GoogleCloudAiplatformV1beta1BatchCreateFeaturesRequest {
   /** Required. The resource name of the EntityType/FeatureGroup to create the batch of Features under. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}` `projects/{project}/locations/{location}/featureGroups/{feature_group}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchCreateFeaturesRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1RagMetadataSchemaDetailsGranularityEnum =
   | "GRANULARITY_UNSPECIFIED"
@@ -3122,11 +3090,9 @@ export interface GoogleCloudAiplatformV1beta1BatchCreateRagDataSchemasRequest {
   /** Required. The request messages for VertexRagDataService.CreateRagDataSchema. A maximum of 500 schemas can be created in a batch. */
   requests?: GoogleCloudAiplatformV1beta1CreateRagDataSchemaRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsRagCorporaRagDataSchemasRequest {
+export interface BatchCreateProjectsLocationsRagCorporaRagDataSchemasRequest extends GoogleCloudAiplatformV1beta1BatchCreateRagDataSchemasRequest {
   /** Required. The resource name of the RagCorpus to create the RagDataSchemas in. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchCreateRagDataSchemasRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1MetadataValueList =
   Array<GoogleCloudAiplatformV1beta1MetadataValue>;
@@ -3180,11 +3146,9 @@ export interface GoogleCloudAiplatformV1beta1BatchCreateRagMetadataRequest {
   /** Required. The request messages for VertexRagDataService.CreateRagMetadata. A maximum of 500 rag file metadata can be created in a batch. */
   requests?: GoogleCloudAiplatformV1beta1CreateRagMetadataRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsRagCorporaRagFilesRagMetadataRequest {
+export interface BatchCreateProjectsLocationsRagCorporaRagFilesRagMetadataRequest extends GoogleCloudAiplatformV1beta1BatchCreateRagMetadataRequest {
   /** Required. The parent resource where the RagMetadata will be created. Format: `projects/{project_number}/locations/{location_id}/ragCorpora/{rag_corpus}/ragFiles/{rag_file}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchCreateRagMetadataRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TensorboardTimeSeriesValueTypeEnum =
   | "VALUE_TYPE_UNSPECIFIED"
@@ -3242,11 +3206,9 @@ export interface GoogleCloudAiplatformV1beta1BatchCreateTensorboardTimeSeriesReq
   /** Required. The request message specifying the TensorboardTimeSeries to create. A maximum of 1000 TensorboardTimeSeries can be created in a batch. */
   requests?: GoogleCloudAiplatformV1beta1CreateTensorboardTimeSeriesRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsTensorboardsExperimentsRequest {
+export interface BatchCreateProjectsLocationsTensorboardsExperimentsRequest extends GoogleCloudAiplatformV1beta1BatchCreateTensorboardTimeSeriesRequest {
   /** Required. The resource name of the TensorboardExperiment to create the TensorboardTimeSeries in. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}` The TensorboardRuns referenced by the parent fields in the CreateTensorboardTimeSeriesRequest messages must be sub resources of this TensorboardExperiment. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchCreateTensorboardTimeSeriesRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TensorboardTimeSeriesList =
   Array<GoogleCloudAiplatformV1beta1TensorboardTimeSeries>;
@@ -3288,11 +3250,9 @@ export interface GoogleCloudAiplatformV1beta1BatchCreateTensorboardRunsRequest {
   /** Required. The request message specifying the TensorboardRuns to create. A maximum of 1000 TensorboardRuns can be created in a batch. */
   requests?: GoogleCloudAiplatformV1beta1CreateTensorboardRunRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsTensorboardsExperimentsRunsRequest {
+export interface BatchCreateProjectsLocationsTensorboardsExperimentsRunsRequest extends GoogleCloudAiplatformV1beta1BatchCreateTensorboardRunsRequest {
   /** Required. The resource name of the TensorboardExperiment to create the TensorboardRuns in. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}` The parent field in the CreateTensorboardRunRequest messages must match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchCreateTensorboardRunsRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TensorboardRunList =
   Array<GoogleCloudAiplatformV1beta1TensorboardRun>;
@@ -3306,33 +3266,27 @@ export interface GoogleCloudAiplatformV1beta1BatchDeletePipelineJobsRequest {
   /** Required. The names of the PipelineJobs to delete. A maximum of 32 PipelineJobs can be deleted in a batch. Format: `projects/{project}/locations/{location}/pipelineJobs/{pipelineJob}` */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsLocationsPipelineJobsRequest {
+export interface BatchDeleteProjectsLocationsPipelineJobsRequest extends GoogleCloudAiplatformV1beta1BatchDeletePipelineJobsRequest {
   /** Required. The name of the PipelineJobs' parent resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchDeletePipelineJobsRequest | undefined;
 }
 /** Request message for VertexRagDataService.BatchDeleteRagDataSchemas. */
 export interface GoogleCloudAiplatformV1beta1BatchDeleteRagDataSchemasRequest {
   /** Required. The RagDataSchemas to delete. A maximum of 500 schemas can be deleted in a batch. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}/ragDataSchemas/{rag_data_schema}` */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsLocationsRagCorporaRagDataSchemasRequest {
+export interface BatchDeleteProjectsLocationsRagCorporaRagDataSchemasRequest extends GoogleCloudAiplatformV1beta1BatchDeleteRagDataSchemasRequest {
   /** Required. The resource name of the RagCorpus from which to delete the RagDataSchemas. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchDeleteRagDataSchemasRequest | undefined;
 }
 /** Request message for VertexRagDataService.BatchDeleteRagMetadata. */
 export interface GoogleCloudAiplatformV1beta1BatchDeleteRagMetadataRequest {
   /** Required. The RagMetadata to delete. A maximum of 500 rag metadata can be deleted in a batch. */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsLocationsRagCorporaRagFilesRagMetadataRequest {
+export interface BatchDeleteProjectsLocationsRagCorporaRagFilesRagMetadataRequest extends GoogleCloudAiplatformV1beta1BatchDeleteRagMetadataRequest {
   /** Required. The resource name of the RagFile from which to delete the RagMetadata. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}/ragFiles/{rag_file}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchDeleteRagMetadataRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1EmbedContentRequestTaskTypeEnum =
   | "UNSPECIFIED"
@@ -3401,11 +3355,9 @@ export interface GoogleCloudAiplatformV1beta1BatchEmbedContentsRequest {
   /** Required. Embed requests for the batch. The model in each of these requests must either be empty or match the model specified in `BatchEmbedContentsRequest.model`. All the requests in a batch must have the same output dimensionality and auto truncation parameters. */
   requests?: GoogleCloudAiplatformV1beta1EmbedContentRequestList | undefined;
 }
-export interface BatchEmbedContentsProjectsLocationsPublishersModelsRequest {
+export interface BatchEmbedContentsProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1BatchEmbedContentsRequest {
   /** Required. The name of the publisher model requested to serve the prediction. Format: `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchEmbedContentsRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ModalityTokenCountModalityEnum =
   | "MODALITY_UNSPECIFIED"
@@ -3574,11 +3526,9 @@ export interface GoogleCloudAiplatformV1beta1BatchImportEvaluatedAnnotationsRequ
   /** Required. Evaluated annotations resource to be imported. */
   evaluatedAnnotations?: GoogleCloudAiplatformV1beta1EvaluatedAnnotationList | undefined;
 }
-export interface BatchImportProjectsLocationsModelsEvaluationsSlicesRequest {
+export interface BatchImportProjectsLocationsModelsEvaluationsSlicesRequest extends GoogleCloudAiplatformV1beta1BatchImportEvaluatedAnnotationsRequest {
   /** Required. The name of the parent ModelEvaluationSlice resource. Format: `projects/{project}/locations/{location}/models/{model}/evaluations/{evaluation}/slices/{slice}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchImportEvaluatedAnnotationsRequest | undefined;
 }
 /** Response message for ModelService.BatchImportEvaluatedAnnotations */
 export interface GoogleCloudAiplatformV1beta1BatchImportEvaluatedAnnotationsResponse {
@@ -3652,11 +3602,9 @@ export interface GoogleCloudAiplatformV1beta1BatchMigrateResourcesRequest {
   /** Required. The request messages specifying the resources to migrate. They must be in the same location as the destination. Up to 50 resources can be migrated in one batch. */
   migrateResourceRequests?: GoogleCloudAiplatformV1beta1MigrateResourceRequestList | undefined;
 }
-export interface BatchMigrateProjectsLocationsMigratableResourcesRequest {
+export interface BatchMigrateProjectsLocationsMigratableResourcesRequest extends GoogleCloudAiplatformV1beta1BatchMigrateResourcesRequest {
   /** Required. The location of the migrated resource will live in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchMigrateResourcesRequest | undefined;
 }
 /** The Google Cloud Storage location where the output is to be written to. */
 export interface GoogleCloudAiplatformV1beta1GcsDestination {
@@ -3755,11 +3703,9 @@ export interface GoogleCloudAiplatformV1beta1BatchReadFeatureValuesRequest {
   /** Similar to csv_read_instances, but from BigQuery source. */
   bigqueryReadInstances?: GoogleCloudAiplatformV1beta1BigQuerySource | undefined;
 }
-export interface BatchReadFeatureValuesProjectsLocationsFeaturestoresRequest {
+export interface BatchReadFeatureValuesProjectsLocationsFeaturestoresRequest extends GoogleCloudAiplatformV1beta1BatchReadFeatureValuesRequest {
   /** Required. The resource name of the Featurestore from which to query Feature values. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}` */
   featurestore: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchReadFeatureValuesRequest | undefined;
 }
 export interface BatchReadProjectsLocationsTensorboardsRequest {
   /** Required. The resource name of the Tensorboard containing TensorboardTimeSeries to read data from. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}`. The TensorboardTimeSeries referenced by time_series must be sub resources of this Tensorboard. */
@@ -3849,22 +3795,18 @@ export interface GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentReques
   /** Required. The inputs to the sandbox environment. */
   inputs?: GoogleCloudAiplatformV1beta1ChunkList | undefined;
 }
-export interface BidiExecuteProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest {
+export interface BidiExecuteProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest extends GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest {
   /** Required. The resource name of the sandbox environment to execute. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest | undefined;
 }
 /** Response message for SandboxEnvironmentExecutionService.BidiExecuteSandboxEnvironment. */
 export interface GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentResponse {
   /** The outputs from the sandbox environment. */
   outputs?: GoogleCloudAiplatformV1beta1ChunkList | undefined;
 }
-export interface BidiExecuteReasoningEnginesSandboxEnvironmentsRequest {
+export interface BidiExecuteReasoningEnginesSandboxEnvironmentsRequest extends GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest {
   /** Required. The resource name of the sandbox environment to execute. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest | undefined;
 }
 export interface CancelAgentsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -3881,19 +3823,15 @@ export interface GoogleCloudAiplatformV1beta1CancelAsyncQueryReasoningEngineRequ
   /** Required. The name of the longrunning operation returned from AsyncQueryReasoningEngine. Format: `projects/{project}/locations/{location}/operations/{operation}` */
   operationName?: string | undefined;
 }
-export interface CancelAsyncQueryProjectsLocationsReasoningEnginesRequest {
+export interface CancelAsyncQueryProjectsLocationsReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1CancelAsyncQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CancelAsyncQueryReasoningEngineRequest | undefined;
 }
 /** Response message for ReasoningEngineExecutionService.CancelAsyncQueryReasoningEngine. */
 export interface GoogleCloudAiplatformV1beta1CancelAsyncQueryReasoningEngineResponse {}
-export interface CancelAsyncQueryReasoningEnginesRequest {
+export interface CancelAsyncQueryReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1CancelAsyncQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CancelAsyncQueryReasoningEngineRequest | undefined;
 }
 export interface CancelCollaborativeProjectsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -5311,11 +5249,9 @@ export interface GoogleCloudAiplatformV1beta1CancelTaskRequest {
   /** Optional. Whether to skip cascading cancellation to all descendant subtasks. Defaults to false (cascades to all descendants by default). Matches google.cloud.aiplatform.master.SuspendTaskRequest.operate_on_self. Behavior for CancelTaskLro (cascade semantics do not apply to the deprecated sync CancelTask method, which is always self-only): UNSET or false => cascade to non-terminal descendants (gated by Mendel flag sobi_enable_cascading_cancel_task; returns FAILED_PRECONDITION when the flag is OFF and the task has non-terminal children). true => cancel this task only. */
   operateOnSelf?: boolean | undefined;
 }
-export interface CancelProjectsLocationsAgentsTasksRequest {
+export interface CancelProjectsLocationsAgentsTasksRequest extends GoogleCloudAiplatformV1beta1CancelTaskRequest {
   /** Required. The name of the task to cancel. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CancelTaskRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TaskSpecPriorityEnum =
   | "PRIORITY_UNSPECIFIED"
@@ -6886,11 +6822,9 @@ export interface CardReasoningEnginesRuntimeRevisionsA2aV1Response {}
 /** Request message for ModelGardenService.CheckPublisherModelEula. */
 export type GoogleCloudAiplatformV1beta1CheckPublisherModelEulaAcceptanceRequest =
   GoogleCloudAiplatformV1beta1AcceptPublisherModelEulaRequest;
-export interface CheckProjectsModelGardenEulaRequest {
+export interface CheckProjectsModelGardenEulaRequest extends GoogleCloudAiplatformV1beta1AcceptPublisherModelEulaRequest {
   /** Required. The project requesting access for named model. The format is `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AcceptPublisherModelEulaRequest | undefined;
 }
 /** Request message for VizierService.CheckTrialEarlyStoppingState. */
 export type GoogleCloudAiplatformV1beta1CheckTrialEarlyStoppingStateRequest =
@@ -6923,13 +6857,11 @@ export interface ClearTrainingDataProjectsLocationsMonitoredAgentsRequest {
   /** Request body */
   body?: GoogleCloudAiplatformV1beta1ActivateOnlineEvaluatorRequest | undefined;
 }
-export interface CompactProjectsLocationsPublishersV1ResponsesRequest {
+export interface CompactProjectsLocationsPublishersV1ResponsesRequest extends GoogleApiHttpBody {
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId?: string | undefined;
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 export type GoogleCloudAiplatformV1beta1CompactionConfigLlmSummarizationConfigModeEnum =
   | "MODE_UNSPECIFIED"
@@ -6965,11 +6897,9 @@ export interface GoogleCloudAiplatformV1beta1CompactSessionRequest {
   /** Required. The compaction configuration to apply. At least one compaction category (summarization or event editing) must be enabled within it. */
   compaction?: GoogleCloudAiplatformV1beta1CompactionConfig | undefined;
 }
-export interface CompactProjectsLocationsReasoningEnginesSessionsRequest {
+export interface CompactProjectsLocationsReasoningEnginesSessionsRequest extends GoogleCloudAiplatformV1beta1CompactSessionRequest {
   /** Required. The resource name of the session to compact. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CompactSessionRequest | undefined;
 }
 /** Request message for VizierService.CompleteTrial. */
 export interface GoogleCloudAiplatformV1beta1CompleteTrialRequest {
@@ -6980,31 +6910,23 @@ export interface GoogleCloudAiplatformV1beta1CompleteTrialRequest {
   /** Optional. True if the Trial cannot be run with the given Parameter, and final_measurement will be ignored. */
   trialInfeasible?: boolean | undefined;
 }
-export interface CompleteProjectsLocationsStudiesTrialsRequest {
+export interface CompleteProjectsLocationsStudiesTrialsRequest extends GoogleCloudAiplatformV1beta1CompleteTrialRequest {
   /** Required. The Trial's name. Format: `projects/{project}/locations/{location}/studies/{study}/trials/{trial}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CompleteTrialRequest | undefined;
 }
-export interface CompletionsEndpointsChatRequest {
+export interface CompletionsEndpointsChatRequest extends GoogleApiHttpBody {
   /** Required. The name of the endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
-export interface CompletionsProjectsLocationsEndpointsChatRequest {
+export interface CompletionsProjectsLocationsEndpointsChatRequest extends GoogleApiHttpBody {
   /** Required. The name of the endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
-export interface CompletionsProjectsLocationsEndpointsOpenapiRequest {
+export interface CompletionsProjectsLocationsEndpointsOpenapiRequest extends GoogleApiHttpBody {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId?: string | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 /** Request message for ComputeTokens RPC call. */
 export interface GoogleCloudAiplatformV1beta1ComputeTokensRequest {
@@ -7015,11 +6937,9 @@ export interface GoogleCloudAiplatformV1beta1ComputeTokensRequest {
   /** Optional. The instances that are the input to token computing API call. Schema is identical to the prediction schema of the text model, even for the non-text models, like chat models, or Codey models. */
   instances?: DocumentList | undefined;
 }
-export interface ComputeTokensEndpointsRequest {
+export interface ComputeTokensEndpointsRequest extends GoogleCloudAiplatformV1beta1ComputeTokensRequest {
   /** Required. The name of the Endpoint requested to get lists of tokens and token ids. */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ComputeTokensRequest | undefined;
 }
 /** Tokens info with a list of tokens and the corresponding list of token ids. */
 export interface GoogleCloudAiplatformV1beta1TokensInfo {
@@ -7037,23 +6957,17 @@ export interface GoogleCloudAiplatformV1beta1ComputeTokensResponse {
   /** Lists of tokens info from the input. A ComputeTokensRequest could have multiple instances with a prompt in each instance. We also need to return lists of tokens info for the request with multiple instances. */
   tokensInfo?: GoogleCloudAiplatformV1beta1TokensInfoList | undefined;
 }
-export interface ComputeTokensProjectsLocationsEndpointsRequest {
+export interface ComputeTokensProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1ComputeTokensRequest {
   /** Required. The name of the Endpoint requested to get lists of tokens and token ids. */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ComputeTokensRequest | undefined;
 }
-export interface ComputeTokensProjectsLocationsPublishersModelsRequest {
+export interface ComputeTokensProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1ComputeTokensRequest {
   /** Required. The name of the Endpoint requested to get lists of tokens and token ids. */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ComputeTokensRequest | undefined;
 }
-export interface ComputeTokensPublishersModelsRequest {
+export interface ComputeTokensPublishersModelsRequest extends GoogleCloudAiplatformV1beta1ComputeTokensRequest {
   /** Required. The name of the Endpoint requested to get lists of tokens and token ids. */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ComputeTokensRequest | undefined;
 }
 /** Request message for ModelService.CopyModel. */
 export interface GoogleCloudAiplatformV1beta1CopyModelRequest {
@@ -7068,11 +6982,9 @@ export interface GoogleCloudAiplatformV1beta1CopyModelRequest {
   /** Optional. The user-provided custom service account to use to do the copy model. If empty, [Vertex AI Service Agent](https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) will be used to access resources needed to upload the model. This account must belong to the destination project where the model is copied to, i.e., the project specified in the `parent` field of this request and have the Vertex AI Service Agent role in the source project. Requires the user copying the Model to have the `iam.serviceAccounts.actAs` permission on this service account. */
   customServiceAccount?: string | undefined;
 }
-export interface CopyProjectsLocationsModelsRequest {
+export interface CopyProjectsLocationsModelsRequest extends GoogleCloudAiplatformV1beta1CopyModelRequest {
   /** Required. The resource name of the Location into which to copy the Model. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CopyModelRequest | undefined;
 }
 /** Parameters that can be overrided per request. */
 export interface GoogleCloudAiplatformV1beta1CorroborateContentRequestParameters {
@@ -7088,11 +7000,9 @@ export interface GoogleCloudAiplatformV1beta1CorroborateContentRequest {
   /** Optional. Input content to corroborate, only text format is supported for now. */
   content?: GoogleCloudAiplatformV1beta1Content | undefined;
 }
-export interface CorroborateContentProjectsLocationsRequest {
+export interface CorroborateContentProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1CorroborateContentRequest {
   /** Required. The resource name of the Location from which to corroborate text. The users must have permission to make a call in the project. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CorroborateContentRequest | undefined;
 }
 /** Claim that is extracted from the input text and facts that support it. */
 export interface GoogleCloudAiplatformV1beta1Claim {
@@ -7128,11 +7038,9 @@ export interface GoogleCloudAiplatformV1beta1CountTokensRequest {
   /** Optional. Input content. */
   contents?: GoogleCloudAiplatformV1beta1ContentList | undefined;
 }
-export interface CountTokensEndpointsRequest {
+export interface CountTokensEndpointsRequest extends GoogleCloudAiplatformV1beta1CountTokensRequest {
   /** Required. The name of the Endpoint requested to perform token counting. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CountTokensRequest | undefined;
 }
 /** Response message for PredictionService.CountTokens. */
 export interface GoogleCloudAiplatformV1beta1CountTokensResponse {
@@ -7143,23 +7051,17 @@ export interface GoogleCloudAiplatformV1beta1CountTokensResponse {
   /** The total number of billable characters counted across all instances from the request. */
   totalBillableCharacters?: number | undefined;
 }
-export interface CountTokensProjectsLocationsEndpointsRequest {
+export interface CountTokensProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1CountTokensRequest {
   /** Required. The name of the Endpoint requested to perform token counting. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CountTokensRequest | undefined;
 }
-export interface CountTokensProjectsLocationsPublishersModelsRequest {
+export interface CountTokensProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1CountTokensRequest {
   /** Required. The name of the Endpoint requested to perform token counting. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CountTokensRequest | undefined;
 }
-export interface CountTokensPublishersModelsRequest {
+export interface CountTokensPublishersModelsRequest extends GoogleCloudAiplatformV1beta1CountTokensRequest {
   /** Required. The name of the Endpoint requested to perform token counting. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CountTokensRequest | undefined;
 }
 /** Manual batch tuning parameters. */
 export interface GoogleCloudAiplatformV1beta1ManualBatchTuningParameters {
@@ -7866,11 +7768,9 @@ export interface GoogleCloudAiplatformV1beta1BatchPredictionJob {
   /** Required. Input configuration of the instances on which predictions are performed. The schema of any single instance may be specified via the Model's PredictSchemata's instance_schema_uri. */
   inputConfig?: GoogleCloudAiplatformV1beta1BatchPredictionJobInputConfig | undefined;
 }
-export interface CreateBatchPredictionJobsRequest {
+export interface CreateBatchPredictionJobsRequest extends GoogleCloudAiplatformV1beta1BatchPredictionJob {
   /** Required. The resource name of the Location to create the BatchPredictionJob in. Format: `projects/{project}/locations/{location}` */
   parent?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchPredictionJob | undefined;
 }
 /** A SavedQuery is a view of the dataset. It references a subset of annotations by problem type and filters. */
 export interface GoogleCloudAiplatformV1beta1SavedQuery {
@@ -7932,11 +7832,9 @@ export interface GoogleCloudAiplatformV1beta1Dataset {
   /** Used to perform consistent read-modify-write updates. If not set, a blind "overwrite" update happens. */
   etag?: string | undefined;
 }
-export interface CreateDatasetsRequest {
+export interface CreateDatasetsRequest extends GoogleCloudAiplatformV1beta1Dataset {
   /** Required. The resource name of the Location to create the Dataset in. Format: `projects/{project}/locations/{location}` */
   parent?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Dataset | undefined;
 }
 /** Describes the dataset version. */
 export interface GoogleCloudAiplatformV1beta1DatasetVersion {
@@ -7961,11 +7859,9 @@ export interface GoogleCloudAiplatformV1beta1DatasetVersion {
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateDatasetsDatasetVersionsRequest {
+export interface CreateDatasetsDatasetVersionsRequest extends GoogleCloudAiplatformV1beta1DatasetVersion {
   /** Required. The name of the Dataset resource. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DatasetVersion | undefined;
 }
 /** Represents the structured value of the memory. */
 export interface GoogleCloudAiplatformV1beta1MemoryStructuredContent {
@@ -8049,13 +7945,11 @@ export interface GoogleCloudAiplatformV1beta1Memory {
   /** Optional. Represents the display name of the Memory. */
   displayName?: string | undefined;
 }
-export interface CreateMemoryBanksMemoriesRequest {
+export interface CreateMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1Memory {
   /** Required. The resource name of the ReasoningEngine to create the Memory under. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
   /** Optional. The user defined ID to use for memory, which will become the final component of the memory resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first character must be a letter, and the last character must be a letter or number. */
   memoryId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
 export type GoogleCloudAiplatformV1beta1AgentAnomalyDetectionScopeStateEnum =
   | "STATE_UNSPECIFIED"
@@ -8084,13 +7978,11 @@ export interface GoogleCloudAiplatformV1beta1AgentAnomalyDetectionScope {
   /** Required. Customer-owned Cloud Logging bucket resource names attached to this scope. Format: `projects/{project}/locations/{location}/buckets/{bucket}`. */
   logBuckets?: StringList | undefined;
 }
-export interface CreateProjectsLocationsAgentAnomalyDetectionScopesRequest {
+export interface CreateProjectsLocationsAgentAnomalyDetectionScopesRequest extends GoogleCloudAiplatformV1beta1AgentAnomalyDetectionScope {
   /** Required. The ID to use for the AgentAnomalyDetectionScope, which will become the final component of the AgentAnomalyDetectionScope's resource name. This value should be 1-63 characters, and valid characters are /[a-z]([a-z0-9-]{0,61}[a-z0-9])?/. */
   agentAnomalyDetectionScopeId?: string | undefined;
   /** Required. The resource name of the Location to create the AgentAnomalyDetectionScope in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AgentAnomalyDetectionScope | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TenantTypeEnum = "TYPE_UNSPECIFIED" | "WORKSPACE_CUSTOMER";
 /** Represents an enterprise tenant. */
@@ -8257,17 +8149,15 @@ export interface GoogleCloudAiplatformV1beta1Agent {
   /** Output only. The resource name of the AI Application provisioned for this agent. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}`. */
   aiApplication?: string | undefined;
 }
-export interface CreateProjectsLocationsAgentsRequest {
+export interface CreateProjectsLocationsAgentsRequest extends GoogleCloudAiplatformV1beta1Agent {
   /** Required. The resource name of the location to create the agent in. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Agent | undefined;
 }
 export type CreateProjectsLocationsAgentsTasksUserContext_channelEnum =
   | "CHANNEL_UNSPECIFIED"
   | "CHAT"
   | "EMAIL";
-export interface CreateProjectsLocationsAgentsTasksRequest {
+export interface CreateProjectsLocationsAgentsTasksRequest extends GoogleCloudAiplatformV1beta1Task {
   /** Optional. The user's coarse, human-readable location, e.g. "Mountain View, CA, US". Must be no more precise than city level; never send street addresses, postal codes, or coordinates. The agent uses it for location-dependent requests, e.g. weather or nearby places. */
   "userContext.location"?: string | undefined;
   /** Optional. How the user's input reached the agent. Leave unset when the user talks to the agent directly in an AI-native interface. */
@@ -8281,14 +8171,10 @@ export interface CreateProjectsLocationsAgentsTasksRequest {
   uniqueCreationToken?: string | undefined;
   /** Required. The parent agent that owns this task. Format: projects/{project}/locations/{location}/agents/{agent} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Task | undefined;
 }
-export interface CreateProjectsLocationsBatchPredictionJobsRequest {
+export interface CreateProjectsLocationsBatchPredictionJobsRequest extends GoogleCloudAiplatformV1beta1BatchPredictionJob {
   /** Required. The resource name of the Location to create the BatchPredictionJob in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BatchPredictionJob | undefined;
 }
 /** Metadata on the usage of the cached content. */
 export interface GoogleCloudAiplatformV1beta1CachedContentUsageMetadata {
@@ -8332,11 +8218,9 @@ export interface GoogleCloudAiplatformV1beta1CachedContent {
   /** Optional. Input only. Immutable. Tool config. This config is shared for all tools */
   toolConfig?: GoogleCloudAiplatformV1beta1ToolConfig | undefined;
 }
-export interface CreateProjectsLocationsCachedContentsRequest {
+export interface CreateProjectsLocationsCachedContentsRequest extends GoogleCloudAiplatformV1beta1CachedContent {
   /** Required. The parent resource where the cached content will be created */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CachedContent | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TrustedParticipantParticipantTypeEnum =
   | "PARTICIPANT_TYPE_UNSPECIFIED"
@@ -8370,11 +8254,9 @@ export interface GoogleCloudAiplatformV1beta1CollaborativeProject {
   /** Optional. Unordered list. The participants granted access to the project. Each `(participant_type, identifier)` pair can appear at most once. */
   trustedParticipants?: GoogleCloudAiplatformV1beta1TrustedParticipantList | undefined;
 }
-export interface CreateProjectsLocationsCollaborativeProjectsRequest {
+export interface CreateProjectsLocationsCollaborativeProjectsRequest extends GoogleCloudAiplatformV1beta1CollaborativeProject {
   /** Required. The location to create the project in. Only `global` is supported. Format: `projects/{project}/locations/global`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CollaborativeProject | undefined;
 }
 export type GoogleCloudAiplatformV1beta1CustomJobStateEnum =
   | "JOB_STATE_UNSPECIFIED"
@@ -8564,11 +8446,9 @@ export interface GoogleCloudAiplatformV1beta1CustomJob {
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
 }
-export interface CreateProjectsLocationsCustomJobsRequest {
+export interface CreateProjectsLocationsCustomJobsRequest extends GoogleCloudAiplatformV1beta1CustomJob {
   /** Required. The resource name of the Location to create the CustomJob in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CustomJob | undefined;
 }
 /** Represents an amount of money with its currency type. */
 export interface GoogleTypeMoney {
@@ -8662,23 +8542,17 @@ export interface GoogleCloudAiplatformV1beta1DataLabelingJob {
   /** Customer-managed encryption key spec for a DataLabelingJob. If set, this DataLabelingJob will be secured by this key. Note: Annotations created in the DataLabelingJob are associated with the EncryptionSpec of the Dataset they are exported to. */
   encryptionSpec?: GoogleCloudAiplatformV1beta1EncryptionSpec | undefined;
 }
-export interface CreateProjectsLocationsDataLabelingJobsRequest {
+export interface CreateProjectsLocationsDataLabelingJobsRequest extends GoogleCloudAiplatformV1beta1DataLabelingJob {
   /** Required. The parent of the DataLabelingJob. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DataLabelingJob | undefined;
 }
-export interface CreateProjectsLocationsDatasetsRequest {
+export interface CreateProjectsLocationsDatasetsRequest extends GoogleCloudAiplatformV1beta1Dataset {
   /** Required. The resource name of the Location to create the Dataset in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Dataset | undefined;
 }
-export interface CreateProjectsLocationsDatasetsDatasetVersionsRequest {
+export interface CreateProjectsLocationsDatasetsDatasetVersionsRequest extends GoogleCloudAiplatformV1beta1DatasetVersion {
   /** Required. The name of the Dataset resource. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DatasetVersion | undefined;
 }
 /** The metric specification that defines the target resource utilization (CPU utilization, accelerator's duty cycle, and so on) for calculating the desired replica count. */
 export interface GoogleCloudAiplatformV1beta1AutoscalingMetricSpec {
@@ -8745,11 +8619,9 @@ export interface GoogleCloudAiplatformV1beta1CreateDeploymentResourcePoolRequest
   /** Required. The ID to use for the DeploymentResourcePool, which will become the final component of the DeploymentResourcePool's resource name. The maximum length is 63 characters, and valid characters are `/^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$/`. */
   deploymentResourcePoolId?: string | undefined;
 }
-export interface CreateProjectsLocationsDeploymentResourcePoolsRequest {
+export interface CreateProjectsLocationsDeploymentResourcePoolsRequest extends GoogleCloudAiplatformV1beta1CreateDeploymentResourcePoolRequest {
   /** Required. The parent location resource where this DeploymentResourcePool will be created. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CreateDeploymentResourcePoolRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1DetectorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -8863,13 +8735,11 @@ export interface GoogleCloudAiplatformV1beta1Detector {
   /** Identifier. The resource name of the detector. Format: `projects/{project}/locations/{location}/detectors/{detector}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsDetectorsRequest {
+export interface CreateProjectsLocationsDetectorsRequest extends GoogleCloudAiplatformV1beta1Detector {
   /** Required. The resource name of the Location to create the Detector in. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Optional. The ID to use for the Detector, which becomes the final component of its resource name. Must match `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. If omitted, the server generates one. */
   detectorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Detector | undefined;
 }
 /** Configuration for logging request-response to a BigQuery table. */
 export interface GoogleCloudAiplatformV1beta1PredictRequestResponseLoggingConfig {
@@ -9164,13 +9034,11 @@ export interface GoogleCloudAiplatformV1beta1Endpoint {
   /** Configures the Google Distributed Cloud (GDC) environment for online prediction. Only set this field when the Endpoint is to be deployed in a GDC environment. */
   gdcConfig?: GoogleCloudAiplatformV1beta1GdcConfig | undefined;
 }
-export interface CreateProjectsLocationsEndpointsRequest {
+export interface CreateProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1Endpoint {
   /** Immutable. The ID to use for endpoint, which will become the final component of the endpoint resource name. If not provided, Vertex AI will generate a value for this ID. If the first character is a letter, this value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The last character must be a letter or number. If the first character is a number, this value may be up to 9 characters, and valid characters are `[0-9]` with no leading zeros. When using HTTP/JSON, this field is populated based on a query string argument, such as `?endpoint_id=12345`. This is the fallback for fields that are not included in either the URI or the body. */
   endpointId?: string | undefined;
   /** Required. The resource name of the Location to create the Endpoint in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Endpoint | undefined;
 }
 /** EvaluationExperiment is a resource that represents an experiment for iterating on and visualizing evaluation runs. */
 export interface GoogleCloudAiplatformV1beta1EvaluationExperiment {
@@ -9189,11 +9057,9 @@ export interface GoogleCloudAiplatformV1beta1EvaluationExperiment {
   /** Required. The EvaluationRuns that are part of this experiment. */
   evaluationRuns?: StringList | undefined;
 }
-export interface CreateProjectsLocationsEvaluationExperimentsRequest {
+export interface CreateProjectsLocationsEvaluationExperimentsRequest extends GoogleCloudAiplatformV1beta1EvaluationExperiment {
   /** Required. The resource name of the Location to create the Evaluation Experiment in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationExperiment | undefined;
 }
 /** Represents a Harbor task. */
 export interface GoogleCloudAiplatformV1beta1HarborTask {
@@ -9430,11 +9296,9 @@ export interface GoogleCloudAiplatformV1beta1EvaluationItem {
   /** Output only. The response from evaluation. */
   evaluationResponse?: GoogleCloudAiplatformV1beta1EvaluationResult | undefined;
 }
-export interface CreateProjectsLocationsEvaluationItemsRequest {
+export interface CreateProjectsLocationsEvaluationItemsRequest extends GoogleCloudAiplatformV1beta1EvaluationItem {
   /** Required. The resource name of the Location to create the Evaluation Item in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationItem | undefined;
 }
 export type GoogleCloudAiplatformV1beta1MetricAggregationMetricsItemEnum =
   | "AGGREGATION_METRIC_UNSPECIFIED"
@@ -9707,13 +9571,11 @@ export interface GoogleCloudAiplatformV1beta1EvaluationMetric {
   /** Optional. A description of the EvaluationMetric. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsEvaluationMetricsRequest {
+export interface CreateProjectsLocationsEvaluationMetricsRequest extends GoogleCloudAiplatformV1beta1EvaluationMetric {
   /** Optional. The ID to use for the EvaluationMetric, which will become the final component of the EvaluationMetric's resource name. This value should be 1-63 characters, and valid characters are /a-z-/. The first character must be a lowercase letter, and the last character must be a lowercase letter or number. */
   evaluationMetricId?: string | undefined;
   /** Required. The resource name of the Location to create the EvaluationMetric in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationMetric | undefined;
 }
 export type GoogleCloudAiplatformV1beta1EvaluationRunStateEnum =
   | "STATE_UNSPECIFIED"
@@ -10216,11 +10078,9 @@ export interface GoogleCloudAiplatformV1beta1EvaluationRun {
   /** Output only. Only populated when the evaluation run's state is FAILED or CANCELLED. */
   error?: GoogleRpcStatus | undefined;
 }
-export interface CreateProjectsLocationsEvaluationRunsRequest {
+export interface CreateProjectsLocationsEvaluationRunsRequest extends GoogleCloudAiplatformV1beta1EvaluationRun {
   /** Required. The resource name of the Location to create the Evaluation Run in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationRun | undefined;
 }
 /** Metadata for a Harbor dataset. */
 export interface GoogleCloudAiplatformV1beta1HarborDataset {
@@ -10248,11 +10108,9 @@ export interface GoogleCloudAiplatformV1beta1EvaluationSet {
   /** Identifier. The resource name of the EvaluationSet. Format: `projects/{project}/locations/{location}/evaluationSets/{evaluation_set}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsEvaluationSetsRequest {
+export interface CreateProjectsLocationsEvaluationSetsRequest extends GoogleCloudAiplatformV1beta1EvaluationSet {
   /** Required. The resource name of the Location to create the Evaluation Set in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationSet | undefined;
 }
 /** An immutable snapshot of an EvaluationSet and its EvaluationItems. Evaluation runs on a revision are reproducible because the revision and its item revisions cannot change. */
 export interface GoogleCloudAiplatformV1beta1EvaluationSetRevision {
@@ -10263,11 +10121,9 @@ export interface GoogleCloudAiplatformV1beta1EvaluationSetRevision {
   /** Output only. A copy of the EvaluationSet at the time the revision was created. Only `display_name`, `metadata` and `labels` are copied from the source set; `agent_configs` is not. `snapshot.name` is the name of the source EvaluationSet, and `snapshot.evaluation_items` contains EvaluationItemRevision resource names instead of EvaluationItem resource names. */
   snapshot?: GoogleCloudAiplatformV1beta1EvaluationSet | undefined;
 }
-export interface CreateProjectsLocationsEvaluationSetsRevisionsRequest {
+export interface CreateProjectsLocationsEvaluationSetsRevisionsRequest extends GoogleCloudAiplatformV1beta1EvaluationSetRevision {
   /** Required. The resource name of the EvaluationSet to create a revision of. Format: `projects/{project}/locations/{location}/evaluationSets/{evaluation_set}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationSetRevision | undefined;
 }
 export interface CreateProjectsLocationsExampleStoresRequest {
   /** Required. The resource name of the Location to create the ExampleStore in. Format: `projects/{project}/locations/{location}` */
@@ -10330,13 +10186,11 @@ export interface GoogleCloudAiplatformV1beta1FeatureGroup {
   /** Optional. Used to perform consistent read-modify-write updates. If not set, a blind "overwrite" update happens. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsFeatureGroupsRequest {
+export interface CreateProjectsLocationsFeatureGroupsRequest extends GoogleCloudAiplatformV1beta1FeatureGroup {
   /** Required. The ID to use for this FeatureGroup, which will become the final component of the FeatureGroup's resource name. This value may be up to 128 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within the project and location. */
   featureGroupId?: string | undefined;
   /** Required. The resource name of the Location to create FeatureGroups. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureGroup | undefined;
 }
 /** Schedule configuration for the FeatureMonitor. */
 export interface GoogleCloudAiplatformV1beta1ScheduleConfig {
@@ -10376,13 +10230,11 @@ export interface GoogleCloudAiplatformV1beta1FeatureMonitor {
   /** Optional. The labels with user-defined metadata to organize your FeatureMonitor. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. See https://goo.gl/xmQnxf for more information on and examples of labels. No more than 64 user labels can be associated with one FeatureMonitor(System labels are excluded)." System reserved label keys are prefixed with "aiplatform.googleapis.com/" and are immutable. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsFeatureGroupsFeatureMonitorsRequest {
+export interface CreateProjectsLocationsFeatureGroupsFeatureMonitorsRequest extends GoogleCloudAiplatformV1beta1FeatureMonitor {
   /** Required. The ID to use for this FeatureMonitor, which will become the final component of the FeatureGroup's resource name. This value may be up to 60 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within the FeatureGroup. */
   featureMonitorId?: string | undefined;
   /** Required. The resource name of FeatureGroup to create FeatureMonitor. Format: `projects/{project}/locations/{location}/featureGroups/{featuregroup}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureMonitor | undefined;
 }
 export type GoogleCloudAiplatformV1beta1FeatureMonitorJobTriggerTypeEnum =
   | "FEATURE_MONITOR_JOB_TRIGGER_UNSPECIFIED"
@@ -10421,21 +10273,17 @@ export interface GoogleCloudAiplatformV1beta1FeatureMonitorJob {
   /** Output only. Timestamp when this FeatureMonitorJob was created. Creation of a FeatureMonitorJob means that the job is pending / waiting for sufficient resources but may not have started running yet. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsFeatureGroupsFeatureMonitorsFeatureMonitorJobsRequest {
+export interface CreateProjectsLocationsFeatureGroupsFeatureMonitorsFeatureMonitorJobsRequest extends GoogleCloudAiplatformV1beta1FeatureMonitorJob {
   /** Required. The resource name of FeatureMonitor to create FeatureMonitorJob. Format: `projects/{project}/locations/{location}/featureGroups/{feature_group}/featureMonitors/{feature_monitor}` */
   parent: string;
   /** Optional. Output only. System-generated ID for feature monitor job. */
   featureMonitorJobId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureMonitorJob | undefined;
 }
-export interface CreateProjectsLocationsFeatureGroupsFeaturesRequest {
+export interface CreateProjectsLocationsFeatureGroupsFeaturesRequest extends GoogleCloudAiplatformV1beta1Feature {
   /** Required. The resource name of the EntityType or FeatureGroup to create a Feature. Format for entity_type as parent: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}` Format for feature_group as parent: `projects/{project}/locations/{location}/featureGroups/{feature_group}` */
   parent: string;
   /** Required. The ID to use for the Feature, which will become the final component of the Feature's resource name. This value may be up to 128 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within an EntityType/FeatureGroup. */
   featureId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Feature | undefined;
 }
 /** Deprecated: This sub message is no longer needed anymore and embedding management is automatically enabled when specifying Optimized storage type. Contains settings for embedding management. */
 export interface GoogleCloudAiplatformV1beta1FeatureOnlineStoreEmbeddingManagement {
@@ -10520,13 +10368,11 @@ export interface GoogleCloudAiplatformV1beta1FeatureOnlineStore {
   /** Identifier. Name of the FeatureOnlineStore. Format: `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsFeatureOnlineStoresRequest {
+export interface CreateProjectsLocationsFeatureOnlineStoresRequest extends GoogleCloudAiplatformV1beta1FeatureOnlineStore {
   /** Required. The ID to use for this FeatureOnlineStore, which will become the final component of the FeatureOnlineStore's resource name. This value may be up to 60 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within the project and location. */
   featureOnlineStoreId?: string | undefined;
   /** Required. The resource name of the Location to create FeatureOnlineStores. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureOnlineStore | undefined;
 }
 /** A Vertex Rag source for features that need to be synced to Online Store. */
 export interface GoogleCloudAiplatformV1beta1FeatureViewVertexRagSource {
@@ -10682,15 +10528,13 @@ export interface GoogleCloudAiplatformV1beta1FeatureView {
   /** Optional. Configuration for FeatureView created under Optimized FeatureOnlineStore. */
   optimizedConfig?: GoogleCloudAiplatformV1beta1FeatureViewOptimizedConfig | undefined;
 }
-export interface CreateProjectsLocationsFeatureOnlineStoresFeatureViewsRequest {
+export interface CreateProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends GoogleCloudAiplatformV1beta1FeatureView {
   /** Immutable. If set to true, one on demand sync will be run immediately, regardless whether the FeatureView.sync_config is configured or not. */
   runSyncImmediately?: boolean | undefined;
   /** Required. The ID to use for the FeatureView, which will become the final component of the FeatureView's resource name. This value may be up to 60 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within a FeatureOnlineStore. */
   featureViewId?: string | undefined;
   /** Required. The resource name of the FeatureOnlineStore to create FeatureViews. Format: `projects/{project}/locations/{location}/featureOnlineStores/{feature_online_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureView | undefined;
 }
 export type GoogleCloudAiplatformV1beta1FeaturestoreStateEnum =
   | "STATE_UNSPECIFIED"
@@ -10737,13 +10581,11 @@ export interface GoogleCloudAiplatformV1beta1Featurestore {
   /** Output only. Timestamp when this Featurestore was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsFeaturestoresRequest {
+export interface CreateProjectsLocationsFeaturestoresRequest extends GoogleCloudAiplatformV1beta1Featurestore {
   /** Required. The resource name of the Location to create Featurestores. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for this Featurestore, which will become the final component of the Featurestore's resource name. This value may be up to 60 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within the project and location. */
   featurestoreId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Featurestore | undefined;
 }
 /** An entity type is a type of object in a system that needs to be modeled and have stored information about. For example, driver is an entity type, and driver0 is an instance of an entity type driver. */
 export interface GoogleCloudAiplatformV1beta1EntityType {
@@ -10768,21 +10610,17 @@ export interface GoogleCloudAiplatformV1beta1EntityType {
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
 }
-export interface CreateProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface CreateProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleCloudAiplatformV1beta1EntityType {
   /** Required. The resource name of the Featurestore to create EntityTypes. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}` */
   parent: string;
   /** Required. The ID to use for the EntityType, which will become the final component of the EntityType's resource name. This value may be up to 60 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within a featurestore. */
   entityTypeId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EntityType | undefined;
 }
-export interface CreateProjectsLocationsFeaturestoresEntityTypesFeaturesRequest {
+export interface CreateProjectsLocationsFeaturestoresEntityTypesFeaturesRequest extends GoogleCloudAiplatformV1beta1Feature {
   /** Required. The ID to use for the Feature, which will become the final component of the Feature's resource name. This value may be up to 128 characters, and valid characters are `[a-z0-9_]`. The first character cannot be a number. The value must be unique within an EntityType/FeatureGroup. */
   featureId?: string | undefined;
   /** Required. The resource name of the EntityType or FeatureGroup to create a Feature. Format for entity_type as parent: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}` Format for feature_group as parent: `projects/{project}/locations/{location}/featureGroups/{feature_group}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Feature | undefined;
 }
 /** Used in safe optimization to specify threshold levels and risk tolerance. */
 export interface GoogleCloudAiplatformV1beta1StudySpecMetricSpecSafetyMetricConfig {
@@ -11076,11 +10914,9 @@ export interface GoogleCloudAiplatformV1beta1HyperparameterTuningJob {
   /** Output only. Time when the HyperparameterTuningJob was most recently updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsHyperparameterTuningJobsRequest {
+export interface CreateProjectsLocationsHyperparameterTuningJobsRequest extends GoogleCloudAiplatformV1beta1HyperparameterTuningJob {
   /** Required. The resource name of the Location to create the HyperparameterTuningJob in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1HyperparameterTuningJob | undefined;
 }
 /** Configuration for an authentication provider, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
 export interface GoogleCloudAiplatformV1beta1DeployedIndexAuthConfigAuthProvider {
@@ -11190,11 +11026,9 @@ export interface GoogleCloudAiplatformV1beta1IndexEndpoint {
   /** Optional. Configuration for private service connect. network and private_service_connect_config are mutually exclusive. */
   privateServiceConnectConfig?: GoogleCloudAiplatformV1beta1PrivateServiceConnectConfig | undefined;
 }
-export interface CreateProjectsLocationsIndexEndpointsRequest {
+export interface CreateProjectsLocationsIndexEndpointsRequest extends GoogleCloudAiplatformV1beta1IndexEndpoint {
   /** Required. The resource name of the Location to create the IndexEndpoint in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1IndexEndpoint | undefined;
 }
 /** Stats of the Index. */
 export interface GoogleCloudAiplatformV1beta1IndexStats {
@@ -11256,11 +11090,9 @@ export interface GoogleCloudAiplatformV1beta1Index {
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsLocationsIndexesRequest {
+export interface CreateProjectsLocationsIndexesRequest extends GoogleCloudAiplatformV1beta1Index {
   /** Required. The resource name of the Location to create the Index in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Index | undefined;
 }
 /** Configuration parameters for creating an interaction. */
 export interface GenaiVertexV1beta1CreateInteractionRequest {
@@ -11273,30 +11105,24 @@ export interface GenaiVertexV1beta1CreateInteractionRequest {
   /** The interaction to create. */
   interaction?: GenaiVertexV1beta1Interaction | undefined;
 }
-export interface CreateProjectsLocationsInteractionsRequest {
+export interface CreateProjectsLocationsInteractionsRequest extends GenaiVertexV1beta1CreateInteractionRequest {
   locationsId: string;
   projectsId: string;
-  /** Request body */
-  body?: GenaiVertexV1beta1CreateInteractionRequest | undefined;
 }
 /** Request message for [InteractionsService.CreateInteractionHttp]. */
 export interface GenaiVertexV1beta1CreateInteractionHttpRequest {
   /** Required. The interaction to create. */
   httpBody?: GoogleApiHttpBody | undefined;
 }
-export interface CreateProjectsLocationsInteractionsHttpRequest {
+export interface CreateProjectsLocationsInteractionsHttpRequest extends GenaiVertexV1beta1CreateInteractionHttpRequest {
   /** Required. The parent resource where this interaction will be created. Format: `projects/{project}/locations/{location}` Supported only by the Vertex API only. */
   parent: string;
-  /** Request body */
-  body?: GenaiVertexV1beta1CreateInteractionHttpRequest | undefined;
 }
-export interface CreateProjectsLocationsMemoryBanksMemoriesRequest {
+export interface CreateProjectsLocationsMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1Memory {
   /** Optional. The user defined ID to use for memory, which will become the final component of the memory resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first character must be a letter, and the last character must be a letter or number. */
   memoryId?: string | undefined;
   /** Required. The resource name of the ReasoningEngine to create the Memory under. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
 /** Represents Dataplex integration settings. */
 export interface GoogleCloudAiplatformV1beta1MetadataStoreDataplexConfig {
@@ -11325,13 +11151,11 @@ export interface GoogleCloudAiplatformV1beta1MetadataStore {
   /** Output only. State information of the MetadataStore. */
   state?: GoogleCloudAiplatformV1beta1MetadataStoreMetadataStoreState | undefined;
 }
-export interface CreateProjectsLocationsMetadataStoresRequest {
+export interface CreateProjectsLocationsMetadataStoresRequest extends GoogleCloudAiplatformV1beta1MetadataStore {
   /** The {metadatastore} portion of the resource name with the format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` If not provided, the MetadataStore's ID will be a UUID generated by the service. Must be 4-128 characters in length. Valid characters are `/a-z-/`. Must be unique across all MetadataStores in the parent Location. (Otherwise the request will fail with ALREADY_EXISTS, or PERMISSION_DENIED if the caller can't view the preexisting MetadataStore.) */
   metadataStoreId?: string | undefined;
   /** Required. The resource name of the Location where the MetadataStore should be created. Format: `projects/{project}/locations/{location}/` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1MetadataStore | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ArtifactStateEnum =
   | "STATE_UNSPECIFIED"
@@ -11364,13 +11188,11 @@ export interface GoogleCloudAiplatformV1beta1Artifact {
   /** User provided display name of the Artifact. May be up to 128 Unicode characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsMetadataStoresArtifactsRequest {
+export interface CreateProjectsLocationsMetadataStoresArtifactsRequest extends GoogleCloudAiplatformV1beta1Artifact {
   /** Required. The resource name of the MetadataStore where the Artifact should be created. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` */
   parent: string;
   /** The {artifact} portion of the resource name with the format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/artifacts/{artifact}` If not provided, the Artifact's ID will be a UUID generated by the service. Must be 4-128 characters in length. Valid characters are `/a-z-/`. Must be unique across all Artifacts in the parent MetadataStore. (Otherwise the request will fail with ALREADY_EXISTS, or PERMISSION_DENIED if the caller can't view the preexisting Artifact.) */
   artifactId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Artifact | undefined;
 }
 /** Instance of a general context. */
 export interface GoogleCloudAiplatformV1beta1Context {
@@ -11397,13 +11219,11 @@ export interface GoogleCloudAiplatformV1beta1Context {
   /** The labels with user-defined metadata to organize your Contexts. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. No more than 64 user labels can be associated with one Context (System labels are excluded). */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsMetadataStoresContextsRequest {
+export interface CreateProjectsLocationsMetadataStoresContextsRequest extends GoogleCloudAiplatformV1beta1Context {
   /** The {context} portion of the resource name with the format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/contexts/{context}`. If not provided, the Context's ID will be a UUID generated by the service. Must be 4-128 characters in length. Valid characters are `/a-z-/`. Must be unique across all Contexts in the parent MetadataStore. (Otherwise the request will fail with ALREADY_EXISTS, or PERMISSION_DENIED if the caller can't view the preexisting Context.) */
   contextId?: string | undefined;
   /** Required. The resource name of the MetadataStore where the Context should be created. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Context | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ExecutionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -11438,13 +11258,11 @@ export interface GoogleCloudAiplatformV1beta1Execution {
   /** Output only. Timestamp when this Execution was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMetadataStoresExecutionsRequest {
+export interface CreateProjectsLocationsMetadataStoresExecutionsRequest extends GoogleCloudAiplatformV1beta1Execution {
   /** Required. The resource name of the MetadataStore where the Execution should be created. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` */
   parent: string;
   /** The {execution} portion of the resource name with the format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/executions/{execution}` If not provided, the Execution's ID will be a UUID generated by the service. Must be 4-128 characters in length. Valid characters are `/a-z-/`. Must be unique across all Executions in the parent MetadataStore. (Otherwise the request will fail with ALREADY_EXISTS, or PERMISSION_DENIED if the caller can't view the preexisting Execution.) */
   executionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Execution | undefined;
 }
 export type GoogleCloudAiplatformV1beta1MetadataSchemaSchemaTypeEnum =
   | "METADATA_SCHEMA_TYPE_UNSPECIFIED"
@@ -11466,13 +11284,11 @@ export interface GoogleCloudAiplatformV1beta1MetadataSchema {
   /** The type of the MetadataSchema. This is a property that identifies which metadata types will use the MetadataSchema. */
   schemaType?: GoogleCloudAiplatformV1beta1MetadataSchemaSchemaTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsMetadataStoresMetadataSchemasRequest {
+export interface CreateProjectsLocationsMetadataStoresMetadataSchemasRequest extends GoogleCloudAiplatformV1beta1MetadataSchema {
   /** Required. The resource name of the MetadataStore where the MetadataSchema should be created. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` */
   parent: string;
   /** The {metadata_schema} portion of the resource name with the format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/metadataSchemas/{metadataschema}` If not provided, the MetadataStore's ID will be a UUID generated by the service. Must be 4-128 characters in length. Valid characters are `/a-z-/`. Must be unique across all MetadataSchemas in the parent Location. (Otherwise the request will fail with ALREADY_EXISTS, or PERMISSION_DENIED if the caller can't view the preexisting MetadataSchema.) */
   metadataSchemaId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1MetadataSchema | undefined;
 }
 /** ModelDeploymentMonitoringObjectiveConfig contains the pair of deployed_model_id to ModelMonitoringObjectiveConfig. */
 export interface GoogleCloudAiplatformV1beta1ModelDeploymentMonitoringObjectiveConfig {
@@ -11609,11 +11425,9 @@ export interface GoogleCloudAiplatformV1beta1ModelDeploymentMonitoringJob {
   /** Sample Predict instance, same format as PredictRequest.instances, this can be set as a replacement of ModelDeploymentMonitoringJob.predict_instance_schema_uri. If not set, we will generate predict schema from collected predict requests. */
   samplePredictInstance?: unknown | undefined;
 }
-export interface CreateProjectsLocationsModelDeploymentMonitoringJobsRequest {
+export interface CreateProjectsLocationsModelDeploymentMonitoringJobsRequest extends GoogleCloudAiplatformV1beta1ModelDeploymentMonitoringJob {
   /** Required. The parent of the ModelDeploymentMonitoringJob. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ModelDeploymentMonitoringJob | undefined;
 }
 /** Monitoring alert triggered condition. */
 export interface GoogleCloudAiplatformV1beta1ModelMonitoringAlertCondition {
@@ -11845,13 +11659,11 @@ export interface GoogleCloudAiplatformV1beta1ModelMonitor {
   /** The display name of the ModelMonitor. The name can be up to 128 characters long and can consist of any UTF-8. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsModelMonitorsRequest {
+export interface CreateProjectsLocationsModelMonitorsRequest extends GoogleCloudAiplatformV1beta1ModelMonitor {
   /** Optional. The ID to use for the Model Monitor, which will become the final component of the model monitor resource name. The maximum length is 63 characters, and valid characters are `/^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$/`. */
   modelMonitorId?: string | undefined;
   /** Required. The resource name of the Location to create the ModelMonitor in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ModelMonitor | undefined;
 }
 export type GoogleRpcStatusMap = { [key: string]: GoogleRpcStatus | undefined };
 /** Processed dataset information. */
@@ -11934,13 +11746,11 @@ export interface GoogleCloudAiplatformV1beta1ModelMonitoringJob {
   /** Output only. Timestamp when this ModelMonitoringJob was updated most recently. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsModelMonitorsModelMonitoringJobsRequest {
+export interface CreateProjectsLocationsModelMonitorsModelMonitoringJobsRequest extends GoogleCloudAiplatformV1beta1ModelMonitoringJob {
   /** Required. The parent of the ModelMonitoringJob. Format: `projects/{project}/locations/{location}/modelMoniitors/{model_monitor}` */
   parent: string;
   /** Optional. The ID to use for the Model Monitoring Job, which will become the final component of the model monitoring job resource name. The maximum length is 63 characters, and valid characters are `/^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$/`. */
   modelMonitoringJobId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ModelMonitoringJob | undefined;
 }
 export type GoogleCloudAiplatformV1beta1NasTrialStateEnum =
   | "STATE_UNSPECIFIED"
@@ -12088,11 +11898,9 @@ export interface GoogleCloudAiplatformV1beta1NasJob {
   /** Output only. Time when the NasJob was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsNasJobsRequest {
+export interface CreateProjectsLocationsNasJobsRequest extends GoogleCloudAiplatformV1beta1NasJob {
   /** Required. The resource name of the Location to create the NasJob in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1NasJob | undefined;
 }
 /** A set of Shielded VM options for the execution VM. Mirrors `google.cloud.notebooks.v2.ShieldedInstanceConfig`. See https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. */
 export interface GoogleCloudAiplatformV1beta1NotebookExecutionJobCustomEnvironmentSpecShieldedInstanceConfig {
@@ -12225,13 +12033,11 @@ export interface GoogleCloudAiplatformV1beta1NotebookExecutionJob {
   /** The Workbench runtime configuration to use for the notebook execution. */
   workbenchRuntime?: GoogleCloudAiplatformV1beta1NotebookExecutionJobWorkbenchRuntime | undefined;
 }
-export interface CreateProjectsLocationsNotebookExecutionJobsRequest {
+export interface CreateProjectsLocationsNotebookExecutionJobsRequest extends GoogleCloudAiplatformV1beta1NotebookExecutionJob {
   /** Optional. User specified ID for the NotebookExecutionJob. */
   notebookExecutionJobId?: string | undefined;
   /** Required. The resource name of the Location to create the NotebookExecutionJob. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1NotebookExecutionJob | undefined;
 }
 export type GoogleCloudAiplatformV1beta1NotebookRuntimeTemplateNotebookRuntimeTypeEnum =
   | "NOTEBOOK_RUNTIME_TYPE_UNSPECIFIED"
@@ -12283,13 +12089,11 @@ export interface GoogleCloudAiplatformV1beta1NotebookRuntimeTemplate {
     | (string & {})
     | undefined;
 }
-export interface CreateProjectsLocationsNotebookRuntimeTemplatesRequest {
+export interface CreateProjectsLocationsNotebookRuntimeTemplatesRequest extends GoogleCloudAiplatformV1beta1NotebookRuntimeTemplate {
   /** Required. The resource name of the Location to create the NotebookRuntimeTemplate. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Optional. User specified ID for the notebook runtime template. */
   notebookRuntimeTemplateId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1NotebookRuntimeTemplate | undefined;
 }
 /** Contains additional information about the state of the OnlineEvaluator. */
 export interface GoogleCloudAiplatformV1beta1OnlineEvaluatorStateDetails {
@@ -12470,11 +12274,9 @@ export interface GoogleCloudAiplatformV1beta1OnlineEvaluator {
   /** Output only. Timestamp when the OnlineEvaluator was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsOnlineEvaluatorsRequest {
+export interface CreateProjectsLocationsOnlineEvaluatorsRequest extends GoogleCloudAiplatformV1beta1OnlineEvaluator {
   /** Required. The parent resource where the OnlineEvaluator will be created. Format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1OnlineEvaluator | undefined;
 }
 /** Configuration for the Ray OSS Logs. */
 export interface GoogleCloudAiplatformV1beta1RayLogsSpec {
@@ -12602,13 +12404,11 @@ export interface GoogleCloudAiplatformV1beta1PersistentResource {
   /** Optional. Customer-managed encryption key spec for a PersistentResource. If set, this PersistentResource and all sub-resources of this PersistentResource will be secured by this key. */
   encryptionSpec?: GoogleCloudAiplatformV1beta1EncryptionSpec | undefined;
 }
-export interface CreateProjectsLocationsPersistentResourcesRequest {
+export interface CreateProjectsLocationsPersistentResourcesRequest extends GoogleCloudAiplatformV1beta1PersistentResource {
   /** Required. The resource name of the Location to create the PersistentResource in. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the PersistentResource, which become the final component of the PersistentResource's resource name. The maximum length is 63 characters, and valid characters are `/^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$/`. */
   persistentResourceId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PersistentResource | undefined;
 }
 export type GoogleCloudAiplatformV1beta1PipelineJobStateEnum =
   | "PIPELINE_STATE_UNSPECIFIED"
@@ -12919,13 +12719,11 @@ export interface GoogleCloudAiplatformV1beta1PipelineJob {
   /** The full name of the Compute Engine [network](/compute/docs/networks-and-firewalls#networks) to which the Pipeline Job's workload should be peered. For example, `projects/12345/global/networks/myVPC`. [Format](/compute/docs/reference/rest/v1/networks/insert) is of the form `projects/{project}/global/networks/{network}`. Where {project} is a project number, as in `12345`, and {network} is a network name. Private services access must already be configured for the network. Pipeline job will apply the network configuration to the Google Cloud resources being launched, if applied, such as Vertex AI Training or Dataflow job. If left unspecified, the workload is not peered with any network. */
   network?: string | undefined;
 }
-export interface CreateProjectsLocationsPipelineJobsRequest {
+export interface CreateProjectsLocationsPipelineJobsRequest extends GoogleCloudAiplatformV1beta1PipelineJob {
   /** Required. The resource name of the Location to create the PipelineJob in. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** The ID to use for the PipelineJob, which will become the final component of the PipelineJob name. If not provided, an ID will be automatically generated. This value should be less than 128 characters, and valid characters are `/a-z-/`. */
   pipelineJobId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PipelineJob | undefined;
 }
 /** The config for the Vertex Vector Search. */
 export interface GoogleCloudAiplatformV1beta1RagVectorDbConfigVertexVectorSearch {
@@ -13115,27 +12913,21 @@ export interface GoogleCloudAiplatformV1beta1RagCorpus {
   /** Output only. The resource name of the RagCorpus. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsRagCorporaRequest {
+export interface CreateProjectsLocationsRagCorporaRequest extends GoogleCloudAiplatformV1beta1RagCorpus {
   /** Required. The resource name of the Location to create the RagCorpus in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RagCorpus | undefined;
 }
-export interface CreateProjectsLocationsRagCorporaRagDataSchemasRequest {
+export interface CreateProjectsLocationsRagCorporaRagDataSchemasRequest extends GoogleCloudAiplatformV1beta1RagDataSchema {
   /** Required. The resource name of the RagCorpus to create the RagDataSchema in. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}` */
   parent: string;
   /** Optional. The ID to use for the RagDataSchema, which will become the final component of the RagDataSchema's resource name if the user chooses to specify. Otherwise, RagDataSchema id will be generated by system. This value should be up to 63 characters, and valid characters are /a-z-/. The first character must be a letter, the last could be a letter or a number. */
   ragDataSchemaId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RagDataSchema | undefined;
 }
-export interface CreateProjectsLocationsRagCorporaRagFilesRagMetadataRequest {
+export interface CreateProjectsLocationsRagCorporaRagFilesRagMetadataRequest extends GoogleCloudAiplatformV1beta1RagMetadata {
   /** Required. The parent resource where this metadata will be created. Format: `projects/{project_number}/locations/{location_id}/ragCorpora/{rag_corpus}/ragFiles/{rag_file}` */
   parent: string;
   /** Optional. The ID to use for the metadata, which will become the final component of the metadata's resource name if the user chooses to specify. Otherwise, metadata id will be generated by system. This value should be up to 63 characters, and valid characters are /a-z-/. The first character must be a letter, the last could be a letter or a number. */
   ragMetadataId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RagMetadata | undefined;
 }
 /** Keeps only the latest N Runtime Revisions active. */
 export interface GoogleCloudAiplatformV1beta1ReasoningEngineRevisionGarbageCollectionStrategyKeepNLatest {
@@ -13634,11 +13426,9 @@ export interface GoogleCloudAiplatformV1beta1ReasoningEngine {
   /** Optional. Used to perform consistent read-modify-write updates. If not set, a blind "overwrite" update happens. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsReasoningEnginesRequest {
+export interface CreateProjectsLocationsReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1ReasoningEngine {
   /** Required. The resource name of the Location to create the ReasoningEngine in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReasoningEngine | undefined;
 }
 /** Represents the final output of a task. */
 export interface GoogleCloudAiplatformV1beta1TaskOutput {
@@ -13716,13 +13506,11 @@ export interface GoogleCloudAiplatformV1beta1A2aTask {
   /** Output only. The creation timestamp of the task. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsReasoningEnginesA2aTasksRequest {
+export interface CreateProjectsLocationsReasoningEnginesA2aTasksRequest extends GoogleCloudAiplatformV1beta1A2aTask {
   /** Required. The resource name of the ReasoningEngine or TaskStore to create the A2aTask under. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` or `projects/{project}/locations/{location}/taskStores/{task_store}` */
   parent: string;
   /** Required. User-defined ID of the A2aTask. This ID must be unique within the parent resource. It must be 1-63 characters, start with a lowercase letter or number, end with a lowercase letter or number, and only contain lowercase letters, numbers, and hyphens [AIP-122](https://google.aip.dev/122). Starting with a number is allowed for compatibility with the auto-generated UUID from A2A SDK. */
   a2aTaskId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1A2aTask | undefined;
 }
 export type GoogleCloudAiplatformV1beta1FeedbackEntryFeedbackTypeEnum =
   | "FEEDBACK_TYPE_UNSPECIFIED"
@@ -13755,19 +13543,15 @@ export interface GoogleCloudAiplatformV1beta1FeedbackEntry {
   /** Optional. A caller-supplied identifier for the user who provided the feedback. The semantics of this field (for example whether it is an opaque token, a hashed value, or a user-visible identifier) are determined by the calling application. */
   userId?: string | undefined;
 }
-export interface CreateProjectsLocationsReasoningEnginesFeedbackEntriesRequest {
+export interface CreateProjectsLocationsReasoningEnginesFeedbackEntriesRequest extends GoogleCloudAiplatformV1beta1FeedbackEntry {
   /** Required. The resource name of the ReasoningEngine in which to create the FeedbackEntry. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeedbackEntry | undefined;
 }
-export interface CreateProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface CreateProjectsLocationsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1Memory {
   /** Optional. The user defined ID to use for memory, which will become the final component of the memory resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first character must be a letter, and the last character must be a letter or number. */
   memoryId?: string | undefined;
   /** Required. The resource name of the ReasoningEngine to create the Memory under. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
 /** The shell environment. */
 export type GoogleCloudAiplatformV1beta1SandboxEnvironmentSpecShellEnvironment =
@@ -13861,11 +13645,9 @@ export interface GoogleCloudAiplatformV1beta1SandboxEnvironment {
   /** Identifier. The name of the SandboxEnvironment. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest {
+export interface CreateProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest extends GoogleCloudAiplatformV1beta1SandboxEnvironment {
   /** Required. The resource name of the reasoning engine to create the SandboxEnvironment in. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironment | undefined;
 }
 export type GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplateStateEnum =
   | "UNSPECIFIED"
@@ -14014,11 +13796,9 @@ export interface GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate {
   /** Output only. The timestamp when this SandboxEnvironmentTemplate was most recently updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest {
+export interface CreateProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest extends GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate {
   /** Required. The resource name of the reasoning engine to create the SandboxEnvironmentTemplate in. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate | undefined;
 }
 /** A session contains a set of actions between users and Vertex agents. */
 export interface GoogleCloudAiplatformV1beta1Session {
@@ -14041,13 +13821,11 @@ export interface GoogleCloudAiplatformV1beta1Session {
   /** Output only. Timestamp when the session was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsReasoningEnginesSessionsRequest {
+export interface CreateProjectsLocationsReasoningEnginesSessionsRequest extends GoogleCloudAiplatformV1beta1Session {
   /** Required. The resource name of the location to create the session in. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
   /** Optional. The user defined ID to use for session, which will become the final component of the session resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first and last characters must be a letter or number. */
   sessionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Session | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ScheduleStateEnum =
   | "STATE_UNSPECIFIED"
@@ -14137,11 +13915,9 @@ export interface GoogleCloudAiplatformV1beta1Schedule {
   /** Required. User provided name of the Schedule. The name can be up to 128 characters long and can consist of any UTF-8 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsSchedulesRequest {
+export interface CreateProjectsLocationsSchedulesRequest extends GoogleCloudAiplatformV1beta1Schedule {
   /** Required. The resource name of the Location to create the Schedule in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Schedule | undefined;
 }
 /** Represents a governance policy applied to MCP tools used by an Agent. */
 export interface GoogleCloudAiplatformV1beta1SemanticGovernancePolicyMcpTool {
@@ -14184,13 +13960,11 @@ export interface GoogleCloudAiplatformV1beta1SemanticGovernancePolicy {
   /** Optional. Settings for customizing the agent's response to end users when this policy is evaluated, such as messages displayed when the policy denies a request. */
   agentResponseCustomization?: GoogleCloudAiplatformV1beta1AgentResponseCustomization | undefined;
 }
-export interface CreateProjectsLocationsSemanticGovernancePoliciesRequest {
+export interface CreateProjectsLocationsSemanticGovernancePoliciesRequest extends GoogleCloudAiplatformV1beta1SemanticGovernancePolicy {
   /** Required. The resource name of the Location into which to create the SemanticGovernancePolicy. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the SemanticGovernancePolicy, which will become the final component of the SemanticGovernancePolicy's resource name. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first character cannot be a number or hyphen. The last character must be a letter or a number. */
   semanticGovernancePolicyId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SemanticGovernancePolicy | undefined;
 }
 /** Configuration for Customer-Managed Encryption Keys (CMEK). */
 export interface GoogleCloudAiplatformV1beta1ServingProfileCmekConfig {
@@ -14219,13 +13993,11 @@ export interface GoogleCloudAiplatformV1beta1ServingProfile {
   /** Required. The specific API this ServingProfile applies to. */
   scope?: GoogleCloudAiplatformV1beta1ServingProfileScopeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsServingProfilesRequest {
+export interface CreateProjectsLocationsServingProfilesRequest extends GoogleCloudAiplatformV1beta1ServingProfile {
   /** Required. The ID to use for the ServingProfile, which will become the final component of the ServingProfile's resource name. This value should be 1-63 characters, and valid characters are `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   servingProfileId?: string | undefined;
   /** Required. The resource name of the Location to create the ServingProfile in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ServingProfile | undefined;
 }
 export type GoogleCloudAiplatformV1beta1SkillSkillSourceEnum =
   | "SKILL_SOURCE_UNSPECIFIED"
@@ -14264,13 +14036,11 @@ export interface GoogleCloudAiplatformV1beta1Skill {
   /** Identifier. The resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsSkillsRequest {
+export interface CreateProjectsLocationsSkillsRequest extends GoogleCloudAiplatformV1beta1Skill {
   /** Required. The ID to use for the Skill, which will become the final component of the Skill's resource name. If not provided, a system-generated ID will be used. This value must be 1-63 characters. Valid characters are lowercase letters, numbers, and hyphens. The first character must be a lowercase letter, and the last character must be a lowercase letter or a number. Specifically, the ID must match the regular expression: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$` See [AIP-122](https://aip.dev/122#resource-id-segments) for more details. */
   skillId?: string | undefined;
   /** Required. The location to create the Skill in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Skill | undefined;
 }
 /** SpecialistPool represents customers' own workforce to work on their data labeling jobs. It includes a group of specialist managers and workers. Managers are responsible for managing the workers in this pool as well as customers' data labeling jobs associated with this pool. Customers create specialist pool as well as start data labeling jobs on Cloud, managers and workers handle the jobs using CrowdCompute console. */
 export interface GoogleCloudAiplatformV1beta1SpecialistPool {
@@ -14287,11 +14057,9 @@ export interface GoogleCloudAiplatformV1beta1SpecialistPool {
   /** Output only. The resource name of the pending data labeling jobs. */
   pendingDataLabelingJobs?: StringList | undefined;
 }
-export interface CreateProjectsLocationsSpecialistPoolsRequest {
+export interface CreateProjectsLocationsSpecialistPoolsRequest extends GoogleCloudAiplatformV1beta1SpecialistPool {
   /** Required. The parent Project name for the new SpecialistPool. The form is `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SpecialistPool | undefined;
 }
 export type GoogleCloudAiplatformV1beta1StudyStateEnum =
   | "STATE_UNSPECIFIED"
@@ -14313,17 +14081,13 @@ export interface GoogleCloudAiplatformV1beta1Study {
   /** Output only. Time at which the study was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsStudiesRequest {
+export interface CreateProjectsLocationsStudiesRequest extends GoogleCloudAiplatformV1beta1Study {
   /** Required. The resource name of the Location to create the CustomJob in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Study | undefined;
 }
-export interface CreateProjectsLocationsStudiesTrialsRequest {
+export interface CreateProjectsLocationsStudiesTrialsRequest extends GoogleCloudAiplatformV1beta1Trial {
   /** Required. The resource name of the Study to create the Trial in. Format: `projects/{project}/locations/{location}/studies/{study}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Trial | undefined;
 }
 export type GoogleCloudAiplatformV1beta1A2ATaskRecordArtifactList =
   Array<GoogleCloudAiplatformV1beta1A2ATaskRecordArtifact>;
@@ -14383,13 +14147,11 @@ export interface GoogleCloudAiplatformV1beta1A2ATaskRecord {
   /** Output only. Timestamp of when this task is considered expired. This is *always* provided on output, and is calculated based on the `update_time` and the `ttl`. */
   expireTime?: string | undefined;
 }
-export interface CreateProjectsLocationsTaskStoresA2aTaskRecordsRequest {
+export interface CreateProjectsLocationsTaskStoresA2aTaskRecordsRequest extends GoogleCloudAiplatformV1beta1A2ATaskRecord {
   /** Required. The resource name of the TaskStore to create the A2ATaskRecord under. Format: `projects/{project}/locations/{location}/taskStores/{task_store}` */
   parent: string;
   /** Optional. The user defined ID to use for the A2ATaskRecord, which will become the final component of the A2ATaskRecord resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first and last characters must be a letter or number. This accepts A2A task IDs such as UUIDs, which may start with a digit. */
   a2aTaskRecordId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1A2ATaskRecord | undefined;
 }
 /** Tensorboard is a physical database that stores users' training metrics. A default Tensorboard is provided in each region of a Google Cloud project. If needed users can also create extra Tensorboards in their projects. */
 export interface GoogleCloudAiplatformV1beta1Tensorboard {
@@ -14420,11 +14182,9 @@ export interface GoogleCloudAiplatformV1beta1Tensorboard {
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
 }
-export interface CreateProjectsLocationsTensorboardsRequest {
+export interface CreateProjectsLocationsTensorboardsRequest extends GoogleCloudAiplatformV1beta1Tensorboard {
   /** Required. The resource name of the Location to create the Tensorboard in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Tensorboard | undefined;
 }
 /** A TensorboardExperiment is a group of TensorboardRuns, that are typically the results of a training job run, in a Tensorboard. */
 export interface GoogleCloudAiplatformV1beta1TensorboardExperiment {
@@ -14445,29 +14205,23 @@ export interface GoogleCloudAiplatformV1beta1TensorboardExperiment {
   /** Output only. Timestamp when this TensorboardExperiment was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsTensorboardsExperimentsRequest {
+export interface CreateProjectsLocationsTensorboardsExperimentsRequest extends GoogleCloudAiplatformV1beta1TensorboardExperiment {
   /** Required. The resource name of the Tensorboard to create the TensorboardExperiment in. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}` */
   parent: string;
   /** Required. The ID to use for the Tensorboard experiment, which becomes the final component of the Tensorboard experiment's resource name. This value should be 1-128 characters, and valid characters are `/a-z-/`. */
   tensorboardExperimentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TensorboardExperiment | undefined;
 }
-export interface CreateProjectsLocationsTensorboardsExperimentsRunsRequest {
+export interface CreateProjectsLocationsTensorboardsExperimentsRunsRequest extends GoogleCloudAiplatformV1beta1TensorboardRun {
   /** Required. The ID to use for the Tensorboard run, which becomes the final component of the Tensorboard run's resource name. This value should be 1-128 characters, and valid characters are `/a-z-/`. */
   tensorboardRunId?: string | undefined;
   /** Required. The resource name of the TensorboardExperiment to create the TensorboardRun in. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TensorboardRun | undefined;
 }
-export interface CreateProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest {
+export interface CreateProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest extends GoogleCloudAiplatformV1beta1TensorboardTimeSeries {
   /** Optional. The user specified unique ID to use for the TensorboardTimeSeries, which becomes the final component of the TensorboardTimeSeries's resource name. This value should match "a-z0-9{0, 127}" */
   tensorboardTimeSeriesId?: string | undefined;
   /** Required. The resource name of the TensorboardRun to create the TensorboardTimeSeries in. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TensorboardTimeSeries | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TrainingPipelineStateEnum =
   | "PIPELINE_STATE_UNSPECIFIED"
@@ -14752,11 +14506,9 @@ export interface GoogleCloudAiplatformV1beta1TrainingPipeline {
   /** Output only. Resource name of the TrainingPipeline. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsTrainingPipelinesRequest {
+export interface CreateProjectsLocationsTrainingPipelinesRequest extends GoogleCloudAiplatformV1beta1TrainingPipeline {
   /** Required. The resource name of the Location to create the TrainingPipeline in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TrainingPipeline | undefined;
 }
 export type GoogleCloudAiplatformV1beta1SupervisedHyperParametersAdapterSizeEnum =
   | "ADAPTER_SIZE_UNSPECIFIED"
@@ -15654,11 +15406,9 @@ export interface GoogleCloudAiplatformV1beta1TuningJob {
   /** Output only. Only populated when job's state is `JOB_STATE_FAILED` or `JOB_STATE_CANCELLED`. */
   error?: GoogleRpcStatus | undefined;
 }
-export interface CreateProjectsLocationsTuningJobsRequest {
+export interface CreateProjectsLocationsTuningJobsRequest extends GoogleCloudAiplatformV1beta1TuningJob {
   /** Required. The resource name of the location to create the tuning job in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TuningJob | undefined;
 }
 /** Parameters for prompted voice generation. Required in `CreateVoice` when `type` is `"prompted"`. Returned in `CreateVoice`, `GetVoice`, and `ListVoices` responses for prompted voices. */
 export interface GenaiVertexV1beta1VoicePromptedVoice {
@@ -15735,51 +15485,37 @@ export interface GoogleLearningVertexApiInteractionsV1beta1CreateVoiceRequest {
   /** Optional. Whether the created voice is persisted and managed by Google. * When `true`, Google stores the voice and returns `Voice.id` (for example, `voice_abc123def456`), which can be managed via `GetVoice`, `ListVoices`, and `DeleteVoice` and referenced by ID in synthesis requests. Stored voices expire after 1 year of inactivity; using a stored voice in speech synthesis or as a `base_voice` in `CreateVoice` extends its `expire_time`. Projects are subject to a maximum active stored voice quota; exceeding the quota returns `RESOURCE_EXHAUSTED`. * When `false` (default), the voice is not stored by Google and `Voice.key` (for example, `voicekey_...`) is returned for client-side storage and synthesis. Optional discovery metadata fields on `voice` are not persisted or returned when `store` is `false`. * Required to be `true` when `voice.type` is `"prompted"` (otherwise fails with `INVALID_ARGUMENT`). */
   store?: boolean | undefined;
 }
-export interface CreateProjectsLocationsVoicesRequest {
+export interface CreateProjectsLocationsVoicesRequest extends GoogleLearningVertexApiInteractionsV1beta1CreateVoiceRequest {
   /** Required. The parent resource where this voice will be created. Format: `projects/{project}/locations/{location}` Supported only by the Vertex API. */
   parent: string;
-  /** Request body */
-  body?: GoogleLearningVertexApiInteractionsV1beta1CreateVoiceRequest | undefined;
 }
-export interface CreateReasoningEnginesRequest {
+export interface CreateReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1ReasoningEngine {
   /** Required. The resource name of the Location to create the ReasoningEngine in. Format: `projects/{project}/locations/{location}` */
   parent?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReasoningEngine | undefined;
 }
-export interface CreateReasoningEnginesMemoriesRequest {
+export interface CreateReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1Memory {
   /** Optional. The user defined ID to use for memory, which will become the final component of the memory resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first character must be a letter, and the last character must be a letter or number. */
   memoryId?: string | undefined;
   /** Required. The resource name of the ReasoningEngine to create the Memory under. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
-export interface CreateReasoningEnginesSandboxEnvironmentsRequest {
+export interface CreateReasoningEnginesSandboxEnvironmentsRequest extends GoogleCloudAiplatformV1beta1SandboxEnvironment {
   /** Required. The resource name of the reasoning engine to create the SandboxEnvironment in. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironment | undefined;
 }
-export interface CreateReasoningEnginesSandboxEnvironmentTemplatesRequest {
+export interface CreateReasoningEnginesSandboxEnvironmentTemplatesRequest extends GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate {
   /** Required. The resource name of the reasoning engine to create the SandboxEnvironmentTemplate in. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate | undefined;
 }
-export interface CreateReasoningEnginesSessionsRequest {
+export interface CreateReasoningEnginesSessionsRequest extends GoogleCloudAiplatformV1beta1Session {
   /** Optional. The user defined ID to use for session, which will become the final component of the session resource name. If not provided, Vertex AI will generate a value for this ID. This value may be up to 63 characters, and valid characters are `[a-z0-9-]`. The first and last characters must be a letter or number. */
   sessionId?: string | undefined;
   /** Required. The resource name of the location to create the session in. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Session | undefined;
 }
-export interface CreateStreamProjectsLocationsInteractionsRequest {
+export interface CreateStreamProjectsLocationsInteractionsRequest extends GenaiVertexV1beta1CreateInteractionRequest {
   projectsId: string;
   locationsId: string;
-  /** Request body */
-  body?: GenaiVertexV1beta1CreateInteractionRequest | undefined;
 }
 export interface GenaiVertexV1beta1StepStart {
   index?: number | undefined;
@@ -16135,11 +15871,9 @@ export interface GoogleCloudAiplatformV1beta1DeleteTaskArtifactRequest {
   /** Optional. If set to true, and the file is not found, the request will succeed without error. */
   allowMissing?: boolean | undefined;
 }
-export interface DeleteArtifactProjectsLocationsAgentsTasksRequest {
+export interface DeleteArtifactProjectsLocationsAgentsTasksRequest extends GoogleCloudAiplatformV1beta1DeleteTaskArtifactRequest {
   /** Required. The task to delete from. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} */
   task: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeleteTaskArtifactRequest | undefined;
 }
 /** Response for TaskService.DeleteTaskArtifact. */
 export interface GoogleCloudAiplatformV1beta1DeleteTaskArtifactResponse {}
@@ -16285,11 +16019,9 @@ export interface GoogleCloudAiplatformV1beta1DeleteFeatureValuesRequest {
   /** Select feature values to be deleted by specifying entities. */
   selectEntity?: GoogleCloudAiplatformV1beta1DeleteFeatureValuesRequestSelectEntity | undefined;
 }
-export interface DeleteFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface DeleteFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleCloudAiplatformV1beta1DeleteFeatureValuesRequest {
   /** Required. The resource name of the EntityType grouping the Features for which values are being deleted from. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entityType}` */
   entityType: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeleteFeatureValuesRequest | undefined;
 }
 export interface DeleteHyperparameterTuningJobsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -17205,11 +16937,9 @@ export interface GoogleCloudAiplatformV1beta1DeployIndexRequest {
   /** Required. The DeployedIndex to be created within the IndexEndpoint. */
   deployedIndex?: GoogleCloudAiplatformV1beta1DeployedIndex | undefined;
 }
-export interface DeployIndexProjectsLocationsIndexEndpointsRequest {
+export interface DeployIndexProjectsLocationsIndexEndpointsRequest extends GoogleCloudAiplatformV1beta1DeployIndexRequest {
   /** Required. The name of the IndexEndpoint resource into which to deploy an Index. Format: `projects/{project}/locations/{location}/indexEndpoints/{index_endpoint}` */
   indexEndpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeployIndexRequest | undefined;
 }
 /** Request message for EndpointService.DeployModel. */
 export interface GoogleCloudAiplatformV1beta1DeployModelRequest {
@@ -17218,11 +16948,9 @@ export interface GoogleCloudAiplatformV1beta1DeployModelRequest {
   /** A map from a DeployedModel's ID to the percentage of this Endpoint's traffic that should be forwarded to that DeployedModel. If this field is non-empty, then the Endpoint's traffic_split will be overwritten with it. To refer to the ID of the just being deployed Model, a "0" should be used, and the actual ID of the new DeployedModel will be filled in its place by this method. The traffic percentage values must add up to 100. If this field is empty, then the Endpoint's traffic_split is not updated. */
   trafficSplit?: IntegerMap | undefined;
 }
-export interface DeployModelProjectsLocationsEndpointsRequest {
+export interface DeployModelProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1DeployModelRequest {
   /** Required. The name of the Endpoint resource into which to deploy a Model. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeployModelRequest | undefined;
 }
 /** The custom model to deploy from model weights in a Google Cloud Storage URI or Model Registry model. */
 export interface GoogleCloudAiplatformV1beta1DeployRequestCustomModel {
@@ -17287,11 +17015,9 @@ export interface GoogleCloudAiplatformV1beta1DeployRequest {
   /** The Hugging Face model to deploy. Format: Hugging Face model ID like `google/gemma-2-2b-it`. */
   huggingFaceModelId?: string | undefined;
 }
-export interface DeployProjectsLocationsRequest {
+export interface DeployProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1DeployRequest {
   /** Required. The resource name of the Location to deploy the model in. Format: `projects/{project}/locations/{location}` */
   destination: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeployRequest | undefined;
 }
 /** Request message for ModelGardenService.DeployPublisherModel. */
 export interface GoogleCloudAiplatformV1beta1DeployPublisherModelRequest {
@@ -17308,22 +17034,18 @@ export interface GoogleCloudAiplatformV1beta1DeployPublisherModelRequest {
   /** Optional. Whether the user accepts the End User License Agreement (EULA) for the model. */
   acceptEula?: boolean | undefined;
 }
-export interface DeployPublisherModelProjectsLocationsRequest {
+export interface DeployPublisherModelProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1DeployPublisherModelRequest {
   /** Required. The resource name of the Location to deploy the model in. Format: `projects/{project}/locations/{location}` */
   destination: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeployPublisherModelRequest | undefined;
 }
 /** Request message for SemanticGovernancePolicyEngineService.DeprovisionSemanticGovernancePolicyEngine. */
 export interface GoogleCloudAiplatformV1beta1DeprovisionSemanticGovernancePolicyEngineRequest {
   /** Optional. If true, the operation bypass checks on current state and force the deprovisioning operation. */
   force?: boolean | undefined;
 }
-export interface DeprovisionProjectsLocationsSemanticGovernancePolicyEngineRequest {
+export interface DeprovisionProjectsLocationsSemanticGovernancePolicyEngineRequest extends GoogleCloudAiplatformV1beta1DeprovisionSemanticGovernancePolicyEngineRequest {
   /** Required. The resource name of the SemanticGovernancePolicyEngine to deprovision. Format: projects/{project}/locations/{location}/semanticGovernancePolicyEngine */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeprovisionSemanticGovernancePolicyEngineRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1TensorDtypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -17382,11 +17104,9 @@ export interface GoogleCloudAiplatformV1beta1DirectPredictRequest {
   /** The parameters that govern the prediction. */
   parameters?: GoogleCloudAiplatformV1beta1Tensor | undefined;
 }
-export interface DirectPredictProjectsLocationsEndpointsRequest {
+export interface DirectPredictProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1DirectPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DirectPredictRequest | undefined;
 }
 /** Response message for PredictionService.DirectPredict. */
 export interface GoogleCloudAiplatformV1beta1DirectPredictResponse {
@@ -17402,11 +17122,9 @@ export interface GoogleCloudAiplatformV1beta1DirectRawPredictRequest {
   /** The prediction input. */
   input?: string | undefined;
 }
-export interface DirectRawPredictProjectsLocationsEndpointsRequest {
+export interface DirectRawPredictProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1DirectRawPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DirectRawPredictRequest | undefined;
 }
 /** Response message for PredictionService.DirectRawPredict. */
 export interface GoogleCloudAiplatformV1beta1DirectRawPredictResponse {
@@ -17527,11 +17245,9 @@ export interface GoogleCloudAiplatformV1beta1FeatureViewDirectWriteRequest {
     | GoogleCloudAiplatformV1beta1FeatureViewDirectWriteRequestDataKeyAndFeatureValuesList
     | undefined;
 }
-export interface DirectWriteProjectsLocationsFeatureOnlineStoresFeatureViewsRequest {
+export interface DirectWriteProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends GoogleCloudAiplatformV1beta1FeatureViewDirectWriteRequest {
   /** FeatureView resource format `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}/featureViews/{featureView}` */
   featureView: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureViewDirectWriteRequest | undefined;
 }
 /** Details about the write for each key. */
 export interface GoogleCloudAiplatformV1beta1FeatureViewDirectWriteResponseWriteResponse {
@@ -17801,11 +17517,12 @@ export interface DownloadProjectsLocationsPublishersFilesRequest {
 }
 /** Response message for ClaudeFileService.DownloadFile. */
 export interface GoogleCloudAiplatformV1beta1DownloadFileResponse {}
-export interface EmbedContentProjectsLocationsPublishersModelsRequest {
+export interface EmbedContentProjectsLocationsPublishersModelsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1EmbedContentRequest,
+  "model"
+> {
   /** Required. The name of the publisher model requested to serve the prediction. Format: `projects/{project}/locations/{location}/publishers/*\/models/*` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EmbedContentRequest | undefined;
 }
 /** A list of floats representing an embedding. */
 export type GoogleCloudAiplatformV1beta1EmbedContentResponseEmbedding =
@@ -17819,26 +17536,22 @@ export interface GoogleCloudAiplatformV1beta1EmbedContentResponse {
   /** Whether the input content was truncated before generating the embedding. */
   truncated?: boolean | undefined;
 }
-export interface EmbeddingsProjectsLocationsEndpointsOpenapiRequest {
+export interface EmbeddingsProjectsLocationsEndpointsOpenapiRequest extends GoogleApiHttpBody {
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId?: string | undefined;
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 /** Request message for ModelGardenService.EnableModel. */
 export interface GoogleCloudAiplatformV1beta1EnableModelRequest {
   /** Optional. The ID links the Marketplace listing to the underlying Vertex AI model endpoint. Format: `services/{service_id}` Format: `services/{service_id}` */
   service?: string | undefined;
 }
-export interface EnableModelProjectsPublishersModelsRequest {
+export interface EnableModelProjectsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1EnableModelRequest {
   /** Required. The project requesting access for named model. Format: `projects/{project}` */
   parent: string;
   /** Required. The name of the PublisherModel resource. Format: `publishers/{publisher}/models/{publisher_model}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EnableModelRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1EnableModelResponseEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -17856,11 +17569,9 @@ export interface GoogleCloudAiplatformV1beta1EnableDetectorRequest {
   /** Optional. The revision to run. Unset enables the detector's latest revision, which is the common case: publish what I just wrote. */
   revisionId?: string | undefined;
 }
-export interface EnableProjectsLocationsDetectorsRequest {
+export interface EnableProjectsLocationsDetectorsRequest extends GoogleCloudAiplatformV1beta1EnableDetectorRequest {
   /** Required. The name of the detector to enable. Format: `projects/{project}/locations/{location}/detectors/{detector}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EnableDetectorRequest | undefined;
 }
 /** Request message for AgentAnomalyDetectionService.EnableMonitoredAgent. */
 export type GoogleCloudAiplatformV1beta1EnableMonitoredAgentRequest =
@@ -17884,16 +17595,14 @@ export interface GoogleCloudAiplatformV1beta1EvaluateDatasetRequest {
   /** Required. The dataset used for evaluation. */
   dataset?: GoogleCloudAiplatformV1beta1EvaluationDataset | undefined;
 }
-export interface EvaluateDatasetProjectsLocationsRequest {
+export interface EvaluateDatasetProjectsLocationsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1EvaluateDatasetRequest,
+  "location"
+> {
   /** Required. The resource name of the Location to evaluate the dataset. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluateDatasetRequest | undefined;
 }
-export interface EvaluateDatasetV1beta1Request {
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluateDatasetRequest | undefined;
-}
+export interface EvaluateDatasetV1beta1Request extends GoogleCloudAiplatformV1beta1EvaluateDatasetRequest {}
 export type GoogleCloudAiplatformV1beta1CometSpecVersionEnum =
   | "COMET_VERSION_UNSPECIFIED"
   | "COMET_22_SRC_REF";
@@ -18753,11 +18462,12 @@ export interface GoogleCloudAiplatformV1beta1EvaluateInstancesRequest {
     | GoogleCloudAiplatformV1beta1SummarizationHelpfulnessInput
     | undefined;
 }
-export interface EvaluateInstancesProjectsLocationsRequest {
+export interface EvaluateInstancesProjectsLocationsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1EvaluateInstancesRequest,
+  "location"
+> {
   /** Required. The resource name of the Location to evaluate the instances. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluateInstancesRequest | undefined;
 }
 /** TrajectoryAnyOrderMatch metric value for an instance. */
 export interface GoogleCloudAiplatformV1beta1TrajectoryAnyOrderMatchMetricValue {
@@ -19190,31 +18900,24 @@ export interface GoogleCloudAiplatformV1beta1EvaluateInstancesResponse {
   /** Translation metrics. Result for Comet metric. */
   cometResult?: GoogleCloudAiplatformV1beta1CometResult | undefined;
 }
-export interface EvaluateInstancesV1beta1Request {
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluateInstancesRequest | undefined;
-}
+export interface EvaluateInstancesV1beta1Request extends GoogleCloudAiplatformV1beta1EvaluateInstancesRequest {}
 /** Request message for SandboxEnvironmentExecutionService.ExecuteCode. */
 export interface GoogleCloudAiplatformV1beta1ExecuteCodeRequest {
   /** Required. The inputs used for the stateless code execution. */
   inputs?: GoogleCloudAiplatformV1beta1ChunkList | undefined;
 }
-export interface ExecuteCodeProjectsLocationsReasoningEnginesRequest {
+export interface ExecuteCodeProjectsLocationsReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1ExecuteCodeRequest {
   /** Required. The resource name of the sandbox environment to execute. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExecuteCodeRequest | undefined;
 }
 /** Response message for SandboxEnvironmentExecutionService.ExecuteCode. */
 export interface GoogleCloudAiplatformV1beta1ExecuteCodeResponse {
   /** The outputs from the sandbox environment. */
   outputs?: GoogleCloudAiplatformV1beta1ChunkList | undefined;
 }
-export interface ExecuteCodeReasoningEnginesRequest {
+export interface ExecuteCodeReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1ExecuteCodeRequest {
   /** Required. The resource name of the sandbox environment to execute. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExecuteCodeRequest | undefined;
 }
 /** Request message for ExtensionExecutionService.ExecuteExtension. */
 export interface GoogleCloudAiplatformV1beta1ExecuteExtensionRequest {
@@ -19225,11 +18928,9 @@ export interface GoogleCloudAiplatformV1beta1ExecuteExtensionRequest {
   /** Required. The desired ID of the operation to be executed in this extension as defined in ExtensionOperation.operation_id. */
   operationId?: string | undefined;
 }
-export interface ExecuteProjectsLocationsExtensionsRequest {
+export interface ExecuteProjectsLocationsExtensionsRequest extends GoogleCloudAiplatformV1beta1ExecuteExtensionRequest {
   /** Required. Name (identifier) of the extension; Format: `projects/{project}/locations/{location}/extensions/{extension}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExecuteExtensionRequest | undefined;
 }
 /** Response message for ExtensionExecutionService.ExecuteExtension. */
 export interface GoogleCloudAiplatformV1beta1ExecuteExtensionResponse {
@@ -19239,22 +18940,18 @@ export interface GoogleCloudAiplatformV1beta1ExecuteExtensionResponse {
 /** Request message for SandboxEnvironmentExecutionService.Execute. */
 export type GoogleCloudAiplatformV1beta1ExecuteSandboxEnvironmentRequest =
   GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest;
-export interface ExecuteProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest {
+export interface ExecuteProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest extends GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest {
   /** Required. The resource name of the sandbox environment to execute. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest | undefined;
 }
 /** Response message for SandboxEnvironmentExecutionService.Execute. */
 export interface GoogleCloudAiplatformV1beta1ExecuteSandboxEnvironmentResponse {
   /** The outputs from the sandbox environment. */
   outputs?: GoogleCloudAiplatformV1beta1ChunkList | undefined;
 }
-export interface ExecuteReasoningEnginesSandboxEnvironmentsRequest {
+export interface ExecuteReasoningEnginesSandboxEnvironmentsRequest extends GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest {
   /** Required. The resource name of the sandbox environment to execute. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1BidiExecuteSandboxEnvironmentRequest | undefined;
 }
 /** Restrictions namespace for example-based explanations overrides. */
 export interface GoogleCloudAiplatformV1beta1ExamplesRestrictionsNamespace {
@@ -19331,11 +19028,9 @@ export interface GoogleCloudAiplatformV1beta1ExplainRequest {
   /** Required. The instances that are the input to the explanation call. A DeployedModel may have an upper limit on the number of instances it supports per request, and when it is exceeded the explanation call errors in case of AutoML Models, or, in case of customer created Models, the behaviour is as documented by that Model. The schema of any single instance may be specified via Endpoint's DeployedModels' Model's PredictSchemata's instance_schema_uri. */
   instances?: DocumentList | undefined;
 }
-export interface ExplainProjectsLocationsEndpointsRequest {
+export interface ExplainProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1ExplainRequest {
   /** Required. The name of the Endpoint requested to serve the explanation. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExplainRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ExplanationList =
   Array<GoogleCloudAiplatformV1beta1Explanation>;
@@ -19387,11 +19082,9 @@ export interface GoogleCloudAiplatformV1beta1ExportFeatureValuesRequest {
   /** Exports all historical values of all entities of the EntityType within a time range */
   fullExport?: GoogleCloudAiplatformV1beta1ExportFeatureValuesRequestFullExport | undefined;
 }
-export interface ExportFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface ExportFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleCloudAiplatformV1beta1ExportFeatureValuesRequest {
   /** Required. The resource name of the EntityType from which to export Feature values. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}` */
   entityType: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExportFeatureValuesRequest | undefined;
 }
 /** Assigns the input data to training, validation, and test sets as per the given fractions. Any of `training_fraction`, `validation_fraction` and `test_fraction` may optionally be provided, they must sum to up to 1. If the provided ones sum to less than 1, the remainder is assigned to sets as decided by Vertex AI. If none of the fractions are set, by default roughly 80% of data is used for training, 10% for validation, and 10% for test. */
 export interface GoogleCloudAiplatformV1beta1ExportFractionSplit {
@@ -19416,11 +19109,9 @@ export interface GoogleCloudAiplatformV1beta1ExportDataRequest {
   /** Required. The desired output location. */
   exportConfig?: GoogleCloudAiplatformV1beta1ExportDataConfig | undefined;
 }
-export interface ExportProjectsLocationsDatasetsRequest {
+export interface ExportProjectsLocationsDatasetsRequest extends GoogleCloudAiplatformV1beta1ExportDataRequest {
   /** Required. The name of the Dataset resource. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExportDataRequest | undefined;
 }
 /** The Container Registry location for the container image. */
 export interface GoogleCloudAiplatformV1beta1ContainerRegistryDestination {
@@ -19441,24 +19132,20 @@ export interface GoogleCloudAiplatformV1beta1ExportModelRequest {
   /** Required. The desired output location and configuration. */
   outputConfig?: GoogleCloudAiplatformV1beta1ExportModelRequestOutputConfig | undefined;
 }
-export interface ExportProjectsLocationsModelsRequest {
+export interface ExportProjectsLocationsModelsRequest extends GoogleCloudAiplatformV1beta1ExportModelRequest {
   /** Required. The resource name of the Model to export. The resource name may contain version id or version alias to specify the version, if no version is specified, the default version will be exported. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExportModelRequest | undefined;
 }
 /** Request message for ModelGardenService.ExportPublisherModel. */
 export interface GoogleCloudAiplatformV1beta1ExportPublisherModelRequest {
   /** Required. The target where we are exporting the model weights to */
   destination?: GoogleCloudAiplatformV1beta1GcsDestination | undefined;
 }
-export interface ExportProjectsLocationsPublishersModelsRequest {
+export interface ExportProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1ExportPublisherModelRequest {
   /** Required. The name of the PublisherModel resource. Format: `publishers/{publisher}/models/{publisher_model}@{version_id}`, or `publishers/hf-{hugging-face-author}/models/{hugging-face-model-name}@001` */
   name: string;
   /** Required. The Location to export the model weights from Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExportPublisherModelRequest | undefined;
 }
 /** Request message for TensorboardService.ExportTensorboardTimeSeriesData. */
 export interface GoogleCloudAiplatformV1beta1ExportTensorboardTimeSeriesDataRequest {
@@ -19471,11 +19158,9 @@ export interface GoogleCloudAiplatformV1beta1ExportTensorboardTimeSeriesDataRequ
   /** Exports the TensorboardTimeSeries' data that match the filter expression. */
   filter?: string | undefined;
 }
-export interface ExportTensorboardTimeSeriesProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest {
+export interface ExportTensorboardTimeSeriesProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest extends GoogleCloudAiplatformV1beta1ExportTensorboardTimeSeriesDataRequest {
   /** Required. The resource name of the TensorboardTimeSeries to export data from. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}/timeSeries/{time_series}` */
   tensorboardTimeSeries: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExportTensorboardTimeSeriesDataRequest | undefined;
 }
 /** Response message for TensorboardService.ExportTensorboardTimeSeriesData. */
 export interface GoogleCloudAiplatformV1beta1ExportTensorboardTimeSeriesDataResponse {
@@ -19588,11 +19273,9 @@ export interface GoogleCloudAiplatformV1beta1FetchExamplesRequest {
   /** The metadata filters for StoredContentsExamples. */
   storedContentsExampleFilter?: GoogleCloudAiplatformV1beta1StoredContentsExampleFilter | undefined;
 }
-export interface FetchExamplesProjectsLocationsExampleStoresRequest {
+export interface FetchExamplesProjectsLocationsExampleStoresRequest extends GoogleCloudAiplatformV1beta1FetchExamplesRequest {
   /** Required. The name of the ExampleStore resource that the examples should be fetched from. Format: `projects/{project}/locations/{location}/exampleStores/{example_store}` */
   exampleStore: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FetchExamplesRequest | undefined;
 }
 /** Configuration for using only the last entry of the conversation history as the search key. */
 export type GoogleCloudAiplatformV1beta1StoredContentsExampleSearchKeyGenerationMethodLastEntry =
@@ -19670,11 +19353,9 @@ export interface GoogleCloudAiplatformV1beta1FetchFeatureValuesRequest {
   /** Optional. The request key to fetch feature values for. */
   dataKey?: GoogleCloudAiplatformV1beta1FeatureViewDataKey | undefined;
 }
-export interface FetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViewsRequest {
+export interface FetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends GoogleCloudAiplatformV1beta1FetchFeatureValuesRequest {
   /** Required. FeatureView resource format `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}/featureViews/{featureView}` */
   featureView: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FetchFeatureValuesRequest | undefined;
 }
 /** Feature name & value pair. */
 export interface GoogleCloudAiplatformV1beta1FetchFeatureValuesResponseFeatureNameValuePairListFeatureNameValuePair {
@@ -19708,29 +19389,21 @@ export interface GoogleCloudAiplatformV1beta1FetchPredictOperationRequest {
   /** Required. The server-assigned name for the operation. */
   operationName?: string | undefined;
 }
-export interface FetchPredictOperationEndpointsRequest {
+export interface FetchPredictOperationEndpointsRequest extends GoogleCloudAiplatformV1beta1FetchPredictOperationRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FetchPredictOperationRequest | undefined;
 }
-export interface FetchPredictOperationProjectsLocationsEndpointsRequest {
+export interface FetchPredictOperationProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1FetchPredictOperationRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FetchPredictOperationRequest | undefined;
 }
-export interface FetchPredictOperationProjectsLocationsPublishersModelsRequest {
+export interface FetchPredictOperationProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1FetchPredictOperationRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FetchPredictOperationRequest | undefined;
 }
-export interface FetchPredictOperationPublishersModelsRequest {
+export interface FetchPredictOperationPublishersModelsRequest extends GoogleCloudAiplatformV1beta1FetchPredictOperationRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FetchPredictOperationRequest | undefined;
 }
 export interface FetchPublisherModelConfigProjectsRequest {
   /** Required. The name of the publisher model, in the format of `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}`. */
@@ -19837,11 +19510,9 @@ export interface GoogleCloudAiplatformV1beta1FindNeighborsRequest {
   /** The list of queries. */
   queries?: GoogleCloudAiplatformV1beta1FindNeighborsRequestQueryList | undefined;
 }
-export interface FindNeighborsProjectsLocationsIndexEndpointsRequest {
+export interface FindNeighborsProjectsLocationsIndexEndpointsRequest extends GoogleCloudAiplatformV1beta1FindNeighborsRequest {
   /** Required. The name of the index endpoint. Format: `projects/{project}/locations/{location}/indexEndpoints/{index_endpoint}` */
   indexEndpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FindNeighborsRequest | undefined;
 }
 /** A neighbor of the query vector. */
 export interface GoogleCloudAiplatformV1beta1FindNeighborsResponseNeighbor {
@@ -19875,11 +19546,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateAccessTokenRequest {
   /** Required. The VM identity token (a JWT) for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmToken?: string | undefined;
 }
-export interface GenerateAccessTokenProjectsLocationsNotebookExecutionJobsRequest {
+export interface GenerateAccessTokenProjectsLocationsNotebookExecutionJobsRequest extends GoogleCloudAiplatformV1beta1GenerateAccessTokenRequest {
   /** Required. The name of the resource requesting the OAuth2 token. Format: `projects/{project}/locations/{location}/notebookRuntimes/{notebook_runtime}` `projects/{project}/locations/{location}/notebookExecutionJobs/{notebook_execution_job}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateAccessTokenRequest | undefined;
 }
 /** Response message for NotebookInternalService.GenerateToken. */
 export interface GoogleCloudAiplatformV1beta1GenerateAccessTokenResponse {
@@ -19892,11 +19561,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateAccessTokenResponse {
   /** Type of the returned access token (e.g. "Bearer"). It specifies how the token must be used. Bearer tokens may be used by any entity without proof of identity. */
   tokenType?: string | undefined;
 }
-export interface GenerateAccessTokenProjectsLocationsNotebookRuntimesRequest {
+export interface GenerateAccessTokenProjectsLocationsNotebookRuntimesRequest extends GoogleCloudAiplatformV1beta1GenerateAccessTokenRequest {
   /** Required. The name of the resource requesting the OAuth2 token. Format: `projects/{project}/locations/{location}/notebookRuntimes/{notebook_runtime}` `projects/{project}/locations/{location}/notebookExecutionJobs/{notebook_execution_job}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateAccessTokenRequest | undefined;
 }
 /** Configuration for persisting output assets to external storage. */
 export interface GoogleCloudAiplatformV1beta1GenerateContentRequestOutputConfig {
@@ -19928,11 +19595,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Optional. Per request settings for blocking unsafe content. Enforced on GenerateContentResponse.candidates. */
   safetySettings?: GoogleCloudAiplatformV1beta1SafetySettingList | undefined;
 }
-export interface GenerateContentEndpointsRequest {
+export interface GenerateContentEndpointsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadataTrafficTypeEnum =
   | "TRAFFIC_TYPE_UNSPECIFIED"
@@ -20176,23 +19841,17 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentResponse {
   /** Output only. Generated candidates. */
   candidates?: GoogleCloudAiplatformV1beta1CandidateList | undefined;
 }
-export interface GenerateContentProjectsLocationsEndpointsRequest {
+export interface GenerateContentProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
-export interface GenerateContentProjectsLocationsPublishersModelsRequest {
+export interface GenerateContentProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
-export interface GenerateContentPublishersModelsRequest {
+export interface GenerateContentPublishersModelsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
 /** Request message for FeatureOnlineStoreService.GenerateFetchAccessToken. */
 export type GoogleCloudAiplatformV1beta1GenerateFetchAccessTokenRequest =
@@ -20225,21 +19884,19 @@ export interface GoogleCloudAiplatformV1beta1GenerateInstanceRubricsRequest {
   /** Optional. Specification for how the rubrics should be generated. */
   rubricGenerationSpec?: GoogleCloudAiplatformV1beta1RubricGenerationSpec | undefined;
 }
-export interface GenerateInstanceRubricsProjectsLocationsRequest {
+export interface GenerateInstanceRubricsProjectsLocationsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1GenerateInstanceRubricsRequest,
+  "location"
+> {
   /** Required. The resource name of the Location to generate rubrics from. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateInstanceRubricsRequest | undefined;
 }
 /** Response message for EvaluationService.GenerateInstanceRubrics. */
 export interface GoogleCloudAiplatformV1beta1GenerateInstanceRubricsResponse {
   /** Output only. A list of generated rubrics. */
   generatedRubrics?: GoogleCloudAiplatformV1beta1RubricList | undefined;
 }
-export interface GenerateInstanceRubricsV1beta1Request {
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateInstanceRubricsRequest | undefined;
-}
+export interface GenerateInstanceRubricsV1beta1Request extends GoogleCloudAiplatformV1beta1GenerateInstanceRubricsRequest {}
 export type GoogleCloudAiplatformV1beta1EvaluationResultList =
   Array<GoogleCloudAiplatformV1beta1EvaluationResult>;
 /** A wrapper to allow providing a list of items inline. */
@@ -20258,11 +19915,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateLossClustersRequest {
     | GoogleCloudAiplatformV1beta1GenerateLossClustersRequestEvaluationResultList
     | undefined;
 }
-export interface GenerateLossClustersProjectsLocationsRequest {
+export interface GenerateLossClustersProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1GenerateLossClustersRequest {
   /** Required. The resource name of the Location. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateLossClustersRequest | undefined;
 }
 /** A direct memory to upload to Memory Bank. */
 export interface GoogleCloudAiplatformV1beta1GenerateMemoriesRequestDirectMemoriesSourceDirectMemory {
@@ -20346,29 +20001,21 @@ export interface GoogleCloudAiplatformV1beta1GenerateMemoriesRequest {
   /** Optional. If true, generated memories will not be consolidated with existing memories; all generated memories will be added as new memories regardless of whether they are duplicates of or contradictory to existing memories. By default, memory consolidation is enabled. */
   disableConsolidation?: boolean | undefined;
 }
-export interface GenerateMemoryBanksMemoriesRequest {
+export interface GenerateMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1GenerateMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to generate memories for. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateMemoriesRequest | undefined;
 }
-export interface GenerateProjectsLocationsMemoryBanksMemoriesRequest {
+export interface GenerateProjectsLocationsMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1GenerateMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to generate memories for. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateMemoriesRequest | undefined;
 }
-export interface GenerateProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface GenerateProjectsLocationsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1GenerateMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to generate memories for. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateMemoriesRequest | undefined;
 }
-export interface GenerateReasoningEnginesMemoriesRequest {
+export interface GenerateReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1GenerateMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to generate memories for. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateMemoriesRequest | undefined;
 }
 /** Represents a single named field within a synthetic example, consisting of a name and the actual content. */
 export interface GoogleCloudAiplatformV1beta1SyntheticField {
@@ -20419,11 +20066,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateSyntheticDataRequest {
   /** Required. The number of synthetic examples to generate. For this stateless API, you can generate up to 50 examples in a single request. */
   count?: number | undefined;
 }
-export interface GenerateSyntheticDataProjectsLocationsRequest {
+export interface GenerateSyntheticDataProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1GenerateSyntheticDataRequest {
   /** Required. The geographic location where the synthetic data generation request is processed. This should be in the format `projects/{project}/locations/{location}`. For example, `projects/my-project/locations/us-central1`. */
   location: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateSyntheticDataRequest | undefined;
 }
 /** The response message for the `GenerateSyntheticData` method, containing the synthetic examples generated by the Gen AI evaluation service. */
 export interface GoogleCloudAiplatformV1beta1GenerateSyntheticDataResponse {
@@ -20456,11 +20101,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateUserScenariosRequest {
   /** Optional. The agent id to identify the root agent. Required unless `gemini_agent_config` is set, in which case it is derived from the referenced Gemini Agent. */
   rootAgentId?: string | undefined;
 }
-export interface GenerateUserScenariosProjectsLocationsRequest {
+export interface GenerateUserScenariosProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1GenerateUserScenariosRequest {
   /** Required. The resource name of the Location to run the job. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateUserScenariosRequest | undefined;
 }
 /** Output of user scenario generation. */
 export interface GoogleCloudAiplatformV1beta1UserScenario {
@@ -20542,11 +20185,9 @@ export interface GoogleCloudAiplatformV1beta1RetrieveContextsRequest {
   /** The data source for Vertex RagStore. */
   vertexRagStore?: GoogleCloudAiplatformV1beta1RetrieveContextsRequestVertexRagStore | undefined;
 }
-export interface GetContextsProjectsLocationsRequest {
+export interface GetContextsProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1RetrieveContextsRequest {
   /** Required. The resource name of the Location from which to retrieve RagContexts. The users must have permission to make a call in the project. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveContextsRequest | undefined;
 }
 /** Response message for VertexRagService.RetrieveContexts. */
 export interface GoogleCloudAiplatformV1beta1RetrieveContextsResponse {
@@ -20786,11 +20427,9 @@ export interface GoogleIamV1GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GoogleIamV1GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsLocationsFeaturestoresRequest {
+export interface GetIamPolicyProjectsLocationsFeaturestoresRequest extends GoogleIamV1GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsFeaturestoresEntityTypesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -20959,11 +20598,9 @@ export interface GoogleCloudAiplatformV1beta1RetrieveProfilesRequest {
   /** Required. The scope of the profiles to retrieve. */
   scope?: StringMap | undefined;
 }
-export interface GetProfilesMemoryBanksMemoriesRequest {
+export interface GetProfilesMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveProfilesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve profiles from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveProfilesRequest | undefined;
 }
 /** A memory profile. */
 export interface GoogleCloudAiplatformV1beta1MemoryProfile {
@@ -20980,23 +20617,17 @@ export interface GoogleCloudAiplatformV1beta1RetrieveProfilesResponse {
   /** The retrieved structured profiles, which match the schemas under the requested scope. The key is the ID of the schema that the profile is linked with, which corresponds to the `schema_id` defined inside the `SchemaConfig`, under `StructuredMemoryCustomizationConfig`. */
   profiles?: GoogleCloudAiplatformV1beta1MemoryProfileMap | undefined;
 }
-export interface GetProfilesProjectsLocationsMemoryBanksMemoriesRequest {
+export interface GetProfilesProjectsLocationsMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveProfilesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve profiles from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveProfilesRequest | undefined;
 }
-export interface GetProfilesProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface GetProfilesProjectsLocationsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveProfilesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve profiles from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveProfilesRequest | undefined;
 }
-export interface GetProfilesReasoningEnginesMemoriesRequest {
+export interface GetProfilesReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveProfilesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve profiles from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveProfilesRequest | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -22933,11 +22564,9 @@ export interface GoogleCloudAiplatformV1beta1ImportFeatureValuesRequest {
   bigquerySource?: GoogleCloudAiplatformV1beta1BigQuerySource | undefined;
   csvSource?: GoogleCloudAiplatformV1beta1CsvSource | undefined;
 }
-export interface ImportFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface ImportFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleCloudAiplatformV1beta1ImportFeatureValuesRequest {
   /** Required. The resource name of the EntityType grouping the Features for which values are being imported. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entityType}` */
   entityType: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ImportFeatureValuesRequest | undefined;
 }
 /** Describes the location from where we import data into a Dataset, together with the labels that will be applied to the DataItems and the Annotations. */
 export interface GoogleCloudAiplatformV1beta1ImportDataConfig {
@@ -22957,11 +22586,9 @@ export interface GoogleCloudAiplatformV1beta1ImportDataRequest {
   /** Required. The desired input locations. The contents of all input locations will be imported in one batch. */
   importConfigs?: GoogleCloudAiplatformV1beta1ImportDataConfigList | undefined;
 }
-export interface ImportProjectsLocationsDatasetsRequest {
+export interface ImportProjectsLocationsDatasetsRequest extends GoogleCloudAiplatformV1beta1ImportDataRequest {
   /** Required. The name of the Dataset resource. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ImportDataRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ImportEvaluationSetRequestImportSchemaConfigDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
@@ -23060,17 +22687,13 @@ export interface GoogleCloudAiplatformV1beta1ImportEvaluationSetRequest {
   /** A Harbor dataset source. `gcs_destination` must not be set. */
   harborDataset?: GoogleCloudAiplatformV1beta1HarborDataset | undefined;
 }
-export interface ImportProjectsLocationsEvaluationSetsRequest {
+export interface ImportProjectsLocationsEvaluationSetsRequest extends GoogleCloudAiplatformV1beta1ImportEvaluationSetRequest {
   /** Required. Parent resource name. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ImportEvaluationSetRequest | undefined;
 }
-export interface ImportProjectsLocationsExtensionsRequest {
+export interface ImportProjectsLocationsExtensionsRequest extends GoogleCloudAiplatformV1beta1Extension {
   /** Required. The resource name of the Location to import the Extension in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Extension | undefined;
 }
 /** Restrictions on string values. */
 export interface GoogleCloudAiplatformV1beta1ImportIndexRequestConnectorConfigDatapointFieldMappingRestrict {
@@ -23142,22 +22765,18 @@ export interface GoogleCloudAiplatformV1beta1ImportIndexRequest {
   /** Optional. If true, completely replace existing index data. Must be true for streaming update indexes. */
   isCompleteOverwrite?: boolean | undefined;
 }
-export interface ImportProjectsLocationsIndexesRequest {
+export interface ImportProjectsLocationsIndexesRequest extends GoogleCloudAiplatformV1beta1ImportIndexRequest {
   /** Required. The name of the Index resource to import data to. Format: `projects/{project}/locations/{location}/indexes/{index}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ImportIndexRequest | undefined;
 }
 /** Request message for ModelService.ImportModelEvaluation */
 export interface GoogleCloudAiplatformV1beta1ImportModelEvaluationRequest {
   /** Required. Model evaluation resource to be imported. */
   modelEvaluation?: GoogleCloudAiplatformV1beta1ModelEvaluation | undefined;
 }
-export interface ImportProjectsLocationsModelsEvaluationsRequest {
+export interface ImportProjectsLocationsModelsEvaluationsRequest extends GoogleCloudAiplatformV1beta1ImportModelEvaluationRequest {
   /** Required. The name of the parent model resource. Format: `projects/{project}/locations/{location}/models/{model}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ImportModelEvaluationRequest | undefined;
 }
 /** Metadata config for RagFile. */
 export interface GoogleCloudAiplatformV1beta1RagFileMetadataConfig {
@@ -23262,19 +22881,15 @@ export interface GoogleCloudAiplatformV1beta1ImportRagFilesRequest {
   /** Required. The config for the RagFiles to be synced and imported into the RagCorpus. VertexRagDataService.ImportRagFiles. */
   importRagFilesConfig?: GoogleCloudAiplatformV1beta1ImportRagFilesConfig | undefined;
 }
-export interface ImportProjectsLocationsRagCorporaRagFilesRequest {
+export interface ImportProjectsLocationsRagCorporaRagFilesRequest extends GoogleCloudAiplatformV1beta1ImportRagFilesRequest {
   /** Required. The name of the RagCorpus resource into which to import files. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ImportRagFilesRequest | undefined;
 }
-export interface InferenceProjectsLocationsEndpointsGoogleScienceRequest {
+export interface InferenceProjectsLocationsEndpointsGoogleScienceRequest extends GoogleApiHttpBody {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId?: string | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 export type GoogleCloudAiplatformV1beta1IngestEventsRequestMetadataMergeStrategyEnum =
   | "METADATA_MERGE_STRATEGY_UNSPECIFIED"
@@ -23325,29 +22940,21 @@ export interface GoogleCloudAiplatformV1beta1IngestEventsRequest {
   /** Ingest events directly from the request. */
   directContentsSource?: GoogleCloudAiplatformV1beta1IngestionDirectContentsSource | undefined;
 }
-export interface IngestEventsMemoryBanksRequest {
+export interface IngestEventsMemoryBanksRequest extends GoogleCloudAiplatformV1beta1IngestEventsRequest {
   /** Required. The resource name of the ReasoningEngine to ingest events to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1IngestEventsRequest | undefined;
 }
-export interface IngestEventsProjectsLocationsMemoryBanksRequest {
+export interface IngestEventsProjectsLocationsMemoryBanksRequest extends GoogleCloudAiplatformV1beta1IngestEventsRequest {
   /** Required. The resource name of the ReasoningEngine to ingest events to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1IngestEventsRequest | undefined;
 }
-export interface IngestEventsProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface IngestEventsProjectsLocationsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1IngestEventsRequest {
   /** Required. The resource name of the ReasoningEngine to ingest events to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1IngestEventsRequest | undefined;
 }
-export interface IngestEventsReasoningEnginesMemoriesRequest {
+export interface IngestEventsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1IngestEventsRequest {
   /** Required. The resource name of the ReasoningEngine to ingest events to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1IngestEventsRequest | undefined;
 }
 /** Request message for PredictionService.Invoke. */
 export interface GoogleCloudAiplatformV1beta1InvokeRequest {
@@ -23356,28 +22963,25 @@ export interface GoogleCloudAiplatformV1beta1InvokeRequest {
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId?: string | undefined;
 }
-export interface InvokeProjectsLocationsEndpointsDeployedModelsInvokeRequest {
+export interface InvokeProjectsLocationsEndpointsDeployedModelsInvokeRequest extends Omit<
+  GoogleCloudAiplatformV1beta1InvokeRequest,
+  "deployedModelId"
+> {
   invokeId: string;
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId: string;
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1InvokeRequest | undefined;
 }
-export interface InvokeProjectsLocationsEndpointsInvokeRequest {
+export interface InvokeProjectsLocationsEndpointsInvokeRequest extends GoogleCloudAiplatformV1beta1InvokeRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
   invokeId: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1InvokeRequest | undefined;
 }
-export interface InvokeProjectsLocationsPublishersModelsInvokeRequest {
+export interface InvokeProjectsLocationsPublishersModelsInvokeRequest extends GoogleCloudAiplatformV1beta1InvokeRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
   invokeId: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1InvokeRequest | undefined;
 }
 export interface ListAgentsOperationsRequest {
   /** The standard list page token. */
@@ -27496,30 +27100,24 @@ export interface GoogleCloudAiplatformV1beta1LookupStudyRequest {
   /** Required. The user-defined display name of the Study */
   displayName?: string | undefined;
 }
-export interface LookupProjectsLocationsStudiesRequest {
+export interface LookupProjectsLocationsStudiesRequest extends GoogleCloudAiplatformV1beta1LookupStudyRequest {
   /** Required. The resource name of the Location to get the Study from. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1LookupStudyRequest | undefined;
 }
 /** Request message for ModelService.MergeVersionAliases. */
 export interface GoogleCloudAiplatformV1beta1MergeVersionAliasesRequest {
   /** Required. The set of version aliases to merge. The alias should be at most 128 characters, and match `a-z{0,126}[a-z-0-9]`. Add the `-` prefix to an alias means removing that alias from the version. `-` is NOT counted in the 128 characters. Example: `-golden` means removing the `golden` alias from the version. There is NO ordering in aliases, which means 1) The aliases returned from GetModel API might not have the exactly same order from this MergeVersionAliases API. 2) Adding and deleting the same alias in the request is not recommended, and the 2 operations will be cancelled out. */
   versionAliases?: StringList | undefined;
 }
-export interface MergeVersionAliasesProjectsLocationsModelsRequest {
+export interface MergeVersionAliasesProjectsLocationsModelsRequest extends GoogleCloudAiplatformV1beta1MergeVersionAliasesRequest {
   /** Required. The name of the model version to merge aliases, with a version ID explicitly included. Example: `projects/{project}/locations/{location}/models/{model}@1234` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1MergeVersionAliasesRequest | undefined;
 }
-export interface MutateDeployedIndexProjectsLocationsIndexEndpointsRequest {
+export interface MutateDeployedIndexProjectsLocationsIndexEndpointsRequest extends GoogleCloudAiplatformV1beta1DeployedIndex {
   /** Required. The name of the IndexEndpoint resource into which to deploy an Index. Format: `projects/{project}/locations/{location}/indexEndpoints/{index_endpoint}` */
   indexEndpoint: string;
   /** Optional. The update mask applies to the resource. The supported paths are `automatic_resources`, `dedicated_resources`, `enable_access_logging` and `deployed_index_auth_config`. When omitted, the service will perform a full update of all fields. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeployedIndex | undefined;
 }
 /** Request message for EndpointService.MutateDeployedModel. */
 export interface GoogleCloudAiplatformV1beta1MutateDeployedModelRequest {
@@ -27528,11 +27126,9 @@ export interface GoogleCloudAiplatformV1beta1MutateDeployedModelRequest {
   /** Required. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
 }
-export interface MutateDeployedModelProjectsLocationsEndpointsRequest {
+export interface MutateDeployedModelProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1MutateDeployedModelRequest {
   /** Required. The name of the Endpoint resource into which to mutate a DeployedModel. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1MutateDeployedModelRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1OptimizePromptRequestOptimizationTargetEnum =
   | "OPTIMIZATION_TARGET_UNSPECIFIED"
@@ -27550,466 +27146,517 @@ export interface GoogleCloudAiplatformV1beta1OptimizePromptRequest {
     | (string & {})
     | undefined;
 }
-export interface OptimizePromptProjectsLocationsTuningJobsRequest {
+export interface OptimizePromptProjectsLocationsTuningJobsRequest extends GoogleCloudAiplatformV1beta1OptimizePromptRequest {
   /** Required. The resource name of the location to optimize the prompt in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1OptimizePromptRequest | undefined;
 }
 /** Response message for GenAiTuningService.OptimizePrompt */
 export interface GoogleCloudAiplatformV1beta1OptimizePromptResponse {
   /** Output only. The optimized prompt. */
   content?: GoogleCloudAiplatformV1beta1Content | undefined;
 }
-export interface PatchDatasetsRequest {
+export interface PatchDatasetsRequest extends Omit<GoogleCloudAiplatformV1beta1Dataset, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Updatable fields: * `display_name` * `description` * `labels` */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of the Dataset. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Dataset | undefined;
 }
-export interface PatchDatasetsDatasetVersionsRequest {
+export interface PatchDatasetsDatasetVersionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1DatasetVersion,
+  "name"
+> {
   /** Output only. Identifier. The resource name of the DatasetVersion. Format: `projects/{project}/locations/{location}/datasets/{dataset}/datasetVersions/{dataset_version}` */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Updatable fields: * `display_name` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DatasetVersion | undefined;
 }
-export interface PatchMemoryBanksMemoriesRequest {
+export interface PatchMemoryBanksMemoriesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Memory,
+  "name"
+> {
   /** Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
   /** Optional. Mask specifying which fields to update. The following fields are immutable: * `scope` * `memory_type` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
-export interface PatchProjectsLocationsAgentsRequest {
+export interface PatchProjectsLocationsAgentsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Agent,
+  "name"
+> {
   /** Identifier. The resource name of the agent. Format: `projects/{project}/locations/{location}/agents/{agent}`. */
   name: string;
   /** Optional. The list of fields to update. If not present, all fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Agent | undefined;
 }
-export interface PatchProjectsLocationsAgentsTasksRequest {
+export interface PatchProjectsLocationsAgentsTasksRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Task,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the task. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Task | undefined;
 }
-export interface PatchProjectsLocationsCachedContentsRequest {
+export interface PatchProjectsLocationsCachedContentsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1CachedContent,
+  "name"
+> {
   /** Immutable. Identifier. The server-generated resource name of the cached content Format: projects/{project}/locations/{location}/cachedContents/{cached_content} */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CachedContent | undefined;
 }
-export interface PatchProjectsLocationsCollaborativeProjectsRequest {
+export interface PatchProjectsLocationsCollaborativeProjectsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1CollaborativeProject,
+  "name"
+> {
   /** Identifier. The resource name of the project. The service assigns the final ID segment. Format: `projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project}`. */
   name: string;
   /** Required. The fields to update: `display_name`, `trusted_participants`, or `*` for both. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CollaborativeProject | undefined;
 }
-export interface PatchProjectsLocationsDatasetsRequest {
+export interface PatchProjectsLocationsDatasetsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Dataset,
+  "name"
+> {
   /** Output only. Identifier. The resource name of the Dataset. Format: `projects/{project}/locations/{location}/datasets/{dataset}` */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Updatable fields: * `display_name` * `description` * `labels` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Dataset | undefined;
 }
-export interface PatchProjectsLocationsDatasetsDatasetVersionsRequest {
+export interface PatchProjectsLocationsDatasetsDatasetVersionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1DatasetVersion,
+  "name"
+> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Updatable fields: * `display_name` */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of the DatasetVersion. Format: `projects/{project}/locations/{location}/datasets/{dataset}/datasetVersions/{dataset_version}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DatasetVersion | undefined;
 }
-export interface PatchProjectsLocationsDeploymentResourcePoolsRequest {
+export interface PatchProjectsLocationsDeploymentResourcePoolsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1DeploymentResourcePool,
+  "name"
+> {
   /** Immutable. The resource name of the DeploymentResourcePool. Format: `projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}` */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1DeploymentResourcePool | undefined;
 }
-export interface PatchProjectsLocationsDetectorsRequest {
+export interface PatchProjectsLocationsDetectorsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Detector,
+  "name"
+> {
   /** Optional. The list of fields to update. Supported paths are `display_name`, `description` and `custom_detector_config`. `name` and `state` are ignored if named; any other path is rejected with INVALID_ARGUMENT. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the detector. Format: `projects/{project}/locations/{location}/detectors/{detector}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Detector | undefined;
 }
-export interface PatchProjectsLocationsEndpointsRequest {
+export interface PatchProjectsLocationsEndpointsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Endpoint,
+  "name"
+> {
   /** Required. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Endpoint. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Endpoint | undefined;
 }
-export interface PatchProjectsLocationsEvaluationExperimentsRequest {
+export interface PatchProjectsLocationsEvaluationExperimentsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1EvaluationExperiment,
+  "name"
+> {
   /** Identifier. The resource name of the EvaluationExperiment. This is a unique identifier. Format: `projects/{project}/locations/{location}/evaluationExperiments/{evaluation_experiment}` */
   name: string;
   /** Optional. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationExperiment | undefined;
 }
-export interface PatchProjectsLocationsEvaluationSetsRequest {
+export interface PatchProjectsLocationsEvaluationSetsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1EvaluationSet,
+  "name"
+> {
   /** Optional. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the EvaluationSet. Format: `projects/{project}/locations/{location}/evaluationSets/{evaluation_set}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EvaluationSet | undefined;
 }
-export interface PatchProjectsLocationsExampleStoresRequest {
+export interface PatchProjectsLocationsExampleStoresRequest extends Omit<
+  GoogleCloudAiplatformV1beta1ExampleStore,
+  "name"
+> {
   /** Optional. Mask specifying which fields to update. Supported fields: * `display_name` * `description` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the ExampleStore. This is a unique identifier. Format: projects/{project}/locations/{location}/exampleStores/{example_store} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ExampleStore | undefined;
 }
-export interface PatchProjectsLocationsExtensionsRequest {
+export interface PatchProjectsLocationsExtensionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Extension,
+  "name"
+> {
   /** Required. Mask specifying which fields to update. Supported fields: * `display_name` * `description` * `runtime_config` * `tool_use_examples` * `manifest.description` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Extension. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Extension | undefined;
 }
-export interface PatchProjectsLocationsFeatureGroupsRequest {
+export interface PatchProjectsLocationsFeatureGroupsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1FeatureGroup,
+  "name"
+> {
   /** Identifier. Name of the FeatureGroup. Format: `projects/{project}/locations/{location}/featureGroups/{featureGroup}` */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the FeatureGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `labels` * `description` * `big_query` * `big_query.entity_id_columns` * `service_agent_type` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureGroup | undefined;
 }
-export interface PatchProjectsLocationsFeatureGroupsFeatureMonitorsRequest {
+export interface PatchProjectsLocationsFeatureGroupsFeatureMonitorsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1FeatureMonitor,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the FeatureMonitor resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `labels` * `description` * `schedule_config` * `feature_selection_config` */
   updateMask?: string | undefined;
   /** Identifier. Name of the FeatureMonitor. Format: `projects/{project}/locations/{location}/featureGroups/{featureGroup}/featureMonitors/{featureMonitor}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureMonitor | undefined;
 }
-export interface PatchProjectsLocationsFeatureGroupsFeaturesRequest {
+export interface PatchProjectsLocationsFeatureGroupsFeaturesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Feature,
+  "name"
+> {
   /** Field mask is used to specify the fields to be overwritten in the Features resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `description` * `labels` * `disable_monitoring` (Not supported for FeatureRegistryService Feature) * `point_of_contact` (Not supported for FeaturestoreService FeatureStore) */
   updateMask?: string | undefined;
   /** Immutable. Name of the Feature. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}/features/{feature}` `projects/{project}/locations/{location}/featureGroups/{feature_group}/features/{feature}` The last part feature is assigned by the client. The feature can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given an entity type. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Feature | undefined;
 }
-export interface PatchProjectsLocationsFeatureOnlineStoresRequest {
+export interface PatchProjectsLocationsFeatureOnlineStoresRequest extends Omit<
+  GoogleCloudAiplatformV1beta1FeatureOnlineStore,
+  "name"
+> {
   /** Identifier. Name of the FeatureOnlineStore. Format: `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}` */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the FeatureOnlineStore resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `labels` * `description` * `bigtable` * `bigtable.auto_scaling` * `bigtable.enable_multi_region_replica` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureOnlineStore | undefined;
 }
-export interface PatchProjectsLocationsFeatureOnlineStoresFeatureViewsRequest {
+export interface PatchProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1FeatureView,
+  "name"
+> {
   /** Identifier. Name of the FeatureView. Format: `projects/{project}/locations/{location}/featureOnlineStores/{feature_online_store}/featureViews/{feature_view}` */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the FeatureView resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `labels` * `service_agent_type` * `big_query_source` * `big_query_source.uri` * `big_query_source.entity_id_columns` * `feature_registry_source` * `feature_registry_source.feature_groups` * `sync_config` * `sync_config.cron` * `optimized_config.automatic_resources` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeatureView | undefined;
 }
-export interface PatchProjectsLocationsFeaturestoresRequest {
+export interface PatchProjectsLocationsFeaturestoresRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Featurestore,
+  "name"
+> {
   /** Field mask is used to specify the fields to be overwritten in the Featurestore resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `labels` * `online_serving_config.fixed_node_count` * `online_serving_config.scaling` * `online_storage_ttl_days` */
   updateMask?: string | undefined;
   /** Output only. Name of the Featurestore. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Featurestore | undefined;
 }
-export interface PatchProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface PatchProjectsLocationsFeaturestoresEntityTypesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1EntityType,
+  "name"
+> {
   /** Field mask is used to specify the fields to be overwritten in the EntityType resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `description` * `labels` * `monitoring_config.snapshot_analysis.disabled` * `monitoring_config.snapshot_analysis.monitoring_interval_days` * `monitoring_config.snapshot_analysis.staleness_days` * `monitoring_config.import_features_analysis.state` * `monitoring_config.import_features_analysis.anomaly_detection_baseline` * `monitoring_config.numerical_threshold_config.value` * `monitoring_config.categorical_threshold_config.value` * `offline_storage_ttl_days` */
   updateMask?: string | undefined;
   /** Immutable. Name of the EntityType. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}` The last part entity_type is assigned by the client. The entity_type can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z and underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given a featurestore. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1EntityType | undefined;
 }
-export interface PatchProjectsLocationsFeaturestoresEntityTypesFeaturesRequest {
+export interface PatchProjectsLocationsFeaturestoresEntityTypesFeaturesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Feature,
+  "name"
+> {
   /** Immutable. Name of the Feature. Format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entity_type}/features/{feature}` `projects/{project}/locations/{location}/featureGroups/{feature_group}/features/{feature}` The last part feature is assigned by the client. The feature can be up to 64 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscore(_), and ASCII digits 0-9 starting with a letter. The value will be unique given an entity type. */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the Features resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. Updatable fields: * `description` * `labels` * `disable_monitoring` (Not supported for FeatureRegistryService Feature) * `point_of_contact` (Not supported for FeaturestoreService FeatureStore) */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Feature | undefined;
 }
-export interface PatchProjectsLocationsIndexEndpointsRequest {
+export interface PatchProjectsLocationsIndexEndpointsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1IndexEndpoint,
+  "name"
+> {
   /** Required. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the IndexEndpoint. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1IndexEndpoint | undefined;
 }
-export interface PatchProjectsLocationsIndexesRequest {
+export interface PatchProjectsLocationsIndexesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Index,
+  "name"
+> {
   /** Output only. The resource name of the Index. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Index | undefined;
 }
-export interface PatchProjectsLocationsMemoryBanksMemoriesRequest {
+export interface PatchProjectsLocationsMemoryBanksMemoriesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Memory,
+  "name"
+> {
   /** Optional. Mask specifying which fields to update. The following fields are immutable: * `scope` * `memory_type` */
   updateMask?: string | undefined;
   /** Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
-export interface PatchProjectsLocationsMetadataStoresArtifactsRequest {
+export interface PatchProjectsLocationsMetadataStoresArtifactsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Artifact,
+  "name"
+> {
   /** Output only. The resource name of the Artifact. */
   name: string;
   /** If set to true, and the Artifact is not found, a new Artifact is created. */
   allowMissing?: boolean | undefined;
   /** Optional. A FieldMask indicating which fields should be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Artifact | undefined;
 }
-export interface PatchProjectsLocationsMetadataStoresContextsRequest {
+export interface PatchProjectsLocationsMetadataStoresContextsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Context,
+  "name"
+> {
   /** Optional. A FieldMask indicating which fields should be updated. */
   updateMask?: string | undefined;
   /** Immutable. The resource name of the Context. */
   name: string;
   /** If set to true, and the Context is not found, a new Context is created. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Context | undefined;
 }
-export interface PatchProjectsLocationsMetadataStoresExecutionsRequest {
+export interface PatchProjectsLocationsMetadataStoresExecutionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Execution,
+  "name"
+> {
   /** Optional. A FieldMask indicating which fields should be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the Execution. */
   name: string;
   /** If set to true, and the Execution is not found, a new Execution is created. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Execution | undefined;
 }
-export interface PatchProjectsLocationsModelDeploymentMonitoringJobsRequest {
+export interface PatchProjectsLocationsModelDeploymentMonitoringJobsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1ModelDeploymentMonitoringJob,
+  "name"
+> {
   /** Required. The update mask is used to specify the fields to be overwritten in the ModelDeploymentMonitoringJob resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the non-empty fields present in the request will be overwritten. Set the update_mask to `*` to override all fields. For the objective config, the user can either provide the update mask for model_deployment_monitoring_objective_configs or any combination of its nested fields, such as: model_deployment_monitoring_objective_configs.objective_config.training_dataset. Updatable fields: * `display_name` * `model_deployment_monitoring_schedule_config` * `model_monitoring_alert_config` * `logging_sampling_strategy` * `labels` * `log_ttl` * `enable_monitoring_pipeline_logs` . and * `model_deployment_monitoring_objective_configs` . or * `model_deployment_monitoring_objective_configs.objective_config.training_dataset` * `model_deployment_monitoring_objective_configs.objective_config.training_prediction_skew_detection_config` * `model_deployment_monitoring_objective_configs.objective_config.prediction_drift_detection_config` */
   updateMask?: string | undefined;
   /** Output only. Resource name of a ModelDeploymentMonitoringJob. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ModelDeploymentMonitoringJob | undefined;
 }
-export interface PatchProjectsLocationsModelMonitorsRequest {
+export interface PatchProjectsLocationsModelMonitorsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1ModelMonitor,
+  "name"
+> {
   /** Required. Mask specifying which fields to update. */
   updateMask?: string | undefined;
   /** Immutable. Resource name of the ModelMonitor. Format: `projects/{project}/locations/{location}/modelMonitors/{model_monitor}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ModelMonitor | undefined;
 }
-export interface PatchProjectsLocationsModelsRequest {
+export interface PatchProjectsLocationsModelsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Model,
+  "name"
+> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Model. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Model | undefined;
 }
-export interface PatchProjectsLocationsNotebookRuntimeTemplatesRequest {
+export interface PatchProjectsLocationsNotebookRuntimeTemplatesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1NotebookRuntimeTemplate,
+  "name"
+> {
   /** The resource name of the NotebookRuntimeTemplate. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see google.protobuf.FieldMask. Input format: `{paths: "${updated_field}"}` Updatable fields: * `encryption_spec.kms_key_name` * `display_name` * `software_config.post_startup_script_config.post_startup_script` * `software_config.post_startup_script_config.post_startup_script_url` * `software_config.post_startup_script_config.post_startup_script_behavior` * `software_config.env` * `software_config.colab_image.release_name` * `software_config.custom_container_config.image_uri` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1NotebookRuntimeTemplate | undefined;
 }
-export interface PatchProjectsLocationsOnlineEvaluatorsRequest {
+export interface PatchProjectsLocationsOnlineEvaluatorsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1OnlineEvaluator,
+  "name"
+> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the OnlineEvaluator. Format: projects/{project}/locations/{location}/onlineEvaluators/{id}. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1OnlineEvaluator | undefined;
 }
-export interface PatchProjectsLocationsPersistentResourcesRequest {
+export interface PatchProjectsLocationsPersistentResourcesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1PersistentResource,
+  "name"
+> {
   /** Required. Specify the fields to be overwritten in the PersistentResource by the update method. */
   updateMask?: string | undefined;
   /** Immutable. Resource name of a PersistentResource. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PersistentResource | undefined;
 }
-export interface PatchProjectsLocationsRagCorporaRequest {
+export interface PatchProjectsLocationsRagCorporaRequest extends Omit<
+  GoogleCloudAiplatformV1beta1RagCorpus,
+  "name"
+> {
   /** Output only. The resource name of the RagCorpus. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RagCorpus | undefined;
 }
-export interface PatchProjectsLocationsRagCorporaRagFilesRagMetadataRequest {
+export interface PatchProjectsLocationsRagCorporaRagFilesRagMetadataRequest extends Omit<
+  GoogleCloudAiplatformV1beta1RagMetadata,
+  "name"
+> {
   /** Identifier. Resource name of the RagMetadata. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}/ragFiles/{rag_file}/ragMetadata/{rag_metadata}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RagMetadata | undefined;
 }
-export interface PatchProjectsLocationsReasoningEnginesRequest {
+export interface PatchProjectsLocationsReasoningEnginesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1ReasoningEngine,
+  "name"
+> {
   /** Optional. Mask specifying which fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the ReasoningEngine. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReasoningEngine | undefined;
 }
-export interface PatchProjectsLocationsReasoningEnginesFeedbackEntriesRequest {
+export interface PatchProjectsLocationsReasoningEnginesFeedbackEntriesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1FeedbackEntry,
+  "name"
+> {
   /** Optional. The field mask that controls which fields are updated. If unset or empty, all mutable fields of the FeedbackEntry are replaced with the values from feedback_entry. */
   updateMask?: string | undefined;
   /** Identifier. The resource name. Assigned by the server on create. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/feedbackEntries/{feedback_entry}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeedbackEntry | undefined;
 }
-export interface PatchProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface PatchProjectsLocationsReasoningEnginesMemoriesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Memory,
+  "name"
+> {
   /** Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
   /** Optional. Mask specifying which fields to update. The following fields are immutable: * `scope` * `memory_type` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
-export interface PatchProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest {
+export interface PatchProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate,
+  "name"
+> {
   /** Identifier. The resource name of the SandboxEnvironmentTemplate. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironmentTemplates/{sandbox_environment_template}` */
   name: string;
   /** Optional. The fields to update. Only these paths are supported: * `custom_container_environment.custom_container_spec.image_uri` * `warm_pool_config.target_instance_count` * `warm_pool_config.update_strategy` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate | undefined;
 }
-export interface PatchProjectsLocationsReasoningEnginesSessionsRequest {
+export interface PatchProjectsLocationsReasoningEnginesSessionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Session,
+  "name"
+> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the session. Format: 'projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}'. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Session | undefined;
 }
-export interface PatchProjectsLocationsSchedulesRequest {
+export interface PatchProjectsLocationsSchedulesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Schedule,
+  "name"
+> {
   /** Immutable. The resource name of the Schedule. */
   name: string;
   /** Required. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Schedule | undefined;
 }
-export interface PatchProjectsLocationsSemanticGovernancePoliciesRequest {
+export interface PatchProjectsLocationsSemanticGovernancePoliciesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SemanticGovernancePolicy,
+  "name"
+> {
   /** Optional. `update_mask` is used to specify the fields to be overwritten in the SemanticGovernancePolicy resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the mask is not present, then all fields that are populated in the request message will be overwritten. Set the `update_mask` to `*` to override all fields. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the SemanticGovernancePolicy. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SemanticGovernancePolicy | undefined;
 }
-export interface PatchProjectsLocationsServingProfilesRequest {
+export interface PatchProjectsLocationsServingProfilesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1ServingProfile,
+  "name"
+> {
   /** Identifier. The resource name of the ServingProfile. */
   name: string;
   /** Optional. The list of fields to update; see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. If omitted, all populated (non-empty) mutable fields are updated; if set to `["*"]`, all mutable fields are fully replaced (unpopulated values are cleared). */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ServingProfile | undefined;
 }
-export interface PatchProjectsLocationsSkillsRequest {
+export interface PatchProjectsLocationsSkillsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Skill,
+  "name"
+> {
   /** Identifier. The resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` */
   name: string;
   /** Optional. Mask specifying which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Skill | undefined;
 }
-export interface PatchProjectsLocationsSpecialistPoolsRequest {
+export interface PatchProjectsLocationsSpecialistPoolsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SpecialistPool,
+  "name"
+> {
   /** Required. The update mask applies to the resource. */
   updateMask?: string | undefined;
   /** Required. The resource name of the SpecialistPool. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SpecialistPool | undefined;
 }
-export interface PatchProjectsLocationsTensorboardsRequest {
+export interface PatchProjectsLocationsTensorboardsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Tensorboard,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Tensorboard resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it's in the mask. If the user does not provide a mask then all fields are overwritten if new values are specified. */
   updateMask?: string | undefined;
   /** Output only. Name of the Tensorboard. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Tensorboard | undefined;
 }
-export interface PatchProjectsLocationsTensorboardsExperimentsRequest {
+export interface PatchProjectsLocationsTensorboardsExperimentsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1TensorboardExperiment,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the TensorboardExperiment resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it's in the mask. If the user does not provide a mask then all fields are overwritten if new values are specified. */
   updateMask?: string | undefined;
   /** Output only. Name of the TensorboardExperiment. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TensorboardExperiment | undefined;
 }
-export interface PatchProjectsLocationsTensorboardsExperimentsRunsRequest {
+export interface PatchProjectsLocationsTensorboardsExperimentsRunsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1TensorboardRun,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the TensorboardRun resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it's in the mask. If the user does not provide a mask then all fields are overwritten if new values are specified. */
   updateMask?: string | undefined;
   /** Output only. Name of the TensorboardRun. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TensorboardRun | undefined;
 }
-export interface PatchProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest {
+export interface PatchProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1TensorboardTimeSeries,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the TensorboardTimeSeries resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it's in the mask. If the user does not provide a mask then all fields are overwritten if new values are specified. */
   updateMask?: string | undefined;
   /** Output only. Name of the TensorboardTimeSeries. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1TensorboardTimeSeries | undefined;
 }
-export interface PatchReasoningEnginesRequest {
+export interface PatchReasoningEnginesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1ReasoningEngine,
+  "name"
+> {
   /** Identifier. The resource name of the ReasoningEngine. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
   /** Optional. Mask specifying which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReasoningEngine | undefined;
 }
-export interface PatchReasoningEnginesMemoriesRequest {
+export interface PatchReasoningEnginesMemoriesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Memory,
+  "name"
+> {
   /** Identifier. Represents the resource name of the Memory. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
   /** Optional. Mask specifying which fields to update. The following fields are immutable: * `scope` * `memory_type` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Memory | undefined;
 }
-export interface PatchReasoningEnginesSandboxEnvironmentTemplatesRequest {
+export interface PatchReasoningEnginesSandboxEnvironmentTemplatesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate,
+  "name"
+> {
   /** Identifier. The resource name of the SandboxEnvironmentTemplate. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironmentTemplates/{sandbox_environment_template}` */
   name: string;
   /** Optional. The fields to update. Only these paths are supported: * `custom_container_environment.custom_container_spec.image_uri` * `warm_pool_config.target_instance_count` * `warm_pool_config.update_strategy` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironmentTemplate | undefined;
 }
-export interface PatchReasoningEnginesSessionsRequest {
+export interface PatchReasoningEnginesSessionsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1Session,
+  "name"
+> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the session. Format: 'projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sessions/{session}'. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1Session | undefined;
 }
 /** Request message for JobService.PauseModelDeploymentMonitoringJob. */
 export type GoogleCloudAiplatformV1beta1PauseModelDeploymentMonitoringJobRequest =
@@ -28053,11 +27700,9 @@ export interface GoogleCloudAiplatformV1beta1PredictRequest {
   /** The parameters that govern the prediction. The schema of the parameters may be specified via Endpoint's DeployedModels' Model's PredictSchemata's parameters_schema_uri. */
   parameters?: unknown | undefined;
 }
-export interface PredictEndpointsRequest {
+export interface PredictEndpointsRequest extends GoogleCloudAiplatformV1beta1PredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictRequest | undefined;
 }
 /** Response message for PredictionService.Predict. */
 export interface GoogleCloudAiplatformV1beta1PredictResponse {
@@ -28083,47 +27728,33 @@ export interface GoogleCloudAiplatformV1beta1PredictLongRunningRequest {
   /** Optional. The parameters that govern the prediction. The schema of the parameters may be specified via Endpoint's DeployedModels' Model's PredictSchemata's parameters_schema_uri. */
   parameters?: unknown | undefined;
 }
-export interface PredictLongRunningEndpointsRequest {
+export interface PredictLongRunningEndpointsRequest extends GoogleCloudAiplatformV1beta1PredictLongRunningRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictLongRunningRequest | undefined;
 }
-export interface PredictLongRunningProjectsLocationsEndpointsRequest {
+export interface PredictLongRunningProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1PredictLongRunningRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictLongRunningRequest | undefined;
 }
-export interface PredictLongRunningProjectsLocationsPublishersModelsRequest {
+export interface PredictLongRunningProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1PredictLongRunningRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictLongRunningRequest | undefined;
 }
-export interface PredictLongRunningPublishersModelsRequest {
+export interface PredictLongRunningPublishersModelsRequest extends GoogleCloudAiplatformV1beta1PredictLongRunningRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictLongRunningRequest | undefined;
 }
-export interface PredictProjectsLocationsEndpointsRequest {
+export interface PredictProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1PredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictRequest | undefined;
 }
-export interface PredictProjectsLocationsPublishersModelsRequest {
+export interface PredictProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1PredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictRequest | undefined;
 }
-export interface PredictPublishersModelsRequest {
+export interface PredictPublishersModelsRequest extends GoogleCloudAiplatformV1beta1PredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PredictRequest | undefined;
 }
 export interface PreviewProjectsLocationsAgentsTasksArtifactsRequest {
   /** Required. The media type to convert the file to: * `application/pdf`: the file as a PDF, e.g. of a .docx, .pptx or .xlsx. * `application/json`: a spreadsheet, e.g. a .xlsx or .csv, as JSON describing its sheets and cells, from which a client draws the workbook as a grid. */
@@ -28175,11 +27806,9 @@ export interface GoogleCloudAiplatformV1beta1ProcessDataRequest {
   /** Optional. Spec for Veo data processing. */
   veoSpec?: GoogleCloudAiplatformV1beta1ProcessDataRequestVeoSpec | undefined;
 }
-export interface ProcessDataProjectsLocationsTuningJobsRequest {
+export interface ProcessDataProjectsLocationsTuningJobsRequest extends GoogleCloudAiplatformV1beta1ProcessDataRequest {
   /** Required. The resource name of the Location to process the data in. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ProcessDataRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1MemoryFilterOpEnum =
   | "OPERATOR_UNSPECIFIED"
@@ -28215,17 +27844,13 @@ export interface GoogleCloudAiplatformV1beta1PurgeMemoriesRequest {
   /** Optional. Metadata filters that will be applied to the memories to be purged. Filters are defined using disjunctive normal form (OR of ANDs). For example: `filter_groups: [{filters: [{key: "author", value: {string_value: "agent 123"}, op: EQUAL}]}, {filters: [{key: "label", value: {string_value: "travel"}, op: EQUAL}, {key: "author", value: {string_value: "agent 321"}, op: EQUAL}]}]` would be equivalent to the logical expression: `(metadata.author = "agent 123" OR (metadata.label = "travel" AND metadata.author = "agent 321"))`. */
   filterGroups?: GoogleCloudAiplatformV1beta1MemoryConjunctionFilterList | undefined;
 }
-export interface PurgeMemoryBanksMemoriesRequest {
+export interface PurgeMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1PurgeMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to purge memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PurgeMemoriesRequest | undefined;
 }
-export interface PurgeProjectsLocationsMemoryBanksMemoriesRequest {
+export interface PurgeProjectsLocationsMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1PurgeMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to purge memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PurgeMemoriesRequest | undefined;
 }
 /** Request message for MetadataService.PurgeArtifacts. */
 export interface GoogleCloudAiplatformV1beta1PurgeArtifactsRequest {
@@ -28234,11 +27859,9 @@ export interface GoogleCloudAiplatformV1beta1PurgeArtifactsRequest {
   /** Required. A required filter matching the Artifacts to be purged. E.g., `update_time <= 2020-11-19T11:30:00-04:00`. */
   filter?: string | undefined;
 }
-export interface PurgeProjectsLocationsMetadataStoresArtifactsRequest {
+export interface PurgeProjectsLocationsMetadataStoresArtifactsRequest extends GoogleCloudAiplatformV1beta1PurgeArtifactsRequest {
   /** Required. The metadata store to purge Artifacts from. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PurgeArtifactsRequest | undefined;
 }
 /** Request message for MetadataService.PurgeContexts. */
 export interface GoogleCloudAiplatformV1beta1PurgeContextsRequest {
@@ -28247,11 +27870,9 @@ export interface GoogleCloudAiplatformV1beta1PurgeContextsRequest {
   /** Optional. Flag to indicate to actually perform the purge. If `force` is set to false, the method will return a sample of Context names that would be deleted. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsMetadataStoresContextsRequest {
+export interface PurgeProjectsLocationsMetadataStoresContextsRequest extends GoogleCloudAiplatformV1beta1PurgeContextsRequest {
   /** Required. The metadata store to purge Contexts from. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PurgeContextsRequest | undefined;
 }
 /** Request message for MetadataService.PurgeExecutions. */
 export interface GoogleCloudAiplatformV1beta1PurgeExecutionsRequest {
@@ -28260,23 +27881,17 @@ export interface GoogleCloudAiplatformV1beta1PurgeExecutionsRequest {
   /** Required. A required filter matching the Executions to be purged. E.g., `update_time <= 2020-11-19T11:30:00-04:00`. */
   filter?: string | undefined;
 }
-export interface PurgeProjectsLocationsMetadataStoresExecutionsRequest {
+export interface PurgeProjectsLocationsMetadataStoresExecutionsRequest extends GoogleCloudAiplatformV1beta1PurgeExecutionsRequest {
   /** Required. The metadata store to purge Executions from. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PurgeExecutionsRequest | undefined;
 }
-export interface PurgeProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface PurgeProjectsLocationsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1PurgeMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to purge memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PurgeMemoriesRequest | undefined;
 }
-export interface PurgeReasoningEnginesMemoriesRequest {
+export interface PurgeReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1PurgeMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to purge memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1PurgeMemoriesRequest | undefined;
 }
 export interface PushNotificationConfigsProjectsLocationsReasoningEnginesA2aTasksRequest {
   /** Required. The full resource path of the reasoning engine, captured from the URL. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
@@ -28401,11 +28016,9 @@ export interface GoogleCloudAiplatformV1beta1QueryExtensionRequest {
   /** Required. The content of the current conversation with the model. For single-turn queries, this is a single instance. For multi-turn queries, this is a repeated field that contains conversation history + latest request. */
   contents?: GoogleCloudAiplatformV1beta1ContentList | undefined;
 }
-export interface QueryProjectsLocationsExtensionsRequest {
+export interface QueryProjectsLocationsExtensionsRequest extends GoogleCloudAiplatformV1beta1QueryExtensionRequest {
   /** Required. Name (identifier) of the extension; Format: `projects/{project}/locations/{location}/extensions/{extension}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1QueryExtensionRequest | undefined;
 }
 /** Response message for ExtensionExecutionService.QueryExtension. */
 export interface GoogleCloudAiplatformV1beta1QueryExtensionResponse {
@@ -28421,51 +28034,39 @@ export interface GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest {
   /** Optional. Input content provided by users in JSON object format. Examples include text query, function calling parameters, media bytes, etc. */
   input?: DocumentMap | undefined;
 }
-export interface QueryProjectsLocationsReasoningEnginesRequest {
+export interface QueryProjectsLocationsReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest | undefined;
 }
 /** Response message for ReasoningEngineExecutionService.QueryReasoningEngine. */
 export interface GoogleCloudAiplatformV1beta1QueryReasoningEngineResponse {
   /** Response provided by users in JSON object format. */
   output?: unknown | undefined;
 }
-export interface QueryProjectsLocationsReasoningEnginesRuntimeRevisionsRequest {
+export interface QueryProjectsLocationsReasoningEnginesRuntimeRevisionsRequest extends GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest | undefined;
 }
-export interface QueryReasoningEnginesRequest {
+export interface QueryReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest | undefined;
 }
-export interface QueryReasoningEnginesRuntimeRevisionsRequest {
+export interface QueryReasoningEnginesRuntimeRevisionsRequest extends GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1QueryReasoningEngineRequest | undefined;
 }
 /** Request message for PredictionService.RawPredict. */
 export interface GoogleCloudAiplatformV1beta1RawPredictRequest {
   /** The prediction input. Supports HTTP headers and arbitrary data payload. A DeployedModel may have an upper limit on the number of instances it supports per request. When this limit it is exceeded for an AutoML model, the RawPredict method returns an error. When this limit is exceeded for a custom-trained model, the behavior varies depending on the model. You can specify the schema for each instance in the predict_schemata.instance_schema_uri field when you create a Model. This schema applies when you deploy the `Model` as a `DeployedModel` to an Endpoint and use the `RawPredict` method. */
   httpBody?: GoogleApiHttpBody | undefined;
 }
-export interface RawPredictProjectsLocationsEndpointsRequest {
+export interface RawPredictProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1RawPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RawPredictRequest | undefined;
 }
-export interface RawPredictProjectsLocationsPublishersModelsRequest {
+export interface RawPredictProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1RawPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RawPredictRequest | undefined;
 }
 export interface ReadBlobDataProjectsLocationsTensorboardsExperimentsRunsTimeSeriesRequest {
   /** IDs of the blobs to read. */
@@ -28485,11 +28086,9 @@ export interface GoogleCloudAiplatformV1beta1ReadFeatureValuesRequest {
   /** Required. ID for a specific entity. For example, for a machine learning model predicting user clicks on a website, an entity ID could be `user_123`. */
   entityId?: string | undefined;
 }
-export interface ReadFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface ReadFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleCloudAiplatformV1beta1ReadFeatureValuesRequest {
   /** Required. The resource name of the EntityType for the entity being read. Value format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entityType}`. For example, for a machine learning model predicting user clicks on a website, an EntityType ID could be `user`. */
   entityType: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReadFeatureValuesRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1FeatureValueList_ =
   Array<GoogleCloudAiplatformV1beta1FeatureValue>;
@@ -28544,11 +28143,9 @@ export interface GoogleCloudAiplatformV1beta1ReadIndexDatapointsRequest {
   /** The ID of the DeployedIndex that will serve the request. */
   deployedIndexId?: string | undefined;
 }
-export interface ReadIndexDatapointsProjectsLocationsIndexEndpointsRequest {
+export interface ReadIndexDatapointsProjectsLocationsIndexEndpointsRequest extends GoogleCloudAiplatformV1beta1ReadIndexDatapointsRequest {
   /** Required. The name of the index endpoint. Format: `projects/{project}/locations/{location}/indexEndpoints/{index_endpoint}` */
   indexEndpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReadIndexDatapointsRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1IndexDatapointList =
   Array<GoogleCloudAiplatformV1beta1IndexDatapoint>;
@@ -28631,11 +28228,9 @@ export interface GoogleCloudAiplatformV1beta1RebaseTunedModelRequest {
   /** Optional. The tuning job to be updated. Users can use this field to overwrite tuning configs. */
   tuningJob?: GoogleCloudAiplatformV1beta1TuningJob | undefined;
 }
-export interface RebaseTunedModelProjectsLocationsTuningJobsRequest {
+export interface RebaseTunedModelProjectsLocationsTuningJobsRequest extends GoogleCloudAiplatformV1beta1RebaseTunedModelRequest {
   /** Required. The resource name of the location in which to rebase the Model. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RebaseTunedModelRequest | undefined;
 }
 /** Request message for PersistentResourceService.RebootPersistentResource. */
 export type GoogleCloudAiplatformV1beta1RebootPersistentResourceRequest =
@@ -28655,11 +28250,9 @@ export interface GoogleCloudAiplatformV1beta1RecommendSpecRequest {
   /** Optional. If true, check user quota for the recommended regions. Returns all the machine spec in regions they are available, and also the user quota state for each machine type in each region. */
   checkUserQuota?: boolean | undefined;
 }
-export interface RecommendSpecProjectsLocationsRequest {
+export interface RecommendSpecProjectsLocationsRequest extends GoogleCloudAiplatformV1beta1RecommendSpecRequest {
   /** Required. The resource name of the Location from which to recommend specs. The users must have permission to make a call in the project. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RecommendSpecRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1RecommendSpecResponseRecommendationUserQuotaStateEnum =
   | "QUOTA_STATE_UNSPECIFIED"
@@ -28701,11 +28294,9 @@ export interface GoogleCloudAiplatformV1beta1RecommendSpecResponse {
 /** Request message for MetadataService.DeleteContextChildrenRequest. */
 export type GoogleCloudAiplatformV1beta1RemoveContextChildrenRequest =
   GoogleCloudAiplatformV1beta1AddContextChildrenRequest;
-export interface RemoveContextChildrenProjectsLocationsMetadataStoresContextsRequest {
+export interface RemoveContextChildrenProjectsLocationsMetadataStoresContextsRequest extends GoogleCloudAiplatformV1beta1AddContextChildrenRequest {
   /** Required. The resource name of the parent Context. Format: `projects/{project}/locations/{location}/metadataStores/{metadatastore}/contexts/{context}` */
   context: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1AddContextChildrenRequest | undefined;
 }
 /** Response message for MetadataService.RemoveContextChildren. */
 export interface GoogleCloudAiplatformV1beta1RemoveContextChildrenResponse {}
@@ -28714,11 +28305,9 @@ export interface GoogleCloudAiplatformV1beta1RemoveDatapointsRequest {
   /** A list of datapoint ids to be deleted. */
   datapointIds?: StringList | undefined;
 }
-export interface RemoveDatapointsProjectsLocationsIndexesRequest {
+export interface RemoveDatapointsProjectsLocationsIndexesRequest extends GoogleCloudAiplatformV1beta1RemoveDatapointsRequest {
   /** Required. The name of the Index resource to be updated. Format: `projects/{project}/locations/{location}/indexes/{index}` */
   index: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RemoveDatapointsRequest | undefined;
 }
 /** Response message for IndexService.RemoveDatapoints */
 export interface GoogleCloudAiplatformV1beta1RemoveDatapointsResponse {}
@@ -28729,11 +28318,9 @@ export interface GoogleCloudAiplatformV1beta1RemoveExamplesRequest {
   /** The metadata filters for StoredContentsExamples. */
   storedContentsExampleFilter?: GoogleCloudAiplatformV1beta1StoredContentsExampleFilter | undefined;
 }
-export interface RemoveExamplesProjectsLocationsExampleStoresRequest {
+export interface RemoveExamplesProjectsLocationsExampleStoresRequest extends GoogleCloudAiplatformV1beta1RemoveExamplesRequest {
   /** Required. The name of the ExampleStore resource that the examples should be removed from. Format: `projects/{project}/locations/{location}/exampleStores/{example_store}` */
   exampleStore: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RemoveExamplesRequest | undefined;
 }
 /** Response message for ExampleStoreService.RemoveExamples. */
 export interface GoogleCloudAiplatformV1beta1RemoveExamplesResponse {
@@ -28747,19 +28334,15 @@ export interface GoogleCloudAiplatformV1beta1RemoveWorkspaceArtifactRequest {
   /** Required. Absolute path of the file to delete, e.g. `/workspace/userdata/input.csv`, or, for a collaborative project, under `/workspace/project`, e.g. `/workspace/project/report.md`. Must be under `/workspace/`, at most 1024 characters, and not contain a `..` segment. */
   path?: string | undefined;
 }
-export interface RemoveProjectsLocationsAgentsTasksArtifactsRequest {
+export interface RemoveProjectsLocationsAgentsTasksArtifactsRequest extends GoogleCloudAiplatformV1beta1RemoveWorkspaceArtifactRequest {
   /** Required. The task or collaborative project whose workspace holds the file. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} or projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RemoveWorkspaceArtifactRequest | undefined;
 }
 /** Response for ArtifactService.RemoveWorkspaceArtifact. */
 export interface GoogleCloudAiplatformV1beta1RemoveWorkspaceArtifactResponse {}
-export interface RemoveProjectsLocationsCollaborativeProjectsArtifactsRequest {
+export interface RemoveProjectsLocationsCollaborativeProjectsArtifactsRequest extends GoogleCloudAiplatformV1beta1RemoveWorkspaceArtifactRequest {
   /** Required. The task or collaborative project whose workspace holds the file. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} or projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RemoveWorkspaceArtifactRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ReportExecutionEventRequestEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -28778,11 +28361,9 @@ export interface GoogleCloudAiplatformV1beta1ReportExecutionEventRequest {
   /** Required. The VM identity token (a JWT) for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmToken?: string | undefined;
 }
-export interface ReportEventProjectsLocationsNotebookExecutionJobsRequest {
+export interface ReportEventProjectsLocationsNotebookExecutionJobsRequest extends GoogleCloudAiplatformV1beta1ReportExecutionEventRequest {
   /** Required. The name of the NotebookExecutionJob resource. Format: `projects/{project}/locations/{location}/notebookExecutionJobs/{notebook_execution_jobs}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReportExecutionEventRequest | undefined;
 }
 /** Response message for NotebookInternalService.ReportExecutionEvent. */
 export interface GoogleCloudAiplatformV1beta1ReportExecutionEventResponse {}
@@ -28842,32 +28423,26 @@ export interface GoogleCloudAiplatformV1beta1ReportRuntimeEventRequest {
   /** Required. The VM identity token (a JWT) for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmToken?: string | undefined;
 }
-export interface ReportEventProjectsLocationsNotebookRuntimesRequest {
+export interface ReportEventProjectsLocationsNotebookRuntimesRequest extends GoogleCloudAiplatformV1beta1ReportRuntimeEventRequest {
   /** Required. The name of the NotebookRuntime resource. Format: `projects/{project}/locations/{location}/notebookRuntimes/{notebook_runtime}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ReportRuntimeEventRequest | undefined;
 }
 /** Response message for NotebookInternalService.ReportRuntimeEvent. */
 export interface GoogleCloudAiplatformV1beta1ReportRuntimeEventResponse {
   /** If the idle shutdown is blocked by CP, CP will send the block message. Otherwise, this field is not set. */
   idleShutdownMessage?: string | undefined;
 }
-export interface ResponsesProjectsLocationsEndpointsOpenapiRequest {
+export interface ResponsesProjectsLocationsEndpointsOpenapiRequest extends GoogleApiHttpBody {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId?: string | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
-export interface ResponsesProjectsLocationsPublishersV1Request {
+export interface ResponsesProjectsLocationsPublishersV1Request extends GoogleApiHttpBody {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
   /** ID of the DeployedModel that serves the invoke request. */
   deployedModelId?: string | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 export interface RestoreDatasetsDatasetVersionsRequest {
   /** Required. The name of the DatasetVersion resource. Format: `projects/{project}/locations/{location}/datasets/{dataset}/datasetVersions/{dataset_version}` */
@@ -28882,11 +28457,9 @@ export interface GoogleCloudAiplatformV1beta1ResumeTaskRequest {
   /** Optional. Additional budget to append to the task upon resumption. Used when resuming a task that was `SUSPENDED` due to reaching its budget limits. Not required (or desired) when resuming tasks suspended for other reasons (e.g., via an explicit `SuspendTask` call). */
   additionalBudget?: GoogleCloudAiplatformV1beta1Budget | undefined;
 }
-export interface ResumeProjectsLocationsAgentsTasksRequest {
+export interface ResumeProjectsLocationsAgentsTasksRequest extends GoogleCloudAiplatformV1beta1ResumeTaskRequest {
   /** Required. The name of the task to resume. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ResumeTaskRequest | undefined;
 }
 /** Request message for JobService.ResumeModelDeploymentMonitoringJob. */
 export type GoogleCloudAiplatformV1beta1ResumeModelDeploymentMonitoringJobRequest =
@@ -28911,11 +28484,9 @@ export interface GoogleCloudAiplatformV1beta1ResumeScheduleRequest {
   /** Optional. Whether to backfill missed runs when the schedule is resumed from PAUSED state. If set to true, all missed runs will be scheduled. New runs will be scheduled after the backfill is complete. This will also update Schedule.catch_up field. Default to false. */
   catchUp?: boolean | undefined;
 }
-export interface ResumeProjectsLocationsSchedulesRequest {
+export interface ResumeProjectsLocationsSchedulesRequest extends GoogleCloudAiplatformV1beta1ResumeScheduleRequest {
   /** Required. The name of the Schedule resource to be resumed. Format: `projects/{project}/locations/{location}/schedules/{schedule}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ResumeScheduleRequest | undefined;
 }
 export interface ResumeReasoningEnginesSandboxEnvironmentsRequest {
   /** Required. The resource name of the sandbox environment to resume. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}` */
@@ -28965,11 +28536,9 @@ export interface GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest {
   /** Required. The scope of the memories to retrieve. A memory must have exactly the same scope (`Memory.scope`) as the scope provided here to be retrieved (same keys and values). Order does not matter, but it is case-sensitive. */
   scope?: StringMap | undefined;
 }
-export interface RetrieveMemoryBanksMemoriesRequest {
+export interface RetrieveMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest | undefined;
 }
 /** A retrieved memory. */
 export interface GoogleCloudAiplatformV1beta1RetrieveMemoriesResponseRetrievedMemory {
@@ -28989,17 +28558,13 @@ export interface GoogleCloudAiplatformV1beta1RetrieveMemoriesResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. This token is not set if similarity search was used for retrieval. */
   nextPageToken?: string | undefined;
 }
-export interface RetrieveProjectsLocationsMemoryBanksMemoriesRequest {
+export interface RetrieveProjectsLocationsMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest | undefined;
 }
-export interface RetrieveProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface RetrieveProjectsLocationsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest | undefined;
 }
 export interface RetrieveProjectsLocationsSkillsRequest {
   /** Optional. The maximum number of skills to return. The service may return fewer than this value. If unspecified, at most 10 skills will be returned. The maximum value is 100. */
@@ -29025,40 +28590,30 @@ export interface GoogleCloudAiplatformV1beta1RetrieveSkillsResponse {
     | GoogleCloudAiplatformV1beta1RetrieveSkillsResponseRetrievedSkillList
     | undefined;
 }
-export interface RetrieveReasoningEnginesMemoriesRequest {
+export interface RetrieveReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest {
   /** Required. The resource name of the ReasoningEngine to retrieve memories from. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RetrieveMemoriesRequest | undefined;
 }
 /** Request message for MemoryBankService.RollbackMemory. */
 export interface GoogleCloudAiplatformV1beta1RollbackMemoryRequest {
   /** Required. The ID of the revision to rollback to. */
   targetRevisionId?: string | undefined;
 }
-export interface RollbackMemoryBanksMemoriesRequest {
+export interface RollbackMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1RollbackMemoryRequest {
   /** Required. The resource name of the Memory to rollback. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RollbackMemoryRequest | undefined;
 }
-export interface RollbackProjectsLocationsMemoryBanksMemoriesRequest {
+export interface RollbackProjectsLocationsMemoryBanksMemoriesRequest extends GoogleCloudAiplatformV1beta1RollbackMemoryRequest {
   /** Required. The resource name of the Memory to rollback. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RollbackMemoryRequest | undefined;
 }
-export interface RollbackProjectsLocationsReasoningEnginesMemoriesRequest {
+export interface RollbackProjectsLocationsReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1RollbackMemoryRequest {
   /** Required. The resource name of the Memory to rollback. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RollbackMemoryRequest | undefined;
 }
-export interface RollbackReasoningEnginesMemoriesRequest {
+export interface RollbackReasoningEnginesMemoriesRequest extends GoogleCloudAiplatformV1beta1RollbackMemoryRequest {
   /** Required. The resource name of the Memory to rollback. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/memories/{memory}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RollbackMemoryRequest | undefined;
 }
 export interface SearchDataItemsProjectsLocationsDatasetsRequest {
   /** Requested page size. Server may return fewer results than requested. Default and maximum page size is 100. */
@@ -29137,11 +28692,9 @@ export interface GoogleCloudAiplatformV1beta1SearchExamplesRequest {
   /** Optional. The number of similar examples to return. */
   topK?: string | undefined;
 }
-export interface SearchExamplesProjectsLocationsExampleStoresRequest {
+export interface SearchExamplesProjectsLocationsExampleStoresRequest extends GoogleCloudAiplatformV1beta1SearchExamplesRequest {
   /** Required. The name of the ExampleStore resource that examples are retrieved from. Format: `projects/{project}/locations/{location}/exampleStores/{example_store}` */
   exampleStore: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SearchExamplesRequest | undefined;
 }
 /** The result of the similar example. */
 export interface GoogleCloudAiplatformV1beta1SearchExamplesResponseSimilarExample {
@@ -29210,13 +28763,9 @@ export interface GoogleCloudAiplatformV1beta1SearchModelDeploymentMonitoringStat
     | GoogleCloudAiplatformV1beta1SearchModelDeploymentMonitoringStatsAnomaliesRequestStatsAnomaliesObjectiveList
     | undefined;
 }
-export interface SearchModelDeploymentMonitoringStatsAnomaliesProjectsLocationsModelDeploymentMonitoringJobsRequest {
+export interface SearchModelDeploymentMonitoringStatsAnomaliesProjectsLocationsModelDeploymentMonitoringJobsRequest extends GoogleCloudAiplatformV1beta1SearchModelDeploymentMonitoringStatsAnomaliesRequest {
   /** Required. ModelDeploymentMonitoring Job resource name. Format: `projects/{project}/locations/{location}/modelDeploymentMonitoringJobs/{model_deployment_monitoring_job}` */
   modelDeploymentMonitoringJob: string;
-  /** Request body */
-  body?:
-    | GoogleCloudAiplatformV1beta1SearchModelDeploymentMonitoringStatsAnomaliesRequest
-    | undefined;
 }
 /** Response message for JobService.SearchModelDeploymentMonitoringStatsAnomalies. */
 export interface GoogleCloudAiplatformV1beta1SearchModelDeploymentMonitoringStatsAnomaliesResponse {
@@ -29240,11 +28789,9 @@ export interface GoogleCloudAiplatformV1beta1SearchModelMonitoringAlertsRequest 
   /** If non-empty, returns the alerts of this stats_name. */
   statsName?: string | undefined;
 }
-export interface SearchModelMonitoringAlertsProjectsLocationsModelMonitorsRequest {
+export interface SearchModelMonitoringAlertsProjectsLocationsModelMonitorsRequest extends GoogleCloudAiplatformV1beta1SearchModelMonitoringAlertsRequest {
   /** Required. ModelMonitor resource name. Format: `projects/{project}/locations/{location}/modelMonitors/{model_monitor}` */
   modelMonitor: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SearchModelMonitoringAlertsRequest | undefined;
 }
 /** Tabular anomaly details. */
 export interface GoogleCloudAiplatformV1beta1ModelMonitoringAnomalyTabularAnomaly {
@@ -29321,11 +28868,9 @@ export interface GoogleCloudAiplatformV1beta1SearchModelMonitoringStatsRequest {
   /** The time interval for which results should be returned. */
   timeInterval?: GoogleTypeInterval | undefined;
 }
-export interface SearchModelMonitoringStatsProjectsLocationsModelMonitorsRequest {
+export interface SearchModelMonitoringStatsProjectsLocationsModelMonitorsRequest extends GoogleCloudAiplatformV1beta1SearchModelMonitoringStatsRequest {
   /** Required. ModelMonitor resource name. Format: `projects/{project}/locations/{location}/modelMonitors/{model_monitor}` */
   modelMonitor: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SearchModelMonitoringStatsRequest | undefined;
 }
 /** Summary statistics for a population of values. */
 export interface GoogleCloudAiplatformV1beta1ModelMonitoringStatsDataPointTypedValueDistributionDataValue {
@@ -29460,11 +29005,9 @@ export interface GoogleCloudAiplatformV1beta1SearchNearestEntitiesRequest {
   /** Required. The query. */
   query?: GoogleCloudAiplatformV1beta1NearestNeighborQuery | undefined;
 }
-export interface SearchNearestEntitiesProjectsLocationsFeatureOnlineStoresFeatureViewsRequest {
+export interface SearchNearestEntitiesProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends GoogleCloudAiplatformV1beta1SearchNearestEntitiesRequest {
   /** Required. FeatureView resource format `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}/featureViews/{featureView}` */
   featureView: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SearchNearestEntitiesRequest | undefined;
 }
 /** A neighbor of the query vector. */
 export interface GoogleCloudAiplatformV1beta1NearestNeighborsNeighbor {
@@ -29496,11 +29039,9 @@ export interface GoogleCloudAiplatformV1beta1SearchMigratableResourcesRequest {
   /** The standard page token. */
   pageToken?: string | undefined;
 }
-export interface SearchProjectsLocationsMigratableResourcesRequest {
+export interface SearchProjectsLocationsMigratableResourcesRequest extends GoogleCloudAiplatformV1beta1SearchMigratableResourcesRequest {
   /** Required. The location that the migratable resources should be searched from. It's the Vertex AI location that the resources can be migrated to, not the resources' original location. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SearchMigratableResourcesRequest | undefined;
 }
 /** Represents one model Version in ml.googleapis.com. */
 export interface GoogleCloudAiplatformV1beta1MigratableResourceMlEngineModelVersion {
@@ -29634,11 +29175,9 @@ export interface GoogleCloudAiplatformV1beta1StreamingPredictRequest {
   /** The prediction input. */
   inputs?: GoogleCloudAiplatformV1beta1TensorList | undefined;
 }
-export interface ServerStreamingPredictProjectsLocationsEndpointsRequest {
+export interface ServerStreamingPredictProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1StreamingPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamingPredictRequest | undefined;
 }
 /** Response message for PredictionService.StreamingPredict. */
 export interface GoogleCloudAiplatformV1beta1StreamingPredictResponse {
@@ -29647,22 +29186,18 @@ export interface GoogleCloudAiplatformV1beta1StreamingPredictResponse {
   /** The prediction output. */
   outputs?: GoogleCloudAiplatformV1beta1TensorList | undefined;
 }
-export interface ServerStreamingPredictProjectsLocationsPublishersModelsRequest {
+export interface ServerStreamingPredictProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1StreamingPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamingPredictRequest | undefined;
 }
 /** Request message for NotebookService.SetDefaultNotebookRuntimeTemplate. */
 export interface GoogleCloudAiplatformV1beta1SetDefaultNotebookRuntimeTemplateRequest {
   /** Required. The resource name of the NotebookRuntimeTemplate to set as default. Format: `projects/{project}/locations/{location}/notebookRuntimeTemplates/{notebook_runtime_template}` */
   name?: string | undefined;
 }
-export interface SetDefaultProjectsLocationsNotebookRuntimeTemplatesRequest {
+export interface SetDefaultProjectsLocationsNotebookRuntimeTemplatesRequest extends GoogleCloudAiplatformV1beta1SetDefaultNotebookRuntimeTemplateRequest {
   /** Required. The resource name of the Location to set the default NotebookRuntimeTemplate. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SetDefaultNotebookRuntimeTemplateRequest | undefined;
 }
 /** Response message for NotebookService.SetDefaultNotebookRuntimeTemplate. */
 export interface GoogleCloudAiplatformV1beta1SetDefaultNotebookRuntimeTemplateResponse {
@@ -29674,71 +29209,49 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAgentsRequest {
+export interface SetIamPolicyProjectsLocationsAgentsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEndpointsRequest {
+export interface SetIamPolicyProjectsLocationsEndpointsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFeatureGroupsRequest {
+export interface SetIamPolicyProjectsLocationsFeatureGroupsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFeatureOnlineStoresRequest {
+export interface SetIamPolicyProjectsLocationsFeatureOnlineStoresRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFeatureOnlineStoresFeatureViewsRequest {
+export interface SetIamPolicyProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFeaturestoresRequest {
+export interface SetIamPolicyProjectsLocationsFeaturestoresRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface SetIamPolicyProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsModelsRequest {
+export interface SetIamPolicyProjectsLocationsModelsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsNotebookRuntimeTemplatesRequest {
+export interface SetIamPolicyProjectsLocationsNotebookRuntimeTemplatesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsReasoningEnginesRequest {
+export interface SetIamPolicyProjectsLocationsReasoningEnginesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for EndpointService.SetPublisherModelConfig. */
 export interface GoogleCloudAiplatformV1beta1SetPublisherModelConfigRequest {
@@ -29747,17 +29260,13 @@ export interface GoogleCloudAiplatformV1beta1SetPublisherModelConfigRequest {
   /** Optional. The fields of `publisher_model_config` to overwrite. If empty, the entire config is replaced. If set, only the listed fields are overwritten and the others are left unchanged; this lets you update one setting (for example `inference_event_logging_config`) without clearing its siblings. */
   updateMask?: string | undefined;
 }
-export interface SetPublisherModelConfigProjectsRequest {
+export interface SetPublisherModelConfigProjectsRequest extends GoogleCloudAiplatformV1beta1SetPublisherModelConfigRequest {
   /** Required. The name of the publisher model, in the format of `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SetPublisherModelConfigRequest | undefined;
 }
-export interface SetPublisherModelConfigProjectsLocationsPublishersModelsRequest {
+export interface SetPublisherModelConfigProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1SetPublisherModelConfigRequest {
   /** Required. The name of the publisher model, in the format of `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SetPublisherModelConfigRequest | undefined;
 }
 /** Request message for ExpressModeService.SignUp. */
 export interface GoogleCloudAiplatformV1beta1SignUpRequest {
@@ -29768,21 +29277,20 @@ export interface GoogleCloudAiplatformV1beta1SignUpRequest {
   /** Required. Whether the Terms of Service are accepted. */
   tosAccepted?: boolean | undefined;
 }
-export interface SignUpVertexExpressRequest {
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SignUpRequest | undefined;
-}
-export interface SnapshotProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest {
+export interface SignUpVertexExpressRequest extends GoogleCloudAiplatformV1beta1SignUpRequest {}
+export interface SnapshotProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SandboxEnvironmentSnapshot,
+  "name"
+> {
   /** Required. The resource name of the sandbox environment to snapshot. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironmentSnapshot | undefined;
 }
-export interface SnapshotReasoningEnginesSandboxEnvironmentsRequest {
+export interface SnapshotReasoningEnginesSandboxEnvironmentsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SandboxEnvironmentSnapshot,
+  "name"
+> {
   /** Required. The resource name of the sandbox environment to snapshot. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/sandboxEnvironments/{sandbox_environment}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SandboxEnvironmentSnapshot | undefined;
 }
 /** Request message for NotebookService.StartNotebookRuntime. */
 export type GoogleCloudAiplatformV1beta1StartNotebookRuntimeRequest =
@@ -29811,29 +29319,21 @@ export interface StopProjectsLocationsStudiesTrialsRequest {
   /** Request body */
   body?: GoogleCloudAiplatformV1beta1ActivateOnlineEvaluatorRequest | undefined;
 }
-export interface StreamGenerateContentEndpointsRequest {
+export interface StreamGenerateContentEndpointsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
-export interface StreamGenerateContentProjectsLocationsEndpointsRequest {
+export interface StreamGenerateContentProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
-export interface StreamGenerateContentProjectsLocationsPublishersModelsRequest {
+export interface StreamGenerateContentProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
-export interface StreamGenerateContentPublishersModelsRequest {
+export interface StreamGenerateContentPublishersModelsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1FeatureViewDataKeyList =
   Array<GoogleCloudAiplatformV1beta1FeatureViewDataKey>;
@@ -29850,11 +29350,9 @@ export interface GoogleCloudAiplatformV1beta1StreamingFetchFeatureValuesRequest 
     | (string & {})
     | undefined;
 }
-export interface StreamingFetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViewsRequest {
+export interface StreamingFetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViewsRequest extends GoogleCloudAiplatformV1beta1StreamingFetchFeatureValuesRequest {
   /** Required. FeatureView resource format `projects/{project}/locations/{location}/featureOnlineStores/{featureOnlineStore}/featureViews/{featureView}` */
   featureView: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamingFetchFeatureValuesRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1FetchFeatureValuesResponseList =
   Array<GoogleCloudAiplatformV1beta1FetchFeatureValuesResponse>;
@@ -29872,11 +29370,9 @@ export interface GoogleCloudAiplatformV1beta1StreamingReadFeatureValuesRequest {
   /** Required. IDs of entities to read Feature values of. The maximum number of IDs is 100. For example, for a machine learning model predicting user clicks on a website, an entity ID could be `user_123`. */
   entityIds?: StringList | undefined;
 }
-export interface StreamingReadFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface StreamingReadFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleCloudAiplatformV1beta1StreamingReadFeatureValuesRequest {
   /** Required. The resource name of the entities' type. Value format: `projects/{project}/locations/{location}/featurestores/{featurestore}/entityTypes/{entityType}`. For example, for a machine learning model predicting user clicks on a website, an EntityType ID could be `user`. */
   entityType: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamingReadFeatureValuesRequest | undefined;
 }
 export interface StreamProjectsLocationsAgentsTasksRequest {
   /** Required. The name of the task to stream. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} */
@@ -30430,46 +29926,34 @@ export interface GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest {
   /** Optional. Class method to be used for the stream query. It is optional and defaults to "stream_query" if unspecified. */
   classMethod?: string | undefined;
 }
-export interface StreamQueryProjectsLocationsReasoningEnginesRequest {
+export interface StreamQueryProjectsLocationsReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest | undefined;
 }
-export interface StreamQueryProjectsLocationsReasoningEnginesRuntimeRevisionsRequest {
+export interface StreamQueryProjectsLocationsReasoningEnginesRuntimeRevisionsRequest extends GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest | undefined;
 }
-export interface StreamQueryReasoningEnginesRequest {
+export interface StreamQueryReasoningEnginesRequest extends GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest | undefined;
 }
-export interface StreamQueryReasoningEnginesRuntimeRevisionsRequest {
+export interface StreamQueryReasoningEnginesRuntimeRevisionsRequest extends GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest {
   /** Required. The name of the ReasoningEngine resource to use. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamQueryReasoningEngineRequest | undefined;
 }
 /** Request message for PredictionService.StreamRawPredict. */
 export interface GoogleCloudAiplatformV1beta1StreamRawPredictRequest {
   /** The prediction input. Supports HTTP headers and arbitrary data payload. */
   httpBody?: GoogleApiHttpBody | undefined;
 }
-export interface StreamRawPredictProjectsLocationsEndpointsRequest {
+export interface StreamRawPredictProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1StreamRawPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamRawPredictRequest | undefined;
 }
-export interface StreamRawPredictProjectsLocationsPublishersModelsRequest {
+export interface StreamRawPredictProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1StreamRawPredictRequest {
   /** Required. The name of the Endpoint requested to serve the prediction. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1StreamRawPredictRequest | undefined;
 }
 export interface StreamReasoningEnginesA2aMessageRequest {
   /** Required. The http endpoint extracted from the URL path. e.g., v1/message:stream. */
@@ -30560,11 +30044,9 @@ export interface GoogleCloudAiplatformV1beta1SuggestTrialsRequest {
   /** Required. The number of suggestions requested. It must be positive. */
   suggestionCount?: number | undefined;
 }
-export interface SuggestProjectsLocationsStudiesTrialsRequest {
+export interface SuggestProjectsLocationsStudiesTrialsRequest extends GoogleCloudAiplatformV1beta1SuggestTrialsRequest {
   /** Required. The project and location that the Study belongs to. Format: `projects/{project}/locations/{location}/studies/{study}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SuggestTrialsRequest | undefined;
 }
 /** Request for TaskService.SuspendTask. */
 export interface GoogleCloudAiplatformV1beta1SuspendTaskRequest {
@@ -30573,11 +30055,9 @@ export interface GoogleCloudAiplatformV1beta1SuspendTaskRequest {
   /** Optional. Machine-readable reason and detail for the suspension. */
   statusDetail?: GoogleCloudAiplatformV1beta1TaskStatusDetail | undefined;
 }
-export interface SuspendProjectsLocationsAgentsTasksRequest {
+export interface SuspendProjectsLocationsAgentsTasksRequest extends GoogleCloudAiplatformV1beta1SuspendTaskRequest {
   /** Required. The name of the task to suspend. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SuspendTaskRequest | undefined;
 }
 /** Request message for SuspendOnlineEvaluator. */
 export type GoogleCloudAiplatformV1beta1SuspendOnlineEvaluatorRequest =
@@ -30720,11 +30200,9 @@ export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsFeaturestoresRequest {
+export interface TestIamPermissionsProjectsLocationsFeaturestoresRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsFeaturestoresEntityTypesRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
@@ -30755,11 +30233,9 @@ export interface GoogleCloudAiplatformV1beta1UndeployIndexRequest {
   /** Required. The ID of the DeployedIndex to be undeployed from the IndexEndpoint. */
   deployedIndexId?: string | undefined;
 }
-export interface UndeployIndexProjectsLocationsIndexEndpointsRequest {
+export interface UndeployIndexProjectsLocationsIndexEndpointsRequest extends GoogleCloudAiplatformV1beta1UndeployIndexRequest {
   /** Required. The name of the IndexEndpoint resource from which to undeploy an Index. Format: `projects/{project}/locations/{location}/indexEndpoints/{index_endpoint}` */
   indexEndpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UndeployIndexRequest | undefined;
 }
 /** Request message for EndpointService.UndeployModel. */
 export interface GoogleCloudAiplatformV1beta1UndeployModelRequest {
@@ -30768,63 +30244,61 @@ export interface GoogleCloudAiplatformV1beta1UndeployModelRequest {
   /** Required. The ID of the DeployedModel to be undeployed from the Endpoint. */
   deployedModelId?: string | undefined;
 }
-export interface UndeployModelProjectsLocationsEndpointsRequest {
+export interface UndeployModelProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1UndeployModelRequest {
   /** Required. The name of the Endpoint resource from which to undeploy a Model. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UndeployModelRequest | undefined;
 }
-export interface UpdateCacheConfigProjectsRequest {
+export interface UpdateCacheConfigProjectsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1CacheConfig,
+  "name"
+> {
   /** Identifier. Name of the cache config. Format: - `projects/{project}/cacheConfig`. */
   name: string;
   /** Optional. The list of fields of `cache_config` to update. Supported paths are `disable_cache`, `retention_config` (and its subfields such as `retention_config.retention_type`), and the special value `*`; any other path returns `INVALID_ARGUMENT`. Fields not covered by the mask keep their stored value. If the mask is omitted, it is treated as an implied mask covering the fields populated in `cache_config`, so updating one field never clears another. `retention_config` is covered only when the request carries it. `disable_cache` is always covered: it is a bare `bool`, so the server cannot tell a request that omits it from one that sets it to `false`. `*` requests full replacement of the resource: every settable field is written from the request, clearing `retention_config` when the request omits it. It cannot be combined with other paths. Prefer naming fields explicitly -- a caller that sends `*` without knowing about a field added to `CacheConfig` later would silently reset that field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CacheConfig | undefined;
 }
 /** Request message for ModelService.UpdateExplanationDataset. */
 export interface GoogleCloudAiplatformV1beta1UpdateExplanationDatasetRequest {
   /** The example config containing the location of the dataset. */
   examples?: GoogleCloudAiplatformV1beta1Examples | undefined;
 }
-export interface UpdateExplanationDatasetProjectsLocationsModelsRequest {
+export interface UpdateExplanationDatasetProjectsLocationsModelsRequest extends GoogleCloudAiplatformV1beta1UpdateExplanationDatasetRequest {
   /** Required. The resource name of the Model to update. Format: `projects/{project}/locations/{location}/models/{model}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UpdateExplanationDatasetRequest | undefined;
 }
-export interface UpdateFeedbackContextProjectsLocationsReasoningEnginesFeedbackEntriesRequest {
+export interface UpdateFeedbackContextProjectsLocationsReasoningEnginesFeedbackEntriesRequest extends Omit<
+  GoogleCloudAiplatformV1beta1FeedbackContext,
+  "name"
+> {
   /** Optional. The field mask that controls which fields are updated. If unset or empty, all mutable fields of the FeedbackContext are replaced with the values from feedback_context. */
   updateMask?: string | undefined;
   /** Identifier. The resource name. Assigned by the server on create. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}/feedbackEntries/{feedback_entry}/feedbackContext` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1FeedbackContext | undefined;
 }
 /** Request message for EndpointService.UpdateEndpointLongRunning. */
 export interface GoogleCloudAiplatformV1beta1UpdateEndpointLongRunningRequest {
   /** Required. The Endpoint which replaces the resource on the server. Currently we only support updating the `client_connection_config` field, all the other fields' update will be blocked. */
   endpoint?: GoogleCloudAiplatformV1beta1Endpoint | undefined;
 }
-export interface UpdateProjectsLocationsEndpointsRequest {
+export interface UpdateProjectsLocationsEndpointsRequest extends GoogleCloudAiplatformV1beta1UpdateEndpointLongRunningRequest {
   /** Identifier. The resource name of the Endpoint. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UpdateEndpointLongRunningRequest | undefined;
 }
-export interface UpdateRagEngineConfigProjectsLocationsRequest {
+export interface UpdateRagEngineConfigProjectsLocationsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1RagEngineConfig,
+  "name"
+> {
   /** Identifier. The name of the RagEngineConfig. Format: `projects/{project}/locations/{location}/ragEngineConfig` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1RagEngineConfig | undefined;
 }
-export interface UpdateSemanticGovernancePolicyEngineProjectsLocationsRequest {
+export interface UpdateSemanticGovernancePolicyEngineProjectsLocationsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1SemanticGovernancePolicyEngine,
+  "name"
+> {
   /** Identifier. The resource name of the SemanticGovernancePolicyEngine. Format: projects/{project}/locations/{location}/semanticGovernancePolicyEngine */
   name: string;
   /** Optional. Specifies the fields to be overwritten in the SemanticGovernancePolicyEngine resource by the update. The fields specified in the update_mask are relative to the resource itself. If no update_mask is provided, all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1SemanticGovernancePolicyEngine | undefined;
 }
 /** Request message for NotebookService.UpgradeNotebookRuntime. */
 export type GoogleCloudAiplatformV1beta1UpgradeNotebookRuntimeRequest =
@@ -30835,24 +30309,20 @@ export interface UpgradeProjectsLocationsNotebookRuntimesRequest {
   /** Request body */
   body?: GoogleCloudAiplatformV1beta1ActivateOnlineEvaluatorRequest | undefined;
 }
-export interface UploadArtifactProjectsLocationsAgentsTasksRequest {
+export interface UploadArtifactProjectsLocationsAgentsTasksRequest extends GoogleApiHttpBody {
   /** Required. Absolute destination path, e.g. "/workspace/userdata/input.csv". Must be under "/workspace/userdata/" and at most 1024 characters; relative paths and paths containing a ".." segment are rejected with INVALID_ARGUMENT. */
   path?: string | undefined;
   /** Required. The task to upload into. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} */
   task: string;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 /** Request for ArtifactService.UploadArtifact. */
 export interface GoogleCloudAiplatformV1beta1UploadArtifactRequest {
   /** Required. Absolute destination path in the task's workspace, e.g. `/workspace/userdata/input.csv`, or, for a collaborative project, under `/workspace/project`, e.g. `/workspace/project/report.md`. Must be under `/workspace` and at most 1024 characters; relative paths and paths containing a `..` segment are rejected with `INVALID_ARGUMENT`. */
   path?: string | undefined;
 }
-export interface UploadProjectsLocationsAgentsTasksRequest {
+export interface UploadProjectsLocationsAgentsTasksRequest extends GoogleCloudAiplatformV1beta1UploadArtifactRequest {
   /** Required. The task or collaborative project to upload to. Format: projects/{project}/locations/{location}/agents/{agent}/tasks/{task} or projects/{project}/locations/{location}/collaborativeProjects/{collaborative_project} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UploadArtifactRequest | undefined;
 }
 /** Response for ArtifactService.UploadArtifact. */
 export interface GoogleCloudAiplatformV1beta1UploadArtifactResponse {
@@ -30870,11 +30340,9 @@ export interface GoogleCloudAiplatformV1beta1UploadModelRequest {
   /** Optional. The user-provided custom service account to use to do the model upload. If empty, [Vertex AI Service Agent](https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) will be used to access resources needed to upload the model. This account must belong to the target project where the model is uploaded to, i.e., the project specified in the `parent` field of this request and have necessary read permissions (to Google Cloud Storage, Artifact Registry, etc.). */
   serviceAccount?: string | undefined;
 }
-export interface UploadProjectsLocationsModelsRequest {
+export interface UploadProjectsLocationsModelsRequest extends GoogleCloudAiplatformV1beta1UploadModelRequest {
   /** Required. The resource name of the Location into which to upload the Model. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UploadModelRequest | undefined;
 }
 /** Request message for ClaudeFileService.CreateFile. */
 export type GoogleCloudAiplatformV1beta1CreateFileRequest =
@@ -30893,11 +30361,9 @@ export interface GoogleCloudAiplatformV1beta1UpsertDatapointsRequest {
   /** Optional. Update mask is used to specify the fields to be overwritten in the datapoints by the update. The fields specified in the update_mask are relative to each IndexDatapoint inside datapoints, not the full request. Updatable fields: * Use `all_restricts` to update both restricts and numeric_restricts. */
   updateMask?: string | undefined;
 }
-export interface UpsertDatapointsProjectsLocationsIndexesRequest {
+export interface UpsertDatapointsProjectsLocationsIndexesRequest extends GoogleCloudAiplatformV1beta1UpsertDatapointsRequest {
   /** Required. The name of the Index resource to be updated. Format: `projects/{project}/locations/{location}/indexes/{index}` */
   index: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UpsertDatapointsRequest | undefined;
 }
 /** Response message for IndexService.UpsertDatapoints */
 export interface GoogleCloudAiplatformV1beta1UpsertDatapointsResponse {}
@@ -30908,11 +30374,9 @@ export interface GoogleCloudAiplatformV1beta1UpsertExamplesRequest {
   /** Optional. A flag indicating whether an example can be overwritten if it already exists. If False (default) and the example already exists, the example will not be updated. This does not affect behavior if the example does not exist already. */
   overwrite?: boolean | undefined;
 }
-export interface UpsertExamplesProjectsLocationsExampleStoresRequest {
+export interface UpsertExamplesProjectsLocationsExampleStoresRequest extends GoogleCloudAiplatformV1beta1UpsertExamplesRequest {
   /** Required. The name of the ExampleStore resource that examples are added to or updated in. Format: `projects/{project}/locations/{location}/exampleStores/{example_store}` */
   exampleStore: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1UpsertExamplesRequest | undefined;
 }
 /** The result for creating/updating a single example. */
 export interface GoogleCloudAiplatformV1beta1UpsertExamplesResponseUpsertResult {
@@ -30943,11 +30407,9 @@ export interface GoogleCloudAiplatformV1beta1ValidateReinforcementTuningRewardRe
     | GoogleCloudAiplatformV1beta1SingleReinforcementTuningRewardConfig
     | undefined;
 }
-export interface ValidateReinforcementTuningRewardProjectsLocationsTuningJobsRequest {
+export interface ValidateReinforcementTuningRewardProjectsLocationsTuningJobsRequest extends GoogleCloudAiplatformV1beta1ValidateReinforcementTuningRewardRequest {
   /** Required. The resource name of the Location to validate the reward in Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1ValidateReinforcementTuningRewardRequest | undefined;
 }
 /** The reward info for a reward function. */
 export interface GoogleCloudAiplatformV1beta1ReinforcementTuningRewardInfo {
@@ -31892,11 +31354,9 @@ export interface GoogleCloudAiplatformV1beta1WriteFeatureValuesRequest {
   /** Required. The entities to be written. Up to 100,000 feature values can be written across all `payloads`. */
   payloads?: GoogleCloudAiplatformV1beta1WriteFeatureValuesPayloadList | undefined;
 }
-export interface WriteFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest {
+export interface WriteFeatureValuesProjectsLocationsFeaturestoresEntityTypesRequest extends GoogleCloudAiplatformV1beta1WriteFeatureValuesRequest {
   /** Required. The resource name of the EntityType for the entities being written. Value format: `projects/{project}/locations/{location}/featurestores/ {featurestore}/entityTypes/{entityType}`. For example, for a machine learning model predicting user clicks on a website, an EntityType ID could be `user`. */
   entityType: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1WriteFeatureValuesRequest | undefined;
 }
 /** Response message for FeaturestoreOnlineServingService.WriteFeatureValues. */
 export interface GoogleCloudAiplatformV1beta1WriteFeatureValuesResponse {}
@@ -31914,19 +31374,18 @@ export interface GoogleCloudAiplatformV1beta1WriteTensorboardExperimentDataReque
   /** Required. Requests containing per-run TensorboardTimeSeries data to write. */
   writeRunDataRequests?: GoogleCloudAiplatformV1beta1WriteTensorboardRunDataRequestList | undefined;
 }
-export interface WriteProjectsLocationsTensorboardsExperimentsRequest {
+export interface WriteProjectsLocationsTensorboardsExperimentsRequest extends GoogleCloudAiplatformV1beta1WriteTensorboardExperimentDataRequest {
   /** Required. The resource name of the TensorboardExperiment to write data to. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}` */
   tensorboardExperiment: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1WriteTensorboardExperimentDataRequest | undefined;
 }
 /** Response message for TensorboardService.WriteTensorboardExperimentData. */
 export interface GoogleCloudAiplatformV1beta1WriteTensorboardExperimentDataResponse {}
-export interface WriteProjectsLocationsTensorboardsExperimentsRunsRequest {
+export interface WriteProjectsLocationsTensorboardsExperimentsRunsRequest extends Omit<
+  GoogleCloudAiplatformV1beta1WriteTensorboardRunDataRequest,
+  "tensorboardRun"
+> {
   /** Required. The resource name of the TensorboardRun to write data to. Format: `projects/{project}/locations/{location}/tensorboards/{tensorboard}/experiments/{experiment}/runs/{run}` */
   tensorboardRun: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1WriteTensorboardRunDataRequest | undefined;
 }
 /** Response message for TensorboardService.WriteTensorboardRunData. */
 export interface GoogleCloudAiplatformV1beta1WriteTensorboardRunDataResponse {}
@@ -70749,10 +70208,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CancelTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:cancel",
@@ -75579,10 +75040,12 @@ function __c253(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1LookupStudyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8096, __c253, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/studies:lookup",
@@ -75619,10 +75082,12 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1MergeVersionAliasesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8160, __c255, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8160, __c255, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:mergeVersionAliases",
@@ -75636,11 +75101,13 @@ function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          indexEndpoint: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29605, __c925, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29605, __c925, 5),
+          S.Struct({
+            indexEndpoint: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+indexEndpoint}:mutateDeployedIndex",
@@ -75661,10 +75128,12 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1MutateDeployedModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(8224, __c257, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8224, __c257, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:mutateDeployedModel",
@@ -75685,10 +75154,12 @@ function __c258(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1OptimizePromptRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8256, __c258, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8256, __c258, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tuningJobs:optimizePrompt",
@@ -75702,11 +75173,13 @@ function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(26496, __c828, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26496, __c828, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75720,11 +75193,13 @@ function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26560, __c830, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26560, __c830, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75738,11 +75213,13 @@ function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75756,11 +75233,13 @@ function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26861, __c839, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26861, __c839, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75774,11 +75253,13 @@ function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2063, __c64, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2063, __c64, 15),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75792,11 +75273,13 @@ function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(27105, __c847, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27105, __c847, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75826,11 +75309,13 @@ function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(27170, __c849, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27170, __c849, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75844,11 +75329,13 @@ function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26496, __c828, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26496, __c828, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75862,11 +75349,13 @@ function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(26560, __c830, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26560, __c830, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75880,11 +75369,13 @@ function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(27552, __c861, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27552, __c861, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75898,11 +75389,13 @@ function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(27624, __c863, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27624, __c863, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75916,11 +75409,13 @@ function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(27908, __c872, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27908, __c872, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75934,11 +75429,13 @@ function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(27968, __c874, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27968, __c874, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75952,11 +75449,13 @@ function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(28609, __c894, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28609, __c894, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75970,11 +75469,13 @@ function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(52001, __c1625, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(52001, __c1625, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -75988,11 +75489,13 @@ function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(52171, __c1630, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(52171, __c1630, 11),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76022,11 +75525,13 @@ function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(28770, __c899, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28770, __c899, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76040,11 +75545,13 @@ function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(28865, __c902, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28865, __c902, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76058,11 +75565,13 @@ function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(38882, __c1215, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38882, __c1215, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76076,11 +75585,13 @@ function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29157, __c911, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29157, __c911, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76094,11 +75605,13 @@ function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29227, __c913, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29227, __c913, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76112,11 +75625,13 @@ function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(29282, __c915, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29282, __c915, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76130,11 +75645,13 @@ function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(29344, __c917, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29344, __c917, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76148,11 +75665,13 @@ function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38882, __c1215, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38882, __c1215, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76166,11 +75685,13 @@ function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(29633, __c926, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29633, __c926, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76184,11 +75705,13 @@ function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29699, __c928, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29699, __c928, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76218,11 +75741,13 @@ function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76236,12 +75761,14 @@ function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(30080, __c940, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30080, __c940, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76255,12 +75782,14 @@ function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(30144, __c942, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30144, __c942, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76274,12 +75803,14 @@ function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(30208, __c944, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30208, __c944, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76293,11 +75824,13 @@ function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(30342, __c948, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30342, __c948, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76311,11 +75844,13 @@ function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(30501, __c953, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30501, __c953, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76329,11 +75864,13 @@ function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(33097, __c1034, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33097, __c1034, 9),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76347,11 +75884,13 @@ function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(31136, __c973, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31136, __c973, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76365,11 +75904,13 @@ function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(31246, __c976, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31246, __c976, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76383,11 +75924,13 @@ function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(31306, __c978, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31306, __c978, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76419,10 +75962,12 @@ function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(31473, __c983, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31473, __c983, 17),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76436,10 +75981,12 @@ function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(40036, __c1251, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40036, __c1251, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76453,11 +76000,13 @@ function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(31801, __c993, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31801, __c993, 25),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76471,11 +76020,13 @@ function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(31936, __c998, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31936, __c998, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76489,11 +76040,13 @@ function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76507,11 +76060,13 @@ function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32107, __c1003, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32107, __c1003, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76527,11 +76082,13 @@ function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32160, __c1005, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32160, __c1005, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76545,11 +76102,13 @@ function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32228, __c1007, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32228, __c1007, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76563,11 +76122,13 @@ function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32291, __c1009, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32291, __c1009, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76581,11 +76142,13 @@ function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32353, __c1011, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32353, __c1011, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76617,11 +76180,13 @@ function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32576, __c1018, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32576, __c1018, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76635,11 +76200,13 @@ function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32640, __c1020, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32640, __c1020, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76653,11 +76220,13 @@ function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32864, __c1027, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32864, __c1027, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76671,11 +76240,13 @@ function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32928, __c1029, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32928, __c1029, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76689,11 +76260,13 @@ function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(40864, __c1277, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40864, __c1277, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76707,11 +76280,13 @@ function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(40449, __c1264, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40449, __c1264, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76727,11 +76302,13 @@ function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(31801, __c993, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31801, __c993, 25),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76745,11 +76322,13 @@ function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76763,11 +76342,13 @@ function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32107, __c1003, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32107, __c1003, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76781,11 +76362,13 @@ function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32160, __c1005, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32160, __c1005, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -76885,10 +76468,12 @@ function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predict",
@@ -76929,10 +76514,12 @@ function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predictLongRunning",
@@ -76946,10 +76533,12 @@ function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predictLongRunning",
@@ -76963,10 +76552,12 @@ function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predictLongRunning",
@@ -76980,10 +76571,12 @@ function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predictLongRunning",
@@ -76997,10 +76590,12 @@ function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predict",
@@ -77031,10 +76626,12 @@ function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predict",
@@ -77048,10 +76645,12 @@ function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:predict",
@@ -77118,10 +76717,12 @@ function __c338(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ProcessDataRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10817, __c338, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10817, __c338, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tuningJobs:processData",
@@ -77135,10 +76736,12 @@ function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10880, __c340, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10880, __c340, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:purge",
@@ -77187,10 +76790,12 @@ function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10880, __c340, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10880, __c340, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:purge",
@@ -77204,10 +76809,12 @@ function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11008, __c344, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11008, __c344, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/artifacts:purge",
@@ -77239,10 +76846,12 @@ function __c345(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1PurgeContextsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11040, __c345, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11040, __c345, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/contexts:purge",
@@ -77256,10 +76865,12 @@ function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11008, __c344, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11008, __c344, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/executions:purge",
@@ -77291,10 +76902,12 @@ function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10880, __c340, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10880, __c340, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:purge",
@@ -77308,10 +76921,12 @@ function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10880, __c340, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10880, __c340, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:purge",
@@ -77618,10 +77233,12 @@ function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(45600, __c1425, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45600, __c1425, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:query",
@@ -77642,10 +77259,12 @@ function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11744, __c367, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11744, __c367, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:query",
@@ -77676,10 +77295,12 @@ function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11744, __c367, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11744, __c367, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:query",
@@ -77693,10 +77314,12 @@ function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11744, __c367, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11744, __c367, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:query",
@@ -77710,10 +77333,12 @@ function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11744, __c367, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11744, __c367, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:query",
@@ -77727,10 +77352,12 @@ function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(29920, __c935, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29920, __c935, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:rawPredict",
@@ -77760,10 +77387,12 @@ function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(29920, __c935, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29920, __c935, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:rawPredict",
@@ -77809,10 +77438,12 @@ function __c375(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ReadFeatureValuesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          body: S.optional(__S(12000, __c375, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12000, __c375, 0),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+entityType}:readFeatureValues",
@@ -77889,10 +77520,12 @@ function __c377(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ReadIndexDatapointsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          indexEndpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(12064, __c377, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12064, __c377, 0),
+          S.Struct({
+            indexEndpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+indexEndpoint}:readIndexDatapoints",
@@ -78028,10 +77661,12 @@ function __c382(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RebaseTunedModelRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12225, __c382, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12225, __c382, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tuningJobs:rebaseTunedModel",
@@ -78070,10 +77705,12 @@ function __c384(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RecommendSpecRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12288, __c384, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12288, __c384, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:recommendSpec",
@@ -78144,10 +77781,12 @@ function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          context: S.String.pipe(T.Label()),
-          body: S.optional(__S(25408, __c794, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25408, __c794, 0),
+          S.Struct({
+            context: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+context}:removeContextChildren",
@@ -78169,10 +77808,12 @@ function __c388(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RemoveDatapointsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          body: S.optional(__S(12416, __c388, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12416, __c388, 0),
+          S.Struct({
+            index: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+index}:removeDatapoints",
@@ -78193,10 +77834,12 @@ function __c389(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RemoveExamplesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          exampleStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(12448, __c389, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12448, __c389, 0),
+          S.Struct({
+            exampleStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+exampleStore}:removeExamples",
@@ -78216,10 +77859,12 @@ function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12512, __c391, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12512, __c391, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/artifacts:remove",
@@ -78244,10 +77889,12 @@ function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12512, __c391, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12512, __c391, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/artifacts:remove",
@@ -78269,10 +77916,12 @@ function __c393(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ReportExecutionEventRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12576, __c393, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12576, __c393, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:reportEvent",
@@ -78305,10 +77954,12 @@ function __c394(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ReportRuntimeEventRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12610, __c394, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12610, __c394, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:reportEvent",
@@ -78328,11 +77979,13 @@ function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          deployedModelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+            deployedModelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/responses",
@@ -78346,11 +77999,13 @@ function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          deployedModelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+            deployedModelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/v1/responses",
@@ -78418,10 +78073,12 @@ function __c400(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ResumeTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12800, __c400, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12800, __c400, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:resume",
@@ -78477,10 +78134,12 @@ function __c403(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ResumeScheduleRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12896, __c403, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12896, __c403, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:resume",
@@ -78511,10 +78170,12 @@ function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12994, __c406, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12994, __c406, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieve",
@@ -78579,10 +78240,12 @@ function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12994, __c406, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12994, __c406, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieve",
@@ -78596,10 +78259,12 @@ function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12994, __c406, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12994, __c406, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieve",
@@ -78664,10 +78329,12 @@ function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12994, __c406, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12994, __c406, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieve",
@@ -78681,10 +78348,12 @@ function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13216, __c413, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13216, __c413, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rollback",
@@ -78708,10 +78377,12 @@ function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13216, __c413, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13216, __c413, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rollback",
@@ -78725,10 +78396,12 @@ function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13216, __c413, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13216, __c413, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rollback",
@@ -78742,10 +78415,12 @@ function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13216, __c413, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13216, __c413, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rollback",
@@ -78829,10 +78504,12 @@ function __c418(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SearchExamplesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          exampleStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(13378, __c418, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13378, __c418, 2),
+          S.Struct({
+            exampleStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+exampleStore}:searchExamples",
@@ -78909,10 +78586,12 @@ function __c420(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          modelDeploymentMonitoringJob: S.String.pipe(T.Label()),
-          body: S.optional(__S(13442, __c420, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13442, __c420, 2),
+          S.Struct({
+            modelDeploymentMonitoringJob: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+modelDeploymentMonitoringJob}:searchModelDeploymentMonitoringStatsAnomalies",
@@ -78950,10 +78629,12 @@ function __c421(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SearchModelMonitoringAlertsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          modelMonitor: S.String.pipe(T.Label()),
-          body: S.optional(__S(13472, __c421, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13472, __c421, 0),
+          S.Struct({
+            modelMonitor: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+modelMonitor}:searchModelMonitoringAlerts",
@@ -79052,10 +78733,12 @@ function __c423(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SearchModelMonitoringStatsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          modelMonitor: S.String.pipe(T.Label()),
-          body: S.optional(__S(13538, __c423, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13538, __c423, 2),
+          S.Struct({
+            modelMonitor: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+modelMonitor}:searchModelMonitoringStats",
@@ -79180,10 +78863,12 @@ function __c424(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SearchNearestEntitiesRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          featureView: S.String.pipe(T.Label()),
-          body: S.optional(__S(13575, __c424, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13575, __c424, 7),
+          S.Struct({
+            featureView: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+featureView}:searchNearestEntities",
@@ -79229,10 +78914,12 @@ function __c425(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SearchMigratableResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13600, __c425, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13600, __c425, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/migratableResources:search",
@@ -79467,10 +79154,12 @@ function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(13952, __c436, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13952, __c436, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:serverStreamingPredict",
@@ -79502,10 +79191,12 @@ function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(13952, __c436, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13952, __c436, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:serverStreamingPredict",
@@ -79519,10 +79210,12 @@ function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(57504, __c1797, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(57504, __c1797, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/notebookRuntimeTemplates:setDefault",
@@ -79544,10 +79237,12 @@ function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79571,10 +79266,12 @@ function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79588,10 +79285,12 @@ function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79605,10 +79304,12 @@ function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79622,10 +79323,12 @@ function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79639,10 +79342,12 @@ function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79674,10 +79379,12 @@ function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79691,10 +79398,12 @@ function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79708,10 +79417,12 @@ function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79725,10 +79436,12 @@ function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79742,10 +79455,12 @@ function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(14080, __c440, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14080, __c440, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -79759,10 +79474,12 @@ function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14496, __c453, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14496, __c453, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setPublisherModelConfig",
@@ -79787,10 +79504,12 @@ function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14496, __c453, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14496, __c453, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setPublisherModelConfig",
@@ -79812,9 +79531,7 @@ function __c455(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SignUpRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(14560, __c455, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(14560, __c455, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/vertexExpress:signUp",
@@ -79828,10 +79545,12 @@ function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(56032, __c1751, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56032, __c1751, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:snapshot",
@@ -79847,10 +79566,12 @@ function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(56032, __c1751, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56032, __c1751, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:snapshot",
@@ -79933,10 +79654,12 @@ function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:streamGenerateContent",
@@ -79950,10 +79673,12 @@ function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:streamGenerateContent",
@@ -79967,10 +79692,12 @@ function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:streamGenerateContent",
@@ -79984,10 +79711,12 @@ function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:streamGenerateContent",
@@ -80010,10 +79739,12 @@ function __c466(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1StreamingFetchFeatureValuesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          featureView: S.String.pipe(T.Label()),
-          body: S.optional(__S(14913, __c466, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14913, __c466, 1),
+          S.Struct({
+            featureView: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+featureView}:streamingFetchFeatureValues",
@@ -80047,10 +79778,12 @@ function __c467(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1StreamingReadFeatureValuesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          body: S.optional(__S(14944, __c467, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14944, __c467, 0),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+entityType}:streamingReadFeatureValues",
@@ -80509,10 +80242,12 @@ function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15232, __c476, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15232, __c476, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:streamQuery",
@@ -80537,10 +80272,12 @@ function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15232, __c476, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15232, __c476, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:streamQuery",
@@ -80556,10 +80293,12 @@ function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15232, __c476, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15232, __c476, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:streamQuery",
@@ -80573,10 +80312,12 @@ function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15232, __c476, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15232, __c476, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:streamQuery",
@@ -80590,10 +80331,12 @@ function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(29920, __c935, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29920, __c935, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:streamRawPredict",
@@ -80607,10 +80350,12 @@ function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(29920, __c935, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29920, __c935, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:streamRawPredict",
@@ -80901,10 +80646,12 @@ function __c497(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SuggestTrialsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15906, __c497, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15906, __c497, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/trials:suggest",
@@ -80925,10 +80672,12 @@ function __c498(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SuspendTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15936, __c498, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15936, __c498, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:suspend",
@@ -81276,10 +81025,12 @@ function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(16352, __c511, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16352, __c511, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -81371,10 +81122,12 @@ function __c523(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UndeployIndexRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          indexEndpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(16736, __c523, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16736, __c523, 0),
+          S.Struct({
+            indexEndpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+indexEndpoint}:undeployIndex",
@@ -81395,10 +81148,12 @@ function __c524(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UndeployModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(16768, __c524, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16768, __c524, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:undeployModel",
@@ -81412,11 +81167,13 @@ function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(47745, __c1492, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47745, __c1492, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -81436,10 +81193,12 @@ function __c526(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UpdateExplanationDatasetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(16832, __c526, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16832, __c526, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:updateExplanationDataset",
@@ -81453,11 +81212,13 @@ function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48928, __c1529, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48928, __c1529, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -81495,10 +81256,12 @@ function __c529(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UpdateEndpointLongRunningRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16928, __c529, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16928, __c529, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:update",
@@ -81512,10 +81275,12 @@ function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(57666, __c1802, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(57666, __c1802, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -81529,11 +81294,13 @@ function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(58402, __c1825, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(58402, __c1825, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -81564,11 +81331,13 @@ function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String.pipe(T.Query())),
-          task: S.String.pipe(T.Label()),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            path: S.optional(S.String.pipe(T.Query())),
+            task: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+task}:uploadArtifact",
@@ -81588,10 +81357,12 @@ function __c534(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UploadArtifactRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(17088, __c534, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17088, __c534, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:upload",
@@ -81614,10 +81385,12 @@ function __c535(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UploadModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(17120, __c535, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17120, __c535, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/models:upload",
@@ -81656,10 +81429,12 @@ function __c537(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UpsertDatapointsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          body: S.optional(__S(17184, __c537, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17184, __c537, 0),
+          S.Struct({
+            index: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+index}:upsertDatapoints",
@@ -81680,10 +81455,12 @@ function __c538(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UpsertExamplesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          exampleStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(17216, __c538, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17216, __c538, 0),
+          S.Struct({
+            exampleStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+exampleStore}:upsertExamples",
@@ -81740,10 +81517,12 @@ function __c540(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(17280, __c540, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17280, __c540, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tuningJobs:validateReinforcementTuningReward",
@@ -84669,10 +84448,12 @@ function __c708(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1WriteFeatureValuesRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          body: S.optional(__S(22659, __c708, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22659, __c708, 3),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+entityType}:writeFeatureValues",
@@ -84698,10 +84479,12 @@ function __c709(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          tensorboardExperiment: S.String.pipe(T.Label()),
-          body: S.optional(__S(22689, __c709, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22689, __c709, 1),
+          S.Struct({
+            tensorboardExperiment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+tensorboardExperiment}:write",
@@ -84726,10 +84509,12 @@ function __c711(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tensorboardRun: S.String.pipe(T.Label()),
-          body: S.optional(__S(22720, __c710, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22720, __c710, 0),
+          S.Struct({
+            tensorboardRun: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+tensorboardRun}:write",
@@ -85463,10 +85248,12 @@ function __c754(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(24160, __c755, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24160, __c755, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/modelGardenEula:accept",
@@ -85894,10 +85681,12 @@ function __c781(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          context: S.String.pipe(T.Label()),
-          body: S.optional(__S(24992, __c781, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24992, __c781, 0),
+          S.Struct({
+            context: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+context}:addContextArtifactsAndExecutions",
@@ -85992,10 +85781,12 @@ function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(24160, __c755, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24160, __c755, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/modelGardenEula:check",
@@ -86065,11 +85856,13 @@ function __c791(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          deployedModelId: S.optional(S.String.pipe(T.Query())),
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            deployedModelId: S.optional(S.String.pipe(T.Query())),
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/v1/responses/compact",
@@ -86104,10 +85897,12 @@ function __c792(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CompactSessionRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(25346, __c792, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25346, __c792, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:compact",
@@ -86121,10 +85916,12 @@ function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          context: S.String.pipe(T.Label()),
-          body: S.optional(__S(25408, __c794, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25408, __c794, 0),
+          S.Struct({
+            context: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+context}:addContextChildren",
@@ -86158,10 +85955,12 @@ function __c795(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CompleteTrialRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(25440, __c795, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25440, __c795, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:complete",
@@ -86175,10 +85974,12 @@ function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/chat/completions",
@@ -86192,10 +85993,12 @@ function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/chat/completions",
@@ -86209,11 +86012,13 @@ function __c798(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          deployedModelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+            deployedModelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/completions",
@@ -86227,10 +86032,12 @@ function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25600, __c800, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25600, __c800, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:computeTokens",
@@ -86272,10 +86079,12 @@ function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25600, __c800, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25600, __c800, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:computeTokens",
@@ -86289,10 +86098,12 @@ function __c802(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25600, __c800, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25600, __c800, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:computeTokens",
@@ -86306,10 +86117,12 @@ function __c803(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25600, __c800, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25600, __c800, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:computeTokens",
@@ -86333,10 +86146,12 @@ function __c804(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CopyModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(25728, __c804, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25728, __c804, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/models:copy",
@@ -86364,10 +86179,12 @@ function __c805(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CorroborateContentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(25761, __c805, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25761, __c805, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:corroborateContent",
@@ -86405,10 +86222,12 @@ function __c806(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AddExecutionEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          execution: S.String.pipe(T.Label()),
-          body: S.optional(__S(25792, __c806, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25792, __c806, 0),
+          S.Struct({
+            execution: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+execution}:addExecutionEvents",
@@ -86446,10 +86265,12 @@ function __c809(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25920, __c810, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25920, __c810, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:countTokens",
@@ -86486,10 +86307,12 @@ function __c811(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25920, __c810, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25920, __c810, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:countTokens",
@@ -86503,10 +86326,12 @@ function __c812(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25920, __c810, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25920, __c810, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:countTokens",
@@ -86520,10 +86345,12 @@ function __c813(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(25920, __c810, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25920, __c810, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:countTokens",
@@ -86537,10 +86364,12 @@ function __c814(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26381, __c824, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26381, __c824, 13),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/batchPredictionJobs",
@@ -87099,10 +86928,12 @@ function __c826(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26496, __c828, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26496, __c828, 0),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/datasets",
@@ -87162,10 +86993,12 @@ function __c829(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26560, __c830, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26560, __c830, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/datasetVersions",
@@ -87198,11 +87031,13 @@ function __c831(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          memoryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            memoryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories",
@@ -87282,11 +87117,13 @@ function __c836(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          agentAnomalyDetectionScopeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26784, __c837, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26784, __c837, 0),
+          S.Struct({
+            agentAnomalyDetectionScopeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/agentAnomalyDetectionScopes",
@@ -87316,10 +87153,12 @@ function __c838(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26861, __c839, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26861, __c839, 13),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/agents",
@@ -87450,10 +87289,12 @@ function __c840(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          task: S.String.pipe(T.Label()),
-          body: S.optional(__S(26912, __c841, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26912, __c841, 0),
+          S.Struct({
+            task: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+task}/artifacts:add",
@@ -87505,14 +87346,16 @@ function __c844(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "userContext.location": S.optional(S.String.pipe(T.Query())),
-          "userContext.channel": S.optional(S.String.pipe(T.Query())),
-          "userContext.timeZone": S.optional(S.String.pipe(T.Query())),
-          uniqueCreationToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2063, __c64, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2063, __c64, 15),
+          S.Struct({
+            "userContext.location": S.optional(S.String.pipe(T.Query())),
+            "userContext.channel": S.optional(S.String.pipe(T.Query())),
+            "userContext.timeZone": S.optional(S.String.pipe(T.Query())),
+            uniqueCreationToken: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tasks",
@@ -87526,10 +87369,12 @@ function __c845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26381, __c824, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26381, __c824, 13),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/batchPredictionJobs",
@@ -87543,10 +87388,12 @@ function __c846(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(27105, __c847, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27105, __c847, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/cachedContents",
@@ -87592,10 +87439,12 @@ function __c848(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(27170, __c849, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27170, __c849, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/collaborativeProjects",
@@ -87634,10 +87483,12 @@ function __c850(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(27328, __c854, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27328, __c854, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/customJobs",
@@ -87794,10 +87645,12 @@ function __c855(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(27396, __c856, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27396, __c856, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/dataLabelingJobs",
@@ -87869,10 +87722,12 @@ function __c857(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26496, __c828, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26496, __c828, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/datasets",
@@ -87886,10 +87741,12 @@ function __c858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26560, __c830, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26560, __c830, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/datasetVersions",
@@ -87910,10 +87767,12 @@ function __c859(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CreateDeploymentResourcePoolRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(27488, __c859, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27488, __c859, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/deploymentResourcePools",
@@ -87979,11 +87838,13 @@ function __c862(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          detectorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(27624, __c863, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27624, __c863, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            detectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/detectors",
@@ -88067,10 +87928,12 @@ function __c864(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          collaborativeProject: S.String.pipe(T.Label()),
-          body: S.optional(__S(26912, __c841, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26912, __c841, 0),
+          S.Struct({
+            collaborativeProject: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+collaborativeProject}/artifacts:add",
@@ -88084,11 +87947,13 @@ function __c865(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpointId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(27908, __c872, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27908, __c872, 4),
+          S.Struct({
+            endpointId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/endpoints",
@@ -88344,10 +88209,12 @@ function __c873(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(27968, __c874, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(27968, __c874, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/evaluationExperiments",
@@ -88377,10 +88244,12 @@ function __c875(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28161, __c880, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28161, __c880, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/evaluationItems",
@@ -88596,11 +88465,13 @@ function __c881(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          evaluationMetricId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28320, __c885, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28320, __c885, 0),
+          S.Struct({
+            evaluationMetricId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/evaluationMetrics",
@@ -88839,10 +88710,12 @@ function __c886(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28519, __c891, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28519, __c891, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/evaluationRuns",
@@ -89250,10 +89123,12 @@ function __c893(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28609, __c894, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28609, __c894, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/evaluationSets",
@@ -89291,10 +89166,12 @@ function __c895(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28672, __c896, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28672, __c896, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/revisions",
@@ -89344,11 +89221,13 @@ function __c898(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          featureGroupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28770, __c899, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28770, __c899, 2),
+          S.Struct({
+            featureGroupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/featureGroups",
@@ -89396,11 +89275,13 @@ function __c900(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          featureMonitorId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28865, __c902, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28865, __c902, 1),
+          S.Struct({
+            featureMonitorId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/featureMonitors",
@@ -89462,10 +89343,12 @@ function __c903(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AddTrialMeasurementRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          trialName: S.String.pipe(T.Label()),
-          body: S.optional(__S(28896, __c903, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28896, __c903, 0),
+          S.Struct({
+            trialName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+trialName}:addTrialMeasurement",
@@ -89536,11 +89419,13 @@ function __c907(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          featureMonitorJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29057, __c908, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29057, __c908, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            featureMonitorJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/featureMonitorJobs",
@@ -89582,11 +89467,13 @@ function __c909(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          featureId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38882, __c1215, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38882, __c1215, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            featureId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/features",
@@ -89600,11 +89487,13 @@ function __c910(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          featureOnlineStoreId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(29157, __c911, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29157, __c911, 5),
+          S.Struct({
+            featureOnlineStoreId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/featureOnlineStores",
@@ -89687,12 +89576,14 @@ function __c912(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          runSyncImmediately: S.optional(S.Boolean.pipe(T.Query())),
-          featureViewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(29227, __c913, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29227, __c913, 11),
+          S.Struct({
+            runSyncImmediately: S.optional(S.Boolean.pipe(T.Query())),
+            featureViewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/featureViews",
@@ -89813,11 +89704,13 @@ function __c914(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          featurestoreId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29282, __c915, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29282, __c915, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            featurestoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/featurestores",
@@ -89868,11 +89761,13 @@ function __c916(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          entityTypeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29344, __c917, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29344, __c917, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            entityTypeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/entityTypes",
@@ -89905,11 +89800,13 @@ function __c918(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          featureId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(38882, __c1215, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38882, __c1215, 2),
+          S.Struct({
+            featureId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/features",
@@ -89923,10 +89820,12 @@ function __c919(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(29504, __c922, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29504, __c922, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/hyperparameterTuningJobs",
@@ -90147,10 +90046,12 @@ function __c924(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(29633, __c926, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29633, __c926, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/indexEndpoints",
@@ -90246,10 +90147,12 @@ function __c927(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(29699, __c928, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29699, __c928, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/indexes",
@@ -90384,11 +90287,13 @@ function __c932(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          locationsId: S.String.pipe(T.Label()),
-          projectsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(29856, __c933, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29856, __c933, 0),
+          S.Struct({
+            locationsId: S.String.pipe(T.Label()),
+            projectsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectsId}/locations/{locationsId}/interactions:create",
@@ -90415,10 +90320,12 @@ function __c934(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(29920, __c935, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29920, __c935, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/interactionsHttp",
@@ -90442,11 +90349,13 @@ function __c936(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          memoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            memoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories",
@@ -90460,11 +90369,13 @@ function __c937(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          metadataStoreId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(30018, __c938, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30018, __c938, 2),
+          S.Struct({
+            metadataStoreId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/metadataStores",
@@ -90506,11 +90417,13 @@ function __c939(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          artifactId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(30080, __c940, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30080, __c940, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            artifactId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/artifacts",
@@ -90545,11 +90458,13 @@ function __c941(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          contextId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(30144, __c942, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30144, __c942, 0),
+          S.Struct({
+            contextId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/contexts",
@@ -90583,11 +90498,13 @@ function __c943(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          executionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(30208, __c944, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30208, __c944, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            executionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/executions",
@@ -90621,11 +90538,13 @@ function __c945(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          metadataSchemaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(30272, __c946, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30272, __c946, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            metadataSchemaId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/metadataSchemas",
@@ -90654,10 +90573,12 @@ function __c947(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(30342, __c948, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30342, __c948, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/modelDeploymentMonitoringJobs",
@@ -90748,11 +90669,13 @@ function __c949(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          modelMonitorId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(30501, __c953, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30501, __c953, 5),
+          S.Struct({
+            modelMonitorId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/modelMonitors",
@@ -90974,10 +90897,12 @@ function __c954(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(30819, __c963, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30819, __c963, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:appendEvent",
@@ -91384,11 +91309,13 @@ function __c964(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          modelMonitoringJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(30886, __c965, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30886, __c965, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            modelMonitoringJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/modelMonitoringJobs",
@@ -91459,10 +91386,12 @@ function __c966(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(30952, __c967, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30952, __c967, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/nasJobs",
@@ -91576,11 +91505,13 @@ function __c969(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          notebookExecutionJobId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(31079, __c971, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31079, __c971, 7),
+          S.Struct({
+            notebookExecutionJobId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/notebookExecutionJobs",
@@ -91704,11 +91635,13 @@ function __c972(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          notebookRuntimeTemplateId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(31136, __c973, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31136, __c973, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            notebookRuntimeTemplateId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/notebookRuntimeTemplates",
@@ -91751,10 +91684,12 @@ function __c974(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(31246, __c976, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31246, __c976, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/onlineEvaluators",
@@ -91905,11 +91840,13 @@ function __c977(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          persistentResourceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(31306, __c978, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31306, __c978, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            persistentResourceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/persistentResources",
@@ -92022,11 +91959,13 @@ function __c979(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pipelineJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(31417, __c981, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31417, __c981, 25),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            pipelineJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/pipelineJobs",
@@ -92253,10 +92192,12 @@ function __c982(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(31473, __c983, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31473, __c983, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragCorpora",
@@ -92440,11 +92381,13 @@ function __c985(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          ragDataSchemaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(39651, __c1239, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39651, __c1239, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            ragDataSchemaId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragDataSchemas",
@@ -92458,11 +92401,13 @@ function __c986(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          ragMetadataId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(40036, __c1251, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40036, __c1251, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            ragMetadataId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragMetadata",
@@ -92476,10 +92421,12 @@ function __c987(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(30819, __c963, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30819, __c963, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:appendEvent",
@@ -92493,10 +92440,12 @@ function __c988(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(31801, __c993, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31801, __c993, 25),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/reasoningEngines",
@@ -92978,11 +92927,13 @@ function __c995(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          a2aTaskId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(31876, __c996, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31876, __c996, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            a2aTaskId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/a2aTasks",
@@ -93040,10 +92991,12 @@ function __c997(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(31936, __c998, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31936, __c998, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/feedbackEntries",
@@ -93077,11 +93030,13 @@ function __c999(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          memoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            memoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories",
@@ -93095,10 +93050,12 @@ function __c1000(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32035, __c1001, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32035, __c1001, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sandboxEnvironments",
@@ -93164,10 +93121,12 @@ function __c1002(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32107, __c1003, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32107, __c1003, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sandboxEnvironmentTemplates",
@@ -93295,11 +93254,13 @@ function __c1004(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32160, __c1005, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32160, __c1005, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            sessionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sessions",
@@ -93331,10 +93292,12 @@ function __c1006(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32228, __c1007, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32228, __c1007, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/schedules",
@@ -93409,11 +93372,13 @@ function __c1008(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          semanticGovernancePolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32291, __c1009, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32291, __c1009, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            semanticGovernancePolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/semanticGovernancePolicies",
@@ -93463,11 +93428,13 @@ function __c1010(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingProfileId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32353, __c1011, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32353, __c1011, 1),
+          S.Struct({
+            servingProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/servingProfiles",
@@ -93511,10 +93478,12 @@ function __c1012(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AppendA2aTaskEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32384, __c1012, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32384, __c1012, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:appendEvents",
@@ -93714,11 +93683,13 @@ function __c1017(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skillId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32576, __c1018, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32576, __c1018, 0),
+          S.Struct({
+            skillId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/skills",
@@ -93753,10 +93724,12 @@ function __c1019(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32640, __c1020, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32640, __c1020, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/specialistPools",
@@ -93785,10 +93758,12 @@ function __c1021(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32704, __c1022, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32704, __c1022, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/studies",
@@ -93817,10 +93792,12 @@ function __c1023(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28961, __c905, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28961, __c905, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/trials",
@@ -93834,11 +93811,13 @@ function __c1024(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          a2aTaskRecordId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32802, __c1025, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32802, __c1025, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            a2aTaskRecordId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/a2aTaskRecords",
@@ -93881,10 +93860,12 @@ function __c1026(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32864, __c1027, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32864, __c1027, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tensorboards",
@@ -93920,11 +93901,13 @@ function __c1028(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          tensorboardExperimentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32928, __c1029, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32928, __c1029, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            tensorboardExperimentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/experiments",
@@ -93955,11 +93938,13 @@ function __c1030(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tensorboardRunId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40864, __c1277, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40864, __c1277, 0),
+          S.Struct({
+            tensorboardRunId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/runs",
@@ -93973,11 +93958,13 @@ function __c1031(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tensorboardTimeSeriesId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40449, __c1264, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40449, __c1264, 1),
+          S.Struct({
+            tensorboardTimeSeriesId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/timeSeries",
@@ -93993,10 +93980,12 @@ function __c1032(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33126, __c1035, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33126, __c1035, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/trainingPipelines",
@@ -94209,10 +94198,12 @@ function __c1036(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AppendA2ATaskRecordEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(33152, __c1036, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33152, __c1036, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:appendEvents",
@@ -94312,10 +94303,12 @@ function __c1039(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33419, __c1044, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33419, __c1044, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/tuningJobs",
@@ -94930,10 +94923,12 @@ function __c1046(j: number): any {
       ).annotate({ identifier: "GoogleLearningVertexApiInteractionsV1beta1CreateVoiceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33472, __c1046, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33472, __c1046, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/voices:create",
@@ -94994,10 +94989,12 @@ function __c1048(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(31801, __c993, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31801, __c993, 25),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/reasoningEngines",
@@ -95011,11 +95008,13 @@ function __c1049(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          memoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26721, __c835, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26721, __c835, 1),
+          S.Struct({
+            memoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories",
@@ -95029,10 +95028,12 @@ function __c1050(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32035, __c1001, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32035, __c1001, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sandboxEnvironments",
@@ -95046,10 +95047,12 @@ function __c1051(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32107, __c1003, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32107, __c1003, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sandboxEnvironmentTemplates",
@@ -95063,11 +95066,13 @@ function __c1052(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32160, __c1005, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32160, __c1005, 0),
+          S.Struct({
+            sessionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sessions",
@@ -95081,11 +95086,13 @@ function __c1053(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectsId: S.String.pipe(T.Label()),
-          locationsId: S.String.pipe(T.Label()),
-          body: S.optional(__S(29856, __c933, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29856, __c933, 0),
+          S.Struct({
+            projectsId: S.String.pipe(T.Label()),
+            locationsId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectsId}/locations/{locationsId}/interactions:createStream",
@@ -95395,10 +95402,12 @@ function __c1058(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AskContextsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33856, __c1058, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33856, __c1058, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:askContexts",
@@ -95820,10 +95829,12 @@ function __c1073(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DeleteTaskArtifactRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          task: S.String.pipe(T.Label()),
-          body: S.optional(__S(34336, __c1073, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34336, __c1073, 0),
+          S.Struct({
+            task: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+task}:deleteArtifact",
@@ -95987,10 +95998,12 @@ function __c1083(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AssembleDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34656, __c1083, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34656, __c1083, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:assemble",
@@ -96476,10 +96489,12 @@ function __c1099(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AssessDataRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(35169, __c1099, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35169, __c1099, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:assess",
@@ -96670,10 +96685,12 @@ function __c1109(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DeleteFeatureValuesRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          body: S.optional(__S(35491, __c1109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35491, __c1109, 3),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+entityType}:deleteFeatureValues",
@@ -96697,10 +96714,12 @@ function __c1110(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AssignNotebookRuntimeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(35520, __c1110, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35520, __c1110, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/notebookRuntimes:assign",
@@ -97043,10 +97062,12 @@ function __c1128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(36128, __c1129, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36128, __c1129, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:asyncQuery",
@@ -97231,10 +97252,12 @@ function __c1140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(36128, __c1129, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36128, __c1129, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:asyncQuery",
@@ -97417,10 +97440,12 @@ function __c1151(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AsyncRetrieveContextsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(36832, __c1151, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36832, __c1151, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:asyncRetrieveContexts",
@@ -97639,10 +97664,12 @@ function __c1164(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1AugmentPromptRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(37249, __c1164, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37249, __c1164, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:augmentPrompt",
@@ -98202,10 +98229,12 @@ function __c1198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(38368, __c1199, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38368, __c1199, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/pipelineJobs:batchCancel",
@@ -98396,10 +98425,12 @@ function __c1210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(38754, __c1211, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38754, __c1211, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/features:batchCreate",
@@ -98712,10 +98743,12 @@ function __c1227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(38754, __c1211, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38754, __c1211, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/features:batchCreate",
@@ -98914,10 +98947,12 @@ function __c1238(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1BatchCreateRagDataSchemasRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(39618, __c1238, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39618, __c1238, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragDataSchemas:batchCreate",
@@ -99145,10 +99180,12 @@ function __c1250(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1BatchCreateRagMetadataRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40002, __c1250, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40002, __c1250, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragMetadata:batchCreate",
@@ -99381,10 +99418,12 @@ function __c1262(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40386, __c1262, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40386, __c1262, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:batchCreate",
@@ -99625,10 +99664,12 @@ function __c1275(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1BatchCreateTensorboardRunsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40802, __c1275, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40802, __c1275, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/runs:batchCreate",
@@ -99858,10 +99899,12 @@ function __c1289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(38368, __c1199, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38368, __c1199, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/pipelineJobs:batchDelete",
@@ -100051,10 +100094,12 @@ function __c1300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(38368, __c1199, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38368, __c1199, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragDataSchemas:batchDelete",
@@ -100233,10 +100278,12 @@ function __c1311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(38368, __c1199, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38368, __c1199, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragMetadata:batchDelete",
@@ -100421,10 +100468,12 @@ function __c1322(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1BatchEmbedContentsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(42305, __c1322, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42305, __c1322, 1),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:batchEmbedContents",
@@ -100734,10 +100783,12 @@ function __c1336(j: number): any {
       });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(42760, __c1336, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42760, __c1336, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:batchImport",
@@ -101032,10 +101083,12 @@ function __c1350(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1BatchMigrateResourcesRequest" });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(43208, __c1350, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(43208, __c1350, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/migratableResources:batchMigrate",
@@ -101246,10 +101299,12 @@ function __c1361(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1BatchReadFeatureValuesRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          featurestore: S.String.pipe(T.Label()),
-          body: S.optional(__S(43556, __c1361, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(43556, __c1361, 4),
+          S.Struct({
+            featurestore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+featurestore}:batchReadFeatureValues",
@@ -101675,10 +101730,12 @@ function __c1389(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DeployIndexRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          indexEndpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(44448, __c1389, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44448, __c1389, 0),
+          S.Struct({
+            indexEndpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+indexEndpoint}:deployIndex",
@@ -101699,10 +101756,12 @@ function __c1390(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DeployModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(44480, __c1390, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44480, __c1390, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:deployModel",
@@ -101765,10 +101824,12 @@ function __c1391(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DeployRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          destination: S.String.pipe(T.Label()),
-          body: S.optional(__S(44516, __c1391, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44516, __c1391, 4),
+          S.Struct({
+            destination: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+destination}:deploy",
@@ -101793,10 +101854,12 @@ function __c1392(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DeployPublisherModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          destination: S.String.pipe(T.Label()),
-          body: S.optional(__S(44544, __c1392, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44544, __c1392, 0),
+          S.Struct({
+            destination: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+destination}:deployPublisherModel",
@@ -101818,10 +101881,12 @@ function __c1393(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44576, __c1393, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44576, __c1393, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:deprovision",
@@ -101844,10 +101909,12 @@ function __c1394(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DirectPredictRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(44608, __c1394, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44608, __c1394, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:directPredict",
@@ -101904,10 +101971,12 @@ function __c1397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44739, __c1398, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44739, __c1398, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:bidiExecute",
@@ -101966,10 +102035,12 @@ function __c1399(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1DirectRawPredictRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(44768, __c1399, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44768, __c1399, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:directRawPredict",
@@ -102030,10 +102101,12 @@ function __c1400(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1FeatureViewDirectWriteRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          featureView: S.String.pipe(T.Label()),
-          body: S.optional(__S(44805, __c1400, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44805, __c1400, 5),
+          S.Struct({
+            featureView: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+featureView}:directWrite",
@@ -102370,10 +102443,12 @@ function __c1410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(42401, __c1325, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42401, __c1325, 1),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:embedContent",
@@ -102395,11 +102470,13 @@ function __c1411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          deployedModelId: S.optional(S.String.pipe(T.Query())),
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            deployedModelId: S.optional(S.String.pipe(T.Query())),
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/embeddings",
@@ -102413,10 +102490,12 @@ function __c1412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44739, __c1398, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44739, __c1398, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:bidiExecute",
@@ -102436,11 +102515,13 @@ function __c1413(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1EnableModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(45216, __c1413, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45216, __c1413, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/{+name}:enableModel",
@@ -102467,10 +102548,12 @@ function __c1414(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1EnableDetectorRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(45248, __c1414, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45248, __c1414, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:enable",
@@ -102501,10 +102584,12 @@ function __c1416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(45344, __c1417, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45344, __c1417, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+location}:evaluateDataset",
@@ -102532,9 +102617,7 @@ function __c1418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(45344, __c1417, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(45344, __c1417, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1:evaluateDataset",
@@ -102548,10 +102631,12 @@ function __c1419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(45515, __c1422, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45515, __c1422, 11),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+location}:evaluateInstances",
@@ -103401,9 +103486,7 @@ function __c1426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(45515, __c1422, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(45515, __c1422, 11), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1:evaluateInstances",
@@ -103417,10 +103500,12 @@ function __c1427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44739, __c1398, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44739, __c1398, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:executeCode",
@@ -103434,10 +103519,12 @@ function __c1428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44739, __c1398, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44739, __c1398, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:executeCode",
@@ -103459,10 +103546,12 @@ function __c1429(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ExecuteExtensionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(45728, __c1429, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45728, __c1429, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:execute",
@@ -103512,10 +103601,12 @@ function __c1432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44739, __c1398, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44739, __c1398, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:execute",
@@ -103531,10 +103622,12 @@ function __c1433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44739, __c1398, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44739, __c1398, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:execute",
@@ -103604,10 +103697,12 @@ function __c1434(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ExplainRequest" });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(45896, __c1434, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45896, __c1434, 8),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:explain",
@@ -103661,10 +103756,12 @@ function __c1435(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ExportFeatureValuesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          body: S.optional(__S(45921, __c1435, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45921, __c1435, 1),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+entityType}:exportFeatureValues",
@@ -103702,10 +103799,12 @@ function __c1436(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ExportDataRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(45954, __c1436, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45954, __c1436, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:export",
@@ -103733,10 +103832,12 @@ function __c1437(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ExportModelRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(45985, __c1437, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45985, __c1437, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:export",
@@ -103756,11 +103857,13 @@ function __c1438(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ExportPublisherModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(46016, __c1438, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46016, __c1438, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/{+name}:export",
@@ -103785,10 +103888,12 @@ function __c1439(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          tensorboardTimeSeries: S.String.pipe(T.Label()),
-          body: S.optional(__S(46048, __c1439, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46048, __c1439, 0),
+          S.Struct({
+            tensorboardTimeSeries: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+tensorboardTimeSeries}:exportTensorboardTimeSeries",
@@ -103988,10 +104093,12 @@ function __c1449(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1FetchExamplesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          exampleStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(46368, __c1449, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46368, __c1449, 0),
+          S.Struct({
+            exampleStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+exampleStore}:fetchExamples",
@@ -104085,10 +104192,12 @@ function __c1454(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1FetchFeatureValuesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          featureView: S.String.pipe(T.Label()),
-          body: S.optional(__S(46528, __c1454, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46528, __c1454, 0),
+          S.Struct({
+            featureView: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+featureView}:fetchFeatureValues",
@@ -104137,10 +104246,12 @@ function __c1456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(46688, __c1459, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46688, __c1459, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:fetchPredictOperation",
@@ -104154,10 +104265,12 @@ function __c1457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(46688, __c1459, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46688, __c1459, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:fetchPredictOperation",
@@ -104171,10 +104284,12 @@ function __c1458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(46688, __c1459, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46688, __c1459, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:cancelAsyncQuery",
@@ -104200,10 +104315,12 @@ function __c1460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(46688, __c1459, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46688, __c1459, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:fetchPredictOperation",
@@ -104217,10 +104334,12 @@ function __c1461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(46688, __c1459, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46688, __c1459, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}:fetchPredictOperation",
@@ -104289,10 +104408,12 @@ function __c1464(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1FindNeighborsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          indexEndpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(46850, __c1464, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46850, __c1464, 2),
+          S.Struct({
+            indexEndpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+indexEndpoint}:findNeighbors",
@@ -104384,10 +104505,12 @@ function __c1466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(46944, __c1467, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46944, __c1467, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:generateAccessToken",
@@ -104422,10 +104545,12 @@ function __c1468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(46944, __c1467, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46944, __c1467, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:generateAccessToken",
@@ -104439,10 +104564,12 @@ function __c1469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:generateContent",
@@ -104614,10 +104741,12 @@ function __c1471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:generateContent",
@@ -104631,10 +104760,12 @@ function __c1472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:generateContent",
@@ -104648,10 +104779,12 @@ function __c1473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(46688, __c1459, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(46688, __c1459, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:cancelAsyncQuery",
@@ -104665,10 +104798,12 @@ function __c1474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(47040, __c1470, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47040, __c1470, 0),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+model}:generateContent",
@@ -104709,10 +104844,12 @@ function __c1476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(47264, __c1477, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47264, __c1477, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+location}:generateInstanceRubrics",
@@ -104747,9 +104884,7 @@ function __c1478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(47264, __c1477, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(47264, __c1477, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1:generateInstanceRubrics",
@@ -104781,10 +104916,12 @@ function __c1479(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GenerateLossClustersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(47330, __c1479, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47330, __c1479, 2),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+location}:generateLossClusters",
@@ -104798,10 +104935,12 @@ function __c1480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(47394, __c1481, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47394, __c1481, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:generate",
@@ -104855,10 +104994,12 @@ function __c1482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(47394, __c1481, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47394, __c1481, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:generate",
@@ -104872,10 +105013,12 @@ function __c1483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(47394, __c1481, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47394, __c1481, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:generate",
@@ -104889,10 +105032,12 @@ function __c1484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(47394, __c1481, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47394, __c1481, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:generate",
@@ -104948,10 +105093,12 @@ function __c1485(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GenerateSyntheticDataRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(47527, __c1485, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47527, __c1485, 7),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+location}:generateSyntheticData",
@@ -105006,10 +105153,12 @@ function __c1487(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GenerateUserScenariosRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(47585, __c1487, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47585, __c1487, 1),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+location}:generateUserScenarios",
@@ -105154,10 +105303,12 @@ function __c1494(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RetrieveContextsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(47809, __c1494, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(47809, __c1494, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:retrieveContexts",
@@ -105910,10 +106061,12 @@ function __c1539(j: number): any {
       ).annotate({ identifier: "GoogleIamV1GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(49249, __c1539, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49249, __c1539, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:getIamPolicy",
@@ -106495,10 +106648,12 @@ function __c1574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(50400, __c1575, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(50400, __c1575, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieveProfiles",
@@ -106537,10 +106692,12 @@ function __c1576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(50400, __c1575, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(50400, __c1575, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieveProfiles",
@@ -106554,10 +106711,12 @@ function __c1577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(50400, __c1575, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(50400, __c1575, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieveProfiles",
@@ -106571,10 +106730,12 @@ function __c1578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(50400, __c1575, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(50400, __c1575, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:retrieveProfiles",
@@ -112092,10 +112253,12 @@ function __c1841(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ImportFeatureValuesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          body: S.optional(__S(58914, __c1841, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(58914, __c1841, 2),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+entityType}:importFeatureValues",
@@ -112128,10 +112291,12 @@ function __c1842(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ImportDataRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(58946, __c1842, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(58946, __c1842, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:import",
@@ -112232,10 +112397,12 @@ function __c1844(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ImportEvaluationSetRequest" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(59014, __c1844, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59014, __c1844, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/evaluationSets:import",
@@ -112249,10 +112416,12 @@ function __c1845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(52171, __c1630, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(52171, __c1630, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/extensions:import",
@@ -112328,10 +112497,12 @@ function __c1846(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ImportIndexRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(59079, __c1846, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59079, __c1846, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:import",
@@ -112351,10 +112522,12 @@ function __c1847(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ImportModelEvaluationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(59104, __c1847, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59104, __c1847, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/evaluations:import",
@@ -112452,10 +112625,12 @@ function __c1848(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1ImportRagFilesRequest" });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(59144, __c1848, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59144, __c1848, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/ragFiles:import",
@@ -112469,11 +112644,13 @@ function __c1849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          deployedModelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12352, __c386, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12352, __c386, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+            deployedModelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/science/inference",
@@ -112487,10 +112664,12 @@ function __c1850(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(59235, __c1851, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59235, __c1851, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:ingestEvents",
@@ -112540,10 +112719,12 @@ function __c1852(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(59235, __c1851, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59235, __c1851, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:ingestEvents",
@@ -112557,10 +112738,12 @@ function __c1853(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(59235, __c1851, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59235, __c1851, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:ingestEvents",
@@ -112574,10 +112757,12 @@ function __c1854(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(59235, __c1851, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59235, __c1851, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memories:ingestEvents",
@@ -112607,12 +112792,14 @@ function __c1856(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          invokeId: S.String.pipe(T.Label()),
-          deployedModelId: S.String.pipe(T.Label()),
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(59424, __c1857, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59424, __c1857, 0),
+          S.Struct({
+            invokeId: S.String.pipe(T.Label()),
+            deployedModelId: S.String.pipe(T.Label()),
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/deployedModels/{deployedModelId}/invoke/{+invokeId}",
@@ -112637,11 +112824,13 @@ function __c1858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          invokeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(59424, __c1857, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59424, __c1857, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+            invokeId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/invoke/{+invokeId}",
@@ -112655,11 +112844,13 @@ function __c1859(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          invokeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(59424, __c1857, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(59424, __c1857, 0),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+            invokeId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+endpoint}/invoke/{+invokeId}",

@@ -182,15 +182,13 @@ export interface WorkstationCluster {
   /** Output only. The private IP address of the control plane for this workstation cluster. Workstation VMs need access to this IP address to work with the service, so make sure that your firewall rules allow egress from the workstation VMs to this address. */
   controlPlaneIp?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersRequest {
+export interface CreateProjectsLocationsWorkstationClustersRequest extends WorkstationCluster {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Required. Parent resource name. */
   parent: string;
   /** Required. ID to use for the workstation cluster. */
   workstationClusterId?: string | undefined;
-  /** Request body */
-  body?: WorkstationCluster | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -490,15 +488,13 @@ export interface WorkstationConfig {
   /** Optional. Maximum number of workstations under this configuration a user can have `workstations.workstation.use` permission on. Only enforced on CreateWorkstation API calls on the user issuing the API request. Can be overridden by: - granting a user workstations.workstationConfigs.exemptMaxUsableWorkstationLimit permission, or - having a user with that permission create a workstation and granting another user `workstations.workstation.use` permission on that workstation. If not specified, defaults to `0`, which indicates unlimited. */
   maxUsableWorkstations?: number | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends WorkstationConfig {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Required. Parent resource name. */
   parent: string;
   /** Required. ID to use for the workstation configuration. */
   workstationConfigId?: string | undefined;
-  /** Request body */
-  body?: WorkstationConfig | undefined;
 }
 /** Boost configuration for this workstation. This object is populated from the parent workstation configuration. */
 export interface WorkstationBoostConfig {
@@ -587,15 +583,13 @@ export interface Workstation {
   /** Output only. Time when this workstation was most recently updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Workstation {
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Required. ID to use for the workstation. */
   workstationId?: string | undefined;
-  /** Request body */
-  body?: Workstation | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -638,11 +632,9 @@ export interface GenerateAccessTokenRequest {
   /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
   expireTime?: string | undefined;
 }
-export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends GenerateAccessTokenRequest {
   /** Required. Name of the workstation for which the access token should be generated. */
   workstation: string;
-  /** Request body */
-  body?: GenerateAccessTokenRequest | undefined;
 }
 /** Response message for GenerateAccessToken. */
 export interface GenerateAccessTokenResponse {
@@ -848,7 +840,10 @@ export interface ListUsableWorkstationsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersRequest {
+export interface PatchProjectsLocationsWorkstationClustersRequest extends Omit<
+  WorkstationCluster,
+  "name"
+> {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Optional. If set, and the workstation cluster is not found, a new workstation cluster will be created. In this situation, update_mask is ignored. */
@@ -857,10 +852,11 @@ export interface PatchProjectsLocationsWorkstationClustersRequest {
   name: string;
   /** Required. Mask that specifies which fields in the workstation cluster should be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: WorkstationCluster | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends Omit<
+  WorkstationConfig,
+  "name"
+> {
   /** Required. Mask specifying which fields in the workstation configuration should be updated. */
   updateMask?: string | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
@@ -869,10 +865,11 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequ
   allowMissing?: boolean | undefined;
   /** Identifier. Full name of this workstation configuration. */
   name: string;
-  /** Request body */
-  body?: WorkstationConfig | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Omit<
+  Workstation,
+  "name"
+> {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
   /** Optional. If set and the workstation is not found, a new workstation is created. In this situation, update_mask is ignored. */
@@ -881,8 +878,6 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWork
   name: string;
   /** Required. Mask specifying which fields in the workstation should be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Workstation | undefined;
 }
 /** Represents an OAuth 2.0 access token and its associated metadata. */
 export interface OAuthToken {
@@ -902,11 +897,9 @@ export interface PushCredentialsRequest {
   /** Optional. Credentials used by Cloud Client Libraries, Google API Client Libraries, and other tooling within the user container. For more information, see https://cloud.google.com/docs/authentication/application-default-credentials */
   applicationDefaultCredentials?: OAuthToken | undefined;
 }
-export interface PushCredentialsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface PushCredentialsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends PushCredentialsRequest {
   /** Required. Name of the workstation for which the credentials should be pushed. */
   workstation: string;
-  /** Request body */
-  body?: PushCredentialsRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -915,17 +908,13 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for StartWorkstation. */
 export interface StartWorkstationRequest {
@@ -936,11 +925,9 @@ export interface StartWorkstationRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
 }
-export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StartWorkstationRequest {
   /** Required. Name of the workstation to start. */
   name: string;
-  /** Request body */
-  body?: StartWorkstationRequest | undefined;
 }
 /** Request message for StopWorkstation. */
 export interface StopWorkstationRequest {
@@ -949,41 +936,33 @@ export interface StopWorkstationRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
 }
-export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StopWorkstationRequest {
   /** Required. Name of the workstation to stop. */
   name: string;
-  /** Request body */
-  body?: StopWorkstationRequest | undefined;
 }
 /** Request message for SuspendWorkstation. */
 export type SuspendWorkstationRequest = StopWorkstationRequest;
-export interface SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StopWorkstationRequest {
   /** Required. Name of the workstation to suspend. */
   name: string;
-  /** Request body */
-  body?: StopWorkstationRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1812,10 +1791,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GenerateAccessTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          workstation: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            workstation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+workstation}:generateAccessToken",
@@ -2182,13 +2163,15 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1124, __c35, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1124, __c35, 4),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -2202,13 +2185,15 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1335, __c41, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1335, __c41, 23),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -2224,13 +2209,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1382, __c43, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1382, __c43, 6),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -2263,10 +2250,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PushCredentialsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          workstation: S.String.pipe(T.Label()),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(673, __c21, 1),
+          S.Struct({
+            workstation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+workstation}:pushCredentials",
@@ -2283,10 +2272,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(736, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c23, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -2313,10 +2304,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(736, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c23, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -2341,10 +2334,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "StartWorkstationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:start",
@@ -2361,10 +2356,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:stop",
@@ -2391,10 +2388,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:suspend",
@@ -2411,10 +2410,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -2441,10 +2442,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -2484,12 +2487,14 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          workstationClusterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1124, __c35, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1124, __c35, 4),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            workstationClusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/workstationClusters",
@@ -2604,12 +2609,14 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          workstationConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1335, __c41, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1335, __c41, 23),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            workstationConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/workstationConfigs",
@@ -2835,12 +2842,14 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          workstationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1382, __c43, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1382, __c43, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            workstationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/workstations",

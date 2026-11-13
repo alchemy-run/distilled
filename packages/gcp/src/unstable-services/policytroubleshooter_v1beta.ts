@@ -96,10 +96,7 @@ export interface GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyReque
   /** The information to use for checking whether a member has a permission for a resource. */
   accessTuple?: GoogleCloudPolicytroubleshooterV1betaAccessTuple | undefined;
 }
-export interface TroubleshootIamRequest {
-  /** Request body */
-  body?: GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyRequest | undefined;
-}
+export interface TroubleshootIamRequest extends GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyRequest {}
 export type GoogleCloudPolicytroubleshooterV1betaTroubleshootIamPolicyResponseAccessEnum =
   | "ACCESS_STATE_UNSPECIFIED"
   | "GRANTED"
@@ -304,9 +301,7 @@ function __c0(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1, __c0, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/iam:troubleshoot",

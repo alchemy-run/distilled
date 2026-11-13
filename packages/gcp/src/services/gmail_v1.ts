@@ -88,11 +88,9 @@ export interface BatchDeleteMessagesRequest {
   /** The IDs of the messages to delete. */
   ids?: StringList | undefined;
 }
-export interface BatchDeleteUsersMessagesRequest {
+export interface BatchDeleteUsersMessagesRequest extends BatchDeleteMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: BatchDeleteMessagesRequest | undefined;
 }
 export interface BatchDeleteUsersMessagesResponse {}
 /** Field values for a classification label. */
@@ -123,11 +121,9 @@ export interface BatchModifyMessagesRequest {
   /** A list of Classification Label values to remove from messages. */
   removeClassificationLabelIds?: StringList | undefined;
 }
-export interface BatchModifyUsersMessagesRequest {
+export interface BatchModifyUsersMessagesRequest extends BatchModifyMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: BatchModifyMessagesRequest | undefined;
 }
 export interface BatchModifyUsersMessagesResponse {}
 export interface MessagePartHeader {
@@ -192,11 +188,9 @@ export interface Draft {
   /** The message content of the draft. */
   message?: Message | undefined;
 }
-export interface CreateUsersDraftsRequest {
+export interface CreateUsersDraftsRequest extends Draft {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Draft | undefined;
 }
 export type LabelLabelListVisibilityEnum = "labelShow" | "labelShowIfUnread" | "labelHide";
 export type LabelTypeEnum = "system" | "user";
@@ -230,11 +224,9 @@ export interface Label {
   /** The visibility of messages with this label in the message list in the Gmail web interface. */
   messageListVisibility?: LabelMessageListVisibilityEnum | (string & {}) | undefined;
 }
-export interface CreateUsersLabelsRequest {
+export interface CreateUsersLabelsRequest extends Label {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Label | undefined;
 }
 /** The configuration of a CSE identity that uses different key pairs for signing and encryption. */
 export interface SignAndEncryptKeyPairs {
@@ -252,11 +244,9 @@ export interface CseIdentity {
   /** The email address for the sending identity. The email address must be the primary email address of the authenticated user. */
   emailAddress?: string | undefined;
 }
-export interface CreateUsersSettingsCseIdentitiesRequest {
+export interface CreateUsersSettingsCseIdentitiesRequest extends CseIdentity {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
-  /** Request body */
-  body?: CseIdentity | undefined;
 }
 export type CreateUsersSettingsCseKeypairsChainValidationEnum = "all" | "none";
 /** Metadata for hardware keys. If [hardware key encryption](https://support.google.com/a/answer/14153163) is set up for the Google Workspace organization, users can optionally store their private key on their smart card and use it to sign and decrypt email messages in Gmail by inserting their smart card into a reader attached to their Windows device. */
@@ -299,13 +289,11 @@ export interface CseKeyPair {
   /** Output only. The current state of the key pair. */
   enablementState?: CseKeyPairEnablementStateEnum | (string & {}) | undefined;
 }
-export interface CreateUsersSettingsCseKeypairsRequest {
+export interface CreateUsersSettingsCseKeypairsRequest extends CseKeyPair {
   /** The type of certificate chain validation to perform at creation. The request will be rejected if the uploaded chain fails to satisfy the requested validation checks. When unspecified, this parameter defaults to `all`. */
   chainValidation?: CreateUsersSettingsCseKeypairsChainValidationEnum | (string & {}) | undefined;
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
-  /** Request body */
-  body?: CseKeyPair | undefined;
 }
 export type DelegateVerificationStatusEnum =
   | "verificationStatusUnspecified"
@@ -320,11 +308,9 @@ export interface Delegate {
   /** Indicates whether this address has been verified and can act as a delegate for the account. Read-only. */
   verificationStatus?: DelegateVerificationStatusEnum | (string & {}) | undefined;
 }
-export interface CreateUsersSettingsDelegatesRequest {
+export interface CreateUsersSettingsDelegatesRequest extends Delegate {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Delegate | undefined;
 }
 export type FilterCriteriaSizeComparisonEnum = "unspecified" | "smaller" | "larger";
 /** Message matching criteria. */
@@ -366,11 +352,9 @@ export interface Filter {
   /** Action that the filter performs. */
   action?: FilterAction | undefined;
 }
-export interface CreateUsersSettingsFiltersRequest {
+export interface CreateUsersSettingsFiltersRequest extends Filter {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Filter | undefined;
 }
 export type ForwardingAddressVerificationStatusEnum =
   | "verificationStatusUnspecified"
@@ -383,11 +367,9 @@ export interface ForwardingAddress {
   /** An email address to which messages can be forwarded. */
   forwardingEmail?: string | undefined;
 }
-export interface CreateUsersSettingsForwardingAddressesRequest {
+export interface CreateUsersSettingsForwardingAddressesRequest extends ForwardingAddress {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: ForwardingAddress | undefined;
 }
 export type SendAsVerificationStatusEnum = "verificationStatusUnspecified" | "accepted" | "pending";
 export type SmtpMsaSecurityModeEnum = "securityModeUnspecified" | "none" | "ssl" | "starttls";
@@ -425,11 +407,9 @@ export interface SendAs {
   /** The email address that appears in the "From:" header for mail sent using this alias. This is read-only for all operations except create. */
   sendAsEmail?: string | undefined;
 }
-export interface CreateUsersSettingsSendAsRequest {
+export interface CreateUsersSettingsSendAsRequest extends SendAs {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: SendAs | undefined;
 }
 export interface DeleteUsersDraftsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -750,7 +730,7 @@ export interface VacationSettings {
   restrictToContacts?: boolean | undefined;
 }
 export type ImportUsersMessagesInternalDateSourceEnum = "receivedTime" | "dateHeader";
-export interface ImportUsersMessagesRequest {
+export interface ImportUsersMessagesRequest extends Message {
   /** Source for Gmail's internal date of the message. */
   internalDateSource?: ImportUsersMessagesInternalDateSourceEnum | (string & {}) | undefined;
   /** Ignore the Gmail spam classifier decision and never mark this email as SPAM in the mailbox. */
@@ -761,27 +741,21 @@ export interface ImportUsersMessagesRequest {
   processForCalendar?: boolean | undefined;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Message | undefined;
 }
 export type InsertUsersMessagesInternalDateSourceEnum = "receivedTime" | "dateHeader";
-export interface InsertUsersMessagesRequest {
+export interface InsertUsersMessagesRequest extends Message {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** Mark the email as permanently deleted (not TRASH) and only visible in Google Vault to a Vault administrator. Only used for Google Workspace accounts. */
   deleted?: boolean | undefined;
   /** Source for Gmail's internal date of the message. */
   internalDateSource?: InsertUsersMessagesInternalDateSourceEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Message | undefined;
 }
-export interface InsertUsersSettingsSendAsSmimeInfoRequest {
+export interface InsertUsersSettingsSendAsSmimeInfoRequest extends SmimeInfo {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** The email address that appears in the "From:" header for mail sent using this alias. */
   sendAsEmail: string;
-  /** Request body */
-  body?: SmimeInfo | undefined;
 }
 export interface ListUsersDraftsRequest {
   /** Page token to retrieve a specific page of results in the list. */
@@ -1013,13 +987,11 @@ export interface ModifyMessageRequest {
   /** A list of classification label values to add. If a Classification Label with the same label ID is already applied to the message, fields with existing field IDs will be updated and fields with new field IDs will be added. There's a limit of 20 Classification Label values per request. If the message is already classified and the final total number of Classification Label values exceeds the maximum allowed number of Classification Label values per message, the modification fails. */
   addClassificationLabels?: ClassificationLabelValueList | undefined;
 }
-export interface ModifyUsersMessagesRequest {
+export interface ModifyUsersMessagesRequest extends ModifyMessageRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** The ID of the message to modify. */
   id: string;
-  /** Request body */
-  body?: ModifyMessageRequest | undefined;
 }
 export interface ModifyThreadRequest {
   /** A list of IDs of labels to add to this thread. You can add up to 100 labels with each update. */
@@ -1027,13 +999,11 @@ export interface ModifyThreadRequest {
   /** A list of IDs of labels to remove from this thread. You can remove up to 100 labels with each update. */
   removeLabelIds?: StringList | undefined;
 }
-export interface ModifyUsersThreadsRequest {
+export interface ModifyUsersThreadsRequest extends ModifyThreadRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** The ID of the thread to modify. */
   id: string;
-  /** Request body */
-  body?: ModifyThreadRequest | undefined;
 }
 /** Request to obliterate a CSE key pair. */
 export type ObliterateCseKeyPairRequest = DisableCseKeyPairRequest;
@@ -1046,41 +1016,31 @@ export interface ObliterateUsersSettingsCseKeypairsRequest {
   body?: DisableCseKeyPairRequest | undefined;
 }
 export interface ObliterateUsersSettingsCseKeypairsResponse {}
-export interface PatchUsersLabelsRequest {
+export interface PatchUsersLabelsRequest extends Omit<Label, "id"> {
   /** The ID of the label to update. */
   id: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Label | undefined;
 }
-export interface PatchUsersSettingsCseIdentitiesRequest {
+export interface PatchUsersSettingsCseIdentitiesRequest extends Omit<CseIdentity, "emailAddress"> {
   /** The email address of the client-side encryption identity to update. */
   emailAddress: string;
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
-  /** Request body */
-  body?: CseIdentity | undefined;
 }
-export interface PatchUsersSettingsSendAsRequest {
+export interface PatchUsersSettingsSendAsRequest extends Omit<SendAs, "sendAsEmail"> {
   /** The send-as alias to be updated. */
   sendAsEmail: string;
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: SendAs | undefined;
 }
-export interface SendUsersDraftsRequest {
+export interface SendUsersDraftsRequest extends Draft {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Draft | undefined;
 }
-export interface SendUsersMessagesRequest {
+export interface SendUsersMessagesRequest extends Message {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Message | undefined;
 }
 export interface SetDefaultUsersSettingsSendAsSmimeInfoRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -1120,59 +1080,43 @@ export interface UntrashUsersThreadsRequest {
   /** The ID of the thread to remove from Trash. */
   id: string;
 }
-export interface UpdateAutoForwardingUsersSettingsRequest {
+export interface UpdateAutoForwardingUsersSettingsRequest extends AutoForwarding {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: AutoForwarding | undefined;
 }
-export interface UpdateImapUsersSettingsRequest {
+export interface UpdateImapUsersSettingsRequest extends ImapSettings {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: ImapSettings | undefined;
 }
-export interface UpdateLanguageUsersSettingsRequest {
+export interface UpdateLanguageUsersSettingsRequest extends LanguageSettings {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: LanguageSettings | undefined;
 }
-export interface UpdatePopUsersSettingsRequest {
+export interface UpdatePopUsersSettingsRequest extends PopSettings {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: PopSettings | undefined;
 }
-export interface UpdateUsersDraftsRequest {
+export interface UpdateUsersDraftsRequest extends Omit<Draft, "id"> {
   /** The ID of the draft to update. */
   id: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Draft | undefined;
 }
-export interface UpdateUsersLabelsRequest {
+export interface UpdateUsersLabelsRequest extends Omit<Label, "id"> {
   /** The ID of the label to update. */
   id: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: Label | undefined;
 }
-export interface UpdateUsersSettingsSendAsRequest {
+export interface UpdateUsersSettingsSendAsRequest extends Omit<SendAs, "sendAsEmail"> {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
   /** The send-as alias to be updated. */
   sendAsEmail: string;
-  /** Request body */
-  body?: SendAs | undefined;
 }
-export interface UpdateVacationUsersSettingsRequest {
+export interface UpdateVacationUsersSettingsRequest extends VacationSettings {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: VacationSettings | undefined;
 }
 export interface VerifyUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
@@ -1194,11 +1138,9 @@ export interface WatchRequest {
   /** Filtering behavior of `labelIds list` specified. This field is deprecated because it caused incorrect behavior in some cases; use `label_filter_behavior` instead. */
   labelFilterAction?: WatchRequestLabelFilterActionEnum | (string & {}) | undefined;
 }
-export interface WatchUsersRequest {
+export interface WatchUsersRequest extends WatchRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** Request body */
-  body?: WatchRequest | undefined;
 }
 /** Push notification watch response. */
 export interface WatchResponse {
@@ -2702,10 +2644,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/settings/delegates",
@@ -2730,10 +2674,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(50, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(50, __c3, 2),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/settings/filters",
@@ -2781,10 +2727,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/settings/forwardingAddresses",
@@ -2809,10 +2757,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(113, __c7, 1),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/settings/sendAs",
@@ -3359,10 +3309,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "BatchDeleteMessagesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c38, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/messages/batchDelete",
@@ -3512,14 +3464,16 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          internalDateSource: S.optional(S.String.pipe(T.Query())),
-          neverMarkSpam: S.optional(S.Boolean.pipe(T.Query())),
-          deleted: S.optional(S.Boolean.pipe(T.Query())),
-          processForCalendar: S.optional(S.Boolean.pipe(T.Query())),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1108, __c69, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1108, __c69, 4),
+          S.Struct({
+            internalDateSource: S.optional(S.String.pipe(T.Query())),
+            neverMarkSpam: S.optional(S.Boolean.pipe(T.Query())),
+            deleted: S.optional(S.Boolean.pipe(T.Query())),
+            processForCalendar: S.optional(S.Boolean.pipe(T.Query())),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/messages/import",
@@ -3533,12 +3487,14 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          deleted: S.optional(S.Boolean.pipe(T.Query())),
-          internalDateSource: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1108, __c69, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1108, __c69, 4),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            deleted: S.optional(S.Boolean.pipe(T.Query())),
+            internalDateSource: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/messages",
@@ -3552,11 +3508,13 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          sendAsEmail: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(688, __c43, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            sendAsEmail: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo",
@@ -3695,10 +3653,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "BatchModifyMessagesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(880, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(880, __c55, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/messages/batchModify",
@@ -3978,11 +3938,13 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ModifyMessageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c66, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/messages/{id}/modify",
@@ -3996,10 +3958,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/drafts",
@@ -4084,11 +4048,13 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ModifyThreadRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1136, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/threads/{id}/modify",
@@ -4120,11 +4086,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c82, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1313, __c82, 1),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "gmail/v1/users/{userId}/labels/{id}",
@@ -4138,11 +4106,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          emailAddress: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1505, __c94, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1505, __c94, 1),
+          S.Struct({
+            emailAddress: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "gmail/v1/users/{userId}/settings/cse/identities/{emailAddress}",
@@ -4156,11 +4126,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sendAsEmail: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(113, __c7, 1),
+          S.Struct({
+            sendAsEmail: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}",
@@ -4174,10 +4146,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/drafts/send",
@@ -4191,10 +4165,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1108, __c69, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1108, __c69, 4),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/messages/send",
@@ -4259,10 +4235,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c82, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1313, __c82, 1),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/labels",
@@ -4353,10 +4331,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/settings/autoForwarding",
@@ -4370,10 +4350,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(368, __c23, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/settings/imap",
@@ -4387,10 +4369,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/settings/language",
@@ -4404,10 +4388,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/settings/pop",
@@ -4421,11 +4407,13 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/drafts/{id}",
@@ -4439,11 +4427,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c82, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1313, __c82, 1),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/labels/{id}",
@@ -4457,11 +4447,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          sendAsEmail: S.String.pipe(T.Label()),
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(113, __c7, 1),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            sendAsEmail: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}",
@@ -4475,10 +4467,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1505, __c94, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1505, __c94, 1),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/settings/cse/identities",
@@ -4511,10 +4505,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c48, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "gmail/v1/users/{userId}/settings/vacation",
@@ -4554,10 +4550,12 @@ function __c97(j: number): any {
       ).annotate({ identifier: "WatchRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1552, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1552, __c97, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/watch",
@@ -4578,11 +4576,13 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          chainValidation: S.optional(S.String.pipe(T.Query())),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1588, __c99, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1588, __c99, 4),
+          S.Struct({
+            chainValidation: S.optional(S.String.pipe(T.Query())),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "gmail/v1/users/{userId}/settings/cse/keypairs",

@@ -493,8 +493,18 @@ export interface PatchApiregistrationV1APIServiceRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** Spec contains information for locating and communicating with a server */
+  spec?: T.MergePatch<IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceSpec> | undefined;
+  /** Status contains derived information about an API server */
+  status?: T.MergePatch<IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceStatus> | undefined;
 }
 export interface PatchApiregistrationV1APIServiceStatusRequest {
   /** name of the APIService */
@@ -511,8 +521,18 @@ export interface PatchApiregistrationV1APIServiceStatusRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** Spec contains information for locating and communicating with a server */
+  spec?: T.MergePatch<IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceSpec> | undefined;
+  /** Status contains derived information about an API server */
+  status?: T.MergePatch<IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceStatus> | undefined;
 }
 export interface ReadApiregistrationV1APIServiceRequest {
   /** name of the APIService */
@@ -932,7 +952,12 @@ function __c0(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(165, __c10, 5)),
+          spec: S.optional(__S(167, __c10, 7)),
+          status: S.optional(__S(170, __c10, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1464,7 +1489,12 @@ function __c18(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(165, __c10, 5)),
+          spec: S.optional(__S(167, __c10, 7)),
+          status: S.optional(__S(170, __c10, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",

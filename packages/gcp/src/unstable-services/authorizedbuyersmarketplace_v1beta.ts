@@ -417,17 +417,13 @@ export interface DataSegment {
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name?: string | undefined;
 }
-export interface CreateCuratorsCuratedPackagesRequest {
+export interface CreateCuratorsCuratedPackagesRequest extends CuratedPackage {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: CuratedPackage | undefined;
 }
-export interface CreateCuratorsDataSegmentsRequest {
+export interface CreateCuratorsDataSegmentsRequest extends DataSegment {
   /** Required. The parent resource where this data segment will be created. v1alpha format: `buyers/{accountId}` v1beta format: `curators/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: DataSegment | undefined;
 }
 /** Request message for DeactivateCuratedPackage. */
 export type DeactivateCuratedPackageRequest = ActivateCuratedPackageRequest;
@@ -514,21 +510,17 @@ export interface ListMediaPlannersResponse {
   /** List of media planners. */
   mediaPlanners?: MediaPlannerList | undefined;
 }
-export interface PatchCuratorsCuratedPackagesRequest {
+export interface PatchCuratorsCuratedPackagesRequest extends Omit<CuratedPackage, "name"> {
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CuratedPackage | undefined;
 }
-export interface PatchCuratorsDataSegmentsRequest {
+export interface PatchCuratorsDataSegmentsRequest extends Omit<DataSegment, "name"> {
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
-  /** Request body */
-  body?: DataSegment | undefined;
 }
 export interface SearchMediaPlannersRequest {
   /** Optional. The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
@@ -963,11 +955,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(221, __c13, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(221, __c13, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -981,11 +975,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1221,10 +1217,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(221, __c13, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(221, __c13, 13),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/curatedPackages",
@@ -1238,10 +1236,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/dataSegments",

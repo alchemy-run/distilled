@@ -108,11 +108,9 @@ export interface ApplyParametersRequest {
   /** Nodes to which the instance-level parameter group is applied. */
   nodeIds?: StringList | undefined;
 }
-export interface ApplyParametersProjectsLocationsInstancesRequest {
+export interface ApplyParametersProjectsLocationsInstancesRequest extends ApplyParametersRequest {
   /** Required. Resource name of the Memcached instance for which parameter group updates should be applied. */
   name: string;
-  /** Request body */
-  body?: ApplyParametersRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -307,13 +305,11 @@ export interface Instance {
   /** Optional. Last self service update maintenance version triggered by the customer. If it is empty, it means that the maintenance version is not set by the user. */
   maintenanceVersion?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. The logical name of the Memcached instance in the user project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the user project / location. If any of the above are not met, the API raises an invalid argument error. */
   instanceId?: string | undefined;
   /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region */
   parent: string;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. Memcached instance resource name in the format: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region */
@@ -425,13 +421,11 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Required. Mask of fields to update. * `displayName` */
   updateMask?: string | undefined;
   /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Memcached instances are managed and addressed at the regional level so `location_id` here refers to a Google Cloud region; however, users may choose which zones Memcached nodes should be provisioned in within an instance. Refer to zones field for more details. */
   name: string;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type RescheduleMaintenanceRequestRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -445,11 +439,9 @@ export interface RescheduleMaintenanceRequest {
   /** Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format, for example `2012-11-15T16:19:00.094Z`. */
   scheduleTime?: string | undefined;
 }
-export interface RescheduleMaintenanceProjectsLocationsInstancesRequest {
+export interface RescheduleMaintenanceProjectsLocationsInstancesRequest extends RescheduleMaintenanceRequest {
   /** Required. Memcache instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   instance: string;
-  /** Request body */
-  body?: RescheduleMaintenanceRequest | undefined;
 }
 /** Request message for SetTags. */
 export interface SetTagsRequest {
@@ -462,11 +454,9 @@ export interface SetTagsRequest {
   /** Optional. A unique identifier for this request. Must be a valid UUID. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
 }
-export interface SetTagsProjectsLocationsInstancesRequest {
+export interface SetTagsProjectsLocationsInstancesRequest extends Omit<SetTagsRequest, "name"> {
   /** Required. The full resource name of the service resource. */
   name: string;
-  /** Request body */
-  body?: SetTagsRequest | undefined;
 }
 /** Response message for SetTags. */
 export interface SetTagsResponse {
@@ -484,11 +474,9 @@ export interface UpdateParametersRequest {
   /** The parameters to apply to the instance. */
   parameters?: MemcacheParameters | undefined;
 }
-export interface UpdateParametersProjectsLocationsInstancesRequest {
+export interface UpdateParametersProjectsLocationsInstancesRequest extends UpdateParametersRequest {
   /** Required. Resource name of the Memcached instance for which the parameters should be updated. */
   name: string;
-  /** Request body */
-  body?: UpdateParametersRequest | undefined;
 }
 export type GoogleCloudMemcacheV1UpgradeInstanceRequestMemcacheVersionEnum =
   | "MEMCACHE_VERSION_UNSPECIFIED"
@@ -502,11 +490,9 @@ export interface GoogleCloudMemcacheV1UpgradeInstanceRequest {
     | (string & {})
     | undefined;
 }
-export interface UpgradeProjectsLocationsInstancesRequest {
+export interface UpgradeProjectsLocationsInstancesRequest extends GoogleCloudMemcacheV1UpgradeInstanceRequest {
   /** Required. Memcache instance resource name using the form: `projects/{project}/locations/{location}/instances/{instance}` where `location_id` refers to a GCP region. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudMemcacheV1UpgradeInstanceRequest | undefined;
 }
 export type ApplyParametersProjectsLocationsInstancesError =
   | NotFound
@@ -1033,11 +1019,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(346, __c21, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(346, __c21, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1058,10 +1046,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RescheduleMaintenanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+instance}:rescheduleMaintenance",
@@ -1084,10 +1074,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SetTagsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setTags",
@@ -1116,10 +1108,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdateParametersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}:updateParameters",
@@ -1139,10 +1133,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GoogleCloudMemcacheV1UpgradeInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:upgrade",
@@ -1163,10 +1159,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ApplyParametersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:applyParameters",
@@ -1239,11 +1237,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(346, __c21, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(346, __c21, 10),
+          S.Struct({
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",

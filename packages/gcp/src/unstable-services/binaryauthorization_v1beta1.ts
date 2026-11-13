@@ -145,13 +145,11 @@ export interface Attestor {
   /** Output only. Time when the attestor was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsAttestorsRequest {
+export interface CreateProjectsAttestorsRequest extends Attestor {
   /** Required. The parent of this attestor. */
   parent: string;
   /** Required. The attestors ID. */
   attestorId?: string | undefined;
-  /** Request body */
-  body?: Attestor | undefined;
 }
 export interface DeleteProjectsAttestorsRequest {
   /** Required. The name of the attestors to delete, in the format `projects/*\/attestors/*`. */
@@ -289,51 +287,39 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: IamPolicy | undefined;
 }
-export interface SetIamPolicyProjectsAttestorsRequest {
+export interface SetIamPolicyProjectsAttestorsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsPolicyRequest {
+export interface SetIamPolicyProjectsPolicyRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsAttestorsRequest {
+export interface TestIamPermissionsProjectsAttestorsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsPolicyRequest {
+export interface TestIamPermissionsProjectsPolicyRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdatePolicyProjectsRequest {
+export interface UpdatePolicyProjectsRequest extends Omit<Policy, "name"> {
   /** Output only. The resource name, in the format `projects/*\/policy`. There is at most one policy per project. */
   name: string;
-  /** Request body */
-  body?: Policy | undefined;
 }
-export interface UpdateProjectsAttestorsRequest {
+export interface UpdateProjectsAttestorsRequest extends Omit<Attestor, "name"> {
   /** Required. The resource name, in the format: `projects/*\/attestors/*`. This field may not be updated. */
   name: string;
-  /** Request body */
-  body?: Attestor | undefined;
 }
 export interface Jwt {
   /** The compact encoding of a JWS, which is always three base64 encoded strings joined by periods. For details, see: https://tools.ietf.org/html/rfc7515.html#section-3.1 */
@@ -366,11 +352,9 @@ export interface ValidateAttestationOccurrenceRequest {
   /** Required. An AttestationOccurrence to be checked that it can be verified by the `Attestor`. It does not have to be an existing entity in Container Analysis. It must otherwise be a valid `AttestationOccurrence`. */
   attestation?: AttestationOccurrence | undefined;
 }
-export interface ValidateAttestationOccurrenceProjectsAttestorsRequest {
+export interface ValidateAttestationOccurrenceProjectsAttestorsRequest extends ValidateAttestationOccurrenceRequest {
   /** Required. The resource name of the Attestor of the occurrence, in the format `projects/*\/attestors/*`. */
   attestor: string;
-  /** Request body */
-  body?: ValidateAttestationOccurrenceRequest | undefined;
 }
 export type ValidateAttestationOccurrenceResponseResultEnum =
   | "RESULT_UNSPECIFIED"
@@ -732,10 +716,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c3, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -759,10 +745,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c3, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -776,10 +764,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c6, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -803,10 +793,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c6, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -820,10 +812,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(156, __c19, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(156, __c19, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -837,10 +831,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(100, __c12, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(100, __c12, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -887,10 +883,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ValidateAttestationOccurrenceRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          attestor: S.String.pipe(T.Label()),
-          body: S.optional(__S(85, __c10, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(85, __c10, 5),
+          S.Struct({
+            attestor: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+attestor}:validateAttestationOccurrence",
@@ -911,11 +909,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          attestorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(100, __c12, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(100, __c12, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            attestorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/attestors",

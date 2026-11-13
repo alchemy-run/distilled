@@ -86,11 +86,9 @@ export interface AddIdpCredentialRequest {
   /** PEM encoded x509 certificate containing the public key for verifying IdP signatures. */
   pemData?: string | undefined;
 }
-export interface AddInboundSamlSsoProfilesIdpCredentialsRequest {
+export interface AddInboundSamlSsoProfilesIdpCredentialsRequest extends AddIdpCredentialRequest {
   /** Required. The InboundSamlSsoProfile that owns the IdpCredential. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   parent: string;
-  /** Request body */
-  body?: AddIdpCredentialRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -121,19 +119,15 @@ export interface ApproveDeviceUserRequest {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
   customer?: string | undefined;
 }
-export interface ApproveDevicesDeviceUsersRequest {
+export interface ApproveDevicesDeviceUsersRequest extends ApproveDeviceUserRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
 }
 /** Request message for blocking account on device. */
 export type BlockDeviceUserRequest = ApproveDeviceUserRequest;
-export interface BlockDevicesDeviceUsersRequest {
+export interface BlockDevicesDeviceUsersRequest extends ApproveDeviceUserRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
 }
 /** Request to cancel sent invitation for target email in UserInvitation. */
 export interface CancelUserInvitationRequest {}
@@ -145,19 +139,15 @@ export interface CancelCustomersUserinvitationsRequest {
 }
 /** Request message for cancelling an unfinished device wipe. */
 export type CancelWipeDeviceRequest = ApproveDeviceUserRequest;
-export interface CancelWipeDevicesRequest {
+export interface CancelWipeDevicesRequest extends ApproveDeviceUserRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}`, where device_id is the unique ID assigned to the Device. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
 }
 /** Request message for cancelling an unfinished user account wipe. */
 export type CancelWipeDeviceUserRequest = ApproveDeviceUserRequest;
-export interface CancelWipeDevicesDeviceUsersRequest {
+export interface CancelWipeDevicesDeviceUsersRequest extends ApproveDeviceUserRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
 }
 export interface CheckTransitiveMembershipGroupsMembershipsRequest {
   /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to check the transitive membership in. Format: `groups/{group_id}`, where `group_id` is the unique id assigned to the Group to which the Membership belongs to. */
@@ -177,10 +167,7 @@ export interface AllowlistedDomain {
   /** Output only. Identifier. Resource name of the domain in the allowlist e.g. "allowlistedDomains/0184mhaj1smlusv" */
   name?: string | undefined;
 }
-export interface CreateAllowlistedDomainsRequest {
-  /** Request body */
-  body?: AllowlistedDomain | undefined;
-}
+export interface CreateAllowlistedDomainsRequest extends AllowlistedDomain {}
 export type AntivirusInfoProductStateEnum =
   | "PRODUCT_STATE_UNSPECIFIED"
   | "PRODUCT_STATE_ON"
@@ -522,10 +509,7 @@ export interface CreateDeviceRequest {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
   customer?: string | undefined;
 }
-export interface CreateDevicesRequest {
-  /** Request body */
-  body?: CreateDeviceRequest | undefined;
-}
+export interface CreateDevicesRequest extends CreateDeviceRequest {}
 export type CreateGroupsInitialGroupConfigEnum =
   | "INITIAL_GROUP_CONFIG_UNSPECIFIED"
   | "WITH_INITIAL_OWNER"
@@ -611,11 +595,9 @@ export interface Group {
   /** Output only. The time when the `Group` was created. */
   createTime?: string | undefined;
 }
-export interface CreateGroupsRequest {
+export interface CreateGroupsRequest extends Group {
   /** Required. The initial configuration option for the `Group`. */
   initialGroupConfig?: CreateGroupsInitialGroupConfigEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 export type MembershipDeliverySettingEnum =
   | "DELIVERY_SETTING_UNSPECIFIED"
@@ -685,11 +667,9 @@ export interface Membership {
   /** The `MembershipRole`s that apply to the `Membership`. If unspecified, defaults to a single `MembershipRole` with `name` `MEMBER`. Must not contain duplicate `MembershipRole`s with the same `name`. */
   roles?: MembershipRoleList | undefined;
 }
-export interface CreateGroupsMembershipsRequest {
+export interface CreateGroupsMembershipsRequest extends Membership {
   /** Required. The parent `Group` resource under which to create the `Membership`. Must be of the form `groups/{group_id}`. */
   parent: string;
-  /** Request body */
-  body?: Membership | undefined;
 }
 /** OIDC IDP (identity provider) configuration. */
 export interface OidcIdpConfig {
@@ -720,10 +700,7 @@ export interface InboundOidcSsoProfile {
   /** Immutable. The customer. For example: `customers/C0123abc`. */
   customer?: string | undefined;
 }
-export interface CreateInboundOidcSsoProfilesRequest {
-  /** Request body */
-  body?: InboundOidcSsoProfile | undefined;
-}
+export interface CreateInboundOidcSsoProfilesRequest extends InboundOidcSsoProfile {}
 /** SAML IDP (identity provider) configuration. */
 export interface SamlIdpConfig {
   /** The **Change Password URL** of the identity provider. Users will be sent to this URL when changing their passwords at `myaccount.google.com`. This takes precedence over the change password URL configured at customer-level. Must use `HTTPS`. */
@@ -755,10 +732,7 @@ export interface InboundSamlSsoProfile {
   /** Human-readable name of the SAML SSO profile. */
   displayName?: string | undefined;
 }
-export interface CreateInboundSamlSsoProfilesRequest {
-  /** Request body */
-  body?: InboundSamlSsoProfile | undefined;
-}
+export interface CreateInboundSamlSsoProfilesRequest extends InboundSamlSsoProfile {}
 /** Details that are applicable when `sso_mode` is set to `OIDC_SSO`. */
 export interface OidcSsoInfo {
   /** Required. Name of the `InboundOidcSsoProfile` to use. Must be of the form `inboundOidcSsoProfiles/{inbound_oidc_sso_profile}`. */
@@ -802,10 +776,7 @@ export interface InboundSsoAssignment {
   /** Inbound SSO behavior. */
   ssoMode?: InboundSsoAssignmentSsoModeEnum | (string & {}) | undefined;
 }
-export interface CreateInboundSsoAssignmentsRequest {
-  /** Request body */
-  body?: InboundSsoAssignment | undefined;
-}
+export interface CreateInboundSsoAssignmentsRequest extends InboundSsoAssignment {}
 export type PolicyTypeEnum = "POLICY_TYPE_UNSPECIFIED" | "SYSTEM" | "ADMIN";
 /** Setting */
 export interface Setting {
@@ -838,10 +809,7 @@ export interface Policy {
   /** Required. The PolicyQuery the Setting applies to. */
   policyQuery?: PolicyQuery | undefined;
 }
-export interface CreatePoliciesRequest {
-  /** Request body */
-  body?: Policy | undefined;
-}
+export interface CreatePoliciesRequest extends Policy {}
 export interface DeleteAllowlistedDomainsRequest {
   /** Required. Specifies the [resource name](https://google.aip.dev/122) of the domain to delete. */
   name: string;
@@ -1418,11 +1386,9 @@ export interface ModifyMembershipRolesRequest {
   /** The `MembershipRole`s to be updated. Updating roles in the same request as adding or removing roles is not supported. Must not be set if either `add_roles` or `remove_roles` is set. */
   updateRolesParams?: UpdateMembershipRolesParamsList | undefined;
 }
-export interface ModifyMembershipRolesGroupsMembershipsRequest {
+export interface ModifyMembershipRolesGroupsMembershipsRequest extends ModifyMembershipRolesRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership` whose roles are to be modified. Must be of the form `groups/{group_id}/memberships/{membership_id}`. */
   name: string;
-  /** Request body */
-  body?: ModifyMembershipRolesRequest | undefined;
 }
 /** The response message for MembershipsService.ModifyMembershipRoles. */
 export interface ModifyMembershipRolesResponse {
@@ -1436,59 +1402,45 @@ export interface MoveOrgMembershipRequest {
   /** Required. Immutable. Customer on whose membership change is made. All authorization will happen on the role assignments of this customer. Format: customers/{$customerId} where `$customerId` is the `id` from the [Admin SDK `Customer` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). You may also use `customers/my_customer` to specify your own organization. */
   customer?: string | undefined;
 }
-export interface MoveOrgUnitsMembershipsRequest {
+export interface MoveOrgUnitsMembershipsRequest extends MoveOrgMembershipRequest {
   /** Required. Immutable. The [resource name](https://cloud.google.com/apis/design/resource_names) of the OrgMembership. Format: orgUnits/{$orgUnitId}/memberships/{$membership} The `$orgUnitId` is the `orgUnitId` from the [Admin SDK `OrgUnit` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/orgunits). To manage a Membership without specifying source `orgUnitId`, this API also supports the wildcard character '-' for `$orgUnitId` per https://google.aip.dev/159. The `$membership` shall be of the form `{$entityType};{$memberId}`, where `$entityType` is the enum value of OrgMembership.EntityType, and `memberId` is the `id` from [Drive API (V3) `Drive` resource](https://developers.google.com/drive/api/v3/reference/drives#resource) for OrgMembership.EntityType.SHARED_DRIVE. */
   name: string;
-  /** Request body */
-  body?: MoveOrgMembershipRequest | undefined;
 }
-export interface PatchDevicesDeviceUsersClientStatesRequest {
+export interface PatchDevicesDeviceUsersClientStatesRequest extends Omit<ClientState, "name"> {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device_id}/deviceUsers/{device_user_id}/clientState/{partner_id}`, where partner_id corresponds to the partner storing the data. */
   name: string;
   /** Optional. Comma-separated list of fully qualified names of fields to be updated. If not specified, all updatable fields in ClientState are updated. */
   updateMask?: string | undefined;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
   customer?: string | undefined;
-  /** Request body */
-  body?: ClientState | undefined;
 }
-export interface PatchGroupsRequest {
+export interface PatchGroupsRequest extends Omit<Group, "name"> {
   /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
   name: string;
   /** Required. The names of fields to update. May only contain the following field names: `display_name`, `description`, `labels`, `dynamic_group_metadata`, `posix_groups`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
-export interface PatchInboundOidcSsoProfilesRequest {
+export interface PatchInboundOidcSsoProfilesRequest extends Omit<InboundOidcSsoProfile, "name"> {
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
   name: string;
-  /** Request body */
-  body?: InboundOidcSsoProfile | undefined;
 }
-export interface PatchInboundSamlSsoProfilesRequest {
+export interface PatchInboundSamlSsoProfilesRequest extends Omit<InboundSamlSsoProfile, "name"> {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InboundSamlSsoProfile | undefined;
 }
-export interface PatchInboundSsoAssignmentsRequest {
+export interface PatchInboundSsoAssignmentsRequest extends Omit<InboundSsoAssignment, "name"> {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InboundSsoAssignment | undefined;
 }
-export interface PatchPoliciesRequest {
+export interface PatchPoliciesRequest extends Omit<Policy, "name"> {
   /** Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
   name: string;
-  /** Request body */
-  body?: Policy | undefined;
 }
 export interface SearchDirectGroupsGroupsMembershipsRequest {
   /** The default page size is 200 (max 1000). */
@@ -1631,13 +1583,11 @@ export interface SendCustomersUserinvitationsRequest {
   /** Request body */
   body?: CancelUserInvitationRequest | undefined;
 }
-export interface UpdateSecuritySettingsGroupsRequest {
+export interface UpdateSecuritySettingsGroupsRequest extends Omit<SecuritySettings, "name"> {
   /** Required. The fully-qualified names of fields to update. May only contain the following field: `member_restriction.query`. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the security settings. Shall be of the form `groups/{group_id}/securitySettings`. */
   name: string;
-  /** Request body */
-  body?: SecuritySettings | undefined;
 }
 /** Request message for wiping all data on the device. */
 export interface WipeDeviceRequest {
@@ -1646,19 +1596,15 @@ export interface WipeDeviceRequest {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
   customer?: string | undefined;
 }
-export interface WipeDevicesRequest {
+export interface WipeDevicesRequest extends WipeDeviceRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: WipeDeviceRequest | undefined;
 }
 /** Request message for starting an account wipe on device. */
 export type WipeDeviceUserRequest = ApproveDeviceUserRequest;
-export interface WipeDevicesDeviceUsersRequest {
+export interface WipeDevicesDeviceUsersRequest extends ApproveDeviceUserRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
 }
 export type AddInboundSamlSsoProfilesIdpCredentialsError =
   | NotFound
@@ -3137,9 +3083,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(64, __c2, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/allowlistedDomains",
@@ -3171,9 +3115,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateDeviceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(96, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/devices",
@@ -3357,10 +3299,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          initialGroupConfig: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(296, __c9, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(296, __c9, 8),
+          S.Struct({
+            initialGroupConfig: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/groups",
@@ -3460,10 +3404,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/memberships",
@@ -3530,9 +3476,7 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(514, __c16, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(514, __c16, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/inboundOidcSsoProfiles",
@@ -3575,9 +3519,7 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(578, __c18, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(578, __c18, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/inboundSamlSsoProfiles",
@@ -3621,9 +3563,7 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(643, __c20, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(643, __c20, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/inboundSsoAssignments",
@@ -3673,9 +3613,7 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(706, __c22, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(706, __c22, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/policies",
@@ -4148,10 +4086,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "AddIdpCredentialRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/idpCredentials:add",
@@ -4461,10 +4401,12 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:approve",
@@ -4754,10 +4696,12 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ModifyMembershipRolesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:modifyMembershipRoles",
@@ -4777,10 +4721,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:block",
@@ -4801,10 +4747,12 @@ function __c77(j: number): any {
       ).annotate({ identifier: "MoveOrgMembershipRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:move",
@@ -4818,12 +4766,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          customer: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1282, __c40, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1282, __c40, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            customer: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4837,11 +4787,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(296, __c9, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(296, __c9, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4855,11 +4807,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(514, __c16, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(514, __c16, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4873,11 +4827,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(578, __c18, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(578, __c18, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4891,11 +4847,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(643, __c20, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(643, __c20, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4909,10 +4867,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(706, __c22, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(706, __c22, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5114,11 +5074,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1729, __c54, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1729, __c54, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -5139,10 +5101,12 @@ function __c93(j: number): any {
       ).annotate({ identifier: "WipeDeviceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:wipe",
@@ -5156,10 +5120,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:wipe",
@@ -5173,10 +5139,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:cancelWipe",
@@ -5190,10 +5158,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2048, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:cancelWipe",

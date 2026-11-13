@@ -193,7 +193,7 @@ export interface Backend {
   /** Optional. The environment name of the backend, used to load environment variables from environment specific configuration. */
   environment?: string | undefined;
 }
-export interface CreateProjectsLocationsBackendsRequest {
+export interface CreateProjectsLocationsBackendsRequest extends Backend {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
@@ -202,8 +202,6 @@ export interface CreateProjectsLocationsBackendsRequest {
   parent: string;
   /** Required. Id of the backend. Also used as the service ID for Cloud Run, and as part of the default domain name. */
   backendId?: string | undefined;
-  /** Request body */
-  body?: Backend | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -399,7 +397,7 @@ export interface Build {
   /** Identifier. The resource name of the build. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/builds/{buildId}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsBackendsBuildsRequest {
+export interface CreateProjectsLocationsBackendsBuildsRequest extends Build {
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
   /** Required. Desired ID of the build being created. */
@@ -408,8 +406,6 @@ export interface CreateProjectsLocationsBackendsBuildsRequest {
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Build | undefined;
 }
 /** Specifies redirect behavior for a domain. */
 export interface Redirect {
@@ -541,7 +537,7 @@ export interface Domain {
   /** Output only. Represents the state and configuration of a `CUSTOM` type domain. It is only present on Domains of that type. */
   customDomainStatus?: CustomDomainStatus | undefined;
 }
-export interface CreateProjectsLocationsBackendsDomainsRequest {
+export interface CreateProjectsLocationsBackendsDomainsRequest extends Domain {
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
   /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
@@ -550,8 +546,6 @@ export interface CreateProjectsLocationsBackendsDomainsRequest {
   domainId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Domain | undefined;
 }
 export type RolloutStateEnum =
   | "STATE_UNSPECIFIED"
@@ -592,7 +586,7 @@ export interface Rollout {
   /** Output only. Time at which the rollout was deleted. */
   deleteTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBackendsRolloutsRequest {
+export interface CreateProjectsLocationsBackendsRolloutsRequest extends Rollout {
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -601,8 +595,6 @@ export interface CreateProjectsLocationsBackendsRolloutsRequest {
   parent: string;
   /** Optional. Desired ID of the rollout being created. */
   rolloutId?: string | undefined;
-  /** Request body */
-  body?: Rollout | undefined;
 }
 export interface DeleteProjectsLocationsBackendsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -905,7 +897,7 @@ export interface ListSupportedRuntimesResponse {
   /** The list of supported runtimes. */
   supportedRuntimes?: SupportedRuntimeList | undefined;
 }
-export interface PatchProjectsLocationsBackendsRequest {
+export interface PatchProjectsLocationsBackendsRequest extends Omit<Backend, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Indicates that the request should be validated, without persisting the request or updating any resources. */
@@ -916,10 +908,8 @@ export interface PatchProjectsLocationsBackendsRequest {
   updateMask?: string | undefined;
   /** Optional. If set to true, and the backend is not found, a new backend will be created. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: Backend | undefined;
 }
-export interface PatchProjectsLocationsBackendsDomainsRequest {
+export interface PatchProjectsLocationsBackendsDomainsRequest extends Omit<Domain, "name"> {
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or modifying any resources. */
   validateOnly?: boolean | undefined;
   /** Optional. If set to true, and the domain is not found, a new domain will be created. */
@@ -930,10 +920,8 @@ export interface PatchProjectsLocationsBackendsDomainsRequest {
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Domain | undefined;
 }
-export interface PatchProjectsLocationsBackendsTrafficRequest {
+export interface PatchProjectsLocationsBackendsTrafficRequest extends Omit<Traffic, "name"> {
   /** Identifier. The resource name of the backend's traffic. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -942,8 +930,6 @@ export interface PatchProjectsLocationsBackendsTrafficRequest {
   validateOnly?: boolean | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the traffic resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Traffic | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1922,14 +1908,16 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(421, __c26, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(421, __c26, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1943,14 +1931,16 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(586, __c36, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(586, __c36, 10),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1964,13 +1954,15 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(166, __c10, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(166, __c10, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -2006,13 +1998,15 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          backendId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(421, __c26, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(421, __c26, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            backendId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backends",
@@ -2147,13 +2141,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          buildId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(555, __c34, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(555, __c34, 11),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            buildId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/builds",
@@ -2289,13 +2285,15 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          domainId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(586, __c36, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(586, __c36, 10),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            domainId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/domains",
@@ -2391,13 +2389,15 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          rolloutId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(608, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c38, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            rolloutId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/rollouts",

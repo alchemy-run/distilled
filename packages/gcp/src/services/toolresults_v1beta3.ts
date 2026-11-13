@@ -170,7 +170,7 @@ export interface BatchCreatePerfSamplesRequest {
   /** The set of PerfSamples to create should not include existing timestamps */
   perfSamples?: PerfSampleList | undefined;
 }
-export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest {
+export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest extends BatchCreatePerfSamplesRequest {
   /** The cloud project */
   projectId: string;
   /** A tool results step ID. */
@@ -181,8 +181,6 @@ export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamp
   sampleSeriesId: string;
   /** A tool results history ID. */
   historyId: string;
-  /** Request body */
-  body?: BatchCreatePerfSamplesRequest | undefined;
 }
 export interface BatchCreatePerfSamplesResponse {
   perfSamples?: PerfSampleList | undefined;
@@ -199,13 +197,11 @@ export interface History {
   /** A unique identifier within a project for this History. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response always set - In create request: never set */
   historyId?: string | undefined;
 }
-export interface CreateProjectsHistoriesRequest {
+export interface CreateProjectsHistoriesRequest extends History {
   /** A Project id. Required. */
   projectId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: History | undefined;
 }
 export type StringList = Array<string>;
 /** A test of an Android application that can control an Android component independently of its normal lifecycle. See for more information on types of Android tests. */
@@ -389,15 +385,13 @@ export interface Execution {
   /** TestExecution Matrix ID that the TestExecutionService uses. - In response: present if set by create - In create: optional - In update: never set */
   testExecutionMatrixId?: string | undefined;
 }
-export interface CreateProjectsHistoriesExecutionsRequest {
+export interface CreateProjectsHistoriesExecutionsRequest extends Execution {
   /** A History id. Required. */
   historyId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
   requestId?: string | undefined;
   /** A Project id. Required. */
   projectId: string;
-  /** Request body */
-  body?: Execution | undefined;
 }
 export interface StepLabelsEntry {
   key?: string | undefined;
@@ -636,7 +630,7 @@ export interface Step {
   /** How much the device resource is used to perform the test. This is the device usage used for billing purpose, which is different from the run_duration, for example, infrastructure failure won't be charged for device usage. PRECONDITION_FAILED will be returned if one attempts to set a device_usage on a step which already has this field set. - In response: present if previously set. - In create request: optional - In update request: optional */
   deviceUsageDuration?: Duration | undefined;
 }
-export interface CreateProjectsHistoriesExecutionsStepsRequest {
+export interface CreateProjectsHistoriesExecutionsStepsRequest extends Step {
   /** Required. A History id. */
   historyId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
@@ -645,8 +639,6 @@ export interface CreateProjectsHistoriesExecutionsStepsRequest {
   executionId: string;
   /** Required. A Project id. */
   projectId: string;
-  /** Request body */
-  body?: Step | undefined;
 }
 export interface GraphicsStatsBucket {
   /** Lower bound of render time in milliseconds. */
@@ -736,7 +728,10 @@ export interface PerfMetricsSummary {
   /** A tool results history ID. @OutputOnly */
   historyId?: string | undefined;
 }
-export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest {
+export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest extends Omit<
+  PerfMetricsSummary,
+  "projectId" | "executionId" | "stepId" | "historyId"
+> {
   /** A tool results history ID. */
   historyId: string;
   /** A tool results step ID. */
@@ -745,8 +740,6 @@ export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest
   projectId: string;
   /** A tool results execution ID. */
   executionId: string;
-  /** Request body */
-  body?: PerfMetricsSummary | undefined;
 }
 export type BasicPerfSampleSeriesPerfMetricTypeEnum =
   | "perfMetricTypeUnspecified"
@@ -796,7 +789,10 @@ export interface PerfSampleSeries {
   /** The cloud project @OutputOnly */
   projectId?: string | undefined;
 }
-export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
+export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest extends Omit<
+  PerfSampleSeries,
+  "historyId" | "executionId" | "stepId" | "projectId"
+> {
   /** A tool results history ID. */
   historyId: string;
   /** A tool results step ID. */
@@ -805,8 +801,6 @@ export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
   projectId: string;
   /** A tool results execution ID. */
   executionId: string;
-  /** Request body */
-  body?: PerfSampleSeries | undefined;
 }
 export interface GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsRequest {
   /** A tool results step ID. */
@@ -1216,7 +1210,7 @@ export interface ListStepThumbnailsResponse {
   /** A continuation token to resume the query at the next item. If set, indicates that there are more thumbnails to read, by calling list again with this value in the page_token field. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsHistoriesExecutionsRequest {
+export interface PatchProjectsHistoriesExecutionsRequest extends Omit<Execution, "executionId"> {
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
   requestId?: string | undefined;
   /** A Project id. Required. */
@@ -1225,10 +1219,8 @@ export interface PatchProjectsHistoriesExecutionsRequest {
   executionId: string;
   /** Required. */
   historyId: string;
-  /** Request body */
-  body?: Execution | undefined;
 }
-export interface PatchProjectsHistoriesExecutionsStepsRequest {
+export interface PatchProjectsHistoriesExecutionsStepsRequest extends Omit<Step, "stepId"> {
   /** A Step id. Required. */
   stepId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
@@ -1239,15 +1231,13 @@ export interface PatchProjectsHistoriesExecutionsStepsRequest {
   executionId: string;
   /** A History id. Required. */
   historyId: string;
-  /** Request body */
-  body?: Step | undefined;
 }
 /** Request message for StepService.PublishXunitXmlFiles. */
 export interface PublishXunitXmlFilesRequest {
   /** URI of the Xunit XML files to publish. The maximum size of the file this reference is pointing to is 50MB. Required. */
   xunitXmlFiles?: FileReferenceList | undefined;
 }
-export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest {
+export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest extends PublishXunitXmlFilesRequest {
   /** A Step id. Note: This step must include a TestExecutionStep. Required. */
   stepId: string;
   /** A History id. Required. */
@@ -1256,8 +1246,6 @@ export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest {
   executionId: string;
   /** A Project id. Required. */
   projectId: string;
-  /** Request body */
-  body?: PublishXunitXmlFilesRequest | undefined;
 }
 export type AccessibilityClustersProjectsHistoriesExecutionsStepsError =
   | NotFound
@@ -1880,13 +1868,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          historyId: S.String.pipe(T.Label()),
-          stepId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          executionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(17, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17, __c1, 1),
+          S.Struct({
+            historyId: S.String.pipe(T.Label()),
+            stepId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            executionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}/perfSampleSeries",
@@ -2497,13 +2487,15 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          executionId: S.String.pipe(T.Label()),
-          historyId: S.String.pipe(T.Label()),
-          body: S.optional(__S(585, __c36, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(585, __c36, 9),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            executionId: S.String.pipe(T.Label()),
+            historyId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}",
@@ -2517,14 +2509,16 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          stepId: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          executionId: S.String.pipe(T.Label()),
-          historyId: S.String.pipe(T.Label()),
-          body: S.optional(__S(719, __c44, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(719, __c44, 15),
+          S.Struct({
+            stepId: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            executionId: S.String.pipe(T.Label()),
+            historyId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}",
@@ -2544,13 +2538,15 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PublishXunitXmlFilesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          stepId: S.String.pipe(T.Label()),
-          historyId: S.String.pipe(T.Label()),
-          executionId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            stepId: S.String.pipe(T.Label()),
+            historyId: S.String.pipe(T.Label()),
+            executionId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}:publishXunitXmlFiles",
@@ -2635,14 +2631,16 @@ function __c29(j: number): any {
       ).annotate({ identifier: "BatchCreatePerfSamplesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          stepId: S.String.pipe(T.Label()),
-          executionId: S.String.pipe(T.Label()),
-          sampleSeriesId: S.String.pipe(T.Label()),
-          historyId: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            stepId: S.String.pipe(T.Label()),
+            executionId: S.String.pipe(T.Label()),
+            sampleSeriesId: S.String.pipe(T.Label()),
+            historyId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}/perfSampleSeries/{sampleSeriesId}/samples:batchCreate",
@@ -2682,11 +2680,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "toolresults/v1beta3/projects/{projectId}/histories",
@@ -2713,12 +2713,14 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          historyId: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(585, __c36, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(585, __c36, 9),
+          S.Struct({
+            historyId: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions",
@@ -2886,13 +2888,15 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          historyId: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          executionId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(719, __c44, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(719, __c44, 15),
+          S.Struct({
+            historyId: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            executionId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps",
@@ -3093,13 +3097,15 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          historyId: S.String.pipe(T.Label()),
-          stepId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          executionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(743, __c46, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(743, __c46, 7),
+          S.Struct({
+            historyId: S.String.pipe(T.Label()),
+            stepId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            executionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "toolresults/v1beta3/projects/{projectId}/histories/{historyId}/executions/{executionId}/steps/{stepId}/perfMetricsSummary",

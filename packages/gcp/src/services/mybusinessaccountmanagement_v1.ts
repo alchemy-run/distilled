@@ -177,10 +177,7 @@ export interface Account {
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
   name?: string | undefined;
 }
-export interface CreateAccountsRequest {
-  /** Request body */
-  body?: Account | undefined;
-}
+export interface CreateAccountsRequest extends Account {}
 export type AdminRoleEnum =
   | "ADMIN_ROLE_UNSPECIFIED"
   | "PRIMARY_OWNER"
@@ -200,17 +197,13 @@ export interface Admin {
   /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
   account?: string | undefined;
 }
-export interface CreateAccountsAdminsRequest {
+export interface CreateAccountsAdminsRequest extends Admin {
   /** Required. The resource name of the account this admin is created for. `accounts/{account_id}`. */
   parent: string;
-  /** Request body */
-  body?: Admin | undefined;
 }
-export interface CreateLocationsAdminsRequest {
+export interface CreateLocationsAdminsRequest extends Admin {
   /** Required. The resource name of the location this admin is created for. `locations/{location_id}/admins`. */
   parent: string;
-  /** Request body */
-  body?: Admin | undefined;
 }
 /** Request message for AccessControl.DeclineInvitation. */
 export type DeclineInvitationRequest = AcceptInvitationRequest;
@@ -313,42 +306,34 @@ export interface ListLocationAdminsResponse {
   /** A collection of Admins. */
   admins?: AdminList | undefined;
 }
-export interface PatchAccountsRequest {
+export interface PatchAccountsRequest extends Omit<Account, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is `accountName`. */
   updateMask?: string | undefined;
   /** Optional. If true, the request is validated without actually updating the account. */
   validateOnly?: boolean | undefined;
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
   name: string;
-  /** Request body */
-  body?: Account | undefined;
 }
-export interface PatchAccountsAdminsRequest {
+export interface PatchAccountsAdminsRequest extends Omit<Admin, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is role. */
   updateMask?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
-  /** Request body */
-  body?: Admin | undefined;
 }
-export interface PatchLocationsAdminsRequest {
+export interface PatchLocationsAdminsRequest extends Omit<Admin, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is role. */
   updateMask?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
-  /** Request body */
-  body?: Admin | undefined;
 }
 /** Request message for AccessControl.TransferLocation. */
 export interface TransferLocationRequest {
   /** Required. Name of the account resource to transfer the location to (for example, "accounts/{account}"). */
   destinationAccount?: string | undefined;
 }
-export interface TransferLocationsRequest {
+export interface TransferLocationsRequest extends TransferLocationRequest {
   /** Required. The name of the location to transfer. `locations/{location_id}`. */
   name: string;
-  /** Request body */
-  body?: TransferLocationRequest | undefined;
 }
 export type AcceptAccountsInvitationsError =
   | NotFound
@@ -792,12 +777,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(115, __c14, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(115, __c14, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -811,11 +798,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -829,11 +818,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -853,10 +844,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TransferLocationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:transfer",
@@ -893,9 +886,7 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(115, __c14, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(115, __c14, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts",
@@ -954,10 +945,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/admins",
@@ -985,10 +978,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/admins",

@@ -152,11 +152,9 @@ export interface BulkCreateAdAssetsRequest {
   /** Required. Ad assets to create. Only supports assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
   adAssets?: AdAssetList | undefined;
 }
-export interface BulkCreateAdvertisersAdAssetsRequest {
+export interface BulkCreateAdvertisersAdAssetsRequest extends BulkCreateAdAssetsRequest {
   /** Required. The ID of the advertiser these ad assets belong to. */
   advertiserId: string;
-  /** Request body */
-  body?: BulkCreateAdAssetsRequest | undefined;
 }
 /** A response message for BulkCreateAdAssets. */
 export interface BulkCreateAdAssetsResponse {
@@ -183,13 +181,14 @@ export interface BulkEditSitesRequest {
   /** The sites to delete in batch, specified as a list of site url_or_app_ids. */
   deletedSites?: StringList | undefined;
 }
-export interface BulkEditAdvertisersChannelsSitesRequest {
+export interface BulkEditAdvertisersChannelsSitesRequest extends Omit<
+  BulkEditSitesRequest,
+  "advertiserId"
+> {
   /** Required. The ID of the parent channel to which the sites belong. */
   channelId: string;
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
-  /** Request body */
-  body?: BulkEditSitesRequest | undefined;
 }
 /** Response message for SiteService.BulkEditSites. */
 export interface BulkEditSitesResponse {
@@ -213,13 +212,11 @@ export interface BulkEditAssignedLocationsRequest {
   /** The assigned locations to create in bulk, specified as a list of AssignedLocation resources. */
   createdAssignedLocations?: AssignedLocationList | undefined;
 }
-export interface BulkEditAdvertisersLocationListsAssignedLocationsRequest {
+export interface BulkEditAdvertisersLocationListsAssignedLocationsRequest extends BulkEditAssignedLocationsRequest {
   /** Required. The ID of the location list to which these assignments are assigned. */
   locationListId: string;
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
-  /** Request body */
-  body?: BulkEditAssignedLocationsRequest | undefined;
 }
 export interface BulkEditAssignedLocationsResponse {
   /** The list of assigned locations that have been successfully created. This list will be absent if empty. */
@@ -240,13 +237,11 @@ export interface BulkEditNegativeKeywordsRequest {
   /** The negative keywords to create in batch, specified as a list of NegativeKeywords. */
   createdNegativeKeywords?: NegativeKeywordList_ | undefined;
 }
-export interface BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
+export interface BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest extends BulkEditNegativeKeywordsRequest {
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
   /** Required. The ID of the parent negative keyword list to which the negative keywords belong. */
   negativeKeywordListId: string;
-  /** Request body */
-  body?: BulkEditNegativeKeywordsRequest | undefined;
 }
 /** Response message for NegativeKeywordService.BulkEditNegativeKeywords. */
 export interface BulkEditNegativeKeywordsResponse {
@@ -1937,11 +1932,9 @@ export interface BulkEditAdGroupAssignedTargetingOptionsRequest {
   /** Required. The IDs of the ad groups the assigned targeting options will belong to. A maximum of 25 ad group IDs can be specified. */
   adGroupIds?: StringList | undefined;
 }
-export interface BulkEditAssignedTargetingOptionsAdvertisersAdGroupsRequest {
+export interface BulkEditAssignedTargetingOptionsAdvertisersAdGroupsRequest extends BulkEditAdGroupAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the ad groups belong to. */
   advertiserId: string;
-  /** Request body */
-  body?: BulkEditAdGroupAssignedTargetingOptionsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1973,11 +1966,9 @@ export interface BulkEditAssignedTargetingOptionsRequest {
   /** Required. The ID of the line items whose targeting is being updated. */
   lineItemIds?: StringList | undefined;
 }
-export interface BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest {
+export interface BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest extends BulkEditAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the line items belong to. */
   advertiserId: string;
-  /** Request body */
-  body?: BulkEditAssignedTargetingOptionsRequest | undefined;
 }
 export interface BulkEditAssignedTargetingOptionsResponse {
   /** The error information for each line item that failed to update. */
@@ -2019,11 +2010,9 @@ export interface BulkEditAssignedUserRolesRequest {
   /** The assigned user roles to create in batch, specified as a list of AssignedUserRoles. */
   createdAssignedUserRoles?: AssignedUserRoleList | undefined;
 }
-export interface BulkEditAssignedUserRolesUsersRequest {
+export interface BulkEditAssignedUserRolesUsersRequest extends BulkEditAssignedUserRolesRequest {
   /** Required. The ID of the user to which the assigned user roles belong. */
   userId: string;
-  /** Request body */
-  body?: BulkEditAssignedUserRolesRequest | undefined;
 }
 export interface BulkEditAssignedUserRolesResponse {
   /** The list of assigned user roles that have been successfully created. This list will be absent if empty. */
@@ -2050,24 +2039,23 @@ export interface BulkEditAssignedInventorySourcesRequest {
   /** The assigned inventory sources to create in bulk, specified as a list of AssignedInventorySources. */
   createdAssignedInventorySources?: AssignedInventorySourceList | undefined;
 }
-export interface BulkEditInventorySourceGroupsAssignedInventorySourcesRequest {
+export interface BulkEditInventorySourceGroupsAssignedInventorySourcesRequest extends BulkEditAssignedInventorySourcesRequest {
   /** Required. The ID of the inventory source group to which the assignments are assigned. */
   inventorySourceGroupId: string;
-  /** Request body */
-  body?: BulkEditAssignedInventorySourcesRequest | undefined;
 }
 /** Response message for AssignedInventorySourceService.BulkEdit. */
 export interface BulkEditAssignedInventorySourcesResponse {
   /** The list of assigned inventory sources that have been successfully created. This list will be absent if empty. */
   assignedInventorySources?: AssignedInventorySourceList | undefined;
 }
-export interface BulkEditPartnersChannelsSitesRequest {
+export interface BulkEditPartnersChannelsSitesRequest extends Omit<
+  BulkEditSitesRequest,
+  "partnerId"
+> {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
   /** Required. The ID of the parent channel to which the sites belong. */
   channelId: string;
-  /** Request body */
-  body?: BulkEditSitesRequest | undefined;
 }
 export interface BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest {
   /** Optional. Allows filtering by assigned targeting option fields. Supported syntax: * Filter expressions are made up of one or more restrictions. * Restrictions can be combined by the logical operator `OR`. * A restriction has the form of `{field} {operator} {value}`. * All fields must use the `EQUALS (=)` operator. Supported fields: * `targetingType` Examples: * `AssignedTargetingOption` resources of targeting type `TARGETING_TYPE_YOUTUBE_VIDEO` or `TARGETING_TYPE_YOUTUBE_CHANNEL`: `targetingType="TARGETING_TYPE_YOUTUBE_VIDEO" OR targetingType="TARGETING_TYPE_YOUTUBE_CHANNEL"` The length of this field should be no more than 500 characters. Reference our [filter `LIST` requests](/display-video/api/guides/how-tos/filters) guide for more information. */
@@ -2728,11 +2716,9 @@ export interface BulkUpdateLineItemsRequest {
   /** Required. IDs of line items to update. */
   lineItemIds?: StringList | undefined;
 }
-export interface BulkUpdateAdvertisersLineItemsRequest {
+export interface BulkUpdateAdvertisersLineItemsRequest extends BulkUpdateLineItemsRequest {
   /** Required. The ID of the advertiser this line item belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: BulkUpdateLineItemsRequest | undefined;
 }
 /** Response message for LineItemService.BulkUpdateLineItems. */
 export interface BulkUpdateLineItemsResponse {
@@ -2878,20 +2864,15 @@ export interface Advertiser {
   /** Required. The display name of the advertiser. Must be UTF-8 encoded with a maximum size of 240 bytes. */
   displayName?: string | undefined;
 }
-export interface CreateAdvertisersRequest {
-  /** Request body */
-  body?: Advertiser | undefined;
-}
+export interface CreateAdvertisersRequest extends Advertiser {}
 /** A request message for CreateAdAsset. */
 export interface CreateAdAssetRequest {
   /** Required. The ad asset to create. Only supports assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
   adAsset?: AdAsset | undefined;
 }
-export interface CreateAdvertisersAdAssetsRequest {
+export interface CreateAdvertisersAdAssetsRequest extends CreateAdAssetRequest {
   /** Required. The ID of the advertiser this ad asset belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: CreateAdAssetRequest | undefined;
 }
 export type YoutubeVideoDetailsUnavailableReasonEnum =
   | "VIDEO_UNAVAILABLE_REASON_UNSPECIFIED"
@@ -3575,11 +3556,9 @@ export interface AdGroupAd {
   /** Required. The entity status of the ad. */
   entityStatus?: AdGroupAdEntityStatusEnum | (string & {}) | undefined;
 }
-export interface CreateAdvertisersAdGroupAdsRequest {
+export interface CreateAdvertisersAdGroupAdsRequest extends Omit<AdGroupAd, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the ad belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: AdGroupAd | undefined;
 }
 export type ProductFeedDataProductMatchTypeEnum =
   | "PRODUCT_MATCH_TYPE_UNSPECIFIED"
@@ -3700,11 +3679,9 @@ export interface AdGroup {
   /** Required. Immutable. The format of the ads in the ad group. */
   adGroupFormat?: AdGroupAdGroupFormatEnum | (string & {}) | undefined;
 }
-export interface CreateAdvertisersAdGroupsRequest {
+export interface CreateAdvertisersAdGroupsRequest extends Omit<AdGroup, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the ad group belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: AdGroup | undefined;
 }
 export type CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -3764,7 +3741,10 @@ export type CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsTarge
   | "TARGETING_TYPE_AUCTION_PACKAGE"
   | "TARGETING_TYPE_YOUTUBE_CHANNEL_PACK"
   | "TARGETING_TYPE_INVENTORY_SOURCE_DEAL";
-export interface CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest {
+export interface CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest extends Omit<
+  AssignedTargetingOption,
+  "targetingType"
+> {
   /** Required. The ID of the advertiser the ad group belongs to. */
   advertiserId: string;
   /** Required. The ID of the ad group the assigned targeting option will belong to. */
@@ -3773,8 +3753,6 @@ export interface CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions
   targetingType:
     | CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
     | (string & {});
-  /** Request body */
-  body?: AssignedTargetingOption | undefined;
 }
 export type CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsYoutubeAssetTypeEnum =
   | "YOUTUBE_ASSET_TYPE_UNSPECIFIED"
@@ -3871,7 +3849,10 @@ export interface YoutubeAssetAssociation {
   /** Required. The YouTube asset associated with the resource. */
   linkedYoutubeAsset?: YoutubeAssetAssociationLinkedYouTubeAsset | undefined;
 }
-export interface CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
+export interface CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest extends Omit<
+  YoutubeAssetAssociation,
+  "youtubeAssetType"
+> {
   /** Required. The type of YouTube asset associated with the resource. */
   youtubeAssetType:
     | CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsYoutubeAssetTypeEnum
@@ -3882,8 +3863,6 @@ export interface CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociati
   advertiserId: string;
   /** The ID of a line item. */
   "linkedEntity.lineItemId"?: string | undefined;
-  /** Request body */
-  body?: YoutubeAssetAssociation | undefined;
 }
 /** Google Payments Center supports searching and filtering on the component fields of this code. */
 export interface PrismaCpeCode {
@@ -4019,11 +3998,9 @@ export interface Campaign {
   /** Output only. The resource name of the campaign. */
   name?: string | undefined;
 }
-export interface CreateAdvertisersCampaignsRequest {
+export interface CreateAdvertisersCampaignsRequest extends Omit<Campaign, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the campaign belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: Campaign | undefined;
 }
 /** A single channel. Channels are custom groups of related websites and apps. */
 export interface Channel {
@@ -4042,23 +4019,22 @@ export interface Channel {
   /** Required. The display name of the channel. Must be UTF-8 encoded with a maximum length of 240 bytes. */
   displayName?: string | undefined;
 }
-export interface CreateAdvertisersChannelsRequest {
+export interface CreateAdvertisersChannelsRequest extends Omit<
+  Channel,
+  "advertiserId" | "partnerId"
+> {
   /** The ID of the partner that owns the created channel. */
   partnerId?: string | undefined;
   /** The ID of the advertiser that owns the created channel. */
   advertiserId: string;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface CreateAdvertisersChannelsSitesRequest {
+export interface CreateAdvertisersChannelsSitesRequest extends Site {
   /** The ID of the partner that owns the parent channel. */
   partnerId?: string | undefined;
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
   /** Required. The ID of the parent channel in which the site will be created. */
   channelId: string;
-  /** Request body */
-  body?: Site | undefined;
 }
 export type CreativeExpandingDirectionEnum =
   | "EXPANDING_DIRECTION_UNSPECIFIED"
@@ -4528,11 +4504,9 @@ export interface Creative {
   /** Optional. Whether the user can choose to skip a video creative. This field is only supported for the following creative_type: * `CREATIVE_TYPE_VIDEO` */
   skippable?: boolean | undefined;
 }
-export interface CreateAdvertisersCreativesRequest {
+export interface CreateAdvertisersCreativesRequest extends Omit<Creative, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the creative belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: Creative | undefined;
 }
 export type InsertionOrderReservationTypeEnum =
   | "RESERVATION_TYPE_UNSPECIFIED"
@@ -4662,17 +4636,16 @@ export interface InsertionOrder {
   /** Optional. Additional integration details of the insertion order. */
   integrationDetails?: IntegrationDetails | undefined;
 }
-export interface CreateAdvertisersInsertionOrdersRequest {
+export interface CreateAdvertisersInsertionOrdersRequest extends Omit<
+  InsertionOrder,
+  "advertiserId"
+> {
   /** Output only. The unique ID of the advertiser the insertion order belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: InsertionOrder | undefined;
 }
-export interface CreateAdvertisersLineItemsRequest {
+export interface CreateAdvertisersLineItemsRequest extends Omit<LineItem, "advertiserId"> {
   /** Output only. The unique ID of the advertiser the line item belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: LineItem | undefined;
 }
 export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -4732,7 +4705,10 @@ export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsTarg
   | "TARGETING_TYPE_AUCTION_PACKAGE"
   | "TARGETING_TYPE_YOUTUBE_CHANNEL_PACK"
   | "TARGETING_TYPE_INVENTORY_SOURCE_DEAL";
-export interface CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest {
+export interface CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest extends Omit<
+  AssignedTargetingOption,
+  "targetingType"
+> {
   /** Required. Identifies the type of this assigned targeting option. Supported targeting types include: * `TARGETING_TYPE_AGE_RANGE` * `TARGETING_TYPE_APP` * `TARGETING_TYPE_APP_CATEGORY` * `TARGETING_TYPE_AUCTION_PACKAGE` * `TARGETING_TYPE_AUDIENCE_GROUP` * `TARGETING_TYPE_AUDIO_CONTENT_TYPE` * `TARGETING_TYPE_AUTHORIZED_SELLER_STATUS` * `TARGETING_TYPE_BROWSER` * `TARGETING_TYPE_BUSINESS_CHAIN` * `TARGETING_TYPE_CARRIER_AND_ISP` * `TARGETING_TYPE_CATEGORY` * `TARGETING_TYPE_CHANNEL` * `TARGETING_TYPE_CONTENT_DURATION` * `TARGETING_TYPE_CONTENT_GENRE` * `TARGETING_TYPE_CONTENT_INSTREAM_POSITION` * `TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION` * `TARGETING_TYPE_CONTENT_STREAM_TYPE` * `TARGETING_TYPE_DAY_AND_TIME` * `TARGETING_TYPE_DEVICE_MAKE_MODEL` * `TARGETING_TYPE_DEVICE_TYPE` * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_EXCHANGE` * `TARGETING_TYPE_GENDER` * `TARGETING_TYPE_GEO_REGION` * `TARGETING_TYPE_HOUSEHOLD_INCOME` * `TARGETING_TYPE_INVENTORY_SOURCE_DEAL` * `TARGETING_TYPE_INVENTORY_SOURCE_GROUP` * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_LANGUAGE` * `TARGETING_TYPE_NATIVE_CONTENT_POSITION` * `TARGETING_TYPE_NEGATIVE_KEYWORD_LIST` * `TARGETING_TYPE_OMID` * `TARGETING_TYPE_ON_SCREEN_POSITION` * `TARGETING_TYPE_OPERATING_SYSTEM` * `TARGETING_TYPE_PARENTAL_STATUS` * `TARGETING_TYPE_POI` * `TARGETING_TYPE_PROXIMITY_LOCATION_LIST` * `TARGETING_TYPE_REGIONAL_LOCATION_LIST` * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_SUB_EXCHANGE` * `TARGETING_TYPE_THIRD_PARTY_VERIFIER` * `TARGETING_TYPE_URL` * `TARGETING_TYPE_USER_REWARDED_CONTENT` * `TARGETING_TYPE_VIDEO_PLAYER_SIZE` * `TARGETING_TYPE_VIEWABILITY` */
   targetingType:
     | CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
@@ -4741,15 +4717,16 @@ export interface CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOption
   lineItemId: string;
   /** Required. The ID of the advertiser the line item belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: AssignedTargetingOption | undefined;
 }
 export type CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsYoutubeAssetTypeEnum =
   | "YOUTUBE_ASSET_TYPE_UNSPECIFIED"
   | "YOUTUBE_ASSET_TYPE_LOCATION"
   | "YOUTUBE_ASSET_TYPE_AFFILIATE_LOCATION"
   | "YOUTUBE_ASSET_TYPE_SITELINK";
-export interface CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
+export interface CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest extends Omit<
+  YoutubeAssetAssociation,
+  "youtubeAssetType"
+> {
   /** Required. The type of YouTube asset associated with the resource. */
   youtubeAssetType:
     | CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsYoutubeAssetTypeEnum
@@ -4760,8 +4737,6 @@ export interface CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociat
   advertiserId: string;
   /** The ID of an ad group. */
   "linkedEntity.adGroupId"?: string | undefined;
-  /** Request body */
-  body?: YoutubeAssetAssociation | undefined;
 }
 export type LocationListLocationTypeEnum =
   | "TARGETING_LOCATION_TYPE_UNSPECIFIED"
@@ -4780,19 +4755,15 @@ export interface LocationList {
   /** Required. The display name of the location list. Must be UTF-8 encoded with a maximum size of 240 bytes. */
   displayName?: string | undefined;
 }
-export interface CreateAdvertisersLocationListsRequest {
+export interface CreateAdvertisersLocationListsRequest extends Omit<LocationList, "advertiserId"> {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
-  /** Request body */
-  body?: LocationList | undefined;
 }
-export interface CreateAdvertisersLocationListsAssignedLocationsRequest {
+export interface CreateAdvertisersLocationListsAssignedLocationsRequest extends AssignedLocation {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
   /** Required. The ID of the location list for which the assignment will be created. */
   locationListId: string;
-  /** Request body */
-  body?: AssignedLocation | undefined;
 }
 /** A list of negative keywords used for targeting. */
 export interface NegativeKeywordList {
@@ -4807,19 +4778,18 @@ export interface NegativeKeywordList {
   /** Required. The display name of the negative keyword list. Must be UTF-8 encoded with a maximum size of 255 bytes. */
   displayName?: string | undefined;
 }
-export interface CreateAdvertisersNegativeKeywordListsRequest {
+export interface CreateAdvertisersNegativeKeywordListsRequest extends Omit<
+  NegativeKeywordList,
+  "advertiserId"
+> {
   /** Required. The ID of the DV360 advertiser to which the negative keyword list will belong. */
   advertiserId: string;
-  /** Request body */
-  body?: NegativeKeywordList | undefined;
 }
-export interface CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
+export interface CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest extends NegativeKeyword {
   /** Required. The ID of the parent negative keyword list in which the negative keyword will be created. */
   negativeKeywordListId: string;
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
-  /** Request body */
-  body?: NegativeKeyword | undefined;
 }
 export type CreateAdvertisersTargetingTypesAssignedTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -4879,15 +4849,16 @@ export type CreateAdvertisersTargetingTypesAssignedTargetingOptionsTargetingType
   | "TARGETING_TYPE_AUCTION_PACKAGE"
   | "TARGETING_TYPE_YOUTUBE_CHANNEL_PACK"
   | "TARGETING_TYPE_INVENTORY_SOURCE_DEAL";
-export interface CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest {
+export interface CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest extends Omit<
+  AssignedTargetingOption,
+  "targetingType"
+> {
   /** Required. The ID of the advertiser. */
   advertiserId: string;
   /** Required. Identifies the type of this assigned targeting option. Supported targeting types: * `TARGETING_TYPE_CHANNEL` * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` * `TARGETING_TYPE_OMID` * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_YOUTUBE_VIDEO` * `TARGETING_TYPE_YOUTUBE_CHANNEL` */
   targetingType:
     | CreateAdvertisersTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
     | (string & {});
-  /** Request body */
-  body?: AssignedTargetingOption | undefined;
 }
 export type CustomBiddingAlgorithmEntityStatusEnum =
   | "ENTITY_STATUS_UNSPECIFIED"
@@ -4955,10 +4926,7 @@ export interface CustomBiddingAlgorithm {
   /** Output only. The details of custom bidding models for each advertiser who has access. This field may only include the details of the queried advertiser if the algorithm [`owner`](/display-video/api/reference/rest/v1/customBiddingAlgorithms#CustomBiddingAlgorithm.FIELDS.oneof_owner) is a partner and is being retrieved using an advertiser [`accessor`](/display-video/api/reference/rest/v1/customBiddingAlgorithms/list#body.QUERY_PARAMETERS.oneof_accessor). */
   modelDetails?: CustomBiddingModelDetailsList | undefined;
 }
-export interface CreateCustomBiddingAlgorithmsRequest {
-  /** Request body */
-  body?: CustomBiddingAlgorithm | undefined;
-}
+export interface CreateCustomBiddingAlgorithmsRequest extends CustomBiddingAlgorithm {}
 export type CustomBiddingAlgorithmRulesStateEnum = "STATE_UNSPECIFIED" | "ACCEPTED" | "REJECTED";
 export type CustomBiddingAlgorithmRulesErrorErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -4994,15 +4962,16 @@ export interface CustomBiddingAlgorithmRules {
   /** Required. Immutable. The reference to the uploaded AlgorithmRules file. */
   rules?: CustomBiddingAlgorithmRulesRef | undefined;
 }
-export interface CreateCustomBiddingAlgorithmsRulesRequest {
+export interface CreateCustomBiddingAlgorithmsRulesRequest extends Omit<
+  CustomBiddingAlgorithmRules,
+  "customBiddingAlgorithmId"
+> {
   /** The ID of the advertiser that owns the parent custom bidding algorithm. */
   advertiserId?: string | undefined;
   /** Required. The ID of the custom bidding algorithm that owns the rules resource. */
   customBiddingAlgorithmId: string;
   /** The ID of the partner that owns the parent custom bidding algorithm. Only this partner will have write access to this rules resource. */
   partnerId?: string | undefined;
-  /** Request body */
-  body?: CustomBiddingAlgorithmRules | undefined;
 }
 /** The reference to the uploaded custom bidding script file. */
 export interface CustomBiddingScriptRef {
@@ -5050,15 +5019,16 @@ export interface CustomBiddingScript {
   /** Output only. The time when the script was created. */
   createTime?: string | undefined;
 }
-export interface CreateCustomBiddingAlgorithmsScriptsRequest {
+export interface CreateCustomBiddingAlgorithmsScriptsRequest extends Omit<
+  CustomBiddingScript,
+  "customBiddingAlgorithmId"
+> {
   /** The ID of the partner that owns the parent custom bidding algorithm. Only this partner will have write access to this custom bidding script. */
   partnerId?: string | undefined;
   /** The ID of the advertiser that owns the parent custom bidding algorithm. */
   advertiserId?: string | undefined;
   /** Required. The ID of the custom bidding algorithm that owns the script. */
   customBiddingAlgorithmId: string;
-  /** Request body */
-  body?: CustomBiddingScript | undefined;
 }
 export type GuaranteedOrderExchangeEnum =
   | "EXCHANGE_UNSPECIFIED"
@@ -5202,13 +5172,11 @@ export interface GuaranteedOrder {
   /** The ID of the default campaign that is assigned to the guaranteed order. The default campaign must belong to the default advertiser. */
   defaultCampaignId?: string | undefined;
 }
-export interface CreateGuaranteedOrdersRequest {
+export interface CreateGuaranteedOrdersRequest extends GuaranteedOrder {
   /** The ID of the advertiser that the request is being made within. */
   advertiserId?: string | undefined;
   /** The ID of the partner that the request is being made within. */
   partnerId?: string | undefined;
-  /** Request body */
-  body?: GuaranteedOrder | undefined;
 }
 /** A collection of targetable inventory sources. */
 export interface InventorySourceGroup {
@@ -5219,23 +5187,19 @@ export interface InventorySourceGroup {
   /** Output only. The unique ID of the inventory source group. Assigned by the system. */
   inventorySourceGroupId?: string | undefined;
 }
-export interface CreateInventorySourceGroupsRequest {
+export interface CreateInventorySourceGroupsRequest extends InventorySourceGroup {
   /** The ID of the partner that owns the inventory source group. Only this partner will have write access to this group. Only advertisers to which this group is explicitly shared will have read access to this group. */
   partnerId?: string | undefined;
   /** The ID of the advertiser that owns the inventory source group. The parent partner will not have access to this group. */
   advertiserId?: string | undefined;
-  /** Request body */
-  body?: InventorySourceGroup | undefined;
 }
-export interface CreateInventorySourceGroupsAssignedInventorySourcesRequest {
+export interface CreateInventorySourceGroupsAssignedInventorySourcesRequest extends AssignedInventorySource {
   /** The ID of the advertiser that owns the parent inventory source group. The parent partner will not have access to this assigned inventory source. */
   advertiserId?: string | undefined;
   /** The ID of the partner that owns the parent inventory source group. Only this partner will have write access to this assigned inventory source. */
   partnerId?: string | undefined;
   /** Required. The ID of the inventory source group to which the assignment will be assigned. */
   inventorySourceGroupId: string;
-  /** Request body */
-  body?: AssignedInventorySource | undefined;
 }
 export type LookalikeAudienceReachLevelEnum =
   | "LOOKALIKE_AUDIENCE_REACH_LEVEL_UNSPECIFIED"
@@ -5257,29 +5221,23 @@ export interface LookalikeAudience {
   /** Required. The list of seed audience list IDs. */
   seedAudienceListIds?: StringList | undefined;
 }
-export interface CreateLookalikeAudiencesRequest {
+export interface CreateLookalikeAudiencesRequest extends LookalikeAudience {
   /** Required. The ID of the advertiser under whom the LookalikeAudience will be created. */
   advertiserId?: string | undefined;
-  /** Request body */
-  body?: LookalikeAudience | undefined;
 }
-export interface CreatePartnersChannelsRequest {
+export interface CreatePartnersChannelsRequest extends Omit<Channel, "advertiserId" | "partnerId"> {
   /** The ID of the partner that owns the created channel. */
   partnerId: string;
   /** The ID of the advertiser that owns the created channel. */
   advertiserId?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface CreatePartnersChannelsSitesRequest {
+export interface CreatePartnersChannelsSitesRequest extends Site {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
   /** Required. The ID of the parent channel in which the site will be created. */
   channelId: string;
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId?: string | undefined;
-  /** Request body */
-  body?: Site | undefined;
 }
 export type CreatePartnersTargetingTypesAssignedTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -5339,15 +5297,16 @@ export type CreatePartnersTargetingTypesAssignedTargetingOptionsTargetingTypeEnu
   | "TARGETING_TYPE_AUCTION_PACKAGE"
   | "TARGETING_TYPE_YOUTUBE_CHANNEL_PACK"
   | "TARGETING_TYPE_INVENTORY_SOURCE_DEAL";
-export interface CreatePartnersTargetingTypesAssignedTargetingOptionsRequest {
+export interface CreatePartnersTargetingTypesAssignedTargetingOptionsRequest extends Omit<
+  AssignedTargetingOption,
+  "targetingType"
+> {
   /** Required. The ID of the partner. */
   partnerId: string;
   /** Required. Identifies the type of this assigned targeting option. Supported targeting types: * `TARGETING_TYPE_CHANNEL` */
   targetingType:
     | CreatePartnersTargetingTypesAssignedTargetingOptionsTargetingTypeEnum
     | (string & {});
-  /** Request body */
-  body?: AssignedTargetingOption | undefined;
 }
 export type ParentEntityFilterFileTypeItemEnum =
   | "FILE_TYPE_UNSPECIFIED"
@@ -5425,10 +5384,7 @@ export interface CreateSdfDownloadTaskRequest {
   /** Required. The SDF version of the downloaded file. If set to `SDF_VERSION_UNSPECIFIED`, this will default to the version specified by the advertiser or partner identified by `root_id`. An advertiser inherits its SDF version from its partner unless configured otherwise. */
   version?: CreateSdfDownloadTaskRequestVersionEnum | (string & {}) | undefined;
 }
-export interface CreateSdfdownloadtasksRequest {
-  /** Request body */
-  body?: CreateSdfDownloadTaskRequest | undefined;
-}
+export interface CreateSdfdownloadtasksRequest extends CreateSdfDownloadTaskRequest {}
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -5457,10 +5413,7 @@ export interface User {
   /** Output only. The timestamp when the user last logged in DV360 UI. */
   lastLoginTime?: string | undefined;
 }
-export interface CreateUsersRequest {
-  /** Request body */
-  body?: User | undefined;
-}
+export interface CreateUsersRequest extends User {}
 export interface DeleteAdvertisersRequest {
   /** The ID of the advertiser we need to delete. */
   advertiserId: string;
@@ -5904,13 +5857,11 @@ export interface DuplicateLineItemRequest {
     | (string & {})
     | undefined;
 }
-export interface DuplicateAdvertisersLineItemsRequest {
+export interface DuplicateAdvertisersLineItemsRequest extends DuplicateLineItemRequest {
   /** Required. The ID of the line item to duplicate. */
   lineItemId: string;
   /** Required. The ID of the advertiser this line item belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: DuplicateLineItemRequest | undefined;
 }
 export interface DuplicateLineItemResponse {
   /** The ID of the created line item. */
@@ -5923,11 +5874,9 @@ export interface BulkEditAdvertiserAssignedTargetingOptionsRequest {
   /** The assigned targeting options to create in batch, specified as a list of `CreateAssignedTargetingOptionsRequest`. Supported targeting types: * `TARGETING_TYPE_CHANNEL` * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` * `TARGETING_TYPE_OMID` * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_YOUTUBE_VIDEO` * `TARGETING_TYPE_YOUTUBE_CHANNEL` */
   createRequests?: CreateAssignedTargetingOptionsRequestList | undefined;
 }
-export interface EditAssignedTargetingOptionsAdvertisersRequest {
+export interface EditAssignedTargetingOptionsAdvertisersRequest extends BulkEditAdvertiserAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser. */
   advertiserId: string;
-  /** Request body */
-  body?: BulkEditAdvertiserAssignedTargetingOptionsRequest | undefined;
 }
 export interface BulkEditAdvertiserAssignedTargetingOptionsResponse {
   /** The list of assigned targeting options that have been successfully created. This list will be absent if empty. */
@@ -5940,11 +5889,9 @@ export interface BulkEditPartnerAssignedTargetingOptionsRequest {
   /** The assigned targeting options to create in batch, specified as a list of `CreateAssignedTargetingOptionsRequest`. Supported targeting types: * `TARGETING_TYPE_CHANNEL` */
   createRequests?: CreateAssignedTargetingOptionsRequestList | undefined;
 }
-export interface EditAssignedTargetingOptionsPartnersRequest {
+export interface EditAssignedTargetingOptionsPartnersRequest extends BulkEditPartnerAssignedTargetingOptionsRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
-  /** Request body */
-  body?: BulkEditPartnerAssignedTargetingOptionsRequest | undefined;
 }
 export interface BulkEditPartnerAssignedTargetingOptionsResponse {
   /** The list of assigned targeting options that have been successfully created. This list will be absent if empty. */
@@ -5961,11 +5908,9 @@ export interface EditGuaranteedOrderReadAccessorsRequest {
   /** The advertisers to remove as read accessors to the guaranteed order. */
   removedAdvertisers?: StringList | undefined;
 }
-export interface EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest {
+export interface EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest extends EditGuaranteedOrderReadAccessorsRequest {
   /** Required. The ID of the guaranteed order to edit. The ID is of the format `{exchange}-{legacy_guaranteed_order_id}` */
   guaranteedOrderId: string;
-  /** Request body */
-  body?: EditGuaranteedOrderReadAccessorsRequest | undefined;
 }
 export interface EditGuaranteedOrderReadAccessorsResponse {
   /** Whether all advertisers of read_write_partner_id have read access to the guaranteed order. */
@@ -6168,11 +6113,9 @@ export interface GenerateReachForecastRequest {
   /** Optional. The minimum effective frequency for the reported reach metrics. This is the smallest number of times a customer must be exposed to the ad for it to be considered effective. This setting only impacts reporting. Must be between 1 and 10, inclusive. If not specified, a default of 1 is applied. */
   minEffectiveFrequency?: number | undefined;
 }
-export interface GenerateReachForecastAdvertisersReachForecastRequest {
+export interface GenerateReachForecastAdvertisersReachForecastRequest extends GenerateReachForecastRequest {
   /** Required. The ID of the advertiser that will run the planned campaign. */
   advertiserId: string;
-  /** Request body */
-  body?: GenerateReachForecastRequest | undefined;
 }
 /** Performance metrics for a forecast point. */
 export interface PlannedProductForecast {
@@ -9611,55 +9554,57 @@ export interface LookupInvoiceCurrencyResponse {
   /** Currency used by the advertiser in ISO 4217 format. */
   currencyCode?: string | undefined;
 }
-export interface PatchAdvertisersRequest {
+export interface PatchAdvertisersRequest extends Omit<Advertiser, "advertiserId"> {
   /** Output only. The unique ID of the advertiser. Assigned by the system. */
   advertiserId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Advertiser | undefined;
 }
-export interface PatchAdvertisersAdAssetsRequest {
+export interface PatchAdvertisersAdAssetsRequest extends Omit<AdAsset, "adAssetId"> {
   /** Output only. The ID of the ad asset. Referred to as the asset ID when assigned to an ad. */
   adAssetId: string;
   /** Required. The ID of the advertiser this ad asset belongs to. */
   advertiserId: string;
   /** Required. The list of fields to update. Only AdAsset.synthetic_content_attestation_status is mutable. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AdAsset | undefined;
 }
-export interface PatchAdvertisersAdGroupAdsRequest {
+export interface PatchAdvertisersAdGroupAdsRequest extends Omit<
+  AdGroupAd,
+  "advertiserId" | "adGroupAdId"
+> {
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
   /** Output only. The unique ID of the advertiser the ad belongs to. */
   advertiserId: string;
   /** Output only. The unique ID of the ad. Assigned by the system. */
   adGroupAdId: string;
-  /** Request body */
-  body?: AdGroupAd | undefined;
 }
-export interface PatchAdvertisersAdGroupsRequest {
+export interface PatchAdvertisersAdGroupsRequest extends Omit<
+  AdGroup,
+  "advertiserId" | "adGroupId"
+> {
   /** Output only. The unique ID of the ad group. Assigned by the system. */
   adGroupId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
   /** Output only. The unique ID of the advertiser the ad group belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: AdGroup | undefined;
 }
-export interface PatchAdvertisersCampaignsRequest {
+export interface PatchAdvertisersCampaignsRequest extends Omit<
+  Campaign,
+  "advertiserId" | "campaignId"
+> {
   /** Output only. The unique ID of the advertiser the campaign belongs to. */
   advertiserId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
   /** Output only. The unique ID of the campaign. Assigned by the system. */
   campaignId: string;
-  /** Request body */
-  body?: Campaign | undefined;
 }
-export interface PatchAdvertisersChannelsRequest {
+export interface PatchAdvertisersChannelsRequest extends Omit<
+  Channel,
+  "channelId" | "advertiserId" | "partnerId"
+> {
   /** Output only. The unique ID of the channel. Assigned by the system. */
   channelId: string;
   /** The ID of the advertiser that owns the created channel. */
@@ -9668,78 +9613,80 @@ export interface PatchAdvertisersChannelsRequest {
   updateMask?: string | undefined;
   /** The ID of the partner that owns the created channel. */
   partnerId?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface PatchAdvertisersCreativesRequest {
+export interface PatchAdvertisersCreativesRequest extends Omit<
+  Creative,
+  "advertiserId" | "creativeId"
+> {
   /** Output only. The unique ID of the advertiser the creative belongs to. */
   advertiserId: string;
   /** Output only. The unique ID of the creative. Assigned by the system. */
   creativeId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Creative | undefined;
 }
-export interface PatchAdvertisersInsertionOrdersRequest {
+export interface PatchAdvertisersInsertionOrdersRequest extends Omit<
+  InsertionOrder,
+  "advertiserId" | "insertionOrderId"
+> {
   /** Output only. The unique ID of the insertion order. Assigned by the system. */
   insertionOrderId: string;
   /** Output only. The unique ID of the advertiser the insertion order belongs to. */
   advertiserId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InsertionOrder | undefined;
 }
-export interface PatchAdvertisersLineItemsRequest {
+export interface PatchAdvertisersLineItemsRequest extends Omit<
+  LineItem,
+  "lineItemId" | "advertiserId"
+> {
   /** Output only. The unique ID of the line item. Assigned by the system. */
   lineItemId: string;
   /** Output only. The unique ID of the advertiser the line item belongs to. */
   advertiserId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LineItem | undefined;
 }
-export interface PatchAdvertisersLocationListsRequest {
+export interface PatchAdvertisersLocationListsRequest extends Omit<
+  LocationList,
+  "locationListId" | "advertiserId"
+> {
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
   /** Required. The ID of the DV360 advertiser to which the location lists belongs. */
   advertiserId: string;
   /** Output only. The unique ID of the location list. Assigned by the system. */
   locationListId: string;
-  /** Request body */
-  body?: LocationList | undefined;
 }
-export interface PatchAdvertisersNegativeKeywordListsRequest {
+export interface PatchAdvertisersNegativeKeywordListsRequest extends Omit<
+  NegativeKeywordList,
+  "advertiserId" | "negativeKeywordListId"
+> {
   /** Output only. The unique ID of the negative keyword list. Assigned by the system. */
   negativeKeywordListId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
   /** Required. The ID of the DV360 advertiser to which the negative keyword list belongs. */
   advertiserId: string;
-  /** Request body */
-  body?: NegativeKeywordList | undefined;
 }
-export interface PatchCustomBiddingAlgorithmsRequest {
+export interface PatchCustomBiddingAlgorithmsRequest extends Omit<
+  CustomBiddingAlgorithm,
+  "customBiddingAlgorithmId"
+> {
   /** Output only. The unique ID of the custom bidding algorithm. Assigned by the system. */
   customBiddingAlgorithmId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CustomBiddingAlgorithm | undefined;
 }
-export interface PatchFloodlightGroupsRequest {
+export interface PatchFloodlightGroupsRequest extends Omit<FloodlightGroup, "floodlightGroupId"> {
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
   /** Required. The partner context by which the Floodlight group is being accessed. */
   partnerId?: string | undefined;
   /** Output only. The unique ID of the Floodlight group. Assigned by the system. */
   floodlightGroupId: string;
-  /** Request body */
-  body?: FloodlightGroup | undefined;
 }
-export interface PatchGuaranteedOrdersRequest {
+export interface PatchGuaranteedOrdersRequest extends Omit<GuaranteedOrder, "guaranteedOrderId"> {
   /** The ID of the partner that the request is being made within. */
   partnerId?: string | undefined;
   /** Required. The mask to control which fields to update. */
@@ -9748,10 +9695,11 @@ export interface PatchGuaranteedOrdersRequest {
   guaranteedOrderId: string;
   /** The ID of the advertiser that the request is being made within. */
   advertiserId?: string | undefined;
-  /** Request body */
-  body?: GuaranteedOrder | undefined;
 }
-export interface PatchInventorySourceGroupsRequest {
+export interface PatchInventorySourceGroupsRequest extends Omit<
+  InventorySourceGroup,
+  "inventorySourceGroupId"
+> {
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
   /** The ID of the advertiser that owns the inventory source group. The parent partner does not have access to this group. */
@@ -9760,10 +9708,11 @@ export interface PatchInventorySourceGroupsRequest {
   inventorySourceGroupId: string;
   /** The ID of the partner that owns the inventory source group. Only this partner has write access to this group. */
   partnerId?: string | undefined;
-  /** Request body */
-  body?: InventorySourceGroup | undefined;
 }
-export interface PatchPartnersChannelsRequest {
+export interface PatchPartnersChannelsRequest extends Omit<
+  Channel,
+  "channelId" | "advertiserId" | "partnerId"
+> {
   /** The ID of the partner that owns the created channel. */
   partnerId: string;
   /** The ID of the advertiser that owns the created channel. */
@@ -9772,16 +9721,12 @@ export interface PatchPartnersChannelsRequest {
   channelId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface PatchUsersRequest {
+export interface PatchUsersRequest extends Omit<User, "userId"> {
   /** Output only. The unique ID of the user. Assigned by the system. */
   userId: string;
   /** Required. The mask to control which fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 /** Request message for SiteService.ReplaceSites. */
 export interface ReplaceSitesRequest {
@@ -9792,13 +9737,14 @@ export interface ReplaceSitesRequest {
   /** The ID of the partner that owns the parent channel. */
   partnerId?: string | undefined;
 }
-export interface ReplaceAdvertisersChannelsSitesRequest {
+export interface ReplaceAdvertisersChannelsSitesRequest extends Omit<
+  ReplaceSitesRequest,
+  "advertiserId"
+> {
   /** Required. The ID of the parent channel whose sites will be replaced. */
   channelId: string;
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
-  /** Request body */
-  body?: ReplaceSitesRequest | undefined;
 }
 /** Response message for SiteService.ReplaceSites. */
 export interface ReplaceSitesResponse {
@@ -9810,26 +9756,25 @@ export interface ReplaceNegativeKeywordsRequest {
   /** The negative keywords that will replace the existing keywords in the negative keyword list, specified as a list of NegativeKeywords. */
   newNegativeKeywords?: NegativeKeywordList_ | undefined;
 }
-export interface ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
+export interface ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest extends ReplaceNegativeKeywordsRequest {
   /** Required. The ID of the parent negative keyword list to which the negative keywords belong. */
   negativeKeywordListId: string;
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
-  /** Request body */
-  body?: ReplaceNegativeKeywordsRequest | undefined;
 }
 /** Response message for NegativeKeywordService.ReplaceNegativeKeywords. */
 export interface ReplaceNegativeKeywordsResponse {
   /** The full list of negative keywords now present in the negative keyword list. */
   negativeKeywords?: NegativeKeywordList_ | undefined;
 }
-export interface ReplacePartnersChannelsSitesRequest {
+export interface ReplacePartnersChannelsSitesRequest extends Omit<
+  ReplaceSitesRequest,
+  "partnerId"
+> {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
   /** Required. The ID of the parent channel whose sites will be replaced. */
   channelId: string;
-  /** Request body */
-  body?: ReplaceSitesRequest | undefined;
 }
 export type SearchTargetingTypesTargetingOptionsTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -9921,11 +9866,9 @@ export interface SearchTargetingOptionsRequest {
   /** Search terms for Business Chain targeting options. Can only be used when targeting_type is `TARGETING_TYPE_BUSINESS_CHAIN`. */
   businessChainSearchTerms?: BusinessChainSearchTerms | undefined;
 }
-export interface SearchTargetingTypesTargetingOptionsRequest {
+export interface SearchTargetingTypesTargetingOptionsRequest extends SearchTargetingOptionsRequest {
   /** Required. The type of targeting options to retrieve. Accepted values are: * `TARGETING_TYPE_GEO_REGION` * `TARGETING_TYPE_POI` * `TARGETING_TYPE_BUSINESS_CHAIN` */
   targetingType: SearchTargetingTypesTargetingOptionsTargetingTypeEnum | (string & {});
-  /** Request body */
-  body?: SearchTargetingOptionsRequest | undefined;
 }
 /** Response message for SearchTargetingOptions. */
 export interface SearchTargetingOptionsResponse {
@@ -9954,11 +9897,9 @@ export interface UploadAdAssetRequest {
     | (string & {})
     | undefined;
 }
-export interface UploadAdvertisersAdAssetsRequest {
+export interface UploadAdvertisersAdAssetsRequest extends UploadAdAssetRequest {
   /** Required. The ID of the advertiser this ad asset belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: UploadAdAssetRequest | undefined;
 }
 /** A response message for UploadAdAsset. */
 export interface UploadAdAssetResponse {
@@ -9970,22 +9911,18 @@ export interface CreateAssetRequest {
   /** Required. The filename of the asset, including the file extension. The filename must be UTF-8 encoded with a maximum size of 240 bytes. */
   filename?: string | undefined;
 }
-export interface UploadAdvertisersAssetsRequest {
+export interface UploadAdvertisersAssetsRequest extends CreateAssetRequest {
   /** Required. The ID of the advertiser this asset belongs to. */
   advertiserId: string;
-  /** Request body */
-  body?: CreateAssetRequest | undefined;
 }
 /** A response message for CreateAsset. */
 export interface CreateAssetResponse {
   /** The uploaded asset, if successful. */
   asset?: Asset | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends Omit<GoogleBytestreamMedia, "resourceName"> {
   /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
   resourceName: string;
-  /** Request body */
-  body?: GoogleBytestreamMedia | undefined;
 }
 export interface UploadRulesCustomBiddingAlgorithmsRequest {
   /** Required. The ID of the custom bidding algorithm that owns the rules resource. */
@@ -13741,10 +13678,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BulkEditAssignedTargetingOptionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/lineItems:bulkEditAssignedTargetingOptions",
@@ -14134,10 +14073,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "BulkEditAssignedUserRolesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/users/{+userId}:bulkEditAssignedUserRoles",
@@ -14582,10 +14523,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "BulkEditAssignedInventorySourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          inventorySourceGroupId: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            inventorySourceGroupId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/inventorySourceGroups/{+inventorySourceGroupId}/assignedInventorySources:bulkEdit",
@@ -14965,11 +14908,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          channelId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5920, __c185, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5920, __c185, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+            channelId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/partners/{partnerId}/channels/{+channelId}/sites:bulkEdit",
@@ -15765,11 +15710,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3176, __c99, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3176, __c99, 8),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}",
@@ -15783,12 +15730,14 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          adAssetId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5537, __c173, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5537, __c173, 1),
+          S.Struct({
+            adAssetId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/adAssets/{+adAssetId}",
@@ -15802,12 +15751,14 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.String.pipe(T.Label()),
-          adGroupAdId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3854, __c120, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3854, __c120, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.String.pipe(T.Label()),
+            adGroupAdId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/adGroupAds/{+adGroupAdId}",
@@ -15821,12 +15772,14 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          adGroupId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3911, __c122, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3911, __c122, 7),
+          S.Struct({
+            adGroupId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/adGroups/{+adGroupId}",
@@ -15848,10 +15801,12 @@ function __c78(j: number): any {
       ).annotate({ identifier: "BulkUpdateLineItemsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/lineItems:bulkUpdate",
@@ -16194,12 +16149,14 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          campaignId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4102, __c128, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4102, __c128, 6),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            campaignId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/campaigns/{+campaignId}",
@@ -16213,13 +16170,15 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          channelId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4160, __c130, 0),
+          S.Struct({
+            channelId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            partnerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/channels/{channelId}",
@@ -16233,12 +16192,14 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          creativeId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4274, __c133, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4274, __c133, 18),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            creativeId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/creatives/{+creativeId}",
@@ -16252,12 +16213,14 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          insertionOrderId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4356, __c136, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4356, __c136, 4),
+          S.Struct({
+            insertionOrderId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/insertionOrders/{+insertionOrderId}",
@@ -16271,12 +16234,14 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          lineItemId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2771, __c86, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2771, __c86, 19),
+          S.Struct({
+            lineItemId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/lineItems/{+lineItemId}",
@@ -16290,12 +16255,14 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.String.pipe(T.Label()),
-          locationListId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4512, __c141, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4512, __c141, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.String.pipe(T.Label()),
+            locationListId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/locationLists/{locationListId}",
@@ -16309,12 +16276,14 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          negativeKeywordListId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4608, __c144, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4608, __c144, 0),
+          S.Struct({
+            negativeKeywordListId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/advertisers/{+advertiserId}/negativeKeywordLists/{negativeKeywordListId}",
@@ -16328,11 +16297,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customBiddingAlgorithmId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4738, __c148, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4738, __c148, 2),
+          S.Struct({
+            customBiddingAlgorithmId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/customBiddingAlgorithms/{+customBiddingAlgorithmId}",
@@ -16346,12 +16317,14 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          floodlightGroupId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7970, __c249, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7970, __c249, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            partnerId: S.optional(S.String.pipe(T.Query())),
+            floodlightGroupId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/floodlightGroups/{floodlightGroupId}",
@@ -16365,13 +16338,15 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          guaranteedOrderId: S.String.pipe(T.Label()),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4961, __c155, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4961, __c155, 1),
+          S.Struct({
+            partnerId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            guaranteedOrderId: S.String.pipe(T.Label()),
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/guaranteedOrders/{+guaranteedOrderId}",
@@ -16385,9 +16360,7 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(3176, __c99, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(3176, __c99, 8), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers",
@@ -16505,13 +16478,15 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          inventorySourceGroupId: S.String.pipe(T.Label()),
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5056, __c158, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5056, __c158, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+            inventorySourceGroupId: S.String.pipe(T.Label()),
+            partnerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/inventorySourceGroups/{inventorySourceGroupId}",
@@ -16525,13 +16500,15 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          channelId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4160, __c130, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+            channelId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/partners/{+partnerId}/channels/{channelId}",
@@ -16545,11 +16522,13 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5376, __c168, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5376, __c168, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v5/users/{+userId}",
@@ -16563,11 +16542,13 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          channelId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            channelId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/channels/{+channelId}/sites:replace",
@@ -16599,11 +16580,13 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ReplaceNegativeKeywordsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          negativeKeywordListId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            negativeKeywordListId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords:replace",
@@ -16617,11 +16600,13 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          channelId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+            channelId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/partners/{partnerId}/channels/{+channelId}/sites:replace",
@@ -16665,10 +16650,12 @@ function __c107(j: number): any {
       ).annotate({ identifier: "SearchTargetingOptionsRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          targetingType: S.String.pipe(T.Label()),
-          body: S.optional(__S(3427, __c107, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3427, __c107, 3),
+          S.Struct({
+            targetingType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/targetingTypes/{+targetingType}/targetingOptions:search",
@@ -16697,10 +16684,12 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UploadAdAssetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3456, __c108, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3456, __c108, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adAssets:uploadAdAsset",
@@ -16720,10 +16709,12 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateAssetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/assets",
@@ -16743,10 +16734,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(4800, __c150, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4800, __c150, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "media/{+resourceName}",
@@ -16760,10 +16753,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3584, __c112, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3584, __c112, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adAssets",
@@ -16823,10 +16818,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3854, __c120, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3854, __c120, 14),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adGroupAds",
@@ -17286,10 +17283,12 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3911, __c122, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3911, __c122, 7),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adGroups",
@@ -17369,12 +17368,14 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          adGroupId: S.String.pipe(T.Label()),
-          targetingType: S.String.pipe(T.Label()),
-          body: S.optional(__S(7484, __c233, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7484, __c233, 28),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            adGroupId: S.String.pipe(T.Label()),
+            targetingType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adGroups/{+adGroupId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
@@ -17390,13 +17391,15 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          youtubeAssetType: S.String.pipe(T.Label()),
-          adGroupId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          "linkedEntity.lineItemId": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4008, __c125, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4008, __c125, 8),
+          S.Struct({
+            youtubeAssetType: S.String.pipe(T.Label()),
+            adGroupId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+            "linkedEntity.lineItemId": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adGroups/{+adGroupId}/youtubeAssetTypes/{+youtubeAssetType}/youtubeAssetAssociations",
@@ -17483,10 +17486,12 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4102, __c128, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4102, __c128, 6),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/campaigns",
@@ -17578,11 +17583,13 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4160, __c130, 0),
+          S.Struct({
+            partnerId: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/channels",
@@ -17612,12 +17619,14 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.String.pipe(T.Label()),
-          channelId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            partnerId: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.String.pipe(T.Label()),
+            channelId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/channels/{+channelId}/sites",
@@ -17631,10 +17640,12 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4274, __c133, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4274, __c133, 18),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/creatives",
@@ -17825,10 +17836,12 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4356, __c136, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4356, __c136, 4),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/insertionOrders",
@@ -17897,10 +17910,12 @@ function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2771, __c86, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2771, __c86, 19),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/lineItems",
@@ -17914,12 +17929,14 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetingType: S.String.pipe(T.Label()),
-          lineItemId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7484, __c233, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7484, __c233, 28),
+          S.Struct({
+            targetingType: S.String.pipe(T.Label()),
+            lineItemId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/lineItems/{+lineItemId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
@@ -17935,13 +17952,15 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          youtubeAssetType: S.String.pipe(T.Label()),
-          lineItemId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          "linkedEntity.adGroupId": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4008, __c125, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4008, __c125, 8),
+          S.Struct({
+            youtubeAssetType: S.String.pipe(T.Label()),
+            lineItemId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+            "linkedEntity.adGroupId": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/lineItems/{+lineItemId}/youtubeAssetTypes/{+youtubeAssetType}/youtubeAssetAssociations",
@@ -17957,10 +17976,12 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4512, __c141, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4512, __c141, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/locationLists",
@@ -17988,11 +18009,13 @@ function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          locationListId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6464, __c202, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6464, __c202, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            locationListId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/locationLists/{locationListId}/assignedLocations",
@@ -18006,10 +18029,12 @@ function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4608, __c144, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4608, __c144, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/negativeKeywordLists",
@@ -18037,11 +18062,13 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          negativeKeywordListId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6944, __c217, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6944, __c217, 0),
+          S.Struct({
+            negativeKeywordListId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords",
@@ -18055,11 +18082,13 @@ function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          targetingType: S.String.pipe(T.Label()),
-          body: S.optional(__S(7484, __c233, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7484, __c233, 28),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            targetingType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
@@ -18073,9 +18102,7 @@ function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(4738, __c148, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(4738, __c148, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v5/customBiddingAlgorithms",
@@ -18118,12 +18145,14 @@ function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          customBiddingAlgorithmId: S.String.pipe(T.Label()),
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4833, __c151, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4833, __c151, 1),
+          S.Struct({
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+            customBiddingAlgorithmId: S.String.pipe(T.Label()),
+            partnerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/customBiddingAlgorithms/{+customBiddingAlgorithmId}/rules",
@@ -18170,12 +18199,14 @@ function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          customBiddingAlgorithmId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4898, __c153, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4898, __c153, 2),
+          S.Struct({
+            partnerId: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+            customBiddingAlgorithmId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/customBiddingAlgorithms/{+customBiddingAlgorithmId}/scripts",
@@ -18217,11 +18248,13 @@ function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4961, __c155, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4961, __c155, 1),
+          S.Struct({
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+            partnerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/guaranteedOrders",
@@ -18296,11 +18329,13 @@ function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5056, __c158, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5056, __c158, 0),
+          S.Struct({
+            partnerId: S.optional(S.String.pipe(T.Query())),
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/inventorySourceGroups",
@@ -18326,12 +18361,14 @@ function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          partnerId: S.optional(S.String.pipe(T.Query())),
-          inventorySourceGroupId: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+            partnerId: S.optional(S.String.pipe(T.Query())),
+            inventorySourceGroupId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/inventorySourceGroups/{+inventorySourceGroupId}/assignedInventorySources",
@@ -18345,10 +18382,12 @@ function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5152, __c161, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5152, __c161, 0),
+          S.Struct({
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/lookalikeAudiences",
@@ -18377,11 +18416,13 @@ function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4160, __c130, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/partners/{+partnerId}/channels",
@@ -18395,12 +18436,14 @@ function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          channelId: S.String.pipe(T.Label()),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+            channelId: S.String.pipe(T.Label()),
+            advertiserId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/partners/{partnerId}/channels/{+channelId}/sites",
@@ -18414,11 +18457,13 @@ function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          targetingType: S.String.pipe(T.Label()),
-          body: S.optional(__S(7484, __c233, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7484, __c233, 28),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+            targetingType: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/partners/{+partnerId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
@@ -18470,9 +18515,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CreateSdfDownloadTaskRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(5283, __c165, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(5283, __c165, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v5/sdfdownloadtasks",
@@ -18500,9 +18543,7 @@ function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(5376, __c168, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(5376, __c168, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v5/users",
@@ -18570,10 +18611,12 @@ function __c171(j: number): any {
       ).annotate({ identifier: "BulkCreateAdAssetsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5472, __c171, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5472, __c171, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adAssets:bulkCreate",
@@ -18804,11 +18847,13 @@ function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          channelId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5920, __c185, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5920, __c185, 0),
+          S.Struct({
+            channelId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/channels/{+channelId}/sites:bulkEdit",
@@ -19052,11 +19097,13 @@ function __c200(j: number): any {
       ).annotate({ identifier: "BulkEditAssignedLocationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          locationListId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6400, __c200, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6400, __c200, 0),
+          S.Struct({
+            locationListId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/locationLists/{+locationListId}/assignedLocations:bulkEdit",
@@ -19101,11 +19148,13 @@ function __c203(j: number): any {
       ).annotate({ identifier: "DuplicateLineItemRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          lineItemId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6496, __c203, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6496, __c203, 0),
+          S.Struct({
+            lineItemId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/lineItems/{+lineItemId}:duplicate",
@@ -19125,10 +19174,12 @@ function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6560, __c205, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6560, __c205, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}:editAssignedTargetingOptions",
@@ -19159,10 +19210,12 @@ function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6560, __c205, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6560, __c205, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/partners/{+partnerId}:editAssignedTargetingOptions",
@@ -19185,10 +19238,12 @@ function __c207(j: number): any {
       ).annotate({ identifier: "EditGuaranteedOrderReadAccessorsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          guaranteedOrderId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6624, __c207, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6624, __c207, 0),
+          S.Struct({
+            guaranteedOrderId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/guaranteedOrders/{+guaranteedOrderId}:editGuaranteedOrderReadAccessors",
@@ -19274,10 +19329,12 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GenerateReachForecastRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6663, __c208, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6663, __c208, 7),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/reachForecast:generateReachForecast",
@@ -19441,11 +19498,13 @@ function __c214(j: number): any {
       ).annotate({ identifier: "BulkEditNegativeKeywordsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          negativeKeywordListId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6848, __c214, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6848, __c214, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            negativeKeywordListId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords:bulkEdit",
@@ -19774,10 +19833,12 @@ function __c229(j: number): any {
       ).annotate({ identifier: "BulkEditAdGroupAssignedTargetingOptionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          body: S.optional(__S(7328, __c229, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7328, __c229, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v5/advertisers/{+advertiserId}/adGroups:bulkEditAssignedTargetingOptions",

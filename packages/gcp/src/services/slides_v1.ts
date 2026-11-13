@@ -2067,11 +2067,9 @@ export interface BatchUpdatePresentationRequest {
   /** A list of updates to apply to the presentation. */
   requests?: RequestList | undefined;
 }
-export interface BatchUpdatePresentationsRequest {
+export interface BatchUpdatePresentationsRequest extends BatchUpdatePresentationRequest {
   /** The presentation to apply the updates to. */
   presentationId: string;
-  /** Request body */
-  body?: BatchUpdatePresentationRequest | undefined;
 }
 export type BatchUpdatePresentationResponseCommentUpdateStateEnum =
   | "COMMENT_UPDATE_STATE_UNSPECIFIED"
@@ -2222,10 +2220,7 @@ export interface Presentation {
   /** Output only. The comments view mode applied to the presentation. */
   commentsViewMode?: PresentationCommentsViewModeEnum | (string & {}) | undefined;
 }
-export interface CreatePresentationsRequest {
-  /** Request body */
-  body?: Presentation | undefined;
-}
+export interface CreatePresentationsRequest extends Presentation {}
 export type GetPresentationsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
@@ -2890,10 +2885,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "BatchUpdatePresentationRequest" });
     case 29:
       return S.suspend(() =>
-        S.Struct({
-          presentationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(60, __c1, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(60, __c1, 28),
+          S.Struct({
+            presentationId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/presentations/{presentationId}:batchUpdate",
@@ -3632,9 +3629,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(225, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/presentations",

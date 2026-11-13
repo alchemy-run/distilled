@@ -113,13 +113,11 @@ export interface GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig {
   /** True if allows the user to sign in with the provider. */
   enabled?: boolean | undefined;
 }
-export interface CreateProjectsDefaultSupportedIdpConfigsRequest {
+export interface CreateProjectsDefaultSupportedIdpConfigsRequest extends GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig {
   /** The parent resource name where the config to be created, for example: "projects/my-awesome-project" */
   parent: string;
   /** The id of the Idp to create a config for. Call ListDefaultSupportedIdps for list of all default supported Idps. */
   idpId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig | undefined;
 }
 /** The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP. */
 export interface GoogleCloudIdentitytoolkitAdminV2IdpCertificate {
@@ -170,13 +168,11 @@ export interface GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig {
   /** True if allows the user to sign in with the provider. */
   enabled?: boolean | undefined;
 }
-export interface CreateProjectsInboundSamlConfigsRequest {
+export interface CreateProjectsInboundSamlConfigsRequest extends GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig {
   /** The parent resource name where the config to be created, for example: "projects/my-awesome-project" */
   parent: string;
   /** The id to use for this config. */
   inboundSamlConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig | undefined;
 }
 /** The response type to request for in the OAuth authorization flow. You can set either `id_token` or `code` to true, but not both. Setting both types to be simultaneously true (`{code: true, id_token: true}`) is not yet supported. See https://openid.net/specs/openid-connect-core-1_0.html#Authentication for a mapping of response type to OAuth 2.0 flow. */
 export interface GoogleCloudIdentitytoolkitAdminV2OAuthResponseType {
@@ -204,13 +200,11 @@ export interface GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig {
   /** The name of the OAuthIdpConfig resource, for example: 'projects/my-awesome-project/oauthIdpConfigs/oauth-config-id'. Ignored during create requests. */
   name?: string | undefined;
 }
-export interface CreateProjectsOauthIdpConfigsRequest {
+export interface CreateProjectsOauthIdpConfigsRequest extends GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig {
   /** The id to use for this config. */
   oauthIdpConfigId?: string | undefined;
   /** The parent resource name where the config to be created, for example: "projects/my-awesome-project" */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig | undefined;
 }
 /** Configuration for logging requests made to this project to Stackdriver Logging */
 export interface GoogleCloudIdentitytoolkitAdminV2RequestLogging {
@@ -506,35 +500,27 @@ export interface GoogleCloudIdentitytoolkitAdminV2Tenant {
   /** Output only. Hash config information of a tenant for display on Pantheon. This can only be displayed on Pantheon to avoid the sensitive information to get accidentally leaked. Only returned in GetTenant response to restrict reading of this information. Requires firebaseauth.configs.getHashConfig permission on the agent project for returning this field. */
   hashConfig?: GoogleCloudIdentitytoolkitAdminV2HashConfig | undefined;
 }
-export interface CreateProjectsTenantsRequest {
+export interface CreateProjectsTenantsRequest extends GoogleCloudIdentitytoolkitAdminV2Tenant {
   /** The parent resource name where the tenant will be created. For example, "projects/project1". */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2Tenant | undefined;
 }
-export interface CreateProjectsTenantsDefaultSupportedIdpConfigsRequest {
+export interface CreateProjectsTenantsDefaultSupportedIdpConfigsRequest extends GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig {
   /** The parent resource name where the config to be created, for example: "projects/my-awesome-project" */
   parent: string;
   /** The id of the Idp to create a config for. Call ListDefaultSupportedIdps for list of all default supported Idps. */
   idpId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig | undefined;
 }
-export interface CreateProjectsTenantsInboundSamlConfigsRequest {
+export interface CreateProjectsTenantsInboundSamlConfigsRequest extends GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig {
   /** The id to use for this config. */
   inboundSamlConfigId?: string | undefined;
   /** The parent resource name where the config to be created, for example: "projects/my-awesome-project" */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig | undefined;
 }
-export interface CreateProjectsTenantsOauthIdpConfigsRequest {
+export interface CreateProjectsTenantsOauthIdpConfigsRequest extends GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig {
   /** The parent resource name where the config to be created, for example: "projects/my-awesome-project" */
   parent: string;
   /** The id to use for this config. */
   oauthIdpConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig | undefined;
 }
 export interface DeleteProjectsDefaultSupportedIdpConfigsRequest {
   /** The resource name of the config, for example: "projects/my-awesome-project/defaultSupportedIdpConfigs/google.com" */
@@ -599,10 +585,7 @@ export interface GoogleCloudIdentitytoolkitV2FinalizeMfaEnrollmentRequest {
   /** Verification info to authorize sending an SMS for phone verification. */
   phoneVerificationInfo?: GoogleCloudIdentitytoolkitV2FinalizeMfaPhoneRequestInfo | undefined;
 }
-export interface FinalizeAccountsMfaEnrollmentRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV2FinalizeMfaEnrollmentRequest | undefined;
-}
+export interface FinalizeAccountsMfaEnrollmentRequest extends GoogleCloudIdentitytoolkitV2FinalizeMfaEnrollmentRequest {}
 /** Mfa response info specific to TOTP auth for FinalizeMfa. */
 export interface GoogleCloudIdentitytoolkitV2FinalizeMfaTotpEnrollmentResponseInfo {}
 /** Phone Verification info for a FinalizeMfa response. */
@@ -643,10 +626,7 @@ export interface GoogleCloudIdentitytoolkitV2FinalizeMfaSignInRequest {
   /** The MFA enrollment ID from the user's list of current MFA enrollments. */
   mfaEnrollmentId?: string | undefined;
 }
-export interface FinalizeAccountsMfaSignInRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV2FinalizeMfaSignInRequest | undefined;
-}
+export interface FinalizeAccountsMfaSignInRequest extends GoogleCloudIdentitytoolkitV2FinalizeMfaSignInRequest {}
 /** FinalizeMfaSignIn response. */
 export interface GoogleCloudIdentitytoolkitV2FinalizeMfaSignInResponse {
   /** ID token for the authenticated user. */
@@ -917,11 +897,9 @@ export interface GoogleIamV1GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GoogleIamV1GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsTenantsRequest {
+export interface GetIamPolicyProjectsTenantsRequest extends GoogleIamV1GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1GetIamPolicyRequest | undefined;
 }
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -1214,61 +1192,68 @@ export interface ListProjectsTenantsOauthIdpConfigsRequest {
   /** The maximum number of items to return. */
   pageSize?: number | undefined;
 }
-export interface PatchProjectsDefaultSupportedIdpConfigsRequest {
+export interface PatchProjectsDefaultSupportedIdpConfigsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig,
+  "name"
+> {
   /** The name of the DefaultSupportedIdpConfig resource, for example: "projects/my-awesome-project/defaultSupportedIdpConfigs/google.com" */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig | undefined;
 }
-export interface PatchProjectsInboundSamlConfigsRequest {
+export interface PatchProjectsInboundSamlConfigsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig,
+  "name"
+> {
   /** The update mask applies to the resource. Empty update mask will result in updating nothing. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The name of the InboundSamlConfig resource, for example: 'projects/my-awesome-project/inboundSamlConfigs/my-config-id'. Ignored during create requests. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig | undefined;
 }
-export interface PatchProjectsOauthIdpConfigsRequest {
+export interface PatchProjectsOauthIdpConfigsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig,
+  "name"
+> {
   /** The update mask applies to the resource. Empty update mask will result in updating nothing. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The name of the OAuthIdpConfig resource, for example: 'projects/my-awesome-project/oauthIdpConfigs/oauth-config-id'. Ignored during create requests. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig | undefined;
 }
-export interface PatchProjectsTenantsRequest {
+export interface PatchProjectsTenantsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2Tenant,
+  "name"
+> {
   /** If provided, only update fields set in the update mask. Otherwise, all settable fields will be updated. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. Resource name of a tenant. For example: "projects/{project-id}/tenants/{tenant-id}" */
   name: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2Tenant | undefined;
 }
-export interface PatchProjectsTenantsDefaultSupportedIdpConfigsRequest {
+export interface PatchProjectsTenantsDefaultSupportedIdpConfigsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig,
+  "name"
+> {
   /** The name of the DefaultSupportedIdpConfig resource, for example: "projects/my-awesome-project/defaultSupportedIdpConfigs/google.com" */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig | undefined;
 }
-export interface PatchProjectsTenantsInboundSamlConfigsRequest {
+export interface PatchProjectsTenantsInboundSamlConfigsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig,
+  "name"
+> {
   /** The name of the InboundSamlConfig resource, for example: 'projects/my-awesome-project/inboundSamlConfigs/my-config-id'. Ignored during create requests. */
   name: string;
   /** The update mask applies to the resource. Empty update mask will result in updating nothing. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig | undefined;
 }
-export interface PatchProjectsTenantsOauthIdpConfigsRequest {
+export interface PatchProjectsTenantsOauthIdpConfigsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig,
+  "name"
+> {
   /** The update mask applies to the resource. Empty update mask will result in updating nothing. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The name of the OAuthIdpConfig resource, for example: 'projects/my-awesome-project/oauthIdpConfigs/oauth-config-id'. Ignored during create requests. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2OAuthIdpConfig | undefined;
 }
 export type GoogleCloudIdentitytoolkitV2RevokeTokenRequestTokenTypeEnum =
   | "TOKEN_TYPE_UNSPECIFIED"
@@ -1293,10 +1278,7 @@ export interface GoogleCloudIdentitytoolkitV2RevokeTokenRequest {
   /** Required. The token to be revoked. If an authorization_code is passed in, the API will first exchange the code for access token and then revoke the token exchanged. */
   token?: string | undefined;
 }
-export interface RevokeTokenAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV2RevokeTokenRequest | undefined;
-}
+export interface RevokeTokenAccountsRequest extends GoogleCloudIdentitytoolkitV2RevokeTokenRequest {}
 /** Response message for RevokeToken. Empty for now. */
 export interface GoogleCloudIdentitytoolkitV2RevokeTokenResponse {}
 /** Request message for `SetIamPolicy` method. */
@@ -1306,11 +1288,9 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsTenantsRequest {
+export interface SetIamPolicyProjectsTenantsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Mfa request info specific to TOTP auth for StartMfa. */
 export type GoogleCloudIdentitytoolkitV2StartMfaTotpEnrollmentRequestInfo =
@@ -1370,10 +1350,7 @@ export interface GoogleCloudIdentitytoolkitV2StartMfaEnrollmentRequest {
   /** The ID of the Identity Platform tenant that the user enrolling MFA belongs to. If not set, the user belongs to the default Identity Platform project. */
   tenantId?: string | undefined;
 }
-export interface StartAccountsMfaEnrollmentRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV2StartMfaEnrollmentRequest | undefined;
-}
+export interface StartAccountsMfaEnrollmentRequest extends GoogleCloudIdentitytoolkitV2StartMfaEnrollmentRequest {}
 /** Phone Verification info for a StartMfa response. */
 export interface GoogleCloudIdentitytoolkitV2StartMfaPhoneResponseInfo {
   /** An opaque string that represents the enrollment session. */
@@ -1412,10 +1389,7 @@ export interface GoogleCloudIdentitytoolkitV2StartMfaSignInRequest {
   /** Required. MFA enrollment id from the user's list of current MFA enrollments. */
   mfaEnrollmentId?: string | undefined;
 }
-export interface StartAccountsMfaSignInRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV2StartMfaSignInRequest | undefined;
-}
+export interface StartAccountsMfaSignInRequest extends GoogleCloudIdentitytoolkitV2StartMfaSignInRequest {}
 /** StartMfaSignIn response. */
 export interface GoogleCloudIdentitytoolkitV2StartMfaSignInResponse {
   /** MultiFactor sign-in session information specific to SMS-type second factors. Along with the one-time code retrieved from the sent SMS, the contents of this session information should be passed to FinalizeMfaSignIn to complete the sign in. */
@@ -1426,24 +1400,23 @@ export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsTenantsRequest {
+export interface TestIamPermissionsProjectsTenantsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateConfigProjectsRequest {
+export interface UpdateConfigProjectsRequest extends Omit<
+  GoogleCloudIdentitytoolkitAdminV2Config,
+  "name"
+> {
   /** Output only. The name of the Config resource. Example: "projects/my-awesome-project/config" */
   name: string;
   /** The update mask applies to the resource. Fields set in the config but not included in this update mask will be ignored. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitAdminV2Config | undefined;
 }
 /** Withdraws MFA. */
 export interface GoogleCloudIdentitytoolkitV2WithdrawMfaRequest {
@@ -1454,10 +1427,7 @@ export interface GoogleCloudIdentitytoolkitV2WithdrawMfaRequest {
   /** Required. MFA enrollment id from a current MFA enrollment. */
   mfaEnrollmentId?: string | undefined;
 }
-export interface WithdrawAccountsMfaEnrollmentRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV2WithdrawMfaRequest | undefined;
-}
+export interface WithdrawAccountsMfaEnrollmentRequest extends GoogleCloudIdentitytoolkitV2WithdrawMfaRequest {}
 /** Withdraws MultiFactorAuth response. */
 export interface GoogleCloudIdentitytoolkitV2WithdrawMfaResponse {
   /** Refresh token updated to reflect removal of the second factor. */
@@ -2582,11 +2552,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          oauthIdpConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1857, __c58, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1857, __c58, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            oauthIdpConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/oauthIdpConfigs",
@@ -2737,9 +2709,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV2FinalizeMfaEnrollmentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(289, __c9, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/accounts/mfaEnrollment:finalize",
@@ -2799,9 +2769,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV2FinalizeMfaSignInRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(353, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(353, __c11, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/accounts/mfaSignIn:finalize",
@@ -3023,10 +2991,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GoogleIamV1GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(449, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(449, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -3503,11 +3473,13 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          idpId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1250, __c39, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1250, __c39, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            idpId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/defaultSupportedIdpConfigs",
@@ -3556,11 +3528,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1250, __c39, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1250, __c39, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3574,11 +3548,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1670, __c52, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1670, __c52, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3592,11 +3568,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1857, __c58, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1857, __c58, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3610,11 +3588,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1954, __c61, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1954, __c61, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3628,11 +3608,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1250, __c39, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1250, __c39, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3646,11 +3628,13 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1670, __c52, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1670, __c52, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3664,11 +3648,13 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1857, __c58, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1857, __c58, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3693,9 +3679,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV2RevokeTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1504, __c47, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/accounts:revokeToken",
@@ -3716,10 +3700,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GoogleIamV1SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -3742,9 +3728,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV2StartMfaEnrollmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1568, __c49, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/accounts/mfaEnrollment:start",
@@ -3807,11 +3791,13 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          inboundSamlConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1670, __c52, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1670, __c52, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            inboundSamlConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inboundSamlConfigs",
@@ -3882,9 +3868,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV2StartMfaSignInRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1696, __c53, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/accounts/mfaSignIn:start",
@@ -3910,10 +3894,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GoogleIamV1TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -3927,11 +3913,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(434, __c13, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(434, __c13, 18),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3953,9 +3941,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV2WithdrawMfaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1792, __c56, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/accounts/mfaEnrollment:withdraw",
@@ -3976,11 +3962,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          oauthIdpConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1857, __c58, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1857, __c58, 1),
+          S.Struct({
+            oauthIdpConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/oauthIdpConfigs",
@@ -4018,10 +4006,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1954, __c61, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1954, __c61, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tenants",
@@ -4234,11 +4224,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          idpId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1250, __c39, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1250, __c39, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            idpId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/defaultSupportedIdpConfigs",
@@ -4252,11 +4244,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          inboundSamlConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1670, __c52, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1670, __c52, 6),
+          S.Struct({
+            inboundSamlConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/inboundSamlConfigs",

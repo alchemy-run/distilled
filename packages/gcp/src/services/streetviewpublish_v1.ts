@@ -89,10 +89,7 @@ export interface BatchDeletePhotosRequest {
   /** Required. IDs of the Photos. HTTP GET requests require the following syntax for the URL query parameter: `photoIds=&photoIds=&...`. */
   photoIds?: StringList | undefined;
 }
-export interface BatchDeletePhotosRequest_ {
-  /** Request body */
-  body?: BatchDeletePhotosRequest | undefined;
-}
+export interface BatchDeletePhotosRequest_ extends BatchDeletePhotosRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -246,19 +243,13 @@ export interface BatchUpdatePhotosRequest {
   /** Required. List of UpdatePhotoRequests. */
   updatePhotoRequests?: UpdatePhotoRequestList | undefined;
 }
-export interface BatchUpdatePhotosRequest_ {
-  /** Request body */
-  body?: BatchUpdatePhotosRequest | undefined;
-}
+export interface BatchUpdatePhotosRequest_ extends BatchUpdatePhotosRequest {}
 /** Response to batch update of metadata of one or more Photos. */
 export interface BatchUpdatePhotosResponse {
   /** List of results for each individual Photo updated, in the same order as the request. */
   results?: PhotoResponseList | undefined;
 }
-export interface CreatePhotoRequest {
-  /** Request body */
-  body?: Photo | undefined;
-}
+export interface CreatePhotoRequest extends Photo {}
 export type CreatePhotoSequenceInputTypeEnum = "INPUT_TYPE_UNSPECIFIED" | "VIDEO" | "XDM";
 export type PhotoSequenceGpsSourceEnum = "PHOTO_SEQUENCE" | "CAMERA_MOTION_METADATA_TRACK";
 /** Details related to ProcessingFailureReason#NOT_OUTDOORS. If there are multiple indoor frames found, the first frame is recorded here. */
@@ -404,11 +395,9 @@ export interface PhotoSequence {
   /** Input only. Raw GPS measurements with increasing timestamps from the device that aren't time synced with each photo. These raw measurements will be used to infer the pose of each frame. Required in input when InputType is VIDEO and raw GPS measurements are not in Camera Motion Metadata Track (CAMM). User can indicate which takes precedence using gps_source if raw GPS measurements are provided in both raw_gps_timeline and Camera Motion Metadata Track (CAMM). */
   rawGpsTimeline?: PoseList | undefined;
 }
-export interface CreatePhotoSequenceRequest {
+export interface CreatePhotoSequenceRequest extends PhotoSequence {
   /** Required. The input form of PhotoSequence. */
   inputType?: CreatePhotoSequenceInputTypeEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: PhotoSequence | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -495,13 +484,11 @@ export interface StartUploadPhotoSequenceRequest {
   /** Request body */
   body?: Empty | undefined;
 }
-export interface UpdatePhotoRequest_ {
+export interface UpdatePhotoRequest_ extends Photo {
   /** Required. Mask that identifies fields on the photo metadata to update. If not present, the old Photo metadata is entirely replaced with the new Photo metadata in this request. The update fails if invalid fields are specified. Multiple fields can be specified in a comma-delimited list. The following fields are valid: * `pose.heading` * `pose.lat_lng_pair` * `pose.pitch` * `pose.roll` * `pose.level` * `pose.altitude` * `connections` * `places` > Note: When updateMask contains repeated fields, the entire set of repeated values get replaced with the new contents. For example, if updateMask contains `connections` and `UpdatePhotoRequest.photo.connections` is empty, all connections are removed. */
   updateMask?: string | undefined;
   /** A unique identifier for a photo. */
   id: string;
-  /** Request body */
-  body?: Photo | undefined;
 }
 export type BatchDeletePhotosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Deletes a list of Photos and their metadata. Note that if BatchDeletePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchDeletePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchDeletePhotosResponse.results. See DeletePhoto for specific failures that can occur per photo. */
@@ -889,11 +876,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(232, __c14, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(232, __c14, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/photo/{id}",
@@ -913,9 +902,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "BatchDeletePhotosRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(128, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(128, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photos:batchDelete",
@@ -1094,9 +1081,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "BatchUpdatePhotosRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(242, __c15, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(242, __c15, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photos:batchUpdate",
@@ -1110,9 +1095,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(232, __c14, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(232, __c14, 8), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photo",
@@ -1219,10 +1202,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PhotoSequence" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          inputType: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(283, __c17, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(283, __c17, 11),
+          S.Struct({
+            inputType: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photoSequence",

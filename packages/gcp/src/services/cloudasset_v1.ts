@@ -171,11 +171,9 @@ export interface AnalyzeIamPolicyLongrunningRequest {
   /** Required. The request query. */
   analysisQuery?: IamPolicyAnalysisQuery | undefined;
 }
-export interface AnalyzeIamPolicyLongrunningV1Request {
+export interface AnalyzeIamPolicyLongrunningV1Request extends AnalyzeIamPolicyLongrunningRequest {
   /** Required. The relative name of the root asset. Only resources and IAM policies within the scope will be analyzed. This can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). To know how to get organization ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id). To know how to get folder or project ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-folders#viewing_or_listing_folders_and_projects). */
   scope: string;
-  /** Request body */
-  body?: AnalyzeIamPolicyLongrunningRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1450,11 +1448,9 @@ export interface CreateFeedRequest {
   /** Required. This is the client-assigned asset feed identifier and it needs to be unique under a specific parent project/folder/organization. */
   feedId?: string | undefined;
 }
-export interface CreateFeedsRequest {
+export interface CreateFeedsRequest extends CreateFeedRequest {
   /** Required. The name of the project/folder/organization where this feed should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
   parent: string;
-  /** Request body */
-  body?: CreateFeedRequest | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** The query content. */
@@ -1481,13 +1477,11 @@ export interface SavedQuery {
   /** The resource name of the saved query. The format must be: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
   name?: string | undefined;
 }
-export interface CreateSavedQueriesRequest {
+export interface CreateSavedQueriesRequest extends SavedQuery {
   /** Required. The ID to use for the saved query, which must be unique in the specified parent. It will become the final component of the saved query's resource name. This value should be 4-63 characters, and valid characters are `a-z-`. Notice that this field is required in the saved query creation, and the `name` field of the `saved_query` will be ignored. */
   savedQueryId?: string | undefined;
   /** Required. The name of the project/folder/organization where this saved_query should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
   parent: string;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
 export interface DeleteFeedsRequest {
   /** Required. The name of the feed and it must be in the format of: projects/project_number/feeds/feed_id folders/folder_number/feeds/feed_id organizations/organization_number/feeds/feed_id */
@@ -1556,11 +1550,9 @@ export interface ExportAssetsRequest {
   /** A list of relationship types to export, for example: `INSTANCE_TO_INSTANCEGROUP`. This field should only be specified if content_type=RELATIONSHIP. * If specified: it snapshots specified relationships. It returns an error if any of the [relationship_types] doesn't belong to the supported relationship types of the [asset_types] or if any of the [asset_types] doesn't belong to the source types of the [relationship_types]. * Otherwise: it snapshots the supported relationships for all [asset_types] or returns an error if any of the [asset_types] has no relationship support. An unspecified asset types field means all supported asset_types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all supported asset types and relationship types. */
   relationshipTypes?: StringList | undefined;
 }
-export interface ExportAssetsV1Request {
+export interface ExportAssetsV1Request extends ExportAssetsRequest {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
   parent: string;
-  /** Request body */
-  body?: ExportAssetsRequest | undefined;
 }
 export interface GetFeedsRequest {
   /** Required. The name of the Feed and it must be in the format of: projects/project_number/feeds/feed_id folders/folder_number/feeds/feed_id organizations/organization_number/feeds/feed_id */
@@ -1642,19 +1634,15 @@ export interface UpdateFeedRequest {
   /** Required. The new values of feed details. It must match an existing feed and the field `name` must be in the format of: projects/project_number/feeds/feed_id or folders/folder_number/feeds/feed_id or organizations/organization_number/feeds/feed_id. */
   feed?: Feed | undefined;
 }
-export interface PatchFeedsRequest {
+export interface PatchFeedsRequest extends UpdateFeedRequest {
   /** Required. The format will be projects/{project_number}/feeds/{client-assigned_feed_identifier} or folders/{folder_number}/feeds/{client-assigned_feed_identifier} or organizations/{organization_number}/feeds/{client-assigned_feed_identifier} The client-assigned feed identifier must be unique within the parent project/folder/organization. */
   name: string;
-  /** Request body */
-  body?: UpdateFeedRequest | undefined;
 }
-export interface PatchSavedQueriesRequest {
+export interface PatchSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** The resource name of the saved query. The format must be: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
 /** BigQuery destination. */
 export interface GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination {
@@ -1689,11 +1677,9 @@ export interface QueryAssetsRequest {
   /** Optional. Specifies the maximum amount of time that the client is willing to wait for the query to complete. By default, this limit is 5 min for the first query, and 1 minute for the following queries. If the query is complete, the `done` field in the `QueryAssetsResponse` is true, otherwise false. Like BigQuery [jobs.query API](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query#queryrequest) The call is not guaranteed to wait for the specified timeout; it typically returns after around 200 seconds (200,000 milliseconds), even if the query is not complete. The field will be ignored when [output_config] is specified. */
   timeout?: string | undefined;
 }
-export interface QueryAssetsV1Request {
+export interface QueryAssetsV1Request extends QueryAssetsRequest {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). Only assets belonging to the `parent` will be returned. */
   parent: string;
-  /** Request body */
-  body?: QueryAssetsRequest | undefined;
 }
 /** A field in TableSchema. */
 export interface TableFieldSchema {
@@ -2905,10 +2891,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateFeedRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/feeds",
@@ -2950,11 +2938,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(289, __c9, 1),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/savedQueries",
@@ -3069,10 +3059,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ExportAssetsRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(420, __c13, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(420, __c13, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:exportAssets",
@@ -3225,10 +3217,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UpdateFeedRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3242,11 +3236,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(289, __c9, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3287,10 +3283,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "QueryAssetsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(706, __c22, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(706, __c22, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:queryAssets",
@@ -3540,10 +3538,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "AnalyzeIamPolicyLongrunningRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(803, __c25, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(803, __c25, 3),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:analyzeIamPolicyLongrunning",

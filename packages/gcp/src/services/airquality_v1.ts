@@ -128,10 +128,7 @@ export interface LookupCurrentConditionsRequest {
   /** Optional. If set to true, the Universal AQI will be included in the 'indexes' field of the response. Default value is true. */
   universalAqi?: boolean | undefined;
 }
-export interface LookupCurrentConditionsRequest_ {
-  /** Request body */
-  body?: LookupCurrentConditionsRequest | undefined;
-}
+export interface LookupCurrentConditionsRequest_ extends LookupCurrentConditionsRequest {}
 export type ConcentrationUnitsEnum =
   | "UNIT_UNSPECIFIED"
   | "PARTS_PER_BILLION"
@@ -267,10 +264,7 @@ export interface LookupForecastRequest {
   /** Optional. Expresses a 'country/region to AQI' relationship. Pairs a country/region with a desired AQI so that air quality data that is required for that country/region will be displayed according to the chosen AQI. This parameter can be used to specify a non-default AQI for a given country, for example, to get the US EPA index for Canada rather than the default index for Canada. */
   customLocalAqis?: CustomLocalAqiList | undefined;
 }
-export interface LookupForecastRequest_ {
-  /** Request body */
-  body?: LookupForecastRequest | undefined;
-}
+export interface LookupForecastRequest_ extends LookupForecastRequest {}
 /** Contains the air quality information for each hour in the requested range. For example, if the request is for 48 hours of forecast there will be 48 elements of hourly forecasts. */
 export interface HourlyForecast {
   /** A list of pollutants affecting the location specified in the request. Note: This field will be returned only for requests that specified one or more of the following extra computations: POLLUTANT_ADDITIONAL_INFO, DOMINANT_POLLUTANT_CONCENTRATION, POLLUTANT_CONCENTRATION. */
@@ -363,10 +357,7 @@ export interface LookupHistoryRequest {
   /** A timestamp for which to return historical data. The timestamp is rounded to the previous exact hour. Note: this will return hourly data for the requested timestamp only (i.e. a single hourly info element). For example, a request sent where the dateTime parameter is set to 2023-01-03T11:05:49Z will be rounded down to 2023-01-03T11:00:00Z. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
   dateTime?: string | undefined;
 }
-export interface LookupHistoryRequest_ {
-  /** Request body */
-  body?: LookupHistoryRequest | undefined;
-}
+export interface LookupHistoryRequest_ extends LookupHistoryRequest {}
 /** Contains the air quality information for each hour in the requested range. For example, if the request is for 48 hours of history there will be 48 elements of hourly info. */
 export interface HourInfo {
   /** A list of pollutants affecting the location specified in the request. Note: This field will be returned only for requests that specified one or more of the following extra computations: POLLUTANT_ADDITIONAL_INFO, DOMINANT_POLLUTANT_CONCENTRATION, POLLUTANT_CONCENTRATION. */
@@ -476,9 +467,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "LookupCurrentConditionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/currentConditions:lookup",
@@ -600,9 +589,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "LookupForecastRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(32, __c2, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/forecast:lookup",
@@ -693,9 +680,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LookupHistoryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(80, __c5, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/history:lookup",

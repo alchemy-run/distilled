@@ -382,13 +382,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryAnonRssAndSwapMemoryUs
   /** Optional. * Metrics to aggregate. **Supported metrics:** * `anonRssAndSwapMemoryUsageP50` (`google.type.Decimal`): 50th percentile of anon RSS and swap memory usage. * `anonRssAndSwapMemoryUsageP75` (`google.type.Decimal`): 75th percentile of anon RSS and swap memory usage. * `anonRssAndSwapMemoryUsageP90` (`google.type.Decimal`): 90th percentile of anon RSS and swap memory usage. * `anonRssAndSwapMemoryUsageP95` (`google.type.Decimal`): 95th percentile of anon RSS and swap memory usage. * `anonRssAndSwapMemoryUsageP99` (`google.type.Decimal`): 99th percentile of anon RSS and swap memory usage. * `distinctUsers` (`google.type.Decimal`): Count of distinct users for which memory metrics were reported during the aggregation period. Care must be taken not to aggregate this count further, as it may result in users being counted multiple times. The value is rounded to the nearest multiple of 10, 100, 1,000 or 1,000,000, depending on the magnitude of the value. */
   metrics?: StringList | undefined;
 }
-export interface QueryVitalsAnonrssandswapmemoryusageRequest {
+export interface QueryVitalsAnonrssandswapmemoryusageRequest extends GooglePlayDeveloperReportingV1alpha1QueryAnonRssAndSwapMemoryUsageMetricSetRequest {
   /** Required. * The resource name. Format: apps/{app}/anonRssAndSwapMemoryUsageMetricSet */
   name: string;
-  /** Request body */
-  body?:
-    | GooglePlayDeveloperReportingV1alpha1QueryAnonRssAndSwapMemoryUsageMetricSetRequest
-    | undefined;
 }
 export type GooglePlayDeveloperReportingV1alpha1MetricValueList =
   Array<GooglePlayDeveloperReportingV1alpha1MetricValue>;
@@ -444,11 +440,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryAnrRateMetricSetReques
     | (string & {})
     | undefined;
 }
-export interface QueryVitalsAnrrateRequest {
+export interface QueryVitalsAnrrateRequest extends GooglePlayDeveloperReportingV1alpha1QueryAnrRateMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/anrRateMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QueryAnrRateMetricSetRequest | undefined;
 }
 /** Response message for QueryAnrRateMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QueryAnrRateMetricSetResponse {
@@ -482,11 +476,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryBitmapMemoryUsageMetri
   /** Optional. Maximum size of the returned data. If unspecified, at most 1000 rows will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number | undefined;
 }
-export interface QueryVitalsBitmapmemoryusageRequest {
+export interface QueryVitalsBitmapmemoryusageRequest extends GooglePlayDeveloperReportingV1alpha1QueryBitmapMemoryUsageMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/bitmapMemoryUsageMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QueryBitmapMemoryUsageMetricSetRequest | undefined;
 }
 /** Response message for QueryBitmapMemoryUsageMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QueryBitmapMemoryUsageMetricSetResponse {
@@ -520,11 +512,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryCrashRateMetricSetRequ
   /** Optional. Specification of the timeline aggregation parameters. **Supported aggregation periods:** * DAILY: metrics are aggregated in calendar date intervals. Due to historical constraints, the default and only supported timezone is `America/Los_Angeles`. * HOURLY: metrics are aggregated in hourly intervals. The default and only supported timezone is `UTC`. */
   timelineSpec?: GooglePlayDeveloperReportingV1alpha1TimelineSpec | undefined;
 }
-export interface QueryVitalsCrashrateRequest {
+export interface QueryVitalsCrashrateRequest extends GooglePlayDeveloperReportingV1alpha1QueryCrashRateMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/crashRateMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QueryCrashRateMetricSetRequest | undefined;
 }
 /** Response message for QueryCrashRateMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QueryCrashRateMetricSetResponse {
@@ -548,11 +538,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryErrorCountMetricSetReq
   /** Optional. Maximum size of the returned data. If unspecified, at most 1000 rows will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number | undefined;
 }
-export interface QueryVitalsErrorsCountsRequest {
+export interface QueryVitalsErrorsCountsRequest extends GooglePlayDeveloperReportingV1alpha1QueryErrorCountMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/errorCountMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QueryErrorCountMetricSetRequest | undefined;
 }
 /** Error counts query response. */
 export interface GooglePlayDeveloperReportingV1alpha1QueryErrorCountMetricSetResponse {
@@ -586,11 +574,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryExcessiveWakeupRateMet
     | (string & {})
     | undefined;
 }
-export interface QueryVitalsExcessivewakeuprateRequest {
+export interface QueryVitalsExcessivewakeuprateRequest extends GooglePlayDeveloperReportingV1alpha1QueryExcessiveWakeupRateMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/excessiveWakeupRateMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QueryExcessiveWakeupRateMetricSetRequest | undefined;
 }
 /** Response message for QueryExcessiveWakeupRateMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QueryExcessiveWakeupRateMetricSetResponse {
@@ -624,11 +610,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryLmkRateMetricSetReques
   /** Optional. A page token, received from a previous call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to the request must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
-export interface QueryVitalsLmkrateRequest {
+export interface QueryVitalsLmkrateRequest extends GooglePlayDeveloperReportingV1alpha1QueryLmkRateMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/lmkRateMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QueryLmkRateMetricSetRequest | undefined;
 }
 /** Response message for QueryLmkRateMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QueryLmkRateMetricSetResponse {
@@ -662,11 +646,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QuerySlowRenderingRateMetri
     | (string & {})
     | undefined;
 }
-export interface QueryVitalsSlowrenderingrateRequest {
+export interface QueryVitalsSlowrenderingrateRequest extends GooglePlayDeveloperReportingV1alpha1QuerySlowRenderingRateMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/slowRenderingRateMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QuerySlowRenderingRateMetricSetRequest | undefined;
 }
 /** Response message for QuerySlowRenderingRateMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QuerySlowRenderingRateMetricSetResponse {
@@ -700,11 +682,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QuerySlowStartRateMetricSet
   /** Optional. Maximum size of the returned data. If unspecified, at most 1000 rows will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number | undefined;
 }
-export interface QueryVitalsSlowstartrateRequest {
+export interface QueryVitalsSlowstartrateRequest extends GooglePlayDeveloperReportingV1alpha1QuerySlowStartRateMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/slowStartRateMetricSet */
   name: string;
-  /** Request body */
-  body?: GooglePlayDeveloperReportingV1alpha1QuerySlowStartRateMetricSetRequest | undefined;
 }
 /** Response message for QuerySlowStartRateMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QuerySlowStartRateMetricSetResponse {
@@ -738,13 +718,9 @@ export interface GooglePlayDeveloperReportingV1alpha1QueryStuckBackgroundWakeloc
   /** Optional. Dimensions to slice the data by. **Supported dimensions:** * `apiLevel` (string): the API level of Android that was running on the user's device, e.g., 26. * `versionCode` (int64): version of the app that was running on the user's device. * `deviceModel` (string): unique identifier of the user's device model. The form of the identifier is 'deviceBrand/device', where deviceBrand corresponds to Build.BRAND and device corresponds to Build.DEVICE, e.g., google/coral. * `deviceBrand` (string): unique identifier of the user's device brand, e.g., google. * `deviceType` (string): the type (also known as form factor) of the user's device, e.g., PHONE. * `countryCode` (string): the country or region of the user's device based on their IP address, represented as a 2-letter ISO-3166 code (e.g. US for the United States). * `deviceRamBucket` (int64): RAM of the device, in MB, in buckets (e.g., 1024 for 1-1.5GB, 4096 for 4-6GB). * `deviceSocMake` (string): Make of the device's primary system-on-chip, e.g., Samsung. [Reference](https://developer.android.com/reference/android/os/Build#SOC_MANUFACTURER) * `deviceSocModel` (string): Model of the device's primary system-on-chip, e.g., "Exynos 2100". [Reference](https://developer.android.com/reference/android/os/Build#SOC_MODEL) * `deviceCpuMake` (string): Make of the device's CPU, e.g., Qualcomm. * `deviceCpuModel` (string): Model of the device's CPU, e.g., "Kryo 240". * `deviceGpuMake` (string): Make of the device's GPU, e.g., ARM. * `deviceGpuModel` (string): Model of the device's GPU, e.g., Mali. * `deviceGpuVersion` (string): Version of the device's GPU, e.g., T750. * `deviceVulkanVersion` (string): Vulkan version of the device, e.g., "4198400". * `deviceGlEsVersion` (string): OpenGL ES version of the device, e.g., "196610". * `deviceScreenSize` (string): Screen size of the device, e.g., NORMAL, LARGE. * `deviceScreenDpi` (string): Screen density of the device, e.g., mdpi, hdpi. */
   dimensions?: StringList | undefined;
 }
-export interface QueryVitalsStuckbackgroundwakelockrateRequest {
+export interface QueryVitalsStuckbackgroundwakelockrateRequest extends GooglePlayDeveloperReportingV1alpha1QueryStuckBackgroundWakelockRateMetricSetRequest {
   /** Required. The resource name. Format: apps/{app}/stuckBackgroundWakelockRateMetricSet */
   name: string;
-  /** Request body */
-  body?:
-    | GooglePlayDeveloperReportingV1alpha1QueryStuckBackgroundWakelockRateMetricSetRequest
-    | undefined;
 }
 /** Response message for QueryStuckBackgroundWakelockRateMetricSet. */
 export interface GooglePlayDeveloperReportingV1alpha1QueryStuckBackgroundWakelockRateMetricSetResponse {
@@ -1754,10 +1730,12 @@ function __c8(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -1816,10 +1794,12 @@ function __c11(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(88, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(88, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -1847,10 +1827,12 @@ function __c12(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -1878,10 +1860,12 @@ function __c13(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -1921,10 +1905,12 @@ function __c15(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -1952,10 +1938,12 @@ function __c16(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -1983,10 +1971,12 @@ function __c17(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(136, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(136, __c17, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -2014,10 +2004,12 @@ function __c18(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c18, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -2045,10 +2037,12 @@ function __c19(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(152, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",
@@ -2077,10 +2071,12 @@ function __c20(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:query",

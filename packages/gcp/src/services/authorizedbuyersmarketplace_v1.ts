@@ -105,11 +105,9 @@ export interface AcceptProposalRequest {
   /** The last known client revision number of the proposal. */
   proposalRevision?: string | undefined;
 }
-export interface AcceptBuyersProposalsRequest {
+export interface AcceptBuyersProposalsRequest extends AcceptProposalRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   name: string;
-  /** Request body */
-  body?: AcceptProposalRequest | undefined;
 }
 /** Contains information on how a buyer or seller can be reached. */
 export interface Contact {
@@ -245,11 +243,9 @@ export interface AddCreativeRequest {
   /** Name of the creative to add to the finalized deal, in the format `buyers/{buyerAccountId}/creatives/{creativeId}`. See creative.name. */
   creative?: string | undefined;
 }
-export interface AddCreativeBuyersFinalizedDealsRequest {
+export interface AddCreativeBuyersFinalizedDealsRequest extends AddCreativeRequest {
   /** Required. Name of the finalized deal in the format of: `buyers/{accountId}/finalizedDeals/{dealId}` */
   deal: string;
-  /** Request body */
-  body?: AddCreativeRequest | undefined;
 }
 /** Real-time bidding metrics. For what each metric means refer to [Report metrics](https://support.google.com/adxbuyer/answer/6115195#report-metrics) */
 export interface RtbMetrics {
@@ -696,11 +692,9 @@ export interface AddNoteRequest {
   /** The note to add. */
   note?: Note | undefined;
 }
-export interface AddNoteBuyersProposalsRequest {
+export interface AddNoteBuyersProposalsRequest extends AddNoteRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   proposal: string;
-  /** Request body */
-  body?: AddNoteRequest | undefined;
 }
 /** Request message for updating the deal at the given revision number. */
 export interface UpdateDealRequest {
@@ -715,11 +709,9 @@ export interface BatchUpdateDealsRequest {
   /** Required. List of request messages to update deals. */
   requests?: UpdateDealRequestList | undefined;
 }
-export interface BatchUpdateBuyersProposalsDealsRequest {
+export interface BatchUpdateBuyersProposalsDealsRequest extends BatchUpdateDealsRequest {
   /** Required. The name of the proposal containing the deals to batch update. Format: buyers/{accountId}/proposals/{proposalId} */
   parent: string;
-  /** Request body */
-  body?: BatchUpdateDealsRequest | undefined;
 }
 export type DealList = Array<Deal>;
 /** Response message for batch updating deals. */
@@ -735,17 +727,13 @@ export interface CancelNegotiationBuyersProposalsRequest {
   /** Request body */
   body?: ActivateClientRequest | undefined;
 }
-export interface CreateBuyersClientsRequest {
+export interface CreateBuyersClientsRequest extends Client {
   /** Required. The name of the buyer. Format: `buyers/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: Client | undefined;
 }
-export interface CreateBuyersClientsUsersRequest {
+export interface CreateBuyersClientsUsersRequest extends ClientUser {
   /** Required. The name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   parent: string;
-  /** Request body */
-  body?: ClientUser | undefined;
 }
 /** Request message for disabling a client. */
 export type DeactivateClientRequest = ActivateClientRequest;
@@ -1032,40 +1020,32 @@ export interface ListPublisherProfilesResponse {
   /** The list of matching publisher profiles. */
   publisherProfiles?: PublisherProfileList | undefined;
 }
-export interface PatchBuyersClientsRequest {
+export interface PatchBuyersClientsRequest extends Omit<Client, "name"> {
   /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Client | undefined;
 }
-export interface PatchBuyersProposalsRequest {
+export interface PatchBuyersProposalsRequest extends Omit<Proposal, "name"> {
   /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
   name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Proposal | undefined;
 }
-export interface PatchBuyersProposalsDealsRequest {
+export interface PatchBuyersProposalsDealsRequest extends Omit<Deal, "name"> {
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
   /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
   name: string;
-  /** Request body */
-  body?: Deal | undefined;
 }
 /** Request message for pausing a finalized deal. */
 export interface PauseFinalizedDealRequest {
   /** The reason to pause the finalized deal, will be displayed to the seller. Maximum length is 1000 characters. */
   reason?: string | undefined;
 }
-export interface PauseBuyersFinalizedDealsRequest {
+export interface PauseBuyersFinalizedDealsRequest extends PauseFinalizedDealRequest {
   /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` */
   name: string;
-  /** Request body */
-  body?: PauseFinalizedDealRequest | undefined;
 }
 /** Request message for resuming a finalized deal. */
 export type ResumeFinalizedDealRequest = ActivateClientRequest;
@@ -1102,11 +1082,9 @@ export interface SendRfpRequest {
   /** If the current buyer is sending the RFP on behalf of its client, use this field to specify the name of the client in the format: `buyers/{accountId}/clients/{clientAccountid}`. */
   client?: string | undefined;
 }
-export interface SendRfpBuyersProposalsRequest {
+export interface SendRfpBuyersProposalsRequest extends SendRfpRequest {
   /** Required. The current buyer who is sending the RFP in the format: `buyers/{accountId}`. */
   buyer: string;
-  /** Request body */
-  body?: SendRfpRequest | undefined;
 }
 /** Request message for setting ready to serve for a finalized deal. */
 export type SetReadyToServeRequest = ActivateClientRequest;
@@ -1135,11 +1113,9 @@ export interface SubscribeClientsRequest {
   /** Optional. A list of client buyers to subscribe to the auction package, with client buyer in the format `buyers/{accountId}/clients/{clientAccountId}`. The current buyer will be subscribed to the auction package regardless of the list contents if not already. */
   clients?: StringList | undefined;
 }
-export interface SubscribeClientsBuyersAuctionPackagesRequest {
+export interface SubscribeClientsBuyersAuctionPackagesRequest extends SubscribeClientsRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   auctionPackage: string;
-  /** Request body */
-  body?: SubscribeClientsRequest | undefined;
 }
 /** Request message for UnsubscribeAuctionPackage. */
 export type UnsubscribeAuctionPackageRequest = ActivateClientRequest;
@@ -1154,11 +1130,9 @@ export interface UnsubscribeClientsRequest {
   /** Optional. A list of client buyers to unsubscribe from the auction package, with client buyer in the format `buyers/{accountId}/clients/{clientAccountId}`. */
   clients?: StringList | undefined;
 }
-export interface UnsubscribeClientsBuyersAuctionPackagesRequest {
+export interface UnsubscribeClientsBuyersAuctionPackagesRequest extends UnsubscribeClientsRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   auctionPackage: string;
-  /** Request body */
-  body?: UnsubscribeClientsRequest | undefined;
 }
 export type AcceptBuyersProposalsError =
   | NotFound
@@ -2254,10 +2228,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BatchUpdateDealsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deals:batchUpdate",
@@ -2300,10 +2276,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients",
@@ -2317,10 +2295,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/users",
@@ -2795,11 +2775,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1408, __c44, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2813,11 +2795,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1349, __c42, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1349, __c42, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2831,11 +2815,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1716, __c53, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1716, __c53, 20),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2855,10 +2841,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "PauseFinalizedDealRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(992, __c31, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:pause",
@@ -2906,10 +2894,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SendRfpRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          buyer: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            buyer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+buyer}/proposals:sendRfp",
@@ -2974,10 +2964,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          auctionPackage: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            auctionPackage: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+auctionPackage}:subscribeClients",
@@ -3018,10 +3010,12 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          auctionPackage: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            auctionPackage: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+auctionPackage}:unsubscribeClients",
@@ -3041,10 +3035,12 @@ function __c41(j: number): any {
       ).annotate({ identifier: "AcceptProposalRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:accept",
@@ -3184,10 +3180,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "AddCreativeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          deal: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            deal: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+deal}:addCreative",
@@ -3500,10 +3498,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "AddNoteRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          proposal: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            proposal: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+proposal}:addNote",

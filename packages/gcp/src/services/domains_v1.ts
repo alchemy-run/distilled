@@ -153,11 +153,9 @@ export interface ConfigureContactSettingsRequest {
   /** The list of contact notices that the caller acknowledges. The notices needed here depend on the values specified in `contact_settings`. */
   contactNotices?: ConfigureContactSettingsRequestContactNoticesItemEnumList | undefined;
 }
-export interface ConfigureContactSettingsProjectsLocationsRegistrationsRequest {
+export interface ConfigureContactSettingsProjectsLocationsRegistrationsRequest extends ConfigureContactSettingsRequest {
   /** Required. The name of the `Registration` whose contact settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
   registration: string;
-  /** Request body */
-  body?: ConfigureContactSettingsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -270,11 +268,9 @@ export interface ConfigureDnsSettingsRequest {
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the name servers are being updated for an existing Custom DNS configuration, the `update_mask` is `"custom_dns.name_servers"`. When changing the DNS provider from one type to another, pass the new provider's field name as part of the field mask. For example, when changing from a Google Domains DNS configuration to a Custom DNS configuration, the `update_mask` is `"custom_dns"`. // */
   updateMask?: string | undefined;
 }
-export interface ConfigureDnsSettingsProjectsLocationsRegistrationsRequest {
+export interface ConfigureDnsSettingsProjectsLocationsRegistrationsRequest extends ConfigureDnsSettingsRequest {
   /** Required. The name of the `Registration` whose DNS settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
   registration: string;
-  /** Request body */
-  body?: ConfigureDnsSettingsRequest | undefined;
 }
 export type ManagementSettingsEffectiveTransferLockStateEnum =
   | "TRANSFER_LOCK_STATE_UNSPECIFIED"
@@ -317,11 +313,9 @@ export interface ConfigureManagementSettingsRequest {
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the transfer lock is being updated, the `update_mask` is `"transfer_lock_state"`. */
   updateMask?: string | undefined;
 }
-export interface ConfigureManagementSettingsProjectsLocationsRegistrationsRequest {
+export interface ConfigureManagementSettingsProjectsLocationsRegistrationsRequest extends ConfigureManagementSettingsRequest {
   /** Required. The name of the `Registration` whose management settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
   registration: string;
-  /** Request body */
-  body?: ConfigureManagementSettingsRequest | undefined;
 }
 export interface DeleteProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` to delete, in the format `projects/*\/locations/*\/registrations/*`. */
@@ -795,11 +789,9 @@ export interface ImportDomainRequest {
   /** Set of labels associated with the `Registration`. */
   labels?: StringMap | undefined;
 }
-export interface ImportProjectsLocationsRegistrationsRequest {
+export interface ImportProjectsLocationsRegistrationsRequest extends ImportDomainRequest {
   /** Required. The parent resource of the Registration. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: ImportDomainRequest | undefined;
 }
 /** Request for the `InitiatePushTransfer` method. */
 export interface InitiatePushTransferRequest {
@@ -808,11 +800,9 @@ export interface InitiatePushTransferRequest {
   /** Optional. If set, validates the request without actually initiating the transfer. */
   validateOnly?: boolean | undefined;
 }
-export interface InitiatePushTransferProjectsLocationsRegistrationsRequest {
+export interface InitiatePushTransferProjectsLocationsRegistrationsRequest extends InitiatePushTransferRequest {
   /** Required. The name of the `Registration` for which the push transfer is initiated, in the format `projects/*\/locations/*\/registrations/*`. */
   registration: string;
-  /** Request body */
-  body?: InitiatePushTransferRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -874,15 +864,13 @@ export interface ListRegistrationsResponse {
   /** When present, there are more results to retrieve. Set `page_token` to this value on a subsequent call to get the next page of results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsRegistrationsRequest {
+export interface PatchProjectsLocationsRegistrationsRequest extends Omit<Registration, "name"> {
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the labels are being updated, the `update_mask` is `"labels"`. */
   updateMask?: string | undefined;
   /** Optional. If set, validates the request without actually updating the registration. */
   validateOnly?: boolean | undefined;
   /** Output only. Name of the `Registration` resource, in the format `projects/*\/locations/*\/registrations/`. */
   name: string;
-  /** Request body */
-  body?: Registration | undefined;
 }
 export type RegisterDomainRequestContactNoticesItemEnum =
   | "CONTACT_NOTICE_UNSPECIFIED"
@@ -909,11 +897,9 @@ export interface RegisterDomainRequest {
   /** Required. The complete `Registration` resource to be created. */
   registration?: Registration | undefined;
 }
-export interface RegisterProjectsLocationsRegistrationsRequest {
+export interface RegisterProjectsLocationsRegistrationsRequest extends RegisterDomainRequest {
   /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: RegisterDomainRequest | undefined;
 }
 /** Request for the `RenewDomain` method. */
 export interface RenewDomainRequest {
@@ -922,11 +908,9 @@ export interface RenewDomainRequest {
   /** Required. Acknowledgement of the price to renew the domain for one year. To get the price, see [Cloud Domains pricing](https://cloud.google.com/domains/pricing). If not provided, the expected price is returned in the error message. */
   yearlyPrice?: Money | undefined;
 }
-export interface RenewDomainProjectsLocationsRegistrationsRequest {
+export interface RenewDomainProjectsLocationsRegistrationsRequest extends RenewDomainRequest {
   /** Required. The name of the `Registration` whish is being renewed, in the format `projects/*\/locations/*\/registrations/*`. */
   registration: string;
-  /** Request body */
-  body?: RenewDomainRequest | undefined;
 }
 /** Request for the `ResetAuthorizationCode` method. */
 export type ResetAuthorizationCodeRequest = ExportRegistrationRequest;
@@ -955,22 +939,18 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRegistrationsRequest {
+export interface SetIamPolicyProjectsLocationsRegistrationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRegistrationsRequest {
+export interface TestIamPermissionsProjectsLocationsRegistrationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -996,11 +976,9 @@ export interface TransferDomainRequest {
   /** Validate the request without actually transferring the domain. */
   validateOnly?: boolean | undefined;
 }
-export interface TransferProjectsLocationsRegistrationsRequest {
+export interface TransferProjectsLocationsRegistrationsRequest extends TransferDomainRequest {
   /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: TransferDomainRequest | undefined;
 }
 export type ConfigureContactSettingsProjectsLocationsRegistrationsError =
   | NotFound
@@ -2062,10 +2040,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ImportDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/registrations:import",
@@ -2086,10 +2066,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "InitiatePushTransferRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          registration: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c16, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:initiatePushTransfer",
@@ -2190,12 +2172,14 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2219,10 +2203,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RegisterDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/registrations:register",
@@ -2243,10 +2229,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RenewDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          registration: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:renewDomain",
@@ -2309,10 +2297,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2332,10 +2322,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2359,10 +2351,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "TransferDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/registrations:transfer",
@@ -2385,10 +2379,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ConfigureContactSettingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          registration: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c28, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:configureContactSettings",
@@ -2490,10 +2486,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ConfigureDnsSettingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          registration: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:configureDnsSettings",
@@ -2564,10 +2562,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ConfigureManagementSettingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          registration: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:configureManagementSettings",

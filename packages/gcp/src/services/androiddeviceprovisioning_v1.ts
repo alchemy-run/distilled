@@ -139,11 +139,9 @@ export interface CustomerApplyConfigurationRequest {
   /** Required. The configuration applied to the device in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. */
   configuration?: string | undefined;
 }
-export interface ApplyConfigurationCustomersDevicesRequest {
+export interface ApplyConfigurationCustomersDevicesRequest extends CustomerApplyConfigurationRequest {
   /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
-  /** Request body */
-  body?: CustomerApplyConfigurationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -182,11 +180,9 @@ export interface ClaimDevicesRequest {
   /** Required. A list of device claims. */
   claims?: PartnerClaimList | undefined;
 }
-export interface ClaimAsyncPartnersDevicesRequest {
+export interface ClaimAsyncPartnersDevicesRequest extends ClaimDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
-  /** Request body */
-  body?: ClaimDevicesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -235,11 +231,9 @@ export interface ClaimDeviceRequest {
   /** Required. Required. The device identifier of the device to claim. */
   deviceIdentifier?: DeviceIdentifier | undefined;
 }
-export interface ClaimPartnersDevicesRequest {
+export interface ClaimPartnersDevicesRequest extends ClaimDeviceRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
-  /** Request body */
-  body?: ClaimDeviceRequest | undefined;
 }
 /** Response message containing device id of the claim. */
 export interface ClaimDeviceResponse {
@@ -273,11 +267,9 @@ export interface Configuration {
   /** Required. The email address that device users can contact to get help. Zero-touch enrollment shows this email address to device users before device provisioning. The value is validated on input. */
   contactEmail?: string | undefined;
 }
-export interface CreateCustomersConfigurationsRequest {
+export interface CreateCustomersConfigurationsRequest extends Configuration {
   /** Required. The customer that manages the configuration. An API resource name in the format `customers/[CUSTOMER_ID]`. This field has custom validation in CreateConfigurationRequestValidator */
   parent: string;
-  /** Request body */
-  body?: Configuration | undefined;
 }
 export type StringList = Array<string>;
 export type CompanyTermsStatusEnum =
@@ -318,11 +310,9 @@ export interface CreateCustomerRequest {
   /** Required. The company data to populate the new customer. Must contain a value for `companyName` and at least one `owner_email` that's associated with a Google Account. The values for `companyId` and `name` must be empty. */
   customer?: Company | undefined;
 }
-export interface CreatePartnersCustomersRequest {
+export interface CreatePartnersCustomersRequest extends CreateCustomerRequest {
   /** Required. The parent resource ID in the format `partners/[PARTNER_ID]` that identifies the reseller. */
   parent: string;
-  /** Request body */
-  body?: CreateCustomerRequest | undefined;
 }
 export interface DeleteCustomersConfigurationsRequest {
   /** Required. The configuration to delete. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. If the configuration is applied to any devices, the API call fails. */
@@ -337,11 +327,9 @@ export interface FindDevicesByDeviceIdentifierRequest {
   /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
   limit?: string | undefined;
 }
-export interface FindByIdentifierPartnersDevicesRequest {
+export interface FindByIdentifierPartnersDevicesRequest extends FindDevicesByDeviceIdentifierRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
-  /** Request body */
-  body?: FindDevicesByDeviceIdentifierRequest | undefined;
 }
 export type DeviceClaimSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -410,11 +398,9 @@ export interface FindDevicesByOwnerRequest {
   /** A token specifying which result page to return. */
   pageToken?: string | undefined;
 }
-export interface FindByOwnerPartnersDevicesRequest {
+export interface FindByOwnerPartnersDevicesRequest extends FindDevicesByOwnerRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
-  /** Request body */
-  body?: FindDevicesByOwnerRequest | undefined;
 }
 /** Response containing found devices. */
 export interface FindDevicesByOwnerResponse {
@@ -446,11 +432,9 @@ export interface GetDeviceSimLockStateRequest {
   /** Required. Required. The device identifier to search for. */
   deviceIdentifier?: DeviceIdentifier | undefined;
 }
-export interface GetSimLockStatePartnersDevicesRequest {
+export interface GetSimLockStatePartnersDevicesRequest extends GetDeviceSimLockStateRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
-  /** Request body */
-  body?: GetDeviceSimLockStateRequest | undefined;
 }
 export type GetDeviceSimLockStateResponseSimLockStateEnum =
   | "SIM_LOCK_STATE_UNSPECIFIED"
@@ -575,32 +559,26 @@ export interface UpdateDeviceMetadataRequest {
   /** Required. The metadata to attach to the device. */
   deviceMetadata?: DeviceMetadata | undefined;
 }
-export interface MetadataPartnersDevicesRequest {
+export interface MetadataPartnersDevicesRequest extends UpdateDeviceMetadataRequest {
   /** Required. The ID of the device. */
   deviceId: string;
   /** Required. The owner of the newly set metadata. Set this to the partner ID. */
   metadataOwnerId: string;
-  /** Request body */
-  body?: UpdateDeviceMetadataRequest | undefined;
 }
-export interface PatchCustomersConfigurationsRequest {
+export interface PatchCustomersConfigurationsRequest extends Omit<Configuration, "name"> {
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
   name: string;
   /** Required. The field mask applied to the target `Configuration` before updating the fields. To learn more about using field masks, read [FieldMask](/protocol-buffers/docs/reference/google.protobuf#fieldmask) in the Protocol Buffers documentation. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Configuration | undefined;
 }
 /** Request message for customer to remove the configuration from device. */
 export interface CustomerRemoveConfigurationRequest {
   /** Required. The device to remove the configuration from. There are custom validations in RemoveConfigurationRequestValidator */
   device?: DeviceReference | undefined;
 }
-export interface RemoveConfigurationCustomersDevicesRequest {
+export interface RemoveConfigurationCustomersDevicesRequest extends CustomerRemoveConfigurationRequest {
   /** Required. The customer managing the device in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
-  /** Request body */
-  body?: CustomerRemoveConfigurationRequest | undefined;
 }
 export type PartnerUnclaimSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -625,22 +603,18 @@ export interface UnclaimDevicesRequest {
   /** Required. The list of devices to unclaim. */
   unclaims?: PartnerUnclaimList | undefined;
 }
-export interface UnclaimAsyncPartnersDevicesRequest {
+export interface UnclaimAsyncPartnersDevicesRequest extends UnclaimDevicesRequest {
   /** Required. The reseller partner ID. */
   partnerId: string;
-  /** Request body */
-  body?: UnclaimDevicesRequest | undefined;
 }
 /** Request message for customer to unclaim a device. */
 export interface CustomerUnclaimDeviceRequest {
   /** Required. The device to unclaim. There are custom validations in UnclaimDeviceRequestValidator. */
   device?: DeviceReference | undefined;
 }
-export interface UnclaimCustomersDevicesRequest {
+export interface UnclaimCustomersDevicesRequest extends CustomerUnclaimDeviceRequest {
   /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
-  /** Request body */
-  body?: CustomerUnclaimDeviceRequest | undefined;
 }
 export type UnclaimDeviceRequestSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -659,11 +633,9 @@ export interface UnclaimDeviceRequest {
   /** The expiration time of the vacation unlock. */
   vacationModeExpireTime?: string | undefined;
 }
-export interface UnclaimPartnersDevicesRequest {
+export interface UnclaimPartnersDevicesRequest extends UnclaimDeviceRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
-  /** Request body */
-  body?: UnclaimDeviceRequest | undefined;
 }
 /** Identifies metadata updates to one device. */
 export interface UpdateMetadataArguments {
@@ -680,11 +652,9 @@ export interface UpdateDeviceMetadataInBatchRequest {
   /** Required. The list of metadata updates. */
   updates?: UpdateMetadataArgumentsList | undefined;
 }
-export interface UpdateMetadataAsyncPartnersDevicesRequest {
+export interface UpdateMetadataAsyncPartnersDevicesRequest extends UpdateDeviceMetadataInBatchRequest {
   /** Required. The reseller partner ID. */
   partnerId: string;
-  /** Request body */
-  body?: UpdateDeviceMetadataInBatchRequest | undefined;
 }
 export type ApplyConfigurationCustomersDevicesError =
   | NotFound
@@ -1294,10 +1264,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "FindDevicesByDeviceIdentifierRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:findByIdentifier",
@@ -1364,10 +1336,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "FindDevicesByOwnerRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:findByOwner",
@@ -1459,10 +1433,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetDeviceSimLockStateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c9, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:getSimLockState",
@@ -1677,11 +1653,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateDeviceMetadataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          deviceId: S.String.pipe(T.Label()),
-          metadataOwnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(72, __c18, 0),
+          S.Struct({
+            deviceId: S.String.pipe(T.Label()),
+            metadataOwnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+metadataOwnerId}/devices/{+deviceId}/metadata",
@@ -1695,11 +1673,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(140, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1713,10 +1693,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(84, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(84, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/devices:removeConfiguration",
@@ -1758,10 +1740,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UnclaimDevicesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(90, __c22, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(90, __c22, 2),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:unclaimAsync",
@@ -1775,10 +1759,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(84, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(84, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/devices:unclaim",
@@ -1802,10 +1788,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UnclaimDeviceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c24, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:unclaim",
@@ -1835,10 +1823,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateDeviceMetadataInBatchRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(102, __c25, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(102, __c25, 2),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:updateMetadataAsync",
@@ -1859,10 +1849,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CustomerApplyConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c26, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/devices:applyConfiguration",
@@ -1932,10 +1924,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ClaimDevicesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(122, __c30, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(122, __c30, 2),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:claimAsync",
@@ -2000,10 +1994,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ClaimDeviceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          partnerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(132, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(132, __c33, 0),
+          S.Struct({
+            partnerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/partners/{+partnerId}/devices:claim",
@@ -2024,10 +2020,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(140, __c35, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/configurations",
@@ -2067,10 +2065,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateCustomerRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c36, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customers",

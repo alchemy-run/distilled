@@ -116,11 +116,9 @@ export interface PlaceActionLink {
   /** Required. The link uri. The same uri can be reused for different action types across different locations. However, only one place action link is allowed for each unique combination of (uri, place action type, location). */
   uri?: string | undefined;
 }
-export interface CreateLocationsPlaceActionLinksRequest {
+export interface CreateLocationsPlaceActionLinksRequest extends PlaceActionLink {
   /** Required. The resource name of the location where to create this place action link. `locations/{location_id}`. */
   parent: string;
-  /** Request body */
-  body?: PlaceActionLink | undefined;
 }
 export interface DeleteLocationsPlaceActionLinksRequest {
   /** Required. The resource name of the place action link to remove from the location. */
@@ -185,13 +183,11 @@ export interface ListPlaceActionTypeMetadataResponse {
   /** A collection of metadata for the available place action types. */
   placeActionTypeMetadata?: PlaceActionTypeMetadataList | undefined;
 }
-export interface PatchLocationsPlaceActionLinksRequest {
+export interface PatchLocationsPlaceActionLinksRequest extends Omit<PlaceActionLink, "name"> {
   /** Optional. The resource name, in the format `locations/{location_id}/placeActionLinks/{place_action_link_id}`. The name field will only be considered in UpdatePlaceActionLink and DeletePlaceActionLink requests for updating and deleting links respectively. However, it will be ignored in CreatePlaceActionLink request, where `place_action_link_id` will be assigned by the server on successful creation of a new link and returned as part of the response. */
   name: string;
   /** Required. The specific fields to update. The only editable fields are `uri`, `place_action_type` and `is_preferred`. If the updated link already exists at the same location with the same `place_action_type` and `uri`, fails with an `ALREADY_EXISTS` error. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PlaceActionLink | undefined;
 }
 export type CreateLocationsPlaceActionLinksError =
   | NotFound
@@ -319,10 +315,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/placeActionLinks",
@@ -450,11 +448,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

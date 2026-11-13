@@ -107,11 +107,9 @@ export interface DefaultBucket {
   /** Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes. */
   storageClass?: string | undefined;
 }
-export interface CreateProjectsDefaultBucketRequest {
+export interface CreateProjectsDefaultBucketRequest extends DefaultBucket {
   /** Required. The parent resource where the default bucket will be created, `projects/{project_id_or_number}`. */
   parent: string;
-  /** Request body */
-  body?: DefaultBucket | undefined;
 }
 export interface DeleteDefaultBucketProjectsRequest {
   /** Required. The name of the default bucket to delete, `projects/{project_id_or_number}/defaultBucket`. */
@@ -347,10 +345,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/defaultBucket",

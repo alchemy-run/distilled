@@ -1276,11 +1276,9 @@ export interface BatchUpdateDocumentRequest {
   /** A list of updates to apply to the document. */
   requests?: RequestList | undefined;
 }
-export interface BatchUpdateDocumentsRequest {
+export interface BatchUpdateDocumentsRequest extends BatchUpdateDocumentRequest {
   /** The ID of the document to update. */
   documentId: string;
-  /** Request body */
-  body?: BatchUpdateDocumentRequest | undefined;
 }
 /** The result of creating a footnote. */
 export interface CreateFootnoteResponse {
@@ -2541,10 +2539,7 @@ export interface Document {
   /** Output only. The named ranges in the document, keyed by name. Legacy field: Instead, use Document.tabs.documentTab.namedRanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
   namedRanges?: NamedRangesMap | undefined;
 }
-export interface CreateDocumentsRequest {
-  /** Request body */
-  body?: Document | undefined;
-}
+export interface CreateDocumentsRequest extends Document {}
 export type GetDocumentsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
@@ -3102,10 +3097,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "BatchUpdateDocumentRequest" });
     case 26:
       return S.suspend(() =>
-        S.Struct({
-          documentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(57, __c1, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(57, __c1, 25),
+          S.Struct({
+            documentId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents/{documentId}:batchUpdate",
@@ -3667,9 +3664,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(305, __c9, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(305, __c9, 17), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/documents", baseUrl: "https://docs.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateDocumentsRequest" });

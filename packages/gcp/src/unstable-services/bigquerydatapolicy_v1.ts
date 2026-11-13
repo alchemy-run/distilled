@@ -117,11 +117,9 @@ export interface DataPolicy {
   /** The data masking policy that specifies the data masking rule to use. */
   dataMaskingPolicy?: DataMaskingPolicy | undefined;
 }
-export interface CreateProjectsLocationsDataPoliciesRequest {
+export interface CreateProjectsLocationsDataPoliciesRequest extends DataPolicy {
   /** Required. Resource name of the project that the data policy will belong to. The format is `projects/{project_number}/locations/{location_id}`. */
   parent: string;
-  /** Request body */
-  body?: DataPolicy | undefined;
 }
 export interface DeleteProjectsLocationsDataPoliciesRequest {
   /** Optional. If true, the data policy will be deleted even when it is referenced by one or more table columns. */
@@ -141,11 +139,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsLocationsDataPoliciesRequest {
+export interface GetIamPolicyProjectsLocationsDataPoliciesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
@@ -223,26 +219,22 @@ export interface ListDataPoliciesResponse {
   /** Data policies that belong to the requested project. */
   dataPolicies?: DataPolicyList | undefined;
 }
-export interface PatchProjectsLocationsDataPoliciesRequest {
+export interface PatchProjectsLocationsDataPoliciesRequest extends Omit<DataPolicy, "name"> {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. Updates to the `name` and `dataPolicyId` fields are not allowed. */
   updateMask?: string | undefined;
   /** Optional. If set to true, and the data policy is not found, a new data policy will be created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
   /** Output only. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
   name: string;
-  /** Request body */
-  body?: DataPolicy | undefined;
 }
 /** Request message for the RenameDataPolicy method. */
 export interface RenameDataPolicyRequest {
   /** Required. The new data policy id. */
   newDataPolicyId?: string | undefined;
 }
-export interface RenameProjectsLocationsDataPoliciesRequest {
+export interface RenameProjectsLocationsDataPoliciesRequest extends RenameDataPolicyRequest {
   /** Required. Resource name of the data policy to rename. The format is `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}` */
   name: string;
-  /** Request body */
-  body?: RenameDataPolicyRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -251,22 +243,18 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsDataPoliciesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest {
+export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -478,10 +466,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "RenameDataPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rename",
@@ -502,10 +492,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -525,10 +517,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -542,10 +536,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataPolicies",
@@ -611,10 +607,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(49, __c6, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c6, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -728,12 +726,14 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

@@ -1796,8 +1796,16 @@ export interface PatchStorageV1CSIDriverRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec represents the specification of the CSI Driver. */
+  spec?: T.MergePatch<IoK8sApiStorageV1CSIDriverSpec> | undefined;
 }
 export interface PatchStorageV1CSINodeRequest {
   /** name of the CSINode */
@@ -1814,8 +1822,18 @@ export interface PatchStorageV1CSINodeRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. metadata.name must be the Kubernetes node name. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec is the specification of CSINode */
+  spec?: T.MergePatch<IoK8sApiStorageV1CSINodeSpec> | undefined;
+  /** status contains health and status information for the node's storage. */
+  status?: T.MergePatch<IoK8sApiStorageV1CSINodeStatus> | undefined;
 }
 export interface PatchStorageV1CSINodeStatusRequest {
   /** name of the CSINode */
@@ -1832,8 +1850,18 @@ export interface PatchStorageV1CSINodeStatusRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. metadata.name must be the Kubernetes node name. */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec is the specification of CSINode */
+  spec?: T.MergePatch<IoK8sApiStorageV1CSINodeSpec> | undefined;
+  /** status contains health and status information for the node's storage. */
+  status?: T.MergePatch<IoK8sApiStorageV1CSINodeStatus> | undefined;
 }
 export interface PatchStorageV1NamespacedCSIStorageCapacityRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1852,8 +1880,22 @@ export interface PatchStorageV1NamespacedCSIStorageCapacityRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** capacity is the value reported by the CSI driver in its GetCapacityResponse for a GetCapacityRequest with topology and parameters that match the previous fields. The semantic is currently (CSI spec 1.2) defined as: The available capacity, in bytes, of the storage that can be used to provision volumes. If not set, that information is currently unavailable. */
+  capacity?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** maximumVolumeSize is the value reported by the CSI driver in its GetCapacityResponse for a GetCapacityRequest with topology and parameters that match the previous fields. This is defined since CSI spec 1.4.0 as the largest size that may be used in a CreateVolumeRequest.capacity_range.required_bytes field to create a volume with the same parameters as those in GetCapacityRequest. The corresponding value in the Kubernetes API is ResourceRequirements.Requests in a volume claim. */
+  maximumVolumeSize?: string | undefined;
+  /** metadata is the standard object metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name. Objects are namespaced. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** nodeTopology defines which nodes have access to the storage for which capacity was reported. If not set, the storage is not accessible from any node in the cluster. If empty, the storage is accessible from all nodes. This field is immutable. */
+  nodeTopology?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1LabelSelector> | undefined;
+  /** storageClassName represents the name of the StorageClass that the reported capacity applies to. It must meet the same requirements as the name of a StorageClass object (non-empty, DNS subdomain). If that object no longer exists, the CSIStorageCapacity object is obsolete and should be removed by its creator. This field is immutable. */
+  storageClassName?: string | undefined;
 }
 export interface PatchStorageV1StorageClassRequest {
   /** name of the StorageClass */
@@ -1870,8 +1912,28 @@ export interface PatchStorageV1StorageClassRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** allowVolumeExpansion shows whether the storage class allow volume expand. */
+  allowVolumeExpansion?: boolean | undefined;
+  /** allowedTopologies restrict the node topologies where volumes can be dynamically provisioned. Each volume plugin defines its own supported topology specifications. An empty TopologySelectorTerm list means there is no topology restriction. This field is only honored by servers that enable the VolumeScheduling feature. */
+  allowedTopologies?: T.MergePatch<IoK8sApiStorageV1StorageClassAllowedTopologiesList> | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** mountOptions controls the mountOptions for dynamically provisioned PersistentVolumes of this storage class. e.g. ["ro", "soft"]. Not validated - mount of the PVs will simply fail if one is invalid. */
+  mountOptions?: T.MergePatch<IoK8sApiStorageV1StorageClassMountOptionsList> | undefined;
+  /** parameters holds the parameters for the provisioner that should create volumes of this storage class. */
+  parameters?: T.MergePatch<IoK8sApiStorageV1StorageClassParametersMap> | undefined;
+  /** provisioner indicates the type of the provisioner. */
+  provisioner?: string | undefined;
+  /** reclaimPolicy controls the reclaimPolicy for dynamically provisioned PersistentVolumes of this storage class. Defaults to Delete. */
+  reclaimPolicy?: string | undefined;
+  /** volumeBindingMode indicates how PersistentVolumeClaims should be provisioned and bound. When unset, VolumeBindingImmediate is used. This field is only honored by servers that enable the VolumeScheduling feature. */
+  volumeBindingMode?: string | undefined;
 }
 export interface PatchStorageV1VolumeAttachmentRequest {
   /** name of the VolumeAttachment */
@@ -1888,8 +1950,18 @@ export interface PatchStorageV1VolumeAttachmentRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec represents specification of the desired attach/detach volume behavior. Populated by the Kubernetes system. */
+  spec?: T.MergePatch<IoK8sApiStorageV1VolumeAttachmentSpec> | undefined;
+  /** status represents status of the VolumeAttachment request. Populated by the entity completing the attach or detach operation, i.e. the external-attacher. */
+  status?: T.MergePatch<IoK8sApiStorageV1VolumeAttachmentStatus> | undefined;
 }
 export interface PatchStorageV1VolumeAttachmentStatusRequest {
   /** name of the VolumeAttachment */
@@ -1906,8 +1978,18 @@ export interface PatchStorageV1VolumeAttachmentStatusRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec represents specification of the desired attach/detach volume behavior. Populated by the Kubernetes system. */
+  spec?: T.MergePatch<IoK8sApiStorageV1VolumeAttachmentSpec> | undefined;
+  /** status represents status of the VolumeAttachment request. Populated by the entity completing the attach or detach operation, i.e. the external-attacher. */
+  status?: T.MergePatch<IoK8sApiStorageV1VolumeAttachmentStatus> | undefined;
 }
 export interface PatchStorageV1VolumeAttributesClassRequest {
   /** name of the VolumeAttributesClass */
@@ -1924,8 +2006,18 @@ export interface PatchStorageV1VolumeAttributesClassRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** driverName is the name of the CSI driver This field is immutable. */
+  driverName?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass. This field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an "Infeasible" state in the modifyVolumeStatus field. */
+  parameters?: T.MergePatch<IoK8sApiStorageV1VolumeAttributesClassParametersMap> | undefined;
 }
 export interface ReadStorageV1CSIDriverRequest {
   /** name of the CSIDriver */
@@ -4449,7 +4541,11 @@ function __c25(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          spec: S.optional(__S(706, __c22, 2)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/apis/storage.k8s.io/v1/csidrivers/{name}", code: 200 }),
         ),
@@ -4468,7 +4564,12 @@ function __c26(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          spec: S.optional(__S(1155, __c36, 3)),
+          status: S.optional(__S(1160, __c36, 8)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/apis/storage.k8s.io/v1/csinodes/{name}", code: 200 }),
         ),
@@ -4487,7 +4588,12 @@ function __c27(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          spec: S.optional(__S(1155, __c36, 3)),
+          status: S.optional(__S(1160, __c36, 8)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4511,7 +4617,14 @@ function __c28(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          capacity: S.optional(S.String),
+          kind: S.optional(S.String),
+          maximumVolumeSize: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          nodeTopology: S.optional(__S(1536, __c48, 0)),
+          storageClassName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4534,7 +4647,17 @@ function __c29(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          allowVolumeExpansion: S.optional(S.Boolean),
+          allowedTopologies: S.optional(__S(1987, __c62, 3)),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          mountOptions: S.optional(__S(736, __c23, 0)),
+          parameters: S.optional(__S(768, __c24, 0)),
+          provisioner: S.optional(S.String),
+          reclaimPolicy: S.optional(S.String),
+          volumeBindingMode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4557,7 +4680,12 @@ function __c30(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          spec: S.optional(__S(2302, __c71, 30)),
+          status: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4580,7 +4708,12 @@ function __c31(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          spec: S.optional(__S(2302, __c71, 30)),
+          status: S.optional(__S(2304, __c72, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4603,7 +4736,12 @@ function __c32(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          driverName: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(773, __c24, 5)),
+          parameters: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",

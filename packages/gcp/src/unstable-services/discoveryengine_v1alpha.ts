@@ -90,11 +90,9 @@ export interface GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenRequest {
   /** Optional. The tool/action name being executed. If provided, the server will check the required scopes of the action and dynamically trigger incremental authorization if they are missing. */
   action?: string | undefined;
 }
-export interface AcquireAccessTokenProjectsLocationsCollectionsDataConnectorRequest {
+export interface AcquireAccessTokenProjectsLocationsCollectionsDataConnectorRequest extends GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenRequest {
   /** Required. The resource name of the connector for which a token is queried. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Describes a refresh token. */
@@ -116,11 +114,9 @@ export interface GoogleCloudDiscoveryengineV1alphaAcquireProgramsRequest {
   /** Optional. Number of evolved programs to acquire. If not set, the default value is 1. */
   desiredProgramsCount?: number | undefined;
 }
-export interface AcquireProgramsProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
+export interface AcquireProgramsProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest extends GoogleCloudDiscoveryengineV1alphaAcquireProgramsRequest {
   /** Required. The parent resource name (AlphaEvolveExperiment) of the AlphaEvolveExperiment. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAcquireProgramsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramStateEnum =
   | "PROGRAM_STATE_UNSPECIFIED"
@@ -218,11 +214,12 @@ export interface GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest {
   /** Required. Names of the Group resources to use as a basis for the patient filter, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. if the caller does not have permission to access the FHIR store, regardless of whether it exists, PERMISSION_DENIED error is returned. If the discovery engine service account does not have permission to access the FHIR store, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the group is not found at the location, a RESOURCE_NOT_FOUND error will be returned. The filter group must be a FHIR resource name of type Group, and the filter will be constructed from the direct members of the group which are Patient resources. */
   filterGroups?: StringList | undefined;
 }
-export interface AddPatientFilterProjectsLocationsCollectionsDataStoresRequest {
+export interface AddPatientFilterProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -248,11 +245,12 @@ export interface GoogleLongrunningOperation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
-export interface AddPatientFilterProjectsLocationsDataStoresRequest {
+export interface AddPatientFilterProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest | undefined;
 }
 /** Document metadata contains the information of the document of the current chunk. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfoDocumentMetadata {
@@ -793,11 +791,9 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestRelatedQuestionsSpec
     | undefined;
 }
-export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSessionStateEnum = "STATE_UNSPECIFIED" | "IN_PROGRESS";
 /** Citation source. */
@@ -1460,17 +1456,13 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryResponse {
   /** Answer resource object. If AnswerQueryRequest.QueryUnderstandingSpec.QueryRephraserSpec.max_rephrase_steps is greater than 1, use Answer.name to fetch answer information using ConversationalSearchService.GetAnswer API. */
   answer?: GoogleCloudDiscoveryengineV1alphaAnswer | undefined;
 }
-export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
-export interface AnswerProjectsLocationsDataStoresServingConfigsRequest {
+export interface AnswerProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaTargetSiteIndexingStatusEnum =
   | "INDEXING_STATUS_UNSPECIFIED"
@@ -1549,17 +1541,13 @@ export interface GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest 
   /** Required. The request message specifying the resources to create. A maximum of 20 TargetSites can be created in a batch. */
   requests?: GoogleCloudDiscoveryengineV1alphaCreateTargetSiteRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest | undefined;
 }
-export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest | undefined;
 }
 /** Agentspace content uploaded as source. */
 export interface GoogleCloudNotebooklmV1alphaUserContentAgentspaceContent {
@@ -1618,11 +1606,9 @@ export interface GoogleCloudNotebooklmV1alphaBatchCreateSourcesRequest {
   /** Required. The UserContents to be uploaded. */
   userContents?: GoogleCloudNotebooklmV1alphaUserContentList | undefined;
 }
-export interface BatchCreateProjectsLocationsNotebooksSourcesRequest {
+export interface BatchCreateProjectsLocationsNotebooksSourcesRequest extends GoogleCloudNotebooklmV1alphaBatchCreateSourcesRequest {
   /** Required. The parent resource where the sources will be created. Format: projects/{project}/locations/{location}/notebooks/{notebook} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaBatchCreateSourcesRequest | undefined;
 }
 /** Metadata about a google doc source. */
 export interface GoogleCloudNotebooklmV1alphaGoogleDocsSourceMetadata {
@@ -1815,11 +1801,9 @@ export interface GoogleCloudNotebooklmV1alphaBatchDeleteNotebooksRequest {
   /** Required. Full resource names of Notebook, such as `projects/{project}/locations/{location}/notebooks/{notebook_id}`. */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsLocationsNotebooksRequest {
+export interface BatchDeleteProjectsLocationsNotebooksRequest extends GoogleCloudNotebooklmV1alphaBatchDeleteNotebooksRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaBatchDeleteNotebooksRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -1828,11 +1812,9 @@ export interface GoogleCloudNotebooklmV1alphaBatchDeleteSourcesRequest {
   /** Required. Names of sources to be deleted. Format: projects/{project}/locations/{location}/notebooks/{notebook}/sources/{source} */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsLocationsNotebooksSourcesRequest {
+export interface BatchDeleteProjectsLocationsNotebooksSourcesRequest extends GoogleCloudNotebooklmV1alphaBatchDeleteSourcesRequest {
   /** Required. The parent resource where the sources will be deleted. Format: projects/{project}/locations/{location}/notebooks/{notebook} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaBatchDeleteSourcesRequest | undefined;
 }
 export interface BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
@@ -1917,11 +1899,9 @@ export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserAvailabilitiesR
   /** Required. The UserAvailabilitys to update. Maximum of 1000 at a time: if more are passed in, returns INVALID_ARGUMENT. Batch is all or nothing; either all updates succeed or none. The `parent` field in each child request must either be empty, or match the `parent` field in the batch request. If there is a mismatch, that will also result in an INVALID_ARGUMENT being returned. */
   requests?: GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequestList | undefined;
 }
-export interface BatchUpdateProjectsLocationsUserStoresUserAvailabilitiesRequest {
+export interface BatchUpdateProjectsLocationsUserStoresUserAvailabilitiesRequest extends GoogleCloudDiscoveryengineV1alphaBatchUpdateUserAvailabilitiesRequest {
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchUpdateUserAvailabilitiesRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaUserAvailabilityList =
   Array<GoogleCloudDiscoveryengineV1alphaUserAvailability>;
@@ -1975,11 +1955,9 @@ export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequest
     | GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequestInlineSource
     | undefined;
 }
-export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest {
+export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest extends GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequest {
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequest | undefined;
 }
 /** Request message for SiteSearchEngineService.BatchVerifyTargetSites method. */
 export type GoogleCloudDiscoveryengineV1alphaBatchVerifyTargetSitesRequest =
@@ -2039,11 +2017,9 @@ export interface GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersReque
   /** Required. The members to check, in the form a policy takes them. At least 1 and at most 100. `verification` is ignored. */
   members?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList | undefined;
 }
-export interface CheckFeaturePolicyMembersProjectsLocationsCollectionsEnginesRequest {
+export interface CheckFeaturePolicyMembersProjectsLocationsCollectionsEnginesRequest extends GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersRequest {
   /** Required. The engine resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseDirectorySourceEnum =
   | "DIRECTORY_SOURCE_UNSPECIFIED"
@@ -2097,11 +2073,9 @@ export interface GoogleCloudDiscoveryengineV1alphaCheckGroundingRequest {
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
   userLabels?: StringMap | undefined;
 }
-export interface CheckProjectsLocationsGroundingConfigsRequest {
+export interface CheckProjectsLocationsGroundingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaCheckGroundingRequest {
   /** Required. The resource name of the grounding config, such as `projects/*\/locations/global/groundingConfigs/default_grounding_config`. */
   groundingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCheckGroundingRequest | undefined;
 }
 /** Text and citation info for a claim in the answer candidate. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseClaim {
@@ -2183,11 +2157,9 @@ export interface GoogleCloudDiscoveryengineV1alphaCheckRequirementRequest {
   /** The resources to be checked for this requirement. The type needed for the monitored resources: * `discoveryengine.googleapis.com/Branch`. * The labels needed for this resource: * `project_number` * `location_id` * `collection_id` * `datastore_id` * `branch_id` * `discoveryengine.googleapis.com/DataStore` * The labels needed for this resource: * `project_number` * `location_id` * `collection_id` * `datastore_id` */
   resources?: GoogleApiMonitoredResourceList | undefined;
 }
-export interface CheckRequirementProjectsLocationsRequirementsRequest {
+export interface CheckRequirementProjectsLocationsRequirementsRequest extends GoogleCloudDiscoveryengineV1alphaCheckRequirementRequest {
   /** Required. Full resource name of the location. Format `projects/{project_number_or_id}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCheckRequirementRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface GoogleTypeExpr {
@@ -2596,11 +2568,9 @@ export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest {
   /** Specifies the autocomplete query model, which only applies to the QUERY SuggestionType. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
   queryModel?: string | undefined;
 }
-export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest {
+export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest extends GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest | undefined;
 }
 /** Suggestions from recent search history. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseRecentSearchSuggestion {
@@ -2767,11 +2737,9 @@ export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponse 
     | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseQuerySuggestionList
     | undefined;
 }
-export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest {
+export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest extends GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest | undefined;
 }
 export interface CompleteQueryProjectsLocationsDataStoresRequest {
   /** Required. The parent data store resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. */
@@ -2785,11 +2753,9 @@ export interface CompleteQueryProjectsLocationsDataStoresRequest {
   /** Indicates if tail suggestions should be returned if there are no suggestions that match the full query. Even if set to true, if there are suggestions that match the full query, those are returned and no tail suggestions are returned. */
   includeTailSuggestions?: boolean | undefined;
 }
-export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest {
+export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest extends GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest | undefined;
 }
 /** Defines context of the conversation */
 export interface GoogleCloudDiscoveryengineV1alphaConversationContext {
@@ -3060,11 +3026,9 @@ export interface GoogleCloudDiscoveryengineV1alphaConverseConversationRequest {
     | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec
     | undefined;
 }
-export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest {
+export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1alphaConverseConversationRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest | undefined;
 }
 /** Custom clearbox signal represented by name and value pair. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignalsCustomSignal {
@@ -3228,17 +3192,13 @@ export interface GoogleCloudDiscoveryengineV1alphaConverseConversationResponse {
   /** Answer to the current query. */
   reply?: GoogleCloudDiscoveryengineV1alphaReply | undefined;
 }
-export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest {
+export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest extends GoogleCloudDiscoveryengineV1alphaConverseConversationRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest | undefined;
 }
-export interface ConverseProjectsLocationsDataStoresConversationsRequest {
+export interface ConverseProjectsLocationsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1alphaConverseConversationRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest | undefined;
 }
 /** Identifies the instance hosting an OAuth provider that is reachable only over a private network. */
 export interface GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2PrivateNetworkConfig {
@@ -3275,13 +3235,11 @@ export interface GoogleCloudDiscoveryengineV1alphaAuthorization {
   /** Server-side OAuth2 configuration. */
   serverSideOauth2?: GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2 | undefined;
 }
-export interface CreateProjectsLocationsAuthorizationsRequest {
+export interface CreateProjectsLocationsAuthorizationsRequest extends GoogleCloudDiscoveryengineV1alphaAuthorization {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the authorization, which will become the final component of the resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
   authorizationId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAuthorization | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataStoreContentConfigEnum =
   | "CONTENT_CONFIG_UNSPECIFIED"
@@ -3813,7 +3771,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStore {
   /** Immutable. The fully qualified resource name of the associated IdentityMappingStore. This field can only be set for acl_enabled DataStores with `THIRD_PARTY` or `GSUITE` IdP. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. */
   identityMappingStore?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresRequest extends GoogleCloudDiscoveryengineV1alphaDataStore {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
   /** Resource name of the CmekConfig to use for protecting this DataStore. */
@@ -3826,16 +3784,12 @@ export interface CreateProjectsLocationsCollectionsDataStoresRequest {
   dataStoreId?: string | undefined;
   /** A boolean flag indicating whether user want to directly create an advanced data store for site search. If the data store is not configured as site search (GENERIC vertical and PUBLIC_WEBSITE content_config), this flag will be ignored. */
   createAdvancedSiteSearch?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1alphaDocument {
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   documentId?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecInterpolationTypeEnum =
   | "INTERPOLATION_TYPE_UNSPECIFIED"
@@ -3997,27 +3951,21 @@ export interface GoogleCloudDiscoveryengineV1alphaControl {
     | (string & {})
     | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest extends GoogleCloudDiscoveryengineV1alphaControl {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresConversationsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1alphaConversation {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest extends GoogleCloudDiscoveryengineV1alphaSchema {
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
   schemaId?: string | undefined;
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
 /** Specifies the chunk spec to be returned from the search response. Only available if the SearchRequest.ContentSearchSpec.search_result_mode is set to CHUNKS */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecChunkSpec {
@@ -4207,21 +4155,17 @@ export interface GoogleCloudDiscoveryengineV1alphaServingConfig {
   /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
   embeddingConfig?: GoogleCloudDiscoveryengineV1alphaEmbeddingConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaServingConfig {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest extends GoogleCloudDiscoveryengineV1alphaSession {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 /** A sitemap for the SiteSearchEngine. */
 export interface GoogleCloudDiscoveryengineV1alphaSitemap {
@@ -4232,17 +4176,13 @@ export interface GoogleCloudDiscoveryengineV1alphaSitemap {
   /** Output only. The sitemap's creation time. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest extends GoogleCloudDiscoveryengineV1alphaSitemap {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSitemap | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1alphaTargetSite {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfigSearchTierEnum =
   | "SEARCH_TIER_UNSPECIFIED"
@@ -4635,13 +4575,11 @@ export interface GoogleCloudDiscoveryengineV1alphaEngine {
   /** Optional. Per-feature access policies, keyed by feature toggle name (see `features`). A feature with no entry is available to every user when it is on. Only features that support access policies are accepted. */
   featurePolicies?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMap | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesRequest {
+export interface CreateProjectsLocationsCollectionsEnginesRequest extends GoogleCloudDiscoveryengineV1alphaEngine {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
   /** Required. The ID to use for the Engine, which will become the final component of the Engine's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
   engineId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEngine | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantWebGroundingTypeEnum =
   | "WEB_GROUNDING_TYPE_UNSPECIFIED"
@@ -4760,13 +4698,11 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistant {
   /** Optional. The enabled tools on this assistant. The keys are data connector resource names, in the format `projects/{project}/locations/{location}/collections/{collection}/dataConnector`. The values are the tools that the admin enabled on that connector. Admins can selectively enable tools on any of the connectors that they created in the project. For example: ``` { "projects/my-project/locations/global/collections/jira1/dataConnector": { "toolInfo": [ { "toolName": "create_jira_issue", "toolDisplayName": "Create Jira issue" }, { "toolName": "update_jira_issue", "toolDisplayName": "Update Jira issue" } ] } } ``` */
   enabledTools?: GoogleCloudDiscoveryengineV1alphaAssistantToolListMap | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest extends GoogleCloudDiscoveryengineV1alphaAssistant {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the Assistant, which will become the final component of the Assistant's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
   assistantId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAssistant | undefined;
 }
 /** The starter prompt suggestion to show the user on the landing page of the agent. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentStarterPrompt {
@@ -4895,11 +4831,9 @@ export interface GoogleCloudDiscoveryengineV1alphaAgent {
   /** Optional. The sharing config of the agent. */
   sharingConfig?: GoogleCloudDiscoveryengineV1alphaAgentSharingConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesAssistantsAgentsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesAssistantsAgentsRequest extends GoogleCloudDiscoveryengineV1alphaAgent {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAgent | undefined;
 }
 /** Capability of an assistant needed to use this canned query. */
 export interface GoogleCloudDiscoveryengineV1alphaCannedQueryAssistantCapability {
@@ -4946,43 +4880,33 @@ export interface GoogleCloudDiscoveryengineV1alphaCannedQuery {
   /** Required. The default (non-localized) values for the text attributes. */
   defaultTexts?: GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTexts | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest {
+export interface CreateProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest extends GoogleCloudDiscoveryengineV1alphaCannedQuery {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   parent: string;
   /** Required. The ID to use for the canned query, which will become the final component of the canned query's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
   cannedQueryId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCannedQuery | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesControlsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesControlsRequest extends GoogleCloudDiscoveryengineV1alphaControl {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest extends GoogleCloudDiscoveryengineV1alphaConversation {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaServingConfig {
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest extends GoogleCloudDiscoveryengineV1alphaSession {
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -5098,19 +5022,15 @@ export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment {
   /** Output only. Specifies the name of the seed program used to start the experiment. */
   initialAlphaEvolveProgram?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest extends GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment {
   /** Required. The parent resource name (Session) of the experiment. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsAlphaEvolveProgramsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsAlphaEvolveProgramsRequest extends GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgram {
   /** Required. The parent resource name (AlphaEvolveExperiment) of the AlphaEvolveProgram. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgram | undefined;
 }
-export interface CreateProjectsLocationsDataStoresRequest {
+export interface CreateProjectsLocationsDataStoresRequest extends GoogleCloudDiscoveryengineV1alphaDataStore {
   /** A boolean flag indicating whether to skip the default schema creation for the data store. Only enable this flag if you are certain that the default schema is incompatible with your use case. If set to true, you must manually create a schema for the data store before any documents can be ingested. This flag cannot be specified if `data_store.starting_schema` is specified. */
   skipDefaultSchemaCreation?: boolean | undefined;
   /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
@@ -5123,66 +5043,48 @@ export interface CreateProjectsLocationsDataStoresRequest {
   cmekConfigName?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
-export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1alphaDocument {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   documentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
-export interface CreateProjectsLocationsDataStoresControlsRequest {
+export interface CreateProjectsLocationsDataStoresControlsRequest extends GoogleCloudDiscoveryengineV1alphaControl {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
-export interface CreateProjectsLocationsDataStoresConversationsRequest {
+export interface CreateProjectsLocationsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1alphaConversation {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSchemasRequest {
+export interface CreateProjectsLocationsDataStoresSchemasRequest extends GoogleCloudDiscoveryengineV1alphaSchema {
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
   schemaId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
-export interface CreateProjectsLocationsDataStoresServingConfigsRequest {
+export interface CreateProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaServingConfig {
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSessionsRequest {
+export interface CreateProjectsLocationsDataStoresSessionsRequest extends GoogleCloudDiscoveryengineV1alphaSession {
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
+export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest extends GoogleCloudDiscoveryengineV1alphaSitemap {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSitemap | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1alphaTargetSite {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
 /** Describes the specification of the query set. */
 export interface GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpecQuerySetSpec {
@@ -5565,11 +5467,9 @@ export interface GoogleCloudDiscoveryengineV1alphaEvaluation {
   /** Output only. A sample of errors encountered while processing the request. */
   errorSamples?: GoogleRpcStatusList | undefined;
 }
-export interface CreateProjectsLocationsEvaluationsRequest {
+export interface CreateProjectsLocationsEvaluationsRequest extends GoogleCloudDiscoveryengineV1alphaEvaluation {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEvaluation | undefined;
 }
 /** Identity Mapping Store which contains Identity Mapping Entries. */
 export interface GoogleCloudDiscoveryengineV1alphaIdentityMappingStore {
@@ -5582,7 +5482,7 @@ export interface GoogleCloudDiscoveryengineV1alphaIdentityMappingStore {
   /** Output only. The identity provider configuration this is bound to translate the identity mapping entries within. */
   idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig | undefined;
 }
-export interface CreateProjectsLocationsIdentityMappingStoresRequest {
+export interface CreateProjectsLocationsIdentityMappingStoresRequest extends GoogleCloudDiscoveryengineV1alphaIdentityMappingStore {
   /** Required. The parent collection resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Identity Mapping Store without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
@@ -5591,8 +5491,6 @@ export interface CreateProjectsLocationsIdentityMappingStoresRequest {
   cmekConfigName?: string | undefined;
   /** Required. The ID of the Identity Mapping Store to create. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 63 characters. */
   identityMappingStoreId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaIdentityMappingStore | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaLicenseConfigStateEnum =
   | "STATE_UNSPECIFIED"
@@ -5705,13 +5603,11 @@ export interface GoogleCloudDiscoveryengineV1alphaLicenseConfig {
   /** Output only. The date when the subscription is terminated earlier than the expiration date. */
   earlyTerminationDate?: GoogleTypeDate | undefined;
 }
-export interface CreateProjectsLocationsLicenseConfigsRequest {
+export interface CreateProjectsLocationsLicenseConfigsRequest extends GoogleCloudDiscoveryengineV1alphaLicenseConfig {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. The ID to use for the LicenseConfig, which will become the final component of the LicenseConfig's resource name. We are using the tier (product edition) name as the license config id such as `search` or `search_and_assistant`. */
   licenseConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaLicenseConfig | undefined;
 }
 /** Customer-managed encryption configuration for Notebooks. */
 export interface GoogleCloudNotebooklmV1alphaCmekConfig {
@@ -5746,11 +5642,9 @@ export interface GoogleCloudNotebooklmV1alphaNotebook {
   /** Optional. The title of the notebook. */
   title?: string | undefined;
 }
-export interface CreateProjectsLocationsNotebooksRequest {
+export interface CreateProjectsLocationsNotebooksRequest extends GoogleCloudNotebooklmV1alphaNotebook {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaNotebook | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaSourceIdList = Array<GoogleCloudNotebooklmV1alphaSourceId>;
 /** Options used during audio overview generation. */
@@ -5767,11 +5661,9 @@ export interface GoogleCloudNotebooklmV1alphaCreateAudioOverviewRequest {
   /** Options for the audio overview generation. */
   generationOptions?: GoogleCloudNotebooklmV1alphaAudioOverviewGenerationOptions | undefined;
 }
-export interface CreateProjectsLocationsNotebooksAudioOverviewsRequest {
+export interface CreateProjectsLocationsNotebooksAudioOverviewsRequest extends GoogleCloudNotebooklmV1alphaCreateAudioOverviewRequest {
   /** Required. The parent resource where this notebook will be created. Format: projects/{project}/locations/{location}/notebooks/{notebook} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaCreateAudioOverviewRequest | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaAudioOverviewMimeTypeEnum =
   | "MIME_TYPE_UNKNOWN"
@@ -5814,13 +5706,11 @@ export interface GoogleCloudDiscoveryengineV1alphaSampleQuerySet {
   /** Output only. Timestamp the SampleQuerySet was created at. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsSampleQuerySetsRequest {
+export interface CreateProjectsLocationsSampleQuerySetsRequest extends GoogleCloudDiscoveryengineV1alphaSampleQuerySet {
   /** Required. The ID to use for the SampleQuerySet, which will become the final component of the SampleQuerySet.name. If the caller does not have permission to create the SampleQuerySet, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerySets with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   sampleQuerySetId?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuerySet | undefined;
 }
 /** Defines the parameters of the query's expected outcome. */
 export interface GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntryTarget {
@@ -5849,30 +5739,30 @@ export interface GoogleCloudDiscoveryengineV1alphaSampleQuery {
   /** The query entry. */
   queryEntry?: GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntry | undefined;
 }
-export interface CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest {
+export interface CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest extends GoogleCloudDiscoveryengineV1alphaSampleQuery {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. */
   parent: string;
   /** Required. The ID to use for the SampleQuery, which will become the final component of the SampleQuery.name. If the caller does not have permission to create the SampleQuery, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerys with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   sampleQueryId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuery | undefined;
 }
 /** Request for DataStoreService.DeletePatientFilters method. */
 export interface GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
   dataStore?: string | undefined;
 }
-export interface DeletePatientFilterProjectsLocationsCollectionsDataStoresRequest {
+export interface DeletePatientFilterProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest | undefined;
 }
-export interface DeletePatientFilterProjectsLocationsDataStoresRequest {
+export interface DeletePatientFilterProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest | undefined;
 }
 export interface DeleteProjectsLocationsAuthorizationsRequest {
   /** Required. Resource name of Authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` If the caller does not have permission to delete the authorization, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the authorization to delete does not exist, a `NOT_FOUND` error is returned. */
@@ -6036,11 +5926,9 @@ export interface GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigRequest
   /** Required. The target GCP project number to distribute the license config to. */
   projectNumber?: string | undefined;
 }
-export interface DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
+export interface DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest extends GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigRequest {
   /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
   billingAccountLicenseConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.DistributeLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigResponse {
@@ -6120,11 +6008,9 @@ export interface GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequest {
     | GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestFileDataSource
     | undefined;
 }
-export interface EstimateDataSizeProjectsLocationsRequest {
+export interface EstimateDataSizeProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequest {
   /** Required. Full resource name of the location, such as `projects/{project}/locations/{location}`. */
   location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequest | undefined;
 }
 /** The BigQuery output destination configuration. */
 export interface GoogleCloudDiscoveryengineV1alphaBigQueryDestination {
@@ -6145,11 +6031,9 @@ export interface GoogleCloudDiscoveryengineV1alphaExportMetricsRequest {
   /** Required. The output location of the data. */
   outputConfig?: GoogleCloudDiscoveryengineV1alphaOutputConfig | undefined;
 }
-export interface ExportMetricsProjectsLocationsCollectionsEnginesAnalyticsRequest {
+export interface ExportMetricsProjectsLocationsCollectionsEnginesAnalyticsRequest extends GoogleCloudDiscoveryengineV1alphaExportMetricsRequest {
   /** Required. The analytics resource name under the engine where the metrics are created. The format is `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/analytics`. */
   analytics: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaExportMetricsRequest | undefined;
 }
 /** Request message for UserLicenseService.ExportUserLicenses. */
 export type GoogleCloudDiscoveryengineV1alphaExportUserLicensesRequest =
@@ -8113,11 +7997,9 @@ export interface GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequest 
     | GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequestInlineSource
     | undefined;
 }
-export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
+export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest extends GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequest {
   /** Required. The name of the Identity Mapping Store to import Identity Mapping Entries to. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDocumentList =
   Array<GoogleCloudDiscoveryengineV1alphaDocument>;
@@ -8319,11 +8201,9 @@ export interface GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest {
   /** Firestore input source. */
   firestoreSource?: GoogleCloudDiscoveryengineV1alphaFirestoreSource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest | undefined;
 }
 /** Autocomplete suggestions that are imported from Customer. */
 export interface GoogleCloudDiscoveryengineV1alphaCompletionSuggestion {
@@ -8362,11 +8242,9 @@ export interface GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsReq
   /** Cloud Storage location for the input content. */
   gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest extends GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntryMatchOperatorEnum =
   | "MATCH_OPERATOR_UNSPECIFIED"
@@ -8398,11 +8276,9 @@ export interface GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntrie
   /** Cloud Storage location for the input content. Only 1 file can be specified that contains all entries to import. Supported values `gcs_source.schema` for autocomplete suggestion deny list entry imports: * `suggestion_deny_list` (default): One JSON [SuggestionDenyListEntry] per line. */
   gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest extends GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest | undefined;
 }
 /** Detailed page information. */
 export interface GoogleCloudDiscoveryengineV1alphaPageInfo {
@@ -8652,11 +8528,9 @@ export interface GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest {
   /** Cloud Storage location for the input content. */
   gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest | undefined;
 }
 /** Request for the AgentService.ImportAgentFile method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportAgentFileRequest {
@@ -8665,11 +8539,9 @@ export interface GoogleCloudDiscoveryengineV1alphaImportAgentFileRequest {
   /** Optional. The content type of the file, see https://www.iana.org/assignments/media-types/media-types.xhtml. This field is required when the data source does not provide the content type. */
   mimeType?: string | undefined;
 }
-export interface ImportProjectsLocationsCollectionsEnginesAssistantsAgentsFilesRequest {
+export interface ImportProjectsLocationsCollectionsEnginesAssistantsAgentsFilesRequest extends GoogleCloudDiscoveryengineV1alphaImportAgentFileRequest {
   /** Required. The resource name of the Agent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/agents/{agent}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportAgentFileRequest | undefined;
 }
 /** Describes a file used internally by an agent as a context on each invocation. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentFile {
@@ -8685,29 +8557,21 @@ export interface GoogleCloudDiscoveryengineV1alphaImportAgentFileResponse {
   /** The imported AgentFile. */
   agentFile?: GoogleCloudDiscoveryengineV1alphaAgentFile | undefined;
 }
-export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest | undefined;
 }
-export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest {
+export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest extends GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest | undefined;
 }
-export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest {
+export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest extends GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest | undefined;
 }
-export interface ImportProjectsLocationsDataStoresUserEventsRequest {
+export interface ImportProjectsLocationsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSampleQueryList =
   Array<GoogleCloudDiscoveryengineV1alphaSampleQuery>;
@@ -8729,17 +8593,13 @@ export interface GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequest {
   /** The desired location of errors incurred during the Import. */
   errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig | undefined;
 }
-export interface ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest {
+export interface ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest extends GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequest {
   /** Required. The parent sample query set resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. If the caller does not have permission to list SampleQuerys under this sample query set, regardless of whether or not this sample query set exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequest | undefined;
 }
-export interface ImportProjectsLocationsUserEventsRequest {
+export interface ImportProjectsLocationsUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest | undefined;
 }
 /** Request message for making a call to an MCP connector. It carries the connector name, the method to invoke, and optional parameters. */
 export interface GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest {
@@ -8752,11 +8612,9 @@ export interface GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest {
   /** Optional. The engine resource name (e.g. "projects/{project}/locations/{location}/collections/{collection}/engines/{engine}"). Used as the search engine id when invoking tool registry tools that issue Discovery Search Service requests. */
   engine?: string | undefined;
 }
-export interface InvokeConnectorMcpProjectsLocationsCollectionsDataConnectorRequest {
+export interface InvokeConnectorMcpProjectsLocationsCollectionsDataConnectorRequest extends GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest {
   /** Required. DataConnector resource. The data connector used for making the MCP call. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest | undefined;
 }
 /** McpError represents error details when an MCP call fails. This structure follows the JSON-RPC 2.0 error object shape. */
 export interface GoogleCloudDiscoveryengineV1alphaMcpError {
@@ -9979,11 +9837,9 @@ export interface GoogleCloudDiscoveryengineV1alphaObtainCrawlRateRequest {
   /** Required. The scope of the crawl rate that the user wants to monitor. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
   crawlRateScope?: string | undefined;
 }
-export interface ObtainCrawlRateProjectsLocationsRequest {
+export interface ObtainCrawlRateProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1alphaObtainCrawlRateRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaObtainCrawlRateRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponseStateEnum =
   | "STATE_UNSPECIFIED"
@@ -10088,285 +9944,320 @@ export interface GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponse {
     | GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries
     | undefined;
 }
-export interface PatchProjectsRequest {
+export interface PatchProjectsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaProject,
+  "name"
+> {
   /** Output only. Full resource name of the project, for example `projects/{project}`. Note that when making requests, project number and project id are both acceptable, but the server will always respond in project number. */
   name: string;
   /** Optional. The list of fields to update. Supported fields: * `customer_provided_config` * `customer_provided_config.notebooklm_config.observability_config` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaProject | undefined;
 }
-export interface PatchProjectsLocationsAuthorizationsRequest {
+export interface PatchProjectsLocationsAuthorizationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaAuthorization,
+  "name"
+> {
   /** The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAuthorization | undefined;
 }
-export interface PatchProjectsLocationsCmekConfigsRequest {
+export interface PatchProjectsLocationsCmekConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaCmekConfig,
+  "name"
+> {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
   setDefault?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCmekConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsRequest {
+export interface PatchProjectsLocationsCollectionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaCollection,
+  "name"
+> {
   /** Immutable. The full resource name of the Collection. Format: `projects/{project}/locations/{location}/collections/{collection_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCollection | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDataStore,
+  "name"
+> {
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDocument,
+  "name"
+> {
   /** Indicates which fields in the provided imported 'document' to update. If not set, by default updates all fields. */
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** If set to `true` and the Document is not found, a new Document is be created. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaControl,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaConversation,
+  "name"
+> {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSchema,
+  "name"
+> {
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaServingConfig,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSession,
+  "name"
+> {
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaTargetSite,
+  "name"
+> {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaWidgetConfig,
+  "name"
+> {
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesRequest {
+export interface PatchProjectsLocationsCollectionsEnginesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaEngine,
+  "name"
+> {
   /** Immutable. Identifier. The fully qualified resource name of the engine. This field must be a UTF-8 encoded string with a length limit of 1024 characters. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` engine should be 1-63 characters, and valid characters are /a-z0-9*\/. Otherwise, an INVALID_ARGUMENT error is returned. */
   name: string;
   /** Indicates which fields in the provided Engine to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEngine | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaAssistant,
+  "name"
+> {
   /** The list of fields to update. */
   updateMask?: string | undefined;
   /** Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAssistant | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesAssistantsAgentsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesAssistantsAgentsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaAgent,
+  "name"
+> {
   /** Identifier. Resource name of the agent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/agents/{agent}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAgent | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest {
+export interface PatchProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaCannedQuery,
+  "name"
+> {
   /** Immutable. Resource name of the canned query. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/cannedQueries/{canned_query}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCannedQuery | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesControlsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesControlsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaControl,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaConversation,
+  "name"
+> {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaServingConfig,
+  "name"
+> {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSession,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaWidgetConfig,
+  "name"
+> {
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig | undefined;
 }
-export interface PatchProjectsLocationsDataStoresRequest {
+export interface PatchProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDataStore,
+  "name"
+> {
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
-export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDocument,
+  "name"
+> {
   /** If set to `true` and the Document is not found, a new Document is be created. */
   allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided imported 'document' to update. If not set, by default updates all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
-export interface PatchProjectsLocationsDataStoresControlsRequest {
+export interface PatchProjectsLocationsDataStoresControlsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaControl,
+  "name"
+> {
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
-export interface PatchProjectsLocationsDataStoresConversationsRequest {
+export interface PatchProjectsLocationsDataStoresConversationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaConversation,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
-export interface PatchProjectsLocationsDataStoresSchemasRequest {
+export interface PatchProjectsLocationsDataStoresSchemasRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSchema,
+  "name"
+> {
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
-export interface PatchProjectsLocationsDataStoresServingConfigsRequest {
+export interface PatchProjectsLocationsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaServingConfig,
+  "name"
+> {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
-export interface PatchProjectsLocationsDataStoresSessionsRequest {
+export interface PatchProjectsLocationsDataStoresSessionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSession,
+  "name"
+> {
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
-export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaTargetSite,
+  "name"
+> {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
-export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest {
+export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaWidgetConfig,
+  "name"
+> {
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig | undefined;
 }
-export interface PatchProjectsLocationsLicenseConfigsRequest {
+export interface PatchProjectsLocationsLicenseConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaLicenseConfig,
+  "name"
+> {
   /** Optional. Indicates which fields in the provided LicenseConfig to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaLicenseConfig | undefined;
 }
-export interface PatchProjectsLocationsSampleQuerySetsRequest {
+export interface PatchProjectsLocationsSampleQuerySetsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSampleQuerySet,
+  "name"
+> {
   /** Identifier. The full resource name of the SampleQuerySet, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided imported 'sample query set' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuerySet | undefined;
 }
-export interface PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest {
+export interface PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSampleQuery,
+  "name"
+> {
   /** Indicates which fields in the provided imported 'simple query' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
   /** Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuery | undefined;
 }
-export interface PatchProjectsLocationsUserStoresRequest {
+export interface PatchProjectsLocationsUserStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaUserStore,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the User Store, in the format of `projects/{project}/locations/{location}/userStores/{user_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserStore | undefined;
 }
 /** Request for pausing training of an engine. */
 export type GoogleCloudDiscoveryengineV1alphaPauseEngineRequest =
@@ -10404,17 +10295,13 @@ export interface GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest {
   /** Required. Set to `true` to specify that caller has read and would like to give consent to the [Terms for data use](https://cloud.google.com/retail/data-use-terms). */
   acceptDataUseTerms?: boolean | undefined;
 }
-export interface ProvisionProjectsRequest {
+export interface ProvisionProjectsRequest extends GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest | undefined;
 }
-export interface ProvisionProjectsLocationsRequest {
+export interface ProvisionProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest | undefined;
 }
 /** The inline source to purge identity mapping entries from. */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequestInlineSource {
@@ -10432,11 +10319,9 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequest {
     | GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequestInlineSource
     | undefined;
 }
-export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
+export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest extends GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequest {
   /** Required. The name of the Identity Mapping Store to purge Identity Mapping Entries from. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequest | undefined;
 }
 /** The inline source for the input config for DocumentService.PurgeDocuments method. */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequestInlineSource {
@@ -10461,11 +10346,9 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest {
   /** The desired location of errors incurred during the purge. */
   errorConfig?: GoogleCloudDiscoveryengineV1alphaPurgeErrorConfig | undefined;
 }
-export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest | undefined;
 }
 /** Request message for CompletionService.PurgeCompletionSuggestions method. */
 export type GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsRequest =
@@ -10492,17 +10375,13 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest {
   /** The `force` field is currently not supported. Purge user event requests will permanently delete all purgeable events. Once the development is complete: If `force` is set to false, the method will return the expected purge count without deleting any user events. This field will default to false if not included in the request. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest {
+export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest | undefined;
 }
-export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest | undefined;
 }
 export interface PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to purge completion suggestions. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
@@ -10516,11 +10395,9 @@ export interface PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesReques
   /** Request body */
   body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
-export interface PurgeProjectsLocationsDataStoresUserEventsRequest {
+export interface PurgeProjectsLocationsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest | undefined;
 }
 export type QueryConfigurablePricingUsageStatsProjectsLocationsMetricTypesEnum =
   | "BILLING_METRIC_TYPE_UNSPECIFIED"
@@ -10618,11 +10495,9 @@ export interface GoogleCloudDiscoveryengineV1alphaRankRequest {
   /** The query to use. */
   query?: string | undefined;
 }
-export interface RankProjectsLocationsRankingConfigsRequest {
+export interface RankProjectsLocationsRankingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaRankRequest {
   /** Required. The resource name of the rank service config, such as `projects/{project_num}/locations/{location}/rankingConfigs/default_ranking_config`. */
   rankingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRankRequest | undefined;
 }
 /** Response message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1alphaRankResponse {
@@ -10644,11 +10519,9 @@ export interface GoogleCloudDiscoveryengineV1alphaRecommendRequest {
   /** Maximum number of results to return. Set this property to the number of recommendation results needed. If zero, the service chooses a reasonable default. The maximum allowed value is 100. Values above 100 are set to 100. */
   pageSize?: number | undefined;
 }
-export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaRecommendRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest | undefined;
 }
 /** RecommendationResult represents a generic recommendation result with associated metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaRecommendResponseRecommendationResult {
@@ -10672,17 +10545,13 @@ export interface GoogleCloudDiscoveryengineV1alphaRecommendResponse {
   /** True if RecommendRequest.validate_only was set. */
   validateOnly?: boolean | undefined;
 }
-export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaRecommendRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest | undefined;
 }
-export interface RecommendProjectsLocationsDataStoresServingConfigsRequest {
+export interface RecommendProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaRecommendRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest | undefined;
 }
 /** Request message for SiteSearchEngineService.RecrawlUris method. */
 export interface GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest {
@@ -10691,28 +10560,22 @@ export interface GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest {
   /** Optional. Credential id to use for crawling. */
   siteCredential?: string | undefined;
 }
-export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
+export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest extends GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest | undefined;
 }
-export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest {
+export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest extends GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest | undefined;
 }
 /** Request message for CrawlRateManagementService.RemoveDedicatedCrawlRate method. The user can remove the dedicated crawl rate for a crawl_rate_scope they own, and Google will fall back to organic crawl, and the crawl rate will be determined by Google. */
 export interface GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateRequest {
   /** Required. The scope of the crawl rate change. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
   crawlRateScope?: string | undefined;
 }
-export interface RemoveDedicatedCrawlRateProjectsLocationsRequest {
+export interface RemoveDedicatedCrawlRateProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateRequest | undefined;
 }
 /** Request for DataStoreService.RemovePatientFilter method. */
 export interface GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest {
@@ -10721,17 +10584,19 @@ export interface GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
   dataStore?: string | undefined;
 }
-export interface RemovePatientFilterProjectsLocationsCollectionsDataStoresRequest {
+export interface RemovePatientFilterProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest | undefined;
 }
-export interface RemovePatientFilterProjectsLocationsDataStoresRequest {
+export interface RemovePatientFilterProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest | undefined;
 }
 /** Request message for CompletionService.RemoveSuggestion method. */
 export interface GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest {
@@ -10746,11 +10611,9 @@ export interface GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest {
   /** Optional. Information about the end user. This should be the same identifier information as UserEvent.user_info and SearchRequest.user_info. */
   userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo | undefined;
 }
-export interface RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest {
+export interface RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest extends GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest {
   /** Required. The completion_config of the parent engine resource name for which the search history suggestion is to be removed, such as `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest | undefined;
 }
 /** Response message for CompletionService.RemoveSuggestion method. */
 export interface GoogleCloudDiscoveryengineV1alphaRemoveSuggestionResponse {}
@@ -10761,17 +10624,19 @@ export interface GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore?: string | undefined;
 }
-export interface ReplacePatientFilterProjectsLocationsCollectionsDataStoresRequest {
+export interface ReplacePatientFilterProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest | undefined;
 }
-export interface ReplacePatientFilterProjectsLocationsDataStoresRequest {
+export interface ReplacePatientFilterProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest,
+  "dataStore"
+> {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequestConsentChangeActionEnum =
   | "CONSENT_CHANGE_ACTION_UNSPECIFIED"
@@ -10788,11 +10653,9 @@ export interface GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequest {
     | (string & {})
     | undefined;
 }
-export interface ReportConsentChangeProjectsRequest {
+export interface ReportConsentChangeProjectsRequest extends GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   project: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequest | undefined;
 }
 /** Request for resuming training of an engine. */
 export type GoogleCloudDiscoveryengineV1alphaResumeEngineRequest =
@@ -10821,22 +10684,21 @@ export interface GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigRequest {
   /** Optional. The number of licenses to retract. Only used when full_retract is false. */
   licenseCount?: string | undefined;
 }
-export interface RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
+export interface RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest extends GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigRequest {
   /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
   billingAccountLicenseConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.RetractLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigResponse {
   /** The updated LicenseConfig. */
   licenseConfig?: GoogleCloudDiscoveryengineV1alphaLicenseConfig | undefined;
 }
-export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSearchRequest,
+  "servingConfig"
+> {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 /** Debug information specifically related to forward geocoding issues arising from Geolocation Search. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseGeoSearchDebugInfo {
@@ -11071,35 +10933,40 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchResponse {
     | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfo
     | undefined;
 }
-export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSearchRequest,
+  "servingConfig"
+> {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
-export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest {
+export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSearchRequest,
+  "servingConfig"
+> {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
-export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSearchRequest,
+  "servingConfig"
+> {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
-export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSearchRequest,
+  "servingConfig"
+> {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
-export interface SearchProjectsLocationsDataStoresServingConfigsRequest {
+export interface SearchProjectsLocationsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaSearchRequest,
+  "servingConfig"
+> {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequestModeEnum =
   | "MODE_UNSPECIFIED"
@@ -11126,40 +10993,30 @@ export interface GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequest {
     | (string & {})
     | undefined;
 }
-export interface SetDedicatedCrawlRateProjectsLocationsRequest {
+export interface SetDedicatedCrawlRateProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCollectionsRequest {
+export interface SetIamPolicyProjectsLocationsCollectionsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCollectionsDataStoresRequest {
+export interface SetIamPolicyProjectsLocationsCollectionsDataStoresRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest {
+export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataStoresRequest {
+export interface SetIamPolicyProjectsLocationsDataStoresRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request for DataConnectorService.SetUpDataConnector method. */
 export interface GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest {
@@ -11170,21 +11027,17 @@ export interface GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest {
   /** Required. The DataConnector to initialize in the newly created Collection. */
   dataConnector?: GoogleCloudDiscoveryengineV1alphaDataConnector | undefined;
 }
-export interface SetUpDataConnectorProjectsLocationsRequest {
+export interface SetUpDataConnectorProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest {
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest | undefined;
 }
-export interface SetUpDataConnectorV2ProjectsLocationsRequest {
+export interface SetUpDataConnectorV2ProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1alphaDataConnector {
   /** Required. The display name of the Collection. Should be human readable, used to display collections in the Console Dashboard. UTF-8 encoded string with limit of 1024 characters. */
   collectionDisplayName?: string | undefined;
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the Collection, which will become the final component of the Collection's resource name. A new Collection is created as part of the DataConnector setup. DataConnector is a singleton resource under Collection, managing all DataStores of the Collection. Should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   collectionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataConnector | undefined;
 }
 /** Request message for SiteSearchEngineService.SetUriPatternDocumentData method. */
 export interface GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataRequest {
@@ -11195,11 +11048,9 @@ export interface GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataReque
   /** Document data keyed by URI pattern. Each entry must be consistent with the Schema. For example: Schema = { "type": "object", "properties": { "Categories": { "type": "array", "items": { "retrievable": true, "type": "string" } } } document_data_map = { "www.url1.com/*": { "Categories": ["category1", "category2"] }, "www.url2.com/*": { "Categories": ["category3"] } } */
   documentDataMap?: DocumentMapMap | undefined;
 }
-export interface SetUriPatternDocumentDataProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
+export interface SetUriPatternDocumentDataProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest extends GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataRequest | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaAccountAndRoleRoleEnum =
   | "PROJECT_ROLE_UNKNOWN"
@@ -11223,11 +11074,9 @@ export interface GoogleCloudNotebooklmV1alphaShareNotebookRequest {
   /** Required. Whether to notify the shared users via email. */
   notifyViaEmail?: boolean | undefined;
 }
-export interface ShareProjectsLocationsNotebooksRequest {
+export interface ShareProjectsLocationsNotebooksRequest extends GoogleCloudNotebooklmV1alphaShareNotebookRequest {
   /** Required. Full resource name of Notebook, such as `projects/{project}/locations/{location}/notebooks/{notebook_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaShareNotebookRequest | undefined;
 }
 /** Response for NotebookService.ShareNotebook method. */
 export interface GoogleCloudNotebooklmV1alphaShareNotebookResponse {}
@@ -11244,40 +11093,33 @@ export interface GoogleCloudDiscoveryengineV1alphaStartConnectorRunRequest {
   /** Optional. Whether to force refresh the unstructured content of the documents. If set to `true`, the content part of the documents will be refreshed regardless of the update status of the referencing content. */
   forceRefreshContent?: boolean | undefined;
 }
-export interface StartConnectorRunProjectsLocationsCollectionsDataConnectorRequest {
+export interface StartConnectorRunProjectsLocationsCollectionsDataConnectorRequest extends GoogleCloudDiscoveryengineV1alphaStartConnectorRunRequest {
   /** Required. Connector name of the form `projects/{project}/locations/{location}/collections/{collection_id}/dataConnector` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaStartConnectorRunRequest | undefined;
 }
 /** Request message for AlphaEvolveService.StartExperiment. */
 export interface GoogleCloudDiscoveryengineV1alphaStartExperimentRequest {
   /** Required. Experiment to start. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   name?: string | undefined;
 }
-export interface StartProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
+export interface StartProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaStartExperimentRequest,
+  "name"
+> {
   /** Required. Experiment to start. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaStartExperimentRequest | undefined;
 }
-export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
-export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
-export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest {
+export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 /** User metadata of the request. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistUserMetadata {
@@ -11356,11 +11198,9 @@ export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequest {
   /** Optional. Specification of actions for the request. */
   actionSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestActionSpec | undefined;
 }
-export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest {
+export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest extends GoogleCloudDiscoveryengineV1alphaStreamAssistRequest {
   /** Required. The resource name of the Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequest | undefined;
 }
 /** Information about the session. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistResponseSessionInfo {
@@ -11420,11 +11260,9 @@ export interface GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsReque
     | GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluationSubmissionList
     | undefined;
 }
-export interface SubmitProgramsEvaluationsProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
+export interface SubmitProgramsEvaluationsProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest extends GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsRequest {
   /** Required. The parent resource name (AlphaEvolveExperiment) of the Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsRequest | undefined;
 }
 /** Response message for AlphaEvolveService.SubmitProgramsEvaluations. */
 export interface GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsResponse {}
@@ -11452,11 +11290,9 @@ export interface GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequest {
   /** Model to be trained. Supported values are: * **search-tuning**: Fine tuning the search system based on data provided. */
   modelType?: string | undefined;
 }
-export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest {
+export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest extends GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequest {
   /** Required. The resource name of the Data Store, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to train the models. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequest | undefined;
 }
 /** Request to manually start a tuning process now (instead of waiting for the periodically scheduled tuning to happen). */
 export type GoogleCloudDiscoveryengineV1alphaTuneEngineRequest =
@@ -11467,105 +11303,109 @@ export interface TuneProjectsLocationsCollectionsEnginesRequest {
   /** Request body */
   body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
-export interface UpdateAclConfigProjectsLocationsRequest {
+export interface UpdateAclConfigProjectsLocationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaAclConfig,
+  "name"
+> {
   /** Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAclConfig | undefined;
 }
-export interface UpdateCmekConfigProjectsLocationsRequest {
+export interface UpdateCmekConfigProjectsLocationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaCmekConfig,
+  "name"
+> {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
   setDefault?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCmekConfig | undefined;
 }
-export interface UpdateCompletionConfigProjectsLocationsCollectionsDataStoresRequest {
+export interface UpdateCompletionConfigProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaCompletionConfig,
+  "name"
+> {
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig | undefined;
 }
-export interface UpdateCompletionConfigProjectsLocationsCollectionsEnginesRequest {
+export interface UpdateCompletionConfigProjectsLocationsCollectionsEnginesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaCompletionConfig,
+  "name"
+> {
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
   name: string;
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig | undefined;
 }
-export interface UpdateCompletionConfigProjectsLocationsDataStoresRequest {
+export interface UpdateCompletionConfigProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaCompletionConfig,
+  "name"
+> {
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
   name: string;
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig | undefined;
 }
-export interface UpdateConfigProjectsLocationsCollectionsEnginesAnalyticsRequest {
+export interface UpdateConfigProjectsLocationsCollectionsEnginesAnalyticsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaAnalyticsConfig,
+  "name"
+> {
   /** Required. The resource name of the analytics customer config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/analytics/config` */
   name: string;
   /** The list of fields of AnalyticsConfig to update. If not specified, the method will perform a full replacement. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnalyticsConfig | undefined;
 }
-export interface UpdateDataConnectorProjectsLocationsCollectionsRequest {
+export interface UpdateDataConnectorProjectsLocationsCollectionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDataConnector,
+  "name"
+> {
   /** Identifier. The full resource name of the Data Connector. Format: `projects/*\/locations/*\/collections/*\/dataConnector`. */
   name: string;
   /** Indicates which fields in the provided DataConnector to update. Supported field paths include: - `refresh_interval` - `params` - `auto_run_disabled` - `action_config` - `action_config.action_params` - `action_config.service_name` - `destination_configs` - `blocking_reasons` - `sync_mode` - `incremental_sync_disabled` - `incremental_refresh_interval` - `data_protection_policy` Note: Support for these fields may vary depending on the connector type. For example, not all connectors support `destination_configs`. If an unsupported or unknown field path is provided, the request will return an `INVALID_ARGUMENT` error. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataConnector | undefined;
 }
-export interface UpdateDocumentProcessingConfigProjectsLocationsCollectionsDataStoresRequest {
+export interface UpdateDocumentProcessingConfigProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig,
+  "name"
+> {
   /** The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
   name: string;
   /** Not supported. If `update_mask` is set, the request returns an `UnsupportedFieldError`. To update mutable fields, omit `update_mask`; the full DocumentProcessingConfig in the request body then overwrites the existing resource. See the method description for details. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig | undefined;
 }
-export interface UpdateDocumentProcessingConfigProjectsLocationsDataStoresRequest {
+export interface UpdateDocumentProcessingConfigProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig,
+  "name"
+> {
   /** The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
   name: string;
   /** Not supported. If `update_mask` is set, the request returns an `UnsupportedFieldError`. To update mutable fields, omit `update_mask`; the full DocumentProcessingConfig in the request body then overwrites the existing resource. See the method description for details. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig | undefined;
 }
-export interface UpdateProjectsLocationsUserStoresUserAvailabilityRequest {
+export interface UpdateProjectsLocationsUserStoresUserAvailabilityRequest extends Omit<
+  GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequest,
+  "parent"
+> {
   /** Optional. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequest | undefined;
 }
-export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest {
+export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaUserEvent {
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserEvent | undefined;
 }
-export interface WriteProjectsLocationsDataStoresUserEventsRequest {
+export interface WriteProjectsLocationsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaUserEvent {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserEvent | undefined;
 }
-export interface WriteProjectsLocationsUserEventsRequest {
+export interface WriteProjectsLocationsUserEventsRequest extends GoogleCloudDiscoveryengineV1alphaUserEvent {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserEvent | undefined;
 }
 export type AcquireAccessTokenProjectsLocationsCollectionsDataConnectorError =
   | NotFound
@@ -21306,10 +21146,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15868, __c495, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15868, __c495, 28),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:answer",
@@ -21487,10 +21329,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(386, __c12, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(386, __c12, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/targetSites:batchCreate",
@@ -21630,10 +21474,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          billingAccountLicenseConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            billingAccountLicenseConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+billingAccountLicenseConfig}:distributeLicenseConfig",
@@ -21737,10 +21583,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(676, __c21, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(676, __c21, 4),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+location}:estimateDataSize",
@@ -21800,10 +21648,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaExportMetricsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          analytics: S.String.pipe(T.Label()),
-          body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(770, __c24, 2),
+          S.Struct({
+            analytics: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+analytics}:exportMetrics",
@@ -21879,10 +21729,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(386, __c12, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(386, __c12, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/targetSites:batchCreate",
@@ -22216,10 +22068,12 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GoogleCloudNotebooklmV1alphaBatchCreateSourcesRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1415, __c44, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1415, __c44, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sources:batchCreate",
@@ -22928,10 +22782,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/notebooks:batchDelete",
@@ -23156,10 +23012,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sources:batchDelete",
@@ -24100,10 +23958,12 @@ function __c114(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3649, __c114, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3649, __c114, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userAvailabilities:batchUpdate",
@@ -24333,10 +24193,12 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4097, __c128, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4097, __c128, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:batchUpdateUserLicenses",
@@ -24846,10 +24708,12 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          identityMappingStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(5056, __c158, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5056, __c158, 0),
+          S.Struct({
+            identityMappingStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+identityMappingStore}:importIdentityMappings",
@@ -24892,10 +24756,12 @@ function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5228, __c163, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5228, __c163, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/documents:import",
@@ -25049,10 +24915,12 @@ function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5315, __c166, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5315, __c166, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/completionSuggestions:import",
@@ -25106,10 +24974,12 @@ function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5379, __c168, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5379, __c168, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/suggestionDenyListEntries:import",
@@ -25156,10 +25026,12 @@ function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5442, __c170, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5442, __c170, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:import",
@@ -25341,10 +25213,12 @@ function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16000, __c500, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16000, __c500, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/files:import",
@@ -25391,10 +25265,12 @@ function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5228, __c163, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5228, __c163, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/documents:import",
@@ -25408,10 +25284,12 @@ function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5315, __c166, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5315, __c166, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/completionSuggestions:import",
@@ -25425,10 +25303,12 @@ function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5379, __c168, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5379, __c168, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/suggestionDenyListEntries:import",
@@ -25444,10 +25324,12 @@ function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5442, __c170, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5442, __c170, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:import",
@@ -25478,10 +25360,12 @@ function __c178(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5697, __c178, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5697, __c178, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sampleQueries:import",
@@ -25501,10 +25385,12 @@ function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5442, __c170, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5442, __c170, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:import",
@@ -25527,10 +25413,12 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5792, __c181, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5792, __c181, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:invokeConnectorMcp",
@@ -25652,10 +25540,12 @@ function __c185(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5920, __c185, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5920, __c185, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:checkFeaturePolicyMembers",
@@ -26070,10 +25960,12 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaCheckGroundingRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          groundingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6531, __c204, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6531, __c204, 3),
+          S.Struct({
+            groundingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+groundingConfig}:check",
@@ -26686,10 +26578,12 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaCheckRequirementRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(7393, __c231, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7393, __c231, 1),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+location}/requirements:checkRequirement",
@@ -27754,10 +27648,12 @@ function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(8672, __c271, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8672, __c271, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+location}:obtainCrawlRate",
@@ -27848,11 +27744,13 @@ function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2025, __c63, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2025, __c63, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -27866,11 +27764,13 @@ function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12738, __c398, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12738, __c398, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -27884,11 +27784,13 @@ function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          setDefault: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(13089, __c409, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13089, __c409, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            setDefault: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -27902,11 +27804,13 @@ function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -27920,11 +27824,13 @@ function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13259, __c414, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13259, __c414, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -27938,12 +27844,14 @@ function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(9735, __c304, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9735, __c304, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -27959,11 +27867,13 @@ function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13390, __c418, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13390, __c418, 14),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28025,11 +27935,13 @@ function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11559, __c361, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11559, __c361, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28043,11 +27955,13 @@ function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13026, __c407, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13026, __c407, 2),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28061,11 +27975,13 @@ function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13542, __c423, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13542, __c423, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28081,11 +27997,13 @@ function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16066, __c502, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16066, __c502, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28099,10 +28017,12 @@ function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(419, __c13, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(419, __c13, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28118,11 +28038,13 @@ function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3009, __c94, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3009, __c94, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28136,11 +28058,13 @@ function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13841, __c432, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13841, __c432, 17),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28154,11 +28078,13 @@ function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14090, __c440, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14090, __c440, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28172,11 +28098,13 @@ function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14153, __c442, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14153, __c442, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28190,11 +28118,13 @@ function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14214, __c444, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14214, __c444, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28252,11 +28182,13 @@ function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13390, __c418, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13390, __c418, 14),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28270,11 +28202,13 @@ function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11559, __c361, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11559, __c361, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28288,11 +28222,13 @@ function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13542, __c423, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13542, __c423, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28306,11 +28242,13 @@ function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16066, __c502, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16066, __c502, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28324,11 +28262,13 @@ function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3009, __c94, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3009, __c94, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28342,11 +28282,13 @@ function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13259, __c414, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13259, __c414, 11),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28360,12 +28302,14 @@ function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9735, __c304, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9735, __c304, 7),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28379,11 +28323,13 @@ function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13390, __c418, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13390, __c418, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28397,11 +28343,13 @@ function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11559, __c361, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11559, __c361, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28415,11 +28363,13 @@ function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13026, __c407, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13026, __c407, 2),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28433,10 +28383,12 @@ function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9701, __c303, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9701, __c303, 5),
+          S.Struct({
+            completionConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+completionConfig}:completeQuery",
@@ -28668,11 +28620,13 @@ function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13542, __c423, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13542, __c423, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28686,11 +28640,13 @@ function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16066, __c502, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16066, __c502, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28704,10 +28660,12 @@ function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(419, __c13, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(419, __c13, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28723,11 +28681,13 @@ function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3009, __c94, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3009, __c94, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28741,11 +28701,13 @@ function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15205, __c475, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15205, __c475, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28759,11 +28721,13 @@ function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15360, __c480, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15360, __c480, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28777,11 +28741,13 @@ function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15427, __c482, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15427, __c482, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28795,11 +28761,13 @@ function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4768, __c149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4768, __c149, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -28830,10 +28798,12 @@ function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(10145, __c317, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10145, __c317, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:provision",
@@ -28870,10 +28840,12 @@ function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9701, __c303, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9701, __c303, 5),
+          S.Struct({
+            completionConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+completionConfig}:completeQuery",
@@ -28889,10 +28861,12 @@ function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(10145, __c317, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10145, __c317, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:provision",
@@ -28914,10 +28888,12 @@ function __c320(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          identityMappingStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(10240, __c320, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10240, __c320, 0),
+          S.Struct({
+            identityMappingStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+identityMappingStore}:purgeIdentityMappings",
@@ -28933,10 +28909,12 @@ function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10305, __c322, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10305, __c322, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/documents:purge",
@@ -29012,10 +28990,12 @@ function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:purge",
@@ -29040,10 +29020,12 @@ function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10305, __c322, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10305, __c322, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/documents:purge",
@@ -29093,10 +29075,12 @@ function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10432, __c326, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10432, __c326, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:purge",
@@ -29209,10 +29193,12 @@ function __c333(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaRankRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          rankingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10658, __c333, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10658, __c333, 2),
+          S.Struct({
+            rankingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+rankingConfig}:rank",
@@ -29232,10 +29218,12 @@ function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10720, __c335, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10720, __c335, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:recommend",
@@ -29287,10 +29275,12 @@ function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10720, __c335, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10720, __c335, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:recommend",
@@ -29306,10 +29296,12 @@ function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10720, __c335, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10720, __c335, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:recommend",
@@ -29323,10 +29315,12 @@ function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(10848, __c339, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10848, __c339, 0),
+          S.Struct({
+            siteSearchEngine: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+siteSearchEngine}:recrawlUris",
@@ -29353,10 +29347,12 @@ function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(10848, __c339, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10848, __c339, 0),
+          S.Struct({
+            siteSearchEngine: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+siteSearchEngine}:recrawlUris",
@@ -29370,10 +29366,12 @@ function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(8672, __c271, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8672, __c271, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+location}:removeDedicatedCrawlRate",
@@ -29387,10 +29385,12 @@ function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(10976, __c343, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10976, __c343, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:removePatientFilter",
@@ -29417,10 +29417,12 @@ function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(10976, __c343, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10976, __c343, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:removePatientFilter",
@@ -29434,10 +29436,12 @@ function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9701, __c303, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9701, __c303, 5),
+          S.Struct({
+            completionConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+completionConfig}:completeQuery",
@@ -29461,10 +29465,12 @@ function __c346(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(11072, __c346, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11072, __c346, 0),
+          S.Struct({
+            completionConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+completionConfig}:removeSuggestion",
@@ -29480,10 +29486,12 @@ function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(10976, __c343, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10976, __c343, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:replacePatientFilter",
@@ -29499,10 +29507,12 @@ function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(10976, __c343, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10976, __c343, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:replacePatientFilter",
@@ -29524,10 +29534,12 @@ function __c349(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11168, __c349, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11168, __c349, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+project}:reportConsentChange",
@@ -29586,10 +29598,12 @@ function __c352(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          billingAccountLicenseConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(11264, __c352, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11264, __c352, 0),
+          S.Struct({
+            billingAccountLicenseConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+billingAccountLicenseConfig}:retractLicenseConfig",
@@ -29605,10 +29619,12 @@ function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15062, __c470, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15062, __c470, 22),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:searchLite",
@@ -29811,10 +29827,12 @@ function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15062, __c470, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15062, __c470, 22),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:searchLite",
@@ -29830,10 +29848,12 @@ function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15062, __c470, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15062, __c470, 22),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:searchLite",
@@ -29847,10 +29867,12 @@ function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11456, __c358, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11456, __c358, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:converse",
@@ -30209,10 +30231,12 @@ function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15062, __c470, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15062, __c470, 22),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:search",
@@ -30228,10 +30252,12 @@ function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15062, __c470, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15062, __c470, 22),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:search",
@@ -30245,10 +30271,12 @@ function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15062, __c470, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15062, __c470, 22),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:search",
@@ -30271,10 +30299,12 @@ function __c367(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(11744, __c367, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11744, __c367, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+location}:setDedicatedCrawlRate",
@@ -30288,10 +30318,12 @@ function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(11808, __c369, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11808, __c369, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -30315,10 +30347,12 @@ function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(11808, __c369, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11808, __c369, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -30332,10 +30366,12 @@ function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(11808, __c369, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11808, __c369, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -30349,10 +30385,12 @@ function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(11808, __c369, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11808, __c369, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -30374,10 +30412,12 @@ function __c373(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11936, __c373, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11936, __c373, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:setUpDataConnector",
@@ -30391,12 +30431,14 @@ function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          collectionDisplayName: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          collectionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1658, __c51, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1658, __c51, 26),
+          S.Struct({
+            collectionDisplayName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            collectionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:setUpDataConnectorV2",
@@ -30410,10 +30452,12 @@ function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11456, __c358, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11456, __c358, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:converse",
@@ -30437,10 +30481,12 @@ function __c376(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(12032, __c376, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12032, __c376, 0),
+          S.Struct({
+            siteSearchEngine: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+siteSearchEngine}:setUriPatternDocumentData",
@@ -30473,10 +30519,12 @@ function __c377(j: number): any {
       ).annotate({ identifier: "GoogleCloudNotebooklmV1alphaShareNotebookRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12066, __c377, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12066, __c377, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:share",
@@ -30500,10 +30548,12 @@ function __c378(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaStartConnectorRunRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12096, __c378, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12096, __c378, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:startConnectorRun",
@@ -30519,10 +30569,12 @@ function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13792, __c431, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13792, __c431, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:start",
@@ -30538,10 +30590,12 @@ function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15868, __c495, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15868, __c495, 28),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:streamAnswer",
@@ -30557,10 +30611,12 @@ function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15868, __c495, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15868, __c495, 28),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:streamAnswer",
@@ -30576,10 +30632,12 @@ function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15868, __c495, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15868, __c495, 28),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:streamAnswer",
@@ -30661,10 +30719,12 @@ function __c383(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaStreamAssistRequest" });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12264, __c383, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12264, __c383, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:streamAssist",
@@ -30741,10 +30801,12 @@ function __c384(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12290, __c384, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12290, __c384, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:submitProgramsEvaluations",
@@ -30781,10 +30843,12 @@ function __c385(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(12321, __c385, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12321, __c385, 1),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:trainCustomModel",
@@ -30798,10 +30862,12 @@ function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11456, __c358, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11456, __c358, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:converse",
@@ -30832,10 +30898,12 @@ function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30849,11 +30917,13 @@ function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          setDefault: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(13089, __c409, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13089, __c409, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            setDefault: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30867,11 +30937,13 @@ function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30887,11 +30959,13 @@ function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30907,11 +30981,13 @@ function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30925,11 +31001,13 @@ function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30943,11 +31021,13 @@ function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1658, __c51, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1658, __c51, 26),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30961,11 +31041,13 @@ function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13222, __c413, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13222, __c413, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -30981,11 +31063,13 @@ function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13222, __c413, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13222, __c413, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -31001,11 +31085,13 @@ function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authorizationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12738, __c398, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12738, __c398, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            authorizationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/authorizations",
@@ -31053,10 +31139,12 @@ function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3744, __c117, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3744, __c117, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userAvailability:update",
@@ -31070,11 +31158,13 @@ function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          writeAsync: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(5486, __c171, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5486, __c171, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            writeAsync: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:write",
@@ -31088,11 +31178,13 @@ function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          writeAsync: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5486, __c171, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5486, __c171, 14),
+          S.Struct({
+            writeAsync: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:write",
@@ -31106,11 +31198,13 @@ function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          writeAsync: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5486, __c171, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5486, __c171, 14),
+          S.Struct({
+            writeAsync: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userEvents:write",
@@ -31131,10 +31225,12 @@ function __c403(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12896, __c403, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12896, __c403, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:acquireAccessToken",
@@ -31174,15 +31270,17 @@ function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          cmekConfigName: S.optional(S.String.pipe(T.Query())),
-          skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
-          disableCmek: S.optional(S.Boolean.pipe(T.Query())),
-          dataStoreId: S.optional(S.String.pipe(T.Query())),
-          createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(13259, __c414, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13259, __c414, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            cmekConfigName: S.optional(S.String.pipe(T.Query())),
+            skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
+            disableCmek: S.optional(S.Boolean.pipe(T.Query())),
+            dataStoreId: S.optional(S.String.pipe(T.Query())),
+            createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/dataStores",
@@ -31530,11 +31628,13 @@ function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          documentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9735, __c304, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9735, __c304, 7),
+          S.Struct({
+            documentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/documents",
@@ -31550,11 +31650,13 @@ function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          controlId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13390, __c418, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13390, __c418, 14),
+          S.Struct({
+            controlId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/controls",
@@ -31690,10 +31792,12 @@ function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11559, __c361, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11559, __c361, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/conversations",
@@ -31709,11 +31813,13 @@ function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          schemaId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13026, __c407, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13026, __c407, 2),
+          S.Struct({
+            schemaId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/schemas",
@@ -31727,11 +31833,13 @@ function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13542, __c423, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13542, __c423, 6),
+          S.Struct({
+            servingConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/servingConfigs",
@@ -31878,11 +31986,13 @@ function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16066, __c502, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16066, __c502, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            sessionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sessions",
@@ -31896,10 +32006,12 @@ function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13664, __c427, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13664, __c427, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sitemaps",
@@ -31927,10 +32039,12 @@ function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(419, __c13, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(419, __c13, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/targetSites",
@@ -31947,11 +32061,13 @@ function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          engineId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13841, __c432, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13841, __c432, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            engineId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/engines",
@@ -32194,10 +32310,12 @@ function __c435(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1alphaAcquireProgramsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13920, __c435, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13920, __c435, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}:acquirePrograms",
@@ -32307,11 +32425,13 @@ function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          assistantId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14090, __c440, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14090, __c440, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            assistantId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/assistants",
@@ -32410,10 +32530,12 @@ function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(14153, __c442, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14153, __c442, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/agents",
@@ -32518,11 +32640,13 @@ function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          cannedQueryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14214, __c444, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14214, __c444, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            cannedQueryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/cannedQueries",
@@ -32580,11 +32704,13 @@ function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          controlId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13390, __c418, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13390, __c418, 14),
+          S.Struct({
+            controlId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/controls",
@@ -32598,10 +32724,12 @@ function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11559, __c361, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11559, __c361, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/conversations",
@@ -32615,11 +32743,13 @@ function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          servingConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13542, __c423, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13542, __c423, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            servingConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/servingConfigs",
@@ -32633,11 +32763,13 @@ function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16066, __c502, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16066, __c502, 2),
+          S.Struct({
+            sessionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sessions",
@@ -32651,10 +32783,12 @@ function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(14409, __c450, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14409, __c450, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/alphaEvolveExperiments",
@@ -32766,10 +32900,12 @@ function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13987, __c437, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13987, __c437, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/alphaEvolvePrograms",
@@ -32786,15 +32922,17 @@ function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
-          disableCmek: S.optional(S.Boolean.pipe(T.Query())),
-          createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
-          dataStoreId: S.optional(S.String.pipe(T.Query())),
-          cmekConfigName: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13259, __c414, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13259, __c414, 11),
+          S.Struct({
+            skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
+            disableCmek: S.optional(S.Boolean.pipe(T.Query())),
+            createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
+            dataStoreId: S.optional(S.String.pipe(T.Query())),
+            cmekConfigName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/dataStores",
@@ -32808,10 +32946,12 @@ function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(14528, __c454, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14528, __c454, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:addPatientFilter",
@@ -32874,11 +33014,13 @@ function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          documentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9735, __c304, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9735, __c304, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            documentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/documents",
@@ -32892,11 +33034,13 @@ function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          controlId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13390, __c418, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13390, __c418, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            controlId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/controls",
@@ -32910,10 +33054,12 @@ function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11559, __c361, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11559, __c361, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/conversations",
@@ -32927,11 +33073,13 @@ function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          schemaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13026, __c407, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13026, __c407, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            schemaId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/schemas",
@@ -32945,11 +33093,13 @@ function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          servingConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13542, __c423, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13542, __c423, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            servingConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/servingConfigs",
@@ -32963,11 +33113,13 @@ function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16066, __c502, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16066, __c502, 2),
+          S.Struct({
+            sessionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sessions",
@@ -32981,10 +33133,12 @@ function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13664, __c427, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13664, __c427, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sitemaps",
@@ -33000,10 +33154,12 @@ function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(419, __c13, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(419, __c13, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/targetSites",
@@ -33019,10 +33175,12 @@ function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(14978, __c468, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14978, __c468, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/evaluations",
@@ -33297,13 +33455,15 @@ function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          disableCmek: S.optional(S.Boolean.pipe(T.Query())),
-          cmekConfigName: S.optional(S.String.pipe(T.Query())),
-          identityMappingStoreId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15104, __c472, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15104, __c472, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            disableCmek: S.optional(S.Boolean.pipe(T.Query())),
+            cmekConfigName: S.optional(S.String.pipe(T.Query())),
+            identityMappingStoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/identityMappingStores",
@@ -33330,10 +33490,12 @@ function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(14528, __c454, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14528, __c454, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:addPatientFilter",
@@ -33347,11 +33509,13 @@ function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          licenseConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15205, __c475, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15205, __c475, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            licenseConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/licenseConfigs",
@@ -33419,10 +33583,12 @@ function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15265, __c477, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15265, __c477, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/notebooks",
@@ -33477,10 +33643,12 @@ function __c478(j: number): any {
       ).annotate({ identifier: "GoogleCloudNotebooklmV1alphaCreateAudioOverviewRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15298, __c478, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15298, __c478, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/audioOverviews",
@@ -33511,11 +33679,13 @@ function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sampleQuerySetId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15360, __c480, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15360, __c480, 0),
+          S.Struct({
+            sampleQuerySetId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sampleQuerySets",
@@ -33542,11 +33712,13 @@ function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sampleQueryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15427, __c482, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15427, __c482, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            sampleQueryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sampleQueries",
@@ -33589,10 +33761,12 @@ function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(15488, __c484, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15488, __c484, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:deletePatientFilter",
@@ -33618,10 +33792,12 @@ function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(15488, __c484, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15488, __c484, 0),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+dataStore}:deletePatientFilter",
@@ -33683,10 +33859,12 @@ function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15868, __c495, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15868, __c495, 28),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:answer",
@@ -34830,10 +35008,12 @@ function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(15868, __c495, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15868, __c495, 28),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+servingConfig}:answer",

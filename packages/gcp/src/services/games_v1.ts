@@ -146,11 +146,9 @@ export interface BatchRecordEventsRequest {
   /** Required. Application package name (e.g., "com.example.game"). */
   packageName?: string | undefined;
 }
-export interface BatchRecordEventsGameStatsRequest {
+export interface BatchRecordEventsGameStatsRequest extends BatchRecordEventsRequest {
   /** Required. The player ID of the player that performed the events. */
   playerId: string;
-  /** Request body */
-  body?: BatchRecordEventsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -712,10 +710,7 @@ export interface LinkPersonaRequest {
   /** Required. Cardinality constraint to observe when linking a persona to a player in the scope of a game. */
   cardinalityConstraint?: LinkPersonaRequestCardinalityConstraintEnum | (string & {}) | undefined;
 }
-export interface LinkPersonaRecallRequest {
-  /** Request body */
-  body?: LinkPersonaRequest | undefined;
-}
+export interface LinkPersonaRecallRequest extends LinkPersonaRequest {}
 export type LinkPersonaResponseStateEnum = "LINK_CREATED" | "PERSONA_OR_PLAYER_ALREADY_LINKED";
 /** Outcome of a persona linking attempt. */
 export interface LinkPersonaResponse {
@@ -1102,11 +1097,9 @@ export interface EventRecordRequest {
   /** A list of the time period updates being made in this request. */
   timePeriods?: EventPeriodUpdateList | undefined;
 }
-export interface RecordEventsRequest {
+export interface RecordEventsRequest extends EventRecordRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string | undefined;
-  /** Request body */
-  body?: EventRecordRequest | undefined;
 }
 export type EventBatchRecordFailureFailureCauseEnum =
   | "TOO_LARGE"
@@ -1152,10 +1145,7 @@ export interface ResetPersonaRequest {
   /** Value of the 'persona' field as it was provided by the client in LinkPersona RPC */
   persona?: string | undefined;
 }
-export interface ResetPersonaRecallRequest {
-  /** Request body */
-  body?: ResetPersonaRequest | undefined;
-}
+export interface ResetPersonaRecallRequest extends ResetPersonaRequest {}
 /** Response for the ResetPersona RPC */
 export interface ResetPersonaResponse {
   /** Required. Whether any tokens were unlinked as a result of this request. */
@@ -1209,11 +1199,9 @@ export interface PlayerScoreSubmissionList {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerScoreSubmissionList`. */
   kind?: string | undefined;
 }
-export interface SubmitMultipleScoresRequest {
+export interface SubmitMultipleScoresRequest extends PlayerScoreSubmissionList {
   /** The preferred language to use for strings returned by this method. */
   language?: string | undefined;
-  /** Request body */
-  body?: PlayerScoreSubmissionList | undefined;
 }
 export type PlayerScoreResponseBeatenScoreTimeSpansItemEnum = "ALL_TIME" | "WEEKLY" | "DAILY";
 export type PlayerScoreResponseBeatenScoreTimeSpansItemEnumList =
@@ -1275,10 +1263,7 @@ export interface UnlinkPersonaRequest {
   /** Value of the Recall token as it was provided by the client in LinkPersona RPC */
   token?: string | undefined;
 }
-export interface UnlinkPersonaRecallRequest {
-  /** Request body */
-  body?: UnlinkPersonaRequest | undefined;
-}
+export interface UnlinkPersonaRecallRequest extends UnlinkPersonaRequest {}
 /** Response for the UnlinkPersona RPC */
 export interface UnlinkPersonaResponse {
   /** Required. Whether a Recall token specified by the request was deleted. Can be 'false' when there were no Recall tokens satisfied the criteria from the request. */
@@ -1337,10 +1322,7 @@ export interface AchievementUpdateMultipleRequest {
   /** The individual achievement update requests. */
   updates?: AchievementUpdateRequestList | undefined;
 }
-export interface UpdateMultipleAchievementsRequest {
-  /** Request body */
-  body?: AchievementUpdateMultipleRequest | undefined;
-}
+export interface UpdateMultipleAchievementsRequest extends AchievementUpdateMultipleRequest {}
 export type AchievementUpdateResponseCurrentStateEnum = "HIDDEN" | "REVEALED" | "UNLOCKED";
 /** An updated achievement. */
 export interface AchievementUpdateResponse {
@@ -2547,9 +2529,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "LinkPersonaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(256, __c16, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1/recall:linkPersona",
@@ -3002,10 +2982,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "EventRecordRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          language: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(485, __c30, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(485, __c30, 5),
+          S.Struct({
+            language: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1/events",
@@ -3054,9 +3036,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ResetPersonaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(496, __c31, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1/recall:resetPersona",
@@ -3147,10 +3127,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "PlayerScoreSubmissionList" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          language: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(562, __c35, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(562, __c35, 2),
+          S.Struct({
+            language: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1/leaderboards/scores",
@@ -3263,10 +3245,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "BatchRecordEventsRequest" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          playerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(614, __c38, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(614, __c38, 6),
+          S.Struct({
+            playerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1/players/{playerId}/gameStats:batchRecordEvents",
@@ -3308,9 +3292,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UnlinkPersonaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(624, __c39, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1/recall:unlinkPersona",
@@ -3381,9 +3363,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "AchievementUpdateMultipleRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(660, __c41, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(660, __c41, 4), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1/achievements/updateMultiple",

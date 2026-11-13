@@ -214,17 +214,13 @@ export interface Groups {
   /** Specifies who receives the default reply. Possible values are: - REPLY_TO_CUSTOM: For replies to messages, use the group's custom email address. When the group's ReplyTo property is set to REPLY_TO_CUSTOM, the customReplyTo property holds the custom email address used when replying to a message. If the group's ReplyTo property is set to REPLY_TO_CUSTOM, the customReplyTo property must have a value. Otherwise an error is returned. - REPLY_TO_SENDER: The reply sent to author of message. - REPLY_TO_LIST: This reply message is sent to the group. - REPLY_TO_OWNER: The reply is sent to the owner(s) of the group. This does not include the group's managers. - REPLY_TO_IGNORE: Group users individually decide where the message reply is sent. - REPLY_TO_MANAGERS: This reply message is sent to the group's managers, which includes all managers and the group owner. */
   replyTo?: string | undefined;
 }
-export interface PatchGroupsRequest {
+export interface PatchGroupsRequest extends Groups {
   /** The group's email address. */
   groupUniqueId: string;
-  /** Request body */
-  body?: Groups | undefined;
 }
-export interface UpdateGroupsRequest {
+export interface UpdateGroupsRequest extends Groups {
   /** The group's email address. */
   groupUniqueId: string;
-  /** Request body */
-  body?: Groups | undefined;
 }
 export type GetGroupsError = NotFound | Forbidden | GoogleWorkspaceOpError;
 /** Gets one resource by id. */
@@ -380,10 +376,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupUniqueId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c1, 0),
+          S.Struct({
+            groupUniqueId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "{groupUniqueId}",
@@ -397,10 +395,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupUniqueId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c1, 0),
+          S.Struct({
+            groupUniqueId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "{groupUniqueId}",

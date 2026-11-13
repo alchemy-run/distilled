@@ -88,11 +88,9 @@ export interface CancelJobRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface CancelProjectsLocationsJobsRequest {
+export interface CancelProjectsLocationsJobsRequest extends CancelJobRequest {
   /** Required. Job name. */
   name: string;
-  /** Request body */
-  body?: CancelJobRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -591,15 +589,13 @@ export interface Job {
   /** Output only. Job status. It is read only for users. */
   status?: JobStatus | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
+export interface CreateProjectsLocationsJobsRequest extends Job {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource name where the Job will be created. Pattern: "projects/{project}/locations/{location}" */
   parent: string;
   /** ID used to uniquely identify the Job within its parent scope. This field should contain at most 63 characters and must start with lowercase characters. Only lowercase characters, numbers and '-' are accepted. The '-' character cannot be the first or the last one. A system generated ID will be used if the field is not set. The job.name field in the request will be ignored and the created resource name of the Job will be "{parent}/jobs/{job_id}". */
   jobId?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -817,11 +813,9 @@ export interface ReportAgentStateRequest {
   /** Agent metadata. */
   metadata?: AgentMetadata | undefined;
 }
-export interface ReportProjectsLocationsStateRequest {
+export interface ReportProjectsLocationsStateRequest extends ReportAgentStateRequest {
   /** Required. Format: projects/{project}/locations/{location} {project} should be a project number. */
   parent: string;
-  /** Request body */
-  body?: ReportAgentStateRequest | undefined;
 }
 export type AgentTaskIntendedStateEnum =
   | "INTENDED_STATE_UNSPECIFIED"
@@ -1445,10 +1439,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ReportAgentStateRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(293, __c9, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(293, __c9, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/state:report",
@@ -1560,10 +1556,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CancelJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -1630,12 +1628,14 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          jobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(607, __c18, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(607, __c18, 31),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            jobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/jobs",

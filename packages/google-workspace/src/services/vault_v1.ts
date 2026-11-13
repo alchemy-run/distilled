@@ -89,13 +89,11 @@ export interface AddHeldAccountsRequest {
   /** A comma-separated list of the account IDs of the accounts to add to the hold. Specify either **emails** or **account_ids**, but not both. */
   accountIds?: StringList | undefined;
 }
-export interface AddHeldAccountsMattersHoldsRequest {
+export interface AddHeldAccountsMattersHoldsRequest extends AddHeldAccountsRequest {
   /** The matter ID. */
   matterId: string;
   /** The hold ID. */
   holdId: string;
-  /** Request body */
-  body?: AddHeldAccountsRequest | undefined;
 }
 /** An account covered by a hold. This structure is immutable. It can be an individual account or a Google Group, depending on the service. To work with Vault resources, the account must have the [required Vault privileges] (https://support.google.com/vault/answer/2799699) and access to the matter. To access a matter, the account must have created the matter, have the matter shared with them, or have the **View All Matters** privilege. */
 export interface HeldAccount {
@@ -151,11 +149,9 @@ export interface AddMatterPermissionsRequest {
   /** The account and its role to add. */
   matterPermission?: MatterPermission | undefined;
 }
-export interface AddPermissionsMattersRequest {
+export interface AddPermissionsMattersRequest extends AddMatterPermissionsRequest {
   /** The matter ID. */
   matterId: string;
-  /** Request body */
-  body?: AddMatterPermissionsRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -407,11 +403,9 @@ export interface CountArtifactsRequest {
   /** The search query. */
   query?: Query | undefined;
 }
-export interface CountMattersRequest {
+export interface CountMattersRequest extends CountArtifactsRequest {
   /** The matter ID. */
   matterId: string;
-  /** Request body */
-  body?: CountArtifactsRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -426,10 +420,7 @@ export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
-export interface CreateMattersRequest {
-  /** Request body */
-  body?: Matter | undefined;
-}
+export interface CreateMattersRequest extends Matter {}
 export type ExportStatusEnum = "EXPORT_STATUS_UNSPECIFIED" | "COMPLETED" | "FAILED" | "IN_PROGRESS";
 /** Progress information for an export. */
 export interface ExportStats {
@@ -606,11 +597,9 @@ export interface Export {
   /** Output only. The generated export ID. */
   id?: string | undefined;
 }
-export interface CreateMattersExportsRequest {
+export interface CreateMattersExportsRequest extends Omit<Export, "matterId"> {
   /** The matter ID. */
   matterId: string;
-  /** Request body */
-  body?: Export | undefined;
 }
 export type HoldCorpusEnum =
   | "CORPUS_TYPE_UNSPECIFIED"
@@ -711,19 +700,15 @@ export interface Hold {
   /** Service-specific options. If set, **CorpusQuery** must match **CorpusType**. */
   query?: CorpusQuery | undefined;
 }
-export interface CreateMattersHoldsRequest {
+export interface CreateMattersHoldsRequest extends Hold {
   /** The matter ID. */
   matterId: string;
-  /** Request body */
-  body?: Hold | undefined;
 }
-export interface CreateMattersHoldsAccountsRequest {
+export interface CreateMattersHoldsAccountsRequest extends HeldAccount {
   /** The hold ID. */
   holdId: string;
   /** The matter ID. */
   matterId: string;
-  /** Request body */
-  body?: HeldAccount | undefined;
 }
 /** The definition of a saved query. To work with Vault resources, the account must have the [required Vault privileges](https://support.google.com/vault/answer/2799699) and access to the matter. To access a matter, the account must have created the matter, have the matter shared with them, or have the **View All Matters** privilege. */
 export interface SavedQuery {
@@ -738,11 +723,9 @@ export interface SavedQuery {
   /** A unique identifier for the saved query. */
   savedQueryId?: string | undefined;
 }
-export interface CreateMattersSavedQueriesRequest {
+export interface CreateMattersSavedQueriesRequest extends Omit<SavedQuery, "matterId"> {
   /** The ID of the matter to create the saved query in. */
   matterId: string;
-  /** Request body */
-  body?: SavedQuery | undefined;
 }
 export interface DeleteMattersRequest {
   /** The matter ID */
@@ -919,13 +902,11 @@ export interface RemoveHeldAccountsRequest {
   /** The account IDs of the accounts to remove from the hold. */
   accountIds?: StringList | undefined;
 }
-export interface RemoveHeldAccountsMattersHoldsRequest {
+export interface RemoveHeldAccountsMattersHoldsRequest extends RemoveHeldAccountsRequest {
   /** The matter ID. */
   matterId: string;
   /** The hold ID. */
   holdId: string;
-  /** Request body */
-  body?: RemoveHeldAccountsRequest | undefined;
 }
 export type StatusList = Array<Status>;
 /** Response for batch delete held accounts. */
@@ -938,11 +919,9 @@ export interface RemoveMatterPermissionsRequest {
   /** The account ID. */
   accountId?: string | undefined;
 }
-export interface RemovePermissionsMattersRequest {
+export interface RemovePermissionsMattersRequest extends RemoveMatterPermissionsRequest {
   /** The matter ID. */
   matterId: string;
-  /** Request body */
-  body?: RemoveMatterPermissionsRequest | undefined;
 }
 /** Reopen a matter by ID. */
 export type ReopenMatterRequest = CancelOperationRequest;
@@ -965,19 +944,15 @@ export interface UndeleteMattersRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface UpdateMattersRequest {
+export interface UpdateMattersRequest extends Omit<Matter, "matterId"> {
   /** The matter ID. */
   matterId: string;
-  /** Request body */
-  body?: Matter | undefined;
 }
-export interface UpdateMattersHoldsRequest {
+export interface UpdateMattersHoldsRequest extends Omit<Hold, "holdId"> {
   /** The matter ID. */
   matterId: string;
   /** The ID of the hold. */
   holdId: string;
-  /** Request body */
-  body?: Hold | undefined;
 }
 export type AddHeldAccountsMattersHoldsError =
   | NotFound
@@ -1665,10 +1640,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(25, __c1, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25, __c1, 9),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}/exports",
@@ -1769,10 +1746,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(69, __c4, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(69, __c4, 5),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}/holds",
@@ -1850,11 +1829,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          holdId: S.String.pipe(T.Label()),
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            holdId: S.String.pipe(T.Label()),
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}/holds/{holdId}/accounts",
@@ -1868,10 +1849,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}/savedQueries",
@@ -2238,11 +2221,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "RemoveHeldAccountsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          holdId: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+            holdId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}/holds/{holdId}:removeHeldAccounts",
@@ -2270,10 +2255,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "RemoveMatterPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}:removePermissions",
@@ -2321,10 +2308,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(657, __c41, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(657, __c41, 1),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/matters/{matterId}",
@@ -2338,11 +2327,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          holdId: S.String.pipe(T.Label()),
-          body: S.optional(__S(69, __c4, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(69, __c4, 5),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+            holdId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/matters/{matterId}/holds/{holdId}",
@@ -2363,11 +2354,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "AddHeldAccountsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          holdId: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c31, 0),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+            holdId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}/holds/{holdId}:addHeldAccounts",
@@ -2440,10 +2433,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "AddMatterPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(560, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(560, __c35, 0),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}:addPermissions",
@@ -2542,10 +2537,12 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CountArtifactsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          matterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c42, 0),
+          S.Struct({
+            matterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/matters/{matterId}:count",
@@ -2697,9 +2694,7 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(657, __c41, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(657, __c41, 1), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/matters", baseUrl: "https://vault.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateMattersRequest" });

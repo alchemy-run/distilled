@@ -144,11 +144,9 @@ export interface CleanupIpamAdminScopeRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface CleanupProjectsLocationsIpamAdminScopesRequest {
+export interface CleanupProjectsLocationsIpamAdminScopesRequest extends CleanupIpamAdminScopeRequest {
   /** Required. The resource name of the IpamAdminScope to clean up. */
   name: string;
-  /** Request body */
-  body?: CleanupIpamAdminScopeRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -190,15 +188,13 @@ export interface OrgNumberRegistry {
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
 }
-export interface CreateOrganizationsLocationsOrgNumberRegistriesRequest {
+export interface CreateOrganizationsLocationsOrgNumberRegistriesRequest extends OrgNumberRegistry {
   /** Required. The parent resource name where the OrgNumberRegistry will be created. */
   parent: string;
   /** Required. The ID to use for the OrgNumberRegistry, which will become the final segment of the resource name. */
   orgNumberRegistryId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: OrgNumberRegistry | undefined;
 }
 /** A key-value pair representing a custom attribute associated with a resource. */
 export interface Attribute {
@@ -229,15 +225,13 @@ export interface CustomRange {
   /** Optional. The resource name of the parent CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. If specified, the parent CustomRange must be in the same RegistryBook. This field is mutually exclusive with the `realm` field, as the Realm is inherited from the parent CustomRange. */
   parentRange?: string | undefined;
 }
-export interface CreateProjectsLocationsCustomRangesRequest {
+export interface CreateProjectsLocationsCustomRangesRequest extends CustomRange {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource name where the CustomRange will be created. */
   parent: string;
   /** Required. The ID to use for the CustomRange, which will become the final segment of the resource name. */
   customRangeId?: string | undefined;
-  /** Request body */
-  body?: CustomRange | undefined;
 }
 export type IpamAdminScopeEnabledAddonPlatformsItemEnum =
   | "ADD_ON_PLATFORM_UNSPECIFIED"
@@ -276,15 +270,13 @@ export interface IpamAdminScope {
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsIpamAdminScopesRequest {
+export interface CreateProjectsLocationsIpamAdminScopesRequest extends IpamAdminScope {
   /** Required. The ID to use for the IpamAdminScope, which will become the final segment of the resource name. */
   ipamAdminScopeId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource name where the IpamAdminScope will be created. */
   parent: string;
-  /** Request body */
-  body?: IpamAdminScope | undefined;
 }
 export type RealmManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "CNR" | "USER";
 export type DiscoveryMetadataStateEnum =
@@ -349,15 +341,13 @@ export interface Realm {
   /** Output only. Aggregated data for the Realm. Populated only when the view is AGGREGATE. */
   aggregatedData?: RealmAggregatedData | undefined;
 }
-export interface CreateProjectsLocationsRealmsRequest {
+export interface CreateProjectsLocationsRealmsRequest extends Realm {
   /** Required. The parent resource name where the Realm will be created. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
   requestId?: string | undefined;
   /** Required. The ID to use for the Realm, which will become the final segment of the resource name. */
   realmId?: string | undefined;
-  /** Request body */
-  body?: Realm | undefined;
 }
 /** Details of a scope (e.g. project or folder). */
 export interface ScopeInfo {
@@ -401,15 +391,13 @@ export interface RegistryBook {
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsRegistryBooksRequest {
+export interface CreateProjectsLocationsRegistryBooksRequest extends RegistryBook {
   /** Required. The ID to use for the RegistryBook, which will become the final segment of the resource name. */
   registryBookId?: string | undefined;
   /** Required. The parent resource name where the RegistryBook will be created. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: RegistryBook | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -459,11 +447,9 @@ export interface DeleteProjectsLocationsRegistryBooksRequest {
 }
 /** Request message for the CloudNumberRegistry.DisableIpamAdminScope method. */
 export type DisableIpamAdminScopeRequest = CleanupIpamAdminScopeRequest;
-export interface DisableProjectsLocationsIpamAdminScopesRequest {
+export interface DisableProjectsLocationsIpamAdminScopesRequest extends CleanupIpamAdminScopeRequest {
   /** Required. The resource name of the IpamAdminScope to disable. */
   name: string;
-  /** Request body */
-  body?: CleanupIpamAdminScopeRequest | undefined;
 }
 export interface FindFreeIpRangesProjectsLocationsCustomRangesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -818,45 +804,37 @@ export interface ListRegistryBooksResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsCustomRangesRequest {
+export interface PatchProjectsLocationsCustomRangesRequest extends Omit<CustomRange, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the CustomRange resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Required. Identifier. The resource name of the CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. */
   name: string;
-  /** Request body */
-  body?: CustomRange | undefined;
 }
-export interface PatchProjectsLocationsIpamAdminScopesRequest {
+export interface PatchProjectsLocationsIpamAdminScopesRequest extends Omit<IpamAdminScope, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the IpamAdminScope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Required. Identifier. The resource name of the IpamAdminScope. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: IpamAdminScope | undefined;
 }
-export interface PatchProjectsLocationsRealmsRequest {
+export interface PatchProjectsLocationsRealmsRequest extends Omit<Realm, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Realm resource by the update. */
   updateMask?: string | undefined;
   /** Required. Identifier. The resource name of the Realm. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Realm | undefined;
 }
-export interface PatchProjectsLocationsRegistryBooksRequest {
+export interface PatchProjectsLocationsRegistryBooksRequest extends Omit<RegistryBook, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Identifier. The resource name of the RegistryBook. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the RegistryBook resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RegistryBook | undefined;
 }
 export type SearchIpResourcesRequestSearchResourceTypesItemEnum =
   | "SEARCH_RESOURCE_TYPE_UNSPECIFIED"
@@ -880,11 +858,9 @@ export interface SearchIpResourcesRequest {
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
 }
-export interface SearchIpResourcesProjectsLocationsRegistryBooksRequest {
+export interface SearchIpResourcesProjectsLocationsRegistryBooksRequest extends SearchIpResourcesRequest {
   /** Required. The resource name of the RegistryBook to search in. */
   name: string;
-  /** Request body */
-  body?: SearchIpResourcesRequest | undefined;
 }
 /** Represents either a CustomRange or a DiscoveredRange. */
 export interface Range {
@@ -1915,12 +1891,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          customRangeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            customRangeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/customRanges",
@@ -1965,12 +1943,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ipamAdminScopeId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            ipamAdminScopeId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/ipamAdminScopes",
@@ -2006,12 +1986,14 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          realmId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            realmId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/realms",
@@ -2068,12 +2050,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          registryBookId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(83, __c10, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(83, __c10, 3),
+          S.Struct({
+            registryBookId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/registryBooks",
@@ -2245,10 +2229,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(456, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(456, __c57, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:disable",
@@ -2815,12 +2801,14 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2834,12 +2822,14 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2853,12 +2843,14 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2872,12 +2864,14 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(83, __c10, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(83, __c10, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -2902,10 +2896,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SearchIpResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:searchIpResources",
@@ -3026,10 +3022,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(456, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(456, __c57, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:cleanup",
@@ -3083,12 +3081,14 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          orgNumberRegistryId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(496, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            orgNumberRegistryId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/orgNumberRegistries",

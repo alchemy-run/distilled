@@ -141,11 +141,9 @@ export interface CheckConsistencyRequest {
   /** Checks that reads using an app profile with `DataBoostIsolationReadOnly` can see all writes committed before the token was created, but only if the read and write target the same cluster. */
   dataBoostReadLocalWrites?: StandardReadRemoteWrites | undefined;
 }
-export interface CheckConsistencyProjectsInstancesTablesRequest {
+export interface CheckConsistencyProjectsInstancesTablesRequest extends CheckConsistencyRequest {
   /** Required. The unique name of the Table for which to check replication consistency. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
-  /** Request body */
-  body?: CheckConsistencyRequest | undefined;
 }
 /** Response message for google.bigtable.admin.v2.BigtableTableAdmin.CheckConsistency */
 export interface CheckConsistencyResponse {
@@ -161,11 +159,9 @@ export interface CopyBackupRequest {
   /** Required. The source backup to be copied from. The source backup needs to be in READY state for it to be copied. Copying a copied backup is not allowed. Once CopyBackup is in progress, the source backup cannot be deleted or cleaned up on expiration until CopyBackup is finished. Values are of the form: `projects//instances//clusters//backups/`. */
   sourceBackup?: string | undefined;
 }
-export interface CopyProjectsInstancesClustersBackupsRequest {
+export interface CopyProjectsInstancesClustersBackupsRequest extends CopyBackupRequest {
   /** Required. The name of the destination cluster that will contain the backup copy. The cluster must already exist. Values are of the form: `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
-  /** Request body */
-  body?: CopyBackupRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -288,11 +284,9 @@ export interface CreateInstanceRequest {
   /** Required. The instance to create. Fields marked `OutputOnly` must be left blank. */
   instance?: Instance | undefined;
 }
-export interface CreateProjectsInstancesRequest {
+export interface CreateProjectsInstancesRequest extends Omit<CreateInstanceRequest, "parent"> {
   /** Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: CreateInstanceRequest | undefined;
 }
 export type AppProfilePriorityEnum =
   | "PRIORITY_UNSPECIFIED"
@@ -360,23 +354,19 @@ export interface AppProfile {
   /** The standard options used for isolating this app profile's traffic from other use cases. */
   standardIsolation?: StandardIsolation | undefined;
 }
-export interface CreateProjectsInstancesAppProfilesRequest {
+export interface CreateProjectsInstancesAppProfilesRequest extends AppProfile {
   /** Required. The ID to be used when referring to the new app profile within its instance, e.g., just `myprofile` rather than `projects/myproject/instances/myinstance/appProfiles/myprofile`. */
   appProfileId?: string | undefined;
   /** Required. The unique name of the instance in which to create the new app profile. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
   /** If true, ignore safety checks when creating the app profile. */
   ignoreWarnings?: boolean | undefined;
-  /** Request body */
-  body?: AppProfile | undefined;
 }
-export interface CreateProjectsInstancesClustersRequest {
+export interface CreateProjectsInstancesClustersRequest extends Cluster {
   /** Required. The unique name of the instance in which to create the new cluster. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
   /** Required. The ID to be used when referring to the new cluster within its instance, e.g., just `mycluster` rather than `projects/myproject/instances/myinstance/clusters/mycluster`. */
   clusterId?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 export type BackupBackupTypeEnum = "BACKUP_TYPE_UNSPECIFIED" | "STANDARD" | "HOT";
 export type EncryptionInfoEncryptionTypeEnum =
@@ -418,13 +408,11 @@ export interface Backup {
   /** Output only. Size of the backup in bytes. */
   sizeBytes?: string | undefined;
 }
-export interface CreateProjectsInstancesClustersBackupsRequest {
+export interface CreateProjectsInstancesClustersBackupsRequest extends Backup {
   /** Required. This must be one of the clusters in the instance in which this table is located. The backup will be stored in this cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
   /** Required. The id of the backup to be created. The `backup_id` along with the parent `parent` are combined as {parent}/backups/{backup_id} to create the full backup name, of the form: `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup_id}`. This string must be between 1 and 50 characters in length and match the regex _a-zA-Z0-9*. */
   backupId?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
 /** A SQL logical view object that can be referenced in SQL queries. */
 export interface LogicalView {
@@ -437,13 +425,11 @@ export interface LogicalView {
   /** Required. The logical view's select query. */
   query?: string | undefined;
 }
-export interface CreateProjectsInstancesLogicalViewsRequest {
+export interface CreateProjectsInstancesLogicalViewsRequest extends LogicalView {
   /** Required. The ID to use for the logical view, which will become the final component of the logical view's resource name. */
   logicalViewId?: string | undefined;
   /** Required. The parent instance where this logical view will be created. Format: `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: LogicalView | undefined;
 }
 export type GoogleBigtableAdminV2MaterializedViewClusterStateReplicationStateEnum =
   | "STATE_NOT_KNOWN"
@@ -473,15 +459,13 @@ export interface MaterializedView {
   /** Required. Immutable. The materialized view's select query. Views: `SCHEMA_VIEW`, `FULL`. */
   query?: string | undefined;
 }
-export interface CreateProjectsInstancesMaterializedViewsRequest {
+export interface CreateProjectsInstancesMaterializedViewsRequest extends MaterializedView {
   /** Required. The parent instance where this materialized view will be created. Format: `projects/{project}/instances/{instance}`. */
   parent: string;
   /** Optional. If true, ignore optional safety checks when creating the materialized view. */
   ignoreWarnings?: boolean | undefined;
   /** Required. The ID to use for the materialized view, which will become the final component of the materialized view's resource name. */
   materializedViewId?: string | undefined;
-  /** Request body */
-  body?: MaterializedView | undefined;
 }
 /** Defines rules used to convert to or from lower level types. */
 export type GoogleBigtableAdminV2TypeBoolEncoding = StandardReadRemoteWrites;
@@ -859,11 +843,9 @@ export interface CreateTableRequest {
   /** Required. The name by which the new table should be referred to within the parent instance, e.g., `foobar` rather than `{parent}/tables/foobar`. Maximum 50 characters. */
   tableId?: string | undefined;
 }
-export interface CreateProjectsInstancesTablesRequest {
+export interface CreateProjectsInstancesTablesRequest extends CreateTableRequest {
   /** Required. The unique name of the instance in which to create the table. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: CreateTableRequest | undefined;
 }
 /** Subsets of a column family that are included in this AuthorizedView. */
 export interface GoogleBigtableAdminV2AuthorizedViewFamilySubsets {
@@ -893,13 +875,11 @@ export interface AuthorizedView {
   /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
   name?: string | undefined;
 }
-export interface CreateProjectsInstancesTablesAuthorizedViewsRequest {
+export interface CreateProjectsInstancesTablesAuthorizedViewsRequest extends AuthorizedView {
   /** Required. This is the name of the table the AuthorizedView belongs to. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   parent: string;
   /** Required. The id of the AuthorizedView to create. This AuthorizedView must not already exist. The `authorized_view_id` appended to `parent` forms the full AuthorizedView name of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedView/{authorized_view}`. */
   authorizedViewId?: string | undefined;
-  /** Request body */
-  body?: AuthorizedView | undefined;
 }
 /** Represents a collection of Avro schemas. */
 export interface AvroSchema {
@@ -922,13 +902,11 @@ export interface SchemaBundle {
   /** Schema for Protobufs. */
   protoSchema?: ProtoSchema | undefined;
 }
-export interface CreateProjectsInstancesTablesSchemaBundlesRequest {
+export interface CreateProjectsInstancesTablesSchemaBundlesRequest extends SchemaBundle {
   /** Required. The parent resource where this schema bundle will be created. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   parent: string;
   /** Required. The unique ID to use for the schema bundle, which will become the final component of the schema bundle's resource name. */
   schemaBundleId?: string | undefined;
-  /** Request body */
-  body?: SchemaBundle | undefined;
 }
 export interface DeleteProjectsInstancesRequest {
   /** Required. The unique name of the instance to be deleted. Values are of the form `projects/{project}/instances/{instance}`. */
@@ -985,11 +963,9 @@ export interface DropRowRangeRequest {
   /** Delete all rows in the table. Setting this to false is a no-op. */
   deleteAllDataFromTable?: boolean | undefined;
 }
-export interface DropRowRangeProjectsInstancesTablesRequest {
+export interface DropRowRangeProjectsInstancesTablesRequest extends DropRowRangeRequest {
   /** Required. The unique name of the table on which to drop a range of rows. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
-  /** Request body */
-  body?: DropRowRangeRequest | undefined;
 }
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.GenerateConsistencyToken */
 export type GenerateConsistencyTokenRequest = StandardReadRemoteWrites;
@@ -1014,11 +990,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesRequest {
+export interface GetIamPolicyProjectsInstancesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -1073,41 +1047,29 @@ export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
 }
-export interface GetIamPolicyProjectsInstancesClustersBackupsRequest {
+export interface GetIamPolicyProjectsInstancesClustersBackupsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsInstancesLogicalViewsRequest {
+export interface GetIamPolicyProjectsInstancesLogicalViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsInstancesMaterializedViewsRequest {
+export interface GetIamPolicyProjectsInstancesMaterializedViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsInstancesTablesRequest {
+export interface GetIamPolicyProjectsInstancesTablesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
+export interface GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
+export interface GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetMemoryLayerProjectsInstancesClustersRequest {
   /** Required. The unique name of the requested cluster's memory layer. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer`. */
@@ -1511,91 +1473,83 @@ export interface ModifyColumnFamiliesRequest {
   /** Optional. If true, ignore safety checks when modifying the column families. */
   ignoreWarnings?: boolean | undefined;
 }
-export interface ModifyColumnFamiliesProjectsInstancesTablesRequest {
+export interface ModifyColumnFamiliesProjectsInstancesTablesRequest extends ModifyColumnFamiliesRequest {
   /** Required. The unique name of the table whose families should be modified. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
-  /** Request body */
-  body?: ModifyColumnFamiliesRequest | undefined;
 }
-export interface PartialUpdateClusterProjectsInstancesClustersRequest {
+export interface PartialUpdateClusterProjectsInstancesClustersRequest extends Omit<
+  Cluster,
+  "name"
+> {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
   /** Required. The subset of Cluster fields which should be replaced. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
-export interface PartialUpdateInstanceProjectsInstancesRequest {
+export interface PartialUpdateInstanceProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
   /** Required. The subset of Instance fields which should be replaced. Must be explicitly set. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
-export interface PatchProjectsInstancesAppProfilesRequest {
+export interface PatchProjectsInstancesAppProfilesRequest extends Omit<AppProfile, "name"> {
   /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
   name: string;
   /** Required. The subset of app profile fields which should be replaced. If unset, all fields will be replaced. */
   updateMask?: string | undefined;
   /** If true, ignore safety checks when updating the app profile. */
   ignoreWarnings?: boolean | undefined;
-  /** Request body */
-  body?: AppProfile | undefined;
 }
-export interface PatchProjectsInstancesClustersBackupsRequest {
+export interface PatchProjectsInstancesClustersBackupsRequest extends Omit<Backup, "name"> {
   /** A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   name: string;
   /** Required. A mask specifying which fields (e.g. `expire_time`) in the Backup resource should be updated. This mask is relative to the Backup resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally by clients that do not know about them. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface PatchProjectsInstancesLogicalViewsRequest {
+export interface PatchProjectsInstancesLogicalViewsRequest extends Omit<LogicalView, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
   name: string;
-  /** Request body */
-  body?: LogicalView | undefined;
 }
-export interface PatchProjectsInstancesMaterializedViewsRequest {
+export interface PatchProjectsInstancesMaterializedViewsRequest extends Omit<
+  MaterializedView,
+  "name"
+> {
   /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: MaterializedView | undefined;
 }
-export interface PatchProjectsInstancesTablesRequest {
+export interface PatchProjectsInstancesTablesRequest extends Omit<Table, "name"> {
   /** The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
   name: string;
   /** Optional. If true, ignore safety checks when updating the table. */
   ignoreWarnings?: boolean | undefined;
   /** Required. The list of fields to update. A mask specifying which fields (e.g. `change_stream_config`) in the `table` field should be updated. This mask is relative to the `table` field, not to the request message. The wildcard (*) path is currently not supported. Currently UpdateTable is only supported for the following fields: * `change_stream_config` * `change_stream_config.retention_period` * `deletion_protection` * `automated_backup_policy` * `automated_backup_policy.retention_period` * `automated_backup_policy.frequency` * `automated_backup_policy.locations` * `row_key_schema` If `column_families` is set in `update_mask`, it will return an UNIMPLEMENTED error. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Table | undefined;
 }
-export interface PatchProjectsInstancesTablesAuthorizedViewsRequest {
+export interface PatchProjectsInstancesTablesAuthorizedViewsRequest extends Omit<
+  AuthorizedView,
+  "name"
+> {
   /** Optional. If true, ignore the safety checks when updating the AuthorizedView. */
   ignoreWarnings?: boolean | undefined;
   /** Optional. The list of fields to update. A mask specifying which fields in the AuthorizedView resource should be updated. This mask is relative to the AuthorizedView resource, not to the request message. A field will be overwritten if it is in the mask. If empty, all fields set in the request will be overwritten. A special value `*` means to overwrite all fields (including fields not set in the request). */
   updateMask?: string | undefined;
   /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
   name: string;
-  /** Request body */
-  body?: AuthorizedView | undefined;
 }
-export interface PatchProjectsInstancesTablesSchemaBundlesRequest {
+export interface PatchProjectsInstancesTablesSchemaBundlesRequest extends Omit<
+  SchemaBundle,
+  "name"
+> {
   /** Optional. If set, ignore the safety checks when updating the Schema Bundle. The safety checks are: - The new Schema Bundle is backwards compatible with the existing Schema Bundle. */
   ignoreWarnings?: boolean | undefined;
   /** Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SchemaBundle | undefined;
 }
 /** The request for RestoreTable. */
 export interface RestoreTableRequest {
@@ -1604,11 +1558,9 @@ export interface RestoreTableRequest {
   /** Required. The id of the table to create and restore to. This table must not already exist. The `table_id` appended to `parent` forms the full table name of the form `projects//instances//tables/`. */
   tableId?: string | undefined;
 }
-export interface RestoreProjectsInstancesTablesRequest {
+export interface RestoreProjectsInstancesTablesRequest extends RestoreTableRequest {
   /** Required. The name of the instance in which to create the restored table. Values are of the form `projects//instances/`. */
   parent: string;
-  /** Request body */
-  body?: RestoreTableRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1617,99 +1569,71 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesRequest {
+export interface SetIamPolicyProjectsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesClustersBackupsRequest {
+export interface SetIamPolicyProjectsInstancesClustersBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesLogicalViewsRequest {
+export interface SetIamPolicyProjectsInstancesLogicalViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesMaterializedViewsRequest {
+export interface SetIamPolicyProjectsInstancesMaterializedViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesTablesRequest {
+export interface SetIamPolicyProjectsInstancesTablesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
+export interface SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
+export interface SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesRequest {
+export interface TestIamPermissionsProjectsInstancesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesClustersBackupsRequest {
+export interface TestIamPermissionsProjectsInstancesClustersBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesLogicalViewsRequest {
+export interface TestIamPermissionsProjectsInstancesLogicalViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesMaterializedViewsRequest {
+export interface TestIamPermissionsProjectsInstancesMaterializedViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesTablesRequest {
+export interface TestIamPermissionsProjectsInstancesTablesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest {
+export interface TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest {
+export interface TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.UndeleteTable */
 export type UndeleteTableRequest = StandardReadRemoteWrites;
@@ -1719,25 +1643,22 @@ export interface UndeleteProjectsInstancesTablesRequest {
   /** Request body */
   body?: StandardReadRemoteWrites | undefined;
 }
-export interface UpdateMemoryLayerProjectsInstancesClustersRequest {
+export interface UpdateMemoryLayerProjectsInstancesClustersRequest extends Omit<
+  MemoryLayer,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
   name: string;
-  /** Request body */
-  body?: MemoryLayer | undefined;
 }
-export interface UpdateProjectsInstancesRequest {
+export interface UpdateProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
-  /** Request body */
-  body?: Instance | undefined;
 }
-export interface UpdateProjectsInstancesClustersRequest {
+export interface UpdateProjectsInstancesClustersRequest extends Omit<Cluster, "name"> {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 export type CheckConsistencyProjectsInstancesTablesError =
   | NotFound
@@ -3519,12 +3440,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appProfileId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(68, __c2, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(68, __c2, 4),
+          S.Struct({
+            appProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/appProfiles",
@@ -3588,11 +3511,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/clusters",
@@ -3606,11 +3531,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/backups",
@@ -3656,11 +3583,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          logicalViewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            logicalViewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logicalViews",
@@ -3687,12 +3616,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          materializedViewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            materializedViewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/materializedViews",
@@ -3744,10 +3675,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateTableRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(354, __c11, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(354, __c11, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tables",
@@ -4064,11 +3997,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authorizedViewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(483, __c15, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(483, __c15, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            authorizedViewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/authorizedViews",
@@ -4111,11 +4046,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          schemaBundleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            schemaBundleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/schemaBundles",
@@ -4310,10 +4247,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DropRowRangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:dropRowRange",
@@ -4350,10 +4289,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4433,10 +4374,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4450,10 +4393,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4467,10 +4412,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4484,10 +4431,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4501,10 +4450,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4518,10 +4469,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -5140,10 +5093,12 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ModifyColumnFamiliesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2018, __c63, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2018, __c63, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:modifyColumnFamilies",
@@ -5157,11 +5112,13 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5175,11 +5132,13 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5193,12 +5152,14 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(68, __c2, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(68, __c2, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5212,11 +5173,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5230,11 +5193,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5248,11 +5213,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5266,12 +5233,14 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(425, __c13, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(425, __c13, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5285,12 +5254,14 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(483, __c15, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(483, __c15, 3),
+          S.Struct({
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5304,12 +5275,14 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5331,10 +5304,12 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CheckConsistencyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:checkConsistency",
@@ -5367,10 +5342,12 @@ function __c75(j: number): any {
       ).annotate({ identifier: "RestoreTableRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tables:restore",
@@ -5384,10 +5361,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5412,10 +5391,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5429,10 +5410,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5446,10 +5429,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5463,10 +5448,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5480,10 +5467,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5497,10 +5486,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5514,10 +5505,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5541,10 +5534,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5566,10 +5561,12 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CopyBackupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/backups:copy",
@@ -5617,10 +5614,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5634,10 +5633,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5651,10 +5652,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5668,10 +5671,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5685,10 +5690,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5719,11 +5726,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1249, __c39, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5737,10 +5746,12 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+name}",
@@ -5754,10 +5765,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+name}",
@@ -5782,10 +5795,12 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3201, __c100, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/instances",

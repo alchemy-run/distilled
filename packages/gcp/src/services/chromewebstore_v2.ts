@@ -231,11 +231,9 @@ export interface PublishItemRequest {
   /** Optional. Additional deploy information including the desired initial percentage rollout. Defaults to the current value saved in the developer dashboard if unset. */
   deployInfos?: DeployInfoList | undefined;
 }
-export interface PublishPublishersItemsRequest {
+export interface PublishPublishersItemsRequest extends PublishItemRequest {
   /** Required. Name of the item in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
-  /** Request body */
-  body?: PublishItemRequest | undefined;
 }
 /** Represents a single warning encountered during the request. */
 export interface Warning {
@@ -341,11 +339,9 @@ export interface RollbackItemRequest {
   /** Required. The reason for the rollback that will be used for internal auditing and developer dashboard visibility. */
   rollbackReason?: string | undefined;
 }
-export interface RollbackPublishersItemsRequest {
+export interface RollbackPublishersItemsRequest extends RollbackItemRequest {
   /** Required. Name of the item to rollback in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
-  /** Request body */
-  body?: RollbackItemRequest | undefined;
 }
 /** Response message for `RollbackItem`. */
 export interface RollbackItemResponse {}
@@ -354,11 +350,9 @@ export interface SetPublishedDeployPercentageRequest {
   /** Required. Unscaled percentage value for the publised revision (nonnegative number between 0 and 100). It must be larger than the existing target percentage. */
   deployPercentage?: number | undefined;
 }
-export interface SetPublishedDeployPercentagePublishersItemsRequest {
+export interface SetPublishedDeployPercentagePublishersItemsRequest extends SetPublishedDeployPercentageRequest {
   /** Required. Name of the item to update the published revision of in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
-  /** Request body */
-  body?: SetPublishedDeployPercentageRequest | undefined;
 }
 /** Response message for `SetPublishedDeployPercentage`. */
 export interface SetPublishedDeployPercentageResponse {}
@@ -573,10 +567,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "RollbackItemRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:rollback",
@@ -590,10 +586,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:setPublishedDeployPercentage",
@@ -788,10 +786,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PublishItemRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:publish",

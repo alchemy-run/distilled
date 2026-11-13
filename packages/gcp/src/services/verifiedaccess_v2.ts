@@ -100,10 +100,7 @@ export interface VerifyChallengeResponseRequest {
   /** Optional. Service can optionally provide identity information about the device or user associated with the key. For an EMK, this value is the enrolled domain. For an EUK, this value is the user's email address. If present, this value will be checked against contents of the response, and verification will fail if there is no match. */
   expectedIdentity?: string | undefined;
 }
-export interface VerifyChallengeRequest {
-  /** Request body */
-  body?: VerifyChallengeResponseRequest | undefined;
-}
+export interface VerifyChallengeRequest extends VerifyChallengeResponseRequest {}
 export type VerifyChallengeResponseResultKeyTrustLevelEnum =
   | "KEY_TRUST_LEVEL_UNSPECIFIED"
   | "CHROME_OS_VERIFIED_MODE"
@@ -350,9 +347,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "VerifyChallengeResponseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(8, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/challenge:verify",

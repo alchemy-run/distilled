@@ -90,10 +90,7 @@ export interface AnswerQueryRequest {
   /** Required. The query to answer. */
   query?: string | undefined;
 }
-export interface AnswerQueryV1alphaRequest {
-  /** Request body */
-  body?: AnswerQueryRequest | undefined;
-}
+export interface AnswerQueryV1alphaRequest extends AnswerQueryRequest {}
 export type DocumentViewEnum =
   | "DOCUMENT_VIEW_UNSPECIFIED"
   | "DOCUMENT_VIEW_BASIC"
@@ -303,9 +300,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AnswerQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha:answerQuery",

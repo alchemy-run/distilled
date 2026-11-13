@@ -187,11 +187,9 @@ export interface GoogleCloudWebriskV1Submission {
   /** Required. The URI that is being reported for malicious content to be analyzed. */
   uri?: string | undefined;
 }
-export interface CreateProjectsSubmissionsRequest {
+export interface CreateProjectsSubmissionsRequest extends GoogleCloudWebriskV1Submission {
   /** Required. The name of the project that is making the submission. This string is in the format "projects/{project_number}". */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudWebriskV1Submission | undefined;
 }
 export interface DeleteProjectsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -656,10 +654,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GoogleCloudWebriskV1Submission" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/submissions",

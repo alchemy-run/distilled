@@ -143,11 +143,9 @@ export interface GoogleCloudApigeeV1AdjustAppGroupBalanceRequest {
   /** Required. * A positive value of `adjustment` means that that the API provider wants to adjust the balance for an under-charged AppGroup i.e. the balance of the AppGroup will decrease. * A negative value of `adjustment` is not supported. Use credit balance API instead. */
   adjustment?: GoogleTypeMoney | undefined;
 }
-export interface AdjustOrganizationsAppgroupsBalanceRequest {
+export interface AdjustOrganizationsAppgroupsBalanceRequest extends GoogleCloudApigeeV1AdjustAppGroupBalanceRequest {
   /** Required. Account balance for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/balance` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AdjustAppGroupBalanceRequest | undefined;
 }
 /** Wallet used to manage an account balance for a particular currency. */
 export interface GoogleCloudApigeeV1AppGroupBalanceWallet {
@@ -168,11 +166,9 @@ export interface GoogleCloudApigeeV1AdjustDeveloperBalanceRequest {
   /** * A positive value of `adjustment` means that that the API provider wants to adjust the balance for an under-charged developer i.e. the balance of the developer will decrease. * A negative value of `adjustment` means that that the API provider wants to adjust the balance for an over-charged developer i.e. the balance of the developer will increase. NOTE: An adjustment cannot increase the balance of the developer beyond the balance as of the most recent credit. For example, if a developer's balance is updated to be $100, and they spend $10, a negative adjustment can only increase the balance of the developer to $100. */
   adjustment?: GoogleTypeMoney | undefined;
 }
-export interface AdjustOrganizationsDevelopersBalanceRequest {
+export interface AdjustOrganizationsDevelopersBalanceRequest extends GoogleCloudApigeeV1AdjustDeveloperBalanceRequest {
   /** Required. Account balance for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/balance` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AdjustDeveloperBalanceRequest | undefined;
 }
 /** Wallet used to manage an account balance for a particular currency. */
 export interface GoogleCloudApigeeV1DeveloperBalanceWallet {
@@ -198,11 +194,9 @@ export interface GoogleCloudApigeeV1FlowHook {
   /** Output only. Where in the API call flow the flow hook is invoked. Must be one of `PreProxyFlowHook`, `PostProxyFlowHook`, `PreTargetFlowHook`, or `PostTargetFlowHook`. */
   flowHookPoint?: string | undefined;
 }
-export interface AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksRequest {
+export interface AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksRequest extends GoogleCloudApigeeV1FlowHook {
   /** Required. Name of the flow hook to which the shared flow should be attached in the following format: `organizations/{org}/environments/{env}/flowhooks/{flowhook}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1FlowHook | undefined;
 }
 /** Key-value pair to store extra metadata. */
 export interface GoogleCloudApigeeV1Attribute {
@@ -216,23 +210,17 @@ export interface GoogleCloudApigeeV1Attributes {
   /** List of attributes. */
   attribute?: GoogleCloudApigeeV1AttributeList | undefined;
 }
-export interface AttributesOrganizationsApiproductsRequest {
+export interface AttributesOrganizationsApiproductsRequest extends GoogleCloudApigeeV1Attributes {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Attributes | undefined;
 }
-export interface AttributesOrganizationsDevelopersRequest {
+export interface AttributesOrganizationsDevelopersRequest extends GoogleCloudApigeeV1Attributes {
   /** Required. Email address of the developer for which attributes are being updated. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Attributes | undefined;
 }
-export interface AttributesOrganizationsDevelopersAppsRequest {
+export interface AttributesOrganizationsDevelopersAppsRequest extends GoogleCloudApigeeV1Attributes {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Attributes | undefined;
 }
 export type StringList = Array<string>;
 /** Message for the array of API Hub Gateways. */
@@ -296,11 +284,9 @@ export interface GoogleCloudApigeeV1BatchComputeSecurityAssessmentResultsRequest
     | GoogleCloudApigeeV1BatchComputeSecurityAssessmentResultsRequestApiHubApiArray
     | undefined;
 }
-export interface BatchComputeOrganizationsSecurityAssessmentResultsRequest {
+export interface BatchComputeOrganizationsSecurityAssessmentResultsRequest extends GoogleCloudApigeeV1BatchComputeSecurityAssessmentResultsRequest {
   /** Required. Name of the organization for which the score needs to be computed in the following format: `organizations/{org}/securityAssessmentResults` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1BatchComputeSecurityAssessmentResultsRequest | undefined;
 }
 export type GoogleCloudApigeeV1SecurityAssessmentResultScoringResultAssessmentRecommendationWeightEnum =
   | "WEIGHT_UNSPECIFIED"
@@ -489,11 +475,9 @@ export interface GoogleCloudApigeeV1BatchUpdateSecurityIncidentsRequest {
   /** Optional. Required. The request message specifying the resources to update. A maximum of 1000 can be modified in a batch. */
   requests?: GoogleCloudApigeeV1UpdateSecurityIncidentRequestList | undefined;
 }
-export interface BatchUpdateOrganizationsEnvironmentsSecurityIncidentsRequest {
+export interface BatchUpdateOrganizationsEnvironmentsSecurityIncidentsRequest extends GoogleCloudApigeeV1BatchUpdateSecurityIncidentsRequest {
   /** Optional. The parent resource shared by all security incidents being updated. If this is set, the parent field in the UpdateSecurityIncidentRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1BatchUpdateSecurityIncidentsRequest | undefined;
 }
 export type GoogleCloudApigeeV1SecurityIncidentList = Array<GoogleCloudApigeeV1SecurityIncident>;
 /** Response for BatchUpdateSecurityIncident. */
@@ -526,11 +510,9 @@ export interface GoogleCloudApigeeV1ComputeEnvironmentScoresRequest {
   /** Required. Time range for score calculation. At most 14 days of scores will be returned, and both the start and end dates must be within the last 90 days. */
   timeRange?: GoogleTypeInterval | undefined;
 }
-export interface ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsRequest {
+export interface ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsRequest extends GoogleCloudApigeeV1ComputeEnvironmentScoresRequest {
   /** Required. Name of organization and environment and profile id for which score needs to be computed. Format: organizations/{org}/securityProfiles/{profile}/environments/{env} */
   profileEnvironment: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ComputeEnvironmentScoresRequest | undefined;
 }
 /** Action context are all the relevant details for the action. */
 export interface GoogleCloudApigeeV1ScoreComponentRecommendationActionActionContext {
@@ -762,11 +744,9 @@ export interface GoogleCloudApigeeV1Organization {
   /** Optional. Display name for the Apigee organization. Unused, but reserved for future use. */
   displayName?: string | undefined;
 }
-export interface CreateOrganizationsRequest {
+export interface CreateOrganizationsRequest extends GoogleCloudApigeeV1Organization {
   /** Required. Name of the Google Cloud project in which to associate the Apigee organization. Pass the information as a query parameter using the following structure in your request: `projects/` */
   parent?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Organization | undefined;
 }
 /** Configuration detail for datastore */
 export interface GoogleCloudApigeeV1DatastoreConfig {
@@ -798,11 +778,9 @@ export interface GoogleCloudApigeeV1Datastore {
   /** Output only. Resource link of Datastore. Example: `/organizations/{org}/analytics/datastores/{uuid}` */
   self?: string | undefined;
 }
-export interface CreateOrganizationsAnalyticsDatastoresRequest {
+export interface CreateOrganizationsAnalyticsDatastoresRequest extends GoogleCloudApigeeV1Datastore {
   /** Required. The parent organization name. Must be of the form `organizations/{org}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Datastore | undefined;
 }
 export type GoogleCloudApigeeV1ApimServiceExtensionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -868,13 +846,11 @@ export interface GoogleCloudApigeeV1ApimServiceExtension {
   /** Required. Name of the Google Cloud LB forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule} projects/{project}/global/forwardingRules/{forwarding_rule} */
   lbForwardingRule?: string | undefined;
 }
-export interface CreateOrganizationsApimServiceExtensionsRequest {
+export interface CreateOrganizationsApimServiceExtensionsRequest extends GoogleCloudApigeeV1ApimServiceExtension {
   /** Required. Name of the organization in which the service extension will be created. Use the following structure in your request: `organizations/{org}` */
   parent: string;
   /** Optional. ID used to uniquely identify of the service extension. It must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. */
   apimServiceExtensionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApimServiceExtension | undefined;
 }
 /** Quota contains the essential parameters needed that can be applied on the resources, methods, API source combination associated with this API product. While Quota is optional, setting it prevents requests from exceeding the provisioned parameters. */
 export interface GoogleCloudApigeeV1Quota {
@@ -1079,11 +1055,9 @@ export interface GoogleCloudApigeeV1ApiProduct {
   /** Time unit defined for the `quotaInterval`. Valid values include `minute`, `hour`, `day`, or `month`. */
   quotaTimeUnit?: string | undefined;
 }
-export interface CreateOrganizationsApiproductsRequest {
+export interface CreateOrganizationsApiproductsRequest extends GoogleCloudApigeeV1ApiProduct {
   /** Required. Name of the organization in which the API product will be created. Use the following structure in your request: `organizations/{org}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiProduct | undefined;
 }
 /** API call volume range and the fees charged when the total number of API calls is within the range. */
 export interface GoogleCloudApigeeV1RateRange {
@@ -1171,11 +1145,9 @@ export interface GoogleCloudApigeeV1RatePlan {
   /** Description of the rate plan. */
   description?: string | undefined;
 }
-export interface CreateOrganizationsApiproductsRateplansRequest {
+export interface CreateOrganizationsApiproductsRateplansRequest extends GoogleCloudApigeeV1RatePlan {
   /** Required. Name of the API product that is associated with the rate plan. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1RatePlan | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface GoogleApiHttpBody {
@@ -1186,7 +1158,7 @@ export interface GoogleApiHttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
   contentType?: string | undefined;
 }
-export interface CreateOrganizationsApisRequest {
+export interface CreateOrganizationsApisRequest extends GoogleApiHttpBody {
   /** Name of the API proxy. Restrict the characters used to: A-Za-z0-9._- */
   name?: string | undefined;
   /** Optional. The ID of the space associated with this proxy. Any IAM policies applied to the space will affect access to this proxy. Note that this field is only respected when creating a new proxy. It has no effect when creating a new revision for an existing proxy. */
@@ -1197,8 +1169,6 @@ export interface CreateOrganizationsApisRequest {
   action?: string | undefined;
   /** Ignored. All uploads are validated regardless of the value of this field. Maintained for compatibility with Apigee Edge API. */
   validate?: boolean | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Metadata about a resource file. */
@@ -1285,11 +1255,9 @@ export interface GoogleCloudApigeeV1KeyValueMap {
   /** Required. ID of the key value map. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsApisKeyvaluemapsRequest {
+export interface CreateOrganizationsApisKeyvaluemapsRequest extends GoogleCloudApigeeV1KeyValueMap {
   /** Required. Name of the environment in which to create the key value map. Use the following structure in your request: `organizations/{org}/apis/{api}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueMap | undefined;
 }
 /** Key value map pair where the value represents the data associated with the corresponding key. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface GoogleCloudApigeeV1KeyValueEntry {
@@ -1298,11 +1266,9 @@ export interface GoogleCloudApigeeV1KeyValueEntry {
   /** Required. Data or payload that is being retrieved and associated with the unique key. */
   value?: string | undefined;
 }
-export interface CreateOrganizationsApisKeyvaluemapsEntriesRequest {
+export interface CreateOrganizationsApisKeyvaluemapsEntriesRequest extends GoogleCloudApigeeV1KeyValueEntry {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueEntry | undefined;
 }
 /** AppGroup contains the request/response fields representing the logical grouping of apps. Note that appgroup_id, create_time and update_time cannot be changed by the user, and gets updated by the system. The name and the organization once provided cannot be edited subsequently. */
 export interface GoogleCloudApigeeV1AppGroup {
@@ -1329,11 +1295,9 @@ export interface GoogleCloudApigeeV1AppGroup {
   /** Valid values are `active` or `inactive`. Note that the status of the AppGroup should be updated via UpdateAppGroupRequest by setting the action as `active` or `inactive`. */
   status?: string | undefined;
 }
-export interface CreateOrganizationsAppgroupsRequest {
+export interface CreateOrganizationsAppgroupsRequest extends GoogleCloudApigeeV1AppGroup {
   /** Required. Name of the Apigee organization in which the AppGroup is created. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AppGroup | undefined;
 }
 export interface GoogleCloudApigeeV1ApiProductRef {
   /** Name of the API product. */
@@ -1388,11 +1352,9 @@ export interface GoogleCloudApigeeV1AppGroupApp {
   /** Output only. Set of credentials for the AppGroup app consisting of the consumer key/secret pairs associated with the API products. */
   credentials?: GoogleCloudApigeeV1CredentialList | undefined;
 }
-export interface CreateOrganizationsAppgroupsAppsRequest {
+export interface CreateOrganizationsAppgroupsAppsRequest extends GoogleCloudApigeeV1AppGroupApp {
   /** Required. Name of the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AppGroupApp | undefined;
 }
 /** APIProductAssociation has the API product and its administrative state association. */
 export interface GoogleCloudApigeeV1APIProductAssociation {
@@ -1424,11 +1386,9 @@ export interface GoogleCloudApigeeV1AppGroupAppKey {
   /** Output only. List of API products and its status for which the credential can be used. **Note**: Use UpdateAppGroupAppKeyApiProductRequest API to make the association after the consumer key and secret are created. */
   apiProducts?: GoogleCloudApigeeV1APIProductAssociationList | undefined;
 }
-export interface CreateOrganizationsAppgroupsAppsKeysRequest {
+export interface CreateOrganizationsAppgroupsAppsKeysRequest extends GoogleCloudApigeeV1AppGroupAppKey {
   /** Required. Parent of the AppGroup app key. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AppGroupAppKey | undefined;
 }
 /** AppGroup Subscription details. */
 export interface GoogleCloudApigeeV1AppGroupSubscription {
@@ -1445,11 +1405,9 @@ export interface GoogleCloudApigeeV1AppGroupSubscription {
   /** Output only. Name of the API product subscription. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsAppgroupsSubscriptionsRequest {
+export interface CreateOrganizationsAppgroupsSubscriptionsRequest extends GoogleCloudApigeeV1AppGroupSubscription {
   /** Required. Name of the appgroup that is purchasing a subscription to the API product. Use the following structure in your request: `organizations/{org}/appgroups/{appgroup}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AppGroupSubscription | undefined;
 }
 export type GoogleCloudApigeeV1DataCollectorTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -1471,13 +1429,11 @@ export interface GoogleCloudApigeeV1DataCollector {
   /** Output only. The time at which the data collector was created in milliseconds since the epoch. */
   createdAt?: string | undefined;
 }
-export interface CreateOrganizationsDatacollectorsRequest {
+export interface CreateOrganizationsDatacollectorsRequest extends GoogleCloudApigeeV1DataCollector {
   /** Required. Name of the organization in which to create the data collector in the following format: `organizations/{org}`. */
   parent: string;
   /** ID of the data collector. Overrides any ID in the data collector resource. Must be a string beginning with `dc_` that contains only letters, numbers, and underscores. */
   dataCollectorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DataCollector | undefined;
 }
 export interface GoogleCloudApigeeV1Developer {
   /** Developer app family. */
@@ -1509,11 +1465,9 @@ export interface GoogleCloudApigeeV1Developer {
   /** Required. First name of the developer. */
   firstName?: string | undefined;
 }
-export interface CreateOrganizationsDevelopersRequest {
+export interface CreateOrganizationsDevelopersRequest extends GoogleCloudApigeeV1Developer {
   /** Required. Name of the Apigee organization in which the developer is created. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Developer | undefined;
 }
 export interface GoogleCloudApigeeV1DeveloperApp {
   /** List of attributes for the developer app. */
@@ -1543,11 +1497,9 @@ export interface GoogleCloudApigeeV1DeveloperApp {
   /** Status of the credential. Valid values include `approved` or `revoked`. */
   status?: string | undefined;
 }
-export interface CreateOrganizationsDevelopersAppsRequest {
+export interface CreateOrganizationsDevelopersAppsRequest extends GoogleCloudApigeeV1DeveloperApp {
   /** Required. Name of the developer. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperApp | undefined;
 }
 export type DocumentList = Array<unknown>;
 export interface GoogleCloudApigeeV1DeveloperAppKey {
@@ -1570,17 +1522,13 @@ export interface GoogleCloudApigeeV1DeveloperAppKey {
   /** Input only. Expiration time, in seconds, for the consumer key. If not set or left to the default value of `-1`, the API key never expires. The expiration time can't be updated after it is set. */
   expiresInSeconds?: string | undefined;
 }
-export interface CreateOrganizationsDevelopersAppsKeysRequest {
+export interface CreateOrganizationsDevelopersAppsKeysRequest extends GoogleCloudApigeeV1DeveloperAppKey {
   /** Parent of the developer app key. Use the following structure in your request: 'organizations/{org}/developers/{developerEmail}/apps/{appName}' */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperAppKey | undefined;
 }
-export interface CreateOrganizationsDevelopersAppsKeysCreateRequest {
+export interface CreateOrganizationsDevelopersAppsKeysCreateRequest extends GoogleCloudApigeeV1DeveloperAppKey {
   /** Parent of the developer app key. Use the following structure in your request: 'organizations/{org}/developers/{developerEmail}/apps/{appName}' */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperAppKey | undefined;
 }
 /** Structure of a DeveloperSubscription. */
 export interface GoogleCloudApigeeV1DeveloperSubscription {
@@ -1597,11 +1545,9 @@ export interface GoogleCloudApigeeV1DeveloperSubscription {
   /** Output only. Time when the API product subscription was created in milliseconds since epoch. */
   createdAt?: string | undefined;
 }
-export interface CreateOrganizationsDevelopersSubscriptionsRequest {
+export interface CreateOrganizationsDevelopersSubscriptionsRequest extends GoogleCloudApigeeV1DeveloperSubscription {
   /** Required. Email address of the developer that is purchasing a subscription to the API product. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperSubscription | undefined;
 }
 export type GoogleCloudApigeeV1DnsZoneStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1633,13 +1579,11 @@ export interface GoogleCloudApigeeV1DnsZone {
   /** DNS PEERING zone configuration. */
   peeringConfig?: GoogleCloudApigeeV1DnsZonePeeringConfig | undefined;
 }
-export interface CreateOrganizationsDnsZonesRequest {
+export interface CreateOrganizationsDnsZonesRequest extends GoogleCloudApigeeV1DnsZone {
   /** Required. Organization where the DNS zone will be created. */
   parent: string;
   /** Required. User assigned ID for this resource. Must be unique within the organization. The name must be 1-63 characters long, must begin with a letter, end with a letter or digit, and only contain lowercase letters, digits or dashes. */
   dnsZoneId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DnsZone | undefined;
 }
 export type GoogleCloudApigeeV1EndpointAttachmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1675,13 +1619,11 @@ export interface GoogleCloudApigeeV1EndpointAttachment {
     | (string & {})
     | undefined;
 }
-export interface CreateOrganizationsEndpointAttachmentsRequest {
+export interface CreateOrganizationsEndpointAttachmentsRequest extends GoogleCloudApigeeV1EndpointAttachment {
   /** Required. Organization the endpoint attachment will be created in. */
   parent: string;
   /** ID to use for the endpoint attachment. ID must start with a lowercase letter followed by up to 31 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. The minimum length is 2. */
   endpointAttachmentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1EndpointAttachment | undefined;
 }
 export type GoogleCloudApigeeV1EnvironmentGroupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1702,13 +1644,14 @@ export interface GoogleCloudApigeeV1EnvironmentGroup {
   /** ID of the environment group. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsEnvgroupsRequest {
+export interface CreateOrganizationsEnvgroupsRequest extends Omit<
+  GoogleCloudApigeeV1EnvironmentGroup,
+  "name"
+> {
   /** Required. Name of the organization in which to create the environment group in the following format: `organizations/{org}`. */
   parent: string;
   /** Optional. ID of the environment group. Overrides any ID in the environment_group resource. */
   name?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1EnvironmentGroup | undefined;
 }
 /** EnvironmentGroupAttachment is a resource which defines an attachment of an environment to an environment group. */
 export interface GoogleCloudApigeeV1EnvironmentGroupAttachment {
@@ -1721,11 +1664,9 @@ export interface GoogleCloudApigeeV1EnvironmentGroupAttachment {
   /** ID of the environment group attachment. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsEnvgroupsAttachmentsRequest {
+export interface CreateOrganizationsEnvgroupsAttachmentsRequest extends GoogleCloudApigeeV1EnvironmentGroupAttachment {
   /** Required. EnvironmentGroup under which to create the attachment in the following format: `organizations/{org}/envgroups/{envgroup}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1EnvironmentGroupAttachment | undefined;
 }
 /** NodeConfig for setting the min/max number of nodes associated with the environment. */
 export interface GoogleCloudApigeeV1NodeConfig {
@@ -1798,13 +1739,14 @@ export interface GoogleCloudApigeeV1Environment {
   /** Optional. EnvironmentType selected for the environment. */
   type?: GoogleCloudApigeeV1EnvironmentTypeEnum | (string & {}) | undefined;
 }
-export interface CreateOrganizationsEnvironmentsRequest {
+export interface CreateOrganizationsEnvironmentsRequest extends Omit<
+  GoogleCloudApigeeV1Environment,
+  "name"
+> {
   /** Optional. Name of the environment. */
   name?: string | undefined;
   /** Required. Name of the organization in which the environment will be created. Use the following structure in your request: `organizations/{org}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Environment | undefined;
 }
 /** Date range of the data to export. */
 export interface GoogleCloudApigeeV1DateRange {
@@ -1828,11 +1770,9 @@ export interface GoogleCloudApigeeV1ExportRequest {
   /** Required. Display name of the export job. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsEnvironmentsAnalyticsExportsRequest {
+export interface CreateOrganizationsEnvironmentsAnalyticsExportsRequest extends GoogleCloudApigeeV1ExportRequest {
   /** Required. Names of the parent organization and environment. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ExportRequest | undefined;
 }
 /** Details of an export job. */
 export interface GoogleCloudApigeeV1Export {
@@ -1871,13 +1811,14 @@ export interface GoogleCloudApigeeV1DebugSession {
   /** A unique ID for this DebugSession. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest {
+export interface CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest extends Omit<
+  GoogleCloudApigeeV1DebugSession,
+  "timeout"
+> {
   /** Required. The resource name of the API Proxy revision deployment for which to create the DebugSession. Must be of the form `organizations/{organization}/environments/{environment}/apis/{api}/revisions/{revision}`. If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
   /** Optional. The time in seconds after which this DebugSession should end. A timeout specified in DebugSession will overwrite this value. */
   timeout?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DebugSession | undefined;
 }
 /** Archive Deployment information. */
 export interface GoogleCloudApigeeV1ArchiveDeployment {
@@ -1894,11 +1835,9 @@ export interface GoogleCloudApigeeV1ArchiveDeployment {
   /** Input only. The Google Cloud Storage signed URL returned from GenerateUploadUrl and used to upload the Archive zip file. */
   gcsUri?: string | undefined;
 }
-export interface CreateOrganizationsEnvironmentsArchiveDeploymentsRequest {
+export interface CreateOrganizationsEnvironmentsArchiveDeploymentsRequest extends GoogleCloudApigeeV1ArchiveDeployment {
   /** Required. The Environment this Archive Deployment will be created in. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ArchiveDeployment | undefined;
 }
 /** Datastore for Certificates and Aliases. */
 export interface GoogleCloudApigeeV1Keystore {
@@ -1907,15 +1846,16 @@ export interface GoogleCloudApigeeV1Keystore {
   /** Required. Resource ID for this keystore. Values must match the regular expression `[\w[:space:].-]{1,255}`. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsEnvironmentsKeystoresRequest {
+export interface CreateOrganizationsEnvironmentsKeystoresRequest extends Omit<
+  GoogleCloudApigeeV1Keystore,
+  "name"
+> {
   /** Optional. Name of the keystore. Overrides the value in Keystore. */
   name?: string | undefined;
   /** Required. Name of the environment in which to create the keystore. Use the following format in your request: `organizations/{org}/environments/{env}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Keystore | undefined;
 }
-export interface CreateOrganizationsEnvironmentsKeystoresAliasesRequest {
+export interface CreateOrganizationsEnvironmentsKeystoresAliasesRequest extends GoogleApiHttpBody {
   /** Required. Name of the keystore. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}`. */
   parent: string;
   /** Alias for the key/certificate pair. Values must match the regular expression `[\w\s-.]{1,255}`. This must be provided for all formats except `selfsignedcert`; self-signed certs may specify the alias in either this parameter or the JSON body. */
@@ -1928,8 +1868,6 @@ export interface CreateOrganizationsEnvironmentsKeystoresAliasesRequest {
   ignoreNewlineValidation?: boolean | undefined;
   /** Required. Format of the data. Valid values include: `selfsignedcert`, `keycertfile`, or `pkcs12` */
   format?: string | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 /** X.509 certificate as defined in RFC 5280. */
 export interface GoogleCloudApigeeV1CertInfo {
@@ -1971,17 +1909,13 @@ export interface GoogleCloudApigeeV1Alias {
   /** Type of alias. */
   type?: GoogleCloudApigeeV1AliasTypeEnum | undefined;
 }
-export interface CreateOrganizationsEnvironmentsKeyvaluemapsRequest {
+export interface CreateOrganizationsEnvironmentsKeyvaluemapsRequest extends GoogleCloudApigeeV1KeyValueMap {
   /** Required. Name of the environment in which to create the key value map. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueMap | undefined;
 }
-export interface CreateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest {
+export interface CreateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest extends GoogleCloudApigeeV1KeyValueEntry {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueEntry | undefined;
 }
 /** More info about Metric: https://docs.apigee.com/api-platform/analytics/analytics-reference#metrics */
 export interface GoogleCloudApigeeV1QueryMetric {
@@ -2021,11 +1955,9 @@ export interface GoogleCloudApigeeV1Query {
   /** A list of Metrics. */
   metrics?: GoogleCloudApigeeV1QueryMetricList | undefined;
 }
-export interface CreateOrganizationsEnvironmentsQueriesRequest {
+export interface CreateOrganizationsEnvironmentsQueriesRequest extends GoogleCloudApigeeV1Query {
   /** Required. The parent resource name. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Query | undefined;
 }
 export interface GoogleCloudApigeeV1AsyncQueryResult {
   /** Self link of the query results. Example: `/organizations/myorg/environments/myenv/queries/9cfc0d85-0f30-46d6-ae6f-318d0cb961bd/result` or following format if query is running at host level: `/organizations/myorg/hostQueries/9cfc0d85-0f30-46d6-ae6f-318d0cb961bd/result` */
@@ -2086,21 +2018,17 @@ export interface GoogleCloudApigeeV1Reference {
   /** Required. The id of the resource to which this reference refers. Must be the id of a resource that exists in the parent environment and is of the given resource_type. */
   refers?: string | undefined;
 }
-export interface CreateOrganizationsEnvironmentsReferencesRequest {
+export interface CreateOrganizationsEnvironmentsReferencesRequest extends GoogleCloudApigeeV1Reference {
   /** Required. The parent environment name under which the Reference will be created. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Reference | undefined;
 }
-export interface CreateOrganizationsEnvironmentsResourcefilesRequest {
+export interface CreateOrganizationsEnvironmentsResourcefilesRequest extends GoogleApiHttpBody {
   /** Required. Name of the environment in which to create the resource file in the following format: `organizations/{org}/environments/{env}`. */
   parent: string;
   /** Required. Resource file type. {{ resource_file_type }} */
   type?: string | undefined;
   /** Required. Name of the resource file. Must match the regular expression: [a-zA-Z0-9:/\\!@#$%^&{}\[\]()+\-=,.~'` ]{1,255} */
   name?: string | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 /** The following are a list of conditions. A valid SecurityAction must contain at least one condition. Within a condition, each element is ORed. Across conditions elements are ANDed. For example if a SecurityAction has the following: ip_address_ranges: ["ip1", "ip2"] and bot_reasons: ["Flooder", "Robot Abuser"] then this is interpreted as: enforce the action if the incoming request has ((ip_address_ranges = "ip1" OR ip_address_ranges = "ip2") AND (bot_reasons="Flooder" OR bot_reasons="Robot Abuser")). Conditions other than ip_address_ranges and bot_reasons cannot be ANDed. */
 export interface GoogleCloudApigeeV1SecurityActionConditionConfig {
@@ -2179,13 +2107,11 @@ export interface GoogleCloudApigeeV1SecurityAction {
   /** Deny a request through if it matches this SecurityAction. */
   deny?: GoogleCloudApigeeV1SecurityActionDeny | undefined;
 }
-export interface CreateOrganizationsEnvironmentsSecurityActionsRequest {
+export interface CreateOrganizationsEnvironmentsSecurityActionsRequest extends GoogleCloudApigeeV1SecurityAction {
   /** Required. The ID to use for the SecurityAction, which will become the final component of the action's resource name. This value should be 0-61 characters, and valid format is (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   securityActionId?: string | undefined;
   /** Required. The organization and environment that this SecurityAction applies to. Format: organizations/{org}/environments/{env} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityAction | undefined;
 }
 /** Metric of the Query */
 export interface GoogleCloudApigeeV1SecurityReportQueryMetric {
@@ -2227,11 +2153,9 @@ export interface GoogleCloudApigeeV1SecurityReportQuery {
   /** Security Report display name which users can specify. */
   displayName?: string | undefined;
 }
-export interface CreateOrganizationsEnvironmentsSecurityReportsRequest {
+export interface CreateOrganizationsEnvironmentsSecurityReportsRequest extends GoogleCloudApigeeV1SecurityReportQuery {
   /** Required. The parent resource name. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityReportQuery | undefined;
 }
 /** Metadata for the security report. */
 export interface GoogleCloudApigeeV1SecurityReportMetadata {
@@ -2337,13 +2261,14 @@ export interface GoogleCloudApigeeV1TargetServer {
   /** Optional. Enabling/disabling a TargetServer is useful when TargetServers are used in load balancing configurations, and one or more TargetServers need to taken out of rotation periodically. Defaults to true. */
   isEnabled?: boolean | undefined;
 }
-export interface CreateOrganizationsEnvironmentsTargetserversRequest {
+export interface CreateOrganizationsEnvironmentsTargetserversRequest extends Omit<
+  GoogleCloudApigeeV1TargetServer,
+  "name"
+> {
   /** Optional. The ID to give the TargetServer. This will overwrite the value in TargetServer. */
   name?: string | undefined;
   /** Required. The parent environment name under which the TargetServer will be created. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1TargetServer | undefined;
 }
 export type GoogleCloudApigeeV1TraceSamplingConfigSamplerEnum =
   | "SAMPLER_UNSPECIFIED"
@@ -2365,23 +2290,17 @@ export interface GoogleCloudApigeeV1TraceConfigOverride {
   /** ID of the trace configuration override specified as a system-generated UUID. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsEnvironmentsTraceConfigOverridesRequest {
+export interface CreateOrganizationsEnvironmentsTraceConfigOverridesRequest extends GoogleCloudApigeeV1TraceConfigOverride {
   /** Required. Parent resource of the trace configuration override. Use the following structure in your request. "organizations/*\/environments/*\/traceConfig". */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1TraceConfigOverride | undefined;
 }
-export interface CreateOrganizationsHostQueriesRequest {
+export interface CreateOrganizationsHostQueriesRequest extends GoogleCloudApigeeV1Query {
   /** Required. The parent resource name. Must be of the form `organizations/{org}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Query | undefined;
 }
-export interface CreateOrganizationsHostSecurityReportsRequest {
+export interface CreateOrganizationsHostSecurityReportsRequest extends GoogleCloudApigeeV1SecurityReportQuery {
   /** Required. The parent resource name. Must be of the form `organizations/{org}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityReportQuery | undefined;
 }
 /** Access logging configuration enables customers to ship the access logs from the tenant projects to their own project's cloud logging. The feature is at the instance level ad disabled by default. It can be enabled during CreateInstance or UpdateInstance. */
 export interface GoogleCloudApigeeV1AccessLoggingConfig {
@@ -2497,11 +2416,9 @@ export interface GoogleCloudApigeeV1Instance {
   /** Output only. Internal hostname or IP address of the Apigee endpoint used by clients to connect to the service. */
   host?: string | undefined;
 }
-export interface CreateOrganizationsInstancesRequest {
+export interface CreateOrganizationsInstancesRequest extends GoogleCloudApigeeV1Instance {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Instance | undefined;
 }
 /** InstanceAttachment represents the installation of an environment onto an instance. */
 export interface GoogleCloudApigeeV1InstanceAttachment {
@@ -2512,11 +2429,9 @@ export interface GoogleCloudApigeeV1InstanceAttachment {
   /** Output only. Time the attachment was created in milliseconds since epoch. */
   createdAt?: string | undefined;
 }
-export interface CreateOrganizationsInstancesAttachmentsRequest {
+export interface CreateOrganizationsInstancesAttachmentsRequest extends GoogleCloudApigeeV1InstanceAttachment {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1InstanceAttachment | undefined;
 }
 /** Labels that can be used to filter Apigee metrics. */
 export interface GoogleCloudApigeeV1CanaryEvaluationMetricLabels {
@@ -2557,11 +2472,9 @@ export interface GoogleCloudApigeeV1CanaryEvaluation {
   /** Required. The newer version that is serving requests. */
   treatment?: string | undefined;
 }
-export interface CreateOrganizationsInstancesCanaryevaluationsRequest {
+export interface CreateOrganizationsInstancesCanaryevaluationsRequest extends GoogleCloudApigeeV1CanaryEvaluation {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1CanaryEvaluation | undefined;
 }
 export type GoogleCloudApigeeV1NatAddressStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2578,23 +2491,17 @@ export interface GoogleCloudApigeeV1NatAddress {
   /** Required. Resource ID of the NAT address. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsInstancesNatAddressesRequest {
+export interface CreateOrganizationsInstancesNatAddressesRequest extends GoogleCloudApigeeV1NatAddress {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1NatAddress | undefined;
 }
-export interface CreateOrganizationsKeyvaluemapsRequest {
+export interface CreateOrganizationsKeyvaluemapsRequest extends GoogleCloudApigeeV1KeyValueMap {
   /** Required. Name of the organization in which to create the key value map file. Use the following structure in your request: `organizations/{org}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueMap | undefined;
 }
-export interface CreateOrganizationsKeyvaluemapsEntriesRequest {
+export interface CreateOrganizationsKeyvaluemapsEntriesRequest extends GoogleCloudApigeeV1KeyValueEntry {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueEntry | undefined;
 }
 export interface GoogleCloudApigeeV1ReportProperty {
   /** name of the property */
@@ -2658,11 +2565,9 @@ export interface GoogleCloudApigeeV1CustomReport {
   /** Legacy field: not used. Contains the from time for the report */
   fromTime?: string | undefined;
 }
-export interface CreateOrganizationsReportsRequest {
+export interface CreateOrganizationsReportsRequest extends GoogleCloudApigeeV1CustomReport {
   /** Required. The parent organization name under which the Custom Report will be created. Must be of the form: `organizations/{organization_id}/reports` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1CustomReport | undefined;
 }
 export type GoogleCloudApigeeV1SecurityFeedbackFeedbackContextAttributeEnum =
   | "ATTRIBUTE_UNSPECIFIED"
@@ -2709,13 +2614,11 @@ export interface GoogleCloudApigeeV1SecurityFeedback {
   /** Output only. The time when this specific feedback id was created. */
   createTime?: string | undefined;
 }
-export interface CreateOrganizationsSecurityFeedbackRequest {
+export interface CreateOrganizationsSecurityFeedbackRequest extends GoogleCloudApigeeV1SecurityFeedback {
   /** Optional. The id for this feedback report. If not provided, it will be set to a system-generated UUID. */
   securityFeedbackId?: string | undefined;
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityFeedback | undefined;
 }
 export type GoogleCloudApigeeV1SecurityMonitoringConditionRiskAssessmentTypeEnum =
   | "RISK_ASSESSMENT_TYPE_UNSPECIFIED"
@@ -2751,13 +2654,11 @@ export interface GoogleCloudApigeeV1SecurityMonitoringCondition {
   /** Include all resources under the scope. */
   includeAllResources?: GoogleCloudApigeeV1ActivateNatAddressRequest | undefined;
 }
-export interface CreateOrganizationsSecurityMonitoringConditionsRequest {
+export interface CreateOrganizationsSecurityMonitoringConditionsRequest extends GoogleCloudApigeeV1SecurityMonitoringCondition {
   /** Optional. Optional: The security monitoring condition id. If not specified, a monitoring condition uuid will be generated by the backend. This value should be 4-63 characters, and valid characters are /a-z-/. */
   securityMonitoringConditionId?: string | undefined;
   /** Required. The parent resource name. Format: `organizations/{org}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityMonitoringCondition | undefined;
 }
 /** Environment information of attached environments. Scoring an environment is enabled only if it is attached to a security profile. */
 export interface GoogleCloudApigeeV1SecurityProfileEnvironment {
@@ -2842,13 +2743,11 @@ export interface GoogleCloudApigeeV1SecurityProfile {
   /** Immutable. Name of the security profile resource. Format: organizations/{org}/securityProfiles/{profile} */
   name?: string | undefined;
 }
-export interface CreateOrganizationsSecurityProfilesRequest {
+export interface CreateOrganizationsSecurityProfilesRequest extends GoogleCloudApigeeV1SecurityProfile {
   /** Required. Name of organization. Format: organizations/{org} */
   parent: string;
   /** Required. The ID to use for the SecurityProfile, which will become the final component of the action's resource name. This value should be 1-63 characters and validated by "(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$)". */
   securityProfileId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityProfile | undefined;
 }
 /** Represents a SecurityProfileEnvironmentAssociation resource. */
 export interface GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation {
@@ -2859,11 +2758,9 @@ export interface GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation {
   /** DEPRECATED: DO NOT USE Revision ID of the security profile. */
   securityProfileRevisionId?: string | undefined;
 }
-export interface CreateOrganizationsSecurityProfilesEnvironmentsRequest {
+export interface CreateOrganizationsSecurityProfilesEnvironmentsRequest extends GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation {
   /** Required. Name of organization and security profile ID. Format: organizations/{org}/securityProfiles/{profile} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation | undefined;
 }
 export type GoogleCloudApigeeV1SecurityProfileV2RiskAssessmentTypeEnum =
   | "RISK_ASSESSMENT_TYPE_UNSPECIFIED"
@@ -2929,15 +2826,13 @@ export interface GoogleCloudApigeeV1SecurityProfileV2 {
   /** Output only. The time of the security profile update. */
   updateTime?: string | undefined;
 }
-export interface CreateOrganizationsSecurityProfilesV2Request {
+export interface CreateOrganizationsSecurityProfilesV2Request extends GoogleCloudApigeeV1SecurityProfileV2 {
   /** Required. The parent resource name. Format: `organizations/{org}` */
   parent: string;
   /** Required. The security profile id. */
   securityProfileV2Id?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityProfileV2 | undefined;
 }
-export interface CreateOrganizationsSharedflowsRequest {
+export interface CreateOrganizationsSharedflowsRequest extends GoogleApiHttpBody {
   /** Required. The name to give the shared flow */
   name?: string | undefined;
   /** Optional. The ID of the space to associated with this shared flow. Any IAM policies applied to the space will affect access to this shared flow. Note that this field is only respected when creating a new shared flow. It has no effect when creating a new revision for an existing shared flow. */
@@ -2946,8 +2841,6 @@ export interface CreateOrganizationsSharedflowsRequest {
   parent: string;
   /** Required. Must be set to either `import` or `validate`. */
   action?: string | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 /** The metadata describing a shared flow revision. */
 export interface GoogleCloudApigeeV1SharedFlowRevision {
@@ -2991,11 +2884,9 @@ export interface GoogleCloudApigeeV1ApiCategory {
   /** Name of the portal. */
   siteId?: string | undefined;
 }
-export interface CreateOrganizationsSitesApicategoriesRequest {
+export interface CreateOrganizationsSitesApicategoriesRequest extends GoogleCloudApigeeV1ApiCategory {
   /** Required. Name of the portal. Use the following structure in your request: `organizations/{org}/sites/{site}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiCategory | undefined;
 }
 /** The API category resource wrapped with response status, error_code, etc. */
 export interface GoogleCloudApigeeV1ApiCategoryResponse {
@@ -3047,11 +2938,9 @@ export interface GoogleCloudApigeeV1ApiDoc {
   /** Optional. DEPRECATED: DO NOT USE */
   specId?: string | undefined;
 }
-export interface CreateOrganizationsSitesApidocsRequest {
+export interface CreateOrganizationsSitesApidocsRequest extends GoogleCloudApigeeV1ApiDoc {
   /** Required. Name of the portal. Use the following structure in your request: `organizations/{org}/sites/{site}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiDoc | undefined;
 }
 /** The catalog item resource wrapped with response status, error_code, etc. */
 export interface GoogleCloudApigeeV1ApiDocResponse {
@@ -3077,13 +2966,11 @@ export interface GoogleCloudApigeeV1Space {
   /** Output only. Create timestamp of the space. */
   createTime?: string | undefined;
 }
-export interface CreateOrganizationsSpacesRequest {
+export interface CreateOrganizationsSpacesRequest extends GoogleCloudApigeeV1Space {
   /** Required. Name of the Google Cloud project in which to associate the Apigee space. Pass the information as a query parameter using the following structure in your request: `organizations/` */
   parent: string;
   /** Required. Resource ID of the space. */
   spaceId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Space | undefined;
 }
 /** Request for CreditAppGroupBalance. */
 export interface GoogleCloudApigeeV1CreditAppGroupBalanceRequest {
@@ -3092,11 +2979,9 @@ export interface GoogleCloudApigeeV1CreditAppGroupBalanceRequest {
   /** Required. Each transaction_id uniquely identifies a credit balance request. If multiple requests are received with the same transaction_id, only one of them will be considered. */
   transactionId?: string | undefined;
 }
-export interface CreditOrganizationsAppgroupsBalanceRequest {
+export interface CreditOrganizationsAppgroupsBalanceRequest extends GoogleCloudApigeeV1CreditAppGroupBalanceRequest {
   /** Required. Account balance for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/balance` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1CreditAppGroupBalanceRequest | undefined;
 }
 /** Request for CreditDeveloperBalance. */
 export interface GoogleCloudApigeeV1CreditDeveloperBalanceRequest {
@@ -3105,11 +2990,9 @@ export interface GoogleCloudApigeeV1CreditDeveloperBalanceRequest {
   /** The amount of money to be credited. The wallet corresponding to the currency specified within `transaction_amount` will be updated. For example, if you specified `currency_code` within `transaction_amount` as "USD", then the amount would be added to the wallet which has the "USD" currency or if no such wallet exists, a new wallet will be created with the "USD" currency. */
   transactionAmount?: GoogleTypeMoney | undefined;
 }
-export interface CreditOrganizationsDevelopersBalanceRequest {
+export interface CreditOrganizationsDevelopersBalanceRequest extends GoogleCloudApigeeV1CreditDeveloperBalanceRequest {
   /** Required. Account balance for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/balance` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1CreditDeveloperBalanceRequest | undefined;
 }
 export interface CsrOrganizationsEnvironmentsKeystoresAliasesRequest {
   /** Required. Name of the alias. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}/aliases/{alias}`. */
@@ -3652,13 +3535,14 @@ export interface GoogleCloudApigeeV1GenerateDownloadUrlResponse {
   /** The Google Cloud Storage signed URL that can be used to download the Archive zip file. */
   downloadUri?: string | undefined;
 }
-export interface GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsRequest {
+export interface GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsRequest extends Omit<
+  GoogleCloudApigeeV1DeveloperApp,
+  "name"
+> {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   name: string;
   /** Action. Valid values are `approve` or `revoke`. */
   action?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperApp | undefined;
 }
 export interface GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest {
   /** Name of the API proxy revision deployment in the following format: `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` */
@@ -6097,166 +5981,170 @@ export interface GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface ModifyEnvironmentOrganizationsEnvironmentsRequest {
+export interface ModifyEnvironmentOrganizationsEnvironmentsRequest extends Omit<
+  GoogleCloudApigeeV1Environment,
+  "name"
+> {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{environment}`. */
   name: string;
   /** List of fields to be updated. Fields that can be updated: node_config. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Environment | undefined;
 }
 /** Moves API product to a different space. */
 export interface GoogleCloudApigeeV1MoveApiProductRequest {
   /** Optional. Resource ID of the space to move the API product to. If unspecified, the API product will be moved to the organization level. */
   space?: string | undefined;
 }
-export interface MoveOrganizationsApiproductsRequest {
+export interface MoveOrganizationsApiproductsRequest extends GoogleCloudApigeeV1MoveApiProductRequest {
   /** Required. API product to move in the following format: `organizations/{org}/apiproducts/{apiproduct} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1MoveApiProductRequest | undefined;
 }
 /** Moves an API Proxy to a different Space. */
 export interface GoogleCloudApigeeV1MoveApiProxyRequest {
   /** Optional. Resource ID of the space to move the proxy to. If unspecified, the proxy will be moved to the organization level. */
   space?: string | undefined;
 }
-export interface MoveOrganizationsApisRequest {
+export interface MoveOrganizationsApisRequest extends GoogleCloudApigeeV1MoveApiProxyRequest {
   /** Required. API proxy to move in the following format: `organizations/{org}/apis/{api}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1MoveApiProxyRequest | undefined;
 }
 /** Moves a Shared Flow to a different space. */
 export interface GoogleCloudApigeeV1MoveSharedFlowRequest {
   /** Optional. Resource ID of the space to move the shared flow to. If unspecified, the shared flow will be moved to the organization level. */
   space?: string | undefined;
 }
-export interface MoveOrganizationsSharedflowsRequest {
+export interface MoveOrganizationsSharedflowsRequest extends GoogleCloudApigeeV1MoveSharedFlowRequest {
   /** Required. Shared Flow to move in the following format: `organizations/{org}/sharedflows/{shared_flow}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1MoveSharedFlowRequest | undefined;
 }
-export interface PatchOrganizationsApimServiceExtensionsRequest {
+export interface PatchOrganizationsApimServiceExtensionsRequest extends Omit<
+  GoogleCloudApigeeV1ApimServiceExtension,
+  "name"
+> {
   /** Optional. If set to true, and the service extension is not found, a new service extension will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. unique name of the APIM service extension. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApimServiceExtension | undefined;
 }
-export interface PatchOrganizationsApisRequest {
+export interface PatchOrganizationsApisRequest extends Omit<GoogleCloudApigeeV1ApiProxy, "name"> {
   /** Required. API proxy to update in the following format: `organizations/{org}/apis/{api}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiProxy | undefined;
 }
-export interface PatchOrganizationsDatacollectorsRequest {
+export interface PatchOrganizationsDatacollectorsRequest extends Omit<
+  GoogleCloudApigeeV1DataCollector,
+  "name"
+> {
   /** List of fields to be updated. */
   updateMask?: string | undefined;
   /** Required. Name of the data collector in the following format: `organizations/{org}/datacollectors/{data_collector_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DataCollector | undefined;
 }
-export interface PatchOrganizationsEnvgroupsRequest {
+export interface PatchOrganizationsEnvgroupsRequest extends Omit<
+  GoogleCloudApigeeV1EnvironmentGroup,
+  "name"
+> {
   /** Required. Name of the environment group to update in the format: `organizations/{org}/envgroups/{envgroup}. */
   name: string;
   /** Optional. List of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1EnvironmentGroup | undefined;
 }
-export interface PatchOrganizationsEnvironmentsArchiveDeploymentsRequest {
+export interface PatchOrganizationsEnvironmentsArchiveDeploymentsRequest extends Omit<
+  GoogleCloudApigeeV1ArchiveDeployment,
+  "name"
+> {
   /** Name of the Archive Deployment in the following format: `organizations/{org}/environments/{env}/archiveDeployments/{id}`. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ArchiveDeployment | undefined;
 }
-export interface PatchOrganizationsEnvironmentsSecurityActionsRequest {
+export interface PatchOrganizationsEnvironmentsSecurityActionsRequest extends Omit<
+  GoogleCloudApigeeV1SecurityAction,
+  "name"
+> {
   /** Immutable. This field is ignored during creation as per AIP-133. Please set the `security_action_id` field in the CreateSecurityActionRequest when creating a new SecurityAction. Format: organizations/{org}/environments/{env}/securityActions/{security_action} */
   name: string;
   /** Optional. The list of fields to update. Valid fields to update are `description`, `state`, `allow`, `deny`, and `flag`, `expire_time`, and `ttl`, `api_proxies`, and `condition_config`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityAction | undefined;
 }
-export interface PatchOrganizationsEnvironmentsSecurityIncidentsRequest {
+export interface PatchOrganizationsEnvironmentsSecurityIncidentsRequest extends Omit<
+  GoogleCloudApigeeV1SecurityIncident,
+  "name"
+> {
   /** Required. The list of fields to update. Allowed fields are: LINT.IfChange(allowed_update_fields_comment) - observability LINT.ThenChange() */
   updateMask?: string | undefined;
   /** Immutable. Name of the security incident resource. Format: organizations/{org}/environments/{environment}/securityIncidents/{incident} Example: organizations/apigee-org/environments/dev/securityIncidents/1234-5678-9101-1111 */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityIncident | undefined;
 }
-export interface PatchOrganizationsEnvironmentsTraceConfigOverridesRequest {
+export interface PatchOrganizationsEnvironmentsTraceConfigOverridesRequest extends Omit<
+  GoogleCloudApigeeV1TraceConfigOverride,
+  "name"
+> {
   /** List of fields to be updated. */
   updateMask?: string | undefined;
   /** Required. Name of the trace configuration override. Use the following structure in your request: "organizations/*\/environments/*\/traceConfig/overrides/*". */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1TraceConfigOverride | undefined;
 }
-export interface PatchOrganizationsInstancesRequest {
+export interface PatchOrganizationsInstancesRequest extends Omit<
+  GoogleCloudApigeeV1Instance,
+  "name"
+> {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   name: string;
   /** List of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Instance | undefined;
 }
-export interface PatchOrganizationsSecurityFeedbackRequest {
+export interface PatchOrganizationsSecurityFeedbackRequest extends Omit<
+  GoogleCloudApigeeV1SecurityFeedback,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The feedback name is intended to be a system-generated uuid. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityFeedback | undefined;
 }
-export interface PatchOrganizationsSecurityMonitoringConditionsRequest {
+export interface PatchOrganizationsSecurityMonitoringConditionsRequest extends Omit<
+  GoogleCloudApigeeV1SecurityMonitoringCondition,
+  "name"
+> {
   /** Identifier. Name of the security monitoring condition resource. Format: organizations/{org}/securityMonitoringConditions/{security_monitoring_condition} */
   name: string;
   /** Optional. The list of fields to update. Valid fields to update are `include_all_resources` and `include`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityMonitoringCondition | undefined;
 }
-export interface PatchOrganizationsSecurityProfilesRequest {
+export interface PatchOrganizationsSecurityProfilesRequest extends Omit<
+  GoogleCloudApigeeV1SecurityProfile,
+  "name"
+> {
   /** Immutable. Name of the security profile resource. Format: organizations/{org}/securityProfiles/{profile} */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityProfile | undefined;
 }
-export interface PatchOrganizationsSecurityProfilesV2Request {
+export interface PatchOrganizationsSecurityProfilesV2Request extends Omit<
+  GoogleCloudApigeeV1SecurityProfileV2,
+  "name"
+> {
   /** Identifier. Name of the security profile v2 resource. Format: organizations/{org}/securityProfilesV2/{profile} */
   name: string;
   /** Optional. The list of fields to update. Valid fields to update are `description` and `profileAssessmentConfigs`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityProfileV2 | undefined;
 }
-export interface PatchOrganizationsSitesApicategoriesRequest {
+export interface PatchOrganizationsSitesApicategoriesRequest extends Omit<
+  GoogleCloudApigeeV1ApiCategory,
+  "name"
+> {
   /** Required. Name of the category. Use the following structure in your request: `organizations/{org}/sites/{site}/apicategories/{apicategory}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiCategory | undefined;
 }
-export interface PatchOrganizationsSpacesRequest {
+export interface PatchOrganizationsSpacesRequest extends Omit<GoogleCloudApigeeV1Space, "name"> {
   /** Required. List of fields to be updated. Fields that can be updated: display_name. */
   updateMask?: string | undefined;
   /** Required. Name of the space in the following format: `organizations/{org}/spaces/{space_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Space | undefined;
 }
 /** Request for ProvisionOrganization. */
 export interface GoogleCloudApigeeV1ProvisionOrganizationRequest {
@@ -6269,11 +6157,9 @@ export interface GoogleCloudApigeeV1ProvisionOrganizationRequest {
   /** Primary Cloud Platform region for analytics data storage. For valid values, see [Create an organization](https://cloud.google.com/apigee/docs/hybrid/latest/precog-provision). Defaults to `us-west1`. */
   analyticsRegion?: string | undefined;
 }
-export interface ProvisionOrganizationProjectsRequest {
+export interface ProvisionOrganizationProjectsRequest extends GoogleCloudApigeeV1ProvisionOrganizationRequest {
   /** Required. Name of the GCP project with which to associate the Apigee organization. */
   project: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ProvisionOrganizationRequest | undefined;
 }
 export type GoogleCloudApigeeV1MetricAggregationOrderEnum =
   | "ORDER_UNSPECIFIED"
@@ -6311,11 +6197,9 @@ export interface GoogleCloudApigeeV1QueryTabularStatsRequest {
   /** Identifies a sequence of rows. */
   pageToken?: string | undefined;
 }
-export interface QueryTabularStatsOrganizationsEnvironmentsSecurityStatsRequest {
+export interface QueryTabularStatsOrganizationsEnvironmentsSecurityStatsRequest extends GoogleCloudApigeeV1QueryTabularStatsRequest {
   /** Required. Should be of the form organizations//environments/. */
   orgenv: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1QueryTabularStatsRequest | undefined;
 }
 export type DocumentListList = Array<DocumentList>;
 /** Encapsulates two kinds of stats that are results of the dimensions and aggregations requested. - Tabular rows. - Time series data. Example of tabular rows, Represents security stats results as a row of flat values. */
@@ -6362,11 +6246,9 @@ export interface GoogleCloudApigeeV1QueryTimeSeriesStatsRequest {
   /** Filter further on specific dimension values. Follows the same grammar as custom report's filter expressions. Example, apiproxy eq 'foobar'. https://cloud.google.com/apigee/docs/api-platform/analytics/analytics-reference#filters */
   filter?: string | undefined;
 }
-export interface QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsRequest {
+export interface QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsRequest extends GoogleCloudApigeeV1QueryTimeSeriesStatsRequest {
   /** Required. Should be of the form organizations//environments/. */
   orgenv: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1QueryTimeSeriesStatsRequest | undefined;
 }
 /** A sequence of time series. */
 export interface GoogleCloudApigeeV1QueryTimeSeriesStatsResponseSequence {
@@ -6386,11 +6268,9 @@ export interface GoogleCloudApigeeV1QueryTimeSeriesStatsResponse {
   /** Next page token. */
   nextPageToken?: string | undefined;
 }
-export interface ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest {
+export interface ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest extends GoogleCloudApigeeV1DeveloperAppKey {
   /** Name of the developer app key. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperAppKey | undefined;
 }
 export type GoogleCloudApigeeV1UpdateErrorCodeEnum =
   | "OK"
@@ -6455,11 +6335,9 @@ export interface GoogleCloudApigeeV1ReportInstanceStatusRequest {
   /** The time the report was generated in the runtime. Used to prevent an old status from overwriting a newer one. An instance should space out it's status reports so that clock skew does not play a factor. */
   reportTime?: string | undefined;
 }
-export interface ReportStatusOrganizationsInstancesRequest {
+export interface ReportStatusOrganizationsInstancesRequest extends GoogleCloudApigeeV1ReportInstanceStatusRequest {
   /** The name of the instance reporting this status. For SaaS the request will be rejected if no instance exists under this name. Format is organizations/{org}/instances/{instance} */
   instance: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ReportInstanceStatusRequest | undefined;
 }
 /** Placeholder for future enhancements to status reporting protocol */
 export interface GoogleCloudApigeeV1ReportInstanceStatusResponse {}
@@ -6470,22 +6348,18 @@ export interface GoogleCloudApigeeV1SetAddonEnablementRequest {
   /** If the Analytics should be enabled in the environment. */
   analyticsEnabled?: boolean | undefined;
 }
-export interface SetAddonEnablementOrganizationsEnvironmentsAddonsConfigRequest {
+export interface SetAddonEnablementOrganizationsEnvironmentsAddonsConfigRequest extends GoogleCloudApigeeV1SetAddonEnablementRequest {
   /** Required. Name of the add-ons config. Must be in the format of `/organizations/{org}/environments/{env}/addonsConfig` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SetAddonEnablementRequest | undefined;
 }
 /** Request for SetAddons. */
 export interface GoogleCloudApigeeV1SetAddonsRequest {
   /** Required. Add-on configurations. */
   addonsConfig?: GoogleCloudApigeeV1AddonsConfig | undefined;
 }
-export interface SetAddonsOrganizationsRequest {
+export interface SetAddonsOrganizationsRequest extends GoogleCloudApigeeV1SetAddonsRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}` */
   org: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SetAddonsRequest | undefined;
 }
 export interface SetDeveloperStatusOrganizationsDevelopersRequest {
   /** Status of the developer. Valid values are `active` and `inactive`. */
@@ -6500,29 +6374,21 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyOrganizationsEnvironmentsRequest {
+export interface SetIamPolicyOrganizationsEnvironmentsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyOrganizationsEnvironmentsDeploymentsRequest {
+export interface SetIamPolicyOrganizationsEnvironmentsDeploymentsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyOrganizationsSpacesRequest {
+export interface SetIamPolicyOrganizationsSpacesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetSyncAuthorizationOrganizationsRequest {
+export interface SetSyncAuthorizationOrganizationsRequest extends GoogleCloudApigeeV1SyncAuthorization {
   /** Required. Name of the Apigee organization. Use the following structure in your request: `organizations/{org}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SyncAuthorization | undefined;
 }
 export interface SubscribeOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
@@ -6538,34 +6404,26 @@ export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsEnvironmentsRequest {
+export interface TestIamPermissionsOrganizationsEnvironmentsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsEnvironmentsDeploymentsRequest {
+export interface TestIamPermissionsOrganizationsEnvironmentsDeploymentsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsOrganizationsSpacesRequest {
+export interface TestIamPermissionsOrganizationsSpacesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestOrganizationsAnalyticsDatastoresRequest {
+export interface TestOrganizationsAnalyticsDatastoresRequest extends GoogleCloudApigeeV1Datastore {
   /** Required. The parent organization name Must be of the form `organizations/{org}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Datastore | undefined;
 }
 /** The response for TestDatastore */
 export interface GoogleCloudApigeeV1TestDatastoreResponse {
@@ -6584,25 +6442,22 @@ export interface UndeployOrganizationsEnvironmentsSharedflowsRevisionsRequest {
   /** Required. Name of the shared flow revision to undeploy in the following format: `organizations/{org}/environments/{env}/sharedflows/{sharedflow}/revisions/{rev}` If the shared flow resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
 }
-export interface UnsubscribeOrganizationsEnvironmentsRequest {
+export interface UnsubscribeOrganizationsEnvironmentsRequest extends GoogleCloudApigeeV1Subscription {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Subscription | undefined;
 }
-export interface UpdateApiProductAttributeOrganizationsApiproductsAttributesRequest {
+export interface UpdateApiProductAttributeOrganizationsApiproductsAttributesRequest extends Omit<
+  GoogleCloudApigeeV1Attribute,
+  "name"
+> {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Attribute | undefined;
 }
-export interface UpdateApiProxyRevisionOrganizationsApisRevisionsRequest {
+export interface UpdateApiProxyRevisionOrganizationsApisRevisionsRequest extends GoogleApiHttpBody {
   /** Required. API proxy revision to update in the following format: `organizations/{org}/apis/{api}/revisions/{rev}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
   /** Ignored. All uploads are validated regardless of the value of this field. Maintained for compatibility with Apigee Edge API. */
   validate?: boolean | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
 export interface UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsRequest {
   /** Approve or revoke the consumer key by setting this value to `approve` or `revoke` respectively. The `Content-Type` header, if set, must be set to `application/octet-stream`, with empty body. */
@@ -6619,35 +6474,36 @@ export interface GoogleCloudApigeeV1UpdateAppGroupAppKeyRequest {
   /** Note that only Scopes and Attributes of the AppGroupAppKey can be amended. Scopes and Attributes mentioned in the request will be inserted and the existing scopes and attributes will be removed. */
   appGroupAppKey?: GoogleCloudApigeeV1AppGroupAppKey | undefined;
 }
-export interface UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysRequest {
+export interface UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysRequest extends GoogleCloudApigeeV1UpdateAppGroupAppKeyRequest {
   /** Required. Name of the AppGroup app key. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys/{key}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1UpdateAppGroupAppKeyRequest | undefined;
 }
-export interface UpdateControlPlaneAccessOrganizationsRequest {
+export interface UpdateControlPlaneAccessOrganizationsRequest extends Omit<
+  GoogleCloudApigeeV1ControlPlaneAccess,
+  "name"
+> {
   /** Identifier. The resource name of the ControlPlaneAccess. Format: "organizations/{org}/controlPlaneAccess" */
   name: string;
   /** List of fields to be updated. Fields that can be updated: synchronizer_identities, analytics_publisher_identities, watcher_identities. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ControlPlaneAccess | undefined;
 }
-export interface UpdateDebugmaskOrganizationsEnvironmentsRequest {
+export interface UpdateDebugmaskOrganizationsEnvironmentsRequest extends Omit<
+  GoogleCloudApigeeV1DebugMask,
+  "name"
+> {
   /** Boolean flag that specifies whether to replace existing values in the debug mask when doing an update. Set to true to replace existing values. The default behavior is to append the values (false). */
   replaceRepeatedFields?: boolean | undefined;
   /** Field debug mask to support partial updates. */
   updateMask?: string | undefined;
   /** Name of the debug mask. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DebugMask | undefined;
 }
-export interface UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesRequest {
+export interface UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesRequest extends Omit<
+  GoogleCloudApigeeV1Attribute,
+  "name"
+> {
   /** Required. Name of the developer app attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/attributes/{attribute}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Attribute | undefined;
 }
 export interface UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsRequest {
   /** Name of the API product in the developer app key in the following format: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}/apiproducts/{apiproduct}` */
@@ -6655,213 +6511,208 @@ export interface UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysA
   /** Approve or revoke the consumer key by setting this value to `approve` or `revoke`, respectively. */
   action?: string | undefined;
 }
-export interface UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest {
+export interface UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest extends GoogleCloudApigeeV1DeveloperAppKey {
   /** Name of the developer app key. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}` */
   name: string;
   /** Approve or revoke the consumer key by setting this value to `approve` or `revoke`, respectively. The `Content-Type` header must be set to `application/octet-stream`. */
   action?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperAppKey | undefined;
 }
-export interface UpdateDeveloperAttributeOrganizationsDevelopersAttributesRequest {
+export interface UpdateDeveloperAttributeOrganizationsDevelopersAttributesRequest extends Omit<
+  GoogleCloudApigeeV1Attribute,
+  "name"
+> {
   /** Required. Name of the developer attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/attributes/{attribute}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Attribute | undefined;
 }
-export interface UpdateDocumentationOrganizationsSitesApidocsRequest {
+export interface UpdateDocumentationOrganizationsSitesApidocsRequest extends GoogleCloudApigeeV1ApiDocDocumentation {
   /** Required. Resource name of the catalog item documentation. Use the following structure in your request: `organizations/{org}/sites/{site}/apidocs/{apidoc}/documentation` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiDocDocumentation | undefined;
 }
-export interface UpdateEnvironmentOrganizationsEnvironmentsRequest {
+export interface UpdateEnvironmentOrganizationsEnvironmentsRequest extends Omit<
+  GoogleCloudApigeeV1Environment,
+  "name"
+> {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Environment | undefined;
 }
-export interface UpdateMonetizationConfigOrganizationsAppgroupsRequest {
+export interface UpdateMonetizationConfigOrganizationsAppgroupsRequest extends GoogleCloudApigeeV1AppGroupMonetizationConfig {
   /** Required. Monetization configuration for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/monetizationConfig` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AppGroupMonetizationConfig | undefined;
 }
-export interface UpdateMonetizationConfigOrganizationsDevelopersRequest {
+export interface UpdateMonetizationConfigOrganizationsDevelopersRequest extends GoogleCloudApigeeV1DeveloperMonetizationConfig {
   /** Required. Monetization configuration for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/monetizationConfig` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperMonetizationConfig | undefined;
 }
-export interface UpdateOrganizationsRequest {
+export interface UpdateOrganizationsRequest extends Omit<GoogleCloudApigeeV1Organization, "name"> {
   /** Required. Apigee organization name in the following format: `organizations/{org}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Organization | undefined;
 }
-export interface UpdateOrganizationsAnalyticsDatastoresRequest {
+export interface UpdateOrganizationsAnalyticsDatastoresRequest extends GoogleCloudApigeeV1Datastore {
   /** Required. The resource name of datastore to be updated. Must be of the form `organizations/{org}/analytics/datastores/{datastoreId}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Datastore | undefined;
 }
-export interface UpdateOrganizationsApiproductsRequest {
+export interface UpdateOrganizationsApiproductsRequest extends Omit<
+  GoogleCloudApigeeV1ApiProduct,
+  "name"
+> {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path.To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiProduct | undefined;
 }
-export interface UpdateOrganizationsApiproductsRateplansRequest {
+export interface UpdateOrganizationsApiproductsRateplansRequest extends Omit<
+  GoogleCloudApigeeV1RatePlan,
+  "name"
+> {
   /** Required. Name of the rate plan. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}/rateplans/{rateplan}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1RatePlan | undefined;
 }
-export interface UpdateOrganizationsApisKeyvaluemapsRequest {
+export interface UpdateOrganizationsApisKeyvaluemapsRequest extends Omit<
+  GoogleCloudApigeeV1KeyValueMap,
+  "name"
+> {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueMap | undefined;
 }
-export interface UpdateOrganizationsApisKeyvaluemapsEntriesRequest {
+export interface UpdateOrganizationsApisKeyvaluemapsEntriesRequest extends Omit<
+  GoogleCloudApigeeV1KeyValueEntry,
+  "name"
+> {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueEntry | undefined;
 }
-export interface UpdateOrganizationsAppgroupsRequest {
+export interface UpdateOrganizationsAppgroupsRequest extends Omit<
+  GoogleCloudApigeeV1AppGroup,
+  "name"
+> {
   /** Required. Name of the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}` */
   name: string;
   /** Activate or de-activate the AppGroup by setting the action as `active` or `inactive`. The `Content-Type` header must be set to `application/octet-stream`, with empty body. */
   action?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AppGroup | undefined;
 }
-export interface UpdateOrganizationsAppgroupsAppsRequest {
+export interface UpdateOrganizationsAppgroupsAppsRequest extends Omit<
+  GoogleCloudApigeeV1AppGroupApp,
+  "name"
+> {
   /** Approve or revoke the consumer key by setting this value to `approve` or `revoke`. The `Content-Type` header must be set to `application/octet-stream`, with empty body. */
   action?: string | undefined;
   /** Required. Name of the AppGroup app. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1AppGroupApp | undefined;
 }
-export interface UpdateOrganizationsDevelopersRequest {
+export interface UpdateOrganizationsDevelopersRequest extends GoogleCloudApigeeV1Developer {
   /** Required. Email address of the developer. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Developer | undefined;
 }
-export interface UpdateOrganizationsDevelopersAppsRequest {
+export interface UpdateOrganizationsDevelopersAppsRequest extends Omit<
+  GoogleCloudApigeeV1DeveloperApp,
+  "name"
+> {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1DeveloperApp | undefined;
 }
-export interface UpdateOrganizationsEnvironmentsRequest {
+export interface UpdateOrganizationsEnvironmentsRequest extends Omit<
+  GoogleCloudApigeeV1Environment,
+  "name"
+> {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Environment | undefined;
 }
-export interface UpdateOrganizationsEnvironmentsKeystoresAliasesRequest {
+export interface UpdateOrganizationsEnvironmentsKeystoresAliasesRequest extends GoogleApiHttpBody {
   /** Required. Flag that specifies whether to ignore expiry validation. If set to `true`, no expiry validation will be performed. */
   ignoreExpiryValidation?: boolean | undefined;
   /** Flag that specifies whether to ignore newline validation. If set to `true`, no error is thrown when the file contains a certificate chain with no newline between each certificate. Defaults to `false`. */
   ignoreNewlineValidation?: boolean | undefined;
   /** Required. Name of the alias. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}/aliases/{alias}` */
   name: string;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
-export interface UpdateOrganizationsEnvironmentsKeyvaluemapsRequest {
+export interface UpdateOrganizationsEnvironmentsKeyvaluemapsRequest extends Omit<
+  GoogleCloudApigeeV1KeyValueMap,
+  "name"
+> {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueMap | undefined;
 }
-export interface UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest {
+export interface UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest extends Omit<
+  GoogleCloudApigeeV1KeyValueEntry,
+  "name"
+> {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueEntry | undefined;
 }
-export interface UpdateOrganizationsEnvironmentsReferencesRequest {
+export interface UpdateOrganizationsEnvironmentsReferencesRequest extends Omit<
+  GoogleCloudApigeeV1Reference,
+  "name"
+> {
   /** Required. The name of the Reference to update. Must be of the form `organizations/{org}/environments/{env}/references/{ref}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1Reference | undefined;
 }
-export interface UpdateOrganizationsEnvironmentsResourcefilesRequest {
+export interface UpdateOrganizationsEnvironmentsResourcefilesRequest extends GoogleApiHttpBody {
   /** Required. Resource file type. {{ resource_file_type }} */
   type: string;
   /** Required. ID of the resource file to update. Must match the regular expression: [a-zA-Z0-9:/\\!@#$%^&{}\[\]()+\-=,.~'` ]{1,255} */
   name: string;
   /** Required. Name of the environment in the following format: `organizations/{org}/environments/{env}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
-export interface UpdateOrganizationsEnvironmentsTargetserversRequest {
+export interface UpdateOrganizationsEnvironmentsTargetserversRequest extends Omit<
+  GoogleCloudApigeeV1TargetServer,
+  "name"
+> {
   /** Required. The name of the TargetServer to replace. Must be of the form `organizations/{org}/environments/{env}/targetservers/{target_server_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1TargetServer | undefined;
 }
-export interface UpdateOrganizationsKeyvaluemapsRequest {
+export interface UpdateOrganizationsKeyvaluemapsRequest extends Omit<
+  GoogleCloudApigeeV1KeyValueMap,
+  "name"
+> {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueMap | undefined;
 }
-export interface UpdateOrganizationsKeyvaluemapsEntriesRequest {
+export interface UpdateOrganizationsKeyvaluemapsEntriesRequest extends Omit<
+  GoogleCloudApigeeV1KeyValueEntry,
+  "name"
+> {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1KeyValueEntry | undefined;
 }
-export interface UpdateOrganizationsReportsRequest {
+export interface UpdateOrganizationsReportsRequest extends Omit<
+  GoogleCloudApigeeV1CustomReport,
+  "name"
+> {
   /** Required. Custom Report name of the form: `organizations/{organization_id}/reports/{report_name}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1CustomReport | undefined;
 }
-export interface UpdateOrganizationsSitesApidocsRequest {
+export interface UpdateOrganizationsSitesApidocsRequest extends GoogleCloudApigeeV1ApiDoc {
   /** Required. Name of the catalog item. Use the following structure in your request: `organizations/{org}/sites/{site}/apidocs/{apidoc}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1ApiDoc | undefined;
 }
-export interface UpdateSecurityActionsConfigOrganizationsEnvironmentsRequest {
+export interface UpdateSecurityActionsConfigOrganizationsEnvironmentsRequest extends Omit<
+  GoogleCloudApigeeV1SecurityActionsConfig,
+  "name"
+> {
   /** The list of fields to update. */
   updateMask?: string | undefined;
   /** This is a singleton resource, the name will always be set by SecurityActions and any user input will be ignored. The name is always: `organizations/{org}/environments/{env}/security_actions_config` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecurityActionsConfig | undefined;
 }
-export interface UpdateSecuritySettingsOrganizationsRequest {
+export interface UpdateSecuritySettingsOrganizationsRequest extends Omit<
+  GoogleCloudApigeeV1SecuritySettings,
+  "name"
+> {
   /** Identifier. Full resource name is always `organizations/{org}/securitySettings`. */
   name: string;
   /** Optional. The list of fields to update. Allowed fields are: - ml_retraining_feedback_enabled */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudApigeeV1SecuritySettings | undefined;
 }
-export interface UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsRequest {
+export interface UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsRequest extends GoogleApiHttpBody {
   /** Required. The name of the shared flow revision to update. Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flow_id}/revisions/{revision_id}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
   /** Ignored. All uploads are validated regardless of the value of this field. It is kept for compatibility with existing APIs. Must be `true` or `false` if provided. */
   validate?: boolean | undefined;
-  /** Request body */
-  body?: GoogleApiHttpBody | undefined;
 }
-export interface UpdateTraceConfigOrganizationsEnvironmentsRequest {
+export interface UpdateTraceConfigOrganizationsEnvironmentsRequest extends GoogleCloudApigeeV1TraceConfig {
   /** List of fields to be updated. */
   updateMask?: string | undefined;
   /** Required. Name of the trace configuration. Use the following structure in your request: "organizations/*\/environments/*\/traceConfig". */
   name: string;
-  /** Request body */
-  body?: GoogleCloudApigeeV1TraceConfig | undefined;
 }
 export type ActivateOrganizationsInstancesNatAddressesError =
   | NotFound
@@ -15713,10 +15564,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15264, __c477, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15264, __c477, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attributes",
@@ -15892,10 +15745,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15264, __c477, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15264, __c477, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/attributes",
@@ -16106,10 +15961,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1BatchComputeSecurityAssessmentResultsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(706, __c22, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(706, __c22, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:batchCompute",
@@ -16547,10 +16404,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1BatchUpdateSecurityIncidentsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1250, __c39, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1250, __c39, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityIncidents:batchUpdate",
@@ -16747,11 +16606,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          action: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8448, __c264, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8448, __c264, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            action: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({
@@ -16836,10 +16697,12 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1ComputeEnvironmentScoresRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          profileEnvironment: S.String.pipe(T.Label()),
-          body: S.optional(__S(1698, __c53, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1698, __c53, 2),
+          S.Struct({
+            profileEnvironment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+profileEnvironment}:computeEnvironmentScores",
@@ -17369,10 +17232,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/organizations",
@@ -17743,10 +17608,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2785, __c87, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2785, __c87, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/analytics/datastores",
@@ -17907,11 +17774,13 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          apimServiceExtensionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3172, __c99, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3172, __c99, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            apimServiceExtensionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apimServiceExtensions",
@@ -18117,10 +17986,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3641, __c113, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3641, __c113, 25),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apiproducts",
@@ -18487,10 +18358,12 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4004, __c125, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4004, __c125, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/rateplans",
@@ -18729,14 +18602,16 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          space: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          action: S.optional(S.String.pipe(T.Query())),
-          validate: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            space: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            action: S.optional(S.String.pipe(T.Query())),
+            validate: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apis",
@@ -19037,10 +18912,12 @@ function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keyvaluemaps",
@@ -19201,10 +19078,12 @@ function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entries",
@@ -19357,10 +19236,12 @@ function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5792, __c181, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5792, __c181, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/appgroups",
@@ -19629,10 +19510,12 @@ function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6368, __c199, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6368, __c199, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apps",
@@ -19956,10 +19839,12 @@ function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6784, __c212, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keys",
@@ -20265,10 +20150,12 @@ function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7232, __c226, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7232, __c226, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/subscriptions",
@@ -20546,11 +20433,13 @@ function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dataCollectorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7616, __c238, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7616, __c238, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dataCollectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/datacollectors",
@@ -20832,10 +20721,12 @@ function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8064, __c252, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8064, __c252, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/developers",
@@ -21116,10 +21007,12 @@ function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8448, __c264, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8448, __c264, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apps",
@@ -21415,10 +21308,12 @@ function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8896, __c278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8896, __c278, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keys",
@@ -21481,11 +21376,13 @@ function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11745, __c367, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11745, __c367, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "ModifyEnvironmentOrganizationsEnvironmentsRequest" });
@@ -21495,10 +21392,12 @@ function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9024, __c282, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9024, __c282, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -21522,10 +21421,12 @@ function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9024, __c282, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9024, __c282, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -21539,10 +21440,12 @@ function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9024, __c282, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9024, __c282, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -21556,12 +21459,14 @@ function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3172, __c99, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3172, __c99, 4),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsApimServiceExtensionsRequest" });
@@ -21571,11 +21476,13 @@ function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14848, __c464, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14848, __c464, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsApisRequest" });
@@ -21585,11 +21492,13 @@ function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7616, __c238, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7616, __c238, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsDatacollectorsRequest" });
@@ -21599,11 +21508,13 @@ function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10944, __c342, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10944, __c342, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsEnvgroupsRequest" });
@@ -21613,11 +21524,13 @@ function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12224, __c382, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12224, __c382, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsEnvironmentsArchiveDeploymentsRequest" });
@@ -21627,10 +21540,12 @@ function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8896, __c278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8896, __c278, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keys/create",
@@ -21644,11 +21559,13 @@ function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12707, __c397, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12707, __c397, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsEnvironmentsSecurityActionsRequest" });
@@ -21658,11 +21575,13 @@ function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsEnvironmentsSecurityIncidentsRequest" });
@@ -21672,11 +21591,13 @@ function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13152, __c411, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13152, __c411, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsEnvironmentsTraceConfigOverridesRequest" });
@@ -21686,11 +21607,13 @@ function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13286, __c415, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13286, __c415, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsInstancesRequest" });
@@ -21700,11 +21623,13 @@ function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13794, __c431, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13794, __c431, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsSecurityFeedbackRequest" });
@@ -21714,11 +21639,13 @@ function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13856, __c433, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13856, __c433, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsSecurityMonitoringConditionsRequest" });
@@ -21728,11 +21655,13 @@ function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13927, __c435, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13927, __c435, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsSecurityProfilesRequest" });
@@ -21742,11 +21671,13 @@ function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14019, __c438, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14019, __c438, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsSecurityProfilesV2Request" });
@@ -21756,10 +21687,12 @@ function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14144, __c442, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14144, __c442, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsSitesApicategoriesRequest" });
@@ -21769,11 +21702,13 @@ function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14336, __c448, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14336, __c448, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchOrganizationsSpacesRequest" });
@@ -21783,10 +21718,12 @@ function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9664, __c302, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9664, __c302, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/subscriptions",
@@ -21824,10 +21761,12 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1ProvisionOrganizationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(9696, __c303, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9696, __c303, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+project}:provisionOrganization",
@@ -21852,10 +21791,12 @@ function __c304(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1QueryTabularStatsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          orgenv: S.String.pipe(T.Label()),
-          body: S.optional(__S(9728, __c304, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9728, __c304, 0),
+          S.Struct({
+            orgenv: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+orgenv}/securityStats:queryTabularStats",
@@ -21906,10 +21847,12 @@ function __c306(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1QueryTimeSeriesStatsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          orgenv: S.String.pipe(T.Label()),
-          body: S.optional(__S(9792, __c306, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9792, __c306, 0),
+          S.Struct({
+            orgenv: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+orgenv}/securityStats:queryTimeSeriesStats",
@@ -21942,10 +21885,12 @@ function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8896, __c278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8896, __c278, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest" });
@@ -21996,10 +21941,12 @@ function __c308(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1ReportInstanceStatusRequest" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(9862, __c308, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9862, __c308, 6),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+instance}:reportStatus",
@@ -22020,10 +21967,12 @@ function __c309(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1SetAddonEnablementRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(9888, __c309, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9888, __c309, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setAddonEnablement",
@@ -22043,10 +21992,12 @@ function __c310(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1SetAddonsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          org: S.String.pipe(T.Label()),
-          body: S.optional(__S(9920, __c310, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9920, __c310, 0),
+          S.Struct({
+            org: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+org}:setAddons",
@@ -22073,10 +22024,12 @@ function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(10016, __c313, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10016, __c313, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -22101,10 +22054,12 @@ function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(10016, __c313, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10016, __c313, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -22118,11 +22073,13 @@ function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dnsZoneId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10113, __c316, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10113, __c316, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dnsZoneId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dnsZones",
@@ -22159,10 +22116,12 @@ function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(10016, __c313, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10016, __c313, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -22176,10 +22135,12 @@ function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6240, __c195, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6240, __c195, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setSyncAuthorization",
@@ -22219,10 +22180,12 @@ function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(10304, __c322, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10304, __c322, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -22246,10 +22209,12 @@ function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(10304, __c322, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10304, __c322, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -22263,10 +22228,12 @@ function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(10304, __c322, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10304, __c322, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -22280,10 +22247,12 @@ function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2785, __c87, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2785, __c87, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/analytics/datastores:test",
@@ -22337,10 +22306,12 @@ function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10240, __c320, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10240, __c320, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:unsubscribe",
@@ -22354,11 +22325,13 @@ function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endpointAttachmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10560, __c330, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10560, __c330, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            endpointAttachmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/endpointAttachments",
@@ -22387,10 +22360,12 @@ function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({
@@ -22402,11 +22377,13 @@ function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validate: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validate: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateApiProxyRevisionOrganizationsApisRevisionsRequest" });
@@ -22440,10 +22417,12 @@ function __c334(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1UpdateAppGroupAppKeyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(10688, __c334, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10688, __c334, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysRequest" });
@@ -22453,11 +22432,13 @@ function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateControlPlaneAccessOrganizationsRequest" });
@@ -22467,12 +22448,14 @@ function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          replaceRepeatedFields: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            replaceRepeatedFields: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateDebugmaskOrganizationsEnvironmentsRequest" });
@@ -22482,10 +22465,12 @@ function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({
@@ -22513,11 +22498,13 @@ function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          action: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8896, __c278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8896, __c278, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            action: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest" });
@@ -22527,10 +22514,12 @@ function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({
@@ -22542,11 +22531,13 @@ function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10944, __c342, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10944, __c342, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            name: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/envgroups",
@@ -22574,10 +22565,12 @@ function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2404, __c75, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2404, __c75, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateDocumentationOrganizationsSitesApidocsRequest" });
@@ -22587,10 +22580,12 @@ function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11745, __c367, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11745, __c367, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateEnvironmentOrganizationsEnvironmentsRequest" });
@@ -22600,10 +22595,12 @@ function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateMonetizationConfigOrganizationsAppgroupsRequest" });
@@ -22613,10 +22610,12 @@ function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateMonetizationConfigOrganizationsDevelopersRequest" });
@@ -22626,10 +22625,12 @@ function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsRequest" });
@@ -22639,10 +22640,12 @@ function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2785, __c87, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2785, __c87, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsAnalyticsDatastoresRequest" });
@@ -22652,10 +22655,12 @@ function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3641, __c113, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3641, __c113, 25),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsApiproductsRequest" });
@@ -22665,10 +22670,12 @@ function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4004, __c125, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4004, __c125, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsApiproductsRateplansRequest" });
@@ -22678,10 +22685,12 @@ function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsApisKeyvaluemapsRequest" });
@@ -22691,10 +22700,12 @@ function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsApisKeyvaluemapsEntriesRequest" });
@@ -22704,10 +22715,12 @@ function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11328, __c354, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11328, __c354, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attachments",
@@ -22734,11 +22747,13 @@ function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          action: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5792, __c181, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5792, __c181, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            action: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsAppgroupsRequest" });
@@ -22748,11 +22763,13 @@ function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6368, __c199, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6368, __c199, 0),
+          S.Struct({
+            action: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsAppgroupsAppsRequest" });
@@ -22762,10 +22779,12 @@ function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8064, __c252, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8064, __c252, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsDevelopersRequest" });
@@ -22775,10 +22794,12 @@ function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8448, __c264, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8448, __c264, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsDevelopersAppsRequest" });
@@ -22788,10 +22809,12 @@ function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11745, __c367, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11745, __c367, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsEnvironmentsRequest" });
@@ -22801,12 +22824,14 @@ function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ignoreExpiryValidation: S.optional(S.Boolean.pipe(T.Query())),
-          ignoreNewlineValidation: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            ignoreExpiryValidation: S.optional(S.Boolean.pipe(T.Query())),
+            ignoreNewlineValidation: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsEnvironmentsKeystoresAliasesRequest" });
@@ -22816,10 +22841,12 @@ function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsEnvironmentsKeyvaluemapsRequest" });
@@ -22829,10 +22856,12 @@ function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest" });
@@ -22842,10 +22871,12 @@ function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12608, __c394, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12608, __c394, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsEnvironmentsReferencesRequest" });
@@ -22855,12 +22886,14 @@ function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            type: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+parent}/resourcefiles/{type}/{name}",
@@ -22874,11 +22907,13 @@ function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11745, __c367, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11745, __c367, 1),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/environments",
@@ -22942,10 +22977,12 @@ function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13058, __c408, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13058, __c408, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsEnvironmentsTargetserversRequest" });
@@ -22955,10 +22992,12 @@ function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsKeyvaluemapsRequest" });
@@ -22968,10 +23007,12 @@ function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsKeyvaluemapsEntriesRequest" });
@@ -22981,10 +23022,12 @@ function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13732, __c429, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13732, __c429, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsReportsRequest" });
@@ -22994,10 +23037,12 @@ function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14240, __c445, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14240, __c445, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateOrganizationsSitesApidocsRequest" });
@@ -23007,11 +23052,13 @@ function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateSecurityActionsConfigOrganizationsEnvironmentsRequest" });
@@ -23021,11 +23068,13 @@ function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6176, __c193, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6176, __c193, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateSecuritySettingsOrganizationsRequest" });
@@ -23035,11 +23084,13 @@ function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validate: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validate: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({
@@ -23051,11 +23102,13 @@ function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6433, __c201, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6433, __c201, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateTraceConfigOrganizationsEnvironmentsRequest" });
@@ -23083,10 +23136,12 @@ function __c377(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1ExportRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12065, __c377, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12065, __c377, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/analytics/exports",
@@ -23118,11 +23173,13 @@ function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          timeout: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12160, __c380, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12160, __c380, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            timeout: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/debugsessions",
@@ -23154,10 +23211,12 @@ function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12224, __c382, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12224, __c382, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/archiveDeployments",
@@ -23186,11 +23245,13 @@ function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12288, __c384, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12288, __c384, 0),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keystores",
@@ -23215,15 +23276,17 @@ function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          alias: S.optional(S.String.pipe(T.Query())),
-          _password: S.optional(S.String.pipe(T.Query())),
-          ignoreExpiryValidation: S.optional(S.Boolean.pipe(T.Query())),
-          ignoreNewlineValidation: S.optional(S.Boolean.pipe(T.Query())),
-          format: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            alias: S.optional(S.String.pipe(T.Query())),
+            _password: S.optional(S.String.pipe(T.Query())),
+            ignoreExpiryValidation: S.optional(S.Boolean.pipe(T.Query())),
+            ignoreNewlineValidation: S.optional(S.Boolean.pipe(T.Query())),
+            format: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/aliases",
@@ -23273,10 +23336,12 @@ function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keyvaluemaps",
@@ -23290,10 +23355,12 @@ function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entries",
@@ -23307,10 +23374,12 @@ function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12482, __c390, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12482, __c390, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/queries",
@@ -23400,10 +23469,12 @@ function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12608, __c394, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12608, __c394, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/references",
@@ -23430,12 +23501,14 @@ function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          type: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            type: S.optional(S.String.pipe(T.Query())),
+            name: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/resourcefiles",
@@ -23449,11 +23522,13 @@ function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          securityActionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12707, __c397, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12707, __c397, 3),
+          S.Struct({
+            securityActionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityActions",
@@ -23516,10 +23591,12 @@ function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12770, __c399, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12770, __c399, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityReports",
@@ -23668,11 +23745,13 @@ function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13058, __c408, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13058, __c408, 2),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targetservers",
@@ -23724,10 +23803,12 @@ function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13152, __c411, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13152, __c411, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/overrides",
@@ -23764,10 +23845,12 @@ function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12482, __c390, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12482, __c390, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/hostQueries",
@@ -23781,10 +23864,12 @@ function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(12770, __c399, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12770, __c399, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/hostSecurityReports",
@@ -23798,10 +23883,12 @@ function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13286, __c415, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13286, __c415, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -23881,10 +23968,12 @@ function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13344, __c417, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13344, __c417, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attachments",
@@ -23910,10 +23999,12 @@ function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13409, __c419, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13409, __c419, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/canaryevaluations",
@@ -23953,10 +24044,12 @@ function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13472, __c421, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13472, __c421, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/natAddresses",
@@ -23982,10 +24075,12 @@ function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keyvaluemaps",
@@ -23999,10 +24094,12 @@ function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(15200, __c475, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15200, __c475, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/entries",
@@ -24016,10 +24113,12 @@ function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13600, __c425, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13600, __c425, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:adjust",
@@ -24074,10 +24173,12 @@ function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13732, __c429, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13732, __c429, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reports",
@@ -24140,11 +24241,13 @@ function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          securityFeedbackId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13794, __c431, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13794, __c431, 2),
+          S.Struct({
+            securityFeedbackId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityFeedback",
@@ -24184,11 +24287,13 @@ function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          securityMonitoringConditionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13856, __c433, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13856, __c433, 0),
+          S.Struct({
+            securityMonitoringConditionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityMonitoringConditions",
@@ -24222,11 +24327,13 @@ function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          securityProfileId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13927, __c435, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13927, __c435, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            securityProfileId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityProfiles",
@@ -24307,10 +24414,12 @@ function __c436(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(13952, __c436, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13952, __c436, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/environments",
@@ -24324,11 +24433,13 @@ function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          securityProfileV2Id: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14019, __c438, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14019, __c438, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            securityProfileV2Id: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityProfilesV2",
@@ -24376,13 +24487,15 @@ function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          space: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          action: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            space: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            action: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sharedflows",
@@ -24419,10 +24532,12 @@ function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(14144, __c442, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14144, __c442, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apicategories",
@@ -24463,10 +24578,12 @@ function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(14240, __c445, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14240, __c445, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apidocs",
@@ -24520,11 +24637,13 @@ function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          spaceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14336, __c448, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14336, __c448, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            spaceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/spaces",
@@ -24551,10 +24670,12 @@ function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(13600, __c425, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13600, __c425, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:adjust",
@@ -24575,10 +24696,12 @@ function __c450(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1CreditAppGroupBalanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14400, __c450, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14400, __c450, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:credit",
@@ -24599,10 +24722,12 @@ function __c451(j: number): any {
       ).annotate({ identifier: "GoogleCloudApigeeV1CreditDeveloperBalanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14432, __c451, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14432, __c451, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:credit",
@@ -24747,10 +24872,12 @@ function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(14752, __c461, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14752, __c461, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://apigee.googleapis.com/" }),
         ),
       ).annotate({
@@ -24964,10 +25091,12 @@ function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(15264, __c477, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15264, __c477, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/attributes",

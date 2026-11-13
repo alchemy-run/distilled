@@ -220,10 +220,7 @@ export interface Query {
   /** The metadata of the query. */
   metadata?: QueryMetadata | undefined;
 }
-export interface CreateQueriesRequest {
-  /** Request body */
-  body?: Query | undefined;
-}
+export interface CreateQueriesRequest extends Query {}
 export interface DeleteQueriesRequest {
   /** Required. The ID of the query to delete. */
   queryId: string;
@@ -314,13 +311,11 @@ export interface RunQueryRequest {
   /** The date range used by the query to generate the report. If unspecified, the query's original data_range is used. */
   dataRange?: DataRange | undefined;
 }
-export interface RunQueriesRequest {
+export interface RunQueriesRequest extends RunQueryRequest {
   /** Whether the query should be run synchronously. When `true`, the request won't return until the resulting report has finished running. This parameter is `false` by default. Setting this parameter to `true` is **not recommended**. */
   synchronous?: boolean | undefined;
   /** Required. The ID of the query to run. */
   queryId: string;
-  /** Request body */
-  body?: RunQueryRequest | undefined;
 }
 export type CreateQueriesError =
   | NotFound
@@ -502,11 +497,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "RunQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          synchronous: S.optional(S.Boolean.pipe(T.Query())),
-          queryId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            synchronous: S.optional(S.Boolean.pipe(T.Query())),
+            queryId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "queries/{queryId}:run",
@@ -520,9 +517,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(34, __c4, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(34, __c4, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "queries",

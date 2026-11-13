@@ -91,10 +91,7 @@ export interface BatchGetAmpUrlsRequest {
   /** The lookup_strategy being requested. */
   lookupStrategy?: BatchGetAmpUrlsRequestLookupStrategyEnum | (string & {}) | undefined;
 }
-export interface BatchGetAmpUrlsRequest_ {
-  /** Request body */
-  body?: BatchGetAmpUrlsRequest | undefined;
-}
+export interface BatchGetAmpUrlsRequest_ extends BatchGetAmpUrlsRequest {}
 /** AMP URL response for a requested URL. */
 export interface AmpUrl {
   /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
@@ -160,9 +157,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BatchGetAmpUrlsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1, __c0, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/ampUrls:batchGet",

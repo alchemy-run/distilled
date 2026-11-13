@@ -555,21 +555,20 @@ export interface ListProductsResponse {
   /** The token for the retrieval of the next page of product statuses. */
   nextPageToken?: string | undefined;
 }
-export interface PatchAccountsLanguagesProductCertificationsRequest {
+export interface PatchAccountsLanguagesProductCertificationsRequest extends Omit<
+  ProductCertification,
+  "name"
+> {
   /** Optional. The list of fields to update according to aip.dev/134. However, only full update is supported as of right now. Therefore, it can be either ignored or set to "*". Setting any other values will returns UNIMPLEMENTED error. */
   updateMask?: string | undefined;
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
   name: string;
-  /** Request body */
-  body?: ProductCertification | undefined;
 }
-export interface UpdateAccountsProductsRequest {
+export interface UpdateAccountsProductsRequest extends Attributes {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
   /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
   name: string;
-  /** Request body */
-  body?: Attributes | undefined;
 }
 export type DeleteAccountsLanguagesProductCertificationsError =
   | NotFound
@@ -726,11 +725,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(130, __c8, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(130, __c8, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -744,11 +745,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(191, __c11, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(191, __c11, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+parent}/products/{+name}",

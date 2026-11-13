@@ -446,21 +446,17 @@ export interface ProductReview {
   /** Identifier. The name of the product review. Format: `"{productreview.name=accounts/{account}/productReviews/{productReview}}"` */
   name?: string | undefined;
 }
-export interface InsertAccountsMerchantReviewsRequest {
+export interface InsertAccountsMerchantReviewsRequest extends Omit<MerchantReview, "dataSource"> {
   /** Required. The account where the merchant review will be inserted. Format: accounts/{account} */
   parent: string;
   /** Required. The data source of the [merchantreview](https://support.google.com/merchants/answer/7045996?sjid=5253581244217581976-EU) Format: `accounts/{account}/dataSources/{datasource}`. */
   dataSource?: string | undefined;
-  /** Request body */
-  body?: MerchantReview | undefined;
 }
-export interface InsertAccountsProductReviewsRequest {
+export interface InsertAccountsProductReviewsRequest extends Omit<ProductReview, "dataSource"> {
   /** Required. Format: `accounts/{account}/dataSources/{datasource}`. */
   dataSource?: string | undefined;
   /** Required. The account where the product review will be inserted. Format: accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: ProductReview | undefined;
 }
 export interface ListAccountsMerchantReviewsRequest {
   /** Required. The account to list merchant reviews for. Format: accounts/{account} */
@@ -675,11 +671,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataSource: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(86, __c10, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(86, __c10, 6),
+          S.Struct({
+            dataSource: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "reviews/v1beta/{+parent}/productReviews:insert",
@@ -983,11 +981,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dataSource: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(68, __c8, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(68, __c8, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dataSource: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "reviews/v1beta/{+parent}/merchantReviews:insert",

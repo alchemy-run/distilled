@@ -158,15 +158,13 @@ export interface DeploymentGroup {
   /** Output only. The provisioning state of the deployment group. */
   provisioningState?: DeploymentGroupProvisioningStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsDeploymentGroupsRequest {
+export interface CreateProjectsLocationsDeploymentGroupsRequest extends DeploymentGroup {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent in whose context the Deployment Group is created. The parent value is in the format: 'projects/{project_id}/locations/{location}' */
   parent: string;
   /** Required. The deployment group ID. */
   deploymentGroupId?: string | undefined;
-  /** Request body */
-  body?: DeploymentGroup | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -333,15 +331,13 @@ export interface Deployment {
   /** Required. User-specified Service Account (SA) credentials to be used when actuating resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
   serviceAccount?: string | undefined;
 }
-export interface CreateProjectsLocationsDeploymentsRequest {
+export interface CreateProjectsLocationsDeploymentsRequest extends Deployment {
   /** Required. The Deployment ID. */
   deploymentId?: string | undefined;
   /** Required. The parent in whose context the Deployment is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Deployment | undefined;
 }
 /** Artifacts created by preview. */
 export interface PreviewArtifacts {
@@ -414,15 +410,13 @@ export interface Preview {
   /** The user-specified Terraform version constraint. Example: "=1.3.10". */
   tfVersionConstraint?: string | undefined;
 }
-export interface CreateProjectsLocationsPreviewsRequest {
+export interface CreateProjectsLocationsPreviewsRequest extends Preview {
   /** Optional. The preview ID. */
   previewId?: string | undefined;
   /** Required. The parent in whose context the Preview is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Preview | undefined;
 }
 export type DeleteProjectsLocationsDeploymentGroupsDeploymentReferencePolicyEnum =
   | "DEPLOYMENT_REFERENCE_POLICY_UNSPECIFIED"
@@ -471,11 +465,9 @@ export interface DeleteStatefileRequest {
   /** Required. Lock ID of the lock file to verify that the user who is deleting the state file previously locked the Deployment. */
   lockId?: string | undefined;
 }
-export interface DeleteStateProjectsLocationsDeploymentsRequest {
+export interface DeleteStateProjectsLocationsDeploymentsRequest extends DeleteStatefileRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
-  /** Request body */
-  body?: DeleteStatefileRequest | undefined;
 }
 export type DeprovisionDeploymentGroupRequestDeletePolicyEnum =
   | "DELETE_POLICY_UNSPECIFIED"
@@ -488,11 +480,9 @@ export interface DeprovisionDeploymentGroupRequest {
   /** Optional. If set to true, this option is propagated to the deletion of each deployment in the group. This corresponds to the 'force' field in DeleteDeploymentRequest. */
   force?: boolean | undefined;
 }
-export interface DeprovisionProjectsLocationsDeploymentGroupsRequest {
+export interface DeprovisionProjectsLocationsDeploymentGroupsRequest extends DeprovisionDeploymentGroupRequest {
   /** Required. The name of the deployment group to deprovision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
-  /** Request body */
-  body?: DeprovisionDeploymentGroupRequest | undefined;
 }
 export interface ExportLockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
@@ -538,11 +528,9 @@ export interface ExportDeploymentStatefileRequest {
   /** Optional. If this flag is set to true, the exported deployment state file will be the draft state. This will enable the draft file to be validated before copying it over to the working state on unlock. */
   draft?: boolean | undefined;
 }
-export interface ExportStateProjectsLocationsDeploymentsRequest {
+export interface ExportStateProjectsLocationsDeploymentsRequest extends ExportDeploymentStatefileRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
-  /** Request body */
-  body?: ExportDeploymentStatefileRequest | undefined;
 }
 /** Contains info about a Terraform state file */
 export interface Statefile {
@@ -891,11 +879,9 @@ export interface ImportStatefileRequest {
   /** Required. Lock ID of the lock file to verify that the user who is importing the state file previously locked the Deployment. */
   lockId?: string | undefined;
 }
-export interface ImportStateProjectsLocationsDeploymentsRequest {
+export interface ImportStateProjectsLocationsDeploymentsRequest extends ImportStatefileRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
-  /** Request body */
-  body?: ImportStatefileRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
@@ -1140,25 +1126,24 @@ export interface LockProjectsLocationsDeploymentsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface PatchProjectsLocationsDeploymentGroupsRequest {
+export interface PatchProjectsLocationsDeploymentGroupsRequest extends Omit<
+  DeploymentGroup,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask used to specify the fields to be overwritten in the Deployment Group resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The name of the deployment group. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
-  /** Request body */
-  body?: DeploymentGroup | undefined;
 }
-export interface PatchProjectsLocationsDeploymentsRequest {
+export interface PatchProjectsLocationsDeploymentsRequest extends Omit<Deployment, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. Resource name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
   /** Optional. Field mask used to specify the fields to be overwritten in the Deployment resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Deployment | undefined;
 }
 /** Spec for a deployment to be created. */
 export interface DeploymentSpec {
@@ -1173,11 +1158,9 @@ export interface ProvisionDeploymentGroupRequest {
   /** Optional. The deployment specs of the deployment units to be created within the same project and location of the deployment group. The key is the unit ID, and the value is the `DeploymentSpec`. Provisioning will fail if a `deployment_spec` has a `deployment_id` that matches an existing deployment in the same project and location. If an existing deployment was part of the last successful revision but is no longer in the current DeploymentGroup's `deployment_units`, it will be recreated if included in `deployment_specs`. */
   deploymentSpecs?: DeploymentSpecMap | undefined;
 }
-export interface ProvisionProjectsLocationsDeploymentGroupsRequest {
+export interface ProvisionProjectsLocationsDeploymentGroupsRequest extends ProvisionDeploymentGroupRequest {
   /** Required. The name of the deployment group to provision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
-  /** Request body */
-  body?: ProvisionDeploymentGroupRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1186,22 +1169,18 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDeploymentsRequest {
+export interface SetIamPolicyProjectsLocationsDeploymentsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDeploymentsRequest {
+export interface TestIamPermissionsProjectsLocationsDeploymentsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1213,19 +1192,18 @@ export interface UnlockDeploymentRequest {
   /** Required. Lock ID of the lock file to be unlocked. */
   lockId?: string | undefined;
 }
-export interface UnlockProjectsLocationsDeploymentsRequest {
+export interface UnlockProjectsLocationsDeploymentsRequest extends UnlockDeploymentRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
-  /** Request body */
-  body?: UnlockDeploymentRequest | undefined;
 }
-export interface UpdateAutoMigrationConfigProjectsLocationsRequest {
+export interface UpdateAutoMigrationConfigProjectsLocationsRequest extends Omit<
+  AutoMigrationConfig,
+  "name"
+> {
   /** Optional. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
   /** Identifier. The name of the AutoMigrationConfig. Format: 'projects/{project_id}/locations/{location}/AutoMigrationConfig'. */
   name: string;
-  /** Request body */
-  body?: AutoMigrationConfig | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -2226,10 +2204,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deleteState",
@@ -2260,10 +2240,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeprovisionDeploymentGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deprovision",
@@ -2340,10 +2322,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ExportDeploymentStatefileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:exportState",
@@ -2776,10 +2760,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:importState",
@@ -3160,12 +3146,14 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(882, __c55, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(882, __c55, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDeploymentGroupsRequest" });
@@ -3175,12 +3163,14 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsDeploymentsRequest" });
@@ -3205,10 +3195,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ProvisionDeploymentGroupRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(786, __c49, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(786, __c49, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:provision",
@@ -3229,10 +3221,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3252,10 +3246,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3269,10 +3265,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:unlock",
@@ -3286,12 +3284,14 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          deploymentGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(882, __c55, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(882, __c55, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            deploymentGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deploymentGroups",
@@ -3381,11 +3381,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateAutoMigrationConfigProjectsLocationsRequest" });
@@ -3395,12 +3397,14 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            deploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deployments",
@@ -3529,12 +3533,14 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          previewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1057, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1057, __c66, 1),
+          S.Struct({
+            previewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/previews",

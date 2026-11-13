@@ -88,11 +88,9 @@ export interface AcceptProposalRequest {
   /** The last known client revision number of the proposal. */
   proposalRevision?: string | undefined;
 }
-export interface AcceptBuyersProposalsRequest {
+export interface AcceptBuyersProposalsRequest extends AcceptProposalRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   name: string;
-  /** Request body */
-  body?: AcceptProposalRequest | undefined;
 }
 export type ProposalOriginatorRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
 /** Contains information on how a buyer or seller can be reached. */
@@ -562,11 +560,9 @@ export interface AddCreativeRequest {
   /** Name of the creative to add to the finalized deal, in the format `buyers/{buyerAccountId}/creatives/{creativeId}`. See creative.name. */
   creative?: string | undefined;
 }
-export interface AddCreativeBuyersFinalizedDealsRequest {
+export interface AddCreativeBuyersFinalizedDealsRequest extends AddCreativeRequest {
   /** Required. Name of the finalized deal in the format of: `buyers/{accountId}/finalizedDeals/{dealId}` */
   deal: string;
-  /** Request body */
-  body?: AddCreativeRequest | undefined;
 }
 export type FinalizedDealDealServingStatusEnum =
   | "DEAL_SERVING_STATUS_UNSPECIFIED"
@@ -985,11 +981,9 @@ export interface AddNoteRequest {
   /** The note to add. */
   note?: Note | undefined;
 }
-export interface AddNoteBuyersProposalsRequest {
+export interface AddNoteBuyersProposalsRequest extends AddNoteRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   proposal: string;
-  /** Request body */
-  body?: AddNoteRequest | undefined;
 }
 /** Request message for updating the deal at the given revision number. */
 export interface UpdateDealRequest {
@@ -1004,11 +998,9 @@ export interface BatchUpdateDealsRequest {
   /** Required. List of request messages to update deals. */
   requests?: UpdateDealRequestList | undefined;
 }
-export interface BatchUpdateBuyersProposalsDealsRequest {
+export interface BatchUpdateBuyersProposalsDealsRequest extends BatchUpdateDealsRequest {
   /** Required. The name of the proposal containing the deals to batch update. Format: buyers/{accountId}/proposals/{proposalId} */
   parent: string;
-  /** Request body */
-  body?: BatchUpdateDealsRequest | undefined;
 }
 export type DealList = Array<Deal>;
 /** Response message for batch updating deals. */
@@ -1024,29 +1016,21 @@ export interface CancelNegotiationBuyersProposalsRequest {
   /** Request body */
   body?: ActivateClientRequest | undefined;
 }
-export interface CreateBuyersClientsRequest {
+export interface CreateBuyersClientsRequest extends Client {
   /** Required. The name of the buyer. Format: `buyers/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: Client | undefined;
 }
-export interface CreateBuyersClientsUsersRequest {
+export interface CreateBuyersClientsUsersRequest extends ClientUser {
   /** Required. The name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   parent: string;
-  /** Request body */
-  body?: ClientUser | undefined;
 }
-export interface CreateBuyersDataSegmentsRequest {
+export interface CreateBuyersDataSegmentsRequest extends DataSegment {
   /** Required. The parent resource where this data segment will be created. v1alpha format: `buyers/{accountId}` v1beta format: `curators/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: DataSegment | undefined;
 }
-export interface CreateCuratorsCuratedPackagesRequest {
+export interface CreateCuratorsCuratedPackagesRequest extends CuratedPackage {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: CuratedPackage | undefined;
 }
 /** Request message for disabling a client. */
 export type DeactivateClientRequest = ActivateClientRequest;
@@ -1406,56 +1390,44 @@ export interface ListMediaPlannersResponse {
   /** A token which can be passed to a subsequent call to the `ListMediaPlanners` method to retrieve the next page of results in ListMediaPlannersRequest.pageToken. */
   nextPageToken?: string | undefined;
 }
-export interface PatchBuyersClientsRequest {
+export interface PatchBuyersClientsRequest extends Omit<Client, "name"> {
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name: string;
-  /** Request body */
-  body?: Client | undefined;
 }
-export interface PatchBuyersDataSegmentsRequest {
+export interface PatchBuyersDataSegmentsRequest extends Omit<DataSegment, "name"> {
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
-  /** Request body */
-  body?: DataSegment | undefined;
 }
-export interface PatchBuyersProposalsRequest {
+export interface PatchBuyersProposalsRequest extends Omit<Proposal, "name"> {
   /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
   name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Proposal | undefined;
 }
-export interface PatchBuyersProposalsDealsRequest {
+export interface PatchBuyersProposalsDealsRequest extends Omit<Deal, "name"> {
   /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
   name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Deal | undefined;
 }
-export interface PatchCuratorsCuratedPackagesRequest {
+export interface PatchCuratorsCuratedPackagesRequest extends Omit<CuratedPackage, "name"> {
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CuratedPackage | undefined;
 }
 /** Request message for pausing a finalized deal. */
 export interface PauseFinalizedDealRequest {
   /** The reason to pause the finalized deal, will be displayed to the seller. Maximum length is 1000 characters. */
   reason?: string | undefined;
 }
-export interface PauseBuyersFinalizedDealsRequest {
+export interface PauseBuyersFinalizedDealsRequest extends PauseFinalizedDealRequest {
   /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` */
   name: string;
-  /** Request body */
-  body?: PauseFinalizedDealRequest | undefined;
 }
 /** Request message for resuming a finalized deal. */
 export type ResumeFinalizedDealRequest = ActivateClientRequest;
@@ -1507,11 +1479,9 @@ export interface SendRfpRequest {
   /** Required. The display name of the proposal being created by this RFP. */
   displayName?: string | undefined;
 }
-export interface SendRfpBuyersProposalsRequest {
+export interface SendRfpBuyersProposalsRequest extends SendRfpRequest {
   /** Required. The current buyer who is sending the RFP in the format: `buyers/{accountId}`. */
   buyer: string;
-  /** Request body */
-  body?: SendRfpRequest | undefined;
 }
 /** Request message for setting ready to serve for a finalized deal. */
 export type SetReadyToServeRequest = ActivateClientRequest;
@@ -1540,11 +1510,9 @@ export interface SubscribeClientsRequest {
   /** Optional. A list of client buyers to subscribe to the auction package, with client buyer in the format `buyers/{accountId}/clients/{clientAccountId}`. The current buyer will be subscribed to the auction package regardless of the list contents if not already. */
   clients?: StringList | undefined;
 }
-export interface SubscribeClientsBuyersAuctionPackagesRequest {
+export interface SubscribeClientsBuyersAuctionPackagesRequest extends SubscribeClientsRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   auctionPackage: string;
-  /** Request body */
-  body?: SubscribeClientsRequest | undefined;
 }
 /** Request message for UnsubscribeAuctionPackage. */
 export type UnsubscribeAuctionPackageRequest = ActivateClientRequest;
@@ -1559,11 +1527,9 @@ export interface UnsubscribeClientsRequest {
   /** Optional. A list of client buyers to unsubscribe from the auction package, with client buyer in the format `buyers/{accountId}/clients/{clientAccountId}`. */
   clients?: StringList | undefined;
 }
-export interface UnsubscribeClientsBuyersAuctionPackagesRequest {
+export interface UnsubscribeClientsBuyersAuctionPackagesRequest extends UnsubscribeClientsRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   auctionPackage: string;
-  /** Request body */
-  body?: UnsubscribeClientsRequest | undefined;
 }
 export type AcceptBuyersProposalsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Accepts the proposal at the given revision number. If the revision number in the request is behind the latest from the server, an error message will be returned. This call updates the Proposal.state from `BUYER_ACCEPTANCE_REQUESTED` to `FINALIZED`; it has no side effect if the Proposal.state is already `FINALIZED` and throws exception if the Proposal.state is not either `BUYER_ACCEPTANCE_REQUESTED` or `FINALIZED`. Accepting a proposal means the buyer understands and accepts the Proposal.terms_and_conditions proposed by the seller. */
@@ -2645,10 +2611,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddNoteRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          proposal: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            proposal: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+proposal}:addNote",
@@ -2677,10 +2645,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "BatchUpdateDealsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/deals:batchUpdate",
@@ -2723,10 +2693,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/clients",
@@ -2740,10 +2712,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/users",
@@ -2757,10 +2731,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/dataSegments",
@@ -2774,10 +2750,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2121, __c66, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2121, __c66, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/curatedPackages",
@@ -3327,10 +3305,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "AcceptProposalRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:accept",
@@ -3478,11 +3458,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3496,11 +3478,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3514,11 +3498,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1189, __c37, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1189, __c37, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3532,11 +3518,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2355, __c73, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2355, __c73, 19),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3550,11 +3538,13 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2121, __c66, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2121, __c66, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3574,10 +3564,12 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PauseFinalizedDealRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1472, __c46, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:pause",
@@ -3688,10 +3680,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "SendRfpRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          buyer: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            buyer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+buyer}/proposals:sendRfp",
@@ -3756,10 +3750,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          auctionPackage: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            auctionPackage: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+auctionPackage}:subscribeClients",
@@ -3800,10 +3796,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          auctionPackage: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            auctionPackage: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+auctionPackage}:unsubscribeClients",
@@ -4056,10 +4054,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "AddCreativeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          deal: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            deal: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+deal}:addCreative",

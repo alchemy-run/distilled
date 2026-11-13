@@ -124,7 +124,10 @@ export interface PublishRequest {
   /** The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target="trustedTesters" or target="default". The default value, if none is supplied, is target="default". Recommended usage is to use the URL query parameter to specificy the value. */
   target?: string | undefined;
 }
-export interface PublishItemsRequest {
+export interface PublishItemsRequest extends Omit<
+  PublishRequest,
+  "deployPercentage" | "reviewExemption"
+> {
   /** The ID of the item to publish. */
   itemId: string;
   /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
@@ -133,8 +136,6 @@ export interface PublishItemsRequest {
   deployPercentage?: number | undefined;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
   reviewExemption?: boolean | undefined;
-  /** Request body */
-  body?: PublishRequest | undefined;
 }
 export type StringList = Array<string>;
 export interface Item2 {
@@ -147,11 +148,9 @@ export interface Item2 {
   /** The ID of this item. */
   item_id?: string | undefined;
 }
-export interface UpdateItemsRequest {
+export interface UpdateItemsRequest extends Item {
   /** The ID of the item to upload. */
   itemId: string;
-  /** Request body */
-  body?: Item | undefined;
 }
 export type GetItemsError = NotFound | Forbidden | GcpOpError;
 /** Gets your own Chrome Web Store item. */
@@ -287,13 +286,15 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PublishRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          itemId: S.String.pipe(T.Label()),
-          publishTarget: S.optional(S.String.pipe(T.Query())),
-          deployPercentage: S.optional(S.Number.pipe(T.Query())),
-          reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12, __c3, 0),
+          S.Struct({
+            itemId: S.String.pipe(T.Label()),
+            publishTarget: S.optional(S.String.pipe(T.Query())),
+            deployPercentage: S.optional(S.Number.pipe(T.Query())),
+            reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "chromewebstore/v1.1/items/{itemId}/publish",
@@ -318,10 +319,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          itemId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6, __c1, 2),
+          S.Struct({
+            itemId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "chromewebstore/v1.1/items/{itemId}",

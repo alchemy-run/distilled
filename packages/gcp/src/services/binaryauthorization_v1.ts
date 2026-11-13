@@ -147,13 +147,11 @@ export interface Attestor {
   /** Optional. A checksum, returned by the server, that can be sent on update requests to ensure the attestor has an up-to-date value before attempting to update it. See https://google.aip.dev/154. */
   etag?: string | undefined;
 }
-export interface CreateProjectsAttestorsRequest {
+export interface CreateProjectsAttestorsRequest extends Attestor {
   /** Required. The attestors ID. */
   attestorId?: string | undefined;
   /** Required. The parent of this attestor. */
   parent: string;
-  /** Request body */
-  body?: Attestor | undefined;
 }
 /** A scope specifier for `CheckSet` objects. */
 export interface Scope {
@@ -336,13 +334,11 @@ export interface PlatformPolicy {
   /** Output only. The relative resource name of the Binary Authorization platform policy, in the form of `projects/*\/platforms/*\/policies/*`. */
   name?: string | undefined;
 }
-export interface CreateProjectsPlatformsPoliciesRequest {
+export interface CreateProjectsPlatformsPoliciesRequest extends PlatformPolicy {
   /** Required. The parent of this platform policy. */
   parent: string;
   /** Required. The platform policy ID. */
   policyId?: string | undefined;
-  /** Request body */
-  body?: PlatformPolicy | undefined;
 }
 export interface DeleteProjectsAttestorsRequest {
   /** Required. The name of the attestors to delete, in the format `projects/*\/attestors/*`. */
@@ -362,11 +358,9 @@ export interface EvaluateGkePolicyRequest {
   /** Required. JSON or YAML blob representing a Kubernetes resource. */
   resource?: DocumentMap | undefined;
 }
-export interface EvaluateProjectsPlatformsGkePoliciesRequest {
+export interface EvaluateProjectsPlatformsGkePoliciesRequest extends EvaluateGkePolicyRequest {
   /** Required. The name of the platform policy to evaluate in the format `projects/*\/platforms/*\/policies/*`. */
   name: string;
-  /** Request body */
-  body?: EvaluateGkePolicyRequest | undefined;
 }
 export type EvaluateGkePolicyResponseVerdictEnum =
   | "VERDICT_UNSPECIFIED"
@@ -613,62 +607,51 @@ export interface ListPlatformPoliciesResponse {
   /** The list of platform policies. */
   platformPolicies?: PlatformPolicyList | undefined;
 }
-export interface ReplacePlatformPolicyProjectsPlatformsPoliciesRequest {
+export interface ReplacePlatformPolicyProjectsPlatformsPoliciesRequest extends Omit<
+  PlatformPolicy,
+  "name"
+> {
   /** Output only. The relative resource name of the Binary Authorization platform policy, in the form of `projects/*\/platforms/*\/policies/*`. */
   name: string;
-  /** Request body */
-  body?: PlatformPolicy | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: IamPolicy | undefined;
 }
-export interface SetIamPolicyProjectsAttestorsRequest {
+export interface SetIamPolicyProjectsAttestorsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsPolicyRequest {
+export interface SetIamPolicyProjectsPolicyRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsAttestorsRequest {
+export interface TestIamPermissionsProjectsAttestorsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsPolicyRequest {
+export interface TestIamPermissionsProjectsPolicyRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdatePolicyProjectsRequest {
+export interface UpdatePolicyProjectsRequest extends Omit<Policy, "name"> {
   /** Output only. The resource name, in the format `projects/*\/policy`. There is at most one policy per project. */
   name: string;
-  /** Request body */
-  body?: Policy | undefined;
 }
-export interface UpdateProjectsAttestorsRequest {
+export interface UpdateProjectsAttestorsRequest extends Omit<Attestor, "name"> {
   /** Required. The resource name, in the format: `projects/*\/attestors/*`. This field may not be updated. */
   name: string;
-  /** Request body */
-  body?: Attestor | undefined;
 }
 /** Verifiers (e.g. Kritis implementations) MUST verify signatures with respect to the trust anchors defined in policy (e.g. a Kritis policy). Typically this means that the verifier has been configured with a map from `public_key_id` to public key material (and any required parameters, e.g. signing algorithm). In particular, verification implementations MUST NOT treat the signature `public_key_id` as anything more than a key lookup hint. The `public_key_id` DOES NOT validate or authenticate a public key; it only provides a mechanism for quickly selecting a public key ALREADY CONFIGURED on the verifier through a trusted channel. Verification implementations MUST reject signatures in any of the following circumstances: * The `public_key_id` is not recognized by the verifier. * The public key that `public_key_id` refers to does not verify the signature with respect to the payload. The `signature` contents SHOULD NOT be "attached" (where the payload is included with the serialized `signature` bytes). Verifiers MUST ignore any "attached" payload and only verify signatures with respect to explicitly provided payload (e.g. a `payload` field on the proto message that holds this Signature, or the canonical serialization of the proto message that holds this signature). */
 export interface Signature {
@@ -701,11 +684,9 @@ export interface ValidateAttestationOccurrenceRequest {
   /** Required. The URI of the artifact (e.g. container image) that is the subject of the containing Occurrence. */
   occurrenceResourceUri?: string | undefined;
 }
-export interface ValidateAttestationOccurrenceProjectsAttestorsRequest {
+export interface ValidateAttestationOccurrenceProjectsAttestorsRequest extends ValidateAttestationOccurrenceRequest {
   /** Required. The resource name of the Attestor of the occurrence, in the format `projects/*\/attestors/*`. */
   attestor: string;
-  /** Request body */
-  body?: ValidateAttestationOccurrenceRequest | undefined;
 }
 export type ValidateAttestationOccurrenceResponseResultEnum =
   | "RESULT_UNSPECIFIED"
@@ -1325,10 +1306,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(728, __c22, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(728, __c22, 24),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -1342,10 +1325,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1369,10 +1354,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1386,10 +1373,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1413,10 +1402,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1430,10 +1421,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(68, __c2, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(68, __c2, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -1447,10 +1440,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(611, __c19, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(611, __c19, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -1497,10 +1492,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ValidateAttestationOccurrenceRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          attestor: S.String.pipe(T.Label()),
-          body: S.optional(__S(549, __c17, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(549, __c17, 5),
+          S.Struct({
+            attestor: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+attestor}:validateAttestationOccurrence",
@@ -1521,11 +1518,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          attestorId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(611, __c19, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(611, __c19, 3),
+          S.Struct({
+            attestorId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attestors",
@@ -1584,11 +1583,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          policyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(728, __c22, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(728, __c22, 24),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            policyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/policies",
@@ -1819,10 +1820,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "EvaluateGkePolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c28, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c28, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:evaluate",

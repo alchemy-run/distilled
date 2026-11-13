@@ -89,10 +89,7 @@ export interface BatchDeleteAlertsRequest {
   /** Required. The list of alert IDs to delete. */
   alertId?: StringList | undefined;
 }
-export interface BatchDeleteAlertsRequest_ {
-  /** Request body */
-  body?: BatchDeleteAlertsRequest | undefined;
-}
+export interface BatchDeleteAlertsRequest_ extends BatchDeleteAlertsRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -119,10 +116,7 @@ export interface BatchUndeleteAlertsRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
 }
-export interface BatchUndeleteAlertsRequest_ {
-  /** Request body */
-  body?: BatchUndeleteAlertsRequest | undefined;
-}
+export interface BatchUndeleteAlertsRequest_ extends BatchUndeleteAlertsRequest {}
 /** Response to batch undelete operation on alerts. */
 export interface BatchUndeleteAlertsResponse {
   /** The status details for each failed `alert_id`. */
@@ -150,13 +144,11 @@ export interface AlertFeedback {
   /** Required. The type of the feedback. */
   type?: AlertFeedbackTypeEnum | (string & {}) | undefined;
 }
-export interface CreateAlertsFeedbackRequest {
+export interface CreateAlertsFeedbackRequest extends Omit<AlertFeedback, "alertId" | "customerId"> {
   /** Required. The identifier of the alert this feedback belongs to. */
   alertId: string;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
-  /** Request body */
-  body?: AlertFeedback | undefined;
 }
 export interface DeleteAlertsRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
@@ -286,17 +278,13 @@ export interface UndeleteAlertRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
 }
-export interface UndeleteAlertsRequest {
+export interface UndeleteAlertsRequest extends UndeleteAlertRequest {
   /** Required. The identifier of the alert to undelete. */
   alertId: string;
-  /** Request body */
-  body?: UndeleteAlertRequest | undefined;
 }
-export interface UpdateSettingsV1beta1Request {
+export interface UpdateSettingsV1beta1Request extends Settings {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert settings are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
 }
 export type BatchDeleteAlertsError =
   | NotFound
@@ -624,10 +612,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UndeleteAlertRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          alertId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            alertId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/alerts/{alertId}:undelete",
@@ -641,10 +631,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11, __c1, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11, __c1, 3),
+          S.Struct({
+            customerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/settings",
@@ -665,9 +657,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "BatchDeleteAlertsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(48, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(48, __c6, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/alerts:batchDelete",
@@ -719,9 +709,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "BatchUndeleteAlertsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(72, __c9, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/alerts:batchUndelete",
@@ -735,11 +723,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          alertId: S.String.pipe(T.Label()),
-          customerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(88, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(88, __c11, 0),
+          S.Struct({
+            alertId: S.String.pipe(T.Label()),
+            customerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/alerts/{alertId}/feedback",

@@ -108,13 +108,11 @@ export interface Workflow {
   /** The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision. */
   serviceAccount?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkflowsRequest {
+export interface CreateProjectsLocationsWorkflowsRequest extends Workflow {
   /** Required. The ID of the workflow to be created. It has to fulfill the following requirements: * Must contain only letters, numbers, underscores and hyphens. * Must start with a letter. * Must be between 1-64 characters. * Must end with a number or a letter. * Must be unique within the customer project and location. */
   workflowId?: string | undefined;
   /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: Workflow | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -240,13 +238,11 @@ export interface ListWorkflowsResponse {
   /** The workflows which match the request. */
   workflows?: WorkflowList | undefined;
 }
-export interface PatchProjectsLocationsWorkflowsRequest {
+export interface PatchProjectsLocationsWorkflowsRequest extends Omit<Workflow, "name"> {
   /** List of fields to be updated. If not present, the entire workflow will be updated. */
   updateMask?: string | undefined;
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
-  /** Request body */
-  body?: Workflow | undefined;
 }
 export type CreateProjectsLocationsWorkflowsError =
   | NotFound
@@ -544,11 +540,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c9, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -562,11 +560,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          workflowId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c9, 0),
+          S.Struct({
+            workflowId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/workflows",

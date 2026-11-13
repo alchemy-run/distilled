@@ -433,15 +433,13 @@ export interface Deployment {
   /** MS SQL workload input. */
   sqlServerWorkload?: SqlServerWorkload | undefined;
 }
-export interface CreateProjectsLocationsDeploymentsRequest {
+export interface CreateProjectsLocationsDeploymentsRequest extends Deployment {
   /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
   /** Required. ID of the deployment. */
   deploymentId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Deployment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -535,13 +533,11 @@ export interface Actuation {
   /** Output only. Actuation state. */
   state?: ActuationStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsDeploymentsActuationsRequest {
+export interface CreateProjectsLocationsDeploymentsActuationsRequest extends Actuation {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The resource name of the Actuation location using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
-  /** Request body */
-  body?: Actuation | undefined;
 }
 export type ResourceStatusStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING";
 /** The lifecycle status of an Evaluation resource. */
@@ -607,15 +603,13 @@ export interface Evaluation {
   /** Labels as key value pairs. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsEvaluationsRequest {
+export interface CreateProjectsLocationsEvaluationsRequest extends Evaluation {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Id of the requesting object. */
   evaluationId?: string | undefined;
   /** Required. The resource prefix of the evaluation location using the form: `projects/{project_id}/locations/{location_id}`. */
   parent: string;
-  /** Request body */
-  body?: Evaluation | undefined;
 }
 export interface DeleteProjectsLocationsDeploymentsRequest {
   /** Optional. If set to true, any actuation will also be deleted. Follows the best practice from https://aip.dev/135#cascading-delete. */
@@ -1349,15 +1343,13 @@ export interface ListRulesResponse {
   /** All rules in response. */
   rules?: RuleList | undefined;
 }
-export interface PatchProjectsLocationsEvaluationsRequest {
+export interface PatchProjectsLocationsEvaluationsRequest extends Omit<Evaluation, "name"> {
   /** Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Evaluation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Evaluation | undefined;
 }
 /** Request message for the RunEvaluation RPC. */
 export interface RunEvaluationRequest {
@@ -1368,11 +1360,9 @@ export interface RunEvaluationRequest {
   /** Required. ID of the execution which will be created. */
   executionId?: string | undefined;
 }
-export interface RunProjectsLocationsEvaluationsExecutionsRequest {
+export interface RunProjectsLocationsEvaluationsExecutionsRequest extends RunEvaluationRequest {
   /** Required. The resource name of the Evaluation using the form: `projects/{project}/locations/{location}/evaluations/{evaluation}`. */
   name: string;
-  /** Request body */
-  body?: RunEvaluationRequest | undefined;
 }
 export type TorsoValidationWorkloadTypeEnum =
   | "WORKLOAD_TYPE_UNSPECIFIED"
@@ -1869,11 +1859,9 @@ export interface WriteInsightRequest {
   /** Required. The metrics data details. */
   insight?: Insight | undefined;
 }
-export interface WriteInsightProjectsLocationsInsightsRequest {
+export interface WriteInsightProjectsLocationsInsightsRequest extends WriteInsightRequest {
   /** Required. The GCP location. The format is: projects/{project}/locations/{location}. */
   location: string;
-  /** Request body */
-  body?: WriteInsightRequest | undefined;
 }
 /** The response for write insights request. */
 export interface WriteInsightResponse {}
@@ -3409,12 +3397,14 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1348, __c42, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1348, __c42, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3436,10 +3426,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RunEvaluationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/executions:run",
@@ -3759,10 +3751,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "WriteInsightRequest" });
     case 10:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(969, __c30, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(969, __c30, 9),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}/insights:writeInsight",
@@ -3799,12 +3793,14 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          deploymentId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1099, __c34, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1099, __c34, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            deploymentId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deployments",
@@ -4025,11 +4021,13 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1251, __c39, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1251, __c39, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/actuations",
@@ -4082,12 +4080,14 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          evaluationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1348, __c42, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1348, __c42, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            evaluationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/evaluations",

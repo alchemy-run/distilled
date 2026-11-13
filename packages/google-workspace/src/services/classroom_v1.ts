@@ -240,20 +240,15 @@ export interface Course {
   /** State of the course. If unspecified, the default state is `PROVISIONED`. */
   courseState?: CourseCourseStateEnum | (string & {}) | undefined;
 }
-export interface CreateCoursesRequest {
-  /** Request body */
-  body?: Course | undefined;
-}
+export interface CreateCoursesRequest extends Course {}
 /** Alternative identifier for a course. An alias uniquely identifies a course. It must be unique within one of the following scopes: * domain: A domain-scoped alias is visible to all users within the alias creator's domain and can be created only by a domain admin. A domain-scoped alias is often used when a course has an identifier external to Classroom. * project: A project-scoped alias is visible to any request from an application using the Developer Console project ID that created the alias and can be created by any project. A project-scoped alias is often used when an application has alternative identifiers. A random value can also be used to avoid duplicate courses in the event of transmission failures, as retrying a request will return `ALREADY_EXISTS` if a previous one has succeeded. */
 export interface CourseAlias {
   /** Alias string. The format of the string indicates the desired alias scoping. * `d:` indicates a domain-scoped alias. Example: `d:math_101` * `p:` indicates a project-scoped alias. Example: `p:abc123` This field has a maximum length of 256 characters. */
   alias?: string | undefined;
 }
-export interface CreateCoursesAliasesRequest {
+export interface CreateCoursesAliasesRequest extends CourseAlias {
   /** Identifier of the course to alias. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: CourseAlias | undefined;
 }
 export type AnnouncementStateEnum =
   | "ANNOUNCEMENT_STATE_UNSPECIFIED"
@@ -339,11 +334,9 @@ export interface Announcement {
   /** Optional timestamp when this announcement is scheduled to be published. */
   scheduledTime?: string | undefined;
 }
-export interface CreateCoursesAnnouncementsRequest {
+export interface CreateCoursesAnnouncementsRequest extends Omit<Announcement, "courseId"> {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: Announcement | undefined;
 }
 /** Identifier of a previous copy of a given attachment. */
 export interface CopyHistory {
@@ -411,7 +404,10 @@ export interface AddOnAttachment {
   /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
   studentViewUri?: EmbedUri | undefined;
 }
-export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest {
+export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
@@ -420,8 +416,6 @@ export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest {
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
   postId?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
 export type CourseWorkAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
@@ -502,13 +496,14 @@ export interface CourseWork {
   /** The category that this coursework's grade contributes to. Present only when a category has been chosen for the coursework. May be used in calculating the overall grade. Read-only. */
   gradeCategory?: GradeCategory | undefined;
 }
-export interface CreateCoursesCourseWorkRequest {
+export interface CreateCoursesCourseWorkRequest extends Omit<CourseWork, "courseId"> {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: CourseWork | undefined;
 }
-export interface CreateCoursesCourseWorkAddOnAttachmentsRequest {
+export interface CreateCoursesCourseWorkAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
   addOnToken?: string | undefined;
   /** Optional. Deprecated, use `item_id` instead. */
@@ -517,8 +512,6 @@ export interface CreateCoursesCourseWorkAddOnAttachmentsRequest {
   courseId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
 export type CourseWorkMaterialAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
@@ -560,13 +553,17 @@ export interface CourseWorkMaterial {
   /** Identifiers of students with access to the course work material. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the course work material. */
   individualStudentsOptions?: IndividualStudentsOptions | undefined;
 }
-export interface CreateCoursesCourseWorkMaterialsRequest {
+export interface CreateCoursesCourseWorkMaterialsRequest extends Omit<
+  CourseWorkMaterial,
+  "courseId"
+> {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: CourseWorkMaterial | undefined;
 }
-export interface CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
+export interface CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
@@ -575,8 +572,6 @@ export interface CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   itemId: string;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
   addOnToken?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
 /** A level of the criterion. */
 export interface Level {
@@ -619,15 +614,19 @@ export interface Rubric {
   /** Output only. Timestamp of the most recent change to this rubric. Read-only. */
   updateTime?: string | undefined;
 }
-export interface CreateCoursesCourseWorkRubricsRequest {
+export interface CreateCoursesCourseWorkRubricsRequest extends Omit<
+  Rubric,
+  "courseId" | "courseWorkId"
+> {
   /** Required. Identifier of the course work. */
   courseWorkId: string;
   /** Required. Identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: Rubric | undefined;
 }
-export interface CreateCoursesPostsAddOnAttachmentsRequest {
+export interface CreateCoursesPostsAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
@@ -636,8 +635,6 @@ export interface CreateCoursesPostsAddOnAttachmentsRequest {
   itemId?: string | undefined;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
   addOnToken?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
 /** A student group in a course. */
 export interface StudentGroup {
@@ -648,11 +645,9 @@ export interface StudentGroup {
   /** The identifier of the student group. */
   id?: string | undefined;
 }
-export interface CreateCoursesStudentGroupsRequest {
+export interface CreateCoursesStudentGroupsRequest extends Omit<StudentGroup, "courseId"> {
   /** Required. The identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: StudentGroup | undefined;
 }
 /** A student member in a student group. */
 export interface StudentGroupMember {
@@ -663,13 +658,14 @@ export interface StudentGroupMember {
   /** The identifier of the student group. */
   studentGroupId?: string | undefined;
 }
-export interface CreateCoursesStudentGroupsStudentGroupMembersRequest {
+export interface CreateCoursesStudentGroupsStudentGroupMembersRequest extends Omit<
+  StudentGroupMember,
+  "courseId" | "studentGroupId"
+> {
   /** Required. The identifier of the course. */
   courseId: string;
   /** Required. The identifier of the student group. */
   studentGroupId: string;
-  /** Request body */
-  body?: StudentGroupMember | undefined;
 }
 /** Details of the user's name. */
 export interface Name {
@@ -713,13 +709,11 @@ export interface Student {
   /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
   userId?: string | undefined;
 }
-export interface CreateCoursesStudentsRequest {
+export interface CreateCoursesStudentsRequest extends Omit<Student, "courseId"> {
   /** Identifier of the course to create the student in. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Enrollment code of the course to create the student in. This code is required if userId corresponds to the requesting user; it may be omitted if the requesting user has administrative permissions to create students for any user. */
   enrollmentCode?: string | undefined;
-  /** Request body */
-  body?: Student | undefined;
 }
 /** Teacher of a course. */
 export interface Teacher {
@@ -730,11 +724,9 @@ export interface Teacher {
   /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
   userId?: string | undefined;
 }
-export interface CreateCoursesTeachersRequest {
+export interface CreateCoursesTeachersRequest extends Omit<Teacher, "courseId"> {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: Teacher | undefined;
 }
 /** Topic created by a teacher for the course */
 export interface Topic {
@@ -747,11 +739,9 @@ export interface Topic {
   /** Identifier of the course. Read-only. */
   courseId?: string | undefined;
 }
-export interface CreateCoursesTopicsRequest {
+export interface CreateCoursesTopicsRequest extends Omit<Topic, "courseId"> {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: Topic | undefined;
 }
 export type InvitationRoleEnum = "COURSE_ROLE_UNSPECIFIED" | "STUDENT" | "TEACHER" | "OWNER";
 /** An invitation to join a course. */
@@ -765,10 +755,7 @@ export interface Invitation {
   /** Identifier of the course to invite the user to. */
   courseId?: string | undefined;
 }
-export interface CreateInvitationsRequest {
-  /** Request body */
-  body?: Invitation | undefined;
-}
+export interface CreateInvitationsRequest extends Invitation {}
 /** A reference to a Cloud Pub/Sub topic. To register for notifications, the owner of the topic must grant `classroom-notifications@system.gserviceaccount.com` the `projects.topics.publish` permission. */
 export interface CloudPubsubTopic {
   /** The `name` field of a Cloud Pub/Sub [Topic](https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics#Topic). */
@@ -809,10 +796,7 @@ export interface Registration {
   /** The time until which the `Registration` is effective. This is a read-only field assigned by the server. */
   expiryTime?: string | undefined;
 }
-export interface CreateRegistrationsRequest {
-  /** Request body */
-  body?: Registration | undefined;
-}
+export interface CreateRegistrationsRequest extends Registration {}
 export type GuardianInvitationStateEnum =
   | "GUARDIAN_INVITATION_STATE_UNSPECIFIED"
   | "PENDING"
@@ -830,11 +814,12 @@ export interface GuardianInvitation {
   /** The time that this invitation was created. Read-only. */
   creationTime?: string | undefined;
 }
-export interface CreateUserProfilesGuardianInvitationsRequest {
+export interface CreateUserProfilesGuardianInvitationsRequest extends Omit<
+  GuardianInvitation,
+  "studentId"
+> {
   /** ID of the student (in standard format) */
   studentId: string;
-  /** Request body */
-  body?: GuardianInvitation | undefined;
 }
 export interface DeleteCoursesRequest {
   /** Identifier of the course to delete. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -1786,13 +1771,11 @@ export interface ModifyAnnouncementAssigneesRequest {
   /** Mode of the announcement describing whether it is accessible by all students or specified individual students. */
   assigneeMode?: ModifyAnnouncementAssigneesRequestAssigneeModeEnum | (string & {}) | undefined;
 }
-export interface ModifyAssigneesCoursesAnnouncementsRequest {
+export interface ModifyAssigneesCoursesAnnouncementsRequest extends ModifyAnnouncementAssigneesRequest {
   /** Identifier of the announcement. */
   id: string;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: ModifyAnnouncementAssigneesRequest | undefined;
 }
 export type ModifyCourseWorkAssigneesRequestAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
@@ -1805,48 +1788,43 @@ export interface ModifyCourseWorkAssigneesRequest {
   /** Set which students are assigned or not assigned to the coursework. Must be specified only when `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
   modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions | undefined;
 }
-export interface ModifyAssigneesCoursesCourseWorkRequest {
+export interface ModifyAssigneesCoursesCourseWorkRequest extends ModifyCourseWorkAssigneesRequest {
   /** Identifier of the coursework. */
   id: string;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: ModifyCourseWorkAssigneesRequest | undefined;
 }
 /** Request to modify the attachments of a student submission. */
 export interface ModifyAttachmentsRequest {
   /** Attachments to add. A student submission may not have more than 20 attachments. Form attachments are not supported. */
   addAttachments?: AttachmentList | undefined;
 }
-export interface ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest {
+export interface ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest extends ModifyAttachmentsRequest {
   /** Identifier of the course work. */
   courseWorkId: string;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Identifier of the student submission. */
   id: string;
-  /** Request body */
-  body?: ModifyAttachmentsRequest | undefined;
 }
-export interface PatchCoursesRequest {
+export interface PatchCoursesRequest extends Omit<Course, "id"> {
   /** Mask that identifies which fields on the course to update. This field is required to do an update. The update will fail if invalid fields are specified. The following fields are valid: * `courseState` * `description` * `descriptionHeading` * `name` * `ownerId` * `room` * `section` * `subject` * `learningStandardSettings` * `levels` Note: patches to ownerId are treated as being effective immediately, but in practice it may take some time for the ownership transfer of all affected resources to complete. When set in a query parameter, this field should be specified as `updateMask=,,...` */
   updateMask?: string | undefined;
   /** Identifier of the course to update. This identifier can be either the Classroom-assigned identifier or an alias. */
   id: string;
-  /** Request body */
-  body?: Course | undefined;
 }
-export interface PatchCoursesAnnouncementsRequest {
+export interface PatchCoursesAnnouncementsRequest extends Omit<Announcement, "id" | "courseId"> {
   /** Mask that identifies which fields on the announcement to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the Announcement object. If a field that does not support empty values is included in the update mask and not set in the Announcement object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `text` * `state` * `scheduled_time` */
   updateMask?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Identifier of the announcement. */
   id: string;
-  /** Request body */
-  body?: Announcement | undefined;
 }
-export interface PatchCoursesAnnouncementsAddOnAttachmentsRequest {
+export interface PatchCoursesAnnouncementsAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Required. Identifier of the post under which the attachment is attached. */
   postId?: string | undefined;
   /** Identifier of the post under which the attachment is attached. */
@@ -1857,20 +1835,19 @@ export interface PatchCoursesAnnouncementsAddOnAttachmentsRequest {
   courseId: string;
   /** Required. Identifier of the attachment. */
   attachmentId: string;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
-export interface PatchCoursesCourseWorkRequest {
+export interface PatchCoursesCourseWorkRequest extends Omit<CourseWork, "id" | "courseId"> {
   /** Mask that identifies which fields on the course work to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `CourseWork` object. If a field that does not support empty values is included in the update mask and not set in the `CourseWork` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `description` * `state` * `due_date` * `due_time` * `max_points` * `scheduled_time` * `submission_modification_mode` * `topic_id` * `grading_period_id` * `learning_goals` */
   updateMask?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Identifier of the course work. */
   id: string;
-  /** Request body */
-  body?: CourseWork | undefined;
 }
-export interface PatchCoursesCourseWorkAddOnAttachmentsRequest {
+export interface PatchCoursesCourseWorkAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachment` object. If a field that does not support empty values is included in the update mask and not set in the `AddOnAttachment` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `teacher_view_uri` * `student_view_uri` * `student_work_review_uri` * `due_date` * `due_time` * `max_points` */
@@ -1881,10 +1858,8 @@ export interface PatchCoursesCourseWorkAddOnAttachmentsRequest {
   courseId: string;
   /** Required. Identifier of the post under which the attachment is attached. */
   postId?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
-export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest {
+export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest extends AddOnAttachmentStudentSubmission {
   /** Optional. Deprecated, use `item_id` instead. */
   postId?: string | undefined;
   /** Required. Identifier of the attachment. */
@@ -1897,20 +1872,22 @@ export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest
   updateMask?: string | undefined;
   /** Required. Identifier of the student's submission. */
   submissionId: string;
-  /** Request body */
-  body?: AddOnAttachmentStudentSubmission | undefined;
 }
-export interface PatchCoursesCourseWorkMaterialsRequest {
+export interface PatchCoursesCourseWorkMaterialsRequest extends Omit<
+  CourseWorkMaterial,
+  "courseId" | "id"
+> {
   /** Mask that identifies which fields on the course work material to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the course work material object. If a field that does not support empty values is included in the update mask and not set in the course work material object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `description` * `state` * `scheduled_time` * `topic_id` * `learning_goals` */
   updateMask?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Identifier of the course work material. */
   id: string;
-  /** Request body */
-  body?: CourseWorkMaterial | undefined;
 }
-export interface PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
+export interface PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachment` object. If a field that does not support empty values is included in the update mask and not set in the `AddOnAttachment` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `teacher_view_uri` * `student_view_uri` * `student_work_review_uri` * `due_date` * `due_time` * `max_points` */
@@ -1921,10 +1898,11 @@ export interface PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   postId?: string | undefined;
   /** Identifier of the post under which the attachment is attached. */
   itemId: string;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
-export interface PatchCoursesCourseWorkRubricsRequest {
+export interface PatchCoursesCourseWorkRubricsRequest extends Omit<
+  Rubric,
+  "courseId" | "courseWorkId" | "id"
+> {
   /** Required. Identifier of the course work. */
   courseWorkId: string;
   /** Optional. Mask that identifies which fields on the rubric to update. This field is required to do an update. The update fails if invalid fields are specified. There are multiple options to define the criteria of a rubric: the `source_spreadsheet_id` and the `criteria` list. Only one of these can be used at a time to define a rubric. The rubric `criteria` list is fully replaced by the rubric criteria specified in the update request. For example, if a criterion or level is missing from the request, it is deleted. New criteria and levels are added and an ID is assigned. Existing criteria and levels retain the previously assigned ID if the ID is specified in the request. The following fields can be specified by teachers: * `criteria` * `source_spreadsheet_id` */
@@ -1933,10 +1911,11 @@ export interface PatchCoursesCourseWorkRubricsRequest {
   id: string;
   /** Required. Identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: Rubric | undefined;
 }
-export interface PatchCoursesCourseWorkStudentSubmissionsRequest {
+export interface PatchCoursesCourseWorkStudentSubmissionsRequest extends Omit<
+  StudentSubmission,
+  "courseWorkId" | "id" | "courseId"
+> {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Mask that identifies which fields on the student submission to update. This field is required to do an update. The update fails if invalid fields are specified. The following fields may be specified by teachers: * `draft_grade` * `assigned_grade` */
@@ -1945,10 +1924,11 @@ export interface PatchCoursesCourseWorkStudentSubmissionsRequest {
   courseWorkId: string;
   /** Identifier of the student submission. */
   id: string;
-  /** Request body */
-  body?: StudentSubmission | undefined;
 }
-export interface PatchCoursesPostsAddOnAttachmentsRequest {
+export interface PatchCoursesPostsAddOnAttachmentsRequest extends Omit<
+  AddOnAttachment,
+  "postId" | "courseId" | "itemId"
+> {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Identifier of the post under which the attachment is attached. */
@@ -1959,10 +1939,8 @@ export interface PatchCoursesPostsAddOnAttachmentsRequest {
   attachmentId: string;
   /** Identifier of the post under which the attachment is attached. */
   itemId?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
 }
-export interface PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
+export interface PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest extends AddOnAttachmentStudentSubmission {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId?: string | undefined;
   /** Optional. Deprecated, use `item_id` instead. */
@@ -1975,38 +1953,33 @@ export interface PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
   updateMask?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: AddOnAttachmentStudentSubmission | undefined;
 }
-export interface PatchCoursesStudentGroupsRequest {
+export interface PatchCoursesStudentGroupsRequest extends Omit<StudentGroup, "courseId" | "id"> {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Mask that identifies which fields on the student group to update. This field is required to do an update. The update fails if invalid fields are specified. The following fields can be specified by teachers: * `title` */
   updateMask?: string | undefined;
   /** Required. Identifier of the student group. */
   id: string;
-  /** Request body */
-  body?: StudentGroup | undefined;
 }
-export interface PatchCoursesTopicsRequest {
+export interface PatchCoursesTopicsRequest extends Omit<Topic, "courseId"> {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Mask that identifies which fields on the topic to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the Topic object. If a field that does not support empty values is included in the update mask and not set in the Topic object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified: * `name` */
   updateMask?: string | undefined;
   /** Identifier of the topic. */
   id: string;
-  /** Request body */
-  body?: Topic | undefined;
 }
-export interface PatchUserProfilesGuardianInvitationsRequest {
+export interface PatchUserProfilesGuardianInvitationsRequest extends Omit<
+  GuardianInvitation,
+  "studentId" | "invitationId"
+> {
   /** The `id` field of the `GuardianInvitation` to be modified. */
   invitationId: string;
   /** The ID of the student whose guardian invitation is to be modified. */
   studentId: string;
   /** Mask that identifies which fields on the course to update. This field is required to do an update. The update fails if invalid fields are specified. The following fields are valid: * `state` When set in a query parameter, this field should be specified as `updateMask=,,...` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GuardianInvitation | undefined;
 }
 /** Request to reclaim a student submission. */
 export type ReclaimStudentSubmissionRequest = TeacherContext;
@@ -2044,21 +2017,20 @@ export interface TurnInCoursesCourseWorkStudentSubmissionsRequest {
   /** Request body */
   body?: TeacherContext | undefined;
 }
-export interface UpdateCoursesRequest {
+export interface UpdateCoursesRequest extends Omit<Course, "id"> {
   /** Identifier of the course to update. This identifier can be either the Classroom-assigned identifier or an alias. */
   id: string;
-  /** Request body */
-  body?: Course | undefined;
 }
-export interface UpdateGradingPeriodSettingsCoursesRequest {
+export interface UpdateGradingPeriodSettingsCoursesRequest extends GradingPeriodSettings {
   /** Mask that identifies which fields in the GradingPeriodSettings to update. The GradingPeriodSettings `grading_periods` list will be fully replaced by the grading periods specified in the update request. For example: * Grading periods included in the list without an ID are considered additions, and a new ID will be assigned when the request is made. * Grading periods that currently exist, but are missing from the request will be considered deletions. * Grading periods with an existing ID and modified data are considered edits. Unmodified data will be left as is. * Grading periods included with an unknown ID will result in an error. The following fields may be specified: * `grading_periods` * `apply_to_existing_coursework` */
   updateMask?: string | undefined;
   /** Required. The identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: GradingPeriodSettings | undefined;
 }
-export interface UpdateRubricCoursesCourseWorkRequest {
+export interface UpdateRubricCoursesCourseWorkRequest extends Omit<
+  Rubric,
+  "courseId" | "courseWorkId" | "id"
+> {
   /** Optional. Mask that identifies which fields on the rubric to update. This field is required to do an update. The update fails if invalid fields are specified. There are multiple options to define the criteria of a rubric: the `source_spreadsheet_id` and the `criteria` list. Only one of these can be used at a time to define a rubric. The rubric `criteria` list is fully replaced by the rubric criteria specified in the update request. For example, if a criterion or level is missing from the request, it is deleted. New criteria and levels are added and an ID is assigned. Existing criteria and levels retain the previously assigned ID if the ID is specified in the request. The following fields can be specified by teachers: * `criteria` * `source_spreadsheet_id` */
   updateMask?: string | undefined;
   /** Optional. Identifier of the rubric. */
@@ -2067,8 +2039,6 @@ export interface UpdateRubricCoursesCourseWorkRequest {
   courseId: string;
   /** Required. Identifier of the course work. */
   courseWorkId: string;
-  /** Request body */
-  body?: Rubric | undefined;
 }
 export type AcceptInvitationsError =
   | NotFound
@@ -4306,13 +4276,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          addOnToken: S.optional(S.String.pipe(T.Query())),
-          postId: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          itemId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            addOnToken: S.optional(S.String.pipe(T.Query())),
+            postId: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+            itemId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments",
@@ -4326,12 +4298,14 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/studentGroups/{id}",
@@ -4345,12 +4319,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/topics/{id}",
@@ -4364,12 +4340,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          invitationId: S.String.pipe(T.Label()),
-          studentId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c31, 0),
+          S.Struct({
+            invitationId: S.String.pipe(T.Label()),
+            studentId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/userProfiles/{studentId}/guardianInvitations/{invitationId}",
@@ -4440,10 +4418,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1014, __c63, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1014, __c63, 6),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/courses/{id}",
@@ -4457,11 +4437,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1314, __c82, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1314, __c82, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/gradingPeriodSettings",
@@ -4475,13 +4457,15 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          id: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          courseWorkId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(228, __c14, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            id: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+            courseWorkId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubric",
@@ -4495,10 +4479,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/courseWorkMaterials",
@@ -4535,13 +4521,15 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          postId: S.optional(S.String.pipe(T.Query())),
-          itemId: S.String.pipe(T.Label()),
-          addOnToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            postId: S.optional(S.String.pipe(T.Query())),
+            itemId: S.String.pipe(T.Label()),
+            addOnToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnAttachments",
@@ -4555,11 +4543,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseWorkId: S.String.pipe(T.Label()),
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(228, __c14, 4),
+          S.Struct({
+            courseWorkId: S.String.pipe(T.Label()),
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics",
@@ -4611,13 +4601,15 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          postId: S.String.pipe(T.Label()),
-          itemId: S.optional(S.String.pipe(T.Query())),
-          addOnToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            postId: S.String.pipe(T.Label()),
+            itemId: S.optional(S.String.pipe(T.Query())),
+            addOnToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/posts/{postId}/addOnAttachments",
@@ -4631,10 +4623,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/studentGroups",
@@ -4660,11 +4654,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          studentGroupId: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            studentGroupId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/studentGroups/{studentGroupId}/studentGroupMembers",
@@ -4690,11 +4686,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          enrollmentCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            enrollmentCode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/students",
@@ -4752,10 +4750,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c24, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/teachers",
@@ -4781,10 +4781,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/topics",
@@ -4811,9 +4813,7 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(448, __c28, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/invitations",
@@ -4869,9 +4869,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "Registration" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(467, __c29, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(467, __c29, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/registrations",
@@ -4885,10 +4883,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          studentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c31, 0),
+          S.Struct({
+            studentId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/userProfiles/{studentId}/guardianInvitations",
@@ -5440,9 +5440,7 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1014, __c63, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1014, __c63, 6), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses",
@@ -5864,10 +5862,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/aliases",
@@ -6161,10 +6161,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c96, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c96, 0),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/announcements",
@@ -6508,13 +6510,15 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          itemId: S.String.pipe(T.Label()),
-          addOnToken: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          postId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            itemId: S.String.pipe(T.Label()),
+            addOnToken: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+            postId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments",
@@ -6738,11 +6742,13 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ModifyAnnouncementAssigneesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1872, __c117, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1872, __c117, 0),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/announcements/{id}:modifyAssignees",
@@ -6774,11 +6780,13 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ModifyCourseWorkAssigneesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1904, __c119, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1904, __c119, 0),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/courseWork/{id}:modifyAssignees",
@@ -6798,12 +6806,14 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ModifyAttachmentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          courseWorkId: S.String.pipe(T.Label()),
-          courseId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c120, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c120, 0),
+          S.Struct({
+            courseWorkId: S.String.pipe(T.Label()),
+            courseId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}:modifyAttachments",
@@ -6817,11 +6827,13 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1014, __c63, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1014, __c63, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{id}",
@@ -6835,12 +6847,14 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c96, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c96, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/announcements/{id}",
@@ -6854,10 +6868,12 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1986, __c124, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1986, __c124, 2),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/courses/{courseId}/courseWork",
@@ -6916,14 +6932,16 @@ function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          postId: S.optional(S.String.pipe(T.Query())),
-          itemId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          attachmentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            postId: S.optional(S.String.pipe(T.Query())),
+            itemId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+            attachmentId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}",
@@ -6937,12 +6955,14 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1986, __c124, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1986, __c124, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWork/{id}",
@@ -6956,14 +6976,16 @@ function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          attachmentId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          itemId: S.String.pipe(T.Label()),
-          courseId: S.String.pipe(T.Label()),
-          postId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            attachmentId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            itemId: S.String.pipe(T.Label()),
+            courseId: S.String.pipe(T.Label()),
+            postId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}",
@@ -6977,15 +6999,17 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          postId: S.optional(S.String.pipe(T.Query())),
-          attachmentId: S.String.pipe(T.Label()),
-          courseId: S.String.pipe(T.Label()),
-          itemId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          submissionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c68, 0),
+          S.Struct({
+            postId: S.optional(S.String.pipe(T.Query())),
+            attachmentId: S.String.pipe(T.Label()),
+            courseId: S.String.pipe(T.Label()),
+            itemId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            submissionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}/studentSubmissions/{submissionId}",
@@ -6999,12 +7023,14 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWorkMaterials/{id}",
@@ -7018,14 +7044,16 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          attachmentId: S.String.pipe(T.Label()),
-          postId: S.optional(S.String.pipe(T.Query())),
-          itemId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            attachmentId: S.String.pipe(T.Label()),
+            postId: S.optional(S.String.pipe(T.Query())),
+            itemId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnAttachments/{attachmentId}",
@@ -7039,13 +7067,15 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseWorkId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          id: S.String.pipe(T.Label()),
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(228, __c14, 4),
+          S.Struct({
+            courseWorkId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            id: S.String.pipe(T.Label()),
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}",
@@ -7059,13 +7089,15 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          courseWorkId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1178, __c73, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1178, __c73, 10),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            courseWorkId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}",
@@ -7079,14 +7111,16 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          courseId: S.String.pipe(T.Label()),
-          postId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          attachmentId: S.String.pipe(T.Label()),
-          itemId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1747, __c109, 3),
+          S.Struct({
+            courseId: S.String.pipe(T.Label()),
+            postId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            attachmentId: S.String.pipe(T.Label()),
+            itemId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}",
@@ -7100,15 +7134,17 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          itemId: S.optional(S.String.pipe(T.Query())),
-          postId: S.String.pipe(T.Label()),
-          submissionId: S.String.pipe(T.Label()),
-          attachmentId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c68, 0),
+          S.Struct({
+            itemId: S.optional(S.String.pipe(T.Query())),
+            postId: S.String.pipe(T.Label()),
+            submissionId: S.String.pipe(T.Label()),
+            attachmentId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            courseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}/studentSubmissions/{submissionId}",

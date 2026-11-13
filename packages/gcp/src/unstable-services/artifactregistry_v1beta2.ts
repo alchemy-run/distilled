@@ -129,13 +129,11 @@ export interface Repository {
   /** The user-provided description of the repository. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesRequest {
+export interface CreateProjectsLocationsRepositoriesRequest extends Repository {
   /** Required. The name of the parent resource where the repository will be created. */
   parent: string;
   /** Required. The repository id to use for this repository. */
   repositoryId?: string | undefined;
-  /** Request body */
-  body?: Repository | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -168,13 +166,11 @@ export interface Tag {
   /** The name of the version the tag refers to, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811` If the package or version ID parts contain slashes, the slashes are escaped. */
   version?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest {
+export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest extends Tag {
   /** The name of the parent resource where the tag will be created. */
   parent: string;
   /** The tag id to use for this repository. */
   tagId?: string | undefined;
-  /** Request body */
-  body?: Tag | undefined;
 }
 export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. The name of the repository to delete. */
@@ -371,21 +367,17 @@ export interface ImportAptArtifactsRequest {
   /** Google Cloud Storage location where input content is located. */
   gcsSource?: ImportAptArtifactsGcsSource | undefined;
 }
-export interface ImportProjectsLocationsRepositoriesAptArtifactsRequest {
+export interface ImportProjectsLocationsRepositoriesAptArtifactsRequest extends ImportAptArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
-  /** Request body */
-  body?: ImportAptArtifactsRequest | undefined;
 }
 /** Google Cloud Storage location where the artifacts currently reside. */
 export type ImportYumArtifactsGcsSource = ImportAptArtifactsGcsSource;
 /** The request to import new yum artifacts. */
 export type ImportYumArtifactsRequest = ImportAptArtifactsRequest;
-export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest {
+export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest extends ImportAptArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
-  /** Request body */
-  body?: ImportAptArtifactsRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
@@ -503,64 +495,52 @@ export interface ListVersionsResponse {
   /** The versions returned. */
   versions?: VersionList | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesRequest {
+export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Repository | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPackagesRequest {
+export interface PatchProjectsLocationsRepositoriesPackagesRequest extends Omit<Package, "name"> {
   /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Package | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest {
+export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest extends Omit<Tag, "name"> {
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Tag | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
+export interface SetIamPolicyProjectsLocationsRepositoriesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
+export interface TestIamPermissionsProjectsLocationsRepositoriesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateProjectSettingsProjectsRequest {
+export interface UpdateProjectSettingsProjectsRequest extends Omit<ProjectSettings, "name"> {
   /** Field mask to support partial updates. */
   updateMask?: string | undefined;
   /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
   name: string;
-  /** Request body */
-  body?: ProjectSettings | undefined;
 }
 /** The request to upload an artifact. */
 export interface UploadAptArtifactRequest {}
@@ -1567,10 +1547,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(77, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(77, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+parent}/aptArtifacts:import",
@@ -1601,10 +1583,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(77, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(77, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+parent}/yumArtifacts:import",
@@ -1786,11 +1770,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(153, __c38, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(153, __c38, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta2/{+name}",
@@ -1804,11 +1790,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(52, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(52, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta2/{+name}",
@@ -1822,11 +1810,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta2/{+name}",
@@ -1846,10 +1836,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c30, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+resource}:setIamPolicy",
@@ -1869,10 +1861,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(124, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(124, __c31, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+resource}:testIamPermissions",
@@ -1886,11 +1880,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c5, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta2/{+name}",
@@ -1948,11 +1944,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(153, __c38, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(153, __c38, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+parent}/repositories",
@@ -2029,11 +2027,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          tagId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c42, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            tagId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+parent}/tags",

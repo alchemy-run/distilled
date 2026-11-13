@@ -881,8 +881,10 @@ const requestOrInvalid = ({
     ((hasBodyMembers || emptyJsonBody === true) && bodied && http.method !== "DELETE")
   ) {
     // Send `{}` rather than no body when the schema declares body members --
-    // some endpoints reject a missing JSON body outright.
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body));
+    // some endpoints reject a missing JSON body outright. A Content-Type
+    // member names the JSON media type, as for a whole body above (a
+    // Kubernetes merge patch is `application/merge-patch+json`).
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body, memberContentType));
   }
   return request;
 };

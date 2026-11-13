@@ -304,11 +304,9 @@ export interface GoogleFirebaseAppcheckV1betaBatchUpdateServicesRequest {
   /** Required. The request messages specifying the Services to update. A maximum of 100 objects can be updated in a batch. */
   requests?: GoogleFirebaseAppcheckV1betaUpdateServiceRequestList | undefined;
 }
-export interface BatchUpdateProjectsServicesRequest {
+export interface BatchUpdateProjectsServicesRequest extends GoogleFirebaseAppcheckV1betaBatchUpdateServicesRequest {
   /** Required. The parent project name shared by all Service configurations being updated, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being updated must match this field, or the entire batch fails. */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaBatchUpdateServicesRequest | undefined;
 }
 export type GoogleFirebaseAppcheckV1betaServiceList = Array<GoogleFirebaseAppcheckV1betaService>;
 /** Response message for the BatchUpdateServices method. */
@@ -352,11 +350,9 @@ export interface GoogleFirebaseAppcheckV1betaBatchUpdateResourcePoliciesRequest 
   /** Optional. A comma-separated list of names of fields in the ResourcePolicy objects to update. Example: `enforcement_mode`. If this field is present, the `update_mask` field in the UpdateResourcePolicyRequest messages must all match this field, or the entire batch fails and no updates will be committed. */
   updateMask?: string | undefined;
 }
-export interface BatchUpdateProjectsServicesResourcePoliciesRequest {
+export interface BatchUpdateProjectsServicesResourcePoliciesRequest extends GoogleFirebaseAppcheckV1betaBatchUpdateResourcePoliciesRequest {
   /** Required. The parent service name, in the format ``` projects/{project_number}/services/{service_id} ``` The parent collection in the `name` field of any resource being updated must match this field, or the entire batch fails. */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaBatchUpdateResourcePoliciesRequest | undefined;
 }
 export type GoogleFirebaseAppcheckV1betaResourcePolicyList =
   Array<GoogleFirebaseAppcheckV1betaResourcePolicy>;
@@ -378,17 +374,13 @@ export interface GoogleFirebaseAppcheckV1betaDebugToken {
   /** Required. A human readable display name used to identify this debug token. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsAppsDebugTokensRequest {
+export interface CreateProjectsAppsDebugTokensRequest extends GoogleFirebaseAppcheckV1betaDebugToken {
   /** Required. The relative resource name of the parent app in which the specified DebugToken will be created, in the format: ``` projects/{project_number}/apps/{app_id} ``` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaDebugToken | undefined;
 }
-export interface CreateProjectsServicesResourcePoliciesRequest {
+export interface CreateProjectsServicesResourcePoliciesRequest extends GoogleFirebaseAppcheckV1betaResourcePolicy {
   /** Required. The relative resource name of the parent Service in which the specified ResourcePolicy will be created, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Consult the ResourcePolicy.name field for a list of supported service IDs. */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaResourcePolicy | undefined;
 }
 export interface DeleteProjectsAppsDebugTokensRequest {
   /** Required. The relative resource name of the DebugToken to delete, in the format: ``` projects/{project_number}/apps/{app_id}/debugTokens/{debug_token_id} ``` */
@@ -415,11 +407,9 @@ export interface GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest {
   /** Required. The CBOR-encoded assertion returned by the client-side App Attest API. */
   assertion?: string | undefined;
 }
-export interface ExchangeAppAttestAssertionOauthClientsRequest {
+export interface ExchangeAppAttestAssertionOauthClientsRequest extends GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. Alternatively, if this method is being called for an OAuth client protected by App Check, this field can also be in the format: ``` oauthClients/{oauth_client_id} ``` You can view the OAuth client ID for your OAuth clients in the Google Cloud console. Note that only iOS OAuth clients are supported at this time, and they must be linked to corresponding iOS Firebase apps. Please see [the documentation](https://developers.google.com/identity/sign-in/ios/appcheck/get-started#project-setup) for more information. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest | undefined;
 }
 /** Encapsulates an *App Check token*, which are used to access backend services protected by App Check. */
 export interface GoogleFirebaseAppcheckV1betaAppCheckToken {
@@ -430,11 +420,9 @@ export interface GoogleFirebaseAppcheckV1betaAppCheckToken {
   /** The App Check token. App Check tokens are signed [JWTs](https://www.rfc-editor.org/info/rfc7519/) containing claims that identify the attested app and GCP project. This token is used to access Google services protected by App Check. These tokens can also be [verified by your own custom backends](https://firebase.google.com/docs/app-check/custom-resource-backend) using the Firebase Admin SDK or third-party libraries. */
   token?: string | undefined;
 }
-export interface ExchangeAppAttestAssertionProjectsAppsRequest {
+export interface ExchangeAppAttestAssertionProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. Alternatively, if this method is being called for an OAuth client protected by App Check, this field can also be in the format: ``` oauthClients/{oauth_client_id} ``` You can view the OAuth client ID for your OAuth clients in the Google Cloud console. Note that only iOS OAuth clients are supported at this time, and they must be linked to corresponding iOS Firebase apps. Please see [the documentation](https://developers.google.com/identity/sign-in/ios/appcheck/get-started#project-setup) for more information. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest | undefined;
 }
 /** Request message for the ExchangeAppAttestAttestation method. */
 export interface GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest {
@@ -447,11 +435,9 @@ export interface GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest
   /** Required. The key ID generated by App Attest for the client app. */
   keyId?: string | undefined;
 }
-export interface ExchangeAppAttestAttestationOauthClientsRequest {
+export interface ExchangeAppAttestAttestationOauthClientsRequest extends GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. Alternatively, if this method is being called for an OAuth client protected by App Check, this field can also be in the format: ``` oauthClients/{oauth_client_id} ``` You can view the OAuth client ID for your OAuth clients in the Google Cloud console. Note that only iOS OAuth clients are supported at this time, and they must be linked to corresponding iOS Firebase apps. Please see [the documentation](https://developers.google.com/identity/sign-in/ios/appcheck/get-started#project-setup) for more information. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest | undefined;
 }
 /** Encapsulates an *App Check token*, which are used to access Firebase services protected by App Check. */
 export interface GoogleFirebaseAppcheckV1betaAttestationTokenResponse {
@@ -469,11 +455,9 @@ export interface GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRespons
   /** An artifact that can be used in future calls to ExchangeAppAttestAssertion. */
   artifact?: string | undefined;
 }
-export interface ExchangeAppAttestAttestationProjectsAppsRequest {
+export interface ExchangeAppAttestAttestationProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. Alternatively, if this method is being called for an OAuth client protected by App Check, this field can also be in the format: ``` oauthClients/{oauth_client_id} ``` You can view the OAuth client ID for your OAuth clients in the Google Cloud console. Note that only iOS OAuth clients are supported at this time, and they must be linked to corresponding iOS Firebase apps. Please see [the documentation](https://developers.google.com/identity/sign-in/ios/appcheck/get-started#project-setup) for more information. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest | undefined;
 }
 /** Request message for the ExchangeCustomToken method. */
 export interface GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest {
@@ -484,11 +468,9 @@ export interface GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest {
   /** Optional. When `limited_use` is set to `true`, this field specifies the desired `jti` claim (Section 4.1.7 of RFC 7519) in the returned App Check token. *Limited use* App Check tokens with the same `jti` will be counted as the same token for the purposes of replay protection. An error is returned if this field is specified without setting `limited_use` to `true`. The size of this field is limited to 250 bytes. If specified, its length must be at least 16 bytes. If this field is omitted or is empty and `limited_use` is set to `true`, a randomly generated `jti` claim with length between 16 and 250 bytes (inclusive) will be used in the returned App Check token. Leaving this field empty is only recommended if your custom attestation provider itself is not vulnerable to replay attacks. When `limited_use` is set to `false`, the presence and the contents of the `jti` claim in the returned App Check token are unspecified. To ensure that the returned App Check token is eligible for limited-use functionality, set `limited_use` to `true`. */
   jti?: string | undefined;
 }
-export interface ExchangeCustomTokenProjectsAppsRequest {
+export interface ExchangeCustomTokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest | undefined;
 }
 /** Request message for the ExchangeDebugToken method. */
 export interface GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest {
@@ -497,17 +479,13 @@ export interface GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest {
   /** Specifies whether this attestation is for use in a *limited use* (`true`) or *session based* (`false`) context. To enable this attestation to be used with the *replay protection* feature, set this to `true`. The default value is `false`. */
   limitedUse?: boolean | undefined;
 }
-export interface ExchangeDebugTokenOauthClientsRequest {
+export interface ExchangeDebugTokenOauthClientsRequest extends GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. Alternatively, if this method is being called for an OAuth client protected by App Check, this field can also be in the format: ``` oauthClients/{oauth_client_id} ``` You can view the OAuth client ID for your OAuth clients in the Google Cloud console. Note that only iOS OAuth clients are supported at this time, and they must be linked to corresponding iOS Firebase apps. Please see [the documentation](https://developers.google.com/identity/sign-in/ios/appcheck/get-started#project-setup) for more information. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest | undefined;
 }
-export interface ExchangeDebugTokenProjectsAppsRequest {
+export interface ExchangeDebugTokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. Alternatively, if this method is being called for an OAuth client protected by App Check, this field can also be in the format: ``` oauthClients/{oauth_client_id} ``` You can view the OAuth client ID for your OAuth clients in the Google Cloud console. Note that only iOS OAuth clients are supported at this time, and they must be linked to corresponding iOS Firebase apps. Please see [the documentation](https://developers.google.com/identity/sign-in/ios/appcheck/get-started#project-setup) for more information. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest | undefined;
 }
 /** Request message for the ExchangeDeviceCheckToken method. */
 export interface GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest {
@@ -516,11 +494,9 @@ export interface GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest {
   /** Required. The `device_token` as returned by Apple's client-side [DeviceCheck API](https://developer.apple.com/documentation/devicecheck/dcdevice). This is the base64 encoded `Data` (Swift) or `NSData` (ObjC) object. */
   deviceToken?: string | undefined;
 }
-export interface ExchangeDeviceCheckTokenProjectsAppsRequest {
+export interface ExchangeDeviceCheckTokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest | undefined;
 }
 /** Request message for the ExchangePlayIntegrityToken method. */
 export interface GoogleFirebaseAppcheckV1betaExchangePlayIntegrityTokenRequest {
@@ -529,11 +505,9 @@ export interface GoogleFirebaseAppcheckV1betaExchangePlayIntegrityTokenRequest {
   /** Required. The [integrity verdict response token from Play Integrity](https://developer.android.com/google/play/integrity/verdict#decrypt-verify) issued to your app. */
   playIntegrityToken?: string | undefined;
 }
-export interface ExchangePlayIntegrityTokenProjectsAppsRequest {
+export interface ExchangePlayIntegrityTokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangePlayIntegrityTokenRequest {
   /** Required. The relative resource name of the Android app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangePlayIntegrityTokenRequest | undefined;
 }
 /** Request message for the ExchangeRecaptchaEnterpriseToken method. */
 export interface GoogleFirebaseAppcheckV1betaExchangeRecaptchaEnterpriseTokenRequest {
@@ -542,22 +516,18 @@ export interface GoogleFirebaseAppcheckV1betaExchangeRecaptchaEnterpriseTokenReq
   /** Specifies whether this attestation is for use in a *limited use* (`true`) or *session based* (`false`) context. To enable this attestation to be used with the *replay protection* feature, set this to `true`. The default value is `false`. */
   limitedUse?: boolean | undefined;
 }
-export interface ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest {
+export interface ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeRecaptchaEnterpriseTokenRequest {
   /** Required. The relative resource name of the web app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeRecaptchaEnterpriseTokenRequest | undefined;
 }
 /** Request message for the ExchangeRecaptchaToken method. */
 export interface GoogleFirebaseAppcheckV1betaExchangeRecaptchaTokenRequest {
   /** Required. The reCAPTCHA token as returned by the [reCAPTCHA v3 JavaScript API](https://developers.google.com/recaptcha/docs/v3). */
   recaptchaToken?: string | undefined;
 }
-export interface ExchangeRecaptchaTokenProjectsAppsRequest {
+export interface ExchangeRecaptchaTokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeRecaptchaTokenRequest {
   /** Required. The relative resource name of the web app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeRecaptchaTokenRequest | undefined;
 }
 /** Request message for the ExchangeRecaptchaV3Token method. */
 export interface GoogleFirebaseAppcheckV1betaExchangeRecaptchaV3TokenRequest {
@@ -566,11 +536,9 @@ export interface GoogleFirebaseAppcheckV1betaExchangeRecaptchaV3TokenRequest {
   /** Specifies whether this attestation is for use in a *limited use* (`true`) or *session based* (`false`) context. To enable this attestation to be used with the *replay protection* feature, set this to `true`. The default value is `false`. */
   limitedUse?: boolean | undefined;
 }
-export interface ExchangeRecaptchaV3TokenProjectsAppsRequest {
+export interface ExchangeRecaptchaV3TokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaExchangeRecaptchaV3TokenRequest {
   /** Required. The relative resource name of the web app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaExchangeRecaptchaV3TokenRequest | undefined;
 }
 /** Request message for the GenerateAppAttestChallenge method. */
 export interface GoogleFirebaseAppcheckV1betaGenerateAppAttestChallengeRequest {}
@@ -791,11 +759,9 @@ export interface GoogleFirebaseAppcheckV1betaMintAppCheckTokenRequest {
   /** Optional. If specified, the returned App Check token will be a session token, valid for the specified duration. Must be between 30 minutes and 7 days, inclusive. */
   tokenTtl?: string | undefined;
 }
-export interface MintAppCheckTokenProjectsAppsRequest {
+export interface MintAppCheckTokenProjectsAppsRequest extends GoogleFirebaseAppcheckV1betaMintAppCheckTokenRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaMintAppCheckTokenRequest | undefined;
 }
 /** Response message for the MintAppCheckToken method. */
 export interface GoogleFirebaseAppcheckV1betaMintAppCheckTokenResponse {
@@ -804,104 +770,113 @@ export interface GoogleFirebaseAppcheckV1betaMintAppCheckTokenResponse {
   /** The duration from the time this token is minted until its expiration. This field is intended to ease client-side token management, since the client may have clock skew, but is still able to accurately measure a duration. */
   ttl?: string | undefined;
 }
-export interface PatchProjectsAppsAppAttestConfigRequest {
+export interface PatchProjectsAppsAppAttestConfigRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaAppAttestConfig,
+  "name"
+> {
   /** Required. The relative resource name of the App Attest configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/appAttestConfig ``` */
   name: string;
   /** Required. A comma-separated list of names of fields in the AppAttestConfig to update. Example: `token_ttl`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaAppAttestConfig | undefined;
 }
-export interface PatchProjectsAppsDebugTokensRequest {
+export interface PatchProjectsAppsDebugTokensRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaDebugToken,
+  "name"
+> {
   /** Required. The relative resource name of the debug token, in the format: ``` projects/{project_number}/apps/{app_id}/debugTokens/{debug_token_id} ``` */
   name: string;
   /** Required. A comma-separated list of names of fields in the DebugToken to update. Example: `display_name`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaDebugToken | undefined;
 }
-export interface PatchProjectsAppsDeviceCheckConfigRequest {
+export interface PatchProjectsAppsDeviceCheckConfigRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaDeviceCheckConfig,
+  "name"
+> {
   /** Required. The relative resource name of the DeviceCheck configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/deviceCheckConfig ``` */
   name: string;
   /** Required. A comma-separated list of names of fields in the DeviceCheckConfig to update. Example: `key_id,private_key`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaDeviceCheckConfig | undefined;
 }
-export interface PatchProjectsAppsPlayIntegrityConfigRequest {
+export interface PatchProjectsAppsPlayIntegrityConfigRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaPlayIntegrityConfig,
+  "name"
+> {
   /** Required. A comma-separated list of names of fields in the PlayIntegrityConfig to update. Example: `token_ttl`. */
   updateMask?: string | undefined;
   /** Required. The relative resource name of the Play Integrity configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/playIntegrityConfig ``` */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaPlayIntegrityConfig | undefined;
 }
-export interface PatchProjectsAppsRecaptchaConfigRequest {
+export interface PatchProjectsAppsRecaptchaConfigRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaRecaptchaConfig,
+  "name"
+> {
   /** Required. The relative resource name of the reCAPTCHA v3 configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaConfig ``` */
   name: string;
   /** Required. A comma-separated list of names of fields in the RecaptchaConfig to update. Example: `site_secret`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaRecaptchaConfig | undefined;
 }
-export interface PatchProjectsAppsRecaptchaEnterpriseConfigRequest {
+export interface PatchProjectsAppsRecaptchaEnterpriseConfigRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaRecaptchaEnterpriseConfig,
+  "name"
+> {
   /** Required. A comma-separated list of names of fields in the RecaptchaEnterpriseConfig to update. Example: `site_key`. */
   updateMask?: string | undefined;
   /** Required. The relative resource name of the reCAPTCHA Enterprise configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaEnterpriseConfig ``` */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaRecaptchaEnterpriseConfig | undefined;
 }
-export interface PatchProjectsAppsRecaptchaV3ConfigRequest {
+export interface PatchProjectsAppsRecaptchaV3ConfigRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaRecaptchaV3Config,
+  "name"
+> {
   /** Required. The relative resource name of the reCAPTCHA v3 configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaV3Config ``` */
   name: string;
   /** Required. A comma-separated list of names of fields in the RecaptchaV3Config to update. Example: `site_secret`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaRecaptchaV3Config | undefined;
 }
-export interface PatchProjectsServicesRequest {
+export interface PatchProjectsServicesRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaService,
+  "name"
+> {
   /** Required. The relative resource name of the service configuration object, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported. Firebase and Google Cloud services: * `identitytoolkit.googleapis.com` (Firebase Authentication) * `firebasedataconnect.googleapis.com` (Firebase SQL Connect) * `firestore.googleapis.com` (Cloud Firestore) * `firebasedatabase.googleapis.com` (Firebase Realtime Database) * `firebasestorage.googleapis.com` (Cloud Storage for Firebase) * `firebaseml.googleapis.com` (Firebase AI Logic) Google Maps Platform services: * `maps-backend.googleapis.com` (Maps JavaScript API) * `places.googleapis.com` (Places API (New)) Other supported Google services: * `oauth2.googleapis.com` (Google Identity for iOS) Note: While all the supported `service_id`s may appear to be subdomains of `googleapis.com`, the `service_id` has no semantic meaning beyond identifying the service to App Check. It is not intended to represent the actual domain to which your apps send traffic, nor is it necessarily the API that should be enabled to use the service. For information on using these Google services, consult their documentation. */
   name: string;
   /** Required. A comma-separated list of names of fields in the Service to update. Example: `enforcement_mode`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaService | undefined;
 }
-export interface PatchProjectsServicesAutomationsRequest {
+export interface PatchProjectsServicesAutomationsRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaAutomation,
+  "name"
+> {
   /** Identifier. The relative resource name of the automation object, in one of the following supported formats: ``` projects/{project_number}/services/{service_id}/automations/{automation_id} projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id}/automations/{automation_id} ``` */
   name: string;
   /** Required. A comma-separated list of names of fields in the Automation to update. Example: `timestamp_condition.enforce_time`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaAutomation | undefined;
 }
-export interface PatchProjectsServicesResourcePoliciesRequest {
+export interface PatchProjectsServicesResourcePoliciesRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaResourcePolicy,
+  "name"
+> {
   /** Required. A comma-separated list of names of fields in the ResourcePolicy to update. Example: `enforcement_mode`. */
   updateMask?: string | undefined;
   /** Required. Identifier. The relative name of the resource policy object, in the format: ``` projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `oauth2.googleapis.com` (Google Identity for iOS) `resource_policy_id` is a system-generated UID. */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaResourcePolicy | undefined;
 }
-export interface PatchProjectsServicesResourcePoliciesAutomationsRequest {
+export interface PatchProjectsServicesResourcePoliciesAutomationsRequest extends Omit<
+  GoogleFirebaseAppcheckV1betaAutomation,
+  "name"
+> {
   /** Identifier. The relative resource name of the automation object, in one of the following supported formats: ``` projects/{project_number}/services/{service_id}/automations/{automation_id} projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id}/automations/{automation_id} ``` */
   name: string;
   /** Required. A comma-separated list of names of fields in the Automation to update. Example: `timestamp_condition.enforce_time`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaAutomation | undefined;
 }
 /** Request message for the VerifyAppCheckToken method. */
 export interface GoogleFirebaseAppcheckV1betaVerifyAppCheckTokenRequest {
   /** Required. The App Check token to verify. App Check tokens exchanged from the SafetyNet provider are not supported; an HTTP 400 error will be returned. */
   appCheckToken?: string | undefined;
 }
-export interface VerifyAppCheckTokenProjectsRequest {
+export interface VerifyAppCheckTokenProjectsRequest extends GoogleFirebaseAppcheckV1betaVerifyAppCheckTokenRequest {
   /** Required. The relative resource name of the project for which the token was minted, in the format: ``` projects/{project_number} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   project: string;
-  /** Request body */
-  body?: GoogleFirebaseAppcheckV1betaVerifyAppCheckTokenRequest | undefined;
 }
 /** Response message for the VerifyAppCheckToken method. */
 export interface GoogleFirebaseAppcheckV1betaVerifyAppCheckTokenResponse {
@@ -2176,10 +2151,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaBatchUpdateServicesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/services:batchUpdate",
@@ -2235,10 +2212,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaBatchUpdateResourcePoliciesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(26, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26, __c3, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/resourcePolicies:batchUpdate",
@@ -2278,10 +2257,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/debugTokens",
@@ -2309,10 +2290,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/resourcePolicies",
@@ -2366,10 +2349,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeAppAttestAssertion",
@@ -2408,10 +2393,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeAppAttestAssertion",
@@ -2425,10 +2412,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(136, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(136, __c17, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeAppAttestAttestation",
@@ -2472,10 +2461,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(136, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(136, __c17, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeAppAttestAttestation",
@@ -2497,10 +2488,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(152, __c19, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeCustomToken",
@@ -2514,10 +2507,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c21, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeDebugToken",
@@ -2542,10 +2537,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c21, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeDebugToken",
@@ -2566,10 +2563,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(184, __c23, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeDeviceCheckToken",
@@ -2590,10 +2589,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaExchangePlayIntegrityTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c24, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangePlayIntegrityToken",
@@ -2616,10 +2617,12 @@ function __c25(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeRecaptchaEnterpriseToken",
@@ -2639,10 +2642,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaExchangeRecaptchaTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c26, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeRecaptchaToken",
@@ -2663,10 +2668,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaExchangeRecaptchaV3TokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(216, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(216, __c27, 0),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:exchangeRecaptchaV3Token",
@@ -3151,10 +3158,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaMintAppCheckTokenRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          app: S.String.pipe(T.Label()),
-          body: S.optional(__S(433, __c54, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(433, __c54, 1),
+          S.Struct({
+            app: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+app}:mintAppCheckToken",
@@ -3175,11 +3184,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(336, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3232,11 +3243,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3250,11 +3263,13 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(456, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(456, __c57, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3268,11 +3283,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(555, __c69, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(555, __c69, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3286,11 +3303,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c72, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c72, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3304,11 +3323,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(593, __c74, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(593, __c74, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3322,11 +3343,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(608, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3340,11 +3363,13 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3358,11 +3383,13 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(360, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3376,11 +3403,13 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3394,11 +3423,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(360, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -3477,10 +3508,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppcheckV1betaVerifyAppCheckTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(560, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(560, __c70, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+project}:verifyAppCheckToken",

@@ -422,11 +422,9 @@ export interface AlertPolicy {
   /** Identifies the notification channels to which notifications should be sent when incidents are opened or closed or when new violations occur on an already opened incident. Each element of this array corresponds to the name field in each of the NotificationChannel objects that are returned from the ListNotificationChannels method. The format of the entries in this field is: projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID] */
   notificationChannels?: StringList | undefined;
 }
-export interface CreateProjectsAlertPoliciesRequest {
+export interface CreateProjectsAlertPoliciesRequest extends Omit<AlertPolicy, "name"> {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the alerting policy. The format is: projects/[PROJECT_ID_OR_NUMBER] Note that this field names the parent container in which the alerting policy will be written, not the name of the created policy. |name| must be a host project of a Metrics Scope, otherwise INVALID_ARGUMENT error will return. The alerting policy that is returned will have a name that contains a normalized representation of this name as a prefix but adds a suffix of the form /alertPolicies/[ALERT_POLICY_ID], identifying the policy in the container. */
   name: string;
-  /** Request body */
-  body?: AlertPolicy | undefined;
 }
 /** Exemplars are example points that may be used to annotate aggregated distribution values. They are metadata that gives information about a particular value added to a Distribution bucket, such as a trace ID that was active when a value was added. They may contain further information, such as a example values and timestamps, origin, etc. */
 export interface Exemplar {
@@ -561,11 +559,9 @@ export interface CreateCollectdTimeSeriesRequest {
   /** The monitored resource associated with the time series. */
   resource?: MonitoredResource | undefined;
 }
-export interface CreateProjectsCollectdTimeSeriesRequest {
+export interface CreateProjectsCollectdTimeSeriesRequest extends CreateCollectdTimeSeriesRequest {
   /** The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the time series. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
-  /** Request body */
-  body?: CreateCollectdTimeSeriesRequest | undefined;
 }
 /** Describes the error status for values that were not written. */
 export interface CollectdValueError {
@@ -622,13 +618,11 @@ export interface Group {
   /** Output only. The name of this group. The format is: projects/[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID] When creating a group, this field is ignored and a new name is created consisting of the project specified in the call to CreateGroup and a unique [GROUP_ID] that is generated automatically. */
   name?: string | undefined;
 }
-export interface CreateProjectsGroupsRequest {
+export interface CreateProjectsGroupsRequest extends Omit<Group, "name"> {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the group. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
   /** If true, validate this request but do not create the group. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 export type MetricDescriptorLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -718,11 +712,9 @@ export interface MetricDescriptor {
   /** The units in which the metric value is reported. It is only applicable if the value_type is INT64, DOUBLE, or DISTRIBUTION. The unit defines the representation of the stored metric values.Different systems might scale the values to be more easily displayed (so a value of 0.02kBy might be displayed as 20By, and a value of 3523kBy might be displayed as 3.5MBy). However, if the unit is kBy, then the value of the metric is always in thousands of bytes, no matter how it might be displayed.If you want a custom metric to record the exact number of CPU-seconds used by a job, you can create an INT64 CUMULATIVE metric whose unit is s{CPU} (or equivalently 1s{CPU} or just s). If the job uses 12,005 CPU-seconds, then the value is written as 12005.Alternatively, if you want a custom metric to record data in a more granular way, you can create a DOUBLE CUMULATIVE metric whose unit is ks{CPU}, and then write the value 12.005 (which is 12005/1000), or use Kis{CPU} and write 11.723 (which is 12005/1024).The supported units are a subset of The Unified Code for Units of Measure (https://unitsofmeasure.org/ucum.html) standard:Basic units (UNIT) bit bit By byte s second min minute h hour d day 1 dimensionlessPrefixes (PREFIX) k kilo (10^3) M mega (10^6) G giga (10^9) T tera (10^12) P peta (10^15) E exa (10^18) Z zetta (10^21) Y yotta (10^24) m milli (10^-3) u micro (10^-6) n nano (10^-9) p pico (10^-12) f femto (10^-15) a atto (10^-18) z zepto (10^-21) y yocto (10^-24) Ki kibi (2^10) Mi mebi (2^20) Gi gibi (2^30) Ti tebi (2^40) Pi pebi (2^50)GrammarThe grammar also includes these connectors: / division or ratio (as an infix operator). For examples, kBy/{email} or MiBy/10ms (although you should almost never have /s in a metric unit; rates should always be computed at query time from the underlying cumulative or delta value). . multiplication or composition (as an infix operator). For examples, GBy.d or k{watt}.h.The grammar for a unit is as follows: Expression = Component { "." Component } { "/" Component } ; Component = ( [ PREFIX ] UNIT | "%" ) [ Annotation ] | Annotation | "1" ; Annotation = "{" NAME "}" ; Notes: Annotation is just a comment if it follows a UNIT. If the annotation is used alone, then the unit is equivalent to 1. For examples, {request}/s == 1/s, By{transmitted}/s == By/s. NAME is a sequence of non-blank printable ASCII characters not containing { or }. 1 represents a unitary dimensionless unit (https://en.wikipedia.org/wiki/Dimensionless_quantity) of 1, such as in 1/s. It is typically used when none of the basic units are appropriate. For example, "new users per day" can be represented as 1/d or {new-users}/d (and a metric value 5 would mean "5 new users). Alternatively, "thousands of page views per day" would be represented as 1000/d or k1/d or k{page_views}/d (and a metric value of 5.3 would mean "5300 page views per day"). % represents dimensionless value of 1/100, and annotates values giving a percentage (so the metric values are typically in the range of 0..100, and a metric value 3 means "3 percent"). 10^2.% indicates a metric contains a ratio, typically in the range 0..1, that will be multiplied by 100 and displayed as a percentage (so a metric value 0.03 means "3 percent"). */
   unit?: string | undefined;
 }
-export interface CreateProjectsMetricDescriptorsRequest {
+export interface CreateProjectsMetricDescriptorsRequest extends Omit<MetricDescriptor, "name"> {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: 4 projects/PROJECT_ID_OR_NUMBER */
   name: string;
-  /** Request body */
-  body?: MetricDescriptor | undefined;
 }
 export type NotificationChannelVerificationStatusEnum =
   | "VERIFICATION_STATUS_UNSPECIFIED"
@@ -752,11 +744,12 @@ export interface NotificationChannel {
   /** Whether notifications are forwarded to the described channel. This makes it possible to disable delivery of notifications to a particular channel without removing the channel from all alerting policies that reference the channel. This is a more convenient approach when the change is temporary and you want to receive notifications from the same set of alerting policies on the channel at some point in the future. */
   enabled?: boolean | undefined;
 }
-export interface CreateProjectsNotificationChannelsRequest {
+export interface CreateProjectsNotificationChannelsRequest extends Omit<
+  NotificationChannel,
+  "name"
+> {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] This names the container into which the channel will be written, this does not name the newly created channel. The resulting channel's name will have a normalized version of this field as a prefix, but will add /notificationChannels/[CHANNEL_ID] to identify the channel. */
   name: string;
-  /** Request body */
-  body?: NotificationChannel | undefined;
 }
 /** Criteria specific to the AlertPolicys that this Snooze applies to. The Snooze will suppress alerts that come from one of the AlertPolicys whose names are supplied. */
 export interface Criteria {
@@ -783,11 +776,9 @@ export interface Snooze {
   /** Required. The Snooze will be active from interval.start_time through interval.end_time. interval.start_time cannot be in the past. There is a 15 second clock skew to account for the time it takes for a request to reach the API from the UI. */
   interval?: TimeInterval | undefined;
 }
-export interface CreateProjectsSnoozesRequest {
+export interface CreateProjectsSnoozesRequest extends Snooze {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which a Snooze should be created. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
-  /** Request body */
-  body?: Snooze | undefined;
 }
 export type TimeSeriesValueTypeEnum =
   | "VALUE_TYPE_UNSPECIFIED"
@@ -845,11 +836,9 @@ export interface CreateTimeSeriesRequest {
   /** Required. The new data to be added to a list of time series. Adds at most one data point to each of several time series. The new data point must be more recent than any other point in its time series. Each TimeSeries value must fully specify a unique time series by supplying all label values for the metric and the monitored resource.The maximum number of TimeSeries objects per Create request is 200. */
   timeSeries?: TimeSeriesList | undefined;
 }
-export interface CreateProjectsTimeSeriesRequest {
+export interface CreateProjectsTimeSeriesRequest extends CreateTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
-  /** Request body */
-  body?: CreateTimeSeriesRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -1051,17 +1040,13 @@ export interface UptimeCheckConfig {
   /** The internal checkers that this check will egress from. If is_internal is true and this list is empty, the check will egress from all the InternalCheckers configured for the project that owns this UptimeCheckConfig. */
   internalCheckers?: InternalCheckerList | undefined;
 }
-export interface CreateProjectsUptimeCheckConfigsRequest {
+export interface CreateProjectsUptimeCheckConfigsRequest extends UptimeCheckConfig {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the Uptime check. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
-  /** Request body */
-  body?: UptimeCheckConfig | undefined;
 }
-export interface CreateServiceProjectsTimeSeriesRequest {
+export interface CreateServiceProjectsTimeSeriesRequest extends CreateTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
-  /** Request body */
-  body?: CreateTimeSeriesRequest | undefined;
 }
 /** Istio service scoped to a single Kubernetes cluster. Learn more at https://istio.io. Clusters running OSS Istio will have their services ingested as this type. */
 export interface ClusterIstio {
@@ -1195,13 +1180,11 @@ export interface Service {
   /** Type used for Cloud Endpoints services. */
   cloudEndpoints?: CloudEndpoints | undefined;
 }
-export interface CreateServicesRequest {
+export interface CreateServicesRequest extends Service {
   /** Optional. The Service id to use for this Service. If omitted, an id will be generated instead. Must match the pattern [a-z0-9\-]+ */
   serviceId?: string | undefined;
   /** Required. Resource name (https://cloud.google.com/monitoring/api/v3#project_name) of the parent Metrics Scope. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
-  /** Request body */
-  body?: Service | undefined;
 }
 export type ServiceLevelObjectiveCalendarPeriodEnum =
   | "CALENDAR_PERIOD_UNSPECIFIED"
@@ -1317,13 +1300,11 @@ export interface ServiceLevelObjective {
   /** Name used for UI elements listing this SLO. */
   displayName?: string | undefined;
 }
-export interface CreateServicesServiceLevelObjectivesRequest {
+export interface CreateServicesServiceLevelObjectivesRequest extends ServiceLevelObjective {
   /** Optional. The ServiceLevelObjective id to use for this ServiceLevelObjective. If omitted, an id will be generated instead. Must match the pattern ^[a-zA-Z0-9-_:.]+$ */
   serviceLevelObjectiveId?: string | undefined;
   /** Required. Resource name of the parent Service. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID] */
   parent: string;
-  /** Request body */
-  body?: ServiceLevelObjective | undefined;
 }
 export interface DeleteProjectsAlertPoliciesRequest {
   /** Required. The alerting policy to delete. The format is: projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID] For more information, see AlertPolicy. */
@@ -1504,11 +1485,9 @@ export interface GetNotificationChannelVerificationCodeRequest {
   /** The desired expiration time. If specified, the API will guarantee that the returned code will not be valid after the specified timestamp; however, the API cannot guarantee that the returned code will be valid for at least as long as the requested time (the API puts an upper bound on the amount of time for which a code may be valid). If omitted, a default expiration will be used, which may be less than the max permissible expiration (so specifying an expiration may extend the code's lifetime over omitting an expiration, even though the API does impose an upper limit on the maximum expiration that is permitted). */
   expireTime?: string | undefined;
 }
-export interface GetVerificationCodeProjectsNotificationChannelsRequest {
+export interface GetVerificationCodeProjectsNotificationChannelsRequest extends GetNotificationChannelVerificationCodeRequest {
   /** Required. The notification channel for which a verification code is to be generated and retrieved. This must name a channel that is already verified; if the specified channel is not verified, the request will fail. */
   name: string;
-  /** Request body */
-  body?: GetNotificationChannelVerificationCodeRequest | undefined;
 }
 /** The GetNotificationChannelVerificationCode request. */
 export interface GetNotificationChannelVerificationCodeResponse {
@@ -2157,53 +2136,47 @@ export interface ListUptimeCheckIpsResponse {
   /** This field represents the pagination token to retrieve the next page of results. If the value is empty, it means no further results for the request. To retrieve the next page of results, the value of the next_page_token is passed to the subsequent List method call (in the request message's page_token field). NOTE: this field is not yet implemented */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsAlertPoliciesRequest {
+export interface PatchProjectsAlertPoliciesRequest extends Omit<AlertPolicy, "name"> {
   /** Identifier. Required if the policy exists. The resource name for this policy. The format is: projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID] [ALERT_POLICY_ID] is assigned by Cloud Monitoring when the policy is created. When calling the alertPolicies.create method, do not include the name field in the alerting policy passed as part of the request. */
   name: string;
   /** Optional. A list of alerting policy field names. If this field is not empty, each listed field in the existing alerting policy is set to the value of the corresponding field in the supplied policy (alert_policy), or to the field's default value if the field is not in the supplied alerting policy. Fields not listed retain their previous value.Examples of valid field masks include display_name, documentation, documentation.content, documentation.mime_type, user_labels, user_label.nameofkey, enabled, conditions, combiner, etc.If this field is empty, then the supplied alerting policy replaces the existing policy. It is the same as deleting the existing policy and adding the supplied policy, except for the following: The new policy will have the same [ALERT_POLICY_ID] as the former policy. This gives you continuity with the former policy in your notifications and incidents. Conditions in the new policy will keep their former [CONDITION_ID] if the supplied condition includes the name field with that [CONDITION_ID]. If the supplied condition omits the name field, then a new [CONDITION_ID] is created. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AlertPolicy | undefined;
 }
-export interface PatchProjectsNotificationChannelsRequest {
+export interface PatchProjectsNotificationChannelsRequest extends Omit<
+  NotificationChannel,
+  "name"
+> {
   /** Identifier. The full REST resource name for this channel. The format is: projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID] The [CHANNEL_ID] is automatically assigned by the server on creation. */
   name: string;
   /** Optional. The fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: NotificationChannel | undefined;
 }
-export interface PatchProjectsSnoozesRequest {
+export interface PatchProjectsSnoozesRequest extends Omit<Snooze, "name"> {
   /** Required. Identifier. The name of the Snooze. The format is: projects/[PROJECT_ID_OR_NUMBER]/snoozes/[SNOOZE_ID] The ID of the Snooze will be generated by the system. */
   name: string;
   /** Required. The fields to update.For each field listed in update_mask: If the Snooze object supplied in the UpdateSnoozeRequest has a value for that field, the value of the field in the existing Snooze will be set to the value of the field in the supplied Snooze. If the field does not have a value in the supplied Snooze, the field in the existing Snooze is set to its default value.Fields not listed retain their existing value.The following are the field names that are accepted in update_mask: display_name interval.start_time interval.end_timeThat said, the start time and end time of the Snooze determines which fields can legally be updated. Before attempting an update, users should consult the documentation for UpdateSnoozeRequest, which talks about which fields can be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Snooze | undefined;
 }
-export interface PatchProjectsUptimeCheckConfigsRequest {
+export interface PatchProjectsUptimeCheckConfigsRequest extends Omit<UptimeCheckConfig, "name"> {
   /** Identifier. A unique resource name for this Uptime check configuration. The format is: projects/[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID] [PROJECT_ID_OR_NUMBER] is the Workspace host project associated with the Uptime check.This field should be omitted when creating the Uptime check configuration; on create, the resource name is assigned by the server and included in the response. */
   name: string;
   /** Optional. If present, only the listed fields in the current Uptime check configuration are updated with values from the new configuration. If this field is empty, then the current configuration is completely replaced with the new configuration. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: UptimeCheckConfig | undefined;
 }
-export interface PatchServicesRequest {
+export interface PatchServicesRequest extends Omit<Service, "name"> {
   /** Identifier. Resource name for this Service. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID] */
   name: string;
   /** A set of field paths defining which fields to use for the update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface PatchServicesServiceLevelObjectivesRequest {
+export interface PatchServicesServiceLevelObjectivesRequest extends Omit<
+  ServiceLevelObjective,
+  "name"
+> {
   /** Identifier. Resource name for this ServiceLevelObjective. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceLevelObjectives/[SLO_NAME] */
   name: string;
   /** A set of field paths defining which fields to use for the update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ServiceLevelObjective | undefined;
 }
 /** The QueryTimeSeries request. For information about the status of Monitoring Query Language (MQL), see the MQL deprecation notice (https://cloud.google.com/stackdriver/docs/deprecations/mql). */
 export interface QueryTimeSeriesRequest {
@@ -2214,11 +2187,9 @@ export interface QueryTimeSeriesRequest {
   /** Required. The query in the Monitoring Query Language (https://cloud.google.com/monitoring/mql/reference) format. The default time zone is in UTC. */
   query?: string | undefined;
 }
-export interface QueryProjectsTimeSeriesRequest {
+export interface QueryProjectsTimeSeriesRequest extends QueryTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
-  /** Request body */
-  body?: QueryTimeSeriesRequest | undefined;
 }
 export type ValueDescriptorMetricKindEnum =
   | "METRIC_KIND_UNSPECIFIED"
@@ -2298,24 +2269,20 @@ export interface SendVerificationCodeProjectsNotificationChannelsRequest {
   /** Request body */
   body?: Custom | undefined;
 }
-export interface UpdateProjectsGroupsRequest {
+export interface UpdateProjectsGroupsRequest extends Omit<Group, "name"> {
   /** Output only. The name of this group. The format is: projects/[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID] When creating a group, this field is ignored and a new name is created consisting of the project specified in the call to CreateGroup and a unique [GROUP_ID] that is generated automatically. */
   name: string;
   /** If true, validate this request but do not update the existing group. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 /** The VerifyNotificationChannel request. */
 export interface VerifyNotificationChannelRequest {
   /** Required. The verification code that was delivered to the channel as a result of invoking the SendNotificationChannelVerificationCode API method or that was retrieved from a verified channel via GetNotificationChannelVerificationCode. For example, one might have "G-123456" or "TKNZGhhd2EyN3I1MnRnMjRv" (in general, one is only guaranteed that the code is valid UTF-8; one should not make any assumptions regarding the structure or format of the code). */
   code?: string | undefined;
 }
-export interface VerifyProjectsNotificationChannelsRequest {
+export interface VerifyProjectsNotificationChannelsRequest extends VerifyNotificationChannelRequest {
   /** Required. The notification channel to verify. */
   name: string;
-  /** Request body */
-  body?: VerifyNotificationChannelRequest | undefined;
 }
 export type CreateProjectsAlertPoliciesError =
   | NotFound
@@ -3419,10 +3386,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/timeSeries",
@@ -3491,10 +3460,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(207, __c6, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(207, __c6, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/uptimeCheckConfigs",
@@ -3638,10 +3609,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/timeSeries:createService",
@@ -3655,11 +3628,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(299, __c9, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(299, __c9, 11),
+          S.Struct({
+            serviceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/services",
@@ -3784,11 +3759,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceLevelObjectiveId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(361, __c11, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(361, __c11, 9),
+          S.Struct({
+            serviceLevelObjectiveId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/serviceLevelObjectives",
@@ -4250,10 +4227,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetNotificationChannelVerificationCodeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}:getVerificationCode",
@@ -4477,10 +4456,12 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1401, __c43, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1401, __c43, 25),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/alertPolicies",
@@ -5083,10 +5064,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateCollectdTimeSeriesRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1957, __c61, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1957, __c61, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/collectdTimeSeries",
@@ -5233,11 +5216,13 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1401, __c43, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1401, __c43, 25),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5251,11 +5236,13 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2593, __c81, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2593, __c81, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5269,11 +5256,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2689, __c84, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2689, __c84, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5287,11 +5276,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(207, __c6, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(207, __c6, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5305,11 +5296,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(299, __c9, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(299, __c9, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5323,11 +5316,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(361, __c11, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(361, __c11, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -5349,10 +5344,12 @@ function __c71(j: number): any {
       ).annotate({ identifier: "QueryTimeSeriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/timeSeries:query",
@@ -5440,11 +5437,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v3/{+name}",
@@ -5464,10 +5463,12 @@ function __c74(j: number): any {
       ).annotate({ identifier: "VerifyNotificationChannelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}:verify",
@@ -5481,11 +5482,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/groups",
@@ -5513,10 +5516,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2529, __c79, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2529, __c79, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/metricDescriptors",
@@ -5573,10 +5578,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2593, __c81, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2593, __c81, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}/notificationChannels",
@@ -5611,10 +5618,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2689, __c84, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2689, __c84, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/snoozes",

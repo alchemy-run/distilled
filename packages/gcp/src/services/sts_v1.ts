@@ -159,10 +159,7 @@ export interface GoogleIdentityStsV1ExchangeTokenRequest {
   /** Required. The grant type. Must be `urn:ietf:params:oauth:grant-type:token-exchange`, which indicates a token exchange. */
   grantType?: string | undefined;
 }
-export interface TokenV1Request {
-  /** Request body */
-  body?: GoogleIdentityStsV1ExchangeTokenRequest | undefined;
-}
+export interface TokenV1Request extends GoogleIdentityStsV1ExchangeTokenRequest {}
 /** Response message for ExchangeToken. */
 export interface GoogleIdentityStsV1ExchangeTokenResponse {
   /** The access boundary session key. This key is used along with the access boundary intermediary token to generate Credential Access Boundary tokens at client side. This field is absent when the `requested_token_type` from the request is not `urn:ietf:params:oauth:token-type:access_boundary_intermediary_token`. */
@@ -419,9 +416,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GoogleIdentityStsV1ExchangeTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(24, __c6, 0), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/token", baseUrl: "https://sts.googleapis.com/" }),
         ),
       ).annotate({ identifier: "TokenV1Request" });

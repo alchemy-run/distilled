@@ -108,11 +108,9 @@ export interface Release {
   /** Output only. Time the release was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsReleasesRequest {
+export interface CreateProjectsReleasesRequest extends Omit<Release, "name"> {
   /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: Release | undefined;
 }
 /** `File` containing source content. */
 export interface File {
@@ -148,11 +146,9 @@ export interface Ruleset {
   /** Output only. Time the `Ruleset` was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsRulesetsRequest {
+export interface CreateProjectsRulesetsRequest extends Omit<Ruleset, "name"> {
   /** Required. Resource name for Project which owns this `Ruleset`. Format: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: Ruleset | undefined;
 }
 export interface DeleteProjectsReleasesRequest {
   /** Required. Resource name for the `Release` to delete. Format: `projects/{project_id}/releases/{release_id}` */
@@ -251,11 +247,9 @@ export interface UpdateReleaseRequest {
   /** Optional. Specifies which fields to update. */
   updateMask?: string | undefined;
 }
-export interface PatchProjectsReleasesRequest {
+export interface PatchProjectsReleasesRequest extends UpdateReleaseRequest {
   /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: UpdateReleaseRequest | undefined;
 }
 /** Arg matchers for the mock function. */
 export interface Arg {
@@ -313,11 +307,9 @@ export interface TestRulesetRequest {
   /** Optional. Optional `Source` to be checked for correctness. This field must not be set when the resource name refers to a `Ruleset`. */
   source?: Source | undefined;
 }
-export interface TestProjectsRequest {
+export interface TestProjectsRequest extends TestRulesetRequest {
   /** Required. Tests may either provide `source` or a `Ruleset` resource name. For tests against `source`, the resource name must refer to the project: Format: `projects/{project_id}` For tests against a `Ruleset`, this must be the `Ruleset` resource name: Format: `projects/{project_id}/rulesets/{ruleset_id}` */
   name: string;
-  /** Request body */
-  body?: TestRulesetRequest | undefined;
 }
 /** Position in the `Source` content including its line, column number, and an index of the `File` in the `Source` message. Used for debug purposes. */
 export interface SourcePosition {
@@ -699,10 +691,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateReleaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -768,10 +762,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "TestRulesetRequest" });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c5, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c5, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:test",
@@ -864,10 +860,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/releases",
@@ -894,10 +892,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(289, __c9, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/rulesets",

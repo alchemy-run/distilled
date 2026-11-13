@@ -102,11 +102,9 @@ export interface AdminAccessBinding {
   /** Resource name of the user group. */
   userGroup?: string | undefined;
 }
-export interface CreateOrganizationsAdminAccessBindingsRequest {
+export interface CreateOrganizationsAdminAccessBindingsRequest extends AdminAccessBinding {
   /** Required. The parent organization, which owns this Admin Access Binding. Format: organizations/{org_id} */
   parent: string;
-  /** Request body */
-  body?: AdminAccessBinding | undefined;
 }
 export type AnalyticsAccountLinkLinkVerificationStateEnum =
   | "LINK_VERIFICATION_STATE_UNSPECIFIED"
@@ -123,11 +121,9 @@ export interface AnalyticsAccountLink {
   /** Output only. The verification state of the link between the Analytics account and the parent organization. */
   linkVerificationState?: AnalyticsAccountLinkLinkVerificationStateEnum | (string & {}) | undefined;
 }
-export interface CreateOrganizationsAnalyticsAccountLinksRequest {
+export interface CreateOrganizationsAnalyticsAccountLinksRequest extends AnalyticsAccountLink {
   /** Required. The parent resource where this Analytics account link will be created. Format: organizations/{org_id} */
   parent: string;
-  /** Request body */
-  body?: AnalyticsAccountLink | undefined;
 }
 /** A resource message representing a user group in a GMP organization. */
 export interface UserGroup {
@@ -138,11 +134,9 @@ export interface UserGroup {
   /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
   name?: string | undefined;
 }
-export interface CreateOrganizationsUserGroupsRequest {
+export interface CreateOrganizationsUserGroupsRequest extends UserGroup {
   /** Required. The parent resource where this UserGroup will be created. Format: organizations/{org_id} */
   parent: string;
-  /** Request body */
-  body?: UserGroup | undefined;
 }
 export type UserGroupMemberMembershipRoleEnum =
   | "MEMBERSHIP_ROLE_UNSPECIFIED"
@@ -159,11 +153,9 @@ export interface UserGroupMember {
   /** Email address of the user member. */
   userEmail?: string | undefined;
 }
-export interface CreateOrganizationsUserGroupsMembersRequest {
+export interface CreateOrganizationsUserGroupsMembersRequest extends UserGroupMember {
   /** Required. The parent resource where this UserGroupMember will be created. Format: organizations/{org_id}/userGroups/{user_group_id} */
   parent: string;
-  /** Request body */
-  body?: UserGroupMember | undefined;
 }
 export interface DeleteOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The name of the Analytics account link to delete. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} */
@@ -184,11 +176,9 @@ export interface FindSalesPartnerManagedClientsRequest {
   /** Optional. If set, only active and just ended clients will be returned. */
   isActive?: boolean | undefined;
 }
-export interface FindSalesPartnerManagedClientsOrganizationsRequest {
+export interface FindSalesPartnerManagedClientsOrganizationsRequest extends FindSalesPartnerManagedClientsRequest {
   /** Required. The name of the sales partner organization. Format: organizations/{org_id} */
   organization: string;
-  /** Request body */
-  body?: FindSalesPartnerManagedClientsRequest | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Marketingplatformadmin_Date {
@@ -315,40 +305,35 @@ export interface ListUserGroupMembersResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchOrganizationsAdminAccessBindingsRequest {
+export interface PatchOrganizationsAdminAccessBindingsRequest extends Omit<
+  AdminAccessBinding,
+  "name"
+> {
   /** Identifier. The resource name of this AdminAccessBinding. Format: organizations/{org_id}/adminAccessBindings/{admin_access_binding_id} Example: "organizations/123abc/adminAccessBindings/456def" */
   name: string;
   /** Required. The list of fields to update. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AdminAccessBinding | undefined;
 }
-export interface PatchOrganizationsUserGroupsRequest {
+export interface PatchOrganizationsUserGroupsRequest extends Omit<UserGroup, "name"> {
   /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
   name: string;
   /** Required. The list of fields to update. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: UserGroup | undefined;
 }
-export interface PatchOrganizationsUserGroupsMembersRequest {
+export interface PatchOrganizationsUserGroupsMembersRequest extends Omit<UserGroupMember, "name"> {
   /** Identifier. The resource name of this UserGroupMember. Format: organizations/{org_id}/userGroups/{user_group_id}/members/{member_id} Example: "organizations/123abc/userGroups/456def/members/789ghi" */
   name: string;
   /** Required. The list of fields to update. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: UserGroupMember | undefined;
 }
 /** Request message for ReportPropertyUsage RPC. */
 export interface ReportPropertyUsageRequest {
   /** Required. The target month to list property usages. Format: YYYY-MM. For example, "2025-05" */
   month?: string | undefined;
 }
-export interface ReportPropertyUsageOrganizationsRequest {
+export interface ReportPropertyUsageOrganizationsRequest extends ReportPropertyUsageRequest {
   /** Required. Specifies the organization whose property usage will be listed. Format: organizations/{org_id} */
   organization: string;
-  /** Request body */
-  body?: ReportPropertyUsageRequest | undefined;
 }
 /** Represents an amount of money with its currency type. */
 export interface Money {
@@ -415,11 +400,9 @@ export interface SetPropertyServiceLevelRequest {
   /** Required. The Analytics property to change the ServiceLevel setting. This field is the name of the Google Analytics Admin API property resource. Format: analyticsadmin.googleapis.com/properties/{property_id} */
   analyticsProperty?: string | undefined;
 }
-export interface SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest {
+export interface SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest extends SetPropertyServiceLevelRequest {
   /** Required. The parent AnalyticsAccountLink scope where this property is in. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} */
   analyticsAccountLink: string;
-  /** Request body */
-  body?: SetPropertyServiceLevelRequest | undefined;
 }
 /** Response message for SetPropertyServiceLevel RPC. */
 export interface SetPropertyServiceLevelResponse {}
@@ -903,10 +886,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "FindSalesPartnerManagedClientsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          organization: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            organization: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+organization}:findSalesPartnerManagedClients",
@@ -1153,11 +1138,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(145, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(145, __c18, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1171,11 +1158,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1189,11 +1178,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1213,10 +1204,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ReportPropertyUsageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          organization: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            organization: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+organization}:reportPropertyUsage",
@@ -1275,10 +1268,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SetPropertyServiceLevelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          analyticsAccountLink: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            analyticsAccountLink: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+analyticsAccountLink}:setPropertyServiceLevel",
@@ -1294,10 +1289,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(145, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(145, __c18, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/adminAccessBindings",
@@ -1326,10 +1323,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/analyticsAccountLinks",
@@ -1356,10 +1355,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/userGroups",
@@ -1385,10 +1386,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c24, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/members",

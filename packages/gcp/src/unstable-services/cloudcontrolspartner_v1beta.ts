@@ -123,13 +123,11 @@ export interface Customer {
   /** Output only. The customer organization domain, extracted from CRM Organization's display_name field. e.g. "google.com" */
   organizationDomain?: string | undefined;
 }
-export interface CreateOrganizationsLocationsCustomersRequest {
+export interface CreateOrganizationsLocationsCustomersRequest extends Customer {
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Required. The customer id to use for the customer, which will become the final component of the customer's resource name. The specified value must be a valid Google cloud organization id. */
   customerId?: string | undefined;
-  /** Request body */
-  body?: Customer | undefined;
 }
 export interface DeleteOrganizationsLocationsCustomersRequest {
   /** Required. name of the resource to be deleted format: name=organizations/*\/locations/*\/customers/* */
@@ -487,13 +485,11 @@ export interface ListViolationsResponse {
   /** Workloads that could not be reached due to permission errors or any other error. Ref: https://google.aip.dev/217 */
   unreachable?: StringList | undefined;
 }
-export interface PatchOrganizationsLocationsCustomersRequest {
+export interface PatchOrganizationsLocationsCustomersRequest extends Omit<Customer, "name"> {
   /** Optional. The list of fields to update */
   updateMask?: string | undefined;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   name: string;
-  /** Request body */
-  body?: Customer | undefined;
 }
 export type CreateOrganizationsLocationsCustomersError =
   | NotFound
@@ -992,11 +988,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(67, __c8, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(67, __c8, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1010,11 +1008,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customerId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(67, __c8, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(67, __c8, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/customers",

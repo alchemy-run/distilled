@@ -367,11 +367,9 @@ export interface BatchRunPivotReportsRequest {
   /** Individual requests. Each request has a separate pivot report response. Each batch request is allowed up to 5 requests. */
   requests?: RunPivotReportRequestList | undefined;
 }
-export interface BatchRunPivotReportsPropertiesRequest {
+export interface BatchRunPivotReportsPropertiesRequest extends BatchRunPivotReportsRequest {
   /** A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). This property must be specified for the batch. The property within RunPivotReportRequest may either be unspecified or consistent with this property. Example: properties/1234 */
   property: string;
-  /** Request body */
-  body?: BatchRunPivotReportsRequest | undefined;
 }
 /** If this report results is [sampled](https://support.google.com/analytics/answer/13331292), this describes the percentage of events used in this report. Sampling is the practice of analyzing a subset of all data in order to uncover the meaningful information in the larger data set. */
 export interface SamplingMetadata {
@@ -610,11 +608,9 @@ export interface BatchRunReportsRequest {
   /** Individual requests. Each request has a separate report response. Each batch request is allowed up to 5 requests. */
   requests?: RunReportRequestList | undefined;
 }
-export interface BatchRunReportsPropertiesRequest {
+export interface BatchRunReportsPropertiesRequest extends BatchRunReportsRequest {
   /** A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). This property must be specified for the batch. The property within RunReportRequest may either be unspecified or consistent with this property. Example: properties/1234 */
   property: string;
-  /** Request body */
-  body?: BatchRunReportsRequest | undefined;
 }
 /** The response report table corresponding to a request. */
 export interface RunReportResponse {
@@ -667,11 +663,9 @@ export interface CheckCompatibilityRequest {
     | (string & {})
     | undefined;
 }
-export interface CheckCompatibilityPropertiesRequest {
+export interface CheckCompatibilityPropertiesRequest extends CheckCompatibilityRequest {
   /** A Google Analytics property identifier whose events are tracked. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). `property` should be the same value as in your `runReport` request. Example: properties/1234 */
   property: string;
-  /** Request body */
-  body?: CheckCompatibilityRequest | undefined;
 }
 export type DimensionCompatibilityCompatibilityEnum =
   | "COMPATIBILITY_UNSPECIFIED"
@@ -789,11 +783,9 @@ export interface AudienceExport {
   /** Output only. The time when CreateAudienceExport was called and the AudienceExport began the `CREATING` state. */
   beginCreatingTime?: string | undefined;
 }
-export interface CreatePropertiesAudienceExportsRequest {
+export interface CreatePropertiesAudienceExportsRequest extends AudienceExport {
   /** Required. The parent resource where this audience export will be created. Format: `properties/{property}` */
   parent: string;
-  /** Request body */
-  body?: AudienceExport | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -873,11 +865,9 @@ export interface QueryAudienceExportRequest {
   /** Optional. The row count of the start row. The first row is counted as row 0. When paging, the first request does not specify offset; or equivalently, sets offset to 0; the first request returns the first `limit` of rows. The second request sets offset to the `limit` of the first request; the second request returns the second `limit` of rows. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
   offset?: string | undefined;
 }
-export interface QueryPropertiesAudienceExportsRequest {
+export interface QueryPropertiesAudienceExportsRequest extends QueryAudienceExportRequest {
   /** Required. The name of the audience export to retrieve users from. Format: `properties/{property}/audienceExports/{audience_export}` */
   name: string;
-  /** Request body */
-  body?: QueryAudienceExportRequest | undefined;
 }
 /** The value of a dimension. */
 export type V1betaAudienceDimensionValue = DimensionValue;
@@ -897,11 +887,9 @@ export interface QueryAudienceExportResponse {
   /** The total number of rows in the AudienceExport result. `rowCount` is independent of the number of rows returned in the response, the `limit` request parameter, and the `offset` request parameter. For example if a query returns 175 rows and includes `limit` of 50 in the API request, the response will contain `rowCount` of 175 but only 50 rows. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
   rowCount?: number | undefined;
 }
-export interface RunPivotReportPropertiesRequest {
+export interface RunPivotReportPropertiesRequest extends Omit<RunPivotReportRequest, "property"> {
   /** A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property. Example: properties/1234 */
   property: string;
-  /** Request body */
-  body?: RunPivotReportRequest | undefined;
 }
 export type RunRealtimeReportRequestMetricAggregationsItemEnum =
   | "METRIC_AGGREGATION_UNSPECIFIED"
@@ -943,11 +931,9 @@ export interface RunRealtimeReportRequest {
   /** The filter clause of metrics. Applied at post aggregation phase, similar to SQL having-clause. Dimensions cannot be used in this filter. */
   metricFilter?: FilterExpression | undefined;
 }
-export interface RunRealtimeReportPropertiesRequest {
+export interface RunRealtimeReportPropertiesRequest extends RunRealtimeReportRequest {
   /** A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Example: properties/1234 */
   property: string;
-  /** Request body */
-  body?: RunRealtimeReportRequest | undefined;
 }
 /** The response realtime report table corresponding to a request. */
 export interface RunRealtimeReportResponse {
@@ -970,11 +956,9 @@ export interface RunRealtimeReportResponse {
   /** If requested, the maximum values of metrics. */
   maximums?: RowList | undefined;
 }
-export interface RunReportPropertiesRequest {
+export interface RunReportPropertiesRequest extends Omit<RunReportRequest, "property"> {
   /** A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property. Example: properties/1234 */
   property: string;
-  /** Request body */
-  body?: RunReportRequest | undefined;
 }
 export type BatchRunPivotReportsPropertiesError =
   | NotFound
@@ -1239,10 +1223,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "QueryAudienceExportRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:query",
@@ -1264,10 +1250,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          property: S.String.pipe(T.Label()),
-          body: S.optional(__S(226, __c7, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(226, __c7, 2),
+          S.Struct({
+            property: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+property}:runPivotReport",
@@ -1305,10 +1293,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "RunRealtimeReportRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          property: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c3, 2),
+          S.Struct({
+            property: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+property}:runRealtimeReport",
@@ -1336,10 +1326,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          property: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            property: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+property}:runReport",
@@ -1361,10 +1353,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "BatchRunPivotReportsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          property: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(161, __c5, 1),
+          S.Struct({
+            property: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+property}:batchRunPivotReports",
@@ -1797,10 +1791,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "BatchRunReportsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          property: S.String.pipe(T.Label()),
-          body: S.optional(__S(449, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(449, __c14, 1),
+          S.Struct({
+            property: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+property}:batchRunReports",
@@ -1872,10 +1868,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CheckCompatibilityRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          property: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            property: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+property}:checkCompatibility",
@@ -1943,10 +1941,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(609, __c19, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(609, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/audienceExports",

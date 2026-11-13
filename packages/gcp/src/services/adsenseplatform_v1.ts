@@ -132,11 +132,9 @@ export interface Account {
   /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
   timeZone?: TimeZone | undefined;
 }
-export interface CreatePlatformsAccountsRequest {
+export interface CreatePlatformsAccountsRequest extends Account {
   /** Required. Platform to create an account for. Format: platforms/{platform} */
   parent: string;
-  /** Request body */
-  body?: Account | undefined;
 }
 /** Address data. */
 export interface Address {
@@ -181,11 +179,9 @@ export interface Event {
   /** Required. Event type. */
   eventType?: EventEventTypeEnum | (string & {}) | undefined;
 }
-export interface CreatePlatformsAccountsEventsRequest {
+export interface CreatePlatformsAccountsEventsRequest extends Event {
   /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: Event | undefined;
 }
 export type SiteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -202,11 +198,9 @@ export interface Site {
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name?: string | undefined;
 }
-export interface CreatePlatformsAccountsSitesRequest {
+export interface CreatePlatformsAccountsSitesRequest extends Site {
   /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
   parent: string;
-  /** Request body */
-  body?: Site | undefined;
 }
 export interface DeletePlatformsAccountsSitesRequest {
   /** Required. The name of the site to delete. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -655,10 +649,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37, __c9, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/accounts",
@@ -725,10 +721,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "Event" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(42, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42, __c10, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/events",
@@ -742,10 +740,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c12, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sites",

@@ -142,11 +142,9 @@ export interface Message {
 export interface AddMessageRequest {
   message?: Message | undefined;
 }
-export interface AddmessageEventticketclassRequest {
+export interface AddmessageEventticketclassRequest extends AddMessageRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type EventTicketClassViewUnlockRequirementEnum =
   | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
@@ -616,11 +614,9 @@ export interface EventTicketClassAddMessageResponse {
   /** The updated EventTicketClass resource. */
   resource?: EventTicketClass | undefined;
 }
-export interface AddmessageEventticketobjectRequest {
+export interface AddmessageEventticketobjectRequest extends AddMessageRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type PassConstraintsScreenshotEligibilityEnum =
   | "SCREENSHOT_ELIGIBILITY_UNSPECIFIED"
@@ -886,11 +882,9 @@ export interface EventTicketObjectAddMessageResponse {
   /** The updated EventTicketObject resource. */
   resource?: EventTicketObject | undefined;
 }
-export interface AddmessageFlightclassRequest {
+export interface AddmessageFlightclassRequest extends AddMessageRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type FlightClassFlightStatusEnum =
   | "FLIGHT_STATUS_UNSPECIFIED"
@@ -1092,11 +1086,9 @@ export interface FlightClassAddMessageResponse {
   /** The updated FlightClass resource. */
   resource?: FlightClass | undefined;
 }
-export interface AddmessageFlightobjectRequest {
+export interface AddmessageFlightobjectRequest extends AddMessageRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type FlightObjectStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1227,11 +1219,9 @@ export interface FlightObjectAddMessageResponse {
   /** The updated FlightObject resource. */
   resource?: FlightObject | undefined;
 }
-export interface AddmessageGenericclassRequest {
+export interface AddmessageGenericclassRequest extends AddMessageRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type GenericClassMultipleDevicesAndHoldersAllowedStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -1286,11 +1276,9 @@ export interface GenericClassAddMessageResponse {
   /** The updated EventTicketClass resource. */
   resource?: GenericClass | undefined;
 }
-export interface AddmessageGenericobjectRequest {
+export interface AddmessageGenericobjectRequest extends AddMessageRequest {
   /** The unique identifier for an object. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type GenericObjectStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1404,11 +1392,9 @@ export interface GenericObjectAddMessageResponse {
   /** The updated GenericObject resource. */
   resource?: GenericObject | undefined;
 }
-export interface AddmessageGiftcardclassRequest {
+export interface AddmessageGiftcardclassRequest extends AddMessageRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type GiftCardClassViewUnlockRequirementEnum =
   | "VIEW_UNLOCK_REQUIREMENT_UNSPECIFIED"
@@ -1526,11 +1512,9 @@ export interface GiftCardClassAddMessageResponse {
   /** The updated GiftCardClass resource. */
   resource?: GiftCardClass | undefined;
 }
-export interface AddmessageGiftcardobjectRequest {
+export interface AddmessageGiftcardobjectRequest extends AddMessageRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type GiftCardObjectNotifyPreferenceEnum =
   | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
@@ -1617,11 +1601,9 @@ export interface GiftCardObjectAddMessageResponse {
   /** The updated GiftCardObject resource. */
   resource?: GiftCardObject | undefined;
 }
-export interface AddmessageLoyaltyclassRequest {
+export interface AddmessageLoyaltyclassRequest extends AddMessageRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type LoyaltyClassNotifyPreferenceEnum =
   | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
@@ -1799,11 +1781,9 @@ export interface LoyaltyClassAddMessageResponse {
   /** The updated LoyaltyClass resource. */
   resource?: LoyaltyClass | undefined;
 }
-export interface AddmessageLoyaltyobjectRequest {
+export interface AddmessageLoyaltyobjectRequest extends AddMessageRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type LoyaltyObjectStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1908,11 +1888,9 @@ export interface LoyaltyObjectAddMessageResponse {
   /** The updated LoyaltyObject resource. */
   resource?: LoyaltyObject | undefined;
 }
-export interface AddmessageOfferclassRequest {
+export interface AddmessageOfferclassRequest extends AddMessageRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type OfferClassNotifyPreferenceEnum =
   | "NOTIFICATION_SETTINGS_FOR_UPDATES_UNSPECIFIED"
@@ -2046,11 +2024,9 @@ export interface OfferClassAddMessageResponse {
   /** The updated OfferClass resource. */
   resource?: OfferClass | undefined;
 }
-export interface AddmessageOfferobjectRequest {
+export interface AddmessageOfferobjectRequest extends AddMessageRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type OfferObjectStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2127,11 +2103,9 @@ export interface OfferObjectAddMessageResponse {
   /** The updated OfferObject resource. */
   resource?: OfferObject | undefined;
 }
-export interface AddmessageTransitclassRequest {
+export interface AddmessageTransitclassRequest extends AddMessageRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type TransitClassReviewStatusEnum =
   | "REVIEW_STATUS_UNSPECIFIED"
@@ -2298,11 +2272,9 @@ export interface TransitClassAddMessageResponse {
   /** The updated TransitClass resource. */
   resource?: TransitClass | undefined;
 }
-export interface AddmessageTransitobjectRequest {
+export interface AddmessageTransitobjectRequest extends AddMessageRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: AddMessageRequest | undefined;
 }
 export type TransitObjectStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2862,51 +2834,21 @@ export interface GetTransitobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
 }
-export interface InsertEventticketclassRequest {
-  /** Request body */
-  body?: EventTicketClass | undefined;
-}
-export interface InsertEventticketobjectRequest {
-  /** Request body */
-  body?: EventTicketObject | undefined;
-}
-export interface InsertFlightclassRequest {
-  /** Request body */
-  body?: FlightClass | undefined;
-}
-export interface InsertFlightobjectRequest {
-  /** Request body */
-  body?: FlightObject | undefined;
-}
-export interface InsertGenericclassRequest {
-  /** Request body */
-  body?: GenericClass | undefined;
-}
-export interface InsertGenericobjectRequest {
-  /** Request body */
-  body?: GenericObject | undefined;
-}
-export interface InsertGiftcardclassRequest {
-  /** Request body */
-  body?: GiftCardClass | undefined;
-}
-export interface InsertGiftcardobjectRequest {
-  /** Request body */
-  body?: GiftCardObject | undefined;
-}
-export interface InsertIssuerRequest {
-  /** Request body */
-  body?: Issuer | undefined;
-}
+export interface InsertEventticketclassRequest extends EventTicketClass {}
+export interface InsertEventticketobjectRequest extends EventTicketObject {}
+export interface InsertFlightclassRequest extends FlightClass {}
+export interface InsertFlightobjectRequest extends FlightObject {}
+export interface InsertGenericclassRequest extends GenericClass {}
+export interface InsertGenericobjectRequest extends GenericObject {}
+export interface InsertGiftcardclassRequest extends GiftCardClass {}
+export interface InsertGiftcardobjectRequest extends GiftCardObject {}
+export interface InsertIssuerRequest extends Issuer {}
 /** A JWT representation of a pass. */
 export interface JwtResource {
   /** Required. A string representing a JWT of the format described at https://developers.google.com/wallet/reference/rest/v1/Jwt */
   jwt?: string | undefined;
 }
-export interface InsertJwtRequest {
-  /** Request body */
-  body?: JwtResource | undefined;
-}
+export interface InsertJwtRequest extends JwtResource {}
 export type OfferObjectList = Array<OfferObject>;
 export type GiftCardClassList = Array<GiftCardClass>;
 export type GiftCardObjectList = Array<GiftCardObject>;
@@ -2957,22 +2899,10 @@ export interface JwtInsertResponse {
   /** Data that corresponds to the ids of the provided classes and objects in the JWT. resources will only include the non-empty arrays (i.e. if the JWT only includes eventTicketObjects, then that is the only field that will be present in resources). */
   resources?: Resources | undefined;
 }
-export interface InsertLoyaltyclassRequest {
-  /** Request body */
-  body?: LoyaltyClass | undefined;
-}
-export interface InsertLoyaltyobjectRequest {
-  /** Request body */
-  body?: LoyaltyObject | undefined;
-}
-export interface InsertOfferclassRequest {
-  /** Request body */
-  body?: OfferClass | undefined;
-}
-export interface InsertOfferobjectRequest {
-  /** Request body */
-  body?: OfferObject | undefined;
-}
+export interface InsertLoyaltyclassRequest extends LoyaltyClass {}
+export interface InsertLoyaltyobjectRequest extends LoyaltyObject {}
+export interface InsertOfferclassRequest extends OfferClass {}
+export interface InsertOfferobjectRequest extends OfferObject {}
 export type IssuerToUserInfoActionEnum =
   | "ACTION_UNSPECIFIED"
   | "S2AP"
@@ -3002,18 +2932,9 @@ export interface SmartTap {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#smartTap"`. */
   kind?: string | undefined;
 }
-export interface InsertSmarttapRequest {
-  /** Request body */
-  body?: SmartTap | undefined;
-}
-export interface InsertTransitclassRequest {
-  /** Request body */
-  body?: TransitClass | undefined;
-}
-export interface InsertTransitobjectRequest {
-  /** Request body */
-  body?: TransitObject | undefined;
-}
+export interface InsertSmarttapRequest extends SmartTap {}
+export interface InsertTransitclassRequest extends TransitClass {}
+export interface InsertTransitobjectRequest extends TransitObject {}
 export interface ListEventticketclassRequest {
   /** Used to get the next set of results if `maxResults` is specified, but more than `maxResults` classes are available in a list. For example, if you have a list of 200 classes and you call list with `maxResults` set to 20, list will return the first 20 classes and a token. Call list again with `maxResults` set to 20 and the token to get the next 20 classes. */
   token?: string | undefined;
@@ -3236,107 +3157,73 @@ export interface ModifyLinkedOfferObjectsRequest {
   /** The linked offer object ids to add or remove from the object. */
   linkedOfferObjectIds?: ModifyLinkedOfferObjects | undefined;
 }
-export interface ModifylinkedofferobjectsEventticketobjectRequest {
+export interface ModifylinkedofferobjectsEventticketobjectRequest extends ModifyLinkedOfferObjectsRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: ModifyLinkedOfferObjectsRequest | undefined;
 }
-export interface ModifylinkedofferobjectsLoyaltyobjectRequest {
+export interface ModifylinkedofferobjectsLoyaltyobjectRequest extends ModifyLinkedOfferObjectsRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: ModifyLinkedOfferObjectsRequest | undefined;
 }
-export interface PatchEventticketclassRequest {
+export interface PatchEventticketclassRequest extends EventTicketClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: EventTicketClass | undefined;
 }
-export interface PatchEventticketobjectRequest {
+export interface PatchEventticketobjectRequest extends EventTicketObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: EventTicketObject | undefined;
 }
-export interface PatchFlightclassRequest {
+export interface PatchFlightclassRequest extends FlightClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: FlightClass | undefined;
 }
-export interface PatchFlightobjectRequest {
+export interface PatchFlightobjectRequest extends FlightObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: FlightObject | undefined;
 }
-export interface PatchGenericclassRequest {
+export interface PatchGenericclassRequest extends GenericClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
-  /** Request body */
-  body?: GenericClass | undefined;
 }
-export interface PatchGenericobjectRequest {
+export interface PatchGenericobjectRequest extends GenericObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
-  /** Request body */
-  body?: GenericObject | undefined;
 }
-export interface PatchGiftcardclassRequest {
+export interface PatchGiftcardclassRequest extends GiftCardClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: GiftCardClass | undefined;
 }
-export interface PatchGiftcardobjectRequest {
+export interface PatchGiftcardobjectRequest extends GiftCardObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: GiftCardObject | undefined;
 }
-export interface PatchIssuerRequest {
+export interface PatchIssuerRequest extends Issuer {
   /** The unique identifier for an issuer. */
   resourceId: string;
-  /** Request body */
-  body?: Issuer | undefined;
 }
-export interface PatchLoyaltyclassRequest {
+export interface PatchLoyaltyclassRequest extends LoyaltyClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: LoyaltyClass | undefined;
 }
-export interface PatchLoyaltyobjectRequest {
+export interface PatchLoyaltyobjectRequest extends LoyaltyObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: LoyaltyObject | undefined;
 }
-export interface PatchOfferclassRequest {
+export interface PatchOfferclassRequest extends OfferClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: OfferClass | undefined;
 }
-export interface PatchOfferobjectRequest {
+export interface PatchOfferobjectRequest extends OfferObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: OfferObject | undefined;
 }
-export interface PatchTransitclassRequest {
+export interface PatchTransitclassRequest extends TransitClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: TransitClass | undefined;
 }
-export interface PatchTransitobjectRequest {
+export interface PatchTransitobjectRequest extends TransitObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: TransitObject | undefined;
 }
 /** Request to send a private pass update notice information to Google, so that devices can then fetch the notice prompting the user to update a pass. */
 export interface SetPassUpdateNoticeRequest {
@@ -3347,107 +3234,72 @@ export interface SetPassUpdateNoticeRequest {
   /** Required. A fully qualified identifier of the pass that the issuer wants to notify the pass holder(s) about. Formatted as . */
   externalPassId?: string | undefined;
 }
-export interface SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest {
-  /** Request body */
-  body?: SetPassUpdateNoticeRequest | undefined;
-}
+export interface SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest extends SetPassUpdateNoticeRequest {}
 /** A response to a request to notify Google of an awaiting update to a private pass. */
 export interface SetPassUpdateNoticeResponse {}
-export interface UpdateEventticketclassRequest {
+export interface UpdateEventticketclassRequest extends EventTicketClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: EventTicketClass | undefined;
 }
-export interface UpdateEventticketobjectRequest {
+export interface UpdateEventticketobjectRequest extends EventTicketObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: EventTicketObject | undefined;
 }
-export interface UpdateFlightclassRequest {
+export interface UpdateFlightclassRequest extends FlightClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: FlightClass | undefined;
 }
-export interface UpdateFlightobjectRequest {
+export interface UpdateFlightobjectRequest extends FlightObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: FlightObject | undefined;
 }
-export interface UpdateGenericclassRequest {
+export interface UpdateGenericclassRequest extends GenericClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
-  /** Request body */
-  body?: GenericClass | undefined;
 }
-export interface UpdateGenericobjectRequest {
+export interface UpdateGenericobjectRequest extends GenericObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
-  /** Request body */
-  body?: GenericObject | undefined;
 }
-export interface UpdateGiftcardclassRequest {
+export interface UpdateGiftcardclassRequest extends GiftCardClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: GiftCardClass | undefined;
 }
-export interface UpdateGiftcardobjectRequest {
+export interface UpdateGiftcardobjectRequest extends GiftCardObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: GiftCardObject | undefined;
 }
-export interface UpdateIssuerRequest {
+export interface UpdateIssuerRequest extends Issuer {
   /** The unique identifier for an issuer. */
   resourceId: string;
-  /** Request body */
-  body?: Issuer | undefined;
 }
-export interface UpdateLoyaltyclassRequest {
+export interface UpdateLoyaltyclassRequest extends LoyaltyClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: LoyaltyClass | undefined;
 }
-export interface UpdateLoyaltyobjectRequest {
+export interface UpdateLoyaltyobjectRequest extends LoyaltyObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: LoyaltyObject | undefined;
 }
-export interface UpdateOfferclassRequest {
+export interface UpdateOfferclassRequest extends OfferClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: OfferClass | undefined;
 }
-export interface UpdateOfferobjectRequest {
+export interface UpdateOfferobjectRequest extends OfferObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: OfferObject | undefined;
 }
-export interface UpdatePermissionsRequest {
+export interface UpdatePermissionsRequest extends Permissions {
   /** The unique identifier for an issuer. This ID must be unique across all issuers. */
   resourceId: string;
-  /** Request body */
-  body?: Permissions | undefined;
 }
-export interface UpdateTransitclassRequest {
+export interface UpdateTransitclassRequest extends TransitClass {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: TransitClass | undefined;
 }
-export interface UpdateTransitobjectRequest {
+export interface UpdateTransitobjectRequest extends TransitObject {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: TransitObject | undefined;
 }
 export type MediaRequestInfoNotificationTypeEnum =
   | "START"
@@ -3485,11 +3337,9 @@ export interface TransitObjectUploadRotatingBarcodeValuesRequest {
   /** A reference to the rotating barcode values payload that was uploaded. */
   blob?: Media | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends TransitObjectUploadRotatingBarcodeValuesRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
-  /** Request body */
-  body?: TransitObjectUploadRotatingBarcodeValuesRequest | undefined;
 }
 /** Response for uploading rotating barcode values. */
 export interface TransitObjectUploadRotatingBarcodeValuesResponse {}
@@ -3505,10 +3355,7 @@ export interface JwtValidateRequest {
   /** Optional. A JSON representation of a pass to be validated. Either this or jwt_resource should be set. Requests setting both or neither will be rejected. */
   jsonResource?: JsonResource | undefined;
 }
-export interface ValidateJwtRequest {
-  /** Request body */
-  body?: JwtValidateRequest | undefined;
-}
+export interface ValidateJwtRequest extends JwtValidateRequest {}
 /** Empty if the resource in the request is valid. Returns exception if invalid. */
 export interface JwtValidateResponse {}
 export type AddmessageEventticketclassError =
@@ -5263,10 +5110,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/giftCardClass/{resourceId}/addMessage",
@@ -5336,10 +5185,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(585, __c18, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(585, __c18, 9),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/transitObject/{resourceId}",
@@ -5375,10 +5226,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TransitObjectUploadRotatingBarcodeValuesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/transitObject/{resourceId}/uploadRotatingBarcodeValues",
@@ -5405,9 +5258,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "JwtValidateRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(129, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(129, __c4, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/jwt/validate",
@@ -5421,10 +5272,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/giftCardObject/{resourceId}/addMessage",
@@ -5486,10 +5339,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/loyaltyClass/{resourceId}/addMessage",
@@ -5586,10 +5441,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/loyaltyObject/{resourceId}/addMessage",
@@ -5668,10 +5525,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/offerClass/{resourceId}/addMessage",
@@ -5744,10 +5603,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/offerObject/{resourceId}/addMessage",
@@ -5804,10 +5665,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/transitClass/{resourceId}/addMessage",
@@ -5899,10 +5762,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/transitObject/{resourceId}/addMessage",
@@ -6513,9 +6378,7 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1442, __c45, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/eventTicketClass",
@@ -6529,9 +6392,7 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2530, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2530, __c79, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/eventTicketObject",
@@ -6545,9 +6406,7 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(3012, __c94, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(3012, __c94, 4), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/flightClass",
@@ -6561,9 +6420,7 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(3427, __c107, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(3427, __c107, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/flightObject",
@@ -6577,9 +6434,7 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(3808, __c119, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(3808, __c119, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/genericClass",
@@ -6593,10 +6448,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/eventTicketClass/{resourceId}/addMessage",
@@ -7040,9 +6897,7 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(4226, __c132, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(4226, __c132, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/genericObject",
@@ -7056,9 +6911,7 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(32, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/giftCardClass",
@@ -7072,9 +6925,7 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(192, __c6, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/giftCardObject",
@@ -7088,9 +6939,7 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(964, __c30, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(964, __c30, 4), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/issuer",
@@ -7104,9 +6953,7 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1824, __c57, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/jwt",
@@ -7240,9 +7087,7 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(259, __c8, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(259, __c8, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/loyaltyClass",
@@ -7256,9 +7101,7 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(322, __c10, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/loyaltyObject",
@@ -7272,9 +7115,7 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(384, __c12, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/offerClass",
@@ -7288,9 +7129,7 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(448, __c14, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/offerObject",
@@ -7330,9 +7169,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "SmartTap" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2435, __c76, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2435, __c76, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/smartTap",
@@ -7346,10 +7183,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/eventTicketObject/{resourceId}/addMessage",
@@ -7521,9 +7360,7 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(513, __c16, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(513, __c16, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/transitClass",
@@ -7537,9 +7374,7 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(585, __c18, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(585, __c18, 9), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/transitObject",
@@ -7765,10 +7600,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/flightClass/{resourceId}/addMessage",
@@ -8052,10 +7889,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3297, __c103, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3297, __c103, 1),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/eventTicketObject/{resourceId}/modifyLinkedOfferObjects",
@@ -8086,10 +7925,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3297, __c103, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3297, __c103, 1),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/loyaltyObject/{resourceId}/modifyLinkedOfferObjects",
@@ -8103,10 +7944,12 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1442, __c45, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/eventTicketClass/{resourceId}",
@@ -8120,10 +7963,12 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/flightObject/{resourceId}/addMessage",
@@ -8216,10 +8061,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2530, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2530, __c79, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/eventTicketObject/{resourceId}",
@@ -8233,10 +8080,12 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3012, __c94, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3012, __c94, 4),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/flightClass/{resourceId}",
@@ -8250,10 +8099,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3427, __c107, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3427, __c107, 3),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/flightObject/{resourceId}",
@@ -8267,10 +8118,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3808, __c119, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3808, __c119, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/genericClass/{resourceId}",
@@ -8284,10 +8137,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4226, __c132, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/genericObject/{resourceId}",
@@ -8301,10 +8156,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/giftCardClass/{resourceId}",
@@ -8318,10 +8175,12 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/giftCardObject/{resourceId}",
@@ -8335,10 +8194,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(964, __c30, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(964, __c30, 4),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/issuer/{resourceId}",
@@ -8352,10 +8213,12 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(259, __c8, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(259, __c8, 3),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/loyaltyClass/{resourceId}",
@@ -8369,10 +8232,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/loyaltyObject/{resourceId}",
@@ -8386,10 +8251,12 @@ function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/genericClass/{resourceId}/addMessage",
@@ -8433,10 +8300,12 @@ function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/offerClass/{resourceId}",
@@ -8450,10 +8319,12 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/offerObject/{resourceId}",
@@ -8467,10 +8338,12 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(513, __c16, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/transitClass/{resourceId}",
@@ -8484,10 +8357,12 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(585, __c18, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(585, __c18, 9),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "walletobjects/v1/transitObject/{resourceId}",
@@ -8509,9 +8384,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "SetPassUpdateNoticeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(3968, __c124, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(3968, __c124, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/privateContent/setPassUpdateNotice",
@@ -8531,10 +8404,12 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1442, __c45, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/eventTicketClass/{resourceId}",
@@ -8548,10 +8423,12 @@ function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2530, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2530, __c79, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/eventTicketObject/{resourceId}",
@@ -8565,10 +8442,12 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3012, __c94, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3012, __c94, 4),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/flightClass/{resourceId}",
@@ -8582,10 +8461,12 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3427, __c107, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3427, __c107, 3),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/flightObject/{resourceId}",
@@ -8599,10 +8480,12 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3808, __c119, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3808, __c119, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/genericClass/{resourceId}",
@@ -8616,10 +8499,12 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "walletobjects/v1/genericObject/{resourceId}/addMessage",
@@ -8689,10 +8574,12 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4226, __c132, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/genericObject/{resourceId}",
@@ -8706,10 +8593,12 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/giftCardClass/{resourceId}",
@@ -8723,10 +8612,12 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/giftCardObject/{resourceId}",
@@ -8740,10 +8631,12 @@ function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(964, __c30, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(964, __c30, 4),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/issuer/{resourceId}",
@@ -8757,10 +8650,12 @@ function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(259, __c8, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(259, __c8, 3),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/loyaltyClass/{resourceId}",
@@ -8774,10 +8669,12 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/loyaltyObject/{resourceId}",
@@ -8791,10 +8688,12 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/offerClass/{resourceId}",
@@ -8808,10 +8707,12 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/offerObject/{resourceId}",
@@ -8825,10 +8726,12 @@ function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1154, __c36, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1154, __c36, 2),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/permissions/{resourceId}",
@@ -8842,10 +8745,12 @@ function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(513, __c16, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            resourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "walletobjects/v1/transitClass/{resourceId}",

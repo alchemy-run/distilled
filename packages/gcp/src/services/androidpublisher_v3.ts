@@ -88,15 +88,13 @@ export interface ProductPurchasesAcknowledgeRequest {
   /** Payload to attach to the purchase. */
   developerPayload?: string | undefined;
 }
-export interface AcknowledgePurchasesProductsRequest {
+export interface AcknowledgePurchasesProductsRequest extends ProductPurchasesAcknowledgeRequest {
   /** The package name of the application the inapp product was sold in (for example, 'com.some.thing'). */
   packageName: string;
   /** The inapp product SKU (for example, 'com.some.thing.inapp1'). */
   productId: string;
   /** The token provided to the user's device when the inapp product was purchased. */
   token: string;
-  /** Request body */
-  body?: ProductPurchasesAcknowledgeRequest | undefined;
 }
 export interface AcknowledgePurchasesProductsResponse {}
 /** User account identifier in your app. */
@@ -113,15 +111,13 @@ export interface SubscriptionPurchasesAcknowledgeRequest {
   /** Optional. User account identifier in your app. */
   externalAccountIds?: ExternalAccountIds | undefined;
 }
-export interface AcknowledgePurchasesSubscriptionsRequest {
+export interface AcknowledgePurchasesSubscriptionsRequest extends SubscriptionPurchasesAcknowledgeRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
   /** Note: Since May 21, 2025, subscription_id is not required, and not recommended for subscription with add-ons. The purchased subscription ID (for example, 'monthly001'). */
   subscriptionId: string;
   /** The token provided to the user's device when the subscription was purchased. */
   token: string;
-  /** Request body */
-  body?: SubscriptionPurchasesAcknowledgeRequest | undefined;
 }
 export interface AcknowledgePurchasesSubscriptionsResponse {}
 export type ActivateOneTimeProductOfferRequestLatencyToleranceEnum =
@@ -144,7 +140,10 @@ export interface ActivateOneTimeProductOfferRequest {
   /** Required. The parent one-time product (ID) of the offer to activate. */
   productId?: string | undefined;
 }
-export interface ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
+export interface ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest extends Omit<
+  ActivateOneTimeProductOfferRequest,
+  "purchaseOptionId" | "offerId" | "packageName" | "productId"
+> {
   /** Required. The parent one-time product (ID) of the offer to activate. */
   productId: string;
   /** Required. The parent app (package name) of the offer to activate. */
@@ -153,8 +152,6 @@ export interface ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest
   purchaseOptionId: string;
   /** Required. The offer ID of the offer to activate. */
   offerId: string;
-  /** Request body */
-  body?: ActivateOneTimeProductOfferRequest | undefined;
 }
 /** Configuration specific to game reward offers. */
 export interface OneTimeProductGameRewardOffer {
@@ -280,15 +277,16 @@ export interface ActivateBasePlanRequest {
   /** Required. The unique base plan ID of the base plan to activate. */
   basePlanId?: string | undefined;
 }
-export interface ActivateMonetizationSubscriptionsBasePlansRequest {
+export interface ActivateMonetizationSubscriptionsBasePlansRequest extends Omit<
+  ActivateBasePlanRequest,
+  "packageName" | "productId" | "basePlanId"
+> {
   /** Required. The parent subscription (ID) of the base plan to activate. */
   productId: string;
   /** Required. The parent app (package name) of the base plan to activate. */
   packageName: string;
   /** Required. The unique base plan ID of the base plan to activate. */
   basePlanId: string;
-  /** Request body */
-  body?: ActivateBasePlanRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Countries where the purchase of this product is restricted to payment methods registered in the same country. If empty, no payment location restrictions are imposed. */
@@ -512,7 +510,10 @@ export interface ActivateSubscriptionOfferRequest {
   /** Required. The parent subscription (ID) of the offer to activate. */
   productId?: string | undefined;
 }
-export interface ActivateMonetizationSubscriptionsBasePlansOffersRequest {
+export interface ActivateMonetizationSubscriptionsBasePlansOffersRequest extends Omit<
+  ActivateSubscriptionOfferRequest,
+  "basePlanId" | "offerId" | "packageName" | "productId"
+> {
   /** Required. The parent app (package name) of the offer to activate. */
   packageName: string;
   /** Required. The unique offer ID of the offer to activate. */
@@ -521,8 +522,6 @@ export interface ActivateMonetizationSubscriptionsBasePlansOffersRequest {
   basePlanId: string;
   /** Required. The parent subscription (ID) of the offer to activate. */
   productId: string;
-  /** Request body */
-  body?: ActivateSubscriptionOfferRequest | undefined;
 }
 /** Configuration for any new locations Play may launch in specified on a subscription offer. */
 export interface OtherRegionsSubscriptionOfferConfig {
@@ -691,13 +690,11 @@ export interface ApksAddExternallyHostedRequest {
   /** The definition of the externally-hosted APK and where it is located. */
   externallyHostedApk?: ExternallyHostedApk | undefined;
 }
-export interface AddexternallyhostedEditsApksRequest {
+export interface AddexternallyhostedEditsApksRequest extends ApksAddExternallyHostedRequest {
   /** Package name of the app. */
   packageName: string;
   /** Identifier of the edit. */
   editId: string;
-  /** Request body */
-  body?: ApksAddExternallyHostedRequest | undefined;
 }
 /** Response for creating a new externally hosted APK. */
 export interface ApksAddExternallyHostedResponse {
@@ -733,13 +730,11 @@ export interface AddTargetingRequest {
   /** Specifies targeting updates such as regions, android sdk versions etc. */
   targetingUpdate?: TargetingUpdate | undefined;
 }
-export interface AddTargetingApprecoveryRequest {
+export interface AddTargetingApprecoveryRequest extends AddTargetingRequest {
   /** Required. ID corresponding to the app recovery action. */
   appRecoveryId: string;
   /** Required. Package name of the app for which recovery action is to be updated. */
   packageName: string;
-  /** Request body */
-  body?: AddTargetingRequest | undefined;
 }
 /** Response message for AddTargeting. */
 export interface AddTargetingResponse {}
@@ -772,11 +767,9 @@ export interface InappproductsBatchDeleteRequest {
   /** Individual delete requests. At least one request is required. Can contain up to 100 requests. All requests must correspond to different in-app products. */
   requests?: InappproductsDeleteRequestList | undefined;
 }
-export interface BatchDeleteInappproductsRequest {
+export interface BatchDeleteInappproductsRequest extends InappproductsBatchDeleteRequest {
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: InappproductsBatchDeleteRequest | undefined;
 }
 export interface BatchDeleteInappproductsResponse {}
 export type DeleteOneTimeProductRequestLatencyToleranceEnum =
@@ -798,11 +791,9 @@ export interface BatchDeleteOneTimeProductsRequest {
   /** Required. A list of delete requests of up to 100 elements. All requests must delete different one-time products. */
   requests?: DeleteOneTimeProductRequestList | undefined;
 }
-export interface BatchDeleteMonetizationOnetimeproductsRequest {
+export interface BatchDeleteMonetizationOnetimeproductsRequest extends BatchDeleteOneTimeProductsRequest {
   /** Required. The parent app (package name) for which the one-time products should be deleted. Must be equal to the package_name field on all the requests. */
   packageName: string;
-  /** Request body */
-  body?: BatchDeleteOneTimeProductsRequest | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsResponse {}
 export type DeletePurchaseOptionRequestLatencyToleranceEnum =
@@ -828,13 +819,11 @@ export interface BatchDeletePurchaseOptionsRequest {
   /** Required. A list of delete requests of up to 100 elements. All requests must delete purchase options from different one-time products. */
   requests?: DeletePurchaseOptionRequestList | undefined;
 }
-export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsRequest {
+export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsRequest extends BatchDeletePurchaseOptionsRequest {
   /** Required. The product ID of the parent one-time product, if all purchase options to delete belong to the same one-time product. If this batch delete spans multiple one-time products, set this field to "-". */
   productId: string;
   /** Required. The parent app (package name) of the purchase options to delete. */
   packageName: string;
-  /** Request body */
-  body?: BatchDeletePurchaseOptionsRequest | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsResponse {}
 export type DeleteOneTimeProductOfferRequestLatencyToleranceEnum =
@@ -863,15 +852,13 @@ export interface BatchDeleteOneTimeProductOffersRequest {
   /** Required. A list of delete requests of up to 100 elements. All requests must correspond to different offers. */
   requests?: DeleteOneTimeProductOfferRequestList | undefined;
 }
-export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
+export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersRequest extends BatchDeleteOneTimeProductOffersRequest {
   /** Required. The parent app (package name) of the offers to delete. Must be equal to the package_name field on all the requests. */
   packageName: string;
   /** Required. The product ID of the parent one-time product, if all offers to delete belong to the same product. If this request spans multiple one-time products, set this field to "-". */
   productId: string;
   /** Required. The parent purchase option (ID) for which the offers should be deleted. May be specified as '-' to delete offers from multiple purchase options. */
   purchaseOptionId: string;
-  /** Request body */
-  body?: BatchDeleteOneTimeProductOffersRequest | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersResponse {}
 export interface BatchGetInappproductsRequest {
@@ -1144,15 +1131,13 @@ export interface BatchGetOneTimeProductOffersRequest {
   /** Required. A list of get requests of up to 100 elements. All requests must retrieve different offers. */
   requests?: GetOneTimeProductOfferRequestList | undefined;
 }
-export interface BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
+export interface BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersRequest extends BatchGetOneTimeProductOffersRequest {
   /** Required. The parent app (package name) of the offers to retrieve. Must be equal to the package_name field on all the requests. */
   packageName: string;
   /** Required. The parent purchase option (ID) for which the offers should be retrieved. May be specified as '-' to retrieve offers from multiple purchase options. */
   purchaseOptionId: string;
   /** Required. The product ID of the parent one-time product, if all offers belong to the same product. If this request spans multiple one-time products, set this field to "-". */
   productId: string;
-  /** Request body */
-  body?: BatchGetOneTimeProductOffersRequest | undefined;
 }
 export type OneTimeProductOfferList = Array<OneTimeProductOffer>;
 /** Response message for the BatchGetOneTimeProductOffers endpoint. */
@@ -1189,15 +1174,13 @@ export interface BatchGetSubscriptionOffersRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different subscriptions. */
   requests?: GetSubscriptionOfferRequestList | undefined;
 }
-export interface BatchGetMonetizationSubscriptionsBasePlansOffersRequest {
+export interface BatchGetMonetizationSubscriptionsBasePlansOffersRequest extends BatchGetSubscriptionOffersRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this request spans multiple subscriptions, set this field to "-". Must be set. */
   productId: string;
   /** Required. The parent base plan (ID) for which the offers should be read. May be specified as '-' to read offers from multiple base plans. */
   basePlanId: string;
   /** Required. The parent app (package name) for which the subscriptions should be created or updated. Must be equal to the package_name field on all the requests. */
   packageName: string;
-  /** Request body */
-  body?: BatchGetSubscriptionOffersRequest | undefined;
 }
 export type SubscriptionOfferList = Array<SubscriptionOffer>;
 /** Response message for BatchGetSubscriptionOffers endpoint. */
@@ -1466,13 +1449,11 @@ export interface BatchMigrateBasePlanPricesRequest {
   /** Required. Up to 100 price migration requests. All requests must update different base plans. */
   requests?: MigrateBasePlanPricesRequestList | undefined;
 }
-export interface BatchMigratePricesMonetizationSubscriptionsBasePlansRequest {
+export interface BatchMigratePricesMonetizationSubscriptionsBasePlansRequest extends BatchMigrateBasePlanPricesRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this batch update spans multiple subscriptions, set this field to "-". Must be set. */
   productId: string;
   /** Required. The parent app (package name) for which the subscriptions should be created or updated. Must be equal to the package_name field on all the Subscription resources. */
   packageName: string;
-  /** Request body */
-  body?: BatchMigrateBasePlanPricesRequest | undefined;
 }
 /** Response message for MigrateBasePlanPrices. */
 export interface MigrateBasePlanPricesResponse {}
@@ -1507,11 +1488,9 @@ export interface InappproductsBatchUpdateRequest {
   /** Required. Individual update requests. At least one request is required. Can contain up to 100 requests. All requests must correspond to different in-app products. */
   requests?: InappproductsUpdateRequestList | undefined;
 }
-export interface BatchUpdateInappproductsRequest {
+export interface BatchUpdateInappproductsRequest extends InappproductsBatchUpdateRequest {
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: InappproductsBatchUpdateRequest | undefined;
 }
 /** Response for a batch in-app product update. */
 export interface InappproductsBatchUpdateResponse {
@@ -1541,11 +1520,9 @@ export interface BatchUpdateOneTimeProductsRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different one-time products. */
   requests?: UpdateOneTimeProductRequestList | undefined;
 }
-export interface BatchUpdateMonetizationOnetimeproductsRequest {
+export interface BatchUpdateMonetizationOnetimeproductsRequest extends BatchUpdateOneTimeProductsRequest {
   /** Required. The parent app (package name) for which the one-time products should be updated. Must be equal to the package_name field on all the OneTimeProduct resources. */
   packageName: string;
-  /** Request body */
-  body?: BatchUpdateOneTimeProductsRequest | undefined;
 }
 /** Response message for BatchUpdateOneTimeProduct. */
 export interface BatchUpdateOneTimeProductsResponse {
@@ -1578,15 +1555,13 @@ export interface BatchUpdateOneTimeProductOffersRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different offers. */
   requests?: UpdateOneTimeProductOfferRequestList | undefined;
 }
-export interface BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
+export interface BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersRequest extends BatchUpdateOneTimeProductOffersRequest {
   /** Required. The parent app (package name) of the updated offers. Must be equal to the package_name field on all the updated OneTimeProductOffer resources. */
   packageName: string;
   /** Required. The product ID of the parent one-time product, if all updated offers belong to the same product. If this request spans multiple one-time products, set this field to "-". */
   productId: string;
   /** Required. The parent purchase option (ID) for which the offers should be updated. May be specified as '-' to update offers from multiple purchase options. */
   purchaseOptionId: string;
-  /** Request body */
-  body?: BatchUpdateOneTimeProductOffersRequest | undefined;
 }
 /** Response message for BatchUpdateOneTimeProductOffers. */
 export interface BatchUpdateOneTimeProductOffersResponse {
@@ -1616,11 +1591,9 @@ export interface BatchUpdateSubscriptionsRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different subscriptions. */
   requests?: UpdateSubscriptionRequestList | undefined;
 }
-export interface BatchUpdateMonetizationSubscriptionsRequest {
+export interface BatchUpdateMonetizationSubscriptionsRequest extends BatchUpdateSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscriptions should be updated. Must be equal to the package_name field on all the Subscription resources. */
   packageName: string;
-  /** Request body */
-  body?: BatchUpdateSubscriptionsRequest | undefined;
 }
 /** Response message for BatchUpdateSubscription. */
 export interface BatchUpdateSubscriptionsResponse {
@@ -1650,15 +1623,13 @@ export interface BatchUpdateSubscriptionOffersRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different subscription offers. */
   requests?: UpdateSubscriptionOfferRequestList | undefined;
 }
-export interface BatchUpdateMonetizationSubscriptionsBasePlansOffersRequest {
+export interface BatchUpdateMonetizationSubscriptionsBasePlansOffersRequest extends BatchUpdateSubscriptionOffersRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this request spans multiple subscriptions, set this field to "-". Must be set. */
   productId: string;
   /** Required. The parent base plan (ID) for which the offers should be updated. May be specified as '-' to update offers from multiple base plans. */
   basePlanId: string;
   /** Required. The parent app (package name) of the updated subscription offers. Must be equal to the package_name field on all the updated SubscriptionOffer resources. */
   packageName: string;
-  /** Request body */
-  body?: BatchUpdateSubscriptionOffersRequest | undefined;
 }
 /** Response message for BatchUpdateSubscriptionOffers. */
 export interface BatchUpdateSubscriptionOffersResponse {
@@ -1711,13 +1682,11 @@ export interface BatchUpdatePurchaseOptionStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different purchase options. */
   requests?: UpdatePurchaseOptionStateRequestList | undefined;
 }
-export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsRequest {
+export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsRequest extends BatchUpdatePurchaseOptionStatesRequest {
   /** Required. The parent app (package name) of the updated purchase options. */
   packageName: string;
   /** Required. The product ID of the parent one-time product, if all updated purchase options belong to the same one-time product. If this batch update spans multiple one-time products, set this field to "-". */
   productId: string;
-  /** Request body */
-  body?: BatchUpdatePurchaseOptionStatesRequest | undefined;
 }
 /** Response message for BatchUpdatePurchaseOptionStates. */
 export interface BatchUpdatePurchaseOptionStatesResponse {
@@ -1780,15 +1749,13 @@ export interface BatchUpdateOneTimeProductOfferStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different offers. */
   requests?: UpdateOneTimeProductOfferStateRequestList | undefined;
 }
-export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
+export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRequest extends BatchUpdateOneTimeProductOfferStatesRequest {
   /** Required. The product ID of the parent one-time product, if all updated offers belong to the same one-time product. If this batch update spans multiple one-time products, set this field to "-". */
   productId: string;
   /** Required. The parent app (package name) of the updated one-time product offers. */
   packageName: string;
   /** Required. The purchase option ID of the parent purchase option, if all updated offers belong to the same purchase option. If this batch update spans multiple purchase options, set this field to "-". */
   purchaseOptionId: string;
-  /** Request body */
-  body?: BatchUpdateOneTimeProductOfferStatesRequest | undefined;
 }
 /** Response message for BatchUpdateOneTimeProductOfferStates. */
 export interface BatchUpdateOneTimeProductOfferStatesResponse {
@@ -1823,13 +1790,11 @@ export interface BatchUpdateBasePlanStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different base plans. */
   requests?: UpdateBasePlanStateRequestList | undefined;
 }
-export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansRequest {
+export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansRequest extends BatchUpdateBasePlanStatesRequest {
   /** Required. The parent app (package name) of the updated base plans. */
   packageName: string;
   /** Required. The product ID of the parent subscription, if all updated base plans belong to the same subscription. If this batch update spans multiple subscriptions, set this field to "-". Must be set. */
   productId: string;
-  /** Request body */
-  body?: BatchUpdateBasePlanStatesRequest | undefined;
 }
 /** Response message for BatchUpdateBasePlanStates. */
 export interface BatchUpdateBasePlanStatesResponse {
@@ -1869,15 +1834,13 @@ export interface BatchUpdateSubscriptionOfferStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different offers. */
   requests?: UpdateSubscriptionOfferStateRequestList | undefined;
 }
-export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersRequest {
+export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersRequest extends BatchUpdateSubscriptionOfferStatesRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this request spans multiple subscriptions, set this field to "-". Must be set. */
   productId: string;
   /** Required. The parent base plan (ID) for which the offers should be updated. May be specified as '-' to update offers from multiple base plans. */
   basePlanId: string;
   /** Required. The parent app (package name) of the updated subscription offers. Must be equal to the package_name field on all the updated SubscriptionOffer resources. */
   packageName: string;
-  /** Request body */
-  body?: BatchUpdateSubscriptionOfferStatesRequest | undefined;
 }
 /** Response message for BatchUpdateSubscriptionOfferStates. */
 export interface BatchUpdateSubscriptionOfferStatesResponse {
@@ -1896,7 +1859,10 @@ export interface CancelApprecoveryRequest {
 }
 /** Response message for CancelAppRecovery. */
 export interface CancelAppRecoveryResponse {}
-export interface CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
+export interface CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest extends Omit<
+  CancelOneTimeProductOfferRequest,
+  "packageName" | "productId" | "offerId" | "purchaseOptionId"
+> {
   /** Required. The parent app (package name) of the offer to cancel. */
   packageName: string;
   /** Required. The parent one-time product (ID) of the offer to cancel. */
@@ -1905,8 +1871,6 @@ export interface CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   offerId: string;
   /** Required. The parent purchase option (ID) of the offer to cancel. */
   purchaseOptionId: string;
-  /** Request body */
-  body?: CancelOneTimeProductOfferRequest | undefined;
 }
 export interface CancelPurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
@@ -1931,13 +1895,11 @@ export interface CancelSubscriptionPurchaseRequest {
   /** Required. Additional details around the subscription revocation. */
   cancellationContext?: CancellationContext | undefined;
 }
-export interface CancelPurchasesSubscriptionsv2Request {
+export interface CancelPurchasesSubscriptionsv2Request extends CancelSubscriptionPurchaseRequest {
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
   /** Required. The token provided to the user's device when the subscription was purchased. */
   token: string;
-  /** Request body */
-  body?: CancelSubscriptionPurchaseRequest | undefined;
 }
 /** Response for the purchases.subscriptionsv2.cancel API. */
 export interface CancelSubscriptionPurchaseResponse {}
@@ -1978,11 +1940,9 @@ export interface ConvertRegionPricesRequest {
   /** Optional. Product tax category code in context. Product tax category determines the transaction tax rates applied to the product that will be factored into the price calculation. If not set, tax rates for the default product tax category will be used. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/16408159) for more information. */
   productTaxCategoryCode?: string | undefined;
 }
-export interface ConvertRegionPricesMonetizationRequest {
+export interface ConvertRegionPricesMonetizationRequest extends ConvertRegionPricesRequest {
   /** Required. The app package name. */
   packageName: string;
-  /** Request body */
-  body?: ConvertRegionPricesRequest | undefined;
 }
 /** Converted other regions prices. */
 export interface ConvertedOtherRegionsPrice {
@@ -2095,13 +2055,11 @@ export interface DeviceTierConfig {
   /** Definition of user country sets for the app. */
   userCountrySets?: UserCountrySetList | undefined;
 }
-export interface CreateApplicationsDeviceTierConfigsRequest {
+export interface CreateApplicationsDeviceTierConfigsRequest extends DeviceTierConfig {
   /** Whether the service should accept device IDs that are unknown to Play's device catalog. */
   allowUnknownDevices?: boolean | undefined;
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: DeviceTierConfig | undefined;
 }
 /** Data format for a list of app versions. */
 export interface AppVersionList {
@@ -2140,11 +2098,9 @@ export interface CreateDraftAppRecoveryRequest {
   /** Action type is remote in-app update. As a consequence of this action, a downloadable recovery module is also created for testing purposes. */
   remoteInAppUpdate?: RemoteInAppUpdate | undefined;
 }
-export interface CreateApprecoveryRequest {
+export interface CreateApprecoveryRequest extends CreateDraftAppRecoveryRequest {
   /** Required. Package name of the app on which recovery action is performed. */
   packageName: string;
-  /** Request body */
-  body?: CreateDraftAppRecoveryRequest | undefined;
 }
 /** Data related to the recovery action at bundle level. */
 export interface RemoteInAppUpdateDataPerBundle {
@@ -2192,11 +2148,9 @@ export interface CreateAppStoreHostedAppRequest {
   /** Required. Package name of the app. */
   packageName?: string | undefined;
 }
-export interface CreateappstorehostedappAppstoreappsreviewRequest {
+export interface CreateappstorehostedappAppstoreappsreviewRequest extends CreateAppStoreHostedAppRequest {
   /** Required. Package name of the third-party app store. */
   appStorePackageName: string;
-  /** Request body */
-  body?: CreateAppStoreHostedAppRequest | undefined;
 }
 /** Response for creating a new app record for an app store hosted app. */
 export interface CreateAppStoreHostedAppResponse {}
@@ -2215,13 +2169,11 @@ export interface TrackConfig {
   /** Required. Type of the new track. Currently, the only supported value is closedTesting. */
   type?: TrackConfigTypeEnum | (string & {}) | undefined;
 }
-export interface CreateEditsTracksRequest {
+export interface CreateEditsTracksRequest extends TrackConfig {
   /** Required. Package name of the app. */
   packageName: string;
   /** Required. Identifier of the edit. */
   editId: string;
-  /** Request body */
-  body?: TrackConfig | undefined;
 }
 /** Country targeting specification. */
 export interface CountryTargeting {
@@ -2392,13 +2344,14 @@ export interface ExternalTransaction {
   /** Output only. The current state of the transaction. */
   transactionState?: ExternalTransactionTransactionStateEnum | (string & {}) | undefined;
 }
-export interface CreateexternaltransactionExternaltransactionsRequest {
+export interface CreateexternaltransactionExternaltransactionsRequest extends Omit<
+  ExternalTransaction,
+  "externalTransactionId"
+> {
   /** Required. The parent resource where this external transaction will be created. Format: applications/{package_name} */
   parent: string;
   /** Required. The id to use for the external transaction. Must be unique across all other transactions for the app. This value should be 1-63 characters and valid characters are /a-zA-Z0-9_-/. Do not use this field to store any Personally Identifiable Information (PII) such as emails. Attempting to store PII in this field may result in requests being blocked. */
   externalTransactionId?: string | undefined;
-  /** Request body */
-  body?: ExternalTransaction | undefined;
 }
 export type GrantAppLevelPermissionsItemEnum =
   | "APP_LEVEL_PERMISSION_UNSPECIFIED"
@@ -2428,23 +2381,25 @@ export interface Grant {
   /** Immutable. The package name of the app. This will be empty for draft apps. */
   packageName?: string | undefined;
 }
-export interface CreateGrantsRequest {
+export interface CreateGrantsRequest extends Grant {
   /** Required. The user which needs permission. Format: developers/{developer}/users/{user} */
   parent: string;
-  /** Request body */
-  body?: Grant | undefined;
 }
-export interface CreateMonetizationSubscriptionsRequest {
+export interface CreateMonetizationSubscriptionsRequest extends Omit<
+  Subscription,
+  "packageName" | "productId"
+> {
   /** Required. The ID to use for the subscription. For the requirements on this format, see the documentation of the product_id field on the Subscription resource. */
   productId?: string | undefined;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
   "regionsVersion.version"?: string | undefined;
   /** Required. The parent app (package name) for which the subscription should be created. Must be equal to the package_name field on the Subscription resource. */
   packageName: string;
-  /** Request body */
-  body?: Subscription | undefined;
 }
-export interface CreateMonetizationSubscriptionsBasePlansOffersRequest {
+export interface CreateMonetizationSubscriptionsBasePlansOffersRequest extends Omit<
+  SubscriptionOffer,
+  "offerId" | "packageName" | "productId" | "basePlanId"
+> {
   /** Required. The parent subscription (ID) for which the offer should be created. Must be equal to the product_id field on the SubscriptionOffer resource. */
   productId: string;
   /** Required. The parent base plan (ID) for which the offer should be created. Must be equal to the base_plan_id field on the SubscriptionOffer resource. */
@@ -2455,8 +2410,6 @@ export interface CreateMonetizationSubscriptionsBasePlansOffersRequest {
   offerId?: string | undefined;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
   "regionsVersion.version"?: string | undefined;
-  /** Request body */
-  body?: SubscriptionOffer | undefined;
 }
 /** Options for system APKs. */
 export interface SystemApkOptions {
@@ -2485,13 +2438,11 @@ export interface Variant {
   /** The device spec used to generate the APK. */
   deviceSpec?: DeviceSpec | undefined;
 }
-export interface CreateSystemapksVariantsRequest {
+export interface CreateSystemapksVariantsRequest extends Variant {
   /** Package name of the app. */
   packageName: string;
   /** The version code of the App Bundle. */
   versionCode: string;
-  /** Request body */
-  body?: Variant | undefined;
 }
 export type GrantList = Array<Grant>;
 export type UserAccessStateEnum =
@@ -2542,26 +2493,25 @@ export interface User {
   /** Permissions for the user which apply across the developer account. */
   developerAccountPermissions?: UserDeveloperAccountPermissionsItemEnumList | undefined;
 }
-export interface CreateUsersRequest {
+export interface CreateUsersRequest extends User {
   /** Required. The developer account to add the user to. Format: developers/{developer} */
   parent: string;
-  /** Request body */
-  body?: User | undefined;
 }
 /** Request to update Safety Labels of an app. */
 export interface SafetyLabelsUpdateRequest {
   /** Required. Contents of the CSV file containing Data Safety responses. For the format of this file, see the Help Center documentation at https://support.google.com/googleplay/android-developer/answer/10787469?#zippy=%2Cunderstand-the-csv-format To download an up to date template, follow the steps at https://support.google.com/googleplay/android-developer/answer/10787469?#zippy=%2Cexport-to-a-csv-file */
   safetyLabels?: string | undefined;
 }
-export interface DataSafetyApplicationsRequest {
+export interface DataSafetyApplicationsRequest extends SafetyLabelsUpdateRequest {
   /** Required. Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: SafetyLabelsUpdateRequest | undefined;
 }
 /** Response for SafetyLabelsUpdate rpc. */
 export interface SafetyLabelsUpdateResponse {}
-export interface DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
+export interface DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest extends Omit<
+  DeactivateOneTimeProductOfferRequest,
+  "productId" | "offerId" | "packageName" | "purchaseOptionId"
+> {
   /** Required. The offer ID of the offer to deactivate. */
   offerId: string;
   /** Required. The parent app (package name) of the offer to deactivate. */
@@ -2570,20 +2520,22 @@ export interface DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersReque
   purchaseOptionId: string;
   /** Required. The parent one-time product (ID) of the offer to deactivate. */
   productId: string;
-  /** Request body */
-  body?: DeactivateOneTimeProductOfferRequest | undefined;
 }
-export interface DeactivateMonetizationSubscriptionsBasePlansRequest {
+export interface DeactivateMonetizationSubscriptionsBasePlansRequest extends Omit<
+  DeactivateBasePlanRequest,
+  "packageName" | "basePlanId" | "productId"
+> {
   /** Required. The parent subscription (ID) of the base plan to deactivate. */
   productId: string;
   /** Required. The unique base plan ID of the base plan to deactivate. */
   basePlanId: string;
   /** Required. The parent app (package name) of the base plan to deactivate. */
   packageName: string;
-  /** Request body */
-  body?: DeactivateBasePlanRequest | undefined;
 }
-export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest {
+export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest extends Omit<
+  DeactivateSubscriptionOfferRequest,
+  "basePlanId" | "productId" | "packageName" | "offerId"
+> {
   /** Required. The unique offer ID of the offer to deactivate. */
   offerId: string;
   /** Required. The parent subscription (ID) of the offer to deactivate. */
@@ -2592,8 +2544,6 @@ export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest {
   packageName: string;
   /** Required. The parent base plan (ID) of the offer to deactivate. */
   basePlanId: string;
-  /** Request body */
-  body?: DeactivateSubscriptionOfferRequest | undefined;
 }
 /** A SubscriptionDeferralInfo contains the data needed to defer a subscription purchase to a future expiry time. */
 export interface SubscriptionDeferralInfo {
@@ -2607,15 +2557,13 @@ export interface SubscriptionPurchasesDeferRequest {
   /** The information about the new desired expiry time for the subscription. */
   deferralInfo?: SubscriptionDeferralInfo | undefined;
 }
-export interface DeferPurchasesSubscriptionsRequest {
+export interface DeferPurchasesSubscriptionsRequest extends SubscriptionPurchasesDeferRequest {
   /** The purchased subscription ID (for example, 'monthly001'). */
   subscriptionId: string;
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
   /** The token provided to the user's device when the subscription was purchased. */
   token: string;
-  /** Request body */
-  body?: SubscriptionPurchasesDeferRequest | undefined;
 }
 /** Response for the purchases.subscriptions.defer API. */
 export interface SubscriptionPurchasesDeferResponse {
@@ -2636,13 +2584,11 @@ export interface DeferSubscriptionPurchaseRequest {
   /** Required. Details about the subscription deferral. */
   deferralContext?: DeferralContext | undefined;
 }
-export interface DeferPurchasesSubscriptionsv2Request {
+export interface DeferPurchasesSubscriptionsv2Request extends DeferSubscriptionPurchaseRequest {
   /** Required. The token provided to the user's device when the subscription was purchased. */
   token: string;
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
-  /** Request body */
-  body?: DeferSubscriptionPurchaseRequest | undefined;
 }
 /** Expiry time details of a subscription item. */
 export interface ItemExpiryTimeDetails {
@@ -2873,11 +2819,9 @@ export interface EnrollAppRequest {
   /** Changes the signing key of a new app to an external Cloud KMS key. The app must not have published to Open testing or Production tracks. */
   enrollNewApp?: EnrollNewApp | undefined;
 }
-export interface EnrollAppAppsigningRequest {
+export interface EnrollAppAppsigningRequest extends EnrollAppRequest {
   /** Required. Either package name or app ID of the app enrolling in Play Signing. */
   name: string;
-  /** Request body */
-  body?: EnrollAppRequest | undefined;
 }
 /** Hash digests of a certificate. */
 export interface CertificateHashes {
@@ -3876,19 +3820,15 @@ export interface GetSystemapksVariantsRequest {
   /** The ID of a previously created system APK variant. */
   variantId: number;
 }
-export interface InsertEditsRequest {
+export interface InsertEditsRequest extends AppEdit {
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: AppEdit | undefined;
 }
-export interface InsertInappproductsRequest {
+export interface InsertInappproductsRequest extends Omit<InAppProduct, "packageName"> {
   /** If true the prices for all regions targeted by the parent app that don't have a price specified for this in-app product will be auto converted to the target currency based on the default price. Defaults to false. */
   autoConvertMissingPrices?: boolean | undefined;
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: InAppProduct | undefined;
 }
 export interface ListApplicationsDeviceTierConfigsRequest {
   /** A page token, received from a previous `ListDeviceTierConfigs` call. Provide this to retrieve the subsequent page. */
@@ -4636,29 +4576,28 @@ export interface ListUsersResponse {
   /** The resulting users. */
   users?: UserList | undefined;
 }
-export interface MigratePricesMonetizationSubscriptionsBasePlansRequest {
+export interface MigratePricesMonetizationSubscriptionsBasePlansRequest extends Omit<
+  MigrateBasePlanPricesRequest,
+  "productId" | "packageName" | "basePlanId"
+> {
   /** Required. The unique base plan ID of the base plan to update prices on. */
   basePlanId: string;
   /** Required. Package name of the parent app. Must be equal to the package_name field on the Subscription resource. */
   packageName: string;
   /** Required. The ID of the subscription to update. Must be equal to the product_id field on the Subscription resource. */
   productId: string;
-  /** Request body */
-  body?: MigrateBasePlanPricesRequest | undefined;
 }
-export interface PatchEditsDetailsRequest {
+export interface PatchEditsDetailsRequest extends AppDetails {
   /** Package name of the app. */
   packageName: string;
   /** Identifier of the edit. */
   editId: string;
-  /** Request body */
-  body?: AppDetails | undefined;
 }
 export type PatchEditsExpansionfilesExpansionFileTypeEnum =
   | "expansionFileTypeUnspecified"
   | "main"
   | "patch";
-export interface PatchEditsExpansionfilesRequest {
+export interface PatchEditsExpansionfilesRequest extends ExpansionFile {
   /** Package name of the app. */
   packageName: string;
   /** Identifier of the edit. */
@@ -4667,52 +4606,42 @@ export interface PatchEditsExpansionfilesRequest {
   expansionFileType: PatchEditsExpansionfilesExpansionFileTypeEnum | (string & {});
   /** The version code of the APK whose expansion file configuration is being read or modified. */
   apkVersionCode: number;
-  /** Request body */
-  body?: ExpansionFile | undefined;
 }
-export interface PatchEditsListingsRequest {
+export interface PatchEditsListingsRequest extends Omit<Listing, "language"> {
   /** Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
   language: string;
   /** Identifier of the edit. */
   editId: string;
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: Listing | undefined;
 }
-export interface PatchEditsTestersRequest {
+export interface PatchEditsTestersRequest extends Testers {
   /** Package name of the app. */
   packageName: string;
   /** The track to update. */
   track: string;
   /** Identifier of the edit. */
   editId: string;
-  /** Request body */
-  body?: Testers | undefined;
 }
-export interface PatchEditsTracksRequest {
+export interface PatchEditsTracksRequest extends Omit<Track, "track"> {
   /** Package name of the app. */
   packageName: string;
   /** Identifier of the edit. */
   editId: string;
   /** Identifier of the track. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
   track: string;
-  /** Request body */
-  body?: Track | undefined;
 }
-export interface PatchGrantsRequest {
+export interface PatchGrantsRequest extends Omit<Grant, "name"> {
   /** Required. Resource name for this grant, following the pattern "developers/{developer}/users/{email}/grants/{package_name}". If this grant is for a draft app, the app ID will be used in this resource name instead of the package name. */
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Grant | undefined;
 }
 export type PatchInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_SENSITIVE"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
-export interface PatchInappproductsRequest {
+export interface PatchInappproductsRequest extends Omit<InAppProduct, "sku" | "packageName"> {
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
   latencyTolerance?: PatchInappproductsLatencyToleranceEnum | (string & {}) | undefined;
   /** Unique identifier for the in-app product. */
@@ -4721,14 +4650,15 @@ export interface PatchInappproductsRequest {
   autoConvertMissingPrices?: boolean | undefined;
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: InAppProduct | undefined;
 }
 export type PatchMonetizationOnetimeproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_SENSITIVE"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
-export interface PatchMonetizationOnetimeproductsRequest {
+export interface PatchMonetizationOnetimeproductsRequest extends Omit<
+  OneTimeProduct,
+  "packageName" | "productId"
+> {
   /** Optional. If set to true, and the one-time product with the given package_name and product_id doesn't exist, the one-time product will be created. If a new one-time product is created, update_mask is ignored. */
   allowMissing?: boolean | undefined;
   /** Required. Immutable. Package name of the parent app. */
@@ -4744,14 +4674,15 @@ export interface PatchMonetizationOnetimeproductsRequest {
   updateMask?: string | undefined;
   /** Required. Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must start with a number or lowercase letter, and can contain numbers (0-9), lowercase letters (a-z), underscores (_), and periods (.). */
   productId: string;
-  /** Request body */
-  body?: OneTimeProduct | undefined;
 }
 export type PatchMonetizationSubscriptionsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_SENSITIVE"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
-export interface PatchMonetizationSubscriptionsRequest {
+export interface PatchMonetizationSubscriptionsRequest extends Omit<
+  Subscription,
+  "packageName" | "productId"
+> {
   /** Immutable. Package name of the parent app. */
   packageName: string;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
@@ -4764,14 +4695,15 @@ export interface PatchMonetizationSubscriptionsRequest {
   latencyTolerance?: PatchMonetizationSubscriptionsLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 export type PatchMonetizationSubscriptionsBasePlansOffersLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_SENSITIVE"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
-export interface PatchMonetizationSubscriptionsBasePlansOffersRequest {
+export interface PatchMonetizationSubscriptionsBasePlansOffersRequest extends Omit<
+  SubscriptionOffer,
+  "offerId" | "packageName" | "productId" | "basePlanId"
+> {
   /** Required. Immutable. The ID of the parent subscription this offer belongs to. */
   productId: string;
   /** Optional. If set to true, and the subscription offer with the given package_name, product_id, base_plan_id and offer_id doesn't exist, an offer will be created. If a new offer is created, update_mask is ignored. */
@@ -4791,16 +4723,12 @@ export interface PatchMonetizationSubscriptionsBasePlansOffersRequest {
     | PatchMonetizationSubscriptionsBasePlansOffersLatencyToleranceEnum
     | (string & {})
     | undefined;
-  /** Request body */
-  body?: SubscriptionOffer | undefined;
 }
-export interface PatchUsersRequest {
+export interface PatchUsersRequest extends Omit<User, "name"> {
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Required. Resource name for this user, following the pattern "developers/{developer}/users/{email}". */
   name: string;
-  /** Request body */
-  body?: User | undefined;
 }
 /** A partial refund of a transaction. */
 export interface PartialRefund {
@@ -4820,11 +4748,9 @@ export interface RefundExternalTransactionRequest {
   /** Required. The time that the transaction was refunded. */
   refundTime?: string | undefined;
 }
-export interface RefundexternaltransactionExternaltransactionsRequest {
+export interface RefundexternaltransactionExternaltransactionsRequest extends RefundExternalTransactionRequest {
   /** Required. The name of the external transaction that will be refunded. Format: applications/{package_name}/externalTransactions/{external_transaction} */
   name: string;
-  /** Request body */
-  body?: RefundExternalTransactionRequest | undefined;
 }
 export interface RefundOrdersRequest {
   /** The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
@@ -4840,13 +4766,11 @@ export interface ReviewsReplyRequest {
   /** The text to set as the reply. Replies of more than approximately 350 characters will be rejected. HTML tags will be stripped. */
   replyText?: string | undefined;
 }
-export interface ReplyReviewsRequest {
+export interface ReplyReviewsRequest extends ReviewsReplyRequest {
   /** Package name of the app. */
   packageName: string;
   /** Unique identifier for a review. */
   reviewId: string;
-  /** Request body */
-  body?: ReviewsReplyRequest | undefined;
 }
 /** The result of replying/updating a reply to review. */
 export interface ReviewReplyResult {
@@ -4905,13 +4829,11 @@ export interface OrdersReviewRefundRequest {
   /** Optional. List of events, each representing an instance where the user consumed or used the purchased item or service. Lists with over 1000 items will be rejected. */
   consumptionUsageEvents?: ConsumptionUsageEventList | undefined;
 }
-export interface ReviewrefundOrdersRequest {
+export interface ReviewrefundOrdersRequest extends OrdersReviewRefundRequest {
   /** Required. The order ID provided to the user when the subscription or in-app order was purchased. */
   orderId: string;
   /** Required. The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
   packageName: string;
-  /** Request body */
-  body?: OrdersReviewRefundRequest | undefined;
 }
 export interface ReviewrefundOrdersResponse {}
 /** Used to determine if the refund type in the RevocationContext is a prorated refund. */
@@ -4937,13 +4859,11 @@ export interface RevokeSubscriptionPurchaseRequest {
   /** Required. Additional details around the subscription revocation. */
   revocationContext?: RevocationContext | undefined;
 }
-export interface RevokePurchasesSubscriptionsv2Request {
+export interface RevokePurchasesSubscriptionsv2Request extends RevokeSubscriptionPurchaseRequest {
   /** Required. The token provided to the user's device when the subscription was purchased. */
   token: string;
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
-  /** Request body */
-  body?: RevokeSubscriptionPurchaseRequest | undefined;
 }
 /** Response for the purchases.subscriptionsv2.revoke API. */
 export interface RevokeSubscriptionPurchaseResponse {}
@@ -4968,11 +4888,9 @@ export interface RotateAppSigningKeyRequest {
   /** Required. Self-hosted Cloud KMS key. */
   rotatedCloudKmsKey?: RotatedCloudKmsKey | undefined;
 }
-export interface RotateAppSigningKeyAppsigningRequest {
+export interface RotateAppSigningKeyAppsigningRequest extends RotateAppSigningKeyRequest {
   /** Required. Either package name or app ID of the app rotating the signing key. */
   name: string;
-  /** Request body */
-  body?: RotateAppSigningKeyRequest | undefined;
 }
 /** Response to rotate an app's signing key. */
 export interface RotateAppSigningKeyResponse {
@@ -5133,11 +5051,9 @@ export interface UpdateAppStoreHostedAppRequest {
   /** Required. Package name of the app. */
   packageName?: string | undefined;
 }
-export interface UpdateappstorehostedappAppstoreappsreviewRequest {
+export interface UpdateappstorehostedappAppstoreappsreviewRequest extends UpdateAppStoreHostedAppRequest {
   /** Required. Package name of the third-party app store. */
   appStorePackageName: string;
-  /** Request body */
-  body?: UpdateAppStoreHostedAppRequest | undefined;
 }
 /** Response for updating an app record for an app store hosted app. */
 export interface UpdateAppStoreHostedAppResponse {
@@ -5156,29 +5072,25 @@ export interface UpdateAppStoreHostedAppPublishStatusRequest {
     | (string & {})
     | undefined;
 }
-export interface UpdateappstorehostedapppublishstatusAppstoreappsreviewRequest {
+export interface UpdateappstorehostedapppublishstatusAppstoreappsreviewRequest extends UpdateAppStoreHostedAppPublishStatusRequest {
   /** Required. Package name of the third-party app store. */
   appStorePackageName: string;
   /** Required. Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: UpdateAppStoreHostedAppPublishStatusRequest | undefined;
 }
 /** Response for updating the publish status of an app store hosted app. */
 export interface UpdateAppStoreHostedAppPublishStatusResponse {}
-export interface UpdateEditsDetailsRequest {
+export interface UpdateEditsDetailsRequest extends AppDetails {
   /** Identifier of the edit. */
   editId: string;
   /** Package name of the app. */
   packageName: string;
-  /** Request body */
-  body?: AppDetails | undefined;
 }
 export type UpdateEditsExpansionfilesExpansionFileTypeEnum =
   | "expansionFileTypeUnspecified"
   | "main"
   | "patch";
-export interface UpdateEditsExpansionfilesRequest {
+export interface UpdateEditsExpansionfilesRequest extends ExpansionFile {
   /** The file type of the file configuration which is being read or modified. */
   expansionFileType: UpdateEditsExpansionfilesExpansionFileTypeEnum | (string & {});
   /** The version code of the APK whose expansion file configuration is being read or modified. */
@@ -5187,44 +5099,36 @@ export interface UpdateEditsExpansionfilesRequest {
   packageName: string;
   /** Identifier of the edit. */
   editId: string;
-  /** Request body */
-  body?: ExpansionFile | undefined;
 }
-export interface UpdateEditsListingsRequest {
+export interface UpdateEditsListingsRequest extends Omit<Listing, "language"> {
   /** Package name of the app. */
   packageName: string;
   /** Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
   language: string;
   /** Identifier of the edit. */
   editId: string;
-  /** Request body */
-  body?: Listing | undefined;
 }
-export interface UpdateEditsTestersRequest {
+export interface UpdateEditsTestersRequest extends Testers {
   /** Package name of the app. */
   packageName: string;
   /** Identifier of the edit. */
   editId: string;
   /** The track to update. */
   track: string;
-  /** Request body */
-  body?: Testers | undefined;
 }
-export interface UpdateEditsTracksRequest {
+export interface UpdateEditsTracksRequest extends Omit<Track, "track"> {
   /** Identifier of the edit. */
   editId: string;
   /** Package name of the app. */
   packageName: string;
   /** Identifier of the track. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
   track: string;
-  /** Request body */
-  body?: Track | undefined;
 }
 export type UpdateInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_SENSITIVE"
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
-export interface UpdateInappproductsRequest {
+export interface UpdateInappproductsRequest extends Omit<InAppProduct, "sku" | "packageName"> {
   /** Unique identifier for the in-app product. */
   sku: string;
   /** Package name of the app. */
@@ -5235,8 +5139,6 @@ export interface UpdateInappproductsRequest {
   autoConvertMissingPrices?: boolean | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
   latencyTolerance?: UpdateInappproductsLatencyToleranceEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: InAppProduct | undefined;
 }
 /** Request to upload an APK. */
 export type UploadApkRequest = OneTimeProductOfferNoPriceOverrideOptions;
@@ -5274,13 +5176,11 @@ export interface UploadAppStoreAppPolicyDeclarationFileRequest {
   /** Required. Type of the policy declaration file. */
   fileType?: UploadAppStoreAppPolicyDeclarationFileRequestFileTypeEnum | (string & {}) | undefined;
 }
-export interface UploadappstoreapppolicydeclarationfileAppstoreappsreviewRequest {
+export interface UploadappstoreapppolicydeclarationfileAppstoreappsreviewRequest extends UploadAppStoreAppPolicyDeclarationFileRequest {
   /** Required. Package name of the app. */
   packageName: string;
   /** Required. Package name of the third-party app store. */
   appStorePackageName: string;
-  /** Request body */
-  body?: UploadAppStoreAppPolicyDeclarationFileRequest | undefined;
 }
 /** Response for uploading a policy declaration file. */
 export interface UploadAppStoreAppPolicyDeclarationFileResponse {
@@ -8329,11 +8229,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddTargetingRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          appRecoveryId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            appRecoveryId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/appRecoveries/{appRecoveryId}:addTargeting",
@@ -9008,12 +8910,14 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          basePlanId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2530, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2530, __c79, 2),
+          S.Struct({
+            basePlanId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}:migratePrices",
@@ -9027,11 +8931,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5312, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5312, __c166, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/details",
@@ -9045,13 +8951,15 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          expansionFileType: S.String.pipe(T.Label()),
-          apkVersionCode: S.Number.pipe(T.Label()),
-          body: S.optional(__S(5376, __c168, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5376, __c168, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+            expansionFileType: S.String.pipe(T.Label()),
+            apkVersionCode: S.Number.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/apks/{apkVersionCode}/expansionFiles/{expansionFileType}",
@@ -9065,12 +8973,14 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          language: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(5440, __c170, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5440, __c170, 0),
+          S.Struct({
+            language: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/listings/{language}",
@@ -9084,12 +8994,14 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          track: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5504, __c172, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5504, __c172, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            track: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/testers/{track}",
@@ -9103,12 +9015,14 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          track: S.String.pipe(T.Label()),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+            track: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/tracks/{track}",
@@ -9122,11 +9036,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/{+name}",
@@ -9140,13 +9056,15 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          latencyTolerance: S.optional(S.String.pipe(T.Query())),
-          sku: S.String.pipe(T.Label()),
-          autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1988, __c62, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1988, __c62, 4),
+          S.Struct({
+            latencyTolerance: S.optional(S.String.pipe(T.Query())),
+            sku: S.String.pipe(T.Label()),
+            autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/inappproducts/{sku}",
@@ -9176,10 +9094,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "InappproductsBatchDeleteRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(802, __c25, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(802, __c25, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/inappproducts:batchDelete",
@@ -9193,15 +9113,17 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          packageName: S.String.pipe(T.Label()),
-          latencyTolerance: S.optional(S.String.pipe(T.Query())),
-          "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2125, __c66, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2125, __c66, 13),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            packageName: S.String.pipe(T.Label()),
+            latencyTolerance: S.optional(S.String.pipe(T.Query())),
+            "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            productId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/onetimeproducts/{productId}",
@@ -9215,15 +9137,17 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
-          productId: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          latencyTolerance: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4970, __c155, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4970, __c155, 10),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
+            productId: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            latencyTolerance: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}",
@@ -9237,17 +9161,19 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
-          packageName: S.String.pipe(T.Label()),
-          offerId: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          latencyTolerance: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5644, __c176, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5644, __c176, 12),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
+            packageName: S.String.pipe(T.Label()),
+            offerId: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+            latencyTolerance: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}/offers/{offerId}",
@@ -9261,11 +9187,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3841, __c120, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3841, __c120, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "androidpublisher/v3/{+name}",
@@ -9294,10 +9222,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RefundExternalTransactionRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/{+name}:refund",
@@ -9335,11 +9265,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ReviewsReplyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          reviewId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            reviewId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/reviews/{reviewId}:reply",
@@ -9398,11 +9330,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "OrdersReviewRefundRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          orderId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1059, __c33, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1059, __c33, 3),
+          S.Struct({
+            orderId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/orders/{orderId}:reviewrefund",
@@ -9430,11 +9364,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RevokeSubscriptionPurchaseRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1089, __c34, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1089, __c34, 1),
+          S.Struct({
+            token: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/purchases/subscriptionsv2/tokens/{token}:revoke",
@@ -9462,10 +9398,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "RotateAppSigningKeyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1121, __c35, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1121, __c35, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{name}/appSigning:rotateAppSigningKey",
@@ -9501,10 +9439,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "BatchDeleteOneTimeProductsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1154, __c36, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1154, __c36, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts:batchDelete",
@@ -9659,10 +9599,12 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateAppStoreHostedAppRequest" });
     case 23:
       return S.suspend(() =>
-        S.Struct({
-          appStorePackageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1206, __c37, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1206, __c37, 22),
+          S.Struct({
+            appStorePackageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/appstore/{appStorePackageName}/apps:update",
@@ -9688,11 +9630,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateAppStoreHostedAppPublishStatusRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          appStorePackageName: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            appStorePackageName: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/appstore/{appStorePackageName}/apps/{packageName}:updateAppStoreHostedAppPublishStatus",
@@ -9706,11 +9650,13 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          editId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(5312, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5312, __c166, 0),
+          S.Struct({
+            editId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/details",
@@ -9724,13 +9670,15 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          expansionFileType: S.String.pipe(T.Label()),
-          apkVersionCode: S.Number.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5376, __c168, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5376, __c168, 0),
+          S.Struct({
+            expansionFileType: S.String.pipe(T.Label()),
+            apkVersionCode: S.Number.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/apks/{apkVersionCode}/expansionFiles/{expansionFileType}",
@@ -9744,12 +9692,14 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5440, __c170, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5440, __c170, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            language: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/listings/{language}",
@@ -9763,12 +9713,14 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          track: S.String.pipe(T.Label()),
-          body: S.optional(__S(5504, __c172, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5504, __c172, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+            track: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/testers/{track}",
@@ -9782,12 +9734,14 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          editId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          track: S.String.pipe(T.Label()),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            editId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            track: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/tracks/{track}",
@@ -9801,14 +9755,16 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sku: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
-          latencyTolerance: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1988, __c62, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1988, __c62, 4),
+          S.Struct({
+            sku: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
+            latencyTolerance: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidpublisher/v3/applications/{packageName}/inappproducts/{sku}",
@@ -9892,11 +9848,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "BatchDeletePurchaseOptionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1538, __c48, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1538, __c48, 2),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions:batchDelete",
@@ -9916,11 +9874,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UploadAppStoreAppPolicyDeclarationFileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          appStorePackageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            appStorePackageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/appstore/{appStorePackageName}/apps/{packageName}/policyDeclarationFiles:upload",
@@ -10133,12 +10093,14 @@ function __c58(j: number): any {
       ).annotate({ identifier: "BatchDeleteOneTimeProductOffersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          purchaseOptionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1858, __c58, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1858, __c58, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+            purchaseOptionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions/{purchaseOptionId}/offers:batchDelete",
@@ -10390,12 +10352,14 @@ function __c67(j: number): any {
       ).annotate({ identifier: "BatchGetOneTimeProductOffersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          purchaseOptionId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2146, __c67, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2146, __c67, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            purchaseOptionId: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions/{purchaseOptionId}/offers:batchGet",
@@ -10475,12 +10439,14 @@ function __c73(j: number): any {
       ).annotate({ identifier: "BatchGetSubscriptionOffersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2338, __c73, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2338, __c73, 2),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}/offers:batchGet",
@@ -10681,11 +10647,13 @@ function __c78(j: number): any {
       ).annotate({ identifier: "BatchMigrateBasePlanPricesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2497, __c78, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2497, __c78, 1),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans:batchMigratePrices",
@@ -10751,10 +10719,12 @@ function __c80(j: number): any {
       ).annotate({ identifier: "InappproductsBatchUpdateRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2562, __c80, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2562, __c80, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/inappproducts:batchUpdate",
@@ -10792,10 +10762,12 @@ function __c81(j: number): any {
       ).annotate({ identifier: "BatchUpdateOneTimeProductsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2594, __c81, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2594, __c81, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts:batchUpdate",
@@ -10827,12 +10799,14 @@ function __c82(j: number): any {
       ).annotate({ identifier: "BatchUpdateOneTimeProductOffersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          purchaseOptionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2626, __c82, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2626, __c82, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+            purchaseOptionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions/{purchaseOptionId}/offers:batchUpdate",
@@ -10866,10 +10840,12 @@ function __c83(j: number): any {
       ).annotate({ identifier: "BatchUpdateSubscriptionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2658, __c83, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2658, __c83, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions:batchUpdate",
@@ -10901,12 +10877,14 @@ function __c84(j: number): any {
       ).annotate({ identifier: "BatchUpdateSubscriptionOffersRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2690, __c84, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2690, __c84, 2),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}/offers:batchUpdate",
@@ -10953,11 +10931,13 @@ function __c85(j: number): any {
       ).annotate({ identifier: "BatchUpdatePurchaseOptionStatesRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2724, __c85, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2724, __c85, 4),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions:batchUpdateStates",
@@ -10989,12 +10969,14 @@ function __c86(j: number): any {
       ).annotate({ identifier: "BatchUpdateOneTimeProductOfferStatesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          purchaseOptionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2754, __c86, 2),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            purchaseOptionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions/{purchaseOptionId}/offers:batchUpdateStates",
@@ -11053,11 +11035,13 @@ function __c89(j: number): any {
       ).annotate({ identifier: "BatchUpdateBasePlanStatesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2850, __c89, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2850, __c89, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans:batchUpdateStates",
@@ -11099,12 +11083,14 @@ function __c91(j: number): any {
       ).annotate({ identifier: "BatchUpdateSubscriptionOfferStatesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2914, __c91, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2914, __c91, 2),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}/offers:batchUpdateStates",
@@ -11152,13 +11138,15 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          offerId: S.String.pipe(T.Label()),
-          purchaseOptionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+            offerId: S.String.pipe(T.Label()),
+            purchaseOptionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions/{purchaseOptionId}/offers/{offerId}:cancel",
@@ -11202,11 +11190,13 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CancelSubscriptionPurchaseRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          token: S.String.pipe(T.Label()),
-          body: S.optional(__S(3073, __c96, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3073, __c96, 1),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            token: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/purchases/subscriptionsv2/tokens/{token}:cancel",
@@ -11275,10 +11265,12 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ConvertRegionPricesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/pricing:convertRegionPrices",
@@ -11310,11 +11302,13 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowUnknownDevices: S.optional(S.Boolean.pipe(T.Query())),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3280, __c102, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3280, __c102, 16),
+          S.Struct({
+            allowUnknownDevices: S.optional(S.Boolean.pipe(T.Query())),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/deviceTierConfigs",
@@ -11426,12 +11420,14 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ProductPurchasesAcknowledgeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          token: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+            token: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/purchases/products/{productId}/tokens/{token}:acknowledge",
@@ -11466,10 +11462,12 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CreateDraftAppRecoveryRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3361, __c105, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3361, __c105, 1),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/appRecoveries",
@@ -11545,10 +11543,12 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateAppStoreHostedAppRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          appStorePackageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3424, __c107, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3424, __c107, 0),
+          S.Struct({
+            appStorePackageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/appstore/{appStorePackageName}/apps:create",
@@ -11570,11 +11570,13 @@ function __c108(j: number): any {
       ).annotate({ identifier: "TrackConfig" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3456, __c108, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3456, __c108, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/tracks",
@@ -11629,11 +11631,13 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          externalTransactionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3558, __c111, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3558, __c111, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            externalTransactionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/{+parent}/externalTransactions",
@@ -11718,10 +11722,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/{+parent}/grants",
@@ -11753,12 +11759,14 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.optional(S.String.pipe(T.Query())),
-          "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(4970, __c155, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4970, __c155, 10),
+          S.Struct({
+            productId: S.optional(S.String.pipe(T.Query())),
+            "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions",
@@ -11772,14 +11780,16 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          offerId: S.optional(S.String.pipe(T.Query())),
-          "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5644, __c176, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5644, __c176, 12),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            offerId: S.optional(S.String.pipe(T.Query())),
+            "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}/offers",
@@ -11793,11 +11803,13 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          versionCode: S.String.pipe(T.Label()),
-          body: S.optional(__S(3778, __c118, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3778, __c118, 2),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            versionCode: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/systemApks/{versionCode}/variants",
@@ -11839,10 +11851,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3841, __c120, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3841, __c120, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/{+parent}/users",
@@ -11880,10 +11894,12 @@ function __c121(j: number): any {
       ).annotate({ identifier: "SafetyLabelsUpdateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3872, __c121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3872, __c121, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/dataSafety",
@@ -11911,12 +11927,14 @@ function __c122(j: number): any {
       ).annotate({ identifier: "SubscriptionPurchasesAcknowledgeRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          subscriptionId: S.String.pipe(T.Label()),
-          token: S.String.pipe(T.Label()),
-          body: S.optional(__S(3905, __c122, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3905, __c122, 1),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            subscriptionId: S.String.pipe(T.Label()),
+            token: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}:acknowledge",
@@ -11930,13 +11948,15 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          offerId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          purchaseOptionId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            offerId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            purchaseOptionId: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions/{purchaseOptionId}/offers/{offerId}:deactivate",
@@ -11952,12 +11972,14 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}:deactivate",
@@ -11971,13 +11993,15 @@ function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          offerId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2944, __c92, 0),
+          S.Struct({
+            offerId: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}/offers/{offerId}:deactivate",
@@ -12004,12 +12028,14 @@ function __c126(j: number): any {
       ).annotate({ identifier: "SubscriptionPurchasesDeferRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          token: S.String.pipe(T.Label()),
-          body: S.optional(__S(4033, __c126, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4033, __c126, 1),
+          S.Struct({
+            subscriptionId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            token: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}:defer",
@@ -12043,11 +12069,13 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DeferSubscriptionPurchaseRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(4065, __c127, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4065, __c127, 1),
+          S.Struct({
+            token: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/purchases/subscriptionsv2/tokens/{token}:defer",
@@ -12193,13 +12221,15 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          purchaseOptionId: S.String.pipe(T.Label()),
-          offerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4416, __c138, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4416, __c138, 0),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            purchaseOptionId: S.String.pipe(T.Label()),
+            offerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/oneTimeProducts/{productId}/purchaseOptions/{purchaseOptionId}/offers/{offerId}:activate",
@@ -12492,12 +12522,14 @@ function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          packageName: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4992, __c156, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4992, __c156, 0),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            packageName: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}:activate",
@@ -12688,10 +12720,12 @@ function __c158(j: number): any {
       ).annotate({ identifier: "EnrollAppRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5058, __c158, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5058, __c158, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{name}/appSigning:enrollApp",
@@ -13149,13 +13183,15 @@ function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          offerId: S.String.pipe(T.Label()),
-          basePlanId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(5664, __c177, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5664, __c177, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            offerId: S.String.pipe(T.Label()),
+            basePlanId: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/subscriptions/{productId}/basePlans/{basePlanId}/offers/{offerId}:activate",
@@ -13838,11 +13874,13 @@ function __c191(j: number): any {
       ).annotate({ identifier: "ApksAddExternallyHostedRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          editId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6113, __c191, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6113, __c191, 1),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+            editId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/edits/{editId}/apks/externallyHosted",
@@ -13887,10 +13925,12 @@ function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/edits",
@@ -13904,11 +13944,13 @@ function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1988, __c62, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1988, __c62, 4),
+          S.Struct({
+            autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidpublisher/v3/applications/{packageName}/inappproducts",

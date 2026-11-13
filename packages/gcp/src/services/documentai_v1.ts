@@ -296,11 +296,9 @@ export interface GoogleCloudDocumentaiV1BatchProcessRequest {
   /** The input documents for the BatchProcessDocuments method. */
   inputDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig | undefined;
 }
-export interface BatchProcessProjectsLocationsProcessorsRequest {
+export interface BatchProcessProjectsLocationsProcessorsRequest extends GoogleCloudDocumentaiV1BatchProcessRequest {
   /** Required. The resource name of Processor or ProcessorVersion. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1BatchProcessRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -326,11 +324,9 @@ export interface GoogleLongrunningOperation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus | undefined;
 }
-export interface BatchProcessProjectsLocationsProcessorsProcessorVersionsRequest {
+export interface BatchProcessProjectsLocationsProcessorsProcessorVersionsRequest extends GoogleCloudDocumentaiV1BatchProcessRequest {
   /** Required. The resource name of Processor or ProcessorVersion. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1BatchProcessRequest | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -383,11 +379,9 @@ export interface GoogleCloudDocumentaiV1Processor {
   /** Output only. Immutable. The resource name of the processor. Format: `projects/{project}/locations/{location}/processors/{processor}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsProcessorsRequest {
+export interface CreateProjectsLocationsProcessorsRequest extends GoogleCloudDocumentaiV1Processor {
   /** Required. The parent (project and location) under which to create the processor. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1Processor | undefined;
 }
 /** NextSchema is a collection of SchemaVersions. */
 export interface GoogleCloudDocumentaiV1NextSchema {
@@ -402,11 +396,9 @@ export interface GoogleCloudDocumentaiV1NextSchema {
   /** Required. The user-defined name of the Schema. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsSchemasRequest {
+export interface CreateProjectsLocationsSchemasRequest extends GoogleCloudDocumentaiV1NextSchema {
   /** Required. The parent (project and location) under which to create the Schema. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1NextSchema | undefined;
 }
 /** SchemaVersion is a version of the Schema which is created in SchemaGroup. */
 export interface GoogleCloudDocumentaiV1SchemaVersion {
@@ -421,11 +413,9 @@ export interface GoogleCloudDocumentaiV1SchemaVersion {
   /** Required. The user-defined name of the SchemaVersion. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsSchemasSchemaVersionsRequest {
+export interface CreateProjectsLocationsSchemasSchemaVersionsRequest extends GoogleCloudDocumentaiV1SchemaVersion {
   /** Required. The parent (project and location) under which to create the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1SchemaVersion | undefined;
 }
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -480,11 +470,9 @@ export interface GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest {
   /** Optional. The documents used in the evaluation. If unspecified, use the processor's dataset as evaluation input. */
   evaluationDocuments?: GoogleCloudDocumentaiV1BatchDocumentsInputConfig | undefined;
 }
-export interface EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsRequest {
+export interface EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsRequest extends GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest {
   /** Required. The resource name of the ProcessorVersion to evaluate. `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   processorVersion: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest | undefined;
 }
 export interface FetchProcessorTypesProjectsLocationsRequest {
   /** Required. The location of processor types to list. Format: `projects/{project}/locations/{location}`. */
@@ -1515,11 +1503,9 @@ export interface GoogleCloudDocumentaiV1GenerateSchemaVersionRequest {
   /** The set of raw documents. */
   rawDocuments?: GoogleCloudDocumentaiV1RawDocuments | undefined;
 }
-export interface GenerateProjectsLocationsSchemasSchemaVersionsRequest {
+export interface GenerateProjectsLocationsSchemasSchemaVersionsRequest extends GoogleCloudDocumentaiV1GenerateSchemaVersionRequest {
   /** Required. The parent (project, location and schema) under which to generate the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1GenerateSchemaVersionRequest | undefined;
 }
 /** Response message for GenerateSchemaVersion. */
 export interface GoogleCloudDocumentaiV1GenerateSchemaVersionResponse {
@@ -1910,21 +1896,23 @@ export interface GoogleCloudDocumentaiV1ListSchemaVersionsResponse {
   /** Points to the next SchemaVersion, otherwise empty. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsSchemasRequest {
+export interface PatchProjectsLocationsSchemasRequest extends Omit<
+  GoogleCloudDocumentaiV1NextSchema,
+  "name"
+> {
   /** Optional. The update mask to apply to the resource. **Note:** Only the following fields can be updated: - `display_name` - `labels` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Schema. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1NextSchema | undefined;
 }
-export interface PatchProjectsLocationsSchemasSchemaVersionsRequest {
+export interface PatchProjectsLocationsSchemasSchemaVersionsRequest extends Omit<
+  GoogleCloudDocumentaiV1SchemaVersion,
+  "name"
+> {
   /** Optional. The update mask to apply to the resource. **Note:** Only the following fields can be updated: - `display_name` - `labels` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1SchemaVersion | undefined;
 }
 /** Request message for the ProcessDocument method. */
 export interface GoogleCloudDocumentaiV1ProcessRequest {
@@ -1945,11 +1933,9 @@ export interface GoogleCloudDocumentaiV1ProcessRequest {
   /** An inline document proto. */
   inlineDocument?: GoogleCloudDocumentaiV1Document | undefined;
 }
-export interface ProcessProjectsLocationsProcessorsRequest {
+export interface ProcessProjectsLocationsProcessorsRequest extends GoogleCloudDocumentaiV1ProcessRequest {
   /** Required. The resource name of the Processor or ProcessorVersion to use for processing. If a Processor is specified, the server will use its default version. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1ProcessRequest | undefined;
 }
 export type GoogleCloudDocumentaiV1HumanReviewStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1973,11 +1959,9 @@ export interface GoogleCloudDocumentaiV1ProcessResponse {
   /** The status of human review on the processed document. */
   humanReviewStatus?: GoogleCloudDocumentaiV1HumanReviewStatus | undefined;
 }
-export interface ProcessProjectsLocationsProcessorsProcessorVersionsRequest {
+export interface ProcessProjectsLocationsProcessorsProcessorVersionsRequest extends GoogleCloudDocumentaiV1ProcessRequest {
   /** Required. The resource name of the Processor or ProcessorVersion to use for processing. If a Processor is specified, the server will use its default version. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1ProcessRequest | undefined;
 }
 export type GoogleCloudDocumentaiV1ReviewDocumentRequestPriorityEnum = "DEFAULT" | "URGENT";
 /** Request message for the ReviewDocument method. */
@@ -1991,22 +1975,18 @@ export interface GoogleCloudDocumentaiV1ReviewDocumentRequest {
   /** Whether the validation should be performed on the ad-hoc review request. */
   enableSchemaValidation?: boolean | undefined;
 }
-export interface ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigRequest {
+export interface ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigRequest extends GoogleCloudDocumentaiV1ReviewDocumentRequest {
   /** Required. The resource name of the HumanReviewConfig that the document will be reviewed with. */
   humanReviewConfig: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1ReviewDocumentRequest | undefined;
 }
 /** Request message for the SetDefaultProcessorVersion method. */
 export interface GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest {
   /** Required. The resource name of child ProcessorVersion to use as default. Format: `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{version}` */
   defaultProcessorVersion?: string | undefined;
 }
-export interface SetDefaultProcessorVersionProjectsLocationsProcessorsRequest {
+export interface SetDefaultProcessorVersionProjectsLocationsProcessorsRequest extends GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest {
   /** Required. The resource name of the Processor to change default version. */
   processor: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest | undefined;
 }
 export type GoogleCloudDocumentaiV1TrainProcessorVersionRequestCustomDocumentExtractionOptionsTrainingMethodEnum =
   | "TRAINING_METHOD_UNSPECIFIED"
@@ -2055,11 +2035,9 @@ export interface GoogleCloudDocumentaiV1TrainProcessorVersionRequest {
   /** Optional. The input data used to train the ProcessorVersion. */
   inputData?: GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData | undefined;
 }
-export interface TrainProjectsLocationsProcessorsProcessorVersionsRequest {
+export interface TrainProjectsLocationsProcessorsProcessorVersionsRequest extends GoogleCloudDocumentaiV1TrainProcessorVersionRequest {
   /** Required. The parent (project, location and processor) to create the new version for. Format: `projects/{project}/locations/{location}/processors/{processor}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDocumentaiV1TrainProcessorVersionRequest | undefined;
 }
 /** Request message for the UndeployProcessorVersion method. */
 export type GoogleCloudDocumentaiV1UndeployProcessorVersionRequest =
@@ -3138,10 +3116,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          processorVersion: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            processorVersion: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+processorVersion}:evaluateProcessorVersion",
@@ -3262,10 +3242,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GoogleCloudDocumentaiV1GenerateSchemaVersionRequest" });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(392, __c12, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(392, __c12, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemaVersions:generate",
@@ -4578,11 +4560,13 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4596,11 +4580,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4614,10 +4600,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1347, __c42, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1347, __c42, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:batchProcess",
@@ -4878,10 +4866,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:process",
@@ -4927,10 +4917,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:process",
@@ -4953,10 +4945,12 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GoogleCloudDocumentaiV1ReviewDocumentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          humanReviewConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            humanReviewConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+humanReviewConfig}:reviewDocument",
@@ -4978,10 +4972,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          processor: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            processor: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+processor}:setDefaultProcessorVersion",
@@ -5033,10 +5029,12 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GoogleCloudDocumentaiV1TrainProcessorVersionRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1891, __c59, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1891, __c59, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/processorVersions:train",
@@ -5067,10 +5065,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1347, __c42, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1347, __c42, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:batchProcess",
@@ -5106,10 +5106,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2082, __c65, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2082, __c65, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/processors",
@@ -5153,10 +5155,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas",
@@ -5184,10 +5188,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemaVersions",

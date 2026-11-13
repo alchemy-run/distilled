@@ -88,11 +88,9 @@ export interface AddPublicKeyRequest {
   /** Key that should be added to the environment. Supported formats are `ssh-dss` (see RFC4253), `ssh-rsa` (see RFC4253), `ecdsa-sha2-nistp256` (see RFC5656), `ecdsa-sha2-nistp384` (see RFC5656) and `ecdsa-sha2-nistp521` (see RFC5656). It should be structured as <format> <content>, where <content> part is encoded with Base64. */
   key?: string | undefined;
 }
-export interface AddPublicKeyUsersEnvironmentsRequest {
+export interface AddPublicKeyUsersEnvironmentsRequest extends AddPublicKeyRequest {
   /** Environment this key should be added to, e.g. `users/me/environments/default`. */
   environment: string;
-  /** Request body */
-  body?: AddPublicKeyRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -127,11 +125,9 @@ export interface AuthorizeEnvironmentRequest {
   /** The OAuth ID token that should be sent to the environment. */
   idToken?: string | undefined;
 }
-export interface AuthorizeUsersEnvironmentsRequest {
+export interface AuthorizeUsersEnvironmentsRequest extends AuthorizeEnvironmentRequest {
   /** Name of the resource that should receive the credentials, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
   name: string;
-  /** Request body */
-  body?: AuthorizeEnvironmentRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -223,11 +219,9 @@ export interface RemovePublicKeyRequest {
   /** Key that should be removed from the environment. */
   key?: string | undefined;
 }
-export interface RemovePublicKeyUsersEnvironmentsRequest {
+export interface RemovePublicKeyUsersEnvironmentsRequest extends RemovePublicKeyRequest {
   /** Environment this key should be removed from, e.g. `users/me/environments/default`. */
   environment: string;
-  /** Request body */
-  body?: RemovePublicKeyRequest | undefined;
 }
 /** Request message for StartEnvironment. */
 export interface StartEnvironmentRequest {
@@ -236,11 +230,9 @@ export interface StartEnvironmentRequest {
   /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
   accessToken?: string | undefined;
 }
-export interface StartUsersEnvironmentsRequest {
+export interface StartUsersEnvironmentsRequest extends StartEnvironmentRequest {
   /** Name of the resource that should be started, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
   name: string;
-  /** Request body */
-  body?: StartEnvironmentRequest | undefined;
 }
 export type AddPublicKeyUsersEnvironmentsError =
   | NotFound
@@ -500,10 +492,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          environment: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c6, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:removePublicKey",
@@ -524,10 +518,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "StartEnvironmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:start",
@@ -541,10 +537,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          environment: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c6, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:addPublicKey",
@@ -602,10 +600,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AuthorizeEnvironmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:authorize",

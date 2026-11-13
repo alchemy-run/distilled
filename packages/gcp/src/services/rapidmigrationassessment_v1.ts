@@ -122,13 +122,11 @@ export interface Annotation {
   /** Output only. Update time stamp. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAnnotationsRequest {
+export interface CreateProjectsLocationsAnnotationsRequest extends Annotation {
   /** Required. Name of the parent (project+location). */
   parent: string;
   /** Optional. An optional request ID to identify requests. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Annotation | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -207,15 +205,13 @@ export interface Collector {
   /** Output only. Reference to MC Source Guest Os Scan. */
   guestOsScan?: GuestOsScan | undefined;
 }
-export interface CreateProjectsLocationsCollectorsRequest {
+export interface CreateProjectsLocationsCollectorsRequest extends Collector {
   /** Optional. An optional request ID to identify requests. */
   requestId?: string | undefined;
   /** Required. Id of the requesting object. */
   collectorId?: string | undefined;
   /** Required. Name of the parent (project+location). */
   parent: string;
-  /** Request body */
-  body?: Collector | undefined;
 }
 export interface DeleteProjectsLocationsCollectorsRequest {
   /** Required. Name of the resource. */
@@ -317,42 +313,34 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsCollectorsRequest {
+export interface PatchProjectsLocationsCollectorsRequest extends Omit<Collector, "name"> {
   /** name of resource. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Collector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Collector | undefined;
 }
 /** Message for pausing a Collector. */
 export interface PauseCollectorRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface PauseProjectsLocationsCollectorsRequest {
+export interface PauseProjectsLocationsCollectorsRequest extends PauseCollectorRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: PauseCollectorRequest | undefined;
 }
 /** Message for registering a Collector. */
 export type RegisterCollectorRequest = PauseCollectorRequest;
-export interface RegisterProjectsLocationsCollectorsRequest {
+export interface RegisterProjectsLocationsCollectorsRequest extends PauseCollectorRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: PauseCollectorRequest | undefined;
 }
 /** Message for resuming a Collector. */
 export type ResumeCollectorRequest = PauseCollectorRequest;
-export interface ResumeProjectsLocationsCollectorsRequest {
+export interface ResumeProjectsLocationsCollectorsRequest extends PauseCollectorRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: PauseCollectorRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -882,12 +870,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(89, __c22, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(89, __c22, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -901,10 +891,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:pause",
@@ -928,10 +920,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:register",
@@ -945,10 +939,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:resume",
@@ -985,11 +981,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(68, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(68, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/annotations",
@@ -1053,12 +1051,14 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          collectorId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(89, __c22, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(89, __c22, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            collectorId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/collectors",

@@ -105,11 +105,9 @@ export interface AddAddressGroupItemsRequest {
   /** Required. List of items to add. */
   items?: StringList | undefined;
 }
-export interface AddItemsOrganizationsLocationsAddressGroupsRequest {
+export interface AddItemsOrganizationsLocationsAddressGroupsRequest extends AddAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to add items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
-  /** Request body */
-  body?: AddAddressGroupItemsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -135,11 +133,9 @@ export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
-export interface AddItemsProjectsLocationsAddressGroupsRequest {
+export interface AddItemsProjectsLocationsAddressGroupsRequest extends AddAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to add items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
-  /** Request body */
-  body?: AddAddressGroupItemsRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -164,17 +160,13 @@ export interface CloneAddressGroupItemsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface CloneItemsOrganizationsLocationsAddressGroupsRequest {
+export interface CloneItemsOrganizationsLocationsAddressGroupsRequest extends CloneAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
-  /** Request body */
-  body?: CloneAddressGroupItemsRequest | undefined;
 }
-export interface CloneItemsProjectsLocationsAddressGroupsRequest {
+export interface CloneItemsProjectsLocationsAddressGroupsRequest extends CloneAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
-  /** Request body */
-  body?: CloneAddressGroupItemsRequest | undefined;
 }
 export type AddressGroupPurposeItemEnum = "PURPOSE_UNSPECIFIED" | "DEFAULT" | "CLOUD_ARMOR";
 export type AddressGroupPurposeItemEnumList = Array<AddressGroupPurposeItemEnum | (string & {})>;
@@ -203,15 +195,13 @@ export interface AddressGroup {
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
 }
-export interface CreateOrganizationsLocationsAddressGroupsRequest {
+export interface CreateOrganizationsLocationsAddressGroupsRequest extends AddressGroup {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource of the AddressGroup. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the AddressGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
   addressGroupId?: string | undefined;
-  /** Request body */
-  body?: AddressGroup | undefined;
 }
 export type FirewallEndpointEndpointSettingsContentCloudRegionEnum =
   | "CONTENT_CLOUD_REGION_UNSPECIFIED"
@@ -347,7 +337,7 @@ export interface FirewallEndpoint {
   /** Optional. Project to charge for the deployed firewall endpoint. This field must be specified when creating the endpoint in the organization scope, and should be omitted otherwise. */
   billingProjectId?: string | undefined;
 }
-export interface CreateOrganizationsLocationsFirewallEndpointsRequest {
+export interface CreateOrganizationsLocationsFirewallEndpointsRequest extends FirewallEndpoint {
   /** Required. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_id from the method_signature of Create RPC. */
   firewallEndpointId?: string | undefined;
   /** Optional. If set, validate the request and preview the endpoint, but do not actually create it. */
@@ -356,8 +346,6 @@ export interface CreateOrganizationsLocationsFirewallEndpointsRequest {
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: FirewallEndpoint | undefined;
 }
 export type WildfireVerdictChangeRequestOldVerdictEnum =
   | "WILDFIRE_SAMPLE_VERDICT_UNKNOWN"
@@ -413,11 +401,9 @@ export interface WildfireVerdictChangeRequest {
   /** Output only. The review state of the WildfireVerdictChangeRequest. */
   state?: WildfireVerdictChangeRequestStateEnum | (string & {}) | undefined;
 }
-export interface CreateOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest {
+export interface CreateOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest extends WildfireVerdictChangeRequest {
   /** Required. Parent value for CreateWildfireVerdictChangeRequestRequest. The parent is a firewall endpoint resource. Format: organizations|projects/{project_or_organization}/locations/{location}/firewallEndpoints/{firewall_endpoint} */
   parent: string;
-  /** Request body */
-  body?: WildfireVerdictChangeRequest | undefined;
 }
 /** SecurityProfileGroup is a resource that defines the behavior for various ProfileTypes. */
 export interface SecurityProfileGroup {
@@ -446,13 +432,11 @@ export interface SecurityProfileGroup {
   /** Optional. Reference to a SecurityProfile with the CustomIntercept configuration. */
   customInterceptProfile?: string | undefined;
 }
-export interface CreateOrganizationsLocationsSecurityProfileGroupsRequest {
+export interface CreateOrganizationsLocationsSecurityProfileGroupsRequest extends SecurityProfileGroup {
   /** Required. The parent resource of the SecurityProfileGroup. Must be in the format `projects|organizations/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the SecurityProfileGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "security_profile_group1". */
   securityProfileGroupId?: string | undefined;
-  /** Request body */
-  body?: SecurityProfileGroup | undefined;
 }
 export type UrlFilterFilteringActionEnum = "URL_FILTERING_ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
 /** A URL filter defines an action to take for some URL match. */
@@ -788,23 +772,19 @@ export interface SecurityProfile {
   /** The custom TPPI configuration for the SecurityProfile. */
   customInterceptProfile?: CustomInterceptProfile | undefined;
 }
-export interface CreateOrganizationsLocationsSecurityProfilesRequest {
+export interface CreateOrganizationsLocationsSecurityProfilesRequest extends SecurityProfile {
   /** Required. The parent resource of the SecurityProfile. Must be in the format `projects|organizations/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the SecurityProfile resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "security_profile1". */
   securityProfileId?: string | undefined;
-  /** Request body */
-  body?: SecurityProfile | undefined;
 }
-export interface CreateProjectsLocationsAddressGroupsRequest {
+export interface CreateProjectsLocationsAddressGroupsRequest extends AddressGroup {
   /** Required. The parent resource of the AddressGroup. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the AddressGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
   addressGroupId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: AddressGroup | undefined;
 }
 export type AuthorizationPolicyActionEnum = "ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
 /** Specification of HTTP header match attributes. */
@@ -860,13 +840,11 @@ export interface AuthorizationPolicy {
   /** Optional. List of rules to match. Note that at least one of the rules must match in order for the action specified in the 'action' field to be taken. A rule is a match if there is a matching source and destination. If left blank, the action specified in the `action` field will be applied on every request. */
   rules?: RuleList | undefined;
 }
-export interface CreateProjectsLocationsAuthorizationPoliciesRequest {
+export interface CreateProjectsLocationsAuthorizationPoliciesRequest extends AuthorizationPolicy {
   /** Required. Short name of the AuthorizationPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
   authorizationPolicyId?: string | undefined;
   /** Required. The parent resource of the AuthorizationPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: AuthorizationPolicy | undefined;
 }
 /** Determines how a string value should be matched. */
 export interface AuthzPolicyAuthzRuleStringMatch {
@@ -1068,15 +1046,13 @@ export interface AuthzPolicy {
   /** Required. Can be one of `ALLOW`, `DENY`, `CUSTOM`, `DENY_BY_DEFAULT`. When the action is `CUSTOM`, `customProvider` must be specified. When the action is `ALLOW`, only requests matching the policy will be allowed. When the action is `DENY`, only requests matching the policy will be denied. When the action is `DENY_BY_DEFAULT`, no `http_rules` or `network_rules` can be specified. When a request arrives, the policies are evaluated in the following order: 1. If there is a `CUSTOM` policy that matches the request, the `CUSTOM` policy is evaluated using the custom authorization providers and the request is denied if the provider rejects the request. 2. If there are any `DENY` policies that match the request, the request is denied. 3. If any of the `ALLOW` policies match the request, the request is allowed. 4. If a `DENY_BY_DEFAULT` policy is applied to the resource, the request is denied (unless it was explicitly allowed by a `CUSTOM` or `ALLOW` policy). 5. Else, the request is allowed by default if no other policies are configured. */
   action?: AuthzPolicyActionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsAuthzPoliciesRequest {
+export interface CreateProjectsLocationsAuthzPoliciesRequest extends AuthzPolicy {
   /** Required. The parent resource of the `AuthzPolicy` resource. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. User-provided ID of the `AuthzPolicy` resource to be created. */
   authzPolicyId?: string | undefined;
-  /** Request body */
-  body?: AuthzPolicy | undefined;
 }
 export type BackendAuthenticationConfigWellKnownRootsEnum =
   | "WELL_KNOWN_ROOTS_UNSPECIFIED"
@@ -1103,13 +1079,11 @@ export interface BackendAuthenticationConfig {
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBackendAuthenticationConfigsRequest {
+export interface CreateProjectsLocationsBackendAuthenticationConfigsRequest extends BackendAuthenticationConfig {
   /** Required. The parent resource of the BackendAuthenticationConfig. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the BackendAuthenticationConfig resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "backend-auth-config". */
   backendAuthenticationConfigId?: string | undefined;
-  /** Request body */
-  body?: BackendAuthenticationConfig | undefined;
 }
 /** Specification of a TLS certificate provider instance. Workloads may have one or more CertificateProvider instances (plugins) and one of them is enabled and configured by specifying this message. Workloads use the values from this message to locate and load the CertificateProvider instance configuration. */
 export interface CertificateProviderInstance {
@@ -1155,13 +1129,11 @@ export interface ClientTlsPolicy {
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsClientTlsPoliciesRequest {
+export interface CreateProjectsLocationsClientTlsPoliciesRequest extends ClientTlsPolicy {
   /** Required. The parent resource of the ClientTlsPolicy. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the ClientTlsPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "client_mtls_policy". */
   clientTlsPolicyId?: string | undefined;
-  /** Request body */
-  body?: ClientTlsPolicy | undefined;
 }
 export type DnsThreatDetectorProviderEnum = "PROVIDER_UNSPECIFIED" | "INFOBLOX";
 /** A DNS threat detector sends DNS query logs to a _provider_ that then analyzes the logs to identify threat events in the DNS queries. By default, all VPC networks in your projects are included. You can exclude specific networks by supplying `excluded_networks`. */
@@ -1179,13 +1151,11 @@ export interface DnsThreatDetector {
   /** Required. The provider used for DNS threat analysis. */
   provider?: DnsThreatDetectorProviderEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsDnsThreatDetectorsRequest {
+export interface CreateProjectsLocationsDnsThreatDetectorsRequest extends DnsThreatDetector {
   /** Optional. The ID of the requesting DnsThreatDetector object. If this field is not supplied, the service generates an identifier. */
   dnsThreatDetectorId?: string | undefined;
   /** Required. The value for the parent of the DnsThreatDetector resource. */
   parent: string;
-  /** Request body */
-  body?: DnsThreatDetector | undefined;
 }
 export type FirewallEndpointAssociationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1217,17 +1187,15 @@ export interface FirewallEndpointAssociation {
   /** Immutable. Identifier. name of resource */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsFirewallEndpointAssociationsRequest {
+export interface CreateProjectsLocationsFirewallEndpointAssociationsRequest extends FirewallEndpointAssociation {
   /** Required. Value for parent. */
   parent: string;
   /** Optional. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_association_id from the method_signature of Create RPC. */
   firewallEndpointAssociationId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: FirewallEndpointAssociation | undefined;
 }
-export interface CreateProjectsLocationsFirewallEndpointsRequest {
+export interface CreateProjectsLocationsFirewallEndpointsRequest extends FirewallEndpoint {
   /** Optional. If set, validate the request and preview the endpoint, but do not actually create it. */
   validateOnly?: boolean | undefined;
   /** Required. Value for parent. */
@@ -1236,14 +1204,10 @@ export interface CreateProjectsLocationsFirewallEndpointsRequest {
   requestId?: string | undefined;
   /** Required. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_id from the method_signature of Create RPC. */
   firewallEndpointId?: string | undefined;
-  /** Request body */
-  body?: FirewallEndpoint | undefined;
 }
-export interface CreateProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest {
+export interface CreateProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest extends WildfireVerdictChangeRequest {
   /** Required. Parent value for CreateWildfireVerdictChangeRequestRequest. The parent is a firewall endpoint resource. Format: organizations|projects/{project_or_organization}/locations/{location}/firewallEndpoints/{firewall_endpoint} */
   parent: string;
-  /** Request body */
-  body?: WildfireVerdictChangeRequest | undefined;
 }
 /** The GatewaySecurityPolicy resource contains a collection of GatewaySecurityPolicyRules and associated metadata. */
 export interface GatewaySecurityPolicy {
@@ -1258,13 +1222,11 @@ export interface GatewaySecurityPolicy {
   /** Optional. Name of a TLS Inspection Policy resource that defines how TLS inspection will be performed for any rule(s) which enables it. */
   tlsInspectionPolicy?: string | undefined;
 }
-export interface CreateProjectsLocationsGatewaySecurityPoliciesRequest {
+export interface CreateProjectsLocationsGatewaySecurityPoliciesRequest extends GatewaySecurityPolicy {
   /** Required. The parent resource of the GatewaySecurityPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. Short name of the GatewaySecurityPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "gateway_security_policy1". */
   gatewaySecurityPolicyId?: string | undefined;
-  /** Request body */
-  body?: GatewaySecurityPolicy | undefined;
 }
 export type GatewaySecurityPolicyRuleBasicProfileEnum =
   | "BASIC_PROFILE_UNSPECIFIED"
@@ -1293,13 +1255,11 @@ export interface GatewaySecurityPolicyRule {
   /** Optional. Flag to enable TLS inspection of traffic matching on , can only be true if the parent GatewaySecurityPolicy references a TLSInspectionConfig. */
   tlsInspectionEnabled?: boolean | undefined;
 }
-export interface CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest {
+export interface CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest extends GatewaySecurityPolicyRule {
   /** The ID to use for the rule, which will become the final component of the rule's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
   gatewaySecurityPolicyRuleId?: string | undefined;
   /** Required. The parent where this rule will be created. Format : projects/{project}/location/{location}/gatewaySecurityPolicies/* */
   parent: string;
-  /** Request body */
-  body?: GatewaySecurityPolicyRule | undefined;
 }
 export type InterceptDeploymentGroupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1362,15 +1322,13 @@ export interface InterceptDeploymentGroup {
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsInterceptDeploymentGroupsRequest {
+export interface CreateProjectsLocationsInterceptDeploymentGroupsRequest extends InterceptDeploymentGroup {
   /** Required. The ID to use for the new deployment group, which will become the final component of the deployment group's resource name. */
   interceptDeploymentGroupId?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: InterceptDeploymentGroup | undefined;
 }
 export type InterceptDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1400,15 +1358,13 @@ export interface InterceptDeployment {
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsInterceptDeploymentsRequest {
+export interface CreateProjectsLocationsInterceptDeploymentsRequest extends InterceptDeployment {
   /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
   interceptDeploymentId?: string | undefined;
-  /** Request body */
-  body?: InterceptDeployment | undefined;
 }
 export type InterceptEndpointGroupAssociationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1456,15 +1412,13 @@ export interface InterceptEndpointGroupAssociation {
   /** Required. Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
   network?: string | undefined;
 }
-export interface CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest {
+export interface CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest extends InterceptEndpointGroupAssociation {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
   interceptEndpointGroupAssociationId?: string | undefined;
   /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: InterceptEndpointGroupAssociation | undefined;
 }
 export type InterceptEndpointGroupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1523,15 +1477,13 @@ export interface InterceptEndpointGroup {
   /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsInterceptEndpointGroupsRequest {
+export interface CreateProjectsLocationsInterceptEndpointGroupsRequest extends InterceptEndpointGroup {
   /** Required. The parent resource where this endpoint group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Required. The ID to use for the endpoint group, which will become the final component of the endpoint group's resource name. */
   interceptEndpointGroupId?: string | undefined;
-  /** Request body */
-  body?: InterceptEndpointGroup | undefined;
 }
 export type MirroringDeploymentGroupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1595,15 +1547,13 @@ export interface MirroringDeploymentGroup {
   /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
   reconciling?: boolean | undefined;
 }
-export interface CreateProjectsLocationsMirroringDeploymentGroupsRequest {
+export interface CreateProjectsLocationsMirroringDeploymentGroupsRequest extends MirroringDeploymentGroup {
   /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Required. The ID to use for the new deployment group, which will become the final component of the deployment group's resource name. */
   mirroringDeploymentGroupId?: string | undefined;
-  /** Request body */
-  body?: MirroringDeploymentGroup | undefined;
 }
 export type MirroringDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1633,15 +1583,13 @@ export interface MirroringDeployment {
   /** Optional. User-provided description of the deployment. Used as additional context for the deployment. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsMirroringDeploymentsRequest {
+export interface CreateProjectsLocationsMirroringDeploymentsRequest extends MirroringDeployment {
   /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
   mirroringDeploymentId?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MirroringDeployment | undefined;
 }
 export type MirroringEndpointGroupAssociationLocationDetailsStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1689,15 +1637,13 @@ export interface MirroringEndpointGroupAssociation {
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest {
+export interface CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest extends MirroringEndpointGroupAssociation {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
   mirroringEndpointGroupAssociationId?: string | undefined;
-  /** Request body */
-  body?: MirroringEndpointGroupAssociation | undefined;
 }
 export type MirroringEndpointGroupTypeEnum = "TYPE_UNSPECIFIED" | "DIRECT";
 export type MirroringEndpointGroupAssociationDetailsStateEnum =
@@ -1761,15 +1707,13 @@ export interface MirroringEndpointGroup {
   /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
   state?: MirroringEndpointGroupStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsMirroringEndpointGroupsRequest {
+export interface CreateProjectsLocationsMirroringEndpointGroupsRequest extends MirroringEndpointGroup {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Required. The parent resource where this endpoint group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the endpoint group, which will become the final component of the endpoint group's resource name. */
   mirroringEndpointGroupId?: string | undefined;
-  /** Request body */
-  body?: MirroringEndpointGroup | undefined;
 }
 export type SACAttachmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1793,15 +1737,13 @@ export interface SACAttachment {
   /** Output only. Timestamp when the attachment was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsSacAttachmentsRequest {
+export interface CreateProjectsLocationsSacAttachmentsRequest extends SACAttachment {
   /** Required. ID of the created attachment. The ID must be 1-63 characters long, and comply with RFC1035. Specifically, it must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
   sacAttachmentId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent, in the form `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: SACAttachment | undefined;
 }
 export type SACRealmSecurityServiceEnum =
   | "SECURITY_SERVICE_UNSPECIFIED"
@@ -1836,31 +1778,25 @@ export interface SACRealm {
   /** Output only. Key to be shared with SSE service provider during pairing. */
   pairingKey?: SACRealmPairingKey | undefined;
 }
-export interface CreateProjectsLocationsSacRealmsRequest {
+export interface CreateProjectsLocationsSacRealmsRequest extends SACRealm {
   /** Required. ID of the created realm. The ID must be 1-63 characters long, and comply with RFC1035. Specifically, it must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
   sacRealmId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent, in the form `projects/{project}/locations/global`. */
   parent: string;
-  /** Request body */
-  body?: SACRealm | undefined;
 }
-export interface CreateProjectsLocationsSecurityProfileGroupsRequest {
+export interface CreateProjectsLocationsSecurityProfileGroupsRequest extends SecurityProfileGroup {
   /** Required. The parent resource of the SecurityProfileGroup. Must be in the format `projects|organizations/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the SecurityProfileGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "security_profile_group1". */
   securityProfileGroupId?: string | undefined;
-  /** Request body */
-  body?: SecurityProfileGroup | undefined;
 }
-export interface CreateProjectsLocationsSecurityProfilesRequest {
+export interface CreateProjectsLocationsSecurityProfilesRequest extends SecurityProfile {
   /** Required. Short name of the SecurityProfile resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "security_profile1". */
   securityProfileId?: string | undefined;
   /** Required. The parent resource of the SecurityProfile. Must be in the format `projects|organizations/*\/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: SecurityProfile | undefined;
 }
 export type MTLSPolicyClientValidationModeEnum =
   | "CLIENT_VALIDATION_MODE_UNSPECIFIED"
@@ -1905,13 +1841,11 @@ export interface ServerTlsPolicy {
   /** Set of label tags associated with the resource. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsServerTlsPoliciesRequest {
+export interface CreateProjectsLocationsServerTlsPoliciesRequest extends ServerTlsPolicy {
   /** Required. Short name of the ServerTlsPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "server_mtls_policy". */
   serverTlsPolicyId?: string | undefined;
   /** Required. The parent resource of the ServerTlsPolicy. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: ServerTlsPolicy | undefined;
 }
 export type TlsInspectionPolicyMinTlsVersionEnum =
   | "TLS_VERSION_UNSPECIFIED"
@@ -1957,13 +1891,11 @@ export interface TlsInspectionPolicy {
   /** Optional. Free-text description of the resource. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsTlsInspectionPoliciesRequest {
+export interface CreateProjectsLocationsTlsInspectionPoliciesRequest extends TlsInspectionPolicy {
   /** Required. The parent resource of the TlsInspectionPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. Short name of the TlsInspectionPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "tls_inspection_policy1". */
   tlsInspectionPolicyId?: string | undefined;
-  /** Request body */
-  body?: TlsInspectionPolicy | undefined;
 }
 /** UrlList proto helps users to set reusable, independently manageable lists of hosts, host patterns, URLs, URL patterns. */
 export interface UrlList {
@@ -1978,13 +1910,11 @@ export interface UrlList {
   /** Optional. Free-text description of the resource. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsUrlListsRequest {
+export interface CreateProjectsLocationsUrlListsRequest extends UrlList {
   /** Required. The parent resource of the UrlList. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** Required. Short name of the UrlList resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "url_list". */
   urlListId?: string | undefined;
-  /** Request body */
-  body?: UrlList | undefined;
 }
 export interface DeleteOrganizationsLocationsAddressGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3044,249 +2974,267 @@ export interface ListReferencesProjectsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
 }
-export interface PatchOrganizationsLocationsAddressGroupsRequest {
+export interface PatchOrganizationsLocationsAddressGroupsRequest extends Omit<
+  AddressGroup,
+  "name"
+> {
   /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AddressGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: AddressGroup | undefined;
 }
-export interface PatchOrganizationsLocationsFirewallEndpointsRequest {
+export interface PatchOrganizationsLocationsFirewallEndpointsRequest extends Omit<
+  FirewallEndpoint,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Immutable. Identifier. Name of resource. */
   name: string;
-  /** Request body */
-  body?: FirewallEndpoint | undefined;
 }
-export interface PatchOrganizationsLocationsSecurityProfileGroupsRequest {
+export interface PatchOrganizationsLocationsSecurityProfileGroupsRequest extends Omit<
+  SecurityProfileGroup,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the SecurityProfileGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. Name of the SecurityProfileGroup resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfileGroups/{security_profile_group}`. */
   name: string;
-  /** Request body */
-  body?: SecurityProfileGroup | undefined;
 }
-export interface PatchOrganizationsLocationsSecurityProfilesRequest {
+export interface PatchOrganizationsLocationsSecurityProfilesRequest extends Omit<
+  SecurityProfile,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the SecurityProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. Name of the SecurityProfile resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfiles/{security_profile}`. */
   name: string;
-  /** Request body */
-  body?: SecurityProfile | undefined;
 }
-export interface PatchProjectsLocationsAddressGroupsRequest {
+export interface PatchProjectsLocationsAddressGroupsRequest extends Omit<AddressGroup, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AddressGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
   name: string;
-  /** Request body */
-  body?: AddressGroup | undefined;
 }
-export interface PatchProjectsLocationsAuthorizationPoliciesRequest {
+export interface PatchProjectsLocationsAuthorizationPoliciesRequest extends Omit<
+  AuthorizationPolicy,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AuthorizationPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Required. Name of the AuthorizationPolicy resource. It matches pattern `projects/{project}/locations/{location}/authorizationPolicies/`. */
   name: string;
-  /** Request body */
-  body?: AuthorizationPolicy | undefined;
 }
-export interface PatchProjectsLocationsAuthzPoliciesRequest {
+export interface PatchProjectsLocationsAuthzPoliciesRequest extends Omit<AuthzPolicy, "name"> {
   /** Required. Identifier. Name of the `AuthzPolicy` resource in the following format: `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
   name: string;
   /** Required. Used to specify the fields to be overwritten in the `AuthzPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: AuthzPolicy | undefined;
 }
-export interface PatchProjectsLocationsBackendAuthenticationConfigsRequest {
+export interface PatchProjectsLocationsBackendAuthenticationConfigsRequest extends Omit<
+  BackendAuthenticationConfig,
+  "name"
+> {
   /** Required. Name of the BackendAuthenticationConfig resource. It matches the pattern `projects/*\/locations/{location}/backendAuthenticationConfigs/{backend_authentication_config}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the BackendAuthenticationConfig resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BackendAuthenticationConfig | undefined;
 }
-export interface PatchProjectsLocationsClientTlsPoliciesRequest {
+export interface PatchProjectsLocationsClientTlsPoliciesRequest extends Omit<
+  ClientTlsPolicy,
+  "name"
+> {
   /** Required. Name of the ClientTlsPolicy resource. It matches the pattern `projects/{project}/locations/{location}/clientTlsPolicies/{client_tls_policy}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ClientTlsPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ClientTlsPolicy | undefined;
 }
-export interface PatchProjectsLocationsDnsThreatDetectorsRequest {
+export interface PatchProjectsLocationsDnsThreatDetectorsRequest extends Omit<
+  DnsThreatDetector,
+  "name"
+> {
   /** Optional. The field mask is used to specify the fields to be overwritten in the DnsThreatDetector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the mask is not provided then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. Name of the DnsThreatDetector resource. */
   name: string;
-  /** Request body */
-  body?: DnsThreatDetector | undefined;
 }
-export interface PatchProjectsLocationsFirewallEndpointAssociationsRequest {
+export interface PatchProjectsLocationsFirewallEndpointAssociationsRequest extends Omit<
+  FirewallEndpointAssociation,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Association resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Immutable. Identifier. name of resource */
   name: string;
-  /** Request body */
-  body?: FirewallEndpointAssociation | undefined;
 }
-export interface PatchProjectsLocationsFirewallEndpointsRequest {
+export interface PatchProjectsLocationsFirewallEndpointsRequest extends Omit<
+  FirewallEndpoint,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Immutable. Identifier. Name of resource. */
   name: string;
-  /** Request body */
-  body?: FirewallEndpoint | undefined;
 }
-export interface PatchProjectsLocationsGatewaySecurityPoliciesRequest {
+export interface PatchProjectsLocationsGatewaySecurityPoliciesRequest extends Omit<
+  GatewaySecurityPolicy,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the GatewaySecurityPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy} gateway_security_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name: string;
-  /** Request body */
-  body?: GatewaySecurityPolicy | undefined;
 }
-export interface PatchProjectsLocationsGatewaySecurityPoliciesRulesRequest {
+export interface PatchProjectsLocationsGatewaySecurityPoliciesRulesRequest extends Omit<
+  GatewaySecurityPolicyRule,
+  "name"
+> {
   /** Required. Immutable. Name of the resource. ame is the full resource name so projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy}/rules/{rule} rule should match the pattern: (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the GatewaySecurityPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GatewaySecurityPolicyRule | undefined;
 }
-export interface PatchProjectsLocationsInterceptDeploymentGroupsRequest {
+export interface PatchProjectsLocationsInterceptDeploymentGroupsRequest extends Omit<
+  InterceptDeploymentGroup,
+  "name"
+> {
   /** Optional. The list of fields to update. Fields are specified relative to the deployment group (e.g. `description`; *not* `intercept_deployment_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InterceptDeploymentGroup | undefined;
 }
-export interface PatchProjectsLocationsInterceptDeploymentsRequest {
+export interface PatchProjectsLocationsInterceptDeploymentsRequest extends Omit<
+  InterceptDeployment,
+  "name"
+> {
   /** Optional. The list of fields to update. Fields are specified relative to the deployment (e.g. `description`; *not* `intercept_deployment.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/interceptDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
   name: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InterceptDeployment | undefined;
 }
-export interface PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest {
+export interface PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest extends Omit<
+  InterceptEndpointGroupAssociation,
+  "name"
+> {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
   name: string;
   /** Optional. The list of fields to update. Fields are specified relative to the association (e.g. `description`; *not* `intercept_endpoint_group_association.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InterceptEndpointGroupAssociation | undefined;
 }
-export interface PatchProjectsLocationsInterceptEndpointGroupsRequest {
+export interface PatchProjectsLocationsInterceptEndpointGroupsRequest extends Omit<
+  InterceptEndpointGroup,
+  "name"
+> {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name: string;
   /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `intercept_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InterceptEndpointGroup | undefined;
 }
-export interface PatchProjectsLocationsMirroringDeploymentGroupsRequest {
+export interface PatchProjectsLocationsMirroringDeploymentGroupsRequest extends Omit<
+  MirroringDeploymentGroup,
+  "name"
+> {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Optional. The list of fields to update. Fields are specified relative to the deployment group (e.g. `description`; *not* `mirroring_deployment_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name: string;
-  /** Request body */
-  body?: MirroringDeploymentGroup | undefined;
 }
-export interface PatchProjectsLocationsMirroringDeploymentsRequest {
+export interface PatchProjectsLocationsMirroringDeploymentsRequest extends Omit<
+  MirroringDeployment,
+  "name"
+> {
   /** Optional. The list of fields to update. Fields are specified relative to the deployment (e.g. `description`; *not* `mirroring_deployment.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/mirroringDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
   name: string;
-  /** Request body */
-  body?: MirroringDeployment | undefined;
 }
-export interface PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest {
+export interface PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest extends Omit<
+  MirroringEndpointGroupAssociation,
+  "name"
+> {
   /** Optional. The list of fields to update. Fields are specified relative to the association (e.g. `description`; *not* `mirroring_endpoint_group_association.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/mirroringEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
   name: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MirroringEndpointGroupAssociation | undefined;
 }
-export interface PatchProjectsLocationsMirroringEndpointGroupsRequest {
+export interface PatchProjectsLocationsMirroringEndpointGroupsRequest extends Omit<
+  MirroringEndpointGroup,
+  "name"
+> {
   /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `mirroring_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name: string;
-  /** Request body */
-  body?: MirroringEndpointGroup | undefined;
 }
-export interface PatchProjectsLocationsSecurityProfileGroupsRequest {
+export interface PatchProjectsLocationsSecurityProfileGroupsRequest extends Omit<
+  SecurityProfileGroup,
+  "name"
+> {
   /** Immutable. Identifier. Name of the SecurityProfileGroup resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfileGroups/{security_profile_group}`. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the SecurityProfileGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityProfileGroup | undefined;
 }
-export interface PatchProjectsLocationsSecurityProfilesRequest {
+export interface PatchProjectsLocationsSecurityProfilesRequest extends Omit<
+  SecurityProfile,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the SecurityProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. Name of the SecurityProfile resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfiles/{security_profile}`. */
   name: string;
-  /** Request body */
-  body?: SecurityProfile | undefined;
 }
-export interface PatchProjectsLocationsServerTlsPoliciesRequest {
+export interface PatchProjectsLocationsServerTlsPoliciesRequest extends Omit<
+  ServerTlsPolicy,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServerTlsPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Required. Name of the ServerTlsPolicy resource. It matches the pattern `projects/*\/locations/{location}/serverTlsPolicies/{server_tls_policy}` */
   name: string;
-  /** Request body */
-  body?: ServerTlsPolicy | undefined;
 }
-export interface PatchProjectsLocationsTlsInspectionPoliciesRequest {
+export interface PatchProjectsLocationsTlsInspectionPoliciesRequest extends Omit<
+  TlsInspectionPolicy,
+  "name"
+> {
   /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy} tls_inspection_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsInspectionPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TlsInspectionPolicy | undefined;
 }
-export interface PatchProjectsLocationsUrlListsRequest {
+export interface PatchProjectsLocationsUrlListsRequest extends Omit<UrlList, "name"> {
   /** Required. Name of the resource provided by the user. Name is of the form projects/{project}/locations/{location}/urlLists/{url_list} url_list should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the UrlList resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: UrlList | undefined;
 }
 /** Request used by the RemoveAddressGroupItems method. */
 export interface RemoveAddressGroupItemsRequest {
@@ -3295,17 +3243,13 @@ export interface RemoveAddressGroupItemsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RemoveItemsOrganizationsLocationsAddressGroupsRequest {
+export interface RemoveItemsOrganizationsLocationsAddressGroupsRequest extends RemoveAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to remove items from. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
-  /** Request body */
-  body?: RemoveAddressGroupItemsRequest | undefined;
 }
-export interface RemoveItemsProjectsLocationsAddressGroupsRequest {
+export interface RemoveItemsProjectsLocationsAddressGroupsRequest extends RemoveAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to remove items from. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
-  /** Request body */
-  body?: RemoveAddressGroupItemsRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
@@ -3314,81 +3258,59 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAddressGroupsRequest {
+export interface SetIamPolicyProjectsLocationsAddressGroupsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAuthorizationPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsAuthorizationPoliciesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAuthzPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsAuthzPoliciesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsClientTlsPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsClientTlsPoliciesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsServerTlsPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsServerTlsPoliciesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsLocationsAddressGroupsRequest {
+export interface TestIamPermissionsOrganizationsLocationsAddressGroupsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAddressGroupsRequest {
+export interface TestIamPermissionsProjectsLocationsAddressGroupsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAuthorizationPoliciesRequest {
+export interface TestIamPermissionsProjectsLocationsAuthorizationPoliciesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAuthzPoliciesRequest {
+export interface TestIamPermissionsProjectsLocationsAuthzPoliciesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsClientTlsPoliciesRequest {
+export interface TestIamPermissionsProjectsLocationsClientTlsPoliciesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServerTlsPoliciesRequest {
+export interface TestIamPermissionsProjectsLocationsServerTlsPoliciesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 export type AddItemsOrganizationsLocationsAddressGroupsError =
   | NotFound
@@ -7566,10 +7488,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          addressGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(7200, __c225, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7200, __c225, 0),
+          S.Struct({
+            addressGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+addressGroup}:cloneItems",
@@ -7743,12 +7667,14 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          addressGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            addressGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/addressGroups",
@@ -8073,13 +7999,15 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewallEndpointId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1061, __c33, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1061, __c33, 5),
+          S.Struct({
+            firewallEndpointId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/firewallEndpoints",
@@ -8403,10 +8331,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/wildfireVerdictChangeRequests",
@@ -8736,11 +8666,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          securityProfileGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            securityProfileGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityProfileGroups",
@@ -9033,11 +8965,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          securityProfileId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2268, __c70, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2268, __c70, 28),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            securityProfileId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityProfiles",
@@ -9221,12 +9155,14 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9240,12 +9176,14 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1061, __c33, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1061, __c33, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9259,11 +9197,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9277,11 +9217,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2268, __c70, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2268, __c70, 28),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9295,12 +9237,14 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9314,11 +9258,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2984, __c93, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2984, __c93, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9332,12 +9278,14 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3450, __c107, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3450, __c107, 26),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9351,11 +9299,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3840, __c120, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3840, __c120, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9369,11 +9319,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3936, __c123, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9387,11 +9339,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4000, __c125, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9405,12 +9359,14 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          addressGroupId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            addressGroupId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/addressGroups",
@@ -9424,12 +9380,14 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4064, __c127, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9443,12 +9401,14 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1061, __c33, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1061, __c33, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9462,11 +9422,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4192, __c131, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9480,11 +9442,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4256, __c133, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4256, __c133, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9498,12 +9462,14 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9517,12 +9483,14 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4448, __c139, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4448, __c139, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9536,12 +9504,14 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4544, __c142, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4544, __c142, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9555,12 +9525,14 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4611, __c144, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4611, __c144, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9574,12 +9546,14 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4672, __c146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4672, __c146, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9593,12 +9567,14 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4736, __c148, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4736, __c148, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9612,11 +9588,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authorizationPolicyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2984, __c93, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2984, __c93, 8),
+          S.Struct({
+            authorizationPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authorizationPolicies",
@@ -9684,12 +9662,14 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4800, __c150, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4800, __c150, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9703,12 +9683,14 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4868, __c152, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4868, __c152, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9722,11 +9704,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9740,11 +9724,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2268, __c70, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2268, __c70, 28),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9758,11 +9744,13 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5121, __c160, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5121, __c160, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9776,11 +9764,13 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5184, __c162, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5184, __c162, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9794,11 +9784,13 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5248, __c164, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5248, __c164, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9812,10 +9804,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          addressGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            addressGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+addressGroup}:removeItems",
@@ -9840,10 +9834,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          addressGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            addressGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+addressGroup}:removeItems",
@@ -9857,10 +9853,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -9885,12 +9883,14 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          authzPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3450, __c107, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3450, __c107, 26),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            authzPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authzPolicies",
@@ -10067,10 +10067,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -10084,10 +10086,12 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -10101,10 +10105,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -10118,10 +10124,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -10135,10 +10143,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -10162,10 +10172,12 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -10179,10 +10191,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -10196,10 +10210,12 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -10213,10 +10229,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -10230,10 +10248,12 @@ function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -10247,11 +10267,13 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backendAuthenticationConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3840, __c120, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3840, __c120, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backendAuthenticationConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backendAuthenticationConfigs",
@@ -10283,11 +10305,13 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          clientTlsPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3936, __c123, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            clientTlsPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clientTlsPolicies",
@@ -10343,11 +10367,13 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dnsThreatDetectorId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4000, __c125, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            dnsThreatDetectorId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dnsThreatDetectors",
@@ -10376,12 +10402,14 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          firewallEndpointAssociationId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4064, __c127, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4064, __c127, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            firewallEndpointAssociationId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/firewallEndpointAssociations",
@@ -10414,13 +10442,15 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          firewallEndpointId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1061, __c33, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1061, __c33, 5),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            firewallEndpointId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/firewallEndpoints",
@@ -10434,10 +10464,12 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/wildfireVerdictChangeRequests",
@@ -10453,11 +10485,13 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          gatewaySecurityPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4192, __c131, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            gatewaySecurityPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/gatewaySecurityPolicies",
@@ -10485,11 +10519,13 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          gatewaySecurityPolicyRuleId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4256, __c133, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4256, __c133, 0),
+          S.Struct({
+            gatewaySecurityPolicyRuleId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/rules",
@@ -10522,12 +10558,14 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          interceptDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            interceptDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/interceptDeploymentGroups",
@@ -10595,12 +10633,14 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          interceptDeploymentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4448, __c139, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4448, __c139, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            interceptDeploymentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/interceptDeployments",
@@ -10632,12 +10672,14 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          interceptEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4544, __c142, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4544, __c142, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            interceptEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/interceptEndpointGroupAssociations",
@@ -10686,12 +10728,14 @@ function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          interceptEndpointGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4611, __c144, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4611, __c144, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            interceptEndpointGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/interceptEndpointGroups",
@@ -10741,12 +10785,14 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          mirroringDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4672, __c146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4672, __c146, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            mirroringDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mirroringDeploymentGroups",
@@ -10780,12 +10826,14 @@ function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          mirroringDeploymentId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4736, __c148, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4736, __c148, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            mirroringDeploymentId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mirroringDeployments",
@@ -10817,12 +10865,14 @@ function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          mirroringEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4800, __c150, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4800, __c150, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            mirroringEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mirroringEndpointGroupAssociations",
@@ -10858,12 +10908,14 @@ function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          mirroringEndpointGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4868, __c152, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4868, __c152, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            mirroringEndpointGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mirroringEndpointGroups",
@@ -10916,12 +10968,14 @@ function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sacAttachmentId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4928, __c154, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4928, __c154, 0),
+          S.Struct({
+            sacAttachmentId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sacAttachments",
@@ -10951,12 +11005,14 @@ function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sacRealmId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4993, __c156, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4993, __c156, 1),
+          S.Struct({
+            sacRealmId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sacRealms",
@@ -10993,11 +11049,13 @@ function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          securityProfileGroupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            securityProfileGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityProfileGroups",
@@ -11011,11 +11069,13 @@ function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          securityProfileId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2268, __c70, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2268, __c70, 28),
+          S.Struct({
+            securityProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/securityProfiles",
@@ -11029,11 +11089,13 @@ function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serverTlsPolicyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5121, __c160, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5121, __c160, 1),
+          S.Struct({
+            serverTlsPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/serverTlsPolicies",
@@ -11073,11 +11135,13 @@ function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          tlsInspectionPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5184, __c162, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5184, __c162, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            tlsInspectionPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tlsInspectionPolicies",
@@ -11111,11 +11175,13 @@ function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          urlListId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5248, __c164, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5248, __c164, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            urlListId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/urlLists",
@@ -11277,10 +11343,12 @@ function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          addressGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            addressGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+addressGroup}:addItems",
@@ -11509,10 +11577,12 @@ function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          addressGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            addressGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+addressGroup}:addItems",
@@ -12130,10 +12200,12 @@ function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          addressGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(7200, __c225, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7200, __c225, 0),
+          S.Struct({
+            addressGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+addressGroup}:cloneItems",

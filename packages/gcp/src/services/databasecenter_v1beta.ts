@@ -431,10 +431,7 @@ export interface AggregateIssueStatsRequest {
   /** Optional. The baseline date w.r.t. which the delta counts are calculated. If not set, delta counts are not included in the response and the response indicates the current state of the fleet. */
   baselineDate?: Databasecenter_Date | undefined;
 }
-export interface AggregateIssueStatsV1betaRequest {
-  /** Request body */
-  body?: AggregateIssueStatsRequest | undefined;
-}
+export interface AggregateIssueStatsV1betaRequest extends AggregateIssueStatsRequest {}
 export type IssueStatsSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
   | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
@@ -601,11 +598,9 @@ export interface AggregateQueryStatsRequest {
   /** Optional. A page token, received from a previous `AggregateQueryStatsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page token. */
   pageToken?: string | undefined;
 }
-export interface AggregateQueryStatsFoldersRequest {
+export interface AggregateQueryStatsFoldersRequest extends AggregateQueryStatsRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent: string;
-  /** Request body */
-  body?: AggregateQueryStatsRequest | undefined;
 }
 /** ResourceId contains the identifier for a database resource, including the full resource name, resource type, and product. */
 export interface ResourceId {
@@ -681,17 +676,13 @@ export interface AggregateQueryStatsResponse {
   /** List of query stats where each group contains stats for resources having a particular combination of relevant query stats. */
   queryStats?: QueryStatsInfoList | undefined;
 }
-export interface AggregateQueryStatsOrganizationsRequest {
+export interface AggregateQueryStatsOrganizationsRequest extends AggregateQueryStatsRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent: string;
-  /** Request body */
-  body?: AggregateQueryStatsRequest | undefined;
 }
-export interface AggregateQueryStatsProjectsRequest {
+export interface AggregateQueryStatsProjectsRequest extends AggregateQueryStatsRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent: string;
-  /** Request body */
-  body?: AggregateQueryStatsRequest | undefined;
 }
 export type SignalFilterSignalStatusEnum =
   | "SIGNAL_STATUS_UNSPECIFIED"
@@ -953,10 +944,7 @@ export interface QueryDatabaseResourceGroupsRequest {
   /** Optional. Groups of signal types that are requested. */
   signalTypeGroups?: SignalTypeGroupList | undefined;
 }
-export interface QueryDatabaseResourceGroupsV1betaRequest {
-  /** Request body */
-  body?: QueryDatabaseResourceGroupsRequest | undefined;
-}
+export interface QueryDatabaseResourceGroupsV1betaRequest extends QueryDatabaseResourceGroupsRequest {}
 /** BackupDRConfig to capture the backup and disaster recovery details of database resource. */
 export interface BackupDRConfig {
   /** Indicates if the resource is managed by BackupDR. */
@@ -1653,10 +1641,7 @@ export interface QueryIssuesRequest {
   /** Optional. Supported fields are: 'product', `location`, `issue_severity`, 'tags', 'labels', */
   filter?: string | undefined;
 }
-export interface QueryIssuesV1betaRequest {
-  /** Request body */
-  body?: QueryIssuesRequest | undefined;
-}
+export interface QueryIssuesV1betaRequest extends QueryIssuesRequest {}
 /** DatabaseResource and Issue associated with it. */
 export interface DatabaseResourceIssue {
   /** Signal associated with the issue. */
@@ -1872,9 +1857,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "QueryIssuesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta:queryIssues",
@@ -2049,9 +2032,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "AggregateIssueStatsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(160, __c5, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta:aggregateIssueStats",
@@ -2125,10 +2106,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:aggregateQueryStats",
@@ -2219,10 +2202,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:aggregateQueryStats",
@@ -2236,10 +2221,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:aggregateQueryStats",
@@ -2275,9 +2262,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "QueryDatabaseResourceGroupsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(418, __c13, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(418, __c13, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta:queryDatabaseResourceGroups",

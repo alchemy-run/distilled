@@ -183,10 +183,8 @@ export type CreateResourceValueConfigRequestList = Array<CreateResourceValueConf
 export interface BatchCreateResourceValueConfigsRequest {
   requests?: CreateResourceValueConfigRequestList | undefined;
 }
-export interface BatchCreateOrganizationsResourceValueConfigsRequest {
+export interface BatchCreateOrganizationsResourceValueConfigsRequest extends BatchCreateResourceValueConfigsRequest {
   parent: string;
-  /** Request body */
-  body?: BatchCreateResourceValueConfigsRequest | undefined;
 }
 export type GoogleCloudSecuritycenterV1ResourceValueConfigList =
   Array<GoogleCloudSecuritycenterV1ResourceValueConfig>;
@@ -199,10 +197,8 @@ export interface BulkMuteFindingsRequest {
   muteAnnotation?: string | undefined;
   filter?: string | undefined;
 }
-export interface BulkMuteFoldersFindingsRequest {
+export interface BulkMuteFoldersFindingsRequest extends BulkMuteFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: BulkMuteFindingsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -218,15 +214,11 @@ export interface Operation {
   error?: Status | undefined;
   metadata?: DocumentMap | undefined;
 }
-export interface BulkMuteOrganizationsFindingsRequest {
+export interface BulkMuteOrganizationsFindingsRequest extends BulkMuteFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: BulkMuteFindingsRequest | undefined;
 }
-export interface BulkMuteProjectsFindingsRequest {
+export interface BulkMuteProjectsFindingsRequest extends BulkMuteFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: BulkMuteFindingsRequest | undefined;
 }
 export interface CancelOrganizationsOperationsRequest {
   name: string;
@@ -243,11 +235,9 @@ export interface GoogleCloudSecuritycenterV1BigQueryExport {
   mostRecentEditor?: string | undefined;
   principal?: string | undefined;
 }
-export interface CreateFoldersBigQueryExportsRequest {
+export interface CreateFoldersBigQueryExportsRequest extends GoogleCloudSecuritycenterV1BigQueryExport {
   parent: string;
   bigQueryExportId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
 export type EventThreatDetectionCustomModuleEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -271,10 +261,8 @@ export interface EventThreatDetectionCustomModule {
   cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
   updateTime?: string | undefined;
 }
-export interface CreateFoldersEventThreatDetectionSettingsCustomModulesRequest {
+export interface CreateFoldersEventThreatDetectionSettingsCustomModulesRequest extends EventThreatDetectionCustomModule {
   parent: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
 }
 export type GoogleCloudSecuritycenterV1MuteConfigTypeEnum =
   | "MUTE_CONFIG_TYPE_UNSPECIFIED"
@@ -291,11 +279,9 @@ export interface GoogleCloudSecuritycenterV1MuteConfig {
   filter?: string | undefined;
   name?: string | undefined;
 }
-export interface CreateFoldersMuteConfigsRequest {
+export interface CreateFoldersMuteConfigsRequest extends GoogleCloudSecuritycenterV1MuteConfig {
   parent: string;
   muteConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface StreamingConfig {
   filter?: string | undefined;
@@ -308,11 +294,9 @@ export interface NotificationConfig {
   description?: string | undefined;
   pubsubTopic?: string | undefined;
 }
-export interface CreateFoldersNotificationConfigsRequest {
+export interface CreateFoldersNotificationConfigsRequest extends NotificationConfig {
   parent: string;
   configId?: string | undefined;
-  /** Request body */
-  body?: NotificationConfig | undefined;
 }
 export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -371,38 +355,26 @@ export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule 
   customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
   lastEditor?: string | undefined;
 }
-export interface CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest extends GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
-export interface CreateOrganizationsBigQueryExportsRequest {
+export interface CreateOrganizationsBigQueryExportsRequest extends GoogleCloudSecuritycenterV1BigQueryExport {
   parent: string;
   bigQueryExportId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
-export interface CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
+export interface CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest extends EventThreatDetectionCustomModule {
   parent: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
 }
-export interface CreateOrganizationsMuteConfigsRequest {
+export interface CreateOrganizationsMuteConfigsRequest extends GoogleCloudSecuritycenterV1MuteConfig {
   muteConfigId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface CreateOrganizationsNotificationConfigsRequest {
+export interface CreateOrganizationsNotificationConfigsRequest extends NotificationConfig {
   configId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
 }
-export interface CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest extends GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface Source {
   description?: string | undefined;
@@ -410,10 +382,8 @@ export interface Source {
   displayName?: string | undefined;
   canonicalName?: string | undefined;
 }
-export interface CreateOrganizationsSourcesRequest {
+export interface CreateOrganizationsSourcesRequest extends Source {
   parent: string;
-  /** Request body */
-  body?: Source | undefined;
 }
 export type ConnectionProtocolEnum =
   | "PROTOCOL_UNSPECIFIED"
@@ -1619,39 +1589,27 @@ export interface Finding {
   networks?: NetworkList | undefined;
   loadBalancers?: LoadBalancerList | undefined;
 }
-export interface CreateOrganizationsSourcesFindingsRequest {
+export interface CreateOrganizationsSourcesFindingsRequest extends Omit<Finding, "parent"> {
   parent: string;
   findingId?: string | undefined;
-  /** Request body */
-  body?: Finding | undefined;
 }
-export interface CreateProjectsBigQueryExportsRequest {
+export interface CreateProjectsBigQueryExportsRequest extends GoogleCloudSecuritycenterV1BigQueryExport {
   bigQueryExportId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
-export interface CreateProjectsEventThreatDetectionSettingsCustomModulesRequest {
+export interface CreateProjectsEventThreatDetectionSettingsCustomModulesRequest extends EventThreatDetectionCustomModule {
   parent: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
 }
-export interface CreateProjectsMuteConfigsRequest {
+export interface CreateProjectsMuteConfigsRequest extends GoogleCloudSecuritycenterV1MuteConfig {
   parent: string;
   muteConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface CreateProjectsNotificationConfigsRequest {
+export interface CreateProjectsNotificationConfigsRequest extends NotificationConfig {
   configId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
 }
-export interface CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest extends GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface DeleteFoldersBigQueryExportsRequest {
   name: string;
@@ -1781,10 +1739,8 @@ export interface GetPolicyOptions {
 export interface GetIamPolicyRequest {
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyOrganizationsSourcesRequest {
+export interface GetIamPolicyOrganizationsSourcesRequest extends GetIamPolicyRequest {
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface Binding {
   condition?: Expr | undefined;
@@ -1928,10 +1884,8 @@ export interface GroupAssetsRequest {
   groupBy?: string | undefined;
   readTime?: string | undefined;
 }
-export interface GroupFoldersAssetsRequest {
+export interface GroupFoldersAssetsRequest extends GroupAssetsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupResult {
   properties?: DocumentMap | undefined;
@@ -1952,10 +1906,8 @@ export interface GroupFindingsRequest {
   pageSize?: number | undefined;
   groupBy?: string | undefined;
 }
-export interface GroupFoldersSourcesFindingsRequest {
+export interface GroupFoldersSourcesFindingsRequest extends GroupFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
 }
 export interface GroupFindingsResponse {
   nextPageToken?: string | undefined;
@@ -1963,25 +1915,17 @@ export interface GroupFindingsResponse {
   totalSize?: number | undefined;
   groupByResults?: GroupResultList | undefined;
 }
-export interface GroupOrganizationsAssetsRequest {
+export interface GroupOrganizationsAssetsRequest extends GroupAssetsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
 }
-export interface GroupOrganizationsSourcesFindingsRequest {
+export interface GroupOrganizationsSourcesFindingsRequest extends GroupFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
 }
-export interface GroupProjectsAssetsRequest {
+export interface GroupProjectsAssetsRequest extends GroupAssetsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
 }
-export interface GroupProjectsSourcesFindingsRequest {
+export interface GroupProjectsSourcesFindingsRequest extends GroupFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
 }
 export interface ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest {
   pageToken?: string | undefined;
@@ -2546,161 +2490,169 @@ export interface ListProjectsSourcesFindingsRequest {
   pageSize?: number | undefined;
   filter?: string | undefined;
 }
-export interface PatchFoldersBigQueryExportsRequest {
+export interface PatchFoldersBigQueryExportsRequest extends Omit<
+  GoogleCloudSecuritycenterV1BigQueryExport,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
-export interface PatchFoldersEventThreatDetectionSettingsCustomModulesRequest {
+export interface PatchFoldersEventThreatDetectionSettingsCustomModulesRequest extends Omit<
+  EventThreatDetectionCustomModule,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
 }
-export interface PatchFoldersLocationsMuteConfigsRequest {
+export interface PatchFoldersLocationsMuteConfigsRequest extends Omit<
+  GoogleCloudSecuritycenterV1MuteConfig,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface PatchFoldersMuteConfigsRequest {
+export interface PatchFoldersMuteConfigsRequest extends Omit<
+  GoogleCloudSecuritycenterV1MuteConfig,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface PatchFoldersNotificationConfigsRequest {
+export interface PatchFoldersNotificationConfigsRequest extends Omit<NotificationConfig, "name"> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: NotificationConfig | undefined;
 }
-export interface PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest extends Omit<
+  GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
-export interface PatchFoldersSourcesFindingsRequest {
+export interface PatchFoldersSourcesFindingsRequest extends Omit<Finding, "name"> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Finding | undefined;
 }
-export interface PatchFoldersSourcesFindingsExternalSystemsRequest {
+export interface PatchFoldersSourcesFindingsExternalSystemsRequest extends Omit<
+  GoogleCloudSecuritycenterV1ExternalSystem,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
 }
-export interface PatchOrganizationsBigQueryExportsRequest {
+export interface PatchOrganizationsBigQueryExportsRequest extends Omit<
+  GoogleCloudSecuritycenterV1BigQueryExport,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
-export interface PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
+export interface PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest extends Omit<
+  EventThreatDetectionCustomModule,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
 }
-export interface PatchOrganizationsLocationsMuteConfigsRequest {
+export interface PatchOrganizationsLocationsMuteConfigsRequest extends Omit<
+  GoogleCloudSecuritycenterV1MuteConfig,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface PatchOrganizationsMuteConfigsRequest {
+export interface PatchOrganizationsMuteConfigsRequest extends Omit<
+  GoogleCloudSecuritycenterV1MuteConfig,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface PatchOrganizationsNotificationConfigsRequest {
+export interface PatchOrganizationsNotificationConfigsRequest extends Omit<
+  NotificationConfig,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
 }
-export interface PatchOrganizationsResourceValueConfigsRequest {
+export interface PatchOrganizationsResourceValueConfigsRequest extends Omit<
+  GoogleCloudSecuritycenterV1ResourceValueConfig,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ResourceValueConfig | undefined;
 }
-export interface PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest extends Omit<
+  GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
-export interface PatchOrganizationsSourcesRequest {
+export interface PatchOrganizationsSourcesRequest extends Omit<Source, "name"> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
 }
-export interface PatchOrganizationsSourcesFindingsRequest {
+export interface PatchOrganizationsSourcesFindingsRequest extends Omit<Finding, "name"> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Finding | undefined;
 }
-export interface PatchOrganizationsSourcesFindingsExternalSystemsRequest {
+export interface PatchOrganizationsSourcesFindingsExternalSystemsRequest extends Omit<
+  GoogleCloudSecuritycenterV1ExternalSystem,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
 }
-export interface PatchProjectsBigQueryExportsRequest {
+export interface PatchProjectsBigQueryExportsRequest extends Omit<
+  GoogleCloudSecuritycenterV1BigQueryExport,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
-export interface PatchProjectsEventThreatDetectionSettingsCustomModulesRequest {
+export interface PatchProjectsEventThreatDetectionSettingsCustomModulesRequest extends Omit<
+  EventThreatDetectionCustomModule,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
 }
-export interface PatchProjectsLocationsMuteConfigsRequest {
+export interface PatchProjectsLocationsMuteConfigsRequest extends Omit<
+  GoogleCloudSecuritycenterV1MuteConfig,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface PatchProjectsMuteConfigsRequest {
+export interface PatchProjectsMuteConfigsRequest extends Omit<
+  GoogleCloudSecuritycenterV1MuteConfig,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
-export interface PatchProjectsNotificationConfigsRequest {
+export interface PatchProjectsNotificationConfigsRequest extends Omit<NotificationConfig, "name"> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
 }
-export interface PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest extends Omit<
+  GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
-export interface PatchProjectsSourcesFindingsRequest {
+export interface PatchProjectsSourcesFindingsRequest extends Omit<Finding, "name"> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Finding | undefined;
 }
-export interface PatchProjectsSourcesFindingsExternalSystemsRequest {
+export interface PatchProjectsSourcesFindingsExternalSystemsRequest extends Omit<
+  GoogleCloudSecuritycenterV1ExternalSystem,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
 }
 export interface RunAssetDiscoveryRequest {}
 export interface RunDiscoveryOrganizationsAssetsRequest {
@@ -2712,49 +2664,35 @@ export interface SetIamPolicyRequest {
   policy?: Policy | undefined;
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyOrganizationsSourcesRequest {
+export interface SetIamPolicyOrganizationsSourcesRequest extends SetIamPolicyRequest {
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 export type SetMuteRequestMuteEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
 export interface SetMuteRequest {
   mute?: SetMuteRequestMuteEnum | (string & {}) | undefined;
 }
-export interface SetMuteFoldersSourcesFindingsRequest {
+export interface SetMuteFoldersSourcesFindingsRequest extends SetMuteRequest {
   name: string;
-  /** Request body */
-  body?: SetMuteRequest | undefined;
 }
-export interface SetMuteOrganizationsSourcesFindingsRequest {
+export interface SetMuteOrganizationsSourcesFindingsRequest extends SetMuteRequest {
   name: string;
-  /** Request body */
-  body?: SetMuteRequest | undefined;
 }
-export interface SetMuteProjectsSourcesFindingsRequest {
+export interface SetMuteProjectsSourcesFindingsRequest extends SetMuteRequest {
   name: string;
-  /** Request body */
-  body?: SetMuteRequest | undefined;
 }
 export type SetFindingStateRequestStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 export interface SetFindingStateRequest {
   startTime?: string | undefined;
   state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
 }
-export interface SetStateFoldersSourcesFindingsRequest {
+export interface SetStateFoldersSourcesFindingsRequest extends SetFindingStateRequest {
   name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
 }
-export interface SetStateOrganizationsSourcesFindingsRequest {
+export interface SetStateOrganizationsSourcesFindingsRequest extends SetFindingStateRequest {
   name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
 }
-export interface SetStateProjectsSourcesFindingsRequest {
+export interface SetStateProjectsSourcesFindingsRequest extends SetFindingStateRequest {
   name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
 }
 export interface SimulatedResource {
   iamPolicyData?: Policy | undefined;
@@ -2765,10 +2703,8 @@ export interface SimulateSecurityHealthAnalyticsCustomModuleRequest {
   customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
   resource?: SimulatedResource | undefined;
 }
-export interface SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest extends SimulateSecurityHealthAnalyticsCustomModuleRequest {
   parent: string;
-  /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
 }
 export interface SimulatedResult {
   error?: Status | undefined;
@@ -2778,83 +2714,73 @@ export interface SimulatedResult {
 export interface SimulateSecurityHealthAnalyticsCustomModuleResponse {
   result?: SimulatedResult | undefined;
 }
-export interface SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest extends SimulateSecurityHealthAnalyticsCustomModuleRequest {
   parent: string;
-  /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
 }
-export interface SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
+export interface SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest extends SimulateSecurityHealthAnalyticsCustomModuleRequest {
   parent: string;
-  /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
 }
 export interface TestIamPermissionsRequest {
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsSourcesRequest {
+export interface TestIamPermissionsOrganizationsSourcesRequest extends TestIamPermissionsRequest {
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsResponse {
   permissions?: StringList | undefined;
 }
-export interface UpdateOrganizationSettingsOrganizationsRequest {
+export interface UpdateOrganizationSettingsOrganizationsRequest extends Omit<
+  OrganizationSettings,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: OrganizationSettings | undefined;
 }
-export interface UpdateSecurityMarksFoldersAssetsRequest {
+export interface UpdateSecurityMarksFoldersAssetsRequest extends Omit<SecurityMarks, "name"> {
   name: string;
   updateMask?: string | undefined;
   startTime?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
 }
-export interface UpdateSecurityMarksFoldersSourcesFindingsRequest {
+export interface UpdateSecurityMarksFoldersSourcesFindingsRequest extends Omit<
+  SecurityMarks,
+  "name"
+> {
   startTime?: string | undefined;
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
 }
-export interface UpdateSecurityMarksOrganizationsAssetsRequest {
+export interface UpdateSecurityMarksOrganizationsAssetsRequest extends Omit<SecurityMarks, "name"> {
   updateMask?: string | undefined;
   name: string;
   startTime?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
 }
-export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
+export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest extends Omit<
+  SecurityMarks,
+  "name"
+> {
   updateMask?: string | undefined;
   startTime?: string | undefined;
   name: string;
-  /** Request body */
-  body?: SecurityMarks | undefined;
 }
-export interface UpdateSecurityMarksProjectsAssetsRequest {
+export interface UpdateSecurityMarksProjectsAssetsRequest extends Omit<SecurityMarks, "name"> {
   name: string;
   startTime?: string | undefined;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
 }
-export interface UpdateSecurityMarksProjectsSourcesFindingsRequest {
+export interface UpdateSecurityMarksProjectsSourcesFindingsRequest extends Omit<
+  SecurityMarks,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
   startTime?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
 }
 export interface ValidateEventThreatDetectionCustomModuleRequest {
   type?: string | undefined;
   rawText?: string | undefined;
 }
-export interface ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest {
+export interface ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest extends ValidateEventThreatDetectionCustomModuleRequest {
   parent: string;
-  /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
 }
 export interface Position {
   columnNumber?: number | undefined;
@@ -2873,15 +2799,11 @@ export interface CustomModuleValidationErrors {
 export interface ValidateEventThreatDetectionCustomModuleResponse {
   errors?: CustomModuleValidationErrors | undefined;
 }
-export interface ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest {
+export interface ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest extends ValidateEventThreatDetectionCustomModuleRequest {
   parent: string;
-  /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
 }
-export interface ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest {
+export interface ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest extends ValidateEventThreatDetectionCustomModuleRequest {
   parent: string;
-  /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
 }
 export type BatchCreateOrganizationsResourceValueConfigsError =
   | NotFound
@@ -8781,11 +8703,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bigQueryExportId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bigQueryExportId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bigQueryExports",
@@ -9033,10 +8957,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules",
@@ -9263,11 +9189,13 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          muteConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            muteConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/muteConfigs",
@@ -9299,11 +9227,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9317,11 +9247,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9335,11 +9267,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9353,11 +9287,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9371,11 +9307,13 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1665, __c52, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9389,11 +9327,13 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9407,11 +9347,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3602, __c112, 18),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9425,11 +9367,13 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3425, __c107, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3425, __c107, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9443,11 +9387,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9461,11 +9407,13 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9481,11 +9429,13 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          configId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1665, __c52, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            configId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notificationConfigs",
@@ -9520,11 +9470,13 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9538,11 +9490,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9556,11 +9510,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1665, __c52, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9574,11 +9530,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5121, __c160, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5121, __c160, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9592,11 +9550,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9612,11 +9572,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9630,11 +9592,13 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3602, __c112, 18),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9648,11 +9612,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3425, __c107, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3425, __c107, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9666,11 +9632,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9684,11 +9652,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9702,10 +9672,12 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules",
@@ -9787,11 +9759,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9805,11 +9779,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9823,11 +9799,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1665, __c52, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9841,11 +9819,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9861,11 +9841,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3602, __c112, 18),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9879,11 +9861,13 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3425, __c107, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3425, __c107, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -9921,10 +9905,12 @@ function __c74(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -9938,10 +9924,12 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setMute",
@@ -9965,10 +9953,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setMute",
@@ -9982,11 +9972,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bigQueryExportId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bigQueryExportId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bigQueryExports",
@@ -10000,10 +9992,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setMute",
@@ -10017,10 +10011,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setState",
@@ -10045,10 +10041,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setState",
@@ -10062,10 +10060,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setState",
@@ -10079,10 +10079,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2721, __c85, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules:simulate",
@@ -10131,10 +10133,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2721, __c85, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules:simulate",
@@ -10150,10 +10154,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2721, __c85, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules:simulate",
@@ -10175,10 +10181,12 @@ function __c88(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -10192,11 +10200,13 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4929, __c154, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4929, __c154, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10210,12 +10220,14 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            startTime: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10229,10 +10241,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules",
@@ -10248,12 +10262,14 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            startTime: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10267,12 +10283,14 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            startTime: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10286,12 +10304,14 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            startTime: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10305,12 +10325,14 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            startTime: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10324,12 +10346,14 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            startTime: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10343,10 +10367,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:validateCustomModule",
@@ -10401,10 +10427,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:validateCustomModule",
@@ -10420,10 +10448,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:validateCustomModule",
@@ -10437,11 +10467,13 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          muteConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            muteConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/muteConfigs",
@@ -10455,11 +10487,13 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          configId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1665, __c52, 1),
+          S.Struct({
+            configId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notificationConfigs",
@@ -10473,10 +10507,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules",
@@ -10492,10 +10528,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sources",
@@ -10522,11 +10560,13 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          findingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3602, __c112, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            findingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/findings",
@@ -11654,11 +11694,13 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bigQueryExportId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            bigQueryExportId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bigQueryExports",
@@ -11672,10 +11714,12 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules",
@@ -11689,11 +11733,13 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          muteConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            muteConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/muteConfigs",
@@ -11707,11 +11753,13 @@ function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          configId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1665, __c52, 1),
+          S.Struct({
+            configId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notificationConfigs",
@@ -11725,10 +11773,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2112, __c66, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customModules",
@@ -12248,10 +12298,12 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4801, __c150, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4801, __c150, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -12391,10 +12443,12 @@ function __c156(j: number): any {
       ).annotate({ identifier: "BatchCreateResourceValueConfigsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4994, __c156, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4994, __c156, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/resourceValueConfigs:batchCreate",
@@ -12650,10 +12704,12 @@ function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5536, __c173, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/findings:bulkMute",
@@ -12861,10 +12917,12 @@ function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assets:group",
@@ -12915,10 +12973,12 @@ function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5536, __c173, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/findings:bulkMute",
@@ -12932,10 +12992,12 @@ function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/findings:group",
@@ -12973,10 +13035,12 @@ function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assets:group",
@@ -12990,10 +13054,12 @@ function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/findings:group",
@@ -13007,10 +13073,12 @@ function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assets:group",
@@ -13024,10 +13092,12 @@ function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/findings:group",
@@ -13172,10 +13242,12 @@ function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5536, __c173, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/findings:bulkMute",

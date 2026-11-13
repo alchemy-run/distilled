@@ -120,11 +120,9 @@ export interface AcknowledgeRequest {
   /** Required. The acknowledgment ID for the messages being acknowledged that was returned by the Pub/Sub system in the `Pull` response. Must not be empty. */
   ackIds?: StringList | undefined;
 }
-export interface AcknowledgeProjectsSubscriptionsRequest {
+export interface AcknowledgeProjectsSubscriptionsRequest extends AcknowledgeRequest {
   /** Required. The subscription whose message is being acknowledged. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
-  /** Request body */
-  body?: AcknowledgeRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -156,19 +154,15 @@ export interface CommitSchemaRequest {
   /** Required. The schema revision to commit. */
   schema?: Pubsub_Schema | undefined;
 }
-export interface CommitProjectsSchemasRequest {
+export interface CommitProjectsSchemasRequest extends CommitSchemaRequest {
   /** Required. The name of the schema we are revising. Format is `projects/{project}/schemas/{schema}`. */
   name: string;
-  /** Request body */
-  body?: CommitSchemaRequest | undefined;
 }
-export interface CreateProjectsSchemasRequest {
+export interface CreateProjectsSchemasRequest extends Pubsub_Schema {
   /** Required. The name of the project in which to create the schema. Format is `projects/{project-id}`. */
   parent: string;
   /** The ID to use for the schema, which will become the final component of the schema's resource name. See https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names for resource name constraints. */
   schemaId?: string | undefined;
-  /** Request body */
-  body?: Pubsub_Schema | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Request for the `CreateSnapshot` method. */
@@ -180,11 +174,9 @@ export interface CreateSnapshotRequest {
   /** Required. The subscription whose backlog the snapshot retains. Specifically, the created snapshot is guaranteed to retain: (a) The existing backlog on the subscription. More precisely, this is defined as the messages in the subscription's backlog that are unacknowledged upon the successful completion of the `CreateSnapshot` request; as well as: (b) Any messages published to the subscription's topic following the successful completion of the CreateSnapshot request. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription?: string | undefined;
 }
-export interface CreateProjectsSnapshotsRequest {
+export interface CreateProjectsSnapshotsRequest extends CreateSnapshotRequest {
   /** Required. User-provided name for this snapshot. If the name is not provided in the request, the server will assign a random name for this snapshot on the same project as the subscription. Note that for REST API requests, you must specify a name. See the [resource name rules](https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). Format is `projects/{project}/snapshots/{snap}`. */
   name: string;
-  /** Request body */
-  body?: CreateSnapshotRequest | undefined;
 }
 /** A snapshot resource. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export interface Snapshot {
@@ -453,11 +445,9 @@ export interface Subscription {
   /** Optional. If delivery to Bigtable is used with this subscription, this field is used to configure it. */
   bigtableConfig?: BigtableConfig | undefined;
 }
-export interface CreateProjectsSubscriptionsRequest {
+export interface CreateProjectsSubscriptionsRequest extends Omit<Subscription, "name"> {
   /** Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 /** A policy constraining the storage of messages published to the topic. */
 export interface MessageStoragePolicy {
@@ -660,11 +650,9 @@ export interface Topic {
   /** Optional. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsTopicsRequest {
+export interface CreateProjectsTopicsRequest extends Omit<Topic, "name"> {
   /** Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
-  /** Request body */
-  body?: Topic | undefined;
 }
 export interface DeleteProjectsSchemasRequest {
   /** Required. Name of the schema to delete. Format is `projects/{project}/schemas/{schema}`. */
@@ -889,22 +877,18 @@ export interface ModifyAckDeadlineRequest {
   /** Required. List of acknowledgment IDs. */
   ackIds?: StringList | undefined;
 }
-export interface ModifyAckDeadlineProjectsSubscriptionsRequest {
+export interface ModifyAckDeadlineProjectsSubscriptionsRequest extends ModifyAckDeadlineRequest {
   /** Required. The name of the subscription. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
-  /** Request body */
-  body?: ModifyAckDeadlineRequest | undefined;
 }
 /** Request for the ModifyPushConfig method. */
 export interface ModifyPushConfigRequest {
   /** Required. The push configuration for future deliveries. An empty `pushConfig` indicates that the Pub/Sub system should stop pushing messages from the given subscription and allow messages to be pulled and acknowledged - effectively pausing the subscription if `Pull` or `StreamingPull` is not called. */
   pushConfig?: PushConfig | undefined;
 }
-export interface ModifyPushConfigProjectsSubscriptionsRequest {
+export interface ModifyPushConfigProjectsSubscriptionsRequest extends ModifyPushConfigRequest {
   /** Required. The name of the subscription. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
-  /** Request body */
-  body?: ModifyPushConfigRequest | undefined;
 }
 /** Request for the UpdateSnapshot method. */
 export interface UpdateSnapshotRequest {
@@ -913,11 +897,9 @@ export interface UpdateSnapshotRequest {
   /** Required. Indicates which fields in the provided snapshot to update. Must be specified and non-empty. */
   updateMask?: string | undefined;
 }
-export interface PatchProjectsSnapshotsRequest {
+export interface PatchProjectsSnapshotsRequest extends UpdateSnapshotRequest {
   /** Optional. The name of the snapshot. */
   name: string;
-  /** Request body */
-  body?: UpdateSnapshotRequest | undefined;
 }
 /** Request for the UpdateSubscription method. */
 export interface UpdateSubscriptionRequest {
@@ -926,11 +908,9 @@ export interface UpdateSubscriptionRequest {
   /** Required. The updated subscription object. */
   subscription?: Subscription | undefined;
 }
-export interface PatchProjectsSubscriptionsRequest {
+export interface PatchProjectsSubscriptionsRequest extends UpdateSubscriptionRequest {
   /** Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
-  /** Request body */
-  body?: UpdateSubscriptionRequest | undefined;
 }
 /** Request for the UpdateTopic method. */
 export interface UpdateTopicRequest {
@@ -939,11 +919,9 @@ export interface UpdateTopicRequest {
   /** Required. The updated topic object. */
   topic?: Topic | undefined;
 }
-export interface PatchProjectsTopicsRequest {
+export interface PatchProjectsTopicsRequest extends UpdateTopicRequest {
   /** Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
-  /** Request body */
-  body?: UpdateTopicRequest | undefined;
 }
 /** A message that is published by publishers and consumed by subscribers. The message must contain either a non-empty data field or at least one attribute. Note that client libraries represent this object differently depending on the language. See the corresponding [client library documentation](https://cloud.google.com/pubsub/docs/reference/libraries) for more information. See [quotas and limits]( https://cloud.google.com/pubsub/quotas) for more information about message limits. */
 export interface PubsubMessage {
@@ -964,11 +942,9 @@ export interface PublishRequest {
   /** Required. The messages to publish. */
   messages?: PubsubMessageList | undefined;
 }
-export interface PublishProjectsTopicsRequest {
+export interface PublishProjectsTopicsRequest extends PublishRequest {
   /** Required. The messages in the request will be published on this topic. Format is `projects/{project}/topics/{topic}`. */
   topic: string;
-  /** Request body */
-  body?: PublishRequest | undefined;
 }
 /** Response for the `Publish` method. */
 export interface PublishResponse {
@@ -982,11 +958,9 @@ export interface PullRequest {
   /** Required. The maximum number of messages to return for this request. Must be a positive integer. The Pub/Sub system may return fewer than the number specified. */
   maxMessages?: number | undefined;
 }
-export interface PullProjectsSubscriptionsRequest {
+export interface PullProjectsSubscriptionsRequest extends PullRequest {
   /** Required. The subscription from which messages should be pulled. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
-  /** Request body */
-  body?: PullRequest | undefined;
 }
 /** A message and its corresponding acknowledgment ID. */
 export interface ReceivedMessage {
@@ -1008,11 +982,9 @@ export interface RollbackSchemaRequest {
   /** Required. The revision ID to roll back to. It must be a revision of the same schema. Example: c7cfa2a8 */
   revisionId?: string | undefined;
 }
-export interface RollbackProjectsSchemasRequest {
+export interface RollbackProjectsSchemasRequest extends RollbackSchemaRequest {
   /** Required. The schema being rolled back with revision id. */
   name: string;
-  /** Request body */
-  body?: RollbackSchemaRequest | undefined;
 }
 /** Request for the `Seek` method. */
 export interface SeekRequest {
@@ -1021,11 +993,9 @@ export interface SeekRequest {
   /** Optional. The time to seek to. Messages retained in the subscription that were published before this time are marked as acknowledged, and messages retained in the subscription that were published after this time are marked as unacknowledged. Note that this operation affects only those messages retained in the subscription (configured by the combination of `message_retention_duration` and `retain_acked_messages`). For example, if `time` corresponds to a point before the message retention window (or to a point before the system's notion of the subscription creation time), only retained messages will be marked as unacknowledged, and already-expunged messages will not be restored. */
   time?: string | undefined;
 }
-export interface SeekProjectsSubscriptionsRequest {
+export interface SeekProjectsSubscriptionsRequest extends SeekRequest {
   /** Required. The subscription to affect. */
   subscription: string;
-  /** Request body */
-  body?: SeekRequest | undefined;
 }
 /** Response for the `Seek` method (this response is empty). */
 export interface SeekResponse {}
@@ -1034,63 +1004,47 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsSchemasRequest {
+export interface SetIamPolicyProjectsSchemasRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsSnapshotsRequest {
+export interface SetIamPolicyProjectsSnapshotsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsSubscriptionsRequest {
+export interface SetIamPolicyProjectsSubscriptionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsTopicsRequest {
+export interface SetIamPolicyProjectsTopicsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsSchemasRequest {
+export interface TestIamPermissionsProjectsSchemasRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsSnapshotsRequest {
+export interface TestIamPermissionsProjectsSnapshotsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsSubscriptionsRequest {
+export interface TestIamPermissionsProjectsSubscriptionsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsTopicsRequest {
+export interface TestIamPermissionsProjectsTopicsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type ValidateMessageRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "JSON" | "BINARY";
 /** Request for the `ValidateMessage` method. */
@@ -1104,11 +1058,9 @@ export interface ValidateMessageRequest {
   /** Ad-hoc schema against which to validate */
   schema?: Pubsub_Schema | undefined;
 }
-export interface ValidateMessageProjectsSchemasRequest {
+export interface ValidateMessageProjectsSchemasRequest extends ValidateMessageRequest {
   /** Required. The name of the project in which to validate schemas. Format is `projects/{project-id}`. */
   parent: string;
-  /** Request body */
-  body?: ValidateMessageRequest | undefined;
 }
 /** Response for the `ValidateMessage` method. Empty for now. */
 export interface ValidateMessageResponse {}
@@ -1117,11 +1069,9 @@ export interface ValidateSchemaRequest {
   /** Required. The schema object to validate. */
   schema?: Pubsub_Schema | undefined;
 }
-export interface ValidateProjectsSchemasRequest {
+export interface ValidateProjectsSchemasRequest extends ValidateSchemaRequest {
   /** Required. The name of the project in which to validate schemas. Format is `projects/{project-id}`. */
   parent: string;
-  /** Request body */
-  body?: ValidateSchemaRequest | undefined;
 }
 /** Response for the `ValidateSchema` method. Empty for now. */
 export interface ValidateSchemaResponse {}
@@ -2058,10 +2008,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(58, __c3, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(58, __c3, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateProjectsSubscriptionsRequest" });
@@ -2262,10 +2214,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(90, __c5, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(90, __c5, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateProjectsTopicsRequest" });
@@ -2832,10 +2786,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ModifyAckDeadlineRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+subscription}:modifyAckDeadline",
@@ -2855,10 +2811,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ModifyPushConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c30, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+subscription}:modifyPushConfig",
@@ -2879,10 +2837,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateSnapshotRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c31, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsSnapshotsRequest" });
@@ -2899,10 +2859,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsSubscriptionsRequest" });
@@ -2919,10 +2881,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateTopicRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsTopicsRequest" });
@@ -2940,10 +2904,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "PublishRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          topic: S.String.pipe(T.Label()),
-          body: S.optional(__S(545, __c34, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c34, 1),
+          S.Struct({
+            topic: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+topic}:publish",
@@ -2984,10 +2950,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "PullRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+subscription}:pull",
@@ -3023,10 +2991,12 @@ function __c37(j: number): any {
       ).annotate({ identifier: "RollbackSchemaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(592, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(592, __c37, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rollback",
@@ -3047,10 +3017,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "SeekRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c38, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+subscription}:seek",
@@ -3064,10 +3036,12 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3091,10 +3065,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3108,10 +3084,12 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3125,10 +3103,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3142,10 +3122,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3169,10 +3151,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3186,10 +3170,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3203,10 +3189,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3229,10 +3217,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ValidateMessageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas:validateMessage",
@@ -3246,10 +3236,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(880, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(880, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas:validate",
@@ -3269,10 +3261,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "AcknowledgeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+subscription}:acknowledge",
@@ -3298,10 +3292,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(880, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(880, __c55, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:commit",
@@ -3347,11 +3343,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          schemaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(897, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c56, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            schemaId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas",
@@ -3373,10 +3371,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateSnapshotRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://pubsub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateProjectsSnapshotsRequest" });

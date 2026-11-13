@@ -105,11 +105,9 @@ export interface ActivateCertificateAuthorityRequest {
   /** Required. Must include information about the issuer of 'pem_ca_certificate', and any further issuers until the self-signed CA. */
   subordinateConfig?: SubordinateConfig | undefined;
 }
-export interface ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+export interface ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest extends ActivateCertificateAuthorityRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
   name: string;
-  /** Request body */
-  body?: ActivateCertificateAuthorityRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -371,15 +369,13 @@ export interface CaPool {
   /** Optional. The IssuancePolicy to control how Certificates will be issued from this CaPool. */
   issuancePolicy?: IssuancePolicy | undefined;
 }
-export interface CreateProjectsLocationsCaPoolsRequest {
+export interface CreateProjectsLocationsCaPoolsRequest extends CaPool {
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
   caPoolId?: string | undefined;
   /** Required. The resource name of the location associated with the CaPool, in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: CaPool | undefined;
 }
 /** URLs where a CertificateAuthority will publish content. */
 export interface AccessUrls {
@@ -602,15 +598,13 @@ export interface CertificateAuthority {
   /** Required. Immutable. The config used to create a self-signed X.509 certificate or CSR. */
   config?: CertificateConfig | undefined;
 }
-export interface CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+export interface CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest extends CertificateAuthority {
   /** Required. The resource name of the CaPool associated with the CertificateAuthorities, in the format `projects/*\/locations/*\/caPools/*`. */
   parent: string;
   /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
   certificateAuthorityId?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CertificateAuthority | undefined;
 }
 export type RevocationDetailsRevocationStateEnum =
   | "REVOCATION_REASON_UNSPECIFIED"
@@ -667,7 +661,7 @@ export interface Certificate {
   /** Output only. The pem-encoded, signed X.509 certificate. */
   pemCertificate?: string | undefined;
 }
-export interface CreateProjectsLocationsCaPoolsCertificatesRequest {
+export interface CreateProjectsLocationsCaPoolsCertificatesRequest extends Certificate {
   /** Optional. The resource ID of the CertificateAuthority that should issue the certificate. This optional field will ignore the load-balancing scheme of the Pool and directly issue the certificate from the CA with the specified ID, contained in the same CaPool referenced by `parent`. Per-CA quota rules apply. If left empty, a CertificateAuthority will be chosen from the CaPool by the service. For example, to issue a Certificate from a Certificate Authority with resource name "projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca", you can set the parent to "projects/my-project/locations/us-central1/caPools/my-pool" and the issuing_certificate_authority_id to "my-ca". */
   issuingCertificateAuthorityId?: string | undefined;
   /** Optional. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. This field is required when using a CertificateAuthority in the Enterprise CertificateAuthority.tier, but is optional and its value is ignored otherwise. */
@@ -678,8 +672,6 @@ export interface CreateProjectsLocationsCaPoolsCertificatesRequest {
   requestId?: string | undefined;
   /** Optional. If this is true, no Certificate resource will be persisted regardless of the CaPool's tier, and the returned Certificate will not contain the pem_certificate field. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Certificate | undefined;
 }
 /** A CertificateTemplate refers to a managed template for certificate issuance. */
 export interface CertificateTemplate {
@@ -702,15 +694,13 @@ export interface CertificateTemplate {
   /** Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail. */
   predefinedValues?: X509Parameters | undefined;
 }
-export interface CreateProjectsLocationsCertificateTemplatesRequest {
+export interface CreateProjectsLocationsCertificateTemplatesRequest extends CertificateTemplate {
   /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
   certificateTemplateId?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The resource name of the location associated with the CertificateTemplate, in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: CertificateTemplate | undefined;
 }
 export interface DeleteProjectsLocationsCaPoolsRequest {
   /** Optional. This field allows this pool to be deleted even if it's being depended on by another resource. However, doing so may result in unintended and unrecoverable effects on any dependent resources since the pool will no longer be able to issue certificates. */
@@ -749,30 +739,24 @@ export interface DisableCertificateAuthorityRequest {
   /** Optional. This field allows this CA to be disabled even if it's being depended on by another resource. However, doing so may result in unintended and unrecoverable effects on any dependent resources since the CA will no longer be able to issue certificates. */
   ignoreDependentResources?: boolean | undefined;
 }
-export interface DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+export interface DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest extends DisableCertificateAuthorityRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
   name: string;
-  /** Request body */
-  body?: DisableCertificateAuthorityRequest | undefined;
 }
 /** Request message for CertificateAuthorityService.EnableCertificateAuthority. */
 export interface EnableCertificateAuthorityRequest {
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+export interface EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest extends EnableCertificateAuthorityRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
   name: string;
-  /** Request body */
-  body?: EnableCertificateAuthorityRequest | undefined;
 }
 /** Request message for CertificateAuthorityService.FetchCaCerts. */
 export type FetchCaCertsRequest = EnableCertificateAuthorityRequest;
-export interface FetchCaCertsProjectsLocationsCaPoolsRequest {
+export interface FetchCaCertsProjectsLocationsCaPoolsRequest extends EnableCertificateAuthorityRequest {
   /** Required. The resource name for the CaPool in the format `projects/*\/locations/*\/caPools/*`. */
   caPool: string;
-  /** Request body */
-  body?: EnableCertificateAuthorityRequest | undefined;
 }
 export interface CertChain {
   /** The certificates that form the CA chain, from leaf to root order. */
@@ -1090,55 +1074,57 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsCaPoolsRequest {
+export interface PatchProjectsLocationsCaPoolsRequest extends Omit<CaPool, "name"> {
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Identifier. The resource name for this CaPool in the format `projects/*\/locations/*\/caPools/*`. */
   name: string;
-  /** Request body */
-  body?: CaPool | undefined;
 }
-export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest extends Omit<
+  CertificateAuthority,
+  "name"
+> {
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Identifier. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
   name: string;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CertificateAuthority | undefined;
 }
-export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
+export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest extends Omit<
+  CertificateRevocationList,
+  "name"
+> {
   /** Identifier. The resource name for this CertificateRevocationList in the format `projects/*\/locations/*\/caPools/*certificateAuthorities/*\/ certificateRevocationLists/*`. */
   name: string;
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CertificateRevocationList | undefined;
 }
-export interface PatchProjectsLocationsCaPoolsCertificatesRequest {
+export interface PatchProjectsLocationsCaPoolsCertificatesRequest extends Omit<
+  Certificate,
+  "name"
+> {
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
   name: string;
-  /** Request body */
-  body?: Certificate | undefined;
 }
-export interface PatchProjectsLocationsCertificateTemplatesRequest {
+export interface PatchProjectsLocationsCertificateTemplatesRequest extends Omit<
+  CertificateTemplate,
+  "name"
+> {
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The resource name for this CertificateTemplate in the format `projects/*\/locations/*\/certificateTemplates/*`. */
   name: string;
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CertificateTemplate | undefined;
 }
 export type RevokeCertificateRequestReasonEnum =
   | "REVOCATION_REASON_UNSPECIFIED"
@@ -1157,11 +1143,9 @@ export interface RevokeCertificateRequest {
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RevokeProjectsLocationsCaPoolsCertificatesRequest {
+export interface RevokeProjectsLocationsCaPoolsCertificatesRequest extends RevokeCertificateRequest {
   /** Required. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
   name: string;
-  /** Request body */
-  body?: RevokeCertificateRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1170,59 +1154,45 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCaPoolsRequest {
+export interface SetIamPolicyProjectsLocationsCaPoolsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
+export interface SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCertificateTemplatesRequest {
+export interface SetIamPolicyProjectsLocationsCertificateTemplatesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsCaPoolsRequest {
+export interface TestIamPermissionsProjectsLocationsCaPoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
+export interface TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsCertificateTemplatesRequest {
+export interface TestIamPermissionsProjectsLocationsCertificateTemplatesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for CertificateAuthorityService.UndeleteCertificateAuthority. */
 export type UndeleteCertificateAuthorityRequest = EnableCertificateAuthorityRequest;
-export interface UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+export interface UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest extends EnableCertificateAuthorityRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
   name: string;
-  /** Request body */
-  body?: EnableCertificateAuthorityRequest | undefined;
 }
 export type ActivateProjectsLocationsCaPoolsCertificateAuthoritiesError =
   | NotFound
@@ -2296,10 +2266,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DisableCertificateAuthorityRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:disable",
@@ -2313,10 +2285,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:enable",
@@ -2340,10 +2314,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          caPool: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            caPool: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+caPool}:fetchCaCerts",
@@ -2858,12 +2834,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(840, __c52, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(840, __c52, 8),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2877,12 +2855,14 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(932, __c58, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(932, __c58, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2896,12 +2876,14 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(290, __c18, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(290, __c18, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2918,12 +2900,14 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(977, __c61, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(977, __c61, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2937,12 +2921,14 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2964,10 +2950,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ActivateCertificateAuthorityRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:activate",
@@ -3041,10 +3029,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "RevokeCertificateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:revoke",
@@ -3058,10 +3048,12 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(656, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(656, __c41, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3086,10 +3078,12 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(656, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(656, __c41, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3106,10 +3100,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(656, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(656, __c41, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3123,10 +3119,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3150,10 +3148,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3170,10 +3170,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3187,10 +3189,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:undelete",
@@ -3227,12 +3231,14 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          caPoolId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(840, __c52, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(840, __c52, 8),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            caPoolId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/caPools",
@@ -3446,12 +3452,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          certificateAuthorityId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(932, __c58, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(932, __c58, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            certificateAuthorityId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificateAuthorities",
@@ -3623,14 +3631,16 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          issuingCertificateAuthorityId: S.optional(S.String.pipe(T.Query())),
-          certificateId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(977, __c61, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(977, __c61, 1),
+          S.Struct({
+            issuingCertificateAuthorityId: S.optional(S.String.pipe(T.Query())),
+            certificateId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificates",
@@ -3675,12 +3685,14 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          certificateTemplateId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            certificateTemplateId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificateTemplates",

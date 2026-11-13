@@ -528,11 +528,9 @@ export interface GoogleCloudDiscoveryengineV1AnswerQueryRequest {
     | GoogleCloudDiscoveryengineV1AnswerQueryRequestAnswerGenerationSpec
     | undefined;
 }
-export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1AnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AnswerQueryRequest | undefined;
 }
 /** Citation source. */
 export interface GoogleCloudDiscoveryengineV1AnswerCitationSource {
@@ -1168,17 +1166,13 @@ export interface GoogleCloudDiscoveryengineV1AnswerQueryResponse {
   /** Session resource object. It will be only available when session field is set and valid in the AnswerQueryRequest request. */
   session?: GoogleCloudDiscoveryengineV1Session | undefined;
 }
-export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1AnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AnswerQueryRequest | undefined;
 }
-export interface AnswerProjectsLocationsDataStoresServingConfigsRequest {
+export interface AnswerProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1AnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AnswerQueryRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1TargetSiteIndexingStatusEnum =
   | "INDEXING_STATUS_UNSPECIFIED"
@@ -1257,11 +1251,9 @@ export interface GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest {
   /** Required. The request message specifying the resources to create. A maximum of 20 TargetSites can be created in a batch. */
   requests?: GoogleCloudDiscoveryengineV1CreateTargetSiteRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -1276,11 +1268,9 @@ export interface GoogleLongrunningOperation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
-export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1BatchCreateTargetSitesRequest | undefined;
 }
 export interface BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
@@ -1377,11 +1367,9 @@ export interface GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesRequest {
   /** The inline source for the input content for license assignment. */
   inlineSource?: GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesRequestInlineSource | undefined;
 }
-export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest {
+export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest extends GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesRequest {
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesRequest | undefined;
 }
 /** Request message for SiteSearchEngineService.BatchVerifyTargetSites method. */
 export interface GoogleCloudDiscoveryengineV1BatchVerifyTargetSitesRequest {}
@@ -1545,11 +1533,9 @@ export interface GoogleCloudDiscoveryengineV1CheckGroundingRequest {
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
   userLabels?: StringMap | undefined;
 }
-export interface CheckProjectsLocationsGroundingConfigsRequest {
+export interface CheckProjectsLocationsGroundingConfigsRequest extends GoogleCloudDiscoveryengineV1CheckGroundingRequest {
   /** Required. The resource name of the grounding config, such as `projects/*\/locations/global/groundingConfigs/default_grounding_config`. */
   groundingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1CheckGroundingRequest | undefined;
 }
 /** Text and citation info for a claim in the answer candidate. */
 export interface GoogleCloudDiscoveryengineV1CheckGroundingResponseClaim {
@@ -1772,11 +1758,9 @@ export interface GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequest {
     | GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequestSuggestionTypeSpecList
     | undefined;
 }
-export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest {
+export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest extends GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequest | undefined;
 }
 /** Suggestions as search queries. */
 export interface GoogleCloudDiscoveryengineV1AdvancedCompleteQueryResponseQuerySuggestion {
@@ -1943,11 +1927,9 @@ export interface GoogleCloudDiscoveryengineV1AdvancedCompleteQueryResponse {
     | GoogleCloudDiscoveryengineV1AdvancedCompleteQueryResponseContentSuggestionList
     | undefined;
 }
-export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest {
+export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest extends GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequest | undefined;
 }
 export interface CompleteQueryProjectsLocationsDataStoresRequest {
   /** Required. The parent data store resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. */
@@ -1961,11 +1943,9 @@ export interface CompleteQueryProjectsLocationsDataStoresRequest {
   /** Specifies the autocomplete data model. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
   queryModel?: string | undefined;
 }
-export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest {
+export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest extends GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AdvancedCompleteQueryRequest | undefined;
 }
 /** Defines context of the conversation */
 export interface GoogleCloudDiscoveryengineV1ConversationContext {
@@ -2167,11 +2147,9 @@ export interface GoogleCloudDiscoveryengineV1ConverseConversationRequest {
   /** Required. Current user input. */
   query?: GoogleCloudDiscoveryengineV1TextInput | undefined;
 }
-export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest {
+export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1ConverseConversationRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ConverseConversationRequest | undefined;
 }
 /** Double list. */
 export interface GoogleCloudDiscoveryengineV1DoubleList {
@@ -2330,17 +2308,13 @@ export interface GoogleCloudDiscoveryengineV1ConverseConversationResponse {
   /** Answer to the current query. */
   reply?: GoogleCloudDiscoveryengineV1Reply | undefined;
 }
-export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest {
+export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest extends GoogleCloudDiscoveryengineV1ConverseConversationRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ConverseConversationRequest | undefined;
 }
-export interface ConverseProjectsLocationsDataStoresConversationsRequest {
+export interface ConverseProjectsLocationsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1ConverseConversationRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ConverseConversationRequest | undefined;
 }
 /** Configuration data for advance site search. */
 export interface GoogleCloudDiscoveryengineV1AdvancedSiteSearchConfig {
@@ -2708,7 +2682,7 @@ export interface GoogleCloudDiscoveryengineV1DataStore {
   /** Configuration for Document understanding and enrichment. */
   documentProcessingConfig?: GoogleCloudDiscoveryengineV1DocumentProcessingConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresRequest extends GoogleCloudDiscoveryengineV1DataStore {
   /** A boolean flag indicating whether user want to directly create an advanced data store for site search. If the data store is not configured as site search (GENERIC vertical and PUBLIC_WEBSITE content_config), this flag will be ignored. */
   createAdvancedSiteSearch?: boolean | undefined;
   /** Resource name of the CmekConfig to use for protecting this DataStore. */
@@ -2721,16 +2695,12 @@ export interface CreateProjectsLocationsCollectionsDataStoresRequest {
   parent: string;
   /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
   disableCmek?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1DataStore | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1Document {
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   documentId?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Document | undefined;
 }
 export type GoogleCloudDiscoveryengineV1ControlUseCasesItemEnum =
   | "SEARCH_USE_CASE_UNSPECIFIED"
@@ -2889,27 +2859,21 @@ export interface GoogleCloudDiscoveryengineV1Control {
   /** Promote certain links based on predefined trigger queries. */
   promoteAction?: GoogleCloudDiscoveryengineV1ControlPromoteAction | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest extends GoogleCloudDiscoveryengineV1Control {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Control | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresConversationsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1Conversation {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Conversation | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest extends GoogleCloudDiscoveryengineV1Schema {
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
   schemaId?: string | undefined;
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Schema | undefined;
 }
 /** The specification for user defined classifier. */
 export interface GoogleCloudDiscoveryengineV1AnswerGenerationSpecUserDefinedClassifierSpec {
@@ -3059,21 +3023,17 @@ export interface GoogleCloudDiscoveryengineV1ServingConfig {
   /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
   synonymsControlIds?: StringList | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1ServingConfig {
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ServingConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest extends GoogleCloudDiscoveryengineV1Session {
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Session | undefined;
 }
 /** A sitemap for the SiteSearchEngine. */
 export interface GoogleCloudDiscoveryengineV1Sitemap {
@@ -3084,17 +3044,13 @@ export interface GoogleCloudDiscoveryengineV1Sitemap {
   /** Output only. The sitemap's creation time. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest extends GoogleCloudDiscoveryengineV1Sitemap {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Sitemap | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1TargetSite {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1TargetSite | undefined;
 }
 export type GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigTrainingStateEnum =
   | "TRAINING_STATE_UNSPECIFIED"
@@ -3465,13 +3421,11 @@ export interface GoogleCloudDiscoveryengineV1Engine {
   /** Optional. The emails of the procurement contacts. */
   procurementContactEmails?: StringList | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesRequest {
+export interface CreateProjectsLocationsCollectionsEnginesRequest extends GoogleCloudDiscoveryengineV1Engine {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
   /** Required. The ID to use for the Engine, which will become the final component of the Engine's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
   engineId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Engine | undefined;
 }
 /** Information to identify a tool. */
 export interface GoogleCloudDiscoveryengineV1AssistantToolInfo {
@@ -3584,13 +3538,11 @@ export interface GoogleCloudDiscoveryengineV1Assistant {
   /** Required. The assistant display name. It must be a UTF-8 encoded string with a length limit of 128 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest extends GoogleCloudDiscoveryengineV1Assistant {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the Assistant, which will become the final component of the Assistant's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
   assistantId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Assistant | undefined;
 }
 /** Defines authentication details, used for push notifications. */
 export interface A2aV1AuthenticationInfo {
@@ -3616,47 +3568,37 @@ export interface A2aV1TaskPushNotificationConfig {
   /** The push notification configuration details. */
   pushNotificationConfig?: A2aV1PushNotificationConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigsRequest extends A2aV1TaskPushNotificationConfig {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
   /** Required. The parent task resource for this config. Format: tasks/{task_id} */
   parent: string;
   /** Required. The ID for the new config. */
   configId?: string | undefined;
-  /** Request body */
-  body?: A2aV1TaskPushNotificationConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesControlsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesControlsRequest extends GoogleCloudDiscoveryengineV1Control {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Control | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest extends GoogleCloudDiscoveryengineV1Conversation {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Conversation | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1ServingConfig {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ServingConfig | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest {
+export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest extends GoogleCloudDiscoveryengineV1Session {
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Session | undefined;
 }
-export interface CreateProjectsLocationsDataStoresRequest {
+export interface CreateProjectsLocationsDataStoresRequest extends GoogleCloudDiscoveryengineV1DataStore {
   /** A boolean flag indicating whether to skip the default schema creation for the data store. Only enable this flag if you are certain that the default schema is incompatible with your use case. If set to true, you must manually create a schema for the data store before any documents can be ingested. This flag cannot be specified if `data_store.starting_schema` is specified. */
   skipDefaultSchemaCreation?: boolean | undefined;
   /** Required. The ID to use for the DataStore, which will become the final component of the DataStore's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
@@ -3669,66 +3611,48 @@ export interface CreateProjectsLocationsDataStoresRequest {
   parent: string;
   /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
   disableCmek?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1DataStore | undefined;
 }
-export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1Document {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   documentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Document | undefined;
 }
-export interface CreateProjectsLocationsDataStoresControlsRequest {
+export interface CreateProjectsLocationsDataStoresControlsRequest extends GoogleCloudDiscoveryengineV1Control {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Control | undefined;
 }
-export interface CreateProjectsLocationsDataStoresConversationsRequest {
+export interface CreateProjectsLocationsDataStoresConversationsRequest extends GoogleCloudDiscoveryengineV1Conversation {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Conversation | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSchemasRequest {
+export interface CreateProjectsLocationsDataStoresSchemasRequest extends GoogleCloudDiscoveryengineV1Schema {
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
   schemaId?: string | undefined;
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Schema | undefined;
 }
-export interface CreateProjectsLocationsDataStoresServingConfigsRequest {
+export interface CreateProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1ServingConfig {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ServingConfig | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSessionsRequest {
+export interface CreateProjectsLocationsDataStoresSessionsRequest extends GoogleCloudDiscoveryengineV1Session {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Session | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
+export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest extends GoogleCloudDiscoveryengineV1Sitemap {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Sitemap | undefined;
 }
-export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest extends GoogleCloudDiscoveryengineV1TargetSite {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1TargetSite | undefined;
 }
 /** Identity Mapping Store which contains Identity Mapping Entries. */
 export interface GoogleCloudDiscoveryengineV1IdentityMappingStore {
@@ -3739,7 +3663,7 @@ export interface GoogleCloudDiscoveryengineV1IdentityMappingStore {
   /** Input only. The KMS key to be used to protect this Identity Mapping Store at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the Identity Mapping Store will be protected by the KMS key, as indicated in the cmek_config field. */
   kmsKeyName?: string | undefined;
 }
-export interface CreateProjectsLocationsIdentityMappingStoresRequest {
+export interface CreateProjectsLocationsIdentityMappingStoresRequest extends GoogleCloudDiscoveryengineV1IdentityMappingStore {
   /** Required. The ID of the Identity Mapping Store to create. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 63 characters. */
   identityMappingStoreId?: string | undefined;
   /** Resource name of the CmekConfig to use for protecting this Identity Mapping Store. */
@@ -3748,8 +3672,6 @@ export interface CreateProjectsLocationsIdentityMappingStoresRequest {
   parent: string;
   /** Identity Mapping Store without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
   disableCmek?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1IdentityMappingStore | undefined;
 }
 export type GoogleCloudDiscoveryengineV1LicenseConfigSubscriptionTierEnum =
   | "SUBSCRIPTION_TIER_UNSPECIFIED"
@@ -3816,13 +3738,11 @@ export interface GoogleCloudDiscoveryengineV1LicenseConfig {
   /** Output only. The date when the subscription is terminated earlier than the expiration date. */
   earlyTerminationDate?: GoogleTypeDate | undefined;
 }
-export interface CreateProjectsLocationsLicenseConfigsRequest {
+export interface CreateProjectsLocationsLicenseConfigsRequest extends GoogleCloudDiscoveryengineV1LicenseConfig {
   /** Optional. The ID to use for the LicenseConfig, which will become the final component of the LicenseConfig's resource name. We are using the tier (product edition) name as the license config id such as `search` or `search_and_assistant`. */
   licenseConfigId?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1LicenseConfig | undefined;
 }
 export interface DeleteProjectsLocationsCmekConfigsRequest {
   /** Required. The resource name of the CmekConfig to delete, such as `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
@@ -3964,11 +3884,9 @@ export interface GoogleCloudDiscoveryengineV1DistributeLicenseConfigRequest {
   /** Optional. Distribute seats to this license config instead of creating a new one. If not specified, a new license config will be created from the billing account license config. */
   licenseConfigId?: string | undefined;
 }
-export interface DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
+export interface DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest extends GoogleCloudDiscoveryengineV1DistributeLicenseConfigRequest {
   /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
   billingAccountLicenseConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1DistributeLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.DistributeLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1DistributeLicenseConfigResponse {
@@ -5599,11 +5517,9 @@ export interface GoogleCloudDiscoveryengineV1ImportIdentityMappingsRequest {
   /** The inline source to import identity mapping entries from. */
   inlineSource?: GoogleCloudDiscoveryengineV1ImportIdentityMappingsRequestInlineSource | undefined;
 }
-export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
+export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest extends GoogleCloudDiscoveryengineV1ImportIdentityMappingsRequest {
   /** Required. The name of the Identity Mapping Store to import Identity Mapping Entries to. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportIdentityMappingsRequest | undefined;
 }
 /** Firestore source import data from. */
 export interface GoogleCloudDiscoveryengineV1FirestoreSource {
@@ -5826,11 +5742,9 @@ export interface GoogleCloudDiscoveryengineV1ImportDocumentsRequest {
   /** Indicates which fields in the provided imported documents to update. If not set, the default is to update all fields. */
   updateMask?: string | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1ImportDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportDocumentsRequest | undefined;
 }
 /** Autocomplete suggestions that are imported from Customer. */
 export interface GoogleCloudDiscoveryengineV1CompletionSuggestion {
@@ -5869,11 +5783,9 @@ export interface GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsRequest 
   /** BigQuery input source. */
   bigquerySource?: GoogleCloudDiscoveryengineV1BigQuerySource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest extends GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1SuggestionDenyListEntryMatchOperatorEnum =
   | "MATCH_OPERATOR_UNSPECIFIED"
@@ -5905,11 +5817,9 @@ export interface GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequ
   /** Cloud Storage location for the input content. Only 1 file can be specified that contains all entries to import. Supported values `gcs_source.schema` for autocomplete suggestion deny list entry imports: * `suggestion_deny_list` (default): One JSON [SuggestionDenyListEntry] per line. */
   gcsSource?: GoogleCloudDiscoveryengineV1GcsSource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest extends GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequest | undefined;
 }
 /** A transaction represents the entire purchase transaction. */
 export interface GoogleCloudDiscoveryengineV1TransactionInfo {
@@ -6154,41 +6064,29 @@ export interface GoogleCloudDiscoveryengineV1ImportUserEventsRequest {
   /** Cloud Storage location for the input content. */
   gcsSource?: GoogleCloudDiscoveryengineV1GcsSource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1ImportUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportUserEventsRequest | undefined;
 }
-export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1ImportDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportDocumentsRequest | undefined;
 }
-export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest {
+export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest extends GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsRequest | undefined;
 }
-export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest {
+export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest extends GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesRequest | undefined;
 }
-export interface ImportProjectsLocationsDataStoresUserEventsRequest {
+export interface ImportProjectsLocationsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1ImportUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportUserEventsRequest | undefined;
 }
-export interface ImportProjectsLocationsUserEventsRequest {
+export interface ImportProjectsLocationsUserEventsRequest extends GoogleCloudDiscoveryengineV1ImportUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ImportUserEventsRequest | undefined;
 }
 export interface ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to list Identity Mapping Entries in. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
@@ -6843,229 +6741,257 @@ export interface McpProjectsLocationsCollectionsDataConnectorRequest {
   locationsId: string;
   projectsId: string;
 }
-export interface PatchProjectsLocationsCmekConfigsRequest {
+export interface PatchProjectsLocationsCmekConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1CmekConfig,
+  "name"
+> {
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
   setDefault?: boolean | undefined;
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1CmekConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1DataStore,
+  "name"
+> {
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1DataStore | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Document,
+  "name"
+> {
   /** Indicates which fields in the provided imported 'document' to update. If not set, by default updates all fields. */
   updateMask?: string | undefined;
   /** If set to `true` and the Document is not found, a new Document is be created. */
   allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Document | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Control,
+  "name"
+> {
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Control | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Conversation,
+  "name"
+> {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Conversation | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Schema,
+  "name"
+> {
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Schema | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1ServingConfig,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ServingConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Session,
+  "name"
+> {
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Session | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1TargetSite,
+  "name"
+> {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1TargetSite | undefined;
 }
-export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest {
+export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1WidgetConfig,
+  "name"
+> {
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1WidgetConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesRequest {
+export interface PatchProjectsLocationsCollectionsEnginesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Engine,
+  "name"
+> {
   /** Immutable. Identifier. The fully qualified resource name of the engine. This field must be a UTF-8 encoded string with a length limit of 1024 characters. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` engine should be 1-63 characters, and valid characters are /a-z0-9*\/. Otherwise, an INVALID_ARGUMENT error is returned. */
   name: string;
   /** Indicates which fields in the provided Engine to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Engine | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Assistant,
+  "name"
+> {
   /** Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Assistant | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesControlsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesControlsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Control,
+  "name"
+> {
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Control | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Conversation,
+  "name"
+> {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Conversation | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1ServingConfig,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ServingConfig | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Session,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Session | undefined;
 }
-export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest {
+export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1WidgetConfig,
+  "name"
+> {
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1WidgetConfig | undefined;
 }
-export interface PatchProjectsLocationsDataStoresRequest {
+export interface PatchProjectsLocationsDataStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1DataStore,
+  "name"
+> {
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1DataStore | undefined;
 }
-export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Document,
+  "name"
+> {
   /** Indicates which fields in the provided imported 'document' to update. If not set, by default updates all fields. */
   updateMask?: string | undefined;
   /** If set to `true` and the Document is not found, a new Document is be created. */
   allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Document | undefined;
 }
-export interface PatchProjectsLocationsDataStoresControlsRequest {
+export interface PatchProjectsLocationsDataStoresControlsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Control,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Control | undefined;
 }
-export interface PatchProjectsLocationsDataStoresConversationsRequest {
+export interface PatchProjectsLocationsDataStoresConversationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Conversation,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Conversation | undefined;
 }
-export interface PatchProjectsLocationsDataStoresSchemasRequest {
+export interface PatchProjectsLocationsDataStoresSchemasRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Schema,
+  "name"
+> {
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Schema | undefined;
 }
-export interface PatchProjectsLocationsDataStoresServingConfigsRequest {
+export interface PatchProjectsLocationsDataStoresServingConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1ServingConfig,
+  "name"
+> {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ServingConfig | undefined;
 }
-export interface PatchProjectsLocationsDataStoresSessionsRequest {
+export interface PatchProjectsLocationsDataStoresSessionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1Session,
+  "name"
+> {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1Session | undefined;
 }
-export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
+export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest extends Omit<
+  GoogleCloudDiscoveryengineV1TargetSite,
+  "name"
+> {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1TargetSite | undefined;
 }
-export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest {
+export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1WidgetConfig,
+  "name"
+> {
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1WidgetConfig | undefined;
 }
-export interface PatchProjectsLocationsLicenseConfigsRequest {
+export interface PatchProjectsLocationsLicenseConfigsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1LicenseConfig,
+  "name"
+> {
   /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
   name: string;
   /** Optional. Indicates which fields in the provided LicenseConfig to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1LicenseConfig | undefined;
 }
-export interface PatchProjectsLocationsUserStoresRequest {
+export interface PatchProjectsLocationsUserStoresRequest extends Omit<
+  GoogleCloudDiscoveryengineV1UserStore,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the User Store, in the format of `projects/{project}/locations/{location}/userStores/{user_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1UserStore | undefined;
 }
 export type GoogleCloudDiscoveryengineV1ProvisionProjectRequestProvisionIntentEnum =
   | "PROVISION_INTENT_UNSPECIFIED"
@@ -7094,17 +7020,13 @@ export interface GoogleCloudDiscoveryengineV1ProvisionProjectRequest {
   /** Optional. Parameters for Agentspace. */
   saasParams?: GoogleCloudDiscoveryengineV1ProvisionProjectRequestSaasParams | undefined;
 }
-export interface ProvisionProjectsRequest {
+export interface ProvisionProjectsRequest extends GoogleCloudDiscoveryengineV1ProvisionProjectRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ProvisionProjectRequest | undefined;
 }
-export interface ProvisionProjectsLocationsRequest {
+export interface ProvisionProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1ProvisionProjectRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1ProvisionProjectRequest | undefined;
 }
 /** The inline source to purge identity mapping entries from. */
 export interface GoogleCloudDiscoveryengineV1PurgeIdentityMappingsRequestInlineSource {
@@ -7120,11 +7042,9 @@ export interface GoogleCloudDiscoveryengineV1PurgeIdentityMappingsRequest {
   /** The inline source to purge identity mapping entries from. */
   inlineSource?: GoogleCloudDiscoveryengineV1PurgeIdentityMappingsRequestInlineSource | undefined;
 }
-export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
+export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest extends GoogleCloudDiscoveryengineV1PurgeIdentityMappingsRequest {
   /** Required. The name of the Identity Mapping Store to purge Identity Mapping Entries from. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1PurgeIdentityMappingsRequest | undefined;
 }
 /** Configuration of destination for Purge related errors. */
 export interface GoogleCloudDiscoveryengineV1PurgeErrorConfig {
@@ -7149,11 +7069,9 @@ export interface GoogleCloudDiscoveryengineV1PurgeDocumentsRequest {
   /** Cloud Storage location for the input content. Supported `data_schema`: * `document_id`: One valid Document.id per line. */
   gcsSource?: GoogleCloudDiscoveryengineV1GcsSource | undefined;
 }
-export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1PurgeDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1PurgeDocumentsRequest | undefined;
 }
 /** Request message for CompletionService.PurgeCompletionSuggestions method. */
 export type GoogleCloudDiscoveryengineV1PurgeCompletionSuggestionsRequest =
@@ -7180,17 +7098,13 @@ export interface GoogleCloudDiscoveryengineV1PurgeUserEventsRequest {
   /** The `force` field is currently not supported. Purge user event requests will permanently delete all purgeable events. Once the development is complete: If `force` is set to false, the method will return the expected purge count without deleting any user events. This field will default to false if not included in the request. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest {
+export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1PurgeUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1PurgeUserEventsRequest | undefined;
 }
-export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest {
+export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest extends GoogleCloudDiscoveryengineV1PurgeDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1PurgeDocumentsRequest | undefined;
 }
 export interface PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to purge completion suggestions. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
@@ -7204,11 +7118,9 @@ export interface PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesReques
   /** Request body */
   body?: GoogleCloudDiscoveryengineV1BatchVerifyTargetSitesRequest | undefined;
 }
-export interface PurgeProjectsLocationsDataStoresUserEventsRequest {
+export interface PurgeProjectsLocationsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1PurgeUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1PurgeUserEventsRequest | undefined;
 }
 /** Record message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1RankingRecord {
@@ -7238,11 +7150,9 @@ export interface GoogleCloudDiscoveryengineV1RankRequest {
   /** The query to use. */
   query?: string | undefined;
 }
-export interface RankProjectsLocationsRankingConfigsRequest {
+export interface RankProjectsLocationsRankingConfigsRequest extends GoogleCloudDiscoveryengineV1RankRequest {
   /** Required. The resource name of the rank service config, such as `projects/{project_num}/locations/{location}/rankingConfigs/default_ranking_config`. */
   rankingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1RankRequest | undefined;
 }
 /** Response message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1RankResponse {
@@ -7264,11 +7174,9 @@ export interface GoogleCloudDiscoveryengineV1RecommendRequest {
   /** Use validate only mode for this recommendation query. If set to `true`, a fake model is used that returns arbitrary Document IDs. Note that the validate only mode should only be used for testing the API, or if the model is not ready. */
   validateOnly?: boolean | undefined;
 }
-export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1RecommendRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1RecommendRequest | undefined;
 }
 /** RecommendationResult represents a generic recommendation result with associated metadata. */
 export interface GoogleCloudDiscoveryengineV1RecommendResponseRecommendationResult {
@@ -7292,17 +7200,13 @@ export interface GoogleCloudDiscoveryengineV1RecommendResponse {
   /** IDs of documents in the request that were missing from the default Branch associated with the requested ServingConfig. */
   missingIds?: StringList | undefined;
 }
-export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1RecommendRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1RecommendRequest | undefined;
 }
-export interface RecommendProjectsLocationsDataStoresServingConfigsRequest {
+export interface RecommendProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1RecommendRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1RecommendRequest | undefined;
 }
 /** Request message for SiteSearchEngineService.RecrawlUris method. */
 export interface GoogleCloudDiscoveryengineV1RecrawlUrisRequest {
@@ -7311,17 +7215,13 @@ export interface GoogleCloudDiscoveryengineV1RecrawlUrisRequest {
   /** Optional. Credential id to use for crawling. */
   siteCredential?: string | undefined;
 }
-export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
+export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest extends GoogleCloudDiscoveryengineV1RecrawlUrisRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1RecrawlUrisRequest | undefined;
 }
-export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest {
+export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest extends GoogleCloudDiscoveryengineV1RecrawlUrisRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1RecrawlUrisRequest | undefined;
 }
 /** Request message for LicenseConfigService.RetractLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1RetractLicenseConfigRequest {
@@ -7332,11 +7232,9 @@ export interface GoogleCloudDiscoveryengineV1RetractLicenseConfigRequest {
   /** Optional. If set to true, retract the entire license config. Otherwise, retract the specified license count. */
   fullRetract?: boolean | undefined;
 }
-export interface RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
+export interface RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest extends GoogleCloudDiscoveryengineV1RetractLicenseConfigRequest {
   /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
   billingAccountLicenseConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1RetractLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.RetractLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1RetractLicenseConfigResponse {
@@ -7646,11 +7544,9 @@ export interface GoogleCloudDiscoveryengineV1SearchRequest {
   /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
   entity?: string | undefined;
 }
-export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1SearchRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1SearchRequest | undefined;
 }
 /** Information describing query expansion including whether expansion has occurred. */
 export interface GoogleCloudDiscoveryengineV1SearchResponseQueryExpansionInfo {
@@ -7828,35 +7724,25 @@ export interface GoogleCloudDiscoveryengineV1SearchResponse {
   /** Optional. Controls applied as part of the Control service. */
   appliedControls?: StringList | undefined;
 }
-export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1SearchRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1SearchRequest | undefined;
 }
-export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest {
+export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1SearchRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1SearchRequest | undefined;
 }
-export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1SearchRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1SearchRequest | undefined;
 }
-export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1SearchRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1SearchRequest | undefined;
 }
-export interface SearchProjectsLocationsDataStoresServingConfigsRequest {
+export interface SearchProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1SearchRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1SearchRequest | undefined;
 }
 /** Configuration of a send message request. */
 export interface A2aV1SendMessageConfiguration {
@@ -7878,11 +7764,9 @@ export interface A2aV1SendMessageRequest {
   /** Optional metadata for the request. */
   metadata?: DocumentMap | undefined;
 }
-export interface SendProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1MessageRequest {
+export interface SendProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1MessageRequest extends A2aV1SendMessageRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
-  /** Request body */
-  body?: A2aV1SendMessageRequest | undefined;
 }
 /** ////// Response Messages /////////// */
 export interface A2aV1SendMessageResponse {
@@ -7894,29 +7778,21 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCollectionsRequest {
+export interface SetIamPolicyProjectsLocationsCollectionsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCollectionsDataStoresRequest {
+export interface SetIamPolicyProjectsLocationsCollectionsDataStoresRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest {
+export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataStoresRequest {
+export interface SetIamPolicyProjectsLocationsDataStoresRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request for DataConnectorService.SetUpDataConnector method. */
 export interface GoogleCloudDiscoveryengineV1SetUpDataConnectorRequest {
@@ -7927,39 +7803,29 @@ export interface GoogleCloudDiscoveryengineV1SetUpDataConnectorRequest {
   /** Required. The ID to use for the Collection, which will become the final component of the Collection's resource name. A new Collection is created as part of the DataConnector setup. DataConnector is a singleton resource under Collection, managing all DataStores of the Collection. Should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   collectionId?: string | undefined;
 }
-export interface SetUpDataConnectorProjectsLocationsRequest {
+export interface SetUpDataConnectorProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1SetUpDataConnectorRequest {
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1SetUpDataConnectorRequest | undefined;
 }
-export interface SetUpDataConnectorV2ProjectsLocationsRequest {
+export interface SetUpDataConnectorV2ProjectsLocationsRequest extends GoogleCloudDiscoveryengineV1DataConnector {
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the Collection, which will become the final component of the Collection's resource name. A new Collection is created as part of the DataConnector setup. DataConnector is a singleton resource under Collection, managing all DataStores of the Collection. Should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   collectionId?: string | undefined;
   /** Required. The display name of the Collection. Should be human readable, used to display collections in the Console Dashboard. UTF-8 encoded string with limit of 1024 characters. */
   collectionDisplayName?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1DataConnector | undefined;
 }
-export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1AnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AnswerQueryRequest | undefined;
 }
-export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
+export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest extends GoogleCloudDiscoveryengineV1AnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AnswerQueryRequest | undefined;
 }
-export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest {
+export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest extends GoogleCloudDiscoveryengineV1AnswerQueryRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AnswerQueryRequest | undefined;
 }
 /** Specification of the web grounding tool. */
 export type GoogleCloudDiscoveryengineV1StreamAssistRequestToolsSpecWebGroundingSpec =
@@ -8029,11 +7895,9 @@ export interface GoogleCloudDiscoveryengineV1StreamAssistRequest {
   /** Optional. Specification of the generation configuration for the request. */
   generationSpec?: GoogleCloudDiscoveryengineV1StreamAssistRequestGenerationSpec | undefined;
 }
-export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest {
+export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest extends GoogleCloudDiscoveryengineV1StreamAssistRequest {
   /** Required. The resource name of the Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1StreamAssistRequest | undefined;
 }
 /** Describes an authentication error for a specific data connector. */
 export interface GoogleCloudDiscoveryengineV1StreamAssistResponseConnectorAuthError {
@@ -8075,11 +7939,9 @@ export interface GoogleCloudDiscoveryengineV1StreamAssistResponse {
   /** The tool names of the tools that were invoked. */
   invocationTools?: StringList | undefined;
 }
-export interface StreamProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1MessageRequest {
+export interface StreamProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1MessageRequest extends A2aV1SendMessageRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
-  /** Request body */
-  body?: A2aV1SendMessageRequest | undefined;
 }
 /** TaskStatusUpdateEvent is a delta even on a task indicating that a task has changed. */
 export interface A2aV1TaskStatusUpdateEvent {
@@ -8146,57 +8008,52 @@ export interface GoogleCloudDiscoveryengineV1TrainCustomModelRequest {
   /** If not provided, a UUID will be generated. */
   modelId?: string | undefined;
 }
-export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest {
+export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest extends GoogleCloudDiscoveryengineV1TrainCustomModelRequest {
   /** Required. The resource name of the Data Store, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to train the models. */
   dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1TrainCustomModelRequest | undefined;
 }
-export interface UpdateAclConfigProjectsLocationsRequest {
+export interface UpdateAclConfigProjectsLocationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1AclConfig,
+  "name"
+> {
   /** Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1AclConfig | undefined;
 }
-export interface UpdateCmekConfigProjectsLocationsRequest {
+export interface UpdateCmekConfigProjectsLocationsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1CmekConfig,
+  "name"
+> {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
   setDefault?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1CmekConfig | undefined;
 }
-export interface UpdateDataConnectorProjectsLocationsCollectionsRequest {
+export interface UpdateDataConnectorProjectsLocationsCollectionsRequest extends Omit<
+  GoogleCloudDiscoveryengineV1DataConnector,
+  "name"
+> {
   /** Identifier. The full resource name of the Data Connector. Format: `projects/*\/locations/*\/collections/*\/dataConnector`. */
   name: string;
   /** Indicates which fields in the provided DataConnector to update. Supported field paths include: - `refresh_interval` - `params` - `auto_run_disabled` - `action_config` - `action_config.action_params` - `action_config.service_name` - `destination_configs` - `blocking_reasons` - `sync_mode` - `incremental_sync_disabled` - `incremental_refresh_interval` - `data_protection_policy` Note: Support for these fields may vary depending on the connector type. For example, not all connectors support `destination_configs`. If an unsupported or unknown field path is provided, the request will return an `INVALID_ARGUMENT` error. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1DataConnector | undefined;
 }
-export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest {
+export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1UserEvent {
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1UserEvent | undefined;
 }
-export interface WriteProjectsLocationsDataStoresUserEventsRequest {
+export interface WriteProjectsLocationsDataStoresUserEventsRequest extends GoogleCloudDiscoveryengineV1UserEvent {
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1UserEvent | undefined;
 }
-export interface WriteProjectsLocationsUserEventsRequest {
+export interface WriteProjectsLocationsUserEventsRequest extends GoogleCloudDiscoveryengineV1UserEvent {
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1UserEvent | undefined;
 }
 export type AnswerProjectsLocationsCollectionsDataStoresServingConfigsError =
   | NotFound
@@ -15030,10 +14887,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targetSites:batchCreate",
@@ -15320,10 +15179,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targetSites:batchCreate",
@@ -16258,10 +16119,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1633, __c51, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1633, __c51, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:batchUpdateUserLicenses",
@@ -16624,10 +16487,12 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1ImportIdentityMappingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          identityMappingStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            identityMappingStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+identityMappingStore}:importIdentityMappings",
@@ -16670,10 +16535,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2572, __c80, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2572, __c80, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents:import",
@@ -16849,10 +16716,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2659, __c83, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2659, __c83, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/completionSuggestions:import",
@@ -16922,10 +16791,12 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2755, __c86, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2755, __c86, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/suggestionDenyListEntries:import",
@@ -16972,10 +16843,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2818, __c88, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2818, __c88, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:import",
@@ -17155,10 +17028,12 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2572, __c80, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2572, __c80, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents:import",
@@ -17172,10 +17047,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2659, __c83, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2659, __c83, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/completionSuggestions:import",
@@ -17189,10 +17066,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2755, __c86, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2755, __c86, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/suggestionDenyListEntries:import",
@@ -17208,10 +17087,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2818, __c88, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2818, __c88, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:import",
@@ -17225,10 +17106,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2818, __c88, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2818, __c88, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:import",
@@ -18467,10 +18350,12 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1CheckGroundingRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          groundingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(4867, __c152, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4867, __c152, 3),
+          S.Struct({
+            groundingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+groundingConfig}:check",
@@ -18598,11 +18483,13 @@ function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          setDefault: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8386, __c262, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8386, __c262, 2),
+          S.Struct({
+            setDefault: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18616,11 +18503,13 @@ function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8465, __c264, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8465, __c264, 17),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18634,12 +18523,14 @@ function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7015, __c219, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7015, __c219, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18655,11 +18546,13 @@ function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8622, __c269, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8622, __c269, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18673,11 +18566,13 @@ function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8165, __c255, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8165, __c255, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18691,11 +18586,13 @@ function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(8352, __c261, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8352, __c261, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18709,11 +18606,13 @@ function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8804, __c275, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8804, __c275, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18760,11 +18659,13 @@ function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(10594, __c331, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10594, __c331, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18778,10 +18679,12 @@ function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(99, __c3, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(99, __c3, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18797,11 +18700,13 @@ function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(993, __c31, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(993, __c31, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18815,11 +18720,13 @@ function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9076, __c283, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9076, __c283, 20),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18833,11 +18740,13 @@ function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9130, __c285, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9130, __c285, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18851,11 +18760,13 @@ function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8622, __c269, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8622, __c269, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18869,11 +18780,13 @@ function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8165, __c255, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8165, __c255, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18887,11 +18800,13 @@ function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8804, __c275, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8804, __c275, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18905,11 +18820,13 @@ function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10594, __c331, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10594, __c331, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18923,11 +18840,13 @@ function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(993, __c31, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(993, __c31, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18960,11 +18879,13 @@ function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8465, __c264, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8465, __c264, 17),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18978,12 +18899,14 @@ function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7015, __c219, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7015, __c219, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -18997,11 +18920,13 @@ function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8622, __c269, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8622, __c269, 14),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19015,11 +18940,13 @@ function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8165, __c255, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8165, __c255, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19033,11 +18960,13 @@ function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(8352, __c261, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8352, __c261, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19051,11 +18980,13 @@ function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8804, __c275, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8804, __c275, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19069,11 +19000,13 @@ function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10594, __c331, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10594, __c331, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19087,10 +19020,12 @@ function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(99, __c3, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(99, __c3, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19106,11 +19041,13 @@ function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(993, __c31, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(993, __c31, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19124,11 +19061,13 @@ function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9760, __c305, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9760, __c305, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19161,11 +19100,13 @@ function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -19179,10 +19120,12 @@ function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6049, __c189, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6049, __c189, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:provision",
@@ -19217,10 +19160,12 @@ function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6049, __c189, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6049, __c189, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:provision",
@@ -19242,10 +19187,12 @@ function __c191(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1PurgeIdentityMappingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          identityMappingStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            identityMappingStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+identityMappingStore}:purgeIdentityMappings",
@@ -19261,10 +19208,12 @@ function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6177, __c193, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6177, __c193, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents:purge",
@@ -19338,10 +19287,12 @@ function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6304, __c197, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:purge",
@@ -19366,10 +19317,12 @@ function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6177, __c193, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6177, __c193, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents:purge",
@@ -19461,10 +19414,12 @@ function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6304, __c197, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:purge",
@@ -19500,10 +19455,12 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1RankRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          rankingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6530, __c204, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6530, __c204, 2),
+          S.Struct({
+            rankingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+rankingConfig}:rank",
@@ -19523,10 +19480,12 @@ function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6592, __c206, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6592, __c206, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:recommend",
@@ -19578,10 +19537,12 @@ function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6592, __c206, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6592, __c206, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:recommend",
@@ -19597,10 +19558,12 @@ function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6592, __c206, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6592, __c206, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:recommend",
@@ -19614,10 +19577,12 @@ function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(6720, __c210, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6720, __c210, 0),
+          S.Struct({
+            siteSearchEngine: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+siteSearchEngine}:recrawlUris",
@@ -19644,10 +19609,12 @@ function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(6720, __c210, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6720, __c210, 0),
+          S.Struct({
+            siteSearchEngine: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+siteSearchEngine}:recrawlUris",
@@ -19669,10 +19636,12 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1RetractLicenseConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          billingAccountLicenseConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6784, __c212, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6784, __c212, 0),
+          S.Struct({
+            billingAccountLicenseConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+billingAccountLicenseConfig}:retractLicenseConfig",
@@ -19688,10 +19657,12 @@ function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6868, __c214, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6868, __c214, 20),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:searchLite",
@@ -20032,10 +20003,12 @@ function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6949, __c217, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6949, __c217, 5),
+          S.Struct({
+            completionConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+completionConfig}:completeQuery",
@@ -20262,10 +20235,12 @@ function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6868, __c214, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6868, __c214, 20),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:searchLite",
@@ -20281,10 +20256,12 @@ function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6868, __c214, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6868, __c214, 20),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:searchLite",
@@ -20298,10 +20275,12 @@ function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6868, __c214, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6868, __c214, 20),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:search",
@@ -20317,10 +20296,12 @@ function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6868, __c214, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6868, __c214, 20),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:search",
@@ -20334,10 +20315,12 @@ function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6868, __c214, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6868, __c214, 20),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:search",
@@ -20351,10 +20334,12 @@ function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(7265, __c227, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7265, __c227, 1),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/a2a/v1/message:send",
@@ -20398,10 +20383,12 @@ function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(7328, __c229, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7328, __c229, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -20425,10 +20412,12 @@ function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(7328, __c229, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7328, __c229, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -20442,10 +20431,12 @@ function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(7328, __c229, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7328, __c229, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -20459,10 +20450,12 @@ function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(7328, __c229, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7328, __c229, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -20476,10 +20469,12 @@ function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6949, __c217, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6949, __c217, 5),
+          S.Struct({
+            completionConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+completionConfig}:completeQuery",
@@ -20503,10 +20498,12 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1SetUpDataConnectorRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7488, __c234, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7488, __c234, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:setUpDataConnector",
@@ -20520,12 +20517,14 @@ function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          collectionId: S.optional(S.String.pipe(T.Query())),
-          collectionDisplayName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11930, __c372, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11930, __c372, 26),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            collectionId: S.optional(S.String.pipe(T.Query())),
+            collectionDisplayName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:setUpDataConnectorV2",
@@ -20539,10 +20538,12 @@ function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10426, __c325, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10426, __c325, 26),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:streamAnswer",
@@ -20558,10 +20559,12 @@ function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10426, __c325, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10426, __c325, 26),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:streamAnswer",
@@ -20577,10 +20580,12 @@ function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10426, __c325, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10426, __c325, 26),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:streamAnswer",
@@ -20652,10 +20657,12 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1StreamAssistRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7655, __c239, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7655, __c239, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:streamAssist",
@@ -20708,10 +20715,12 @@ function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(7265, __c227, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7265, __c227, 1),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/a2a/v1/message:stream",
@@ -20800,10 +20809,12 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1TrainCustomModelRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(7777, __c243, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7777, __c243, 1),
+          S.Struct({
+            dataStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+dataStore}:trainCustomModel",
@@ -20817,10 +20828,12 @@ function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11744, __c367, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11744, __c367, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -20854,11 +20867,13 @@ function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          setDefault: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(8386, __c262, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8386, __c262, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            setDefault: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -20872,11 +20887,13 @@ function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11930, __c372, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11930, __c372, 26),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -20890,11 +20907,13 @@ function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          writeAsync: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2862, __c89, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2862, __c89, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            writeAsync: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:write",
@@ -20908,11 +20927,13 @@ function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          writeAsync: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2862, __c89, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2862, __c89, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            writeAsync: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:write",
@@ -20926,11 +20947,13 @@ function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          writeAsync: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2862, __c89, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2862, __c89, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            writeAsync: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userEvents:write",
@@ -20944,10 +20967,12 @@ function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6949, __c217, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6949, __c217, 5),
+          S.Struct({
+            completionConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+completionConfig}:completeQuery",
@@ -20961,10 +20986,12 @@ function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8096, __c253, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:converse",
@@ -21268,10 +21295,12 @@ function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8096, __c253, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:converse",
@@ -21285,10 +21314,12 @@ function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8096, __c253, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:converse",
@@ -21302,15 +21333,17 @@ function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
-          cmekConfigName: S.optional(S.String.pipe(T.Query())),
-          dataStoreId: S.optional(S.String.pipe(T.Query())),
-          skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          disableCmek: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(8465, __c264, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8465, __c264, 17),
+          S.Struct({
+            createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
+            cmekConfigName: S.optional(S.String.pipe(T.Query())),
+            dataStoreId: S.optional(S.String.pipe(T.Query())),
+            skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            disableCmek: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataStores",
@@ -21594,11 +21627,13 @@ function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          documentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7015, __c219, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7015, __c219, 7),
+          S.Struct({
+            documentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents",
@@ -21614,11 +21649,13 @@ function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          controlId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8622, __c269, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8622, __c269, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            controlId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/controls",
@@ -21754,10 +21791,12 @@ function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8165, __c255, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8165, __c255, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations",
@@ -21773,11 +21812,13 @@ function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          schemaId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8352, __c261, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8352, __c261, 0),
+          S.Struct({
+            schemaId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas",
@@ -21791,11 +21832,13 @@ function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          servingConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8804, __c275, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8804, __c275, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            servingConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servingConfigs",
@@ -21923,11 +21966,13 @@ function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10594, __c331, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10594, __c331, 2),
+          S.Struct({
+            sessionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sessions",
@@ -21941,10 +21986,12 @@ function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8896, __c278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8896, __c278, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sitemaps",
@@ -21972,10 +22019,12 @@ function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(99, __c3, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(99, __c3, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targetSites",
@@ -21992,11 +22041,13 @@ function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          engineId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9076, __c283, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9076, __c283, 20),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            engineId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/engines",
@@ -22224,11 +22275,13 @@ function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          assistantId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9130, __c285, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9130, __c285, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            assistantId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assistants",
@@ -22323,12 +22376,14 @@ function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          configId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9184, __c287, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9184, __c287, 0),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+            configId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/a2a/v1/{+parent}",
@@ -22376,11 +22431,13 @@ function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          controlId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8622, __c269, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8622, __c269, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            controlId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/controls",
@@ -22394,10 +22451,12 @@ function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8165, __c255, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8165, __c255, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations",
@@ -22411,11 +22470,13 @@ function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8804, __c275, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8804, __c275, 4),
+          S.Struct({
+            servingConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servingConfigs",
@@ -22429,11 +22490,13 @@ function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10594, __c331, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10594, __c331, 2),
+          S.Struct({
+            sessionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sessions",
@@ -22447,15 +22510,17 @@ function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
-          dataStoreId: S.optional(S.String.pipe(T.Query())),
-          cmekConfigName: S.optional(S.String.pipe(T.Query())),
-          createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          disableCmek: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(8465, __c264, 17).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8465, __c264, 17),
+          S.Struct({
+            skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
+            dataStoreId: S.optional(S.String.pipe(T.Query())),
+            cmekConfigName: S.optional(S.String.pipe(T.Query())),
+            createAdvancedSiteSearch: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            disableCmek: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataStores",
@@ -22469,11 +22534,13 @@ function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          documentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7015, __c219, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7015, __c219, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            documentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents",
@@ -22487,11 +22554,13 @@ function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          controlId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8622, __c269, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8622, __c269, 14),
+          S.Struct({
+            controlId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/controls",
@@ -22505,10 +22574,12 @@ function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8165, __c255, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8165, __c255, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations",
@@ -22522,11 +22593,13 @@ function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          schemaId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8352, __c261, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8352, __c261, 0),
+          S.Struct({
+            schemaId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas",
@@ -22540,11 +22613,13 @@ function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8804, __c275, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8804, __c275, 4),
+          S.Struct({
+            servingConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/servingConfigs",
@@ -22558,11 +22633,13 @@ function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10594, __c331, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10594, __c331, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            sessionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sessions",
@@ -22576,10 +22653,12 @@ function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8896, __c278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8896, __c278, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sitemaps",
@@ -22595,10 +22674,12 @@ function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(99, __c3, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(99, __c3, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targetSites",
@@ -22614,13 +22695,15 @@ function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          identityMappingStoreId: S.optional(S.String.pipe(T.Query())),
-          cmekConfigName: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          disableCmek: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(9696, __c303, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9696, __c303, 0),
+          S.Struct({
+            identityMappingStoreId: S.optional(S.String.pipe(T.Query())),
+            cmekConfigName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            disableCmek: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/identityMappingStores",
@@ -22646,11 +22729,13 @@ function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          licenseConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9760, __c305, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9760, __c305, 0),
+          S.Struct({
+            licenseConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/licenseConfigs",
@@ -22854,10 +22939,12 @@ function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10426, __c325, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10426, __c325, 26),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:answer",
@@ -23899,10 +23986,12 @@ function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10426, __c325, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10426, __c325, 26),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:answer",
@@ -24087,10 +24176,12 @@ function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(10426, __c325, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10426, __c325, 26),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+servingConfig}:answer",
@@ -24113,10 +24204,12 @@ function __c356(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1DistributeLicenseConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          billingAccountLicenseConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(11392, __c356, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11392, __c356, 0),
+          S.Struct({
+            billingAccountLicenseConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+billingAccountLicenseConfig}:distributeLicenseConfig",

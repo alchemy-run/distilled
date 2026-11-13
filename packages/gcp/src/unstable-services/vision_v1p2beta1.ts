@@ -228,10 +228,7 @@ export interface GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest {
   /** Required. The list of file annotation requests. Right now we support only one AnnotateFileRequest in BatchAnnotateFilesRequest. */
   requests?: GoogleCloudVisionV1p2beta1AnnotateFileRequestList | undefined;
 }
-export interface AnnotateFilesRequest {
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest | undefined;
-}
+export interface AnnotateFilesRequest extends GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -863,38 +860,39 @@ export interface GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest {
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
   labels?: StringMap | undefined;
 }
-export interface AnnotateImagesRequest {
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest | undefined;
-}
+export interface AnnotateImagesRequest extends GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest {}
 /** Response to a batch image annotation request. */
 export interface GoogleCloudVisionV1p2beta1BatchAnnotateImagesResponse {
   /** Individual responses to image annotation requests within the batch. */
   responses?: GoogleCloudVisionV1p2beta1AnnotateImageResponseList | undefined;
 }
-export interface AnnotateProjectsFilesRequest {
+export interface AnnotateProjectsFilesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest | undefined;
 }
-export interface AnnotateProjectsImagesRequest {
+export interface AnnotateProjectsImagesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest | undefined;
 }
-export interface AnnotateProjectsLocationsFilesRequest {
+export interface AnnotateProjectsLocationsFilesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest | undefined;
 }
-export interface AnnotateProjectsLocationsImagesRequest {
+export interface AnnotateProjectsLocationsImagesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest | undefined;
 }
 /** The Google Cloud Storage location where the output will be written to. */
 export interface GoogleCloudVisionV1p2beta1GcsDestination {
@@ -930,10 +928,7 @@ export interface GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest {
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
   labels?: StringMap | undefined;
 }
-export interface AsyncBatchAnnotateFilesRequest {
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest | undefined;
-}
+export interface AsyncBatchAnnotateFilesRequest extends GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest {}
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -958,33 +953,34 @@ export interface GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest {
   /** Required. Individual image annotation requests for this batch. */
   requests?: GoogleCloudVisionV1p2beta1AnnotateImageRequestList | undefined;
 }
-export interface AsyncBatchAnnotateImagesRequest {
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest | undefined;
-}
-export interface AsyncBatchAnnotateProjectsFilesRequest {
+export interface AsyncBatchAnnotateImagesRequest extends GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest {}
+export interface AsyncBatchAnnotateProjectsFilesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest | undefined;
 }
-export interface AsyncBatchAnnotateProjectsImagesRequest {
+export interface AsyncBatchAnnotateProjectsImagesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest | undefined;
 }
-export interface AsyncBatchAnnotateProjectsLocationsFilesRequest {
+export interface AsyncBatchAnnotateProjectsLocationsFilesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest | undefined;
 }
-export interface AsyncBatchAnnotateProjectsLocationsImagesRequest {
+export interface AsyncBatchAnnotateProjectsLocationsImagesRequest extends Omit<
+  GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest,
+  "parent"
+> {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest | undefined;
 }
 export type AnnotateFilesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
@@ -1259,9 +1255,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(66, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(66, __c2, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/files:asyncBatchAnnotate",
@@ -1319,9 +1313,7 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(128, __c4, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/images:asyncBatchAnnotate",
@@ -1348,10 +1340,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(66, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(66, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/files:asyncBatchAnnotate",
@@ -1365,10 +1359,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/images:asyncBatchAnnotate",
@@ -1382,10 +1378,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(66, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(66, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/files:asyncBatchAnnotate",
@@ -1399,10 +1397,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/images:asyncBatchAnnotate",
@@ -1416,9 +1416,7 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(418, __c13, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(418, __c13, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/files:annotate",
@@ -1978,9 +1976,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(544, __c17, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/images:annotate",
@@ -2040,10 +2036,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(418, __c13, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(418, __c13, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/files:annotate",
@@ -2057,10 +2055,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/images:annotate",
@@ -2074,10 +2074,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(418, __c13, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(418, __c13, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/files:annotate",
@@ -2091,10 +2093,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p2beta1/{+parent}/images:annotate",

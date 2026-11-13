@@ -108,11 +108,9 @@ export interface GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest {
     | (string & {})
     | undefined;
 }
-export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest {
+export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest extends GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest {
   /** Required. The resource name of the violation to acknowledge. Format: `organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest | undefined;
 }
 /** Response message for acknowledging a violation. This message is empty. */
 export interface GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationResponse {}
@@ -259,11 +257,9 @@ export interface GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequest {
     | (string & {})
     | undefined;
 }
-export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest {
+export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest extends GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequest {
   /** Required. The resource name of the update. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id}/updates/{update_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -566,13 +562,11 @@ export interface GoogleCloudAssuredworkloadsV1beta1Workload {
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsLocationsWorkloadsRequest {
+export interface CreateOrganizationsLocationsWorkloadsRequest extends GoogleCloudAssuredworkloadsV1beta1Workload {
   /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
   parent: string;
   /** Optional. A identifier associated with the workload and underlying projects which allows for the break down of billing costs for a workload. The value provided for the identifier will add a label to the workload and contained projects with the identifier as the value. */
   externalId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1Workload | undefined;
 }
 export interface DeleteOrganizationsLocationsWorkloadsRequest {
   /** Optional. The etag of the workload. If this is provided, it must match the server's etag. */
@@ -1384,13 +1378,14 @@ export interface ListProjectsLocationsDbFrameworkComplianceSummariesRequest {
   /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
   pageSize?: number | undefined;
 }
-export interface PatchOrganizationsLocationsWorkloadsRequest {
+export interface PatchOrganizationsLocationsWorkloadsRequest extends Omit<
+  GoogleCloudAssuredworkloadsV1beta1Workload,
+  "name"
+> {
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1Workload | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequestRestrictionTypeEnum =
   | "RESTRICTION_TYPE_UNSPECIFIED"
@@ -1405,11 +1400,9 @@ export interface GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesReque
     | (string & {})
     | undefined;
 }
-export interface RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest {
+export interface RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest extends GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequest {
   /** Required. The resource name of the Workload. This is the workloads's relative path in the API, formatted as "organizations/{organization_id}/locations/{location_id}/workloads/{workload_id}". For example, "organizations/123/locations/us-east1/workloads/assured-workload-1". */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequest | undefined;
 }
 /** Response for restricting the list of allowed resources. */
 export interface GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesResponse {}
@@ -2216,11 +2209,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          externalId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c2, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            externalId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/workloads",
@@ -3150,11 +3145,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(44, __c2, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3176,10 +3173,12 @@ function __c32(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:restrictAllowedResources",
@@ -3202,10 +3201,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:acknowledge",
@@ -3415,10 +3416,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(688, __c43, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:apply",

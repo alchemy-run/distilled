@@ -1119,7 +1119,7 @@ export interface Annotation {
   /** Timestamp for the last time this annotation was modified. */
   updated?: string | undefined;
 }
-export interface InsertMylibraryAnnotationsRequest {
+export interface InsertMylibraryAnnotationsRequest extends Annotation {
   /** Requests that only the summary of the specified layer be provided in the response. */
   showOnlySummaryInResponse?: boolean | undefined;
   /** The ID for the annotation to insert. */
@@ -1128,8 +1128,6 @@ export interface InsertMylibraryAnnotationsRequest {
   country?: string | undefined;
   /** String to identify the originator of this request. */
   source?: string | undefined;
-  /** Request body */
-  body?: Annotation | undefined;
 }
 export interface ListBookshelvesRequest {
   /** ID of user for whom to retrieve bookshelves. */
@@ -1789,22 +1787,14 @@ export interface UnshareFamilysharingRequest {
   /** String to identify the originator of this request. */
   source?: string | undefined;
 }
-export interface UpdateBookCloudloadingRequest {
-  /** Request body */
-  body?: BooksCloudloadingResource | undefined;
-}
-export interface UpdateMylibraryAnnotationsRequest {
+export interface UpdateBookCloudloadingRequest extends BooksCloudloadingResource {}
+export interface UpdateMylibraryAnnotationsRequest extends Annotation {
   /** The ID for the annotation to update. */
   annotationId: string;
   /** String to identify the originator of this request. */
   source?: string | undefined;
-  /** Request body */
-  body?: Annotation | undefined;
 }
-export interface UpdateUserSettingsMyconfigRequest {
-  /** Request body */
-  body?: Usersettings | undefined;
-}
+export interface UpdateUserSettingsMyconfigRequest extends Usersettings {}
 export type AcceptPromoofferError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Accepts the promo offer. */
 export const acceptPromooffer: API.OperationMethod<
@@ -3802,13 +3792,15 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          showOnlySummaryInResponse: S.optional(S.Boolean.pipe(T.Query())),
-          annotationId: S.optional(S.String.pipe(T.Query())),
-          country: S.optional(S.String.pipe(T.Query())),
-          source: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(867, __c27, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(867, __c27, 3),
+          S.Struct({
+            showOnlySummaryInResponse: S.optional(S.Boolean.pipe(T.Query())),
+            annotationId: S.optional(S.String.pipe(T.Query())),
+            country: S.optional(S.String.pipe(T.Query())),
+            source: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "books/v1/mylibrary/annotations",
@@ -4718,9 +4710,7 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1856, __c58, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "books/v1/cloudloading/updateBook",
@@ -4734,11 +4724,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          annotationId: S.String.pipe(T.Label()),
-          source: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(867, __c27, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(867, __c27, 3),
+          S.Struct({
+            annotationId: S.String.pipe(T.Label()),
+            source: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "books/v1/mylibrary/annotations/{annotationId}",
@@ -4752,9 +4744,7 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(771, __c24, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(771, __c24, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "books/v1/myconfig/updateUserSettings",

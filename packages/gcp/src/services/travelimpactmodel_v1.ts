@@ -110,10 +110,7 @@ export interface ComputeDetailedFlightEmissionsRequest {
   /** Required. Direct flights to return emission estimates for. */
   flights?: FlightList | undefined;
 }
-export interface ComputeDetailedFlightEmissionsFlightsRequest {
-  /** Request body */
-  body?: ComputeDetailedFlightEmissionsRequest | undefined;
-}
+export interface ComputeDetailedFlightEmissionsFlightsRequest extends ComputeDetailedFlightEmissionsRequest {}
 /** Grouped emissions per seating class results. */
 export interface EmissionsGramsPerPax {
   /** Emissions for one passenger in economy class in grams. This field is always computed and populated, regardless of whether the aircraft has economy class seats or not. */
@@ -291,10 +288,7 @@ export interface ComputeDetailedFlightEmissionsResponse {
 }
 /** Input definition for the ComputeFlightEmissions request. */
 export type ComputeFlightEmissionsRequest = ComputeDetailedFlightEmissionsRequest;
-export interface ComputeFlightEmissionsFlightsRequest {
-  /** Request body */
-  body?: ComputeDetailedFlightEmissionsRequest | undefined;
-}
+export interface ComputeFlightEmissionsFlightsRequest extends ComputeDetailedFlightEmissionsRequest {}
 export type FlightWithEmissionsSourceEnum = "SOURCE_UNSPECIFIED" | "TIM" | "EASA";
 export type FlightWithEmissionsContrailsImpactBucketEnum =
   | "CONTRAILS_IMPACT_UNSPECIFIED"
@@ -353,10 +347,7 @@ export interface ComputeScope3FlightEmissionsRequest {
   /** Required. Flights to return emission estimates for. */
   flights?: Scope3FlightSegmentList | undefined;
 }
-export interface ComputeScope3FlightEmissionsFlightsRequest {
-  /** Request body */
-  body?: ComputeScope3FlightEmissionsRequest | undefined;
-}
+export interface ComputeScope3FlightEmissionsFlightsRequest extends ComputeScope3FlightEmissionsRequest {}
 export type Scope3FlightEmissionsSourceEnum =
   | "SCOPE3_DATA_TYPE_UNSPECIFIED"
   | "TIM_EMISSIONS"
@@ -398,10 +389,7 @@ export interface ComputeTypicalFlightEmissionsRequest {
   /** Required. Request the typical flight emissions estimates for this market pair. A maximum of 1000 markets can be requested. */
   markets?: MarketList | undefined;
 }
-export interface ComputeTypicalFlightEmissionsFlightsRequest {
-  /** Request body */
-  body?: ComputeTypicalFlightEmissionsRequest | undefined;
-}
+export interface ComputeTypicalFlightEmissionsFlightsRequest extends ComputeTypicalFlightEmissionsRequest {}
 /** Typical flight emission estimates for a certain market */
 export interface TypicalFlightEmissions {
   /** Identifier. Matches the flight identifiers in the request. Note: all IATA codes are capitalized. */
@@ -510,9 +498,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(18, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(18, __c1, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/flights:computeDetailedFlightEmissions",
@@ -662,9 +648,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(18, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(18, __c1, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/flights:computeFlightEmissions",
@@ -718,9 +702,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ComputeScope3FlightEmissionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(98, __c6, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(98, __c6, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/flights:computeScope3FlightEmissions",
@@ -769,9 +751,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ComputeTypicalFlightEmissionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(114, __c7, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(114, __c7, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/flights:computeTypicalFlightEmissions",

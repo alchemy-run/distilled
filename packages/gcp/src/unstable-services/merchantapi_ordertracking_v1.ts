@@ -197,13 +197,14 @@ export interface OrderTrackingSignal {
   /** Optional. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
   deliveryRegionCode?: string | undefined;
 }
-export interface CreateAccountsOrderTrackingSignalsRequest {
+export interface CreateAccountsOrderTrackingSignalsRequest extends Omit<
+  OrderTrackingSignal,
+  "orderTrackingSignalId"
+> {
   /** Output only. The ID that uniquely identifies this order tracking signal. */
   orderTrackingSignalId?: string | undefined;
   /** Required. The account of the business for which the order signal is created. Format: accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: OrderTrackingSignal | undefined;
 }
 export type CreateAccountsOrderTrackingSignalsError =
   | NotFound
@@ -319,11 +320,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "OrderTrackingSignal" });
     case 11:
       return S.suspend(() =>
-        S.Struct({
-          orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c0, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10, __c0, 10),
+          S.Struct({
+            orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "ordertracking/v1/{+parent}/orderTrackingSignals",

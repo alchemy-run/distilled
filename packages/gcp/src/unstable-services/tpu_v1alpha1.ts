@@ -191,15 +191,13 @@ export interface Node {
   /** Output only. The API version that created this Node. */
   apiVersion?: NodeApiVersionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsNodesRequest {
+export interface CreateProjectsLocationsNodesRequest extends Node {
   /** The unqualified resource name. */
   nodeId?: string | undefined;
   /** Idempotent request UUID. */
   requestId?: string | undefined;
   /** Required. The parent resource name. */
   parent: string;
-  /** Request body */
-  body?: Node | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -392,11 +390,9 @@ export interface ReimageNodeRequest {
   /** The version for reimage to create. */
   tensorflowVersion?: string | undefined;
 }
-export interface ReimageProjectsLocationsNodesRequest {
+export interface ReimageProjectsLocationsNodesRequest extends ReimageNodeRequest {
   /** The resource name. */
   name: string;
-  /** Request body */
-  body?: ReimageNodeRequest | undefined;
 }
 /** DEPRECATED: Please use TPU API v2alpha1 instead. Request for StartNode. */
 export interface StartNodeRequest {}
@@ -971,10 +967,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ReimageNodeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:reimage",
@@ -1044,12 +1042,14 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          nodeId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(133, __c16, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(133, __c16, 5),
+          S.Struct({
+            nodeId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/nodes",

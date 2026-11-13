@@ -132,10 +132,7 @@ export interface ManagedService {
   /** The name of the service. See the [overview](https://cloud.google.com/service-infrastructure/docs/overview) for naming requirements. */
   serviceName?: string | undefined;
 }
-export interface CreateServicesRequest {
-  /** Request body */
-  body?: ManagedService | undefined;
-}
+export interface CreateServicesRequest extends ManagedService {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -1132,11 +1129,9 @@ export interface Service {
   /** Auth configuration. */
   authentication?: Authentication | undefined;
 }
-export interface CreateServicesConfigsRequest {
+export interface CreateServicesConfigsRequest extends Service {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
-  /** Request body */
-  body?: Service | undefined;
 }
 export type RolloutStatusEnum =
   | "ROLLOUT_STATUS_UNSPECIFIED"
@@ -1171,11 +1166,9 @@ export interface Rollout {
   /** Google Service Control selects service configurations based on traffic percentage. */
   trafficPercentStrategy?: TrafficPercentStrategy | undefined;
 }
-export interface CreateServicesRolloutsRequest {
+export interface CreateServicesRolloutsRequest extends Omit<Rollout, "serviceName"> {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
-  /** Request body */
-  body?: Rollout | undefined;
 }
 export interface DeleteServicesRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
@@ -1188,10 +1181,7 @@ export interface GenerateConfigReportRequest {
   /** Optional. Service configuration against which the comparison will be done. For this version of API, the supported types are google.api.servicemanagement.v1.ConfigRef, google.api.servicemanagement.v1.ConfigSource, and google.api.Service */
   oldConfig?: DocumentMap | undefined;
 }
-export interface GenerateConfigReportServicesRequest {
-  /** Request body */
-  body?: GenerateConfigReportRequest | undefined;
-}
+export interface GenerateConfigReportServicesRequest extends GenerateConfigReportRequest {}
 export type ConfigChangeChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
   | "ADDED"
@@ -1264,11 +1254,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyServicesRequest {
+export interface GetIamPolicyServicesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1323,11 +1311,9 @@ export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
 }
-export interface GetIamPolicyServicesConsumersRequest {
+export interface GetIamPolicyServicesConsumersRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -1433,17 +1419,13 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyServicesRequest {
+export interface SetIamPolicyServicesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyServicesConsumersRequest {
+export interface SetIamPolicyServicesConsumersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 export type ConfigFileFileTypeEnum =
   | "FILE_TYPE_UNSPECIFIED"
@@ -1476,33 +1458,27 @@ export interface SubmitConfigSourceRequest {
   /** Optional. If set, this will result in the generation of a `google.api.Service` configuration based on the `ConfigSource` provided, but the generated config and the sources will NOT be persisted. */
   validateOnly?: boolean | undefined;
 }
-export interface SubmitServicesConfigsRequest {
+export interface SubmitServicesConfigsRequest extends SubmitConfigSourceRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
-  /** Request body */
-  body?: SubmitConfigSourceRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsServicesRequest {
+export interface TestIamPermissionsServicesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsServicesConsumersRequest {
+export interface TestIamPermissionsServicesConsumersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UndeleteServicesRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
@@ -1976,9 +1952,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GenerateConfigReportRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(32, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services:generateConfigReport",
@@ -2057,10 +2031,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(129, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(129, __c4, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -2140,10 +2116,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(129, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(129, __c4, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -2337,10 +2315,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2365,10 +2345,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2406,10 +2388,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SubmitConfigSourceRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(579, __c18, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(579, __c18, 3),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}/configs:submit",
@@ -2423,10 +2407,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2450,10 +2436,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2483,9 +2471,7 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(768, __c24, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services",
@@ -2544,10 +2530,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1067, __c33, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1067, __c33, 11),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}/configs",
@@ -3305,10 +3293,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1123, __c35, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1123, __c35, 3),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}/rollouts",

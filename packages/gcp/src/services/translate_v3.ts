@@ -143,11 +143,9 @@ export interface AdaptiveMtTranslateRequest {
   /** The format of the source text. Currently only text/plain is supported. */
   mimeType?: string | undefined;
 }
-export interface AdaptiveMtTranslateProjectsLocationsRequest {
+export interface AdaptiveMtTranslateProjectsLocationsRequest extends AdaptiveMtTranslateRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. */
   parent: string;
-  /** Request body */
-  body?: AdaptiveMtTranslateRequest | undefined;
 }
 /** An AdaptiveMt translation. */
 export interface AdaptiveMtTranslation {
@@ -214,11 +212,9 @@ export interface BatchTranslateDocumentRequest {
   /** Optional. Glossaries to be applied. It's keyed by target language code. */
   glossaries?: TranslateTextGlossaryConfigMap | undefined;
 }
-export interface BatchTranslateDocumentProjectsLocationsRequest {
+export interface BatchTranslateDocumentProjectsLocationsRequest extends BatchTranslateDocumentRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. The `global` location is not supported for batch translation. Only AutoML Translation models or glossaries within the same region (have the same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: BatchTranslateDocumentRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -274,11 +270,9 @@ export interface BatchTranslateTextRequest {
   /** Required. Source language code. Supported language codes are listed in [Language Support](https://cloud.google.com/translate/docs/languages). */
   sourceLanguageCode?: string | undefined;
 }
-export interface BatchTranslateTextProjectsLocationsRequest {
+export interface BatchTranslateTextProjectsLocationsRequest extends BatchTranslateTextRequest {
   /** Required. Location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}`. The `global` location is not supported for batch translation. Only AutoML Translation models or glossaries within the same region (have the same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: BatchTranslateTextRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -307,11 +301,9 @@ export interface AdaptiveMtDataset {
   /** The BCP-47 language code of the target language. */
   targetLanguageCode?: string | undefined;
 }
-export interface CreateProjectsLocationsAdaptiveMtDatasetsRequest {
+export interface CreateProjectsLocationsAdaptiveMtDatasetsRequest extends AdaptiveMtDataset {
   /** Required. Name of the parent project. In form of `projects/{project-number-or-id}/locations/{location-id}` */
   parent: string;
-  /** Request body */
-  body?: AdaptiveMtDataset | undefined;
 }
 /** A dataset that hosts the examples (sentence pairs) used for translation models. */
 export interface Dataset {
@@ -336,11 +328,9 @@ export interface Dataset {
   /** Output only. Number of training examples (sentence pairs). */
   trainExampleCount?: number | undefined;
 }
-export interface CreateProjectsLocationsDatasetsRequest {
+export interface CreateProjectsLocationsDatasetsRequest extends Dataset {
   /** Required. The project name. */
   parent: string;
-  /** Request body */
-  body?: Dataset | undefined;
 }
 /** Used with equivalent term set glossaries. */
 export interface LanguageCodesSet {
@@ -378,11 +368,9 @@ export interface Glossary {
   /** Optional. The display name of the glossary. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsGlossariesRequest {
+export interface CreateProjectsLocationsGlossariesRequest extends Glossary {
   /** Required. The project name. */
   parent: string;
-  /** Request body */
-  body?: Glossary | undefined;
 }
 /** Represents a single glossary term */
 export interface GlossaryTerm {
@@ -415,11 +403,9 @@ export interface GlossaryEntry {
   /** Used for an equivalent term sets glossary. */
   termsSet?: GlossaryTermsSet | undefined;
 }
-export interface CreateProjectsLocationsGlossariesGlossaryEntriesRequest {
+export interface CreateProjectsLocationsGlossariesGlossaryEntriesRequest extends GlossaryEntry {
   /** Required. The resource name of the glossary to create the entry under. */
   parent: string;
-  /** Request body */
-  body?: GlossaryEntry | undefined;
 }
 /** A trained translation model. */
 export interface Model {
@@ -444,11 +430,9 @@ export interface Model {
   /** Required. The dataset from which the model is trained, in form of `projects/{project-number-or-id}/locations/{location_id}/datasets/{dataset_id}` */
   dataset?: string | undefined;
 }
-export interface CreateProjectsLocationsModelsRequest {
+export interface CreateProjectsLocationsModelsRequest extends Model {
   /** Required. The project name, in form of `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: Model | undefined;
 }
 export interface DeleteProjectsLocationsAdaptiveMtDatasetsRequest {
   /** Required. Name of the dataset. In the form of `projects/{project-number-or-id}/locations/{location-id}/adaptiveMtDatasets/{adaptive-mt-dataset-id}` */
@@ -500,11 +484,9 @@ export interface DetectLanguageRequest {
   /** Optional. The format of the source text, for example, "text/html", "text/plain". If left blank, the MIME type defaults to "text/html". */
   mimeType?: string | undefined;
 }
-export interface DetectLanguageProjectsRequest {
+export interface DetectLanguageProjectsRequest extends DetectLanguageRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Only models within the same region (has same location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: DetectLanguageRequest | undefined;
 }
 /** The response message for language detection. */
 export interface DetectedLanguage {
@@ -519,11 +501,9 @@ export interface DetectLanguageResponse {
   /** The most probable language detected by the Translation API. For each request, the Translation API will always return only one result. */
   languages?: DetectedLanguageList | undefined;
 }
-export interface DetectLanguageProjectsLocationsRequest {
+export interface DetectLanguageProjectsLocationsRequest extends DetectLanguageRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Only models within the same region (has same location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: DetectLanguageRequest | undefined;
 }
 /** The Google Cloud Storage location for the output content. */
 export interface GcsOutputDestination {
@@ -540,11 +520,9 @@ export interface ExportDataRequest {
   /** Required. The config for the output content. */
   outputConfig?: DatasetOutputConfig | undefined;
 }
-export interface ExportDataProjectsLocationsDatasetsRequest {
+export interface ExportDataProjectsLocationsDatasetsRequest extends ExportDataRequest {
   /** Required. Name of the dataset. In form of `projects/{project-number-or-id}/locations/{location-id}/datasets/{dataset-id}` */
   dataset: string;
-  /** Request body */
-  body?: ExportDataRequest | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -655,11 +633,9 @@ export interface ImportAdaptiveMtFileRequest {
   /** Inline file source. */
   fileInputSource?: FileInputSource | undefined;
 }
-export interface ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest {
+export interface ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest extends ImportAdaptiveMtFileRequest {
   /** Required. The resource name of the file, in form of `projects/{project-number-or-id}/locations/{location_id}/adaptiveMtDatasets/{dataset}` */
   parent: string;
-  /** Request body */
-  body?: ImportAdaptiveMtFileRequest | undefined;
 }
 /** The response for importing an AdaptiveMtFile */
 export interface ImportAdaptiveMtFileResponse {
@@ -684,11 +660,9 @@ export interface ImportDataRequest {
   /** Required. The config for the input content. */
   inputConfig?: DatasetInputConfig | undefined;
 }
-export interface ImportDataProjectsLocationsDatasetsRequest {
+export interface ImportDataProjectsLocationsDatasetsRequest extends ImportDataRequest {
   /** Required. Name of the dataset. In form of `projects/{project-number-or-id}/locations/{location-id}/datasets/{dataset-id}` */
   dataset: string;
-  /** Request body */
-  body?: ImportDataRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
@@ -898,19 +872,18 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsGlossariesRequest {
+export interface PatchProjectsLocationsGlossariesRequest extends Omit<Glossary, "name"> {
   /** Identifier. The resource name of the glossary. Glossary names have the form `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}`. */
   name: string;
   /** The list of fields to be updated. Currently, only `display_name` and `input_config` are supported. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Glossary | undefined;
 }
-export interface PatchProjectsLocationsGlossariesGlossaryEntriesRequest {
+export interface PatchProjectsLocationsGlossariesGlossaryEntriesRequest extends Omit<
+  GlossaryEntry,
+  "name"
+> {
   /** Identifier. The resource name of the entry. Format: `projects/*\/locations/*\/glossaries/*\/glossaryEntries/*` */
   name: string;
-  /** Request body */
-  body?: GlossaryEntry | undefined;
 }
 /** A single refinement entry for RefineTextRequest. */
 export interface RefinementEntry {
@@ -929,11 +902,9 @@ export interface RefineTextRequest {
   /** Required. The source texts and original translations in the source and target languages. */
   refinementEntries?: RefinementEntryList | undefined;
 }
-export interface RefineTextProjectsLocationsRequest {
+export interface RefineTextProjectsLocationsRequest extends RefineTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. */
   parent: string;
-  /** Request body */
-  body?: RefineTextRequest | undefined;
 }
 /** Response message for RefineText. */
 export interface RefineTextResponse {
@@ -947,11 +918,9 @@ export interface RomanizeTextRequest {
   /** Required. The content of the input in string format. */
   contents?: StringList | undefined;
 }
-export interface RomanizeTextProjectsRequest {
+export interface RomanizeTextProjectsRequest extends RomanizeTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. */
   parent: string;
-  /** Request body */
-  body?: RomanizeTextRequest | undefined;
 }
 /** A single romanization response. */
 export interface Romanization {
@@ -966,11 +935,9 @@ export interface RomanizeTextResponse {
   /** Text romanization responses. This field has the same length as `contents`. */
   romanizations?: RomanizationList | undefined;
 }
-export interface RomanizeTextProjectsLocationsRequest {
+export interface RomanizeTextProjectsLocationsRequest extends RomanizeTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. */
   parent: string;
-  /** Request body */
-  body?: RomanizeTextRequest | undefined;
 }
 /** A document translation request output config. */
 export interface DocumentOutputConfig {
@@ -1004,11 +971,9 @@ export interface TranslateDocumentRequest {
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. See https://cloud.google.com/translate/docs/advanced/labels for more information. */
   labels?: StringMap | undefined;
 }
-export interface TranslateDocumentProjectsLocationsRequest {
+export interface TranslateDocumentProjectsLocationsRequest extends TranslateDocumentRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have the same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: TranslateDocumentRequest | undefined;
 }
 /** A translated document message. */
 export interface DocumentTranslation {
@@ -1054,11 +1019,9 @@ export interface TranslateTextRequest {
   /** Required. The content of the input in string format. We recommend the total content be less than 30,000 codepoints. The max length of this field is 1024. Use BatchTranslateText for larger text. */
   contents?: StringList | undefined;
 }
-export interface TranslateTextProjectsRequest {
+export interface TranslateTextProjectsRequest extends TranslateTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: TranslateTextRequest | undefined;
 }
 /** A single translation response. */
 export interface Translation {
@@ -1078,22 +1041,18 @@ export interface TranslateTextResponse {
   /** Text translation responses if a glossary is provided in the request. This can be the same as `translations` if no terms apply. This field has the same length as `contents`. */
   glossaryTranslations?: TranslationList | undefined;
 }
-export interface TranslateTextProjectsLocationsRequest {
+export interface TranslateTextProjectsLocationsRequest extends TranslateTextRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
-  /** Request body */
-  body?: TranslateTextRequest | undefined;
 }
 /** The request message for Operations.WaitOperation. */
 export interface WaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
   timeout?: string | undefined;
 }
-export interface WaitProjectsLocationsOperationsRequest {
+export interface WaitProjectsLocationsOperationsRequest extends WaitOperationRequest {
   /** The name of the operation resource to wait on. */
   name: string;
-  /** Request body */
-  body?: WaitOperationRequest | undefined;
 }
 export type AdaptiveMtTranslateProjectsLocationsError =
   | NotFound
@@ -2181,10 +2140,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/datasets",
@@ -2217,10 +2178,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(50, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(50, __c3, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/glossaries",
@@ -2264,10 +2227,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(84, __c5, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(84, __c5, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/glossaryEntries",
@@ -2316,10 +2281,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/models",
@@ -2464,10 +2431,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:detectLanguage",
@@ -2522,10 +2491,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:detectLanguage",
@@ -2545,10 +2516,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ExportDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          dataset: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            dataset: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+dataset}:exportData",
@@ -2790,10 +2763,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ImportAdaptiveMtFileRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(529, __c33, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(529, __c33, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:importAdaptiveMtFile",
@@ -2834,10 +2809,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ImportDataRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          dataset: S.String.pipe(T.Label()),
-          body: S.optional(__S(547, __c34, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(547, __c34, 3),
+          S.Struct({
+            dataset: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+dataset}:importData",
@@ -3176,11 +3153,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(50, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(50, __c3, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -3194,10 +3173,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(84, __c5, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(84, __c5, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/{+name}",
@@ -3228,10 +3209,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "RefineTextRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(786, __c49, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(786, __c49, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:refineText",
@@ -3286,10 +3269,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "AdaptiveMtTranslateRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(805, __c50, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(805, __c50, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:adaptiveMtTranslate",
@@ -3337,10 +3322,12 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c54, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:romanizeText",
@@ -3380,10 +3367,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c54, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:romanizeText",
@@ -3420,10 +3409,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "TranslateDocumentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c56, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c56, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:translateDocument",
@@ -3454,10 +3445,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(929, __c58, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(929, __c58, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:translateText",
@@ -3512,10 +3505,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(929, __c58, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(929, __c58, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:translateText",
@@ -3535,10 +3530,12 @@ function __c60(j: number): any {
       ).annotate({ identifier: "WaitOperationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c60, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+name}:wait",
@@ -3570,10 +3567,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "BatchTranslateDocumentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(977, __c61, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(977, __c61, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:batchTranslateDocument",
@@ -3690,10 +3689,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "BatchTranslateTextRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1122, __c70, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1122, __c70, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}:batchTranslateText",
@@ -3730,10 +3731,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1184, __c74, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1184, __c74, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/{+parent}/adaptiveMtDatasets",

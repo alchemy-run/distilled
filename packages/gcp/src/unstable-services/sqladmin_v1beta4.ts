@@ -99,15 +99,13 @@ export interface InstancesAcquireSsrsLeaseRequest {
   /** Contains details about the acquire SSRS lease operation. */
   acquireSsrsLeaseContext?: AcquireSsrsLeaseContext | undefined;
 }
-export interface AcquireSsrsLeaseInstancesRequest {
+export interface AcquireSsrsLeaseInstancesRequest extends InstancesAcquireSsrsLeaseRequest {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Required. ID of the project that contains the instance (Example: project-id). */
   project: string;
   /** Required. Cloud SQL instance ID. This doesn't include the project ID. It's composed of lowercase letters, numbers, and hyphens, and it must start with a letter. The total length must be 98 characters or less (Example: instance-id). */
   instance: string;
-  /** Request body */
-  body?: InstancesAcquireSsrsLeaseRequest | undefined;
 }
 /** Acquire SSRS lease response. */
 export interface SqlInstancesAcquireSsrsLeaseResponse {
@@ -642,15 +640,13 @@ export interface InstancesCloneRequest {
   /** Contains details about the clone operation. */
   cloneContext?: CloneContext | undefined;
 }
-export interface CloneInstancesRequest {
+export interface CloneInstancesRequest extends InstancesCloneRequest {
   /** Project ID of the source Cloud SQL instance. */
   project: string;
   /** The ID of the Cloud SQL instance to be cloned (source). This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: InstancesCloneRequest | undefined;
 }
 export interface ConnectResolveRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
@@ -1888,11 +1884,9 @@ export interface Backup {
   /** Output only. The state of this backup. */
   state?: BackupStateEnum | (string & {}) | undefined;
 }
-export interface CreateBackupBackupsRequest {
+export interface CreateBackupBackupsRequest extends Backup {
   /** Required. The parent resource where this backup is created. Format: projects/{project} */
   parent: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
 /** Details about an instance within the deployment. */
 export interface NodeInfo {
@@ -2023,13 +2017,11 @@ export interface BlueGreenDeployment {
   /** Output only. Provides an error message with details on why switchover is not possible. */
   errorDetail?: string | undefined;
 }
-export interface CreateBlueGreenDeploymentsRequest {
+export interface CreateBlueGreenDeploymentsRequest extends BlueGreenDeployment {
   /** Required. The parent resource where this blue-green deployment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the blue-green deployment, which will become the final component of the deployment's resource name. */
   blueGreenDeploymentId?: string | undefined;
-  /** Request body */
-  body?: BlueGreenDeployment | undefined;
 }
 /** SslCerts create ephemeral certificate request. */
 export interface SslCertsCreateEphemeralRequest {
@@ -2038,15 +2030,13 @@ export interface SslCertsCreateEphemeralRequest {
   /** PEM encoded public key to include in the signed certificate. */
   public_key?: string | undefined;
 }
-export interface CreateEphemeralSslCertsRequest {
+export interface CreateEphemeralSslCertsRequest extends SslCertsCreateEphemeralRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Project ID of the Cloud SQL project. */
   project: string;
-  /** Request body */
-  body?: SslCertsCreateEphemeralRequest | undefined;
 }
 export interface DeleteBackupBackupsRequest {
   /** Required. The name of the backup to delete. Format: projects/{project}/backups/{backup} */
@@ -2124,15 +2114,13 @@ export interface InstancesDemoteRequest {
   /** Required. This context is used to demote an existing standalone instance to be a Cloud SQL read replica for an external database server. */
   demoteContext?: DemoteContext | undefined;
 }
-export interface DemoteInstancesRequest {
+export interface DemoteInstancesRequest extends InstancesDemoteRequest {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Required. The project ID of the project that contains the instance. */
   project: string;
   /** Required. The name of the Cloud SQL instance. */
   instance: string;
-  /** Request body */
-  body?: InstancesDemoteRequest | undefined;
 }
 /** Read-replica configuration specific to MySQL databases. */
 export interface DemoteMasterMySqlReplicaConfiguration {
@@ -2174,15 +2162,13 @@ export interface InstancesDemoteMasterRequest {
   /** Contains details about the demoteMaster operation. */
   demoteMasterContext?: DemoteMasterContext | undefined;
 }
-export interface DemoteMasterInstancesRequest {
+export interface DemoteMasterInstancesRequest extends InstancesDemoteMasterRequest {
   /** ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Cloud SQL instance name. */
   instance: string;
-  /** Request body */
-  body?: InstancesDemoteMasterRequest | undefined;
 }
 export type ExecuteSqlPayloadPartialResultModeEnum =
   | "PARTIAL_RESULT_MODE_UNSPECIFIED"
@@ -2207,15 +2193,13 @@ export interface ExecuteSqlPayload {
   /** Optional. Controls how the API should respond when the SQL execution result is incomplete due to the size limit or another error. The default mode is to throw an error. */
   partialResultMode?: ExecuteSqlPayloadPartialResultModeEnum | (string & {}) | undefined;
 }
-export interface ExecuteSqlInstancesRequest {
+export interface ExecuteSqlInstancesRequest extends ExecuteSqlPayload {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Required. Database instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: ExecuteSqlPayload | undefined;
 }
 /** Represents a notice or warning message from the database. */
 export interface Message {
@@ -2292,15 +2276,13 @@ export interface InstancesExportRequest {
   /** Contains details about the export operation. */
   exportContext?: ExportContext | undefined;
 }
-export interface ExportInstancesRequest {
+export interface ExportInstancesRequest extends InstancesExportRequest {
   /** The Cloud SQL instance ID. This doesn't include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance to be exported. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: InstancesExportRequest | undefined;
 }
 /** Database instance failover context. */
 export interface FailoverContext {
@@ -2314,15 +2296,13 @@ export interface InstancesFailoverRequest {
   /** Failover Context. */
   failoverContext?: FailoverContext | undefined;
 }
-export interface FailoverInstancesRequest {
+export interface FailoverInstancesRequest extends InstancesFailoverRequest {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** ID of the project that contains the read replica. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: InstancesFailoverRequest | undefined;
 }
 /** Ephemeral certificate creation request. */
 export interface GenerateEphemeralCertRequest {
@@ -2335,13 +2315,11 @@ export interface GenerateEphemeralCertRequest {
   /** PEM encoded public key to include in the signed certificate. */
   public_key?: string | undefined;
 }
-export interface GenerateEphemeralCertConnectRequest {
+export interface GenerateEphemeralCertConnectRequest extends GenerateEphemeralCertRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
-  /** Request body */
-  body?: GenerateEphemeralCertRequest | undefined;
 }
 /** Ephemeral certificate creation request. */
 export interface GenerateEphemeralCertResponse {
@@ -2677,54 +2655,44 @@ export interface InstancesImportRequest {
   /** Contains details about the import operation. */
   importContext?: ImportContext | undefined;
 }
-export interface ImportInstancesRequest {
+export interface ImportInstancesRequest extends InstancesImportRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: InstancesImportRequest | undefined;
 }
-export interface InsertBackupRunsRequest {
+export interface InsertBackupRunsRequest extends Omit<BackupRun, "instance"> {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
-  /** Request body */
-  body?: BackupRun | undefined;
 }
-export interface InsertDatabasesRequest {
+export interface InsertDatabasesRequest extends Omit<Database, "instance" | "project"> {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: Database | undefined;
 }
-export interface InsertInstancesRequest {
+export interface InsertInstancesRequest extends Omit<DatabaseInstance, "project"> {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Project ID of the project to which the newly created Cloud SQL instances should belong. */
   project: string;
-  /** Request body */
-  body?: DatabaseInstance | undefined;
 }
 /** SslCerts insert request. */
 export interface SslCertsInsertRequest {
   /** User supplied name. Must be a distinct name from the other certificates for this instance. */
   commonName?: string | undefined;
 }
-export interface InsertSslCertsRequest {
+export interface InsertSslCertsRequest extends SslCertsInsertRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: SslCertsInsertRequest | undefined;
 }
 /** SslCertDetail. */
 export interface SslCertDetail {
@@ -2744,15 +2712,13 @@ export interface SslCertsInsertResponse {
   /** The new client certificate and private key. */
   clientCert?: SslCertDetail | undefined;
 }
-export interface InsertUsersRequest {
+export interface InsertUsersRequest extends Omit<User, "instance" | "project"> {
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 export interface ListBackupRunsRequest {
   /** A previously-returned page token representing part of the larger set of results to view. */
@@ -3143,7 +3109,7 @@ export interface WorkloadCapturesListResponse {
   /** List of captured workloads for the instance. */
   workloadCaptures?: WorkloadCaptureList | undefined;
 }
-export interface PatchDatabasesRequest {
+export interface PatchDatabasesRequest extends Omit<Database, "instance" | "project"> {
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
@@ -3152,10 +3118,8 @@ export interface PatchDatabasesRequest {
   database: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: Database | undefined;
 }
-export interface PatchInstancesRequest {
+export interface PatchInstancesRequest extends Omit<DatabaseInstance, "project"> {
   /** Optional. Set PSC config to the same value as the existing config to reconcile the PSC networking. */
   reconcilePscNetworking?: boolean | undefined;
   /** Project ID of the project that contains the instance. */
@@ -3166,23 +3130,19 @@ export interface PatchInstancesRequest {
   reconcilePscNetworkingForce?: boolean | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: DatabaseInstance | undefined;
 }
 /** Perform disk shrink context. */
 export interface PerformDiskShrinkContext {
   /** The target disk shrink size in GigaBytes. */
   targetSizeGb?: string | undefined;
 }
-export interface PerformDiskShrinkProjectsInstancesRequest {
+export interface PerformDiskShrinkProjectsInstancesRequest extends PerformDiskShrinkContext {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
-  /** Request body */
-  body?: PerformDiskShrinkContext | undefined;
 }
 /** Context to perform a point-in-time restore of an instance managed by Backup and Disaster Recovery (DR) Service. */
 export interface PointInTimeRestoreContext {
@@ -3207,26 +3167,22 @@ export interface PointInTimeRestoreContext {
   /** Optional. The name of the allocated IP range for the internal IP Cloud SQL instance. For example: "google-managed-services-default". If you set this, then Cloud SQL creates the IP address for the cloned instance in the allocated range. This range must comply with [RFC 1035](https://tools.ietf.org/html/rfc1035) standards. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?. Reserved for future use. */
   allocatedIpRange?: string | undefined;
 }
-export interface PointInTimeRestoreInstancesRequest {
+export interface PointInTimeRestoreInstancesRequest extends PointInTimeRestoreContext {
   /** Required. The parent resource where you created this instance. Format: projects/{project} */
   parent: string;
-  /** Request body */
-  body?: PointInTimeRestoreContext | undefined;
 }
 /** Request for Pre-checks for MVU */
 export interface InstancesPreCheckMajorVersionUpgradeRequest {
   /** Required. Contains details about the pre-check major version upgrade operation. */
   preCheckMajorVersionUpgradeContext?: PreCheckMajorVersionUpgradeContext | undefined;
 }
-export interface PreCheckMajorVersionUpgradeInstancesRequest {
+export interface PreCheckMajorVersionUpgradeInstancesRequest extends InstancesPreCheckMajorVersionUpgradeRequest {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: InstancesPreCheckMajorVersionUpgradeRequest | undefined;
 }
 export interface PromoteReplicaInstancesRequest {
   /** Set to true to invoke a replica failover to the DR replica. As part of replica failover, the promote operation attempts to add the original primary instance as a replica of the promoted DR replica when the original primary instance comes back online. If set to false or not specified, then the original primary instance becomes an independent Cloud SQL primary instance. */
@@ -3254,15 +3210,13 @@ export interface InstancesReencryptRequest {
   /** Configuration specific to backup re-encryption */
   backupReencryptionConfig?: BackupReencryptionConfig | undefined;
 }
-export interface ReencryptInstancesRequest {
+export interface ReencryptInstancesRequest extends InstancesReencryptRequest {
   /** ID of the project that contains the instance. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: InstancesReencryptRequest | undefined;
 }
 export interface ReleaseSsrsLeaseInstancesRequest {
   /** Required. The Cloud SQL instance ID. This doesn't include the project ID. It's composed of lowercase letters, numbers, and hyphens, and it must start with a letter. The total length must be 98 characters or less (Example: instance-id). */
@@ -3293,28 +3247,24 @@ export interface SqlInstancesRescheduleMaintenanceRequestBody {
   /** Required. The type of the reschedule the user wants. */
   reschedule?: Reschedule | undefined;
 }
-export interface RescheduleMaintenanceProjectsInstancesRequest {
+export interface RescheduleMaintenanceProjectsInstancesRequest extends SqlInstancesRescheduleMaintenanceRequestBody {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** ID of the project that contains the instance. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: SqlInstancesRescheduleMaintenanceRequestBody | undefined;
 }
 /** Instance reset replica size request. */
 export interface SqlInstancesResetReplicaSizeRequest {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
 }
-export interface ResetReplicaSizeProjectsInstancesRequest {
+export interface ResetReplicaSizeProjectsInstancesRequest extends SqlInstancesResetReplicaSizeRequest {
   /** ID of the project that contains the read replica. */
   project: string;
   /** Cloud SQL read replica instance name. */
   instance: string;
-  /** Request body */
-  body?: SqlInstancesResetReplicaSizeRequest | undefined;
 }
 export type ResetSslConfigInstancesModeEnum =
   | "RESET_SSL_MODE_UNSPECIFIED"
@@ -3364,15 +3314,13 @@ export interface InstancesRestoreBackupRequest {
   /** The name of the backup that's used to restore a Cloud SQL instance: Format: projects/{project-id}/backups/{backup-uid}. Only one of restore_backup_context, backup, backupdr_backup can be passed to the input. */
   backup?: string | undefined;
 }
-export interface RestoreBackupInstancesRequest {
+export interface RestoreBackupInstancesRequest extends InstancesRestoreBackupRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: InstancesRestoreBackupRequest | undefined;
 }
 /** Instance rotate Entra ID certificate context. */
 export interface RotateEntraIdCertificateContext {
@@ -3386,15 +3334,13 @@ export interface InstancesRotateEntraIdCertificateRequest {
   /** Optional. Contains details about the rotate Entra ID certificate operation. */
   rotateEntraIdCertificateContext?: RotateEntraIdCertificateContext | undefined;
 }
-export interface RotateEntraIdCertificateInstancesRequest {
+export interface RotateEntraIdCertificateInstancesRequest extends InstancesRotateEntraIdCertificateRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
-  /** Request body */
-  body?: InstancesRotateEntraIdCertificateRequest | undefined;
 }
 /** Instance rotate server CA context. */
 export interface RotateServerCaContext {
@@ -3408,15 +3354,13 @@ export interface InstancesRotateServerCaRequest {
   /** Contains details about the rotate server CA operation. */
   rotateServerCaContext?: RotateServerCaContext | undefined;
 }
-export interface RotateServerCaInstancesRequest {
+export interface RotateServerCaInstancesRequest extends InstancesRotateServerCaRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: InstancesRotateServerCaRequest | undefined;
 }
 /** Instance rotate server certificate context. */
 export interface RotateServerCertificateContext {
@@ -3430,15 +3374,13 @@ export interface InstancesRotateServerCertificateRequest {
   /** Optional. Contains details about the rotate server CA operation. */
   rotateServerCertificateContext?: RotateServerCertificateContext | undefined;
 }
-export interface RotateServerCertificateInstancesRequest {
+export interface RotateServerCertificateInstancesRequest extends InstancesRotateServerCertificateRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: InstancesRotateServerCertificateRequest | undefined;
 }
 /** Initial sync flags for certain Cloud SQL APIs. Currently used for the MySQL external server initial dump. */
 export interface SyncFlags {
@@ -3485,28 +3427,24 @@ export interface SqlInstancesStartExternalSyncRequest {
   /** Whether to skip the verification step (VESS). */
   skipVerification?: boolean | undefined;
 }
-export interface StartExternalSyncProjectsInstancesRequest {
+export interface StartExternalSyncProjectsInstancesRequest extends SqlInstancesStartExternalSyncRequest {
   /** ID of the project that contains the instance. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: SqlInstancesStartExternalSyncRequest | undefined;
 }
 /** Request to start executing a captured workload on a replay instance (the Cloud SQL instance where the recorded SQL queries are executed). */
 export interface WorkloadCapturesStartReplayRequest {
   /** Required. Contains details about the start workload replay operation. */
   startWorkloadReplayContext?: StartWorkloadReplayContext | undefined;
 }
-export interface StartReplayWorkloadCapturesRequest {
+export interface StartReplayWorkloadCapturesRequest extends WorkloadCapturesStartReplayRequest {
   /** Required. The ID of the workload to replay. */
   workloadId: string;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: WorkloadCapturesStartReplayRequest | undefined;
 }
 export interface StartReplicaInstancesRequest {
   /** Cloud SQL read replica instance name. */
@@ -3521,26 +3459,22 @@ export interface WorkloadCapturesStartRequest {
   /** Optional. Contains details about the start workload capture operation. */
   startWorkloadCaptureContext?: StartWorkloadCaptureContext | undefined;
 }
-export interface StartWorkloadCapturesRequest {
+export interface StartWorkloadCapturesRequest extends WorkloadCapturesStartRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
-  /** Request body */
-  body?: WorkloadCapturesStartRequest | undefined;
 }
 /** Request to stop an active workload replay on a target Cloud SQL replay instance. */
 export interface WorkloadCapturesStopReplayRequest {
   /** Optional. Contains details about the stop workload replay operation. */
   stopWorkloadReplayContext?: StopWorkloadReplayContext | undefined;
 }
-export interface StopReplayWorkloadCapturesRequest {
+export interface StopReplayWorkloadCapturesRequest extends WorkloadCapturesStopReplayRequest {
   /** Required. Cloud SQL instance ID of the target replay instance. This does not include the project ID. */
   instance: string;
   /** Required. Project ID of the project that contains the target replay instance. */
   project: string;
-  /** Request body */
-  body?: WorkloadCapturesStopReplayRequest | undefined;
 }
 export interface StopReplicaInstancesRequest {
   /** ID of the project that contains the read replica. */
@@ -3555,13 +3489,11 @@ export interface WorkloadCapturesStopRequest {
   /** Optional. Contains details about the stop workload capture operation. */
   stopWorkloadCaptureContext?: StopWorkloadCaptureContext | undefined;
 }
-export interface StopWorkloadCapturesRequest {
+export interface StopWorkloadCapturesRequest extends WorkloadCapturesStopRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: WorkloadCapturesStopRequest | undefined;
 }
 /** Request message for switching over a `BlueGreenDeployment` resource. */
 export type SwitchoverBlueGreenDeploymentRequest = StopWorkloadReplayContext;
@@ -3593,25 +3525,21 @@ export interface InstancesTruncateLogRequest {
   /** Contains details about the truncate log operation. */
   truncateLogContext?: TruncateLogContext | undefined;
 }
-export interface TruncateLogInstancesRequest {
+export interface TruncateLogInstancesRequest extends InstancesTruncateLogRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the Cloud SQL project. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
-  /** Request body */
-  body?: InstancesTruncateLogRequest | undefined;
 }
-export interface UpdateBackupBackupsRequest {
+export interface UpdateBackupBackupsRequest extends Omit<Backup, "name"> {
   /** The list of fields that you can update. You can update only the description and retention period of the final backup. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the backup. Format: projects/{project}/backups/{backup}. */
   name: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface UpdateDatabasesRequest {
+export interface UpdateDatabasesRequest extends Omit<Database, "instance" | "project"> {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Name of the database to be updated in the instance. */
@@ -3620,20 +3548,19 @@ export interface UpdateDatabasesRequest {
   location?: string | undefined;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: Database | undefined;
 }
-export interface UpdateInstancesRequest {
+export interface UpdateInstancesRequest extends Omit<DatabaseInstance, "project"> {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
-  /** Request body */
-  body?: DatabaseInstance | undefined;
 }
-export interface UpdateUsersRequest {
+export interface UpdateUsersRequest extends Omit<
+  User,
+  "instance" | "databaseRoles" | "serverRoles" | "name" | "project" | "host"
+> {
   /** Optional. Specifies whether to revoke existing roles that are not present in the `server_roles` field. If `false` or unset, the server roles specified in `server_roles` are added to the user's existing server roles. */
   revokeExistingServerRoles?: boolean | undefined;
   /** Name of the user in the instance. */
@@ -3652,8 +3579,6 @@ export interface UpdateUsersRequest {
   serverRoles?: StringList | undefined;
   /** Optional. Specifies whether to revoke existing roles that are not present in the `database_roles` field. If `false` or unset, the database roles specified in `database_roles` are added to the user's existing roles. */
   revokeExistingRoles?: boolean | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 export type SqlInstancesVerifyExternalSyncSettingsRequestMigrationTypeEnum =
   | "MIGRATION_TYPE_UNSPECIFIED"
@@ -3698,13 +3623,11 @@ export interface SqlInstancesVerifyExternalSyncSettingsRequest {
     | (string & {})
     | undefined;
 }
-export interface VerifyExternalSyncSettingsProjectsInstancesRequest {
+export interface VerifyExternalSyncSettingsProjectsInstancesRequest extends SqlInstancesVerifyExternalSyncSettingsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
-  /** Request body */
-  body?: SqlInstancesVerifyExternalSyncSettingsRequest | undefined;
 }
 export type SqlExternalSyncSettingErrorTypeEnum =
   | "SQL_EXTERNAL_SYNC_SETTING_ERROR_TYPE_UNSPECIFIED"
@@ -5467,10 +5390,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c12, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/{+parent}/backups",
@@ -6052,11 +5977,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          blueGreenDeploymentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(457, __c14, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(457, __c14, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            blueGreenDeploymentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/{+parent}/blueGreenDeployments",
@@ -6154,12 +6081,14 @@ function __c15(j: number): any {
       ).annotate({ identifier: "SslCertsCreateEphemeralRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/createEphemeral",
@@ -6316,12 +6245,14 @@ function __c23(j: number): any {
       ).annotate({ identifier: "InstancesDemoteRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(737, __c23, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(737, __c23, 1),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/demote",
@@ -6369,12 +6300,14 @@ function __c24(j: number): any {
       ).annotate({ identifier: "InstancesDemoteMasterRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(771, __c24, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(771, __c24, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/demoteMaster",
@@ -6401,12 +6334,14 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ExecuteSqlPayload" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/executeSql",
@@ -6500,12 +6435,14 @@ function __c26(j: number): any {
       ).annotate({ identifier: "InstancesExportRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/export",
@@ -6532,12 +6469,14 @@ function __c27(j: number): any {
       ).annotate({ identifier: "InstancesFailoverRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(865, __c27, 1),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/failover",
@@ -6560,11 +6499,13 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GenerateEphemeralCertRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}:generateEphemeralCert",
@@ -6906,12 +6847,14 @@ function __c43(j: number): any {
       ).annotate({ identifier: "InstancesImportRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1376, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/import",
@@ -6925,11 +6868,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(992, __c31, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/backupRuns",
@@ -6949,12 +6894,14 @@ function __c45(j: number): any {
       ).annotate({ identifier: "InstancesAcquireSsrsLeaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/acquireSsrsLease",
@@ -6991,12 +6938,14 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(1121, __c35, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1121, __c35, 1),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/databases",
@@ -7010,11 +6959,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(331, __c10, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(331, __c10, 11),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances",
@@ -7034,11 +6985,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SslCertsInsertRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/sslCerts",
@@ -7068,12 +7021,14 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1347, __c42, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1347, __c42, 3),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/users",
@@ -7811,13 +7766,15 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          database: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1121, __c35, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1121, __c35, 1),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            database: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/databases/{database}",
@@ -7831,14 +7788,16 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          reconcilePscNetworking: S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          reconcilePscNetworkingForce: S.optional(S.Boolean.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(331, __c10, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(331, __c10, 11),
+          S.Struct({
+            reconcilePscNetworking: S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            reconcilePscNetworkingForce: S.optional(S.Boolean.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}",
@@ -7876,12 +7835,14 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PerformDiskShrinkContext" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/performDiskShrink",
@@ -7910,10 +7871,12 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PointInTimeRestoreContext" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/{+parent}:pointInTimeRestore",
@@ -7933,12 +7896,14 @@ function __c79(j: number): any {
       ).annotate({ identifier: "InstancesPreCheckMajorVersionUpgradeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/preCheckMajorVersionUpgrade",
@@ -7984,12 +7949,14 @@ function __c81(j: number): any {
       ).annotate({ identifier: "InstancesReencryptRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2593, __c81, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2593, __c81, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/reencrypt",
@@ -8034,12 +8001,14 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SqlInstancesRescheduleMaintenanceRequestBody" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(2657, __c83, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2657, __c83, 1),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/rescheduleMaintenance",
@@ -8059,11 +8028,13 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SqlInstancesResetReplicaSizeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2688, __c84, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/resetReplicaSize",
@@ -8152,12 +8123,14 @@ function __c88(j: number): any {
       ).annotate({ identifier: "InstancesRestoreBackupRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(2817, __c88, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2817, __c88, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/restoreBackup",
@@ -8184,12 +8157,14 @@ function __c89(j: number): any {
       ).annotate({ identifier: "InstancesRotateEntraIdCertificateRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(2849, __c89, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2849, __c89, 1),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/rotateEntraIdCertificate",
@@ -8209,12 +8184,14 @@ function __c90(j: number): any {
       ).annotate({ identifier: "InstancesRotateServerCaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/rotateServerCa",
@@ -8245,12 +8222,14 @@ function __c92(j: number): any {
       ).annotate({ identifier: "InstancesRotateServerCertificateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2944, __c92, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/rotateServerCertificate",
@@ -8276,11 +8255,13 @@ function __c93(j: number): any {
       ).annotate({ identifier: "SqlInstancesStartExternalSyncRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/startExternalSync",
@@ -8310,12 +8291,14 @@ function __c95(j: number): any {
       ).annotate({ identifier: "WorkloadCapturesStartReplayRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          workloadId: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(3040, __c95, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3040, __c95, 0),
+          S.Struct({
+            workloadId: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/workloadCaptures/{workloadId}:startReplay",
@@ -8353,11 +8336,13 @@ function __c97(j: number): any {
       ).annotate({ identifier: "WorkloadCapturesStartRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/workloadCaptures:start",
@@ -8377,11 +8362,13 @@ function __c98(j: number): any {
       ).annotate({ identifier: "WorkloadCapturesStopReplayRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/workloadCaptures:stopReplay",
@@ -8437,11 +8424,13 @@ function __c101(j: number): any {
       ).annotate({ identifier: "WorkloadCapturesStopRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c101, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/workloadCaptures:stop",
@@ -8504,12 +8493,14 @@ function __c104(j: number): any {
       ).annotate({ identifier: "InstancesTruncateLogRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3329, __c104, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3329, __c104, 1),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/truncateLog",
@@ -8523,11 +8514,13 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c12, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "sql/v1beta4/{+name}",
@@ -8541,13 +8534,15 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          database: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(1121, __c35, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1121, __c35, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            database: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/databases/{database}",
@@ -8561,12 +8556,14 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(331, __c10, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(331, __c10, 11),
+          S.Struct({
+            location: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}",
@@ -8580,18 +8577,20 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          revokeExistingServerRoles: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          host: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          databaseRoles: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
-          location: S.optional(S.String.pipe(T.Query())),
-          serverRoles: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
-          revokeExistingRoles: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1347, __c42, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1347, __c42, 3),
+          S.Struct({
+            revokeExistingServerRoles: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+            host: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            databaseRoles: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
+            location: S.optional(S.String.pipe(T.Query())),
+            serverRoles: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
+            revokeExistingRoles: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/users",
@@ -8618,11 +8617,13 @@ function __c109(j: number): any {
       ).annotate({ identifier: "SqlInstancesVerifyExternalSyncSettingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/verifyExternalSyncSettings",
@@ -8685,12 +8686,14 @@ function __c110(j: number): any {
       ).annotate({ identifier: "InstancesCloneRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3522, __c110, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3522, __c110, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "sql/v1beta4/projects/{project}/instances/{instance}/clone",

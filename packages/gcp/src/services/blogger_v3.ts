@@ -494,19 +494,15 @@ export interface User {
   /** The container of blogs for this user. */
   blogs?: UserBlogs | undefined;
 }
-export interface InsertPagesRequest {
+export interface InsertPagesRequest extends Page {
   isDraft?: boolean | undefined;
   blogId: string;
-  /** Request body */
-  body?: Page | undefined;
 }
-export interface InsertPostsRequest {
+export interface InsertPostsRequest extends Post {
   fetchBody?: boolean | undefined;
   fetchImages?: boolean | undefined;
   isDraft?: boolean | undefined;
   blogId: string;
-  /** Request body */
-  body?: Post | undefined;
 }
 export type ListByBlogCommentsStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export type ListByBlogCommentsStatusEnumList = Array<ListByBlogCommentsStatusEnum | (string & {})>;
@@ -653,15 +649,13 @@ export interface MarkAsSpamCommentsRequest {
   blogId: string;
   postId: string;
 }
-export interface PatchPagesRequest {
+export interface PatchPagesRequest extends Page {
   blogId: string;
   pageId: string;
   revert?: boolean | undefined;
   publish?: boolean | undefined;
-  /** Request body */
-  body?: Page | undefined;
 }
-export interface PatchPostsRequest {
+export interface PatchPostsRequest extends Post {
   blogId: string;
   revert?: boolean | undefined;
   publish?: boolean | undefined;
@@ -669,8 +663,6 @@ export interface PatchPostsRequest {
   postId: string;
   maxComments?: number | undefined;
   fetchBody?: boolean | undefined;
-  /** Request body */
-  body?: Post | undefined;
 }
 export interface PublishPagesRequest {
   blogId: string;
@@ -701,15 +693,13 @@ export interface SearchPostsRequest {
   orderBy?: SearchPostsOrderByEnum | (string & {}) | undefined;
   fetchBodies?: boolean | undefined;
 }
-export interface UpdatePagesRequest {
+export interface UpdatePagesRequest extends Page {
   pageId: string;
   revert?: boolean | undefined;
   publish?: boolean | undefined;
   blogId: string;
-  /** Request body */
-  body?: Page | undefined;
 }
-export interface UpdatePostsRequest {
+export interface UpdatePostsRequest extends Post {
   fetchImages?: boolean | undefined;
   fetchBody?: boolean | undefined;
   postId: string;
@@ -717,8 +707,6 @@ export interface UpdatePostsRequest {
   publish?: boolean | undefined;
   revert?: boolean | undefined;
   maxComments?: number | undefined;
-  /** Request body */
-  body?: Post | undefined;
 }
 export type ApproveCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Marks a comment as not spam by blog id, post id and comment id. */
@@ -1530,11 +1518,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          isDraft: S.optional(S.Boolean.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            isDraft: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/blogs/{blogId}/pages",
@@ -1548,13 +1538,15 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fetchBody: S.optional(S.Boolean.pipe(T.Query())),
-          fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-          isDraft: S.optional(S.Boolean.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
-          body: S.optional(__S(333, __c41, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(333, __c41, 5),
+          S.Struct({
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
+            fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+            isDraft: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/blogs/{blogId}/posts",
@@ -1787,13 +1779,15 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          blogId: S.String.pipe(T.Label()),
-          pageId: S.String.pipe(T.Label()),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            blogId: S.String.pipe(T.Label()),
+            pageId: S.String.pipe(T.Label()),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/blogs/{blogId}/pages/{pageId}",
@@ -1807,16 +1801,18 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          blogId: S.String.pipe(T.Label()),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-          postId: S.String.pipe(T.Label()),
-          maxComments: S.optional(S.Number.pipe(T.Query())),
-          fetchBody: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(333, __c41, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(333, __c41, 5),
+          S.Struct({
+            blogId: S.String.pipe(T.Label()),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+            fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+            postId: S.String.pipe(T.Label()),
+            maxComments: S.optional(S.Number.pipe(T.Query())),
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/blogs/{blogId}/posts/{postId}",
@@ -1936,13 +1932,15 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pageId: S.String.pipe(T.Label()),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            pageId: S.String.pipe(T.Label()),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v3/blogs/{blogId}/pages/{pageId}",
@@ -1956,16 +1954,18 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-          fetchBody: S.optional(S.Boolean.pipe(T.Query())),
-          postId: S.String.pipe(T.Label()),
-          blogId: S.String.pipe(T.Label()),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          maxComments: S.optional(S.Number.pipe(T.Query())),
-          body: S.optional(__S(333, __c41, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(333, __c41, 5),
+          S.Struct({
+            fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
+            postId: S.String.pipe(T.Label()),
+            blogId: S.String.pipe(T.Label()),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            maxComments: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v3/blogs/{blogId}/posts/{postId}",

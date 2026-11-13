@@ -246,11 +246,9 @@ export interface CheckRequest {
   /** Optional. Contains a comma-separated list of flags. */
   flags?: string | undefined;
 }
-export interface CheckServicesRequest {
+export interface CheckServicesRequest extends CheckRequest {
   /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
   serviceName: string;
-  /** Request body */
-  body?: CheckRequest | undefined;
 }
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
@@ -278,11 +276,9 @@ export interface ReportRequest {
   /** Describes the list of operations to be reported. Each operation is represented as an AttributeContext, and contains all attributes around an API access. */
   operations?: AttributeContextList | undefined;
 }
-export interface ReportServicesRequest {
+export interface ReportServicesRequest extends ReportRequest {
   /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
   serviceName: string;
-  /** Request body */
-  body?: ReportRequest | undefined;
 }
 /** Response message for the Report method. */
 export interface ReportResponse {
@@ -349,10 +345,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CheckRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/services/{serviceName}:check",
@@ -498,10 +496,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ReportRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c2, 1),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/services/{serviceName}:report",

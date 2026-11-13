@@ -1179,11 +1179,9 @@ export interface GoogleCloudAiplatformV1beta1CountTokensRequest {
   /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
   systemInstruction?: GoogleCloudAiplatformV1beta1Content | undefined;
 }
-export interface CountTokensProjectsLocationsPublishersModelsRequest {
+export interface CountTokensProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1CountTokensRequest {
   /** Required. The name of the Endpoint requested to perform token counting. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CountTokensRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ModalityTokenCountModalityEnum =
   | "MODALITY_UNSPECIFIED"
@@ -1318,11 +1316,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Optional. Generation config. */
   generationConfig?: GoogleCloudAiplatformV1beta1GenerationConfig | undefined;
 }
-export interface GenerateContentProjectsLocationsPublishersModelsRequest {
+export interface GenerateContentProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadataTrafficTypeEnum =
   | "TRAFFIC_TYPE_UNSPECIFIED"
@@ -1742,11 +1738,9 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentResponse {
   /** Output only. Content filter results for a prompt sent in the request. Note: Sent only in the first stream chunk. Only happens when no candidates were generated due to content violations. */
   promptFeedback?: GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback | undefined;
 }
-export interface StreamGenerateContentProjectsLocationsPublishersModelsRequest {
+export interface StreamGenerateContentProjectsLocationsPublishersModelsRequest extends GoogleCloudAiplatformV1beta1GenerateContentRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
 export type CountTokensProjectsLocationsPublishersModelsError =
   | NotFound
@@ -1848,10 +1842,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CountTokensRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            endpoint: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+endpoint}:countTokens",
@@ -2559,10 +2555,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(169, __c5, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(169, __c5, 9),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+model}:generateContent",
@@ -2943,10 +2941,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          model: S.String.pipe(T.Label()),
-          body: S.optional(__S(169, __c5, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(169, __c5, 9),
+          S.Struct({
+            model: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+model}:streamGenerateContent",

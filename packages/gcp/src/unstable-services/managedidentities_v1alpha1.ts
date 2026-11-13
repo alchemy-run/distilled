@@ -126,11 +126,9 @@ export interface AttachTrustRequest {
   /** The domain trust resource. */
   trust?: Trust | undefined;
 }
-export interface AttachTrustProjectsLocationsGlobalDomainsRequest {
+export interface AttachTrustProjectsLocationsGlobalDomainsRequest extends AttachTrustRequest {
   /** The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: AttachTrustRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -238,13 +236,11 @@ export interface Domain {
   /** Optional. Resource labels to represent user provided metadata */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsGlobalDomainsRequest {
+export interface CreateProjectsLocationsGlobalDomainsRequest extends Domain {
   /** Resource project name and location using the form: `projects/{project_id}/locations/global` */
   parent: string;
   /** The fully qualified domain name. e.g. mydomain.myorganization.com, with the following restrictions: * Must contain only lowercase letters, numbers, periods and hyphens. * Must start with a letter. * Must contain between 2-64 characters. * Must end with a number or a letter. * Must not start with period. * Must be unique within the project. * First segment length (mydomain form example above) shouldn't exceed 15 chars. * The last segment cannot be fully numeric. */
   domainName?: string | undefined;
-  /** Request body */
-  body?: Domain | undefined;
 }
 export type BackupTypeEnum = "TYPE_UNSPECIFIED" | "ON_DEMAND" | "SCHEDULED" | "SCHEMA_EXTENSION";
 export type BackupStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "FAILED" | "DELETING";
@@ -267,13 +263,11 @@ export interface Backup {
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalDomainsBackupsRequest {
+export interface CreateProjectsLocationsGlobalDomainsBackupsRequest extends Backup {
   /** Required. Backup Id, unique name to identify the backups with the following restrictions: * Must be lowercase letters, numbers, and hyphens * Must start with a letter. * Must contain between 1-63 characters. * Must end with a number or a letter. * Must be unique within the domain. */
   backupId?: string | undefined;
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   parent: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
 export type PeeringStateEnum =
   | "STATE_UNSPECIFIED"
@@ -300,13 +294,11 @@ export interface Peering {
   /** Required. Full domain resource path for the Managed AD Domain involved in peering. The resource path should be in the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domainResource?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalPeeringsRequest {
+export interface CreateProjectsLocationsGlobalPeeringsRequest extends Peering {
   /** Required. Resource project name and location using the form: `projects/{project_id}/locations/global` */
   parent: string;
   /** Required. Peering Id, unique name to identify peering. */
   peeringId?: string | undefined;
-  /** Request body */
-  body?: Peering | undefined;
 }
 export interface DeleteProjectsLocationsGlobalDomainsRequest {
   /** Domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
@@ -328,11 +320,9 @@ export interface DetachTrustRequest {
   /** The domain trust resource to removed. */
   trust?: Trust | undefined;
 }
-export interface DetachTrustProjectsLocationsGlobalDomainsRequest {
+export interface DetachTrustProjectsLocationsGlobalDomainsRequest extends DetachTrustRequest {
   /** The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: DetachTrustRequest | undefined;
 }
 /** DisableMigrationRequest is the request message for DisableMigration method. */
 export type DisableMigrationRequest = CancelOperationRequest;
@@ -351,11 +341,9 @@ export interface DomainJoinMachineRequest {
   /** Optional. OU name where the VM needs to be domain joined */
   ouName?: string | undefined;
 }
-export interface DomainJoinMachineProjectsLocationsGlobalDomainsRequest {
+export interface DomainJoinMachineProjectsLocationsGlobalDomainsRequest extends DomainJoinMachineRequest {
   /** Required. The domain resource name using the form: projects/{project_id}/locations/global/domains/{domain_name} */
   domain: string;
-  /** Request body */
-  body?: DomainJoinMachineRequest | undefined;
 }
 /** DomainJoinMachineResponse is the response message for DomainJoinMachine method */
 export interface DomainJoinMachineResponse {
@@ -377,11 +365,9 @@ export interface EnableMigrationRequest {
   /** Optional. Period after which the migration would be auto disabled. If unspecified, a default timeout of 48h is used. */
   enableDuration?: string | undefined;
 }
-export interface EnableMigrationProjectsLocationsGlobalDomainsRequest {
+export interface EnableMigrationProjectsLocationsGlobalDomainsRequest extends EnableMigrationRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
-  /** Request body */
-  body?: EnableMigrationRequest | undefined;
 }
 /** ExtendSchemaRequest is the request message for ExtendSchema method. */
 export interface ExtendSchemaRequest {
@@ -392,11 +378,9 @@ export interface ExtendSchemaRequest {
   /** Required. Description for Schema Change. */
   description?: string | undefined;
 }
-export interface ExtendSchemaProjectsLocationsGlobalDomainsRequest {
+export interface ExtendSchemaProjectsLocationsGlobalDomainsRequest extends ExtendSchemaRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
-  /** Request body */
-  body?: ExtendSchemaRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -659,39 +643,31 @@ export interface ListPeeringsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsGlobalDomainsRequest {
+export interface PatchProjectsLocationsGlobalDomainsRequest extends Omit<Domain, "name"> {
   /** Output only. Unique name of the domain in this scope including projects and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
   name: string;
   /** Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Domain: * `labels` * `locations` * `authorized_networks` * `audit_logs_enabled` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Domain | undefined;
 }
-export interface PatchProjectsLocationsGlobalDomainsBackupsRequest {
+export interface PatchProjectsLocationsGlobalDomainsBackupsRequest extends Omit<Backup, "name"> {
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Backup: * `labels` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface PatchProjectsLocationsGlobalPeeringsRequest {
+export interface PatchProjectsLocationsGlobalPeeringsRequest extends Omit<Peering, "name"> {
   /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Peering: * `labels` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Peering | undefined;
 }
 export interface ReconfigureTrustRequest {
   /** The domain trust resource with updated dns conditional forwarder. */
   trust?: Trust | undefined;
 }
-export interface ReconfigureTrustProjectsLocationsGlobalDomainsRequest {
+export interface ReconfigureTrustProjectsLocationsGlobalDomainsRequest extends ReconfigureTrustRequest {
   /** The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: ReconfigureTrustRequest | undefined;
 }
 export type ResetAdminPasswordRequest = CancelOperationRequest;
 export interface ResetAdminPasswordProjectsLocationsGlobalDomainsRequest {
@@ -709,80 +685,65 @@ export interface RestoreDomainRequest {
   /** Required. ID of the backup to be restored */
   backupId?: string | undefined;
 }
-export interface RestoreProjectsLocationsGlobalDomainsRequest {
+export interface RestoreProjectsLocationsGlobalDomainsRequest extends RestoreDomainRequest {
   /** Required. resource name for the domain to which the backup belongs */
   name: string;
-  /** Request body */
-  body?: RestoreDomainRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlobalDomainsRequest {
+export interface SetIamPolicyProjectsLocationsGlobalDomainsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest {
+export interface SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlobalPeeringsRequest {
+export interface SetIamPolicyProjectsLocationsGlobalPeeringsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGlobalDomainsRequest {
+export interface TestIamPermissionsProjectsLocationsGlobalDomainsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest {
+export interface TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGlobalPeeringsRequest {
+export interface TestIamPermissionsProjectsLocationsGlobalPeeringsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest {
+export interface UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest extends Omit<
+  LDAPSSettings,
+  "name"
+> {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The resource name of the LDAPS settings. Uses the form: `projects/{project}/locations/{location}/domains/{domain}`. */
   name: string;
-  /** Request body */
-  body?: LDAPSSettings | undefined;
 }
 export interface ValidateTrustRequest {
   /** The domain trust to validate trust state for. */
   trust?: Trust | undefined;
 }
-export interface ValidateTrustProjectsLocationsGlobalDomainsRequest {
+export interface ValidateTrustProjectsLocationsGlobalDomainsRequest extends ValidateTrustRequest {
   /** The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: ValidateTrustRequest | undefined;
 }
 export type AttachTrustProjectsLocationsGlobalDomainsError =
   | NotFound
@@ -1836,10 +1797,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(140, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:detachTrust",
@@ -1878,10 +1841,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DomainJoinMachineRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c6, 0),
+          S.Struct({
+            domain: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+domain}:domainJoinMachine",
@@ -1917,10 +1882,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "EnableMigrationRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(30, __c7, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30, __c7, 2),
+          S.Struct({
+            domain: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+domain}:enableMigration",
@@ -1942,10 +1909,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ExtendSchemaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c8, 0),
+          S.Struct({
+            domain: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+domain}:extendSchema",
@@ -2385,11 +2354,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(221, __c55, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(221, __c55, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -2403,11 +2374,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(232, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -2421,11 +2394,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(240, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c60, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -2439,10 +2414,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(140, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:reconfigureTrust",
@@ -2479,10 +2456,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(140, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:attachTrust",
@@ -2568,10 +2547,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "RestoreDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c40, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:restore",
@@ -2585,10 +2566,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c42, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:setIamPolicy",
@@ -2612,10 +2595,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c42, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:setIamPolicy",
@@ -2629,10 +2614,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(168, __c42, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:setIamPolicy",
@@ -2646,10 +2633,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(184, __c46, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:testIamPermissions",
@@ -2673,10 +2662,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(184, __c46, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:testIamPermissions",
@@ -2690,10 +2681,12 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(184, __c46, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:testIamPermissions",
@@ -2707,11 +2700,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(57, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(57, __c14, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}/ldapssettings",
@@ -2725,10 +2720,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(140, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:validateTrust",
@@ -2798,11 +2795,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          domainName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(221, __c55, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(221, __c55, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            domainName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/domains",
@@ -2846,11 +2845,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(232, __c58, 0),
+          S.Struct({
+            backupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/backups",
@@ -2881,11 +2882,13 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          peeringId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(240, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c60, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            peeringId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/peerings",

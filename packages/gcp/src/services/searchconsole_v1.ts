@@ -181,10 +181,7 @@ export interface InspectUrlIndexRequest {
   /** Required. The URL of the property as defined in Search Console. **Examples:** `http://www.example.com/` for a URL-prefix property, or `sc-domain:example.com` for a Domain property. */
   siteUrl?: string | undefined;
 }
-export interface InspectUrlInspectionIndexRequest {
-  /** Request body */
-  body?: InspectUrlIndexRequest | undefined;
-}
+export interface InspectUrlInspectionIndexRequest extends InspectUrlIndexRequest {}
 export type IndexStatusInspectionResultPageFetchStateEnum =
   | "PAGE_FETCH_STATE_UNSPECIFIED"
   | "SUCCESSFUL"
@@ -499,11 +496,9 @@ export interface SearchAnalyticsQueryRequest {
   /** [Optional] Zero or more filters to apply to the dimension grouping values; for example, 'query contains \"buy\"' to see only data where the query string contains the substring \"buy\" (not case-sensitive). You can filter by a dimension without grouping by it. */
   dimensionFilterGroups?: ApiDimensionFilterGroupList | undefined;
 }
-export interface QuerySearchanalyticsRequest {
+export interface QuerySearchanalyticsRequest extends SearchAnalyticsQueryRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
-  /** Request body */
-  body?: SearchAnalyticsQueryRequest | undefined;
 }
 /** An object that may be returned with your query results, providing context about the state of the data. When you request recent data (using `all` or `hourly_all` for `dataState`), some of the rows returned may represent data that is incomplete, which means that the data is still being collected and processed. This metadata object helps you identify exactly when this starts and ends. All dates and times provided in this object are in the `America/Los_Angeles` time zone. The specific field returned within this object depends on how you've grouped your data in the request. See details in inner fields. */
 export interface Metadata {
@@ -541,10 +536,7 @@ export interface RunMobileFriendlyTestRequest {
   /** Whether or not screenshot is requested. Default is false. */
   requestScreenshot?: boolean | undefined;
 }
-export interface RunUrlTestingToolsMobileFriendlyTestRequest {
-  /** Request body */
-  body?: RunMobileFriendlyTestRequest | undefined;
-}
+export interface RunUrlTestingToolsMobileFriendlyTestRequest extends RunMobileFriendlyTestRequest {}
 export type RunMobileFriendlyTestResponseMobileFriendlinessEnum =
   | "MOBILE_FRIENDLY_TEST_RESULT_UNSPECIFIED"
   | "MOBILE_FRIENDLY"
@@ -894,10 +886,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SearchAnalyticsQueryRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          siteUrl: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c2, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37, __c2, 5),
+          S.Struct({
+            siteUrl: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "webmasters/v3/sites/{siteUrl}/searchAnalytics/query",
@@ -945,9 +939,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "RunMobileFriendlyTestRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(48, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/urlTestingTools/mobileFriendlyTest:run",
@@ -1159,9 +1151,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "InspectUrlIndexRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(208, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(208, __c13, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/urlInspection/index:inspect",

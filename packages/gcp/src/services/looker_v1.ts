@@ -385,13 +385,11 @@ export interface Instance {
   /** Output only. Maintenance schedule for this instance. */
   maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The unique instance identifier. Must contain only lowercase letters, numbers, or hyphens, with the first character a letter and the last a letter or a number. 63 characters maximum. */
   instanceId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -436,11 +434,9 @@ export interface InstanceBackup {
   /** Immutable. The relative resource name of the backup, in the following form: `projects/{project_number}/locations/{location_id}/instances/{instance_id}/backups/{backup}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesBackupsRequest {
+export interface CreateProjectsLocationsInstancesBackupsRequest extends InstanceBackup {
   /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
   parent: string;
-  /** Request body */
-  body?: InstanceBackup | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
@@ -468,11 +464,9 @@ export interface ExportInstanceRequest {
   /** The path to the folder in Google Cloud Storage where the export will be stored. The URI is in the form `gs://bucketName/folderName`. */
   gcsUri?: string | undefined;
 }
-export interface ExportProjectsLocationsInstancesRequest {
+export interface ExportProjectsLocationsInstancesRequest extends ExportInstanceRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
-  /** Request body */
-  body?: ExportInstanceRequest | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -509,11 +503,9 @@ export interface ImportInstanceRequest {
   /** Path to the import folder in Google Cloud Storage, in the form `gs://bucketName/folderName`. */
   gcsUri?: string | undefined;
 }
-export interface ImportProjectsLocationsInstancesRequest {
+export interface ImportProjectsLocationsInstancesRequest extends ImportInstanceRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
-  /** Request body */
-  body?: ImportInstanceRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
@@ -597,13 +589,11 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Required. Field mask used to specify the fields to be overwritten in the Instance resource by the update. The fields specified in the mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Output only. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
-  /** Request body */
-  body?: Instance | undefined;
 }
 /** Request options for restarting an instance. */
 export type RestartInstanceRequest = CancelOperationRequest;
@@ -618,11 +608,9 @@ export interface RestoreInstanceRequest {
   /** Required. Backup being used to restore the instance Format: projects/{project}/locations/{location}/instances/{instance}/backups/{backup} */
   backup?: string | undefined;
 }
-export interface RestoreProjectsLocationsInstancesRequest {
+export interface RestoreProjectsLocationsInstancesRequest extends RestoreInstanceRequest {
   /** Required. Instance being restored Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
-  /** Request body */
-  body?: RestoreInstanceRequest | undefined;
 }
 /** Request options for undeleting an instance. */
 export type UndeleteInstanceRequest = CancelOperationRequest;
@@ -1057,10 +1045,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ExportInstanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -1144,10 +1134,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ImportInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -1278,11 +1270,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(626, __c19, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(626, __c19, 18),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
@@ -1315,10 +1309,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RestoreInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restore",
@@ -1372,11 +1368,13 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(626, __c19, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(626, __c19, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -1616,10 +1614,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups",

@@ -1863,15 +1863,13 @@ export interface Feature {
   /** Output only. Scope-specific Feature status. If this Feature does report any per-Scope status, this field may be unused. The keys indicate which Scope the state is for, in the form: `projects/{p}/locations/global/scopes/{s}` Where {p} is the project, {s} is a valid Scope in this project. {p} WILL match the Feature's project. */
   scopeStates?: ScopeFeatureStateMap | undefined;
 }
-export interface CreateProjectsLocationsFeaturesRequest {
+export interface CreateProjectsLocationsFeaturesRequest extends Feature {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent (project and location) where the Feature will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** The ID of the feature to create. */
   featureId?: string | undefined;
-  /** Request body */
-  body?: Feature | undefined;
 }
 export type FleetLifecycleStateCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -1961,11 +1959,9 @@ export interface Fleet {
   /** Optional. The default cluster configurations to apply across the fleet. */
   defaultClusterConfig?: DefaultClusterConfig | undefined;
 }
-export interface CreateProjectsLocationsFleetsRequest {
+export interface CreateProjectsLocationsFleetsRequest extends Fleet {
   /** Required. The parent (project and location) where the Fleet will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: Fleet | undefined;
 }
 export type MembershipMembershipTypeEnum = "MEMBERSHIP_TYPE_UNSPECIFIED" | "LIGHTWEIGHT";
 /** MonitoringConfig informs Fleet-based applications/services/UIs how the metrics for the underlying cluster is reported to cloud monitoring services. It can be set from empty to non-empty, but can't be mutated directly to prevent accidentally breaking the constinousty of metrics. */
@@ -2147,15 +2143,13 @@ export interface Membership {
   /** Output only. Google-generated UUID for this resource. This is unique across all Membership resources. If a Membership resource is deleted and another resource with the same name is created, it gets a different unique_id. */
   uniqueId?: string | undefined;
 }
-export interface CreateProjectsLocationsMembershipsRequest {
+export interface CreateProjectsLocationsMembershipsRequest extends Membership {
   /** Required. Client chosen ID for the membership. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   membershipId?: string | undefined;
   /** Required. The parent (project and location) where the Memberships will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Membership | undefined;
 }
 export type MembershipBindingLifecycleStateCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -2187,13 +2181,11 @@ export interface MembershipBinding {
   /** Output only. When the membership binding was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMembershipsBindingsRequest {
+export interface CreateProjectsLocationsMembershipsBindingsRequest extends MembershipBinding {
   /** Required. The parent (project and location) where the MembershipBinding will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
   parent: string;
   /** Required. The ID to use for the MembershipBinding. */
   membershipBindingId?: string | undefined;
-  /** Request body */
-  body?: MembershipBinding | undefined;
 }
 export type RolePredefinedRoleEnum = "UNKNOWN" | "ADMIN" | "EDIT" | "VIEW" | "ANTHOS_SUPPORT";
 /** Role is the type for Kubernetes roles */
@@ -2237,13 +2229,11 @@ export interface RBACRoleBinding {
   /** user is the name of the user as seen by the kubernetes cluster, example "alice" or "alice@domain.tld" */
   user?: string | undefined;
 }
-export interface CreateProjectsLocationsMembershipsRbacrolebindingsRequest {
+export interface CreateProjectsLocationsMembershipsRbacrolebindingsRequest extends RBACRoleBinding {
   /** Required. The parent (project and location) where the RBACRoleBinding will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
   parent: string;
   /** Required. Client chosen ID for the RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   rbacrolebindingId?: string | undefined;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
 }
 /** Selector for clusters. */
 export interface ClusterSelector {
@@ -2353,13 +2343,11 @@ export interface RolloutSequence {
   /** Output only. The computed release channel used for the Rollout Sequence. */
   computedReleaseChannel?: RolloutSequenceComputedReleaseChannelEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsRolloutSequencesRequest {
+export interface CreateProjectsLocationsRolloutSequencesRequest extends RolloutSequence {
   /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
   rolloutSequenceId?: string | undefined;
   /** Required. The parent resource where this rollout sequence will be created. projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: RolloutSequence | undefined;
 }
 export type ScopeLifecycleStateCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -2391,13 +2379,11 @@ export interface Scope {
   /** Optional. Scope-level cluster namespace labels. For the member clusters bound to the Scope, these labels are applied to each namespace under the Scope. Scope-level labels take precedence over Namespace-level labels (`namespace_labels` in the Fleet Namespace resource) if they share a key. Keys and values must be Kubernetes-conformant. */
   namespaceLabels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsScopesRequest {
+export interface CreateProjectsLocationsScopesRequest extends Scope {
   /** Required. Client chosen ID for the Scope. `scope_id` must be a ???? */
   scopeId?: string | undefined;
   /** Required. The parent (project and location) where the Scope will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: Scope | undefined;
 }
 export type NamespaceLifecycleStateCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -2431,21 +2417,17 @@ export interface Namespace {
   /** Output only. Google-generated UUID for this resource. This is unique across all namespace resources. If a namespace resource is deleted and another resource with the same name is created, it gets a different uid. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsScopesNamespacesRequest {
+export interface CreateProjectsLocationsScopesNamespacesRequest extends Namespace {
   /** Required. The parent (project and location) where the Namespace will be created. Specified in the format `projects/*\/locations/*\/scopes/*`. */
   parent: string;
   /** Required. Client chosen ID for the Namespace. `namespace_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   scopeNamespaceId?: string | undefined;
-  /** Request body */
-  body?: Namespace | undefined;
 }
-export interface CreateProjectsLocationsScopesRbacrolebindingsRequest {
+export interface CreateProjectsLocationsScopesRbacrolebindingsRequest extends RBACRoleBinding {
   /** Required. Client chosen ID for the RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   rbacrolebindingId?: string | undefined;
   /** Required. The parent (project and location) where the RBACRoleBinding will be created. Specified in the format `projects/*\/locations/*\/scopes/*`. */
   parent: string;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
 }
 export interface DeleteProjectsLocationsFeaturesRequest {
   /** Required. The Feature resource name in the format `projects/*\/locations/*\/features/*`. */
@@ -2506,11 +2488,9 @@ export interface ForceCompleteRolloutStageRequest {
   /** Required. The stage number to force-complete. */
   stageNumber?: number | undefined;
 }
-export interface ForceCompleteStageProjectsLocationsRolloutsRequest {
+export interface ForceCompleteStageProjectsLocationsRolloutsRequest extends ForceCompleteRolloutStageRequest {
   /** Required. The name of the rollout. Format: projects/{project}/locations/{location}/rollouts/{rollout} */
   name: string;
-  /** Request body */
-  body?: ForceCompleteRolloutStageRequest | undefined;
 }
 export interface GenerateConnectManifestProjectsLocationsMembershipsRequest {
   /** Optional. The image pull secret content for the registry, if not public. */
@@ -2563,13 +2543,11 @@ export interface GenerateExclusivityManifestResponse {
   /** The YAML manifest of the membership CRD to apply if a newer version of the CRD is available. Empty if no update needs to be applied. */
   crdManifest?: string | undefined;
 }
-export interface GenerateMembershipRBACRoleBindingYAMLProjectsLocationsMembershipsRbacrolebindingsRequest {
+export interface GenerateMembershipRBACRoleBindingYAMLProjectsLocationsMembershipsRbacrolebindingsRequest extends RBACRoleBinding {
   /** Required. The parent (project and location) where the RBACRoleBinding will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
   parent: string;
   /** Required. Client chosen ID for the RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   rbacrolebindingId?: string | undefined;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
 }
 /** Response for GenerateRBACRoleBindingYAML. */
 export interface GenerateMembershipRBACRoleBindingYAMLResponse {
@@ -3133,81 +3111,75 @@ export interface ListScopeRBACRoleBindingsResponse {
   /** A token to request the next page of resources from the `ListScopeRBACRoleBindings` method. The value of an empty string means that there are no more resources to return. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsFeaturesRequest {
+export interface PatchProjectsLocationsFeaturesRequest extends Omit<Feature, "name"> {
   /** Mask of fields to update. */
   updateMask?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The Feature resource name in the format `projects/*\/locations/*\/features/*`. */
   name: string;
-  /** Request body */
-  body?: Feature | undefined;
 }
-export interface PatchProjectsLocationsFleetsRequest {
+export interface PatchProjectsLocationsFleetsRequest extends Omit<Fleet, "name"> {
   /** Output only. The full, unique resource name of this fleet in the format of `projects/{project}/locations/{location}/fleets/{fleet}`. Each Google Cloud project can have at most one fleet resource, named "default". */
   name: string;
   /** Required. The fields to be updated; */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Fleet | undefined;
 }
-export interface PatchProjectsLocationsMembershipsRequest {
+export interface PatchProjectsLocationsMembershipsRequest extends Omit<Membership, "name"> {
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The Membership resource name in the format `projects/*\/locations/*\/memberships/*`. */
   name: string;
-  /** Request body */
-  body?: Membership | undefined;
 }
-export interface PatchProjectsLocationsMembershipsBindingsRequest {
+export interface PatchProjectsLocationsMembershipsBindingsRequest extends Omit<
+  MembershipBinding,
+  "name"
+> {
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
   /** The resource name for the membershipbinding itself `projects/{project}/locations/{location}/memberships/{membership}/bindings/{membershipbinding}` */
   name: string;
-  /** Request body */
-  body?: MembershipBinding | undefined;
 }
-export interface PatchProjectsLocationsMembershipsRbacrolebindingsRequest {
+export interface PatchProjectsLocationsMembershipsRbacrolebindingsRequest extends Omit<
+  RBACRoleBinding,
+  "name"
+> {
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
   /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
   name: string;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
 }
-export interface PatchProjectsLocationsRolloutSequencesRequest {
+export interface PatchProjectsLocationsRolloutSequencesRequest extends Omit<
+  RolloutSequence,
+  "name"
+> {
   /** Identifier. Name of the rollout sequence in the format of: projects/{PROJECT_ID}/locations/global/rolloutSequences/{NAME} */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RolloutSequence | undefined;
 }
-export interface PatchProjectsLocationsScopesRequest {
+export interface PatchProjectsLocationsScopesRequest extends Omit<Scope, "name"> {
   /** The resource name for the scope `projects/{project}/locations/{location}/scopes/{scope}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Scope | undefined;
 }
-export interface PatchProjectsLocationsScopesNamespacesRequest {
+export interface PatchProjectsLocationsScopesNamespacesRequest extends Omit<Namespace, "name"> {
   /** The resource name for the namespace `projects/{project}/locations/{location}/namespaces/{namespace}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Namespace | undefined;
 }
-export interface PatchProjectsLocationsScopesRbacrolebindingsRequest {
+export interface PatchProjectsLocationsScopesRbacrolebindingsRequest extends Omit<
+  RBACRoleBinding,
+  "name"
+> {
   /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
 }
 /** Request message for pausing a rollout. */
 export type PauseRolloutRequest = CancelOperationRequest;
@@ -3224,11 +3196,9 @@ export interface ResumeRolloutRequest {
   /** Optional. If set, resume rollout will be executed in dry-run mode. */
   validateOnly?: boolean | undefined;
 }
-export interface ResumeProjectsLocationsRolloutsRequest {
+export interface ResumeProjectsLocationsRolloutsRequest extends ResumeRolloutRequest {
   /** Required. The name of the rollout to resume. projects/{project}/locations/{location}/rollouts/{rollout} */
   name: string;
-  /** Request body */
-  body?: ResumeRolloutRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -3237,51 +3207,39 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFeaturesRequest {
+export interface SetIamPolicyProjectsLocationsFeaturesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsMembershipsRequest {
+export interface SetIamPolicyProjectsLocationsMembershipsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsScopesRequest {
+export interface SetIamPolicyProjectsLocationsScopesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsFeaturesRequest {
+export interface TestIamPermissionsProjectsLocationsFeaturesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsMembershipsRequest {
+export interface TestIamPermissionsProjectsLocationsMembershipsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsScopesRequest {
+export interface TestIamPermissionsProjectsLocationsScopesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type UpgradeRolloutSequenceRequestUpgradeTypeEnum =
   | "UPGRADE_TYPE_UNSPECIFIED"
@@ -3313,11 +3271,9 @@ export interface UpgradeRolloutSequenceRequest {
   /** Required. GKE version to upgrade to. A valid GKE version available on the release channel used by the sequence. Patch versions from less conservative channels are allowed if their minor version is already available in the sequence's channel. This is similar to single-cluster upgrade rules, see https://cloud.google.com/kubernetes-engine/docs/how-to/upgrading-a-cluster#supported-versions Example: With the following versions available on the RAPID and REGULAR channels: * REGULAR: 1.35.3-gke.123000 * RAPID: 1.36.4-gke.321000, 1.35.6-gke.045000 Valid versions are 1.35.3-gke.123, 1.35.6-gke.045000 Aliases like `latest` are supported. For more information on valid upgrade versions and specifying cluster versions, see: https://cloud.google.com/kubernetes-engine/versioning#specifying_cluster_version */
   version?: string | undefined;
 }
-export interface UpgradeProjectsLocationsRolloutSequencesRequest {
+export interface UpgradeProjectsLocationsRolloutSequencesRequest extends UpgradeRolloutSequenceRequest {
   /** Required. The name of the rollout sequence. Format: projects/{project}/locations/{location}/rolloutSequences/{rollout_sequence} */
   name: string;
-  /** Request body */
-  body?: UpgradeRolloutSequenceRequest | undefined;
 }
 /** Request message for the `GkeHub.ValidateCreateMembership` method. */
 export interface ValidateCreateMembershipRequest {
@@ -3326,11 +3282,9 @@ export interface ValidateCreateMembershipRequest {
   /** Required. Client chosen membership id. */
   membershipId?: string | undefined;
 }
-export interface ValidateCreateProjectsLocationsMembershipsRequest {
+export interface ValidateCreateProjectsLocationsMembershipsRequest extends ValidateCreateMembershipRequest {
   /** Required. The parent (project and location) where the Memberships will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: ValidateCreateMembershipRequest | undefined;
 }
 export type ValidationResultValidatorEnum =
   | "VALIDATOR_TYPE_UNSPECIFIED"
@@ -4989,11 +4943,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/rbacrolebindings",
@@ -5033,11 +4989,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          rolloutSequenceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(133, __c4, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(133, __c4, 5),
+          S.Struct({
+            rolloutSequenceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/rolloutSequences",
@@ -5119,11 +5077,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scopeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            scopeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/scopes",
@@ -5154,11 +5114,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          scopeNamespaceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            scopeNamespaceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/namespaces",
@@ -5190,11 +5152,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/rbacrolebindings",
@@ -5395,10 +5359,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ForceCompleteRolloutStageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:forceCompleteStage",
@@ -5481,11 +5447,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/rbacrolebindings:generateMembershipRBACRoleBindingYAML",
@@ -6391,12 +6359,14 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          featureId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2413, __c75, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2413, __c75, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            featureId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/features",
@@ -7509,12 +7479,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2413, __c75, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2413, __c75, 13),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7528,11 +7500,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2824, __c88, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2824, __c88, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7546,12 +7520,14 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3307, __c103, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3307, __c103, 11),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7565,11 +7541,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7583,11 +7561,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7601,11 +7581,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(133, __c4, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(133, __c4, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7619,11 +7601,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7637,11 +7621,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7655,11 +7641,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -7673,10 +7661,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2824, __c88, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2824, __c88, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/fleets",
@@ -7787,10 +7777,12 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ResumeRolloutRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2912, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2912, __c91, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:resume",
@@ -7804,10 +7796,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -7832,10 +7826,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -7849,10 +7845,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -7866,10 +7864,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -7893,10 +7893,12 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -7910,10 +7912,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -7947,10 +7951,12 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpgradeRolloutSequenceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3201, __c100, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:upgrade",
@@ -7971,10 +7977,12 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ValidateCreateMembershipRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c101, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/memberships:validateCreate",
@@ -8004,12 +8012,14 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          membershipId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3307, __c103, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3307, __c103, 11),
+          S.Struct({
+            membershipId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/memberships",
@@ -8165,11 +8175,13 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          membershipBindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            membershipBindingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/bindings",

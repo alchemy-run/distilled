@@ -108,11 +108,9 @@ export interface GoogleCloudAssuredworkloadsV1AcknowledgeViolationRequest {
   /** Required. The business justification for acknowledging the violation. The comment can't be empty or contain only whitespace characters. */
   comment?: string | undefined;
 }
-export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest {
+export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest extends GoogleCloudAssuredworkloadsV1AcknowledgeViolationRequest {
   /** Required. The resource name of the violation to acknowledge. Format: `organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1AcknowledgeViolationRequest | undefined;
 }
 /** Response message for acknowledging a violation. This message is empty. */
 export interface GoogleCloudAssuredworkloadsV1AcknowledgeViolationResponse {}
@@ -259,11 +257,9 @@ export interface GoogleCloudAssuredworkloadsV1ApplyWorkloadUpdateRequest {
     | (string & {})
     | undefined;
 }
-export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest {
+export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest extends GoogleCloudAssuredworkloadsV1ApplyWorkloadUpdateRequest {
   /** Required. The resource name of the update. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id}/updates/{update_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1ApplyWorkloadUpdateRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -535,13 +531,11 @@ export interface GoogleCloudAssuredworkloadsV1Workload {
   /** Optional. Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT/Telefonica partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC */
   partnerServicesBillingAccount?: string | undefined;
 }
-export interface CreateOrganizationsLocationsWorkloadsRequest {
+export interface CreateOrganizationsLocationsWorkloadsRequest extends GoogleCloudAssuredworkloadsV1Workload {
   /** Optional. A identifier associated with the workload and underlying projects which allows for the break down of billing costs for a workload. The value provided for the identifier will add a label to the workload and contained projects with the identifier as the value. */
   externalId?: string | undefined;
   /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1Workload | undefined;
 }
 export interface DeleteOrganizationsLocationsWorkloadsRequest {
   /** Required. The `name` field is used to identify the workload. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
@@ -1357,19 +1351,18 @@ export interface GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest {
   /** Required. The partner permissions to be updated. */
   partnerPermissions?: GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions | undefined;
 }
-export interface MutatePartnerPermissionsOrganizationsLocationsWorkloadsRequest {
+export interface MutatePartnerPermissionsOrganizationsLocationsWorkloadsRequest extends GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest {
   /** Required. The `name` field is used to identify the workload. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest | undefined;
 }
-export interface PatchOrganizationsLocationsWorkloadsRequest {
+export interface PatchOrganizationsLocationsWorkloadsRequest extends Omit<
+  GoogleCloudAssuredworkloadsV1Workload,
+  "name"
+> {
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1Workload | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequestRestrictionTypeEnum =
   | "RESTRICTION_TYPE_UNSPECIFIED"
@@ -1384,11 +1377,9 @@ export interface GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest {
     | (string & {})
     | undefined;
 }
-export interface RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest {
+export interface RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest extends GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest {
   /** Required. The resource name of the Workload. This is the workloads's relative path in the API, formatted as "organizations/{organization_id}/locations/{location_id}/workloads/{workload_id}". For example, "organizations/123/locations/us-east1/workloads/assured-workload-1". */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest | undefined;
 }
 /** Response for restricting the list of allowed resources. */
 export interface GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesResponse {}
@@ -2217,11 +2208,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          externalId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(43, __c2, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(43, __c2, 11),
+          S.Struct({
+            externalId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workloads",
@@ -3139,10 +3132,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c31, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}:mutatePartnerPermissions",
@@ -3156,11 +3151,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(43, __c2, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(43, __c2, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3180,10 +3177,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restrictAllowedResources",
@@ -3206,10 +3205,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1AcknowledgeViolationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:acknowledge",
@@ -3418,10 +3419,12 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1ApplyWorkloadUpdateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c44, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:apply",

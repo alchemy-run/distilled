@@ -112,10 +112,7 @@ export interface GenerateInsightsRequest {
   /** Optional. Overrides the maximum iterations for any selected strategy. */
   overriddenMaxIterationCounts?: number | undefined;
 }
-export interface GenerateInsightsV1betaRequest {
-  /** Request body */
-  body?: GenerateInsightsRequest | undefined;
-}
+export interface GenerateInsightsV1betaRequest extends GenerateInsightsRequest {}
 export type RejectionReasonEnum = "REASON_UNSPECIFIED" | "EXPLICIT_OUT_OF_SCOPE";
 /** Encapsulates details about why a request was rejected. */
 export interface Rejection {
@@ -1648,9 +1645,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GenerateInsightsRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(451, __c14, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(451, __c14, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta:generateInsights",

@@ -88,11 +88,9 @@ export interface DecodeIntegrityTokenRequest {
   /** Encoded integrity token. */
   integrityToken?: string | undefined;
 }
-export interface DecodeIntegrityTokenV1Request {
+export interface DecodeIntegrityTokenV1Request extends DecodeIntegrityTokenRequest {
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
-  /** Request body */
-  body?: DecodeIntegrityTokenRequest | undefined;
 }
 export type StringList = Array<string>;
 export type AppIntegrityAppRecognitionVerdictEnum =
@@ -292,11 +290,9 @@ export interface DecodeIntegrityTokenResponse {
 }
 /** Request to decode the PC integrity token. */
 export type DecodePcIntegrityTokenRequest = DecodeIntegrityTokenRequest;
-export interface DecodePcIntegrityTokenV1Request {
+export interface DecodePcIntegrityTokenV1Request extends DecodeIntegrityTokenRequest {
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
-  /** Request body */
-  body?: DecodeIntegrityTokenRequest | undefined;
 }
 export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnum =
   | "DEVICE_RECOGNITION_VERDICT_UNSPECIFIED"
@@ -355,11 +351,9 @@ export interface WriteDeviceRecallRequest {
   /** Required. The new values for the device recall bits to be written. */
   newValues?: Values | undefined;
 }
-export interface WriteDeviceRecallRequest_ {
+export interface WriteDeviceRecallRequest_ extends WriteDeviceRecallRequest {
   /** Required. Package name of the app the attached integrity token belongs to. */
   packageName: string;
-  /** Request body */
-  body?: WriteDeviceRecallRequest | undefined;
 }
 /** Response for the Write Device Recall action. Currently empty. */
 export interface WriteDeviceRecallResponse {}
@@ -424,10 +418,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+packageName}:decodeIntegrityToken",
@@ -572,10 +568,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+packageName}:decodePcIntegrityToken",
@@ -631,10 +629,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "WriteDeviceRecallRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+packageName}/deviceRecall:write",

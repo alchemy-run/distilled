@@ -146,11 +146,9 @@ export interface BatchCreateRepositoriesRequest {
   /** Required. The request messages specifying the repositories to create. */
   requests?: CreateRepositoryRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsConnectionsRepositoriesRequest {
+export interface BatchCreateProjectsLocationsConnectionsRepositoriesRequest extends BatchCreateRepositoriesRequest {
   /** Required. The connection to contain all the repositories being created. Format: projects/*\/locations/*\/connections/* The parent field in the CreateRepositoryRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: BatchCreateRepositoriesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -324,21 +322,17 @@ export interface Connection {
   /** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
   gitlabConfig?: GoogleDevtoolsCloudbuildV2GitLabConfig | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
+export interface CreateProjectsLocationsConnectionsRequest extends Connection {
   /** Required. Project and location where the connection will be created. Format: `projects/*\/locations/*`. */
   parent: string;
   /** Required. The ID to use for the Connection, which will become the final component of the Connection's resource name. Names must be unique per-project per-location. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
   connectionId?: string | undefined;
-  /** Request body */
-  body?: Connection | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRepositoriesRequest {
+export interface CreateProjectsLocationsConnectionsRepositoriesRequest extends Repository {
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This ID should be unique in the connection. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
   repositoryId?: string | undefined;
   /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
   parent: string;
-  /** Request body */
-  body?: Repository | undefined;
 }
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. The name of the Connection to delete. Format: `projects/*\/locations/*\/connections/*`. */
@@ -546,7 +540,10 @@ export interface ListRepositoriesResponse {
   /** The list of Repositories. */
   repositories?: RepositoryList | undefined;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends Omit<
+  Connection,
+  "etag" | "name"
+> {
   /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name: string;
   /** The current etag of the connection. If an etag is provided and does not match the current etag of the connection, update will be blocked and an ABORTED error will be returned. */
@@ -555,8 +552,6 @@ export interface PatchProjectsLocationsConnectionsRequest {
   allowMissing?: boolean | undefined;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Connection | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -567,13 +562,11 @@ export interface HttpBody {
   /** The HTTP request/response body as raw binary. */
   data?: string | undefined;
 }
-export interface ProcessWebhookProjectsLocationsConnectionsRequest {
+export interface ProcessWebhookProjectsLocationsConnectionsRequest extends HttpBody {
   /** Arbitrary additional key to find the matching repository for a webhook event if needed. */
   webhookKey?: string | undefined;
   /** Required. Project and location where the webhook will be received. Format: `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -582,22 +575,18 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
+export interface SetIamPolicyProjectsLocationsConnectionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
+export interface TestIamPermissionsProjectsLocationsConnectionsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1417,13 +1406,15 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(521, __c32, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(521, __c32, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            etag: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1445,11 +1436,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "HttpBody" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections:processWebhook",
@@ -1470,10 +1463,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c18, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -1493,10 +1488,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -1579,10 +1576,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "BatchCreateRepositoriesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(386, __c24, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(386, __c24, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/repositories:batchCreate",
@@ -1669,11 +1668,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(521, __c32, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(521, __c32, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections",
@@ -1792,11 +1793,13 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/repositories",

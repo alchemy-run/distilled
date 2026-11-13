@@ -271,11 +271,9 @@ export interface BatchCreateRegionsRequest {
   /** Required. The region(s) to create. The maximum number of regions that can be created in a batch is 100. */
   requests?: CreateRegionRequestList | undefined;
 }
-export interface BatchCreateAccountsRegionsRequest {
+export interface BatchCreateAccountsRegionsRequest extends BatchCreateRegionsRequest {
   /** Required. The account to create one or more regions for. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: BatchCreateRegionsRequest | undefined;
 }
 export type RegionList = Array<Region>;
 /** Response message for the `BatchCreateRegions` method. */
@@ -294,11 +292,9 @@ export interface BatchDeleteRegionsRequest {
   /** Required. The names of the regions to delete. A maximum of 100 regions can be deleted in a batch. */
   requests?: DeleteRegionRequestList | undefined;
 }
-export interface BatchDeleteAccountsRegionsRequest {
+export interface BatchDeleteAccountsRegionsRequest extends BatchDeleteRegionsRequest {
   /** Required. The account to delete one or more regions from. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: BatchDeleteRegionsRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -315,11 +311,9 @@ export interface BatchUpdateRegionsRequest {
   /** Required. The region(s) to update. The maximum number of regions that can be updated in a batch is 100. */
   requests?: UpdateRegionRequestList | undefined;
 }
-export interface BatchUpdateAccountsRegionsRequest {
+export interface BatchUpdateAccountsRegionsRequest extends BatchUpdateRegionsRequest {
   /** Required. The account to update one or more regions for. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: BatchUpdateRegionsRequest | undefined;
 }
 /** Response message for the `BatchUpdateRegions` method. */
 export interface BatchUpdateRegionsResponse {
@@ -331,11 +325,9 @@ export interface ClaimHomepageRequest {
   /** Optional. When set to `true`, this option removes any existing claim on the requested website from any other account to the account making the request, effectively replacing the previous claim. */
   overwrite?: boolean | undefined;
 }
-export interface ClaimAccountsHomepageRequest {
+export interface ClaimAccountsHomepageRequest extends ClaimHomepageRequest {
   /** Required. The name of the homepage to claim. Format: `accounts/{account}/homepage` */
   name: string;
-  /** Request body */
-  body?: ClaimHomepageRequest | undefined;
 }
 /** The `Homepage` message represents a business's store homepage within the system. A business's homepage is the primary domain where customers interact with their store. The homepage can be claimed and verified as a proof of ownership and allows the business to unlock features that require a verified website. For more information, see [Understanding online store URL verification](//support.google.com/merchants/answer/176793). */
 export interface Homepage {
@@ -463,11 +455,9 @@ export interface OmnichannelSetting {
   /** Optional. The InStock URI and state for this country. */
   inStock?: InStock | undefined;
 }
-export interface CreateAccountsOmnichannelSettingsRequest {
+export interface CreateAccountsOmnichannelSettingsRequest extends OmnichannelSetting {
   /** Required. The parent resource where this omnichannel setting will be created. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: OmnichannelSetting | undefined;
 }
 export type OnlineReturnPolicyReturnMethodsItemEnum =
   | "RETURN_METHOD_UNSPECIFIED"
@@ -569,11 +559,9 @@ export interface OnlineReturnPolicy {
   /** Optional. The field specifies the number of days it takes for business to process refunds. */
   processRefundDays?: number | undefined;
 }
-export interface CreateAccountsOnlineReturnPoliciesRequest {
+export interface CreateAccountsOnlineReturnPoliciesRequest extends OnlineReturnPolicy {
   /** Required. The Merchant Center account for which the return policy will be created. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: OnlineReturnPolicy | undefined;
 }
 /** URL settings for cart or checkout URL. */
 export interface UriSettings {
@@ -642,19 +630,15 @@ export interface CheckoutSettings {
   /** Output only. Reflects the merchant review state in `Checkout` program. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an `enrollment_state` of `ENROLLED` before a review can begin for the merchant.For more details, check the help center doc. */
   reviewState?: CheckoutSettingsReviewStateEnum | (string & {}) | undefined;
 }
-export interface CreateAccountsProgramsCheckoutSettingsRequest {
+export interface CreateAccountsProgramsCheckoutSettingsRequest extends CheckoutSettings {
   /** Required. The merchant account for which the `CheckoutSettings` will be created. */
   parent: string;
-  /** Request body */
-  body?: CheckoutSettings | undefined;
 }
-export interface CreateAccountsRegionsRequest {
+export interface CreateAccountsRegionsRequest extends Region {
   /** Required. The account to create a region for. Format: `accounts/{account}` */
   parent: string;
   /** Required. The identifier for the region, unique over all regions of the same account. */
   regionId?: string | undefined;
-  /** Request body */
-  body?: Region | undefined;
 }
 export type UserStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "VERIFIED";
 export type UserAccessRightsItemEnum =
@@ -674,13 +658,11 @@ export interface User {
   /** Required. The [access rights](https://support.google.com/merchants/answer/12160472?sjid=6789834943175119429-EU#accesstypes) the user has. */
   accessRights?: UserAccessRightsItemEnumList | undefined;
 }
-export interface CreateAccountsUsersRequest {
+export interface CreateAccountsUsersRequest extends User {
   /** Required. The resource name of the account for which a user will be created. Format: `accounts/{account}` */
   parent: string;
   /** Required. The email address of the user (for example, `john.doe@gmail.com`). */
   userId?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
@@ -767,15 +749,10 @@ export interface CreateAndConfigureAccountRequest {
   /** Required. An account service between the account to be created and the provider account is initialized as part of the creation. At least one such service needs to be provided. Currently exactly one of these needs to be `account_aggregation` and `accounts.createAndConfigure` method can be used to create a sub-account under an existing advanced account through this method. Additional `account_management` or `products_management` services may be provided. */
   service?: AddAccountServiceList | undefined;
 }
-export interface CreateAndConfigureAccountsRequest {
-  /** Request body */
-  body?: CreateAndConfigureAccountRequest | undefined;
-}
-export interface CreateTestAccountAccountsRequest {
+export interface CreateAndConfigureAccountsRequest extends CreateAndConfigureAccountRequest {}
+export interface CreateTestAccountAccountsRequest extends Account {
   /** Required. The account resource name to create the test account under. Format: accounts/{account} */
   parent: string;
-  /** Request body */
-  body?: Account | undefined;
 }
 export interface DeleteAccountsRequest {
   /** Required. The name of the account to delete. Format: `accounts/{account}` */
@@ -1478,22 +1455,18 @@ export interface GetTermsOfServiceRequest {
   /** Required. The resource name of the terms of service version. Format: `termsOfService/{version}` */
   name: string;
 }
-export interface InsertAccountsShippingSettingsRequest {
+export interface InsertAccountsShippingSettingsRequest extends ShippingSettings {
   /** Required. The account for which this shipping setting will be inserted. If you are using an advanced account, you must specify the unique identifier of the sub-account for which you want to insert the shipping setting. Format: `accounts/{ACCOUNT_ID}` */
   parent: string;
-  /** Request body */
-  body?: ShippingSettings | undefined;
 }
 /** Request message for the LinkGbpAccount method. */
 export interface LinkGbpAccountRequest {
   /** Required. The email address of the Business Profile account. */
   gbpEmail?: string | undefined;
 }
-export interface LinkGbpAccountAccountsGbpAccountsRequest {
+export interface LinkGbpAccountAccountsGbpAccountsRequest extends LinkGbpAccountRequest {
   /** Required. The name of the parent resource to which the GBP account is linked. Format: `accounts/{account}`. */
   parent: string;
-  /** Request body */
-  body?: LinkGbpAccountRequest | undefined;
 }
 /** Response message for the LinkGbpAccount method. */
 export interface LinkGbpAccountResponse {
@@ -1505,11 +1478,9 @@ export interface LinkLfpProviderRequest {
   /** Required. The external account ID by which this merchant is known to the LFP provider. */
   externalAccountId?: string | undefined;
 }
-export interface LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest {
+export interface LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest extends LinkLfpProviderRequest {
   /** Required. The name of the LFP provider resource to link. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}/lfpProviders/{lfp_provider}`. The `lfp_provider` is the LFP provider ID. */
   name: string;
-  /** Request body */
-  body?: LinkLfpProviderRequest | undefined;
 }
 /** Response message for the LinkLfpProvider method. */
 export interface LinkLfpProviderResponse {
@@ -1763,45 +1734,35 @@ export interface ListSubAccountsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchAccountsRequest {
+export interface PatchAccountsRequest extends Omit<Account, "name"> {
   /** Identifier. The resource name of the account. Format: `accounts/{account}` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `account_name` - `adult_content` - `language_code` - `time_zone` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Account | undefined;
 }
-export interface PatchAccountsOmnichannelSettingsRequest {
+export interface PatchAccountsOmnichannelSettingsRequest extends Omit<OmnichannelSetting, "name"> {
   /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
   name: string;
   /** Required. The list of fields to be updated. The following fields are supported in snake_case only: - `lsf_type` - `in_stock` - `pickup` - `odo` - `about` - `inventory_verification` Full replacement with wildcard `*`is supported, while empty/implied update mask is not. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: OmnichannelSetting | undefined;
 }
-export interface PatchAccountsRegionsRequest {
+export interface PatchAccountsRegionsRequest extends Omit<Region, "name"> {
   /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
   name: string;
   /** Optional. The comma-separated field mask indicating the fields to update. Example: `"displayName,postalCodeArea.regionCode"`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Region | undefined;
 }
-export interface PatchAccountsRelationshipsRequest {
+export interface PatchAccountsRelationshipsRequest extends Omit<AccountRelationship, "name"> {
   /** Identifier. The resource name of the account relationship. Format: `accounts/{account}/relationships/{relationship}`. For example, `accounts/123456/relationships/567890`. */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `account_id_alias` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AccountRelationship | undefined;
 }
-export interface PatchAccountsUsersRequest {
+export interface PatchAccountsUsersRequest extends Omit<User, "name"> {
   /** Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `access_rights` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 /** Request to propose an account service. */
 export interface ProposeAccountServiceRequest {
@@ -1810,22 +1771,18 @@ export interface ProposeAccountServiceRequest {
   /** Required. The account service to propose. */
   accountService?: AccountService | undefined;
 }
-export interface ProposeAccountsServicesRequest {
+export interface ProposeAccountsServicesRequest extends ProposeAccountServiceRequest {
   /** Required. The resource name of the parent account for the service. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: ProposeAccountServiceRequest | undefined;
 }
 /** Request message for the RegisterGCP method. */
 export interface RegisterGcpRequest {
   /** Immutable. Optional field. Developer role can be also added by using `users.update` method. If the developer email provided is associated with a user in the provided merchant account, the user will be updated to have `API_DEVELOPER` `access_rights` and the email preference corresponding to that user will be updated to have the new API notifications preference. If the developer email provided is not associated with any user, it is added as a contact. The email preference corresponding to that contact will have the new API notifications preference. Make sure the email used is associated with a Google Account and is not a service account as service accounts can't receive emails. */
   developerEmail?: string | undefined;
 }
-export interface RegisterGcpAccountsDeveloperRegistrationRequest {
+export interface RegisterGcpAccountsDeveloperRegistrationRequest extends RegisterGcpRequest {
   /** Required. The name of the developer registration to be created for the merchant account that the GCP will be registered with. Format: `accounts/{account}/developerRegistration` The {account} used must be the same account where user calling this API method is directly added to. Note: The account used must be a production account (can't be a [test account](https://developers.google.com/merchant/api/guides/accounts/test-accounts) ) and must have a [verified website](https://support.google.com/merchants/answer/11586344) in Merchant Center. */
   name: string;
-  /** Request body */
-  body?: RegisterGcpRequest | undefined;
 }
 /** Request to reject an account service. */
 export type RejectAccountServiceRequest = ApproveAccountServiceRequest;
@@ -1864,61 +1821,62 @@ export interface UnregisterGcpAccountsDeveloperRegistrationRequest {
   /** Request body */
   body?: ApproveAccountServiceRequest | undefined;
 }
-export interface UpdateAutofeedSettingsAccountsAutofeedSettingsRequest {
+export interface UpdateAutofeedSettingsAccountsAutofeedSettingsRequest extends Omit<
+  AutofeedSettings,
+  "name"
+> {
   /** Identifier. The resource name of the autofeed settings. Format: `accounts/{account}/autofeedSettings`. */
   name: string;
   /** Required. List of fields being updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AutofeedSettings | undefined;
 }
-export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest {
+export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest extends Omit<
+  AutomaticImprovements,
+  "name"
+> {
   /** Identifier. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements`. */
   name: string;
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `item_updates` - `item_updates.account_level_settings` - `image_improvements` - `image_improvements.account_level_settings` - `shipping_improvements` - `shipping_improvements.allow_shipping_improvements` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AutomaticImprovements | undefined;
 }
-export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest {
+export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest extends Omit<
+  BusinessIdentity,
+  "name"
+> {
   /** Identifier. The resource name of the business identity. Format: `accounts/{account}/businessIdentity` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `black_owned` - `latino_owned` - `promotions_consent` - `small_business` - `veteran_owned` - `women_owned` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BusinessIdentity | undefined;
 }
-export interface UpdateBusinessInfoAccountsBusinessInfoRequest {
+export interface UpdateBusinessInfoAccountsBusinessInfoRequest extends Omit<BusinessInfo, "name"> {
   /** Identifier. The resource name of the business info. Format: `accounts/{account}/businessInfo` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `address` - `customer_service` - `korean_business_registration_number` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BusinessInfo | undefined;
 }
-export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest {
+export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest extends Omit<
+  CheckoutSettings,
+  "name"
+> {
   /** Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
   name: string;
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `eligible_destinations` - `uri_settings` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CheckoutSettings | undefined;
 }
-export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest {
+export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest extends Omit<
+  EmailPreferences,
+  "name"
+> {
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `news_and_tips` */
   updateMask?: string | undefined;
   /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
   name: string;
-  /** Request body */
-  body?: EmailPreferences | undefined;
 }
-export interface UpdateHomepageAccountsHomepageRequest {
+export interface UpdateHomepageAccountsHomepageRequest extends Omit<Homepage, "name"> {
   /** Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `uri` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Homepage | undefined;
 }
 /** Request message for the `VerifySelf` method. */
 export type VerifySelfRequest = ApproveAccountServiceRequest;
@@ -3466,10 +3424,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c1, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c1, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/omnichannelSettings",
@@ -3532,10 +3492,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(165, __c5, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(165, __c5, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/onlineReturnPolicies",
@@ -3623,10 +3585,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c7, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/checkoutSettings",
@@ -3664,11 +3628,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          regionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2534, __c79, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2534, __c79, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            regionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/regions",
@@ -3682,11 +3648,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          userId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            userId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/users",
@@ -3760,9 +3728,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateAndConfigureAccountRequest" });
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(359, __c11, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(359, __c11, 7), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/accounts:createAndConfigure",
@@ -3800,10 +3766,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c12, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}:createTestAccount",
@@ -4873,10 +4841,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1803, __c56, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1803, __c56, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/shippingSettings:insert",
@@ -4896,10 +4866,12 @@ function __c59(j: number): any {
       ).annotate({ identifier: "LinkGbpAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/gbpAccounts:linkGbpAccount",
@@ -4929,10 +4901,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "LinkLfpProviderRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+name}:linkLfpProvider",
@@ -5326,10 +5300,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "BatchCreateRegionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2434, __c76, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2434, __c76, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/regions:batchCreate",
@@ -5437,11 +5413,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c12, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5455,11 +5433,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(36, __c1, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c1, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5473,11 +5453,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2534, __c79, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2534, __c79, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5491,11 +5473,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5509,11 +5493,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5534,10 +5520,12 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ProposeAccountServiceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/services:propose",
@@ -5557,10 +5545,12 @@ function __c88(j: number): any {
       ).annotate({ identifier: "RegisterGcpRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+name}:registerGcp",
@@ -5622,10 +5612,12 @@ function __c91(j: number): any {
       ).annotate({ identifier: "BatchDeleteRegionsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2913, __c91, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2913, __c91, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/regions:batchDelete",
@@ -5683,11 +5675,13 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5701,11 +5695,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1189, __c37, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1189, __c37, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5719,11 +5715,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1249, __c39, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5737,11 +5735,13 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1316, __c41, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1316, __c41, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5755,11 +5755,13 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c7, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5773,11 +5775,13 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5791,11 +5795,13 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1/{+name}",
@@ -5841,10 +5847,12 @@ function __c103(j: number): any {
       ).annotate({ identifier: "BatchUpdateRegionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3298, __c103, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3298, __c103, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+parent}/regions:batchUpdate",
@@ -5864,10 +5872,12 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ClaimHomepageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1/{+name}:claim",

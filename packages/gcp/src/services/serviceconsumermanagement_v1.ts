@@ -132,11 +132,9 @@ export interface AddTenantProjectRequest {
   /** Configuration of the new tenant project to be added to tenancy unit resources. */
   projectConfig?: TenantProjectConfig | undefined;
 }
-export interface AddProjectServicesTenancyUnitsRequest {
+export interface AddProjectServicesTenancyUnitsRequest extends AddTenantProjectRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   parent: string;
-  /** Request body */
-  body?: AddTenantProjectRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -169,11 +167,9 @@ export interface ApplyTenantProjectConfigRequest {
   /** Configuration that should be applied to the existing tenant project. */
   projectConfig?: TenantProjectConfig | undefined;
 }
-export interface ApplyProjectConfigServicesTenancyUnitsRequest {
+export interface ApplyProjectConfigServicesTenancyUnitsRequest extends ApplyTenantProjectConfigRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
-  /** Request body */
-  body?: ApplyTenantProjectConfigRequest | undefined;
 }
 /** Request to attach an existing project to the tenancy unit as a new tenant resource. */
 export interface AttachTenantProjectRequest {
@@ -184,11 +180,9 @@ export interface AttachTenantProjectRequest {
   /** Required. Tag of the tenant resource after attachment. Must be less than 128 characters. Required. */
   tag?: string | undefined;
 }
-export interface AttachProjectServicesTenancyUnitsRequest {
+export interface AttachProjectServicesTenancyUnitsRequest extends AttachTenantProjectRequest {
   /** Required. Name of the tenancy unit that the project will be attached to. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
-  /** Request body */
-  body?: AttachTenantProjectRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -205,11 +199,9 @@ export interface CreateTenancyUnitRequest {
   /** Optional. Optional service producer-provided identifier of the tenancy unit. Must be no longer than 40 characters and preferably URI friendly. If it isn't provided, a UID for the tenancy unit is automatically generated. The identifier must be unique across a managed service. If the tenancy unit already exists for the managed service and service consumer pair, calling `CreateTenancyUnit` returns the existing tenancy unit if the provided identifier is identical or empty, otherwise the call fails. */
   tenancyUnitId?: string | undefined;
 }
-export interface CreateServicesTenancyUnitsRequest {
+export interface CreateServicesTenancyUnitsRequest extends CreateTenancyUnitRequest {
   /** Required. services/{service}/{collection id}/{resource id} {collection id} is the cloud resource collection type representing the service consumer, for example 'projects', or 'organizations'. {resource id} is the consumer numeric id, such as project number: '123456'. {service} the name of a managed service, such as 'service.googleapis.com'. Enables service binding using the new tenancy unit. */
   parent: string;
-  /** Request body */
-  body?: CreateTenancyUnitRequest | undefined;
 }
 export type TenantResourceStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -254,11 +246,9 @@ export interface DeleteTenantProjectRequest {
   /** Required. Tag of the resource within the tenancy unit. */
   tag?: string | undefined;
 }
-export interface DeleteProjectServicesTenancyUnitsRequest {
+export interface DeleteProjectServicesTenancyUnitsRequest extends DeleteTenantProjectRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
-  /** Request body */
-  body?: DeleteTenantProjectRequest | undefined;
 }
 export interface DeleteServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit to be deleted. */
@@ -310,11 +300,9 @@ export interface ListTenancyUnitsResponse {
 }
 /** Request message to remove a tenant project resource from the tenancy unit. */
 export type RemoveTenantProjectRequest = DeleteTenantProjectRequest;
-export interface RemoveProjectServicesTenancyUnitsRequest {
+export interface RemoveProjectServicesTenancyUnitsRequest extends DeleteTenantProjectRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
-  /** Request body */
-  body?: DeleteTenantProjectRequest | undefined;
 }
 export interface SearchServicesRequest {
   /** Required. Service for which search is performed. services/{service} {service} the name of a service, for example 'service.googleapis.com'. */
@@ -335,11 +323,9 @@ export interface SearchTenancyUnitsResponse {
 }
 /** Request message to undelete tenant project resource previously deleted from the tenancy unit. */
 export type UndeleteTenantProjectRequest = DeleteTenantProjectRequest;
-export interface UndeleteProjectServicesTenancyUnitsRequest {
+export interface UndeleteProjectServicesTenancyUnitsRequest extends DeleteTenantProjectRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
-  /** Request body */
-  body?: DeleteTenantProjectRequest | undefined;
 }
 export type AddProjectServicesTenancyUnitsError =
   | NotFound
@@ -630,10 +616,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deleteProject",
@@ -751,10 +739,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:removeProject",
@@ -787,10 +777,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:undeleteProject",
@@ -804,10 +796,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(95, __c11, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(95, __c11, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:addProject",
@@ -905,10 +899,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(95, __c11, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(95, __c11, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:applyProjectConfig",
@@ -930,10 +926,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "AttachTenantProjectRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:attachProject",
@@ -976,10 +974,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateTenancyUnitRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c18, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tenancyUnits",

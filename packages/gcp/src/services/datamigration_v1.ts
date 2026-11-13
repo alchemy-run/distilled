@@ -94,11 +94,9 @@ export interface ApplyConversionWorkspaceRequest {
   /** Optional. Only validates the apply process, but doesn't change the destination database. Only works for PostgreSQL destination connection profile. */
   dryRun?: boolean | undefined;
 }
-export interface ApplyProjectsLocationsConversionWorkspacesRequest {
+export interface ApplyProjectsLocationsConversionWorkspacesRequest extends ApplyConversionWorkspaceRequest {
   /** Required. The name of the conversion workspace resource for which to apply the draft tree. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
-  /** Request body */
-  body?: ApplyConversionWorkspaceRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -139,11 +137,9 @@ export interface CommitConversionWorkspaceRequest {
   /** Optional. Optional name of the commit. */
   commitName?: string | undefined;
 }
-export interface CommitProjectsLocationsConversionWorkspacesRequest {
+export interface CommitProjectsLocationsConversionWorkspacesRequest extends CommitConversionWorkspaceRequest {
   /** Required. Name of the conversion workspace resource to commit. */
   name: string;
-  /** Request body */
-  body?: CommitConversionWorkspaceRequest | undefined;
 }
 /** Request message for 'ConvertConversionWorkspace' request. */
 export interface ConvertConversionWorkspaceRequest {
@@ -154,11 +150,9 @@ export interface ConvertConversionWorkspaceRequest {
   /** Optional. Automatically convert the full entity path for each entity specified by the filter. For example, if the filter specifies a table, that table schema (and database if there is one) will also be converted. */
   convertFullPath?: boolean | undefined;
 }
-export interface ConvertProjectsLocationsConversionWorkspacesRequest {
+export interface ConvertProjectsLocationsConversionWorkspacesRequest extends ConvertConversionWorkspaceRequest {
   /** Name of the conversion workspace resource to convert in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
-  /** Request body */
-  body?: ConvertConversionWorkspaceRequest | undefined;
 }
 export type SslConfigTypeEnum =
   | "SSL_TYPE_UNSPECIFIED"
@@ -622,7 +616,7 @@ export interface ConnectionProfile {
   /** Output only. The error details in case of state FAILED. */
   error?: Status | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
   /** Optional. Create the connection profile without validating it. The default is false. Only supported for Oracle connection profiles. */
   skipValidation?: boolean | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
@@ -633,8 +627,6 @@ export interface CreateProjectsLocationsConnectionProfilesRequest {
   validateOnly?: boolean | undefined;
   /** Required. The connection profile identifier. */
   connectionProfileId?: string | undefined;
-  /** Request body */
-  body?: ConnectionProfile | undefined;
 }
 export type DatabaseEngineInfoEngineEnum =
   | "DATABASE_ENGINE_UNSPECIFIED"
@@ -694,15 +686,13 @@ export interface ConversionWorkspace {
   /** Output only. The timestamp when the workspace was committed. */
   latestCommitTime?: string | undefined;
 }
-export interface CreateProjectsLocationsConversionWorkspacesRequest {
+export interface CreateProjectsLocationsConversionWorkspacesRequest extends ConversionWorkspace {
   /** Required. The parent which owns this collection of conversion workspaces. */
   parent: string;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. The ID of the conversion workspace to create. */
   conversionWorkspaceId?: string | undefined;
-  /** Request body */
-  body?: ConversionWorkspace | undefined;
 }
 /** A filter defining the entities that a mapping rule should be applied to. When more than one field is specified, the rule is applied only to entities which match all the fields. */
 export interface MappingRuleFilter {
@@ -1000,15 +990,13 @@ export interface MappingRule {
   /** Optional. Deprecated: This rule is no longer supported. */
   setTablePrimaryKey?: SetTablePrimaryKey | undefined;
 }
-export interface CreateProjectsLocationsConversionWorkspacesMappingRulesRequest {
+export interface CreateProjectsLocationsConversionWorkspacesMappingRulesRequest extends MappingRule {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. The parent which owns this collection of mapping rules. */
   parent: string;
   /** Required. The ID of the rule to create. */
   mappingRuleId?: string | undefined;
-  /** Request body */
-  body?: MappingRule | undefined;
 }
 export type MigrationJobPhaseEnum =
   | "PHASE_UNSPECIFIED"
@@ -1360,15 +1348,13 @@ export interface MigrationJob {
   /** Required. The resource name (URI) of the destination connection profile. */
   destination?: string | undefined;
 }
-export interface CreateProjectsLocationsMigrationJobsRequest {
+export interface CreateProjectsLocationsMigrationJobsRequest extends MigrationJob {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. The parent which owns this collection of migration jobs. */
   parent: string;
   /** Required. The ID of the instance to create. */
   migrationJobId?: string | undefined;
-  /** Request body */
-  body?: MigrationJob | undefined;
 }
 /** The VPC peering configuration is used to create VPC peering with the consumer's VPC. */
 export interface VpcPeeringConfig {
@@ -1424,7 +1410,7 @@ export interface PrivateConnection {
   /** Output only. The last update time of the resource. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRequest {
+export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. The private connection identifier. */
@@ -1435,8 +1421,6 @@ export interface CreateProjectsLocationsPrivateConnectionsRequest {
   validateOnly?: boolean | undefined;
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
-  /** Request body */
-  body?: PrivateConnection | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
@@ -2352,11 +2336,9 @@ export interface GenerateSshScriptRequest {
   /** The port that will be open on the bastion host. */
   vmPort?: number | undefined;
 }
-export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest {
+export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest extends GenerateSshScriptRequest {
   /** Name of the migration job resource to generate the SSH script. */
   migrationJob: string;
-  /** Request body */
-  body?: GenerateSshScriptRequest | undefined;
 }
 /** Response message for 'GenerateSshScript' request. */
 export interface SshScript {
@@ -2374,11 +2356,9 @@ export interface GenerateTcpProxyScriptRequest {
   /** Required. The name of the Compute instance that will host the proxy. */
   vmName?: string | undefined;
 }
-export interface GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest {
+export interface GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest extends GenerateTcpProxyScriptRequest {
   /** Name of the migration job resource to generate the TCP Proxy script. */
   migrationJob: string;
-  /** Request body */
-  body?: GenerateTcpProxyScriptRequest | undefined;
 }
 /** Response message for 'GenerateTcpProxyScript' request. */
 export interface TcpProxyScript {
@@ -2579,11 +2559,9 @@ export interface ImportMappingRulesRequest {
   /** Required. Should the conversion workspace be committed automatically after the import operation. */
   autoCommit?: boolean | undefined;
 }
-export interface ImportProjectsLocationsConversionWorkspacesMappingRulesRequest {
+export interface ImportProjectsLocationsConversionWorkspacesMappingRulesRequest extends ImportMappingRulesRequest {
   /** Required. Name of the conversion workspace resource to import the rules to in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   parent: string;
-  /** Request body */
-  body?: ImportMappingRulesRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
@@ -2749,13 +2727,14 @@ export interface LookupMigrationJobObjectRequest {
   /** Required. The source object identifier which maps to the migration job object. */
   sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
-export interface LookupProjectsLocationsMigrationJobsObjectsRequest {
+export interface LookupProjectsLocationsMigrationJobsObjectsRequest extends LookupMigrationJobObjectRequest {
   /** Required. The parent migration job that owns the collection of objects. */
   parent: string;
-  /** Request body */
-  body?: LookupMigrationJobObjectRequest | undefined;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
@@ -2766,28 +2745,25 @@ export interface PatchProjectsLocationsConnectionProfilesRequest {
   skipValidation?: boolean | undefined;
   /** Optional. Only validate the connection profile, but don't update any resources. The default is false. Only supported for Oracle connection profiles. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: ConnectionProfile | undefined;
 }
-export interface PatchProjectsLocationsConversionWorkspacesRequest {
+export interface PatchProjectsLocationsConversionWorkspacesRequest extends Omit<
+  ConversionWorkspace,
+  "name"
+> {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
   updateMask?: string | undefined;
   /** Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
-  /** Request body */
-  body?: ConversionWorkspace | undefined;
 }
-export interface PatchProjectsLocationsMigrationJobsRequest {
+export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<MigrationJob, "name"> {
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
   updateMask?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MigrationJob | undefined;
 }
 /** Request message for 'PromoteMigrationJob' request. */
 export interface PromoteMigrationJobRequest {
@@ -2796,11 +2772,9 @@ export interface PromoteMigrationJobRequest {
   /** Optional. The object filter to apply to the migration job. */
   objectsFilter?: MigrationJobObjectsConfig | undefined;
 }
-export interface PromoteProjectsLocationsMigrationJobsRequest {
+export interface PromoteProjectsLocationsMigrationJobsRequest extends PromoteMigrationJobRequest {
   /** Name of the migration job resource to promote. */
   name: string;
-  /** Request body */
-  body?: PromoteMigrationJobRequest | undefined;
 }
 /** Request message for 'RestartMigrationJob' request. */
 export interface RestartMigrationJobRequest {
@@ -2811,22 +2785,18 @@ export interface RestartMigrationJobRequest {
   /** Optional. If true, only failed objects will be restarted. */
   restartFailedObjects?: boolean | undefined;
 }
-export interface RestartProjectsLocationsMigrationJobsRequest {
+export interface RestartProjectsLocationsMigrationJobsRequest extends RestartMigrationJobRequest {
   /** Name of the migration job resource to restart. */
   name: string;
-  /** Request body */
-  body?: RestartMigrationJobRequest | undefined;
 }
 /** Request message for 'ResumeMigrationJob' request. */
 export interface ResumeMigrationJobRequest {
   /** Optional. Resume the migration job without running prior configuration verification. Defaults to `false`. */
   skipValidation?: boolean | undefined;
 }
-export interface ResumeProjectsLocationsMigrationJobsRequest {
+export interface ResumeProjectsLocationsMigrationJobsRequest extends ResumeMigrationJobRequest {
   /** Name of the migration job resource to resume. */
   name: string;
-  /** Request body */
-  body?: ResumeMigrationJobRequest | undefined;
 }
 /** Request message for 'RollbackConversionWorkspace' request. */
 export type RollbackConversionWorkspaceRequest = CancelOperationRequest;
@@ -2933,11 +2903,9 @@ export interface SeedConversionWorkspaceRequest {
   /** Optional. Cloud Storage source details for seeding. */
   gcsSource?: GcsSource | undefined;
 }
-export interface SeedProjectsLocationsConversionWorkspacesRequest {
+export interface SeedProjectsLocationsConversionWorkspacesRequest extends SeedConversionWorkspaceRequest {
   /** Name of the conversion workspace resource to seed with new database structure, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
-  /** Request body */
-  body?: SeedConversionWorkspaceRequest | undefined;
 }
 export type SetDraftEntityDdlRequestBasedOnDdlKindEnum =
   | "DDL_KIND_UNSPECIFIED"
@@ -2983,11 +2951,9 @@ export interface SetDraftEntityDdlRequest {
   /** Required. The draft entity full name from the tree. . */
   entityName?: string | undefined;
 }
-export interface SetDraftEntityDdlProjectsLocationsConversionWorkspacesRequest {
+export interface SetDraftEntityDdlProjectsLocationsConversionWorkspacesRequest extends SetDraftEntityDdlRequest {
   /** Required. Name of the conversion workspace resource in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
-  /** Request body */
-  body?: SetDraftEntityDdlRequest | undefined;
 }
 /** Response message for DataMigrationService.SetDraftEntityDdl. */
 export interface SetDraftEntityDdlResponse {}
@@ -2998,46 +2964,34 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest {
+export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConversionWorkspacesRequest {
+export interface SetIamPolicyProjectsLocationsConversionWorkspacesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsMigrationJobsRequest {
+export interface SetIamPolicyProjectsLocationsMigrationJobsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest {
+export interface SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsPrivateConnectionsRequest {
+export interface SetIamPolicyProjectsLocationsPrivateConnectionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for 'StartMigrationJob' request. */
 export interface StartMigrationJobRequest {
   /** Optional. Start the migration job without running prior configuration verification. Defaults to `false`. */
   skipValidation?: boolean | undefined;
 }
-export interface StartProjectsLocationsMigrationJobsRequest {
+export interface StartProjectsLocationsMigrationJobsRequest extends StartMigrationJobRequest {
   /** Name of the migration job resource to start. */
   name: string;
-  /** Request body */
-  body?: StartMigrationJobRequest | undefined;
 }
 /** Request message for 'StopMigrationJob' request. */
 export type StopMigrationJobRequest = CancelOperationRequest;
@@ -3052,40 +3006,30 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest {
+export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConversionWorkspacesRequest {
+export interface TestIamPermissionsProjectsLocationsConversionWorkspacesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest {
+export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest {
+export interface TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsPrivateConnectionsRequest {
+export interface TestIamPermissionsProjectsLocationsPrivateConnectionsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for 'VerifyMigrationJob' request. */
 export interface VerifyMigrationJobRequest {
@@ -3094,11 +3038,9 @@ export interface VerifyMigrationJobRequest {
   /** Optional. The changed migration job parameters to verify. It will not update the migration job. */
   migrationJob?: MigrationJob | undefined;
 }
-export interface VerifyProjectsLocationsMigrationJobsRequest {
+export interface VerifyProjectsLocationsMigrationJobsRequest extends VerifyMigrationJobRequest {
   /** Name of the migration job resource to verify. */
   name: string;
-  /** Request body */
-  body?: VerifyMigrationJobRequest | undefined;
 }
 export type ApplyProjectsLocationsConversionWorkspacesError =
   | NotFound
@@ -4685,12 +4627,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          mappingRuleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(53, __c1, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(53, __c1, 21),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            mappingRuleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mappingRules",
@@ -4909,12 +4853,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          migrationJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(185, __c5, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(185, __c5, 25),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            migrationJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/migrationJobs",
@@ -5185,14 +5131,16 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          privateConnectionId: S.optional(S.String.pipe(T.Query())),
-          skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(227, __c7, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(227, __c7, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            skipValidation: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/privateConnections",
@@ -5845,10 +5793,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GenerateSshScriptRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          migrationJob: S.String.pipe(T.Label()),
-          body: S.optional(__S(706, __c22, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(706, __c22, 2),
+          S.Struct({
+            migrationJob: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+migrationJob}:generateSshScript",
@@ -5881,10 +5831,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GenerateTcpProxyScriptRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          migrationJob: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            migrationJob: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+migrationJob}:generateTcpProxyScript",
@@ -6191,10 +6143,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ApplyConversionWorkspaceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:apply",
@@ -6275,10 +6229,12 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ImportMappingRulesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1442, __c45, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mappingRules:import",
@@ -6551,10 +6507,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "LookupMigrationJobObjectRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/objects:lookup",
@@ -6568,14 +6526,16 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2809, __c87, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2809, __c87, 25),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            skipValidation: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6589,12 +6549,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2881, __c90, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2881, __c90, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6608,12 +6570,14 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(185, __c5, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(185, __c5, 25),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6634,10 +6598,12 @@ function __c60(j: number): any {
       ).annotate({ identifier: "PromoteMigrationJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:promote",
@@ -6659,10 +6625,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "RestartMigrationJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restart",
@@ -6676,10 +6644,12 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:resume",
@@ -6807,10 +6777,12 @@ function __c66(j: number): any {
       ).annotate({ identifier: "SeedConversionWorkspaceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2113, __c66, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2113, __c66, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:seed",
@@ -6830,10 +6802,12 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CommitConversionWorkspaceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:commit",
@@ -6858,10 +6832,12 @@ function __c68(j: number): any {
       ).annotate({ identifier: "SetDraftEntityDdlRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          conversionWorkspace: S.String.pipe(T.Label()),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c68, 0),
+          S.Struct({
+            conversionWorkspace: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+conversionWorkspace}:setDraftEntityDdl",
@@ -6875,10 +6851,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6903,10 +6881,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6920,10 +6900,12 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6937,10 +6919,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6954,10 +6938,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6971,10 +6957,12 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:start",
@@ -7005,10 +6993,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7032,10 +7022,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7057,10 +7049,12 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ConvertConversionWorkspaceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:convert",
@@ -7074,10 +7068,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7091,10 +7087,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7108,10 +7106,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7132,10 +7132,12 @@ function __c84(j: number): any {
       ).annotate({ identifier: "VerifyMigrationJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2688, __c84, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:verify",
@@ -7149,14 +7151,16 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2809, __c87, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2809, __c87, 25),
+          S.Struct({
+            skipValidation: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectionProfiles",
@@ -7462,12 +7466,14 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          conversionWorkspaceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2881, __c90, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2881, __c90, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            conversionWorkspaceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversionWorkspaces",

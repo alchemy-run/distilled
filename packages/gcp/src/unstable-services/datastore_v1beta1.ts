@@ -101,11 +101,9 @@ export interface GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
   /** Client-assigned labels. */
   labels?: StringMap | undefined;
 }
-export interface ExportProjectsRequest {
+export interface ExportProjectsRequest extends GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
   /** Project ID against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: GoogleDatastoreAdminV1beta1ExportEntitiesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -140,11 +138,9 @@ export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
   /** Client-assigned labels. */
   labels?: StringMap | undefined;
 }
-export interface ImportProjectsRequest {
+export interface ImportProjectsRequest extends GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
   /** Project ID against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: GoogleDatastoreAdminV1beta1ImportEntitiesRequest | undefined;
 }
 export type ExportProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Exports a copy of all or a subset of entities from Google Cloud Datastore to another storage system, such as Google Cloud Storage. Recent updates to entities may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. */
@@ -193,10 +189,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}:export",
@@ -255,10 +253,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}:import",

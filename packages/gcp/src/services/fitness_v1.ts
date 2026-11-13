@@ -146,11 +146,9 @@ export interface AggregateRequest {
   /** Specifies that data be aggregated by the type of activity being performed when the data was recorded. All data that was recorded during a certain activity type (.for the given time range) will be aggregated into the same bucket. Data that was recorded while the user was not active will not be included in the response. Mutually exclusive of other bucketing specifications. */
   bucketByActivityType?: BucketByActivity | undefined;
 }
-export interface AggregateUsersDatasetRequest {
+export interface AggregateUsersDatasetRequest extends AggregateRequest {
   /** Aggregate data for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
-  /** Request body */
-  body?: AggregateRequest | undefined;
 }
 export type AggregateBucketTypeEnum =
   | "unknown"
@@ -343,11 +341,9 @@ export interface DataSource {
   /** A unique identifier for the data stream produced by this data source. The identifier includes: - The physical device's manufacturer, model, and serial number (UID). - The application's package name or name. Package name is used when the data source was created by an Android application. The developer project number is used when the data source was created by a REST client. - The data source's type. - The data source's stream name. Note that not all attributes of the data source are used as part of the stream identifier. In particular, the version of the hardware/the application isn't used. This allows us to preserve the same stream through version updates. This also means that two DataSource objects may represent the same data stream even if they're not equal. The exact format of the data stream ID created by an Android application is: type:dataType.name:application.packageName:device.manufacturer:device.model:device.uid:dataStreamName The exact format of the data stream ID created by a REST client is: type:dataType.name:developer project number:device.manufacturer:device.model:device.uid:dataStreamName When any of the optional fields that make up the data stream ID are absent, they will be omitted from the data stream ID. The minimum viable data stream ID would be: type:dataType.name:developer project number Finally, the developer project number and device UID are obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the developer project number in clear and normal form. This means a client will see a different set of data_stream_ids than another client with different credentials. */
   dataStreamId?: string | undefined;
 }
-export interface CreateUsersDataSourcesRequest {
+export interface CreateUsersDataSourcesRequest extends DataSource {
   /** Create the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
-  /** Request body */
-  body?: DataSource | undefined;
 }
 export interface DeleteUsersDataSourcesRequest {
   /** Retrieve a data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
@@ -447,31 +443,25 @@ export interface ListSessionsResponse {
   /** Flag to indicate server has more data to transfer. DO NOT USE THIS FIELD. It is never populated in responses from the server. */
   hasMoreData?: boolean | undefined;
 }
-export interface PatchUsersDataSourcesDatasetsRequest {
+export interface PatchUsersDataSourcesDatasetsRequest extends Omit<Dataset, "dataSourceId"> {
   /** Patch a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
   /** This field is not used, and can be safely omitted. */
   datasetId: string;
   /** The data stream ID of the data source that created the dataset. */
   dataSourceId: string;
-  /** Request body */
-  body?: Dataset | undefined;
 }
-export interface UpdateUsersDataSourcesRequest {
+export interface UpdateUsersDataSourcesRequest extends DataSource {
   /** The data stream ID of the data source to update. */
   dataSourceId: string;
   /** Update the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
-  /** Request body */
-  body?: DataSource | undefined;
 }
-export interface UpdateUsersSessionsRequest {
+export interface UpdateUsersSessionsRequest extends Session {
   /** Create sessions for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
   /** The ID of the session to be created. */
   sessionId: string;
-  /** Request body */
-  body?: Session | undefined;
 }
 export type AggregateUsersDatasetError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Aggregates data of a certain type or stream into buckets divided by a given type of boundary. Multiple data sets of multiple types and from multiple sources can be aggregated into exactly one bucket type per request. */
@@ -824,12 +814,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          datasetId: S.String.pipe(T.Label()),
-          dataSourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
+            dataSourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
@@ -843,11 +835,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataSourceId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(228, __c14, 4),
+          S.Struct({
+            dataSourceId: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "{userId}/dataSources/{dataSourceId}",
@@ -861,11 +855,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          sessionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c10, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            sessionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "{userId}/sessions/{sessionId}",
@@ -929,10 +925,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "AggregateRequest" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(118, __c7, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(118, __c7, 6),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{userId}/dataset:aggregate",
@@ -1063,10 +1061,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(228, __c14, 4),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{userId}/dataSources",

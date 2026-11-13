@@ -88,11 +88,9 @@ export interface AddGroupMigrationRequest {
   /** The full path name of the MigratingVm to add. */
   migratingVm?: string | undefined;
 }
-export interface AddGroupMigrationProjectsLocationsGroupsRequest {
+export interface AddGroupMigrationProjectsLocationsGroupsRequest extends AddGroupMigrationRequest {
   /** Required. The full path name of the Group to add to. */
   group: string;
-  /** Request body */
-  body?: AddGroupMigrationRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -179,15 +177,13 @@ export interface Group {
   /** Output only. The update time timestamp. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsGroupsRequest {
+export interface CreateProjectsLocationsGroupsRequest extends Group {
   /** Required. The group identifier. */
   groupId?: string | undefined;
   /** Required. The Group's parent. */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 export type StringList = Array<string>;
 export type ImageImportJobStateEnum =
@@ -430,15 +426,13 @@ export interface ImageImport {
   /** Immutable. The encryption details used by the image import process during the image adaptation for Compute Engine. */
   encryption?: Encryption | undefined;
 }
-export interface CreateProjectsLocationsImageImportsRequest {
+export interface CreateProjectsLocationsImageImportsRequest extends ImageImport {
   /** Required. The ImageImport's parent. */
   parent: string;
   /** Required. The image import identifier. This value maximum length is 63 characters, and valid characters are /a-z-/. It must start with an english letter and must not end with a hyphen. */
   imageImportId?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ImageImport | undefined;
 }
 /** VmwareSourceDetails message describes a specific source details for the vmware source type. */
 export interface VmwareSourceDetails {
@@ -538,15 +532,13 @@ export interface Source {
   /** Output only. The create time timestamp. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsSourcesRequest {
+export interface CreateProjectsLocationsSourcesRequest extends Source {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The Source's parent. */
   parent: string;
   /** Required. The source identifier. */
   sourceId?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
 }
 export type DatacenterConnectorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -617,15 +609,13 @@ export interface DatacenterConnector {
   /** Output only. The communication channel between the datacenter connector and Google Cloud. */
   bucket?: string | undefined;
 }
-export interface CreateProjectsLocationsSourcesDatacenterConnectorsRequest {
+export interface CreateProjectsLocationsSourcesDatacenterConnectorsRequest extends DatacenterConnector {
   /** Required. The DatacenterConnector's parent. Required. The Source in where the new DatacenterConnector will be created. For example: `projects/my-project/locations/us-central1/sources/my-source` */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The datacenterConnector identifier. */
   datacenterConnectorId?: string | undefined;
-  /** Request body */
-  body?: DatacenterConnector | undefined;
 }
 export type ComputeEngineDiskDiskTypeEnum =
   | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
@@ -723,15 +713,13 @@ export interface DiskMigrationJob {
   /** Output only. Identifier. The identifier of the DiskMigrationJob. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsSourcesDiskMigrationJobsRequest {
+export interface CreateProjectsLocationsSourcesDiskMigrationJobsRequest extends DiskMigrationJob {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The DiskMigrationJob's parent. */
   parent: string;
   /** Required. The DiskMigrationJob identifier. The maximum length of this value is 63 characters. Valid characters are lower case Latin letters, digits and hyphen. It must start with a Latin letter and must not end with a hyphen. */
   diskMigrationJobId?: string | undefined;
-  /** Request body */
-  body?: DiskMigrationJob | undefined;
 }
 /** A policy for scheduling replications. */
 export interface SchedulePolicy {
@@ -1397,35 +1385,29 @@ export interface MigratingVm {
   /** Output only. Details of the VM from an AWS source. */
   awsSourceVmDetails?: AwsSourceVmDetails | undefined;
 }
-export interface CreateProjectsLocationsSourcesMigratingVmsRequest {
+export interface CreateProjectsLocationsSourcesMigratingVmsRequest extends MigratingVm {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The MigratingVm's parent. */
   parent: string;
   /** Required. The migratingVm identifier. */
   migratingVmId?: string | undefined;
-  /** Request body */
-  body?: MigratingVm | undefined;
 }
-export interface CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
+export interface CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest extends CloneJob {
   /** Required. The Clone's parent. */
   parent: string;
   /** Required. The clone job identifier. */
   cloneJobId?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CloneJob | undefined;
 }
-export interface CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
+export interface CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest extends CutoverJob {
   /** Required. The cutover job identifier. */
   cutoverJobId?: string | undefined;
   /** Required. The Cutover's parent. */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CutoverJob | undefined;
 }
 export type UtilizationReportTimeFrameEnum = "TIME_FRAME_UNSPECIFIED" | "WEEK" | "MONTH" | "YEAR";
 export type UtilizationReportStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "SUCCEEDED" | "FAILED";
@@ -1516,15 +1498,13 @@ export interface UtilizationReport {
   /** The report display name, as assigned by the user. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsSourcesUtilizationReportsRequest {
+export interface CreateProjectsLocationsSourcesUtilizationReportsRequest extends UtilizationReport {
   /** Required. The Utilization Report's parent. */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID to use for the report, which will become the final component of the reports's resource name. This value maximum length is 63 characters, and valid characters are /a-z-/. It must start with an english letter and must not end with a hyphen. */
   utilizationReportId?: string | undefined;
-  /** Request body */
-  body?: UtilizationReport | undefined;
 }
 /** TargetProject message represents a target Compute Engine project for a migration or a clone. */
 export interface TargetProject {
@@ -1539,15 +1519,13 @@ export interface TargetProject {
   /** Output only. The time this target project resource was created (not related to when the Compute Engine project it points to was created). */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsTargetProjectsRequest {
+export interface CreateProjectsLocationsTargetProjectsRequest extends TargetProject {
   /** Required. The TargetProject's parent. */
   parent: string;
   /** Required. The target_project identifier. */
   targetProjectId?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetProject | undefined;
 }
 export interface DeleteProjectsLocationsGroupsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2222,55 +2200,51 @@ export interface ListTargetProjectsResponse {
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsGroupsRequest {
+export interface PatchProjectsLocationsGroupsRequest extends Omit<Group, "name"> {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. The Group name. */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the Group resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
-export interface PatchProjectsLocationsSourcesRequest {
+export interface PatchProjectsLocationsSourcesRequest extends Omit<Source, "name"> {
   /** Output only. The Source name. */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the Source resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
 }
-export interface PatchProjectsLocationsSourcesDiskMigrationJobsRequest {
+export interface PatchProjectsLocationsSourcesDiskMigrationJobsRequest extends Omit<
+  DiskMigrationJob,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the DiskMigrationJob resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask, then a mask equivalent to all fields that are populated (have a non-empty value), will be implied. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The identifier of the DiskMigrationJob. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DiskMigrationJob | undefined;
 }
-export interface PatchProjectsLocationsSourcesMigratingVmsRequest {
+export interface PatchProjectsLocationsSourcesMigratingVmsRequest extends Omit<
+  MigratingVm,
+  "name"
+> {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. The identifier of the MigratingVm. */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the MigratingVm resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: MigratingVm | undefined;
 }
-export interface PatchProjectsLocationsTargetProjectsRequest {
+export interface PatchProjectsLocationsTargetProjectsRequest extends Omit<TargetProject, "name"> {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Field mask is used to specify the fields to be overwritten in the TargetProject resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Output only. The name of the target project. */
   name: string;
-  /** Request body */
-  body?: TargetProject | undefined;
 }
 /** Request message for 'PauseMigration' request. */
 export type PauseMigrationRequest = CancelImageImportJobRequest;
@@ -2285,11 +2259,9 @@ export interface RemoveGroupMigrationRequest {
   /** The MigratingVm to remove. */
   migratingVm?: string | undefined;
 }
-export interface RemoveGroupMigrationProjectsLocationsGroupsRequest {
+export interface RemoveGroupMigrationProjectsLocationsGroupsRequest extends RemoveGroupMigrationRequest {
   /** Required. The name of the Group. */
   group: string;
-  /** Request body */
-  body?: RemoveGroupMigrationRequest | undefined;
 }
 /** Request message for 'ResumeMigration' request. */
 export type ResumeMigrationRequest = CancelImageImportJobRequest;
@@ -2320,11 +2292,9 @@ export interface UpgradeApplianceRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRequest {
+export interface UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRequest extends UpgradeApplianceRequest {
   /** Required. The DatacenterConnector name. */
   datacenterConnector: string;
-  /** Request body */
-  body?: UpgradeApplianceRequest | undefined;
 }
 export type AddGroupMigrationProjectsLocationsGroupsError =
   | NotFound
@@ -3879,12 +3849,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            groupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/groups",
@@ -3913,12 +3885,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          imageImportId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            imageImportId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/imageImports",
@@ -4142,12 +4116,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          sourceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(423, __c13, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(423, __c13, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            sourceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sources",
@@ -4239,12 +4215,14 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          datacenterConnectorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(483, __c15, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(483, __c15, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            datacenterConnectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/datacenterConnectors",
@@ -4307,12 +4285,14 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          diskMigrationJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(580, __c18, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(580, __c18, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            diskMigrationJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/diskMigrationJobs",
@@ -4386,12 +4366,14 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          migratingVmId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(855, __c26, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(855, __c26, 23),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            migratingVmId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/migratingVms",
@@ -4830,12 +4812,14 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          cloneJobId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(674, __c21, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(674, __c21, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            cloneJobId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cloneJobs",
@@ -4849,12 +4833,14 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          cutoverJobId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(738, __c23, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(738, __c23, 2),
+          S.Struct({
+            cutoverJobId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cutoverJobs",
@@ -4868,12 +4854,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          utilizationReportId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(995, __c31, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(995, __c31, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            utilizationReportId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/utilizationReports",
@@ -4951,12 +4939,14 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          targetProjectId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            targetProjectId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targetProjects",
@@ -5462,10 +5452,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            group: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+group}:addGroupMigration",
@@ -6094,12 +6086,14 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6113,12 +6107,14 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(423, __c13, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(423, __c13, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6132,12 +6128,14 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(580, __c18, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(580, __c18, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6151,12 +6149,14 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(855, __c26, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(855, __c26, 23),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6170,12 +6170,14 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6206,10 +6208,12 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            group: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+group}:removeGroupMigration",
@@ -6297,10 +6301,12 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpgradeApplianceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          datacenterConnector: S.String.pipe(T.Label()),
-          body: S.optional(__S(3040, __c95, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3040, __c95, 0),
+          S.Struct({
+            datacenterConnector: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+datacenterConnector}:upgradeAppliance",

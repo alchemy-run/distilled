@@ -568,15 +568,13 @@ export interface CancelSessionResponse {
   /** The result of the request. */
   cancelResult?: CancelSessionResponseCancelResultEnum | undefined;
 }
-export interface CreateProjectsLocationsSessionsRequest {
+export interface CreateProjectsLocationsSessionsRequest extends Session {
   /** Optional. A unique identifier for this request. This request is only idempotent if both `request_id` and `session_id` are provided. If a retry with the same `request_id` and `session_id` is received, then the previous result will be returned. The server will guarantee that for at least 60 minutes after the first request. If `request_id` is provided without `session_id`, the server generates a new `session_id` on each attempt, and retries with the same `request_id` will fail with `INVALID_ARGUMENT`. The value must be a UUID (e.g., 123e4567-e89b-12d3-a456-426655440000). See github.com/google/uuid for more details. */
   requestId?: string | undefined;
   /** Optional. The ID to use for the session, which will become the final component of the resource name. If not provided, the server will generate a value for this field. To make the request idempotent when `request_id` is specified, callers must also provide `session_id` so that retries target the same resource name. When provided, this value must be between 4 and 63 characters, and match the following regex: ^a-z{2,61}[a-z0-9]$. */
   sessionId?: string | undefined;
   /** Required. The parent resource where this session will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: Session | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -2045,12 +2043,14 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(663, __c20, 23).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(663, __c20, 23),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            sessionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sessions",

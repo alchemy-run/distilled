@@ -121,11 +121,9 @@ export interface GoogleFirestoreAdminV1beta2Index {
   /** Indexes with a collection query scope specified allow queries against a collection that is the child of a specific document, specified at query time, and that has the same collection id. Indexes with a collection group query scope specified allow queries against all collections descended from a specific document, specified at query time, and that have the same collection id as this index. */
   queryScope?: GoogleFirestoreAdminV1beta2IndexQueryScopeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest {
+export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest extends GoogleFirestoreAdminV1beta2Index {
   /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2Index | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -165,11 +163,9 @@ export interface GoogleFirestoreAdminV1beta2ExportDocumentsRequest {
   /** Which collection ids to export. Unspecified means all collections. */
   collectionIds?: StringList | undefined;
 }
-export interface ExportDocumentsProjectsDatabasesRequest {
+export interface ExportDocumentsProjectsDatabasesRequest extends GoogleFirestoreAdminV1beta2ExportDocumentsRequest {
   /** Database to export. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2ExportDocumentsRequest | undefined;
 }
 export interface GetProjectsDatabasesCollectionGroupsFieldsRequest {
   /** A name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_id}` */
@@ -205,11 +201,9 @@ export interface GoogleFirestoreAdminV1beta2ImportDocumentsRequest {
   /** Location of the exported files. This must match the output_uri_prefix of an ExportDocumentsResponse from an export that has completed successfully. See: google.firestore.admin.v1beta2.ExportDocumentsResponse.output_uri_prefix. */
   inputUriPrefix?: string | undefined;
 }
-export interface ImportDocumentsProjectsDatabasesRequest {
+export interface ImportDocumentsProjectsDatabasesRequest extends GoogleFirestoreAdminV1beta2ImportDocumentsRequest {
   /** Database to import into. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2ImportDocumentsRequest | undefined;
 }
 export interface ListProjectsDatabasesCollectionGroupsFieldsRequest {
   /** The number of results to return. */
@@ -246,13 +240,14 @@ export interface GoogleFirestoreAdminV1beta2ListIndexesResponse {
   /** The requested indexes. */
   indexes?: GoogleFirestoreAdminV1beta2IndexList | undefined;
 }
-export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest {
+export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest extends Omit<
+  GoogleFirestoreAdminV1beta2Field,
+  "name"
+> {
   /** A field name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}` A field path may be a simple field name, e.g. `address` or a path to fields within map_value , e.g. `address.city`, or a special field path. The only valid special field is `*`, which represents any field. Field paths may be quoted using ` (backtick). The only character that needs to be escaped within a quoted field path is the backtick character itself, escaped using a backslash. Special characters in field paths that must be quoted include: `*`, `.`, ``` (backtick), `[`, `]`, as well as any ascii symbolic characters. Examples: (Note: Comments here are written in markdown syntax, so there is an additional layer of backticks to represent a code block) `\`address.city\`` represents a field named `address.city`, not the map key `city` in the field `address`. `\`*\`` represents a field named `*`, not any field. A special `Field` contains the default indexing settings for all fields. This field's resource name is: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*` Indexes defined on this `Field` will be applied to all fields which do not have their own `Field` index configuration. */
   name: string;
   /** A mask, relative to the field. If specified, only configuration specified by this field_mask will be updated in the field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2Field | undefined;
 }
 export type CreateProjectsDatabasesCollectionGroupsIndexesError =
   | NotFound
@@ -495,11 +490,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(45, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45, __c11, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta2/{+name}",
@@ -513,10 +510,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(22, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22, __c5, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+parent}/indexes",
@@ -604,10 +603,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2ExportDocumentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(28, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+name}:exportDocuments",
@@ -692,10 +693,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2ImportDocumentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(52, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(52, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+name}:importDocuments",

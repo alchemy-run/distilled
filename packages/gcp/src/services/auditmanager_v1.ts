@@ -190,35 +190,29 @@ export interface AuditSchedule {
   /** Required. Configuration that defines when and how often audit runs are automatically triggered for this schedule. */
   scheduleConfig?: ScheduleConfig | undefined;
 }
-export interface CreateFoldersLocationsAuditSchedulesRequest {
+export interface CreateFoldersLocationsAuditSchedulesRequest extends AuditSchedule {
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
   validateOnly?: boolean | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
   /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
   auditScheduleId?: string | undefined;
-  /** Request body */
-  body?: AuditSchedule | undefined;
 }
-export interface CreateOrganizationsLocationsAuditSchedulesRequest {
+export interface CreateOrganizationsLocationsAuditSchedulesRequest extends AuditSchedule {
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
   validateOnly?: boolean | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
   /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
   auditScheduleId?: string | undefined;
-  /** Request body */
-  body?: AuditSchedule | undefined;
 }
-export interface CreateProjectsLocationsAuditSchedulesRequest {
+export interface CreateProjectsLocationsAuditSchedulesRequest extends AuditSchedule {
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
   validateOnly?: boolean | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
   /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
   auditScheduleId?: string | undefined;
-  /** Request body */
-  body?: AuditSchedule | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -241,11 +235,9 @@ export interface EnrollResourceRequest {
   /** Optional. If `true`, only validates the request and does not enroll the resource. This executes standard request validation (such as schema, IAM, and destination checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
   validateOnly?: boolean | undefined;
 }
-export interface EnrollResourceFoldersLocationsRequest {
+export interface EnrollResourceFoldersLocationsRequest extends EnrollResourceRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: EnrollResourceRequest | undefined;
 }
 /** Cloud Storage bucket where the audit report is uploaded to. */
 export interface DestinationDetails {
@@ -260,17 +252,13 @@ export interface Enrollment {
   /** Identifier. Name of the enrollment, in one of the following formats: * `projects/{project}/locations/{location}/enrollments/{enrollment}` * `folders/{folder}/locations/{location}/enrollments/{enrollment}` * `organizations/{organization}/locations/{location}/enrollments/{enrollment}` */
   name?: string | undefined;
 }
-export interface EnrollResourceOrganizationsLocationsRequest {
+export interface EnrollResourceOrganizationsLocationsRequest extends EnrollResourceRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: EnrollResourceRequest | undefined;
 }
-export interface EnrollResourceProjectsLocationsRequest {
+export interface EnrollResourceProjectsLocationsRequest extends EnrollResourceRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: EnrollResourceRequest | undefined;
 }
 export type GenerateAuditReportRequestReportFormatEnum =
   | "AUDIT_REPORT_FORMAT_UNSPECIFIED"
@@ -290,11 +278,9 @@ export interface GenerateAuditReportRequest {
   /** Required. Format for the audit report. */
   reportFormat?: GenerateAuditReportRequestReportFormatEnum | (string & {}) | undefined;
 }
-export interface GenerateFoldersLocationsAuditReportsRequest {
+export interface GenerateFoldersLocationsAuditReportsRequest extends GenerateAuditReportRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditReportRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -336,11 +322,9 @@ export interface GenerateAuditScopeReportRequest {
   /** Required. Format for the audit scope report. */
   reportFormat?: GenerateAuditScopeReportRequestReportFormatEnum | (string & {}) | undefined;
 }
-export interface GenerateFoldersLocationsAuditScopeReportsRequest {
+export interface GenerateFoldersLocationsAuditScopeReportsRequest extends GenerateAuditScopeReportRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditScopeReportRequest | undefined;
 }
 /** Audit scope report. */
 export interface AuditScopeReport {
@@ -349,29 +333,21 @@ export interface AuditScopeReport {
   /** Audit scope report content in byte format. */
   scopeReportContents?: string | undefined;
 }
-export interface GenerateOrganizationsLocationsAuditReportsRequest {
+export interface GenerateOrganizationsLocationsAuditReportsRequest extends GenerateAuditReportRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditReportRequest | undefined;
 }
-export interface GenerateOrganizationsLocationsAuditScopeReportsRequest {
+export interface GenerateOrganizationsLocationsAuditScopeReportsRequest extends GenerateAuditScopeReportRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditScopeReportRequest | undefined;
 }
-export interface GenerateProjectsLocationsAuditReportsRequest {
+export interface GenerateProjectsLocationsAuditReportsRequest extends GenerateAuditReportRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditReportRequest | undefined;
 }
-export interface GenerateProjectsLocationsAuditScopeReportsRequest {
+export interface GenerateProjectsLocationsAuditScopeReportsRequest extends GenerateAuditScopeReportRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
-  /** Request body */
-  body?: GenerateAuditScopeReportRequest | undefined;
 }
 export interface GetFoldersLocationsAuditReportsRequest {
   /** Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
@@ -782,35 +758,32 @@ export interface ListProjectsLocationsStandardsControlsRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
   pageSize?: number | undefined;
 }
-export interface PatchFoldersLocationsAuditSchedulesRequest {
+export interface PatchFoldersLocationsAuditSchedulesRequest extends Omit<AuditSchedule, "name"> {
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
   /** Optional. List of fields to update. */
   updateMask?: string | undefined;
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: AuditSchedule | undefined;
 }
-export interface PatchOrganizationsLocationsAuditSchedulesRequest {
+export interface PatchOrganizationsLocationsAuditSchedulesRequest extends Omit<
+  AuditSchedule,
+  "name"
+> {
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
   /** Optional. List of fields to update. */
   updateMask?: string | undefined;
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: AuditSchedule | undefined;
 }
-export interface PatchProjectsLocationsAuditSchedulesRequest {
+export interface PatchProjectsLocationsAuditSchedulesRequest extends Omit<AuditSchedule, "name"> {
   /** Optional. List of fields to update. */
   updateMask?: string | undefined;
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
   validateOnly?: boolean | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
-  /** Request body */
-  body?: AuditSchedule | undefined;
 }
 export type CancelOrganizationsLocationsOperationsError =
   | NotFound
@@ -1853,10 +1826,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(18, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c2, 2),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:enrollResource",
@@ -1912,10 +1887,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(18, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c2, 2),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:enrollResource",
@@ -1929,10 +1906,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(18, __c2, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c2, 2),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:enrollResource",
@@ -1946,10 +1925,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditReports:generate",
@@ -2008,10 +1989,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditScopeReports:generate",
@@ -2046,10 +2029,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditReports:generate",
@@ -2063,10 +2048,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditScopeReports:generate",
@@ -2080,10 +2067,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditReports:generate",
@@ -2097,10 +2086,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scope: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}/auditScopeReports:generate",
@@ -2890,12 +2881,14 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(545, __c68, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2909,12 +2902,14 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(545, __c68, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2928,12 +2923,14 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(545, __c68, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2947,12 +2944,14 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          auditScheduleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(545, __c68, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            auditScheduleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/auditSchedules",
@@ -3044,12 +3043,14 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          auditScheduleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(545, __c68, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            auditScheduleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/auditSchedules",
@@ -3063,12 +3064,14 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          auditScheduleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(545, __c68, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c68, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            auditScheduleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/auditSchedules",

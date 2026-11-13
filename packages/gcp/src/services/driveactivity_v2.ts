@@ -108,10 +108,7 @@ export interface QueryDriveActivityRequest {
   /** Return activities for this Drive item. The format is `items/ITEM_ID`. */
   itemName?: string | undefined;
 }
-export interface QueryActivityRequest {
-  /** Request body */
-  body?: QueryDriveActivityRequest | undefined;
-}
+export interface QueryActivityRequest extends QueryDriveActivityRequest {}
 /** Information about time ranges. */
 export interface TimeRange {
   /** The start of the time range. */
@@ -697,9 +694,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "QueryDriveActivityRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2, __c0, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/activity:query",

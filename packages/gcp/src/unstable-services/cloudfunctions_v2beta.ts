@@ -444,13 +444,11 @@ export interface Cloudfunctions_Function {
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsLocationsFunctionsRequest {
+export interface CreateProjectsLocationsFunctionsRequest extends Cloudfunctions_Function {
   /** Required. The project and location in which the function should be created, specified in the format `projects/*\/locations/*` */
   parent: string;
   /** The ID to use for the function, which will become the final component of the function's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
   functionId?: string | undefined;
-  /** Request body */
-  body?: Cloudfunctions_Function | undefined;
 }
 export interface DeleteProjectsLocationsFunctionsRequest {
   /** Required. The name of the function which should be deleted. */
@@ -485,11 +483,9 @@ export interface GenerateUploadUrlRequest {
   /** The function environment the generated upload url will be used for. The upload url for 2nd Gen functions can also be used for 1st gen functions, but not vice versa. If not specified, 2nd generation-style upload URLs are generated. */
   environment?: GenerateUploadUrlRequestEnvironmentEnum | (string & {}) | undefined;
 }
-export interface GenerateUploadUrlProjectsLocationsFunctionsRequest {
+export interface GenerateUploadUrlProjectsLocationsFunctionsRequest extends GenerateUploadUrlRequest {
   /** Required. The project and location in which the Google Cloud Storage signed URL should be generated, specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: GenerateUploadUrlRequest | undefined;
 }
 /** Response of `GenerateSourceUploadUrl` method. */
 export interface GenerateUploadUrlResponse {
@@ -691,13 +687,14 @@ export interface ListRuntimesResponse {
   /** The runtimes that match the request. */
   runtimes?: RuntimeList | undefined;
 }
-export interface PatchProjectsLocationsFunctionsRequest {
+export interface PatchProjectsLocationsFunctionsRequest extends Omit<
+  Cloudfunctions_Function,
+  "name"
+> {
   /** The list of fields to be updated. If no field mask is provided, all fields will be updated. */
   updateMask?: string | undefined;
   /** A user-defined name of the function. Function names must be unique globally and match pattern `projects/*\/locations/*\/functions/*` */
   name: string;
-  /** Request body */
-  body?: Cloudfunctions_Function | undefined;
 }
 /** Request for the `RedirectFunctionUpgradeTraffic` method. */
 export type RedirectFunctionUpgradeTrafficRequest = AbortFunctionUpgradeRequest;
@@ -722,11 +719,9 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFunctionsRequest {
+export interface SetIamPolicyProjectsLocationsFunctionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Contains overrides related to the function's service configuration. */
 export interface ServiceConfigOverrides {
@@ -747,22 +742,18 @@ export interface SetupFunctionUpgradeConfigRequest {
   /** Optional. Specifies overrides for the build process. */
   buildConfigOverrides?: BuildConfigOverrides | undefined;
 }
-export interface SetupFunctionUpgradeConfigProjectsLocationsFunctionsRequest {
+export interface SetupFunctionUpgradeConfigProjectsLocationsFunctionsRequest extends SetupFunctionUpgradeConfigRequest {
   /** Required. The name of the function which should have configuration copied for upgrade. */
   name: string;
-  /** Request body */
-  body?: SetupFunctionUpgradeConfigRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsFunctionsRequest {
+export interface TestIamPermissionsProjectsLocationsFunctionsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1261,10 +1252,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GenerateUploadUrlRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/functions:generateUploadUrl",
@@ -1529,11 +1522,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(852, __c26, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(852, __c26, 20),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta/{+name}",
@@ -1588,10 +1583,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+resource}:setIamPolicy",
@@ -1625,10 +1622,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SetupFunctionUpgradeConfigRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(450, __c14, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(450, __c14, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:setupFunctionUpgradeConfig",
@@ -1648,10 +1647,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+resource}:testIamPermissions",
@@ -1752,11 +1753,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          functionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(852, __c26, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(852, __c26, 20),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            functionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/functions",

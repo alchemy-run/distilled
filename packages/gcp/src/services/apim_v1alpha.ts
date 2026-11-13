@@ -119,11 +119,9 @@ export interface BatchEditTagsApiObservationsRequest {
   /** Required. The request message specifying the resources to update. A maximum of 1000 apiObservations can be modified in a batch. */
   requests?: EditTagsApiObservationsRequestList | undefined;
 }
-export interface BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest {
+export interface BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest extends BatchEditTagsApiObservationsRequest {
   /** Required. The parent resource shared by all ApiObservations being edited. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
   parent: string;
-  /** Request body */
-  body?: BatchEditTagsApiObservationsRequest | undefined;
 }
 export type ApiObservationStyleEnum = "STYLE_UNSPECIFIED" | "REST" | "GRPC" | "GRAPHQL";
 export type StringList = Array<string>;
@@ -188,15 +186,13 @@ export interface ObservationJob {
   /** Output only. The observation job state */
   state?: ObservationJobStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsObservationJobsRequest {
+export interface CreateProjectsLocationsObservationJobsRequest extends ObservationJob {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID to use for the Observation Job. This value should be 4-63 characters, and valid characters are /a-z-/. */
   observationJobId?: string | undefined;
   /** Required. The parent resource where this ObservationJob will be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: ObservationJob | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -255,15 +251,13 @@ export interface ObservationSource {
   /** Output only. [Output only] Update time stamp */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsObservationSourcesRequest {
+export interface CreateProjectsLocationsObservationSourcesRequest extends ObservationSource {
   /** Required. The ID to use for the Observation Source. This value should be 4-63 characters, and valid characters are /a-z-/. */
   observationSourceId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: ObservationSource | undefined;
 }
 export interface DeleteProjectsLocationsObservationJobsRequest {
   /** Required. Name of the resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
@@ -1580,10 +1574,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BatchEditTagsApiObservationsRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(340, __c21, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(340, __c21, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/apiObservations:batchEditTags",
@@ -1659,12 +1655,14 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          observationJobId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c28, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            observationJobId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/observationJobs",
@@ -1722,12 +1720,14 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          observationSourceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(515, __c32, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(515, __c32, 3),
+          S.Struct({
+            observationSourceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/observationSources",

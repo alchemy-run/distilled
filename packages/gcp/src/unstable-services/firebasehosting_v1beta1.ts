@@ -99,11 +99,9 @@ export interface CloneVersionRequest {
   /** If true, the call to `CloneVersion` immediately finalizes the version after cloning is complete. If false, the cloned version will have a status of `CREATED`. Use [`UpdateVersion`](patch) to set the status of the version to `FINALIZED`. */
   finalize?: boolean | undefined;
 }
-export interface CloneProjectsSitesVersionsRequest {
+export interface CloneProjectsSitesVersionsRequest extends CloneVersionRequest {
   /** Required. The target site for the cloned version, in the format: sites/ SITE_ID */
   parent: string;
-  /** Request body */
-  body?: CloneVersionRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -129,11 +127,9 @@ export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
-export interface CloneSitesVersionsRequest {
+export interface CloneSitesVersionsRequest extends CloneVersionRequest {
   /** Required. The target site for the cloned version, in the format: sites/ SITE_ID */
   parent: string;
-  /** Request body */
-  body?: CloneVersionRequest | undefined;
 }
 export type SiteTypeEnum = "TYPE_UNSPECIFIED" | "DEFAULT_SITE" | "USER_SITE";
 export type StringMap = { [key: string]: string | undefined };
@@ -150,15 +146,13 @@ export interface Site {
   /** Optional. User-specified labels for the Hosting site. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsSitesRequest {
+export interface CreateProjectsSitesRequest extends Site {
   /** Required. The Firebase project in which to create a Hosting site, in the format: projects/PROJECT_IDENTIFIER Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
   parent: string;
   /** Required. Immutable. A globally unique identifier for the Hosting site. This identifier is used to construct the Firebase-provisioned subdomains for the site, so it must also be a valid domain name label. */
   siteId?: string | undefined;
   /** Optional. If set, validates that the site_id is available and that the request would succeed, returning the expected resulting site or error. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Site | undefined;
 }
 /** Contains metadata about the user who performed an action, such as creating a release or finalizing a version. */
 export interface ActingUser {
@@ -315,21 +309,17 @@ export interface Channel {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name?: string | undefined;
 }
-export interface CreateProjectsSitesChannelsRequest {
+export interface CreateProjectsSitesChannelsRequest extends Channel {
   /** Required. Immutable. A unique ID within the site that identifies the channel. */
   channelId?: string | undefined;
   /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
   parent: string;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface CreateProjectsSitesChannelsReleasesRequest {
+export interface CreateProjectsSitesChannelsReleasesRequest extends Release {
   /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
   versionName?: string | undefined;
-  /** Request body */
-  body?: Release | undefined;
 }
 export type StatusList = Array<Status>;
 export type CustomDomainOwnershipStateEnum =
@@ -470,15 +460,13 @@ export interface CustomDomain {
   /** A field that lets you specify which SSL certificate type Hosting creates for your domain name. Spark plan custom domains only have access to the `GROUPED` cert type, while Blaze plan domains can select any option. */
   certPreference?: CustomDomainCertPreferenceEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsSitesCustomDomainsRequest {
+export interface CreateProjectsSitesCustomDomainsRequest extends CustomDomain {
   /** Required. The custom domain's parent, specifically a Firebase Hosting `Site`. */
   parent: string;
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually create a new `CustomDomain`. */
   validateOnly?: boolean | undefined;
   /** Required. The ID of the `CustomDomain`, which is the domain name you'd like to use with Firebase Hosting. */
   customDomainId?: string | undefined;
-  /** Request body */
-  body?: CustomDomain | undefined;
 }
 /** Represents a DNS certificate challenge. */
 export interface CertDnsChallenge {
@@ -557,69 +545,53 @@ export interface Domain {
   /** Output only. The time at which the domain was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsSitesDomainsRequest {
+export interface CreateProjectsSitesDomainsRequest extends Domain {
   /** Required. The parent to create the domain association for, in the format: sites/site-name */
   parent: string;
-  /** Request body */
-  body?: Domain | undefined;
 }
-export interface CreateProjectsSitesReleasesRequest {
+export interface CreateProjectsSitesReleasesRequest extends Release {
   /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
   versionName?: string | undefined;
-  /** Request body */
-  body?: Release | undefined;
 }
-export interface CreateProjectsSitesVersionsRequest {
+export interface CreateProjectsSitesVersionsRequest extends Version {
   /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
   sizeBytes?: string | undefined;
   /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
   versionId?: string | undefined;
   /** Required. The site in which to create the version, in the format: sites/ SITE_ID */
   parent: string;
-  /** Request body */
-  body?: Version | undefined;
 }
-export interface CreateSitesChannelsRequest {
+export interface CreateSitesChannelsRequest extends Channel {
   /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
   parent: string;
   /** Required. Immutable. A unique ID within the site that identifies the channel. */
   channelId?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface CreateSitesChannelsReleasesRequest {
+export interface CreateSitesChannelsReleasesRequest extends Release {
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
   versionName?: string | undefined;
   /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
-  /** Request body */
-  body?: Release | undefined;
 }
-export interface CreateSitesDomainsRequest {
+export interface CreateSitesDomainsRequest extends Domain {
   /** Required. The parent to create the domain association for, in the format: sites/site-name */
   parent: string;
-  /** Request body */
-  body?: Domain | undefined;
 }
-export interface CreateSitesReleasesRequest {
+export interface CreateSitesReleasesRequest extends Release {
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
   versionName?: string | undefined;
   /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
-  /** Request body */
-  body?: Release | undefined;
 }
-export interface CreateSitesVersionsRequest {
+export interface CreateSitesVersionsRequest extends Version {
   /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
   sizeBytes?: string | undefined;
   /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
   versionId?: string | undefined;
   /** Required. The site in which to create the version, in the format: sites/ SITE_ID */
   parent: string;
-  /** Request body */
-  body?: Version | undefined;
 }
 export interface DeleteProjectsSitesRequest {
   /** Required. The fully-qualified resource name for the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -939,23 +911,19 @@ export interface ListSitesVersionsFilesRequest {
   /** A token from a previous call to `ListVersionFiles` that tells the server where to resume listing. */
   pageToken?: string | undefined;
 }
-export interface PatchProjectsSitesRequest {
+export interface PatchProjectsSitesRequest extends Omit<Site, "name"> {
   /** Output only. The fully-qualified resource name of the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID PROJECT_IDENTIFIER: the Firebase project's [`ProjectNumber`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). */
   name: string;
   /** A set of field names from your Site that you want to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Site | undefined;
 }
-export interface PatchProjectsSitesChannelsRequest {
+export interface PatchProjectsSitesChannelsRequest extends Omit<Channel, "name"> {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name: string;
   /** A comma-separated list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface PatchProjectsSitesCustomDomainsRequest {
+export interface PatchProjectsSitesCustomDomainsRequest extends Omit<CustomDomain, "name"> {
   /** If true, Hosting creates the `CustomDomain` if it doesn't already exist. */
   allowMissing?: boolean | undefined;
   /** Identifier. The fully-qualified name of the `CustomDomain`. */
@@ -964,42 +932,32 @@ export interface PatchProjectsSitesCustomDomainsRequest {
   updateMask?: string | undefined;
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually create or update the `CustomDomain`. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: CustomDomain | undefined;
 }
-export interface PatchProjectsSitesVersionsRequest {
+export interface PatchProjectsSitesVersionsRequest extends Omit<Version, "name"> {
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name: string;
   /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Version | undefined;
 }
-export interface PatchSitesChannelsRequest {
+export interface PatchSitesChannelsRequest extends Omit<Channel, "name"> {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name: string;
   /** A comma-separated list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface PatchSitesVersionsRequest {
+export interface PatchSitesVersionsRequest extends Omit<Version, "name"> {
   /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
   updateMask?: string | undefined;
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name: string;
-  /** Request body */
-  body?: Version | undefined;
 }
 export interface PopulateVersionFilesRequest {
   /** A set of file paths to the hashes corresponding to assets that should be added to the version. A file path to an empty hash will remove the path from the version. Calculate a hash by Gzipping the file then taking the SHA256 hash of the newly compressed file. */
   files?: StringMap | undefined;
 }
-export interface PopulateFilesProjectsSitesVersionsRequest {
+export interface PopulateFilesProjectsSitesVersionsRequest extends PopulateVersionFilesRequest {
   /** Required. The version to which to add files, in the format: sites/SITE_ID /versions/VERSION_ID */
   parent: string;
-  /** Request body */
-  body?: PopulateVersionFilesRequest | undefined;
 }
 export interface PopulateVersionFilesResponse {
   /** The content hashes of the specified files that need to be uploaded to the specified URL. */
@@ -1007,11 +965,9 @@ export interface PopulateVersionFilesResponse {
   /** The URL to which the files should be uploaded, in the format: "https://upload-firebasehosting.googleapis.com/upload/sites/SITE_ID /versions/VERSION_ID/files" Perform a multipart `POST` of the Gzipped file contents to the URL using a forward slash and the hash of the file appended to the end. */
   uploadUrl?: string | undefined;
 }
-export interface PopulateFilesSitesVersionsRequest {
+export interface PopulateFilesSitesVersionsRequest extends PopulateVersionFilesRequest {
   /** Required. The version to which to add files, in the format: sites/SITE_ID /versions/VERSION_ID */
   parent: string;
-  /** Request body */
-  body?: PopulateVersionFilesRequest | undefined;
 }
 /** The request sent to `UndeleteCustomDomain`. */
 export interface UndeleteCustomDomainRequest {
@@ -1020,39 +976,29 @@ export interface UndeleteCustomDomainRequest {
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually delete the `CustomDomain`. */
   validateOnly?: boolean | undefined;
 }
-export interface UndeleteProjectsSitesCustomDomainsRequest {
+export interface UndeleteProjectsSitesCustomDomainsRequest extends UndeleteCustomDomainRequest {
   /** Required. The name of the `CustomDomain` to delete. */
   name: string;
-  /** Request body */
-  body?: UndeleteCustomDomainRequest | undefined;
 }
-export interface UpdateConfigProjectsSitesRequest {
+export interface UpdateConfigProjectsSitesRequest extends SiteConfig {
   /** Required. The site for which to update the SiteConfig, in the format: sites/ site-name/config */
   name: string;
   /** A set of field names from your [site configuration](../sites.SiteConfig) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`max_versions`](../sites.SiteConfig.max_versions) will be used. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SiteConfig | undefined;
 }
-export interface UpdateConfigSitesRequest {
+export interface UpdateConfigSitesRequest extends SiteConfig {
   /** Required. The site for which to update the SiteConfig, in the format: sites/ site-name/config */
   name: string;
   /** A set of field names from your [site configuration](../sites.SiteConfig) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`max_versions`](../sites.SiteConfig.max_versions) will be used. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SiteConfig | undefined;
 }
-export interface UpdateProjectsSitesDomainsRequest {
+export interface UpdateProjectsSitesDomainsRequest extends Domain {
   /** Required. The name of the domain association to update or create, if an association doesn't already exist. */
   name: string;
-  /** Request body */
-  body?: Domain | undefined;
 }
-export interface UpdateSitesDomainsRequest {
+export interface UpdateSitesDomainsRequest extends Domain {
   /** Required. The name of the domain association to update or create, if an association doesn't already exist. */
   name: string;
-  /** Request body */
-  body?: Domain | undefined;
 }
 export type CloneProjectsSitesVersionsError =
   | NotFound
@@ -2311,10 +2257,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c1, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/domains",
@@ -2377,11 +2325,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          versionName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1296, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            versionName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -2395,12 +2345,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sizeBytes: S.optional(S.String.pipe(T.Query())),
-          versionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1290, __c80, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            sizeBytes: S.optional(S.String.pipe(T.Query())),
+            versionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions",
@@ -2414,11 +2366,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          channelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            channelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/channels",
@@ -2432,11 +2386,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          versionName: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1296, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            versionName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -2450,10 +2406,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c1, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/domains",
@@ -2467,11 +2425,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          versionName: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1296, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            versionName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -2485,12 +2445,14 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sizeBytes: S.optional(S.String.pipe(T.Query())),
-          versionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1290, __c80, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            sizeBytes: S.optional(S.String.pipe(T.Query())),
+            versionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions",
@@ -2876,10 +2838,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(545, __c34, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c34, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions:clone",
@@ -3208,10 +3172,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(545, __c34, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c34, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions:clone",
@@ -3375,11 +3341,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3393,11 +3361,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3411,13 +3381,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1353, __c84, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1353, __c84, 9),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3431,12 +3403,14 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          siteId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            siteId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sites",
@@ -3470,11 +3444,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1290, __c80, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3488,11 +3464,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3506,11 +3484,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1290, __c80, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3524,10 +3504,12 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1136, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:populateFiles",
@@ -3558,10 +3540,12 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1136, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:populateFiles",
@@ -3582,10 +3566,12 @@ function __c73(j: number): any {
       ).annotate({ identifier: "UndeleteCustomDomainRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1168, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1168, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:undelete",
@@ -3599,11 +3585,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3617,11 +3605,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3635,10 +3625,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c1, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -3652,10 +3644,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c1, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -3669,11 +3663,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          channelId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            channelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/channels",
@@ -3809,11 +3805,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          versionName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1296, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            versionName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -3827,12 +3825,14 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          customDomainId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1353, __c84, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1353, __c84, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            customDomainId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/customDomains",

@@ -98,13 +98,11 @@ export interface Principal {
   /** This principal is a Google Workspace user, group or domain. */
   gsuitePrincipal?: GSuitePrincipal | undefined;
 }
-export interface CheckAccessDebugDatasourcesItemsRequest {
+export interface CheckAccessDebugDatasourcesItemsRequest extends Principal {
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
   /** Item name, format: datasources/{source_id}/items/{item_id} */
   name: string;
-  /** Request body */
-  body?: Principal | undefined;
 }
 export interface CheckAccessResponse {
   /** Returns true if principal has access. Returns false otherwise. */
@@ -133,10 +131,7 @@ export interface DataSource {
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name?: string | undefined;
 }
-export interface CreateSettingsDatasourcesRequest {
-  /** Request body */
-  body?: DataSource | undefined;
-}
+export interface CreateSettingsDatasourcesRequest extends DataSource {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -319,10 +314,7 @@ export interface SearchApplication {
   /** The default options for query interpretation */
   queryInterpretationConfig?: QueryInterpretationConfig | undefined;
 }
-export interface CreateSettingsSearchapplicationsRequest {
-  /** Request body */
-  body?: SearchApplication | undefined;
-}
+export interface CreateSettingsSearchapplicationsRequest extends SearchApplication {}
 export type DeleteIndexingDatasourcesItemsModeEnum = "UNSPECIFIED" | "SYNCHRONOUS" | "ASYNCHRONOUS";
 export interface DeleteIndexingDatasourcesItemsRequest {
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
@@ -349,11 +341,9 @@ export interface DeleteQueueItemsRequest {
   /** The name of a queue to delete items from. */
   queue?: string | undefined;
 }
-export interface DeleteQueueItemsIndexingDatasourcesItemsRequest {
+export interface DeleteQueueItemsIndexingDatasourcesItemsRequest extends DeleteQueueItemsRequest {
   /** The name of the Data Source to delete items in a queue. Format: datasources/{source_id} */
   name: string;
-  /** Request body */
-  body?: DeleteQueueItemsRequest | undefined;
 }
 export interface DeleteSchemaIndexingDatasourcesRequest {
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
@@ -1152,11 +1142,9 @@ export interface IndexItemRequest {
   /** Required. The RequestMode for this request. */
   mode?: IndexItemRequestModeEnum | (string & {}) | undefined;
 }
-export interface IndexIndexingDatasourcesItemsRequest {
+export interface IndexIndexingDatasourcesItemsRequest extends IndexItemRequest {
   /** The name of the Item. Format: datasources/{source_id}/items/{item_id} This is a required field. The maximum length is 1536 characters. */
   name: string;
-  /** Request body */
-  body?: IndexItemRequest | undefined;
 }
 /** Request message for `InitializeCustomer` method. */
 export interface InitializeCustomerRequest {}
@@ -1373,23 +1361,19 @@ export interface ListSearchApplicationsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchSettingsDatasourcesRequest {
+export interface PatchSettingsDatasourcesRequest extends Omit<DataSource, "name"> {
   /** Only applies to [`settings.datasources.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.datasources/patch). Update mask to control which fields to update. Example field paths: `name`, `displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the source, that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name: string;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
-  /** Request body */
-  body?: DataSource | undefined;
 }
-export interface PatchSettingsSearchapplicationsRequest {
+export interface PatchSettingsSearchapplicationsRequest extends Omit<SearchApplication, "name"> {
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name: string;
   /** Only applies to [`settings.searchapplications.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.searchapplications/patch). Update mask to control which fields to update. Example field paths: `search_application.name`, `search_application.displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the `search_application`, then that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SearchApplication | undefined;
 }
 export type PollItemsRequestStatusCodesItemEnum =
   | "CODE_UNSPECIFIED"
@@ -1412,11 +1396,9 @@ export interface PollItemsRequest {
   /** Queue name to fetch items from. If unspecified, PollItems will fetch from 'default' queue. The maximum length is 100 characters. */
   queue?: string | undefined;
 }
-export interface PollIndexingDatasourcesItemsRequest {
+export interface PollIndexingDatasourcesItemsRequest extends PollItemsRequest {
   /** The name of the Data Source to poll items. Format: datasources/{source_id} */
   name: string;
-  /** Request body */
-  body?: PollItemsRequest | undefined;
 }
 export interface PollItemsResponse {
   /** Set of items from the queue available for connector to process. These items have the following subset of fields populated: version metadata.hash structured_data.hash content.hash payload status queue */
@@ -1453,11 +1435,9 @@ export interface PushItemRequest {
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
 }
-export interface PushIndexingDatasourcesItemsRequest {
+export interface PushIndexingDatasourcesItemsRequest extends PushItemRequest {
   /** The name of the item to push into the indexing queue. Format: datasources/{source_id}/items/{ID} This is a required field. The maximum length is 1536 characters. */
   name: string;
-  /** Request body */
-  body?: PushItemRequest | undefined;
 }
 /** Shared request options for all RPC methods. */
 export interface RequestOptions {
@@ -1491,21 +1471,16 @@ export interface RemoveActivityRequest {
   /** User Activity containing the data to be deleted. */
   userActivity?: UserActivity | undefined;
 }
-export interface RemoveActivityQueryRequest {
-  /** Request body */
-  body?: RemoveActivityRequest | undefined;
-}
+export interface RemoveActivityQueryRequest extends RemoveActivityRequest {}
 /** Remove Logged Activity Response. will return an empty response for now. Will be revisited in later phases. */
 export interface RemoveActivityResponse {}
 export interface ResetSearchApplicationRequest {
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
 }
-export interface ResetSettingsSearchapplicationsRequest {
+export interface ResetSettingsSearchapplicationsRequest extends ResetSearchApplicationRequest {
   /** The name of the search application to be reset. Format: applications/{application_id}. */
   name: string;
-  /** Request body */
-  body?: ResetSearchApplicationRequest | undefined;
 }
 export interface SearchItemsByViewUrlRequest {
   /** The next_page_token value returned from a previous request, if any. */
@@ -1515,11 +1490,9 @@ export interface SearchItemsByViewUrlRequest {
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
 }
-export interface SearchByViewUrlDebugDatasourcesItemsRequest {
+export interface SearchByViewUrlDebugDatasourcesItemsRequest extends SearchItemsByViewUrlRequest {
   /** Source name, format: datasources/{source_id} */
   name: string;
-  /** Request body */
-  body?: SearchItemsByViewUrlRequest | undefined;
 }
 export interface SearchItemsByViewUrlResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
@@ -1555,10 +1528,7 @@ export interface SearchRequest {
   contextAttributes?: ContextAttributeList | undefined;
   facetOptions?: FacetOptionsList | undefined;
 }
-export interface SearchQueryRequest {
-  /** Request body */
-  body?: SearchRequest | undefined;
-}
+export interface SearchQueryRequest extends SearchRequest {}
 export type SpellResultSuggestionTypeEnum =
   | "SUGGESTION_TYPE_UNSPECIFIED"
   | "NON_EMPTY_RESULTS_SPELL_SUGGESTION"
@@ -1812,10 +1782,7 @@ export interface SuggestRequest {
   /** The sources to use for suggestions. If not specified, the data sources are taken from the current search application. NOTE: Suggestions are only supported for the following sources: * Third-party data sources * PredefinedSource.PERSON * PredefinedSource.GOOGLE_DRIVE */
   dataSourceRestrictions?: DataSourceRestrictionList | undefined;
 }
-export interface SuggestQueryRequest {
-  /** Request body */
-  body?: SuggestRequest | undefined;
-}
+export interface SuggestQueryRequest extends SuggestRequest {}
 /** This field contains information about the person being suggested. */
 export interface PeopleSuggestion {
   /** Suggested person. All fields of the person object might not be populated. */
@@ -1858,17 +1825,13 @@ export interface UnreserveItemsRequest {
   /** The name of a queue to unreserve items from. */
   queue?: string | undefined;
 }
-export interface UnreserveIndexingDatasourcesItemsRequest {
+export interface UnreserveIndexingDatasourcesItemsRequest extends UnreserveItemsRequest {
   /** The name of the Data Source to unreserve all items. Format: datasources/{source_id} */
   name: string;
-  /** Request body */
-  body?: UnreserveItemsRequest | undefined;
 }
-export interface UpdateCustomerSettingsRequest {
+export interface UpdateCustomerSettingsRequest extends CustomerSettings {
   /** Update mask to control which fields get updated. If you specify a field in the update_mask but don't specify its value here, that field will be cleared. If the mask is not present or empty, all fields will be updated. Currently supported field paths: vpc_settings and audit_logging_settings */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CustomerSettings | undefined;
 }
 export interface UpdateSchemaRequest {
   /** The new schema for the source. */
@@ -1878,11 +1841,9 @@ export interface UpdateSchemaRequest {
   /** If true, the schema will be checked for validity, but will not be registered with the data source, even if valid. */
   validateOnly?: boolean | undefined;
 }
-export interface UpdateSchemaIndexingDatasourcesRequest {
+export interface UpdateSchemaIndexingDatasourcesRequest extends UpdateSchemaRequest {
   /** The name of the data source to update Schema. Format: datasources/{source_id} */
   name: string;
-  /** Request body */
-  body?: UpdateSchemaRequest | undefined;
 }
 export interface UpdateDataSourceRequest {
   source?: DataSource | undefined;
@@ -1891,19 +1852,15 @@ export interface UpdateDataSourceRequest {
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
 }
-export interface UpdateSettingsDatasourcesRequest {
+export interface UpdateSettingsDatasourcesRequest extends UpdateDataSourceRequest {
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name: string;
-  /** Request body */
-  body?: UpdateDataSourceRequest | undefined;
 }
-export interface UpdateSettingsSearchapplicationsRequest {
+export interface UpdateSettingsSearchapplicationsRequest extends Omit<SearchApplication, "name"> {
   /** Only applies to [`settings.searchapplications.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.searchapplications/patch). Update mask to control which fields to update. Example field paths: `search_application.name`, `search_application.displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the `search_application`, then that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name: string;
-  /** Request body */
-  body?: SearchApplication | undefined;
 }
 /** Start upload file request. */
 export interface StartUploadItemRequest {
@@ -1912,22 +1869,18 @@ export interface StartUploadItemRequest {
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
 }
-export interface UploadIndexingDatasourcesItemsRequest {
+export interface UploadIndexingDatasourcesItemsRequest extends StartUploadItemRequest {
   /** The name of the Item to start a resumable upload. Format: datasources/{source_id}/items/{item_id}. The maximum length is 1536 bytes. */
   name: string;
-  /** Request body */
-  body?: StartUploadItemRequest | undefined;
 }
 /** Media resource. */
 export interface Media {
   /** Name of the media resource. */
   resourceName?: string | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends Omit<Media, "resourceName"> {
   /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
   resourceName: string;
-  /** Request body */
-  body?: Media | undefined;
 }
 export type CheckAccessDebugDatasourcesItemsError =
   | NotFound
@@ -3826,10 +3779,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "IndexItemRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(801, __c25, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(801, __c25, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/indexing/{+name}:index",
@@ -4129,12 +4084,14 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1825, __c57, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1825, __c57, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/settings/{+name}",
@@ -4148,11 +4105,13 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2214, __c69, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2214, __c69, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/settings/{+name}",
@@ -4178,10 +4137,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PollItemsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/indexing/{+name}/items:poll",
@@ -4201,11 +4162,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/debug/{+name}:checkAccess",
@@ -4269,10 +4232,12 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PushItemRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1409, __c44, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1409, __c44, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/indexing/{+name}:push",
@@ -4305,9 +4270,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "RemoveActivityRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1442, __c45, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/query:removeActivity",
@@ -4342,10 +4305,12 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ResetSearchApplicationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/settings/{+name}:reset",
@@ -4367,10 +4332,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "SearchItemsByViewUrlRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/debug/{+name}/items:searchByViewUrl",
@@ -4413,9 +4380,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SearchRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1569, __c49, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1569, __c49, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/query/search",
@@ -4667,9 +4632,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SuggestRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1632, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1632, __c51, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/query/suggest",
@@ -4707,10 +4670,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/indexing/{+name}/items:unreserve",
@@ -4724,10 +4689,12 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(98, __c3, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c3, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/settings/customer",
@@ -4749,10 +4716,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateSchemaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/indexing/{+name}/schema",
@@ -4774,10 +4743,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateDataSourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/settings/{+name}",
@@ -4791,9 +4762,7 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1825, __c57, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1825, __c57, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/settings/datasources",
@@ -4859,11 +4828,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2214, __c69, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2214, __c69, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/settings/{+name}",
@@ -4884,10 +4855,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "StartUploadItemRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/indexing/{+name}:upload",
@@ -4907,10 +4880,12 @@ function __c62(j: number): any {
       ).annotate({ identifier: "Media" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/media/{+resourceName}",
@@ -4924,9 +4899,7 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2214, __c69, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2214, __c69, 6), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/settings/searchapplications",
@@ -5129,10 +5102,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/indexing/{+name}/items:deleteQueueItems",

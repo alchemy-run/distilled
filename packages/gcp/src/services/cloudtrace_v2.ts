@@ -259,19 +259,15 @@ export interface BatchWriteSpansRequest {
   /** Required. A list of new spans. The span names must not match existing spans, otherwise the results are undefined. */
   spans?: SpanList | undefined;
 }
-export interface BatchWriteProjectsTracesRequest {
+export interface BatchWriteProjectsTracesRequest extends BatchWriteSpansRequest {
   /** Required. The name of the project where the spans belong. The format is `projects/[PROJECT_ID]`. */
   name: string;
-  /** Request body */
-  body?: BatchWriteSpansRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export interface CreateSpanProjectsTracesSpansRequest {
+export interface CreateSpanProjectsTracesSpansRequest extends Omit<Span, "name"> {
   /** Identifier. The resource name of the span in the following format: * `projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/[SPAN_ID]` `[TRACE_ID]` is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. It should not be zero. `[SPAN_ID]` is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. It should not be zero. . */
   name: string;
-  /** Request body */
-  body?: Span | undefined;
 }
 export type BatchWriteProjectsTracesError =
   | NotFound
@@ -330,10 +326,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BatchWriteSpansRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}/traces:batchWrite",
@@ -495,10 +493,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(52, __c1, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(52, __c1, 20),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}",

@@ -103,11 +103,9 @@ export interface AddSubnetworkRequest {
   /** An optional description of the subnet. */
   description?: string | undefined;
 }
-export interface AddSubnetworkServicesRequest {
+export interface AddSubnetworkServicesRequest extends AddSubnetworkRequest {
   /** Required. A tenant project in the service producer organization, in the following format: services/{service}/{collection-id}/{resource-id}. {collection-id} is the cloud resource collection type that represents the tenant project. Only `projects` are supported. {resource-id} is the tenant project numeric id, such as `123456`. {service} the name of the peering service, such as `service-peering.example.com`. This service must already be enabled in the service consumer's project. */
   parent: string;
-  /** Request body */
-  body?: AddSubnetworkRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -144,11 +142,9 @@ export interface GoogleCloudServicenetworkingV1betaConnection {
   /** Output only. The name of the peering service that's associated with this connection, in the following format: `services/{service name}`. */
   service?: string | undefined;
 }
-export interface CreateServicesConnectionsRequest {
+export interface CreateServicesConnectionsRequest extends GoogleCloudServicenetworkingV1betaConnection {
   /** The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudServicenetworkingV1betaConnection | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -174,21 +170,17 @@ export interface SearchRangeRequest {
   /** Required. The prefix length of the IP range. Use usual CIDR range notation. For example, '30' to find unused x.x.x.x/30 CIDR range. Actual range will be determined using allocated range for the consumer peered network and returned in the result. */
   ipPrefixLength?: number | undefined;
 }
-export interface SearchRangeServicesRequest {
+export interface SearchRangeServicesRequest extends SearchRangeRequest {
   /** Required. This is in a form services/{service}. {service} the name of the private access management service, for example 'service-peering.example.com'. */
   parent: string;
-  /** Request body */
-  body?: SearchRangeRequest | undefined;
 }
-export interface UpdateConnectionsServicesRequest {
+export interface UpdateConnectionsServicesRequest extends GoogleCloudServicenetworkingV1betaConnection {
   /** The service producer peering service that is managing peering connectivity for a service producer organization. For Google services that support this functionality, this is `services/servicenetworking.googleapis.com`. */
   name: string;
   /** The update mask. If this is omitted, it defaults to "*". You can only update the listed peering ranges. */
   updateMask?: string | undefined;
   /** If a previously defined allocated range is removed, force flag must be set to true. */
   force?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudServicenetworkingV1betaConnection | undefined;
 }
 export type AddSubnetworkServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** For service producers, provisions a new subnet in a peered service's shared VPC network in the requested region and with the requested size that's expressed as a CIDR range (number of leading bits of ipV4 network mask). The method checks against the assigned allocated ranges to find a non-conflicting IP address range. The method will reuse a subnet if subsequent calls contain the same subnet name, region, and prefix length. This method will make producer's tenant project to be a shared VPC service project as needed. The response from the `get` operation will be of type `Subnetwork` if the operation successfully completes. */
@@ -320,10 +312,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddSubnetworkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:addSubnetwork",
@@ -369,10 +363,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/connections",
@@ -447,10 +443,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SearchRangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:searchRange",
@@ -464,12 +462,14 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}/connections",

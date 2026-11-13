@@ -530,15 +530,13 @@ export interface GoogleCloudOsconfigV2__PolicyOrchestrator {
   /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
   orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
-export interface CreateFoldersLocationsGlobalPolicyOrchestratorsRequest {
+export interface CreateFoldersLocationsGlobalPolicyOrchestratorsRequest extends GoogleCloudOsconfigV2__PolicyOrchestrator {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
   policyOrchestratorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -553,25 +551,21 @@ export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
 }
-export interface CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
+export interface CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest extends GoogleCloudOsconfigV2__PolicyOrchestrator {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
   policyOrchestratorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
-export interface CreateProjectsLocationsGlobalPolicyOrchestratorsRequest {
+export interface CreateProjectsLocationsGlobalPolicyOrchestratorsRequest extends GoogleCloudOsconfigV2__PolicyOrchestrator {
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
   policyOrchestratorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 export interface DeleteFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. The current etag of the policy orchestrator. If an etag is provided and does not match the current etag of the policy orchestrator, deletion will be blocked and an ABORTED error will be returned. */
@@ -726,29 +720,32 @@ export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string | undefined;
 }
-export interface PatchFoldersLocationsGlobalPolicyOrchestratorsRequest {
+export interface PatchFoldersLocationsGlobalPolicyOrchestratorsRequest extends Omit<
+  GoogleCloudOsconfigV2__PolicyOrchestrator,
+  "name"
+> {
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
-export interface PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
+export interface PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest extends Omit<
+  GoogleCloudOsconfigV2__PolicyOrchestrator,
+  "name"
+> {
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
-export interface PatchProjectsLocationsGlobalPolicyOrchestratorsRequest {
+export interface PatchProjectsLocationsGlobalPolicyOrchestratorsRequest extends Omit<
+  GoogleCloudOsconfigV2__PolicyOrchestrator,
+  "name"
+> {
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
 }
 export type CancelFoldersLocationsOperationsError =
   | NotFound
@@ -1432,12 +1429,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1063, __c33, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/policyOrchestrators",
@@ -1773,11 +1772,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1063, __c33, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1791,11 +1792,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1063, __c33, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1809,11 +1812,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1063, __c33, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1884,12 +1889,14 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1063, __c33, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/policyOrchestrators",
@@ -2249,12 +2256,14 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1063, __c33, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/policyOrchestrators",

@@ -297,15 +297,16 @@ export interface SetAddonsConfigRequest {
   /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
 }
-export interface AddonsProjectsZonesClustersRequest {
+export interface AddonsProjectsZonesClustersRequest extends Omit<
+  SetAddonsConfigRequest,
+  "zone" | "clusterId" | "projectId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Request body */
-  body?: SetAddonsConfigRequest | undefined;
 }
 export type StatusConditionCodeEnum =
   | "UNKNOWN"
@@ -481,7 +482,10 @@ export interface SetNodePoolAutoscalingRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
 }
-export interface AutoscalingProjectsZonesClustersNodePoolsRequest {
+export interface AutoscalingProjectsZonesClustersNodePoolsRequest extends Omit<
+  SetNodePoolAutoscalingRequest,
+  "clusterId" | "zone" | "nodePoolId" | "projectId"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
@@ -490,8 +494,6 @@ export interface AutoscalingProjectsZonesClustersNodePoolsRequest {
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Request body */
-  body?: SetNodePoolAutoscalingRequest | undefined;
 }
 /** CancelOperationRequest cancels a single operation. */
 export interface CancelOperationRequest {
@@ -504,23 +506,25 @@ export interface CancelOperationRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
 }
-export interface CancelProjectsLocationsOperationsRequest {
+export interface CancelProjectsLocationsOperationsRequest extends Omit<
+  CancelOperationRequest,
+  "name"
+> {
   /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
   name: string;
-  /** Request body */
-  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export interface CancelProjectsZonesOperationsRequest {
+export interface CancelProjectsZonesOperationsRequest extends Omit<
+  CancelOperationRequest,
+  "zone" | "operationId" | "projectId"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Request body */
-  body?: CancelOperationRequest | undefined;
 }
 export interface CheckAutopilotCompatibilityProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to retrieve. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -560,17 +564,13 @@ export interface CompleteControlPlaneUpgradeRequest {
   /** Optional. API request version that initiates this operation. */
   version?: string | undefined;
 }
-export interface CompleteControlPlaneUpgradeProjectsLocationsClustersRequest {
+export interface CompleteControlPlaneUpgradeProjectsLocationsClustersRequest extends CompleteControlPlaneUpgradeRequest {
   /** Required. The name (project, location, cluster) of the cluster to complete upgrade. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: CompleteControlPlaneUpgradeRequest | undefined;
 }
-export interface CompleteControlPlaneUpgradeProjectsZonesClustersRequest {
+export interface CompleteControlPlaneUpgradeProjectsZonesClustersRequest extends CompleteControlPlaneUpgradeRequest {
   /** Required. The name (project, location, cluster) of the cluster to complete upgrade. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: CompleteControlPlaneUpgradeRequest | undefined;
 }
 /** CompleteIPRotationRequest moves the cluster master back into single-IP mode. */
 export interface CompleteIPRotationRequest {
@@ -583,21 +583,23 @@ export interface CompleteIPRotationRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
 }
-export interface CompleteIpRotationProjectsLocationsClustersRequest {
+export interface CompleteIpRotationProjectsLocationsClustersRequest extends Omit<
+  CompleteIPRotationRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: CompleteIPRotationRequest | undefined;
 }
-export interface CompleteIpRotationProjectsZonesClustersRequest {
+export interface CompleteIpRotationProjectsZonesClustersRequest extends Omit<
+  CompleteIPRotationRequest,
+  "clusterId" | "zone" | "projectId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Request body */
-  body?: CompleteIPRotationRequest | undefined;
 }
 /** CompleteNodePoolUpgradeRequest sets the name of target node pool to complete upgrade. */
 export interface CompleteNodePoolUpgradeRequest {}
@@ -2811,11 +2813,12 @@ export interface CreateClusterRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone?: string | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
+export interface CreateProjectsLocationsClustersRequest extends Omit<
+  CreateClusterRequest,
+  "parent"
+> {
   /** The parent (project and location) where the cluster will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: CreateClusterRequest | undefined;
 }
 /** CreateNodePoolRequest creates a node pool for a cluster. */
 export interface CreateNodePoolRequest {
@@ -2830,29 +2833,32 @@ export interface CreateNodePoolRequest {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId?: string | undefined;
 }
-export interface CreateProjectsLocationsClustersNodePoolsRequest {
+export interface CreateProjectsLocationsClustersNodePoolsRequest extends Omit<
+  CreateNodePoolRequest,
+  "parent"
+> {
   /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   parent: string;
-  /** Request body */
-  body?: CreateNodePoolRequest | undefined;
 }
-export interface CreateProjectsZonesClustersRequest {
+export interface CreateProjectsZonesClustersRequest extends Omit<
+  CreateClusterRequest,
+  "projectId" | "zone"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId: string;
-  /** Request body */
-  body?: CreateClusterRequest | undefined;
 }
-export interface CreateProjectsZonesClustersNodePoolsRequest {
+export interface CreateProjectsZonesClustersNodePoolsRequest extends Omit<
+  CreateNodePoolRequest,
+  "zone" | "projectId" | "clusterId"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId: string;
-  /** Request body */
-  body?: CreateNodePoolRequest | undefined;
 }
 export interface DeleteProjectsLocationsClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
@@ -3226,15 +3232,16 @@ export interface SetLegacyAbacRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
-export interface LegacyAbacProjectsZonesClustersRequest {
+export interface LegacyAbacProjectsZonesClustersRequest extends Omit<
+  SetLegacyAbacRequest,
+  "clusterId" | "projectId" | "zone"
+> {
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** Request body */
-  body?: SetLegacyAbacRequest | undefined;
 }
 export interface ListProjectsAggregatedUsableSubnetworksRequest {
   /** The max number of results per page that should be returned. If the number of available results is larger than `page_size`, a `next_page_token` is returned which can be used to get the next page of results in subsequent requests. Acceptable values are 0 to 500, inclusive. (Default: 500) */
@@ -3369,15 +3376,16 @@ export interface SetLocationsRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
 }
-export interface LocationsProjectsZonesClustersRequest {
+export interface LocationsProjectsZonesClustersRequest extends Omit<
+  SetLocationsRequest,
+  "zone" | "projectId" | "clusterId"
+> {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Request body */
-  body?: SetLocationsRequest | undefined;
 }
 /** SetLoggingServiceRequest sets the logging service of a cluster. */
 export interface SetLoggingServiceRequest {
@@ -3392,15 +3400,16 @@ export interface SetLoggingServiceRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
-export interface LoggingProjectsZonesClustersRequest {
+export interface LoggingProjectsZonesClustersRequest extends Omit<
+  SetLoggingServiceRequest,
+  "clusterId" | "projectId" | "zone"
+> {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Request body */
-  body?: SetLoggingServiceRequest | undefined;
 }
 /** UpdateMasterRequest updates the master of the cluster. */
 export interface UpdateMasterRequest {
@@ -3415,15 +3424,16 @@ export interface UpdateMasterRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
 }
-export interface MasterProjectsZonesClustersRequest {
+export interface MasterProjectsZonesClustersRequest extends Omit<
+  UpdateMasterRequest,
+  "zone" | "projectId" | "clusterId"
+> {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Request body */
-  body?: UpdateMasterRequest | undefined;
 }
 /** SetMonitoringServiceRequest sets the monitoring service of a cluster. */
 export interface SetMonitoringServiceRequest {
@@ -3438,15 +3448,16 @@ export interface SetMonitoringServiceRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
-export interface MonitoringProjectsZonesClustersRequest {
+export interface MonitoringProjectsZonesClustersRequest extends Omit<
+  SetMonitoringServiceRequest,
+  "clusterId" | "projectId" | "zone"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Request body */
-  body?: SetMonitoringServiceRequest | undefined;
 }
 /** SetLabelsRequest sets the Google Cloud Platform labels on a Google Container Engine cluster, which will in turn set them for Google Compute Engine resources used by that cluster */
 export interface SetLabelsRequest {
@@ -3463,15 +3474,16 @@ export interface SetLabelsRequest {
   /** Required. The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Kubernetes Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash when updating or changing labels. Make a `get()` request to the resource to get the latest fingerprint. */
   labelFingerprint?: string | undefined;
 }
-export interface ResourceLabelsProjectsZonesClustersRequest {
+export interface ResourceLabelsProjectsZonesClustersRequest extends Omit<
+  SetLabelsRequest,
+  "zone" | "clusterId" | "projectId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Request body */
-  body?: SetLabelsRequest | undefined;
 }
 /** RollbackNodePoolUpgradeRequest rollbacks the previously Aborted or Failed NodePool upgrade. This will be an no-op if the last upgrade successfully completed. */
 export interface RollbackNodePoolUpgradeRequest {
@@ -3488,13 +3500,17 @@ export interface RollbackNodePoolUpgradeRequest {
   /** Deprecated. The name of the node pool to rollback. This field has been deprecated and replaced by the name field. */
   nodePoolId?: string | undefined;
 }
-export interface RollbackProjectsLocationsClustersNodePoolsRequest {
+export interface RollbackProjectsLocationsClustersNodePoolsRequest extends Omit<
+  RollbackNodePoolUpgradeRequest,
+  "name"
+> {
   /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** Request body */
-  body?: RollbackNodePoolUpgradeRequest | undefined;
 }
-export interface RollbackProjectsZonesClustersNodePoolsRequest {
+export interface RollbackProjectsZonesClustersNodePoolsRequest extends Omit<
+  RollbackNodePoolUpgradeRequest,
+  "clusterId" | "projectId" | "zone" | "nodePoolId"
+> {
   /** Deprecated. The name of the cluster to rollback. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
@@ -3503,38 +3519,41 @@ export interface RollbackProjectsZonesClustersNodePoolsRequest {
   nodePoolId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Request body */
-  body?: RollbackNodePoolUpgradeRequest | undefined;
 }
-export interface SetAddonsProjectsLocationsClustersRequest {
+export interface SetAddonsProjectsLocationsClustersRequest extends Omit<
+  SetAddonsConfigRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetAddonsConfigRequest | undefined;
 }
-export interface SetAutoscalingProjectsLocationsClustersNodePoolsRequest {
+export interface SetAutoscalingProjectsLocationsClustersNodePoolsRequest extends Omit<
+  SetNodePoolAutoscalingRequest,
+  "name"
+> {
   /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** Request body */
-  body?: SetNodePoolAutoscalingRequest | undefined;
 }
-export interface SetLegacyAbacProjectsLocationsClustersRequest {
+export interface SetLegacyAbacProjectsLocationsClustersRequest extends Omit<
+  SetLegacyAbacRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetLegacyAbacRequest | undefined;
 }
-export interface SetLocationsProjectsLocationsClustersRequest {
+export interface SetLocationsProjectsLocationsClustersRequest extends Omit<
+  SetLocationsRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetLocationsRequest | undefined;
 }
-export interface SetLoggingProjectsLocationsClustersRequest {
+export interface SetLoggingProjectsLocationsClustersRequest extends Omit<
+  SetLoggingServiceRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set logging. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetLoggingServiceRequest | undefined;
 }
 /** SetMaintenancePolicyRequest sets the maintenance policy for a cluster. */
 export interface SetMaintenancePolicyRequest {
@@ -3549,21 +3568,23 @@ export interface SetMaintenancePolicyRequest {
   /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
   projectId?: string | undefined;
 }
-export interface SetMaintenancePolicyProjectsLocationsClustersRequest {
+export interface SetMaintenancePolicyProjectsLocationsClustersRequest extends Omit<
+  SetMaintenancePolicyRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetMaintenancePolicyRequest | undefined;
 }
-export interface SetMaintenancePolicyProjectsZonesClustersRequest {
+export interface SetMaintenancePolicyProjectsZonesClustersRequest extends Omit<
+  SetMaintenancePolicyRequest,
+  "zone" | "clusterId" | "projectId"
+> {
   /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
   projectId: string;
   /** Required. The name of the cluster to update. */
   clusterId: string;
   /** Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
   zone: string;
-  /** Request body */
-  body?: SetMaintenancePolicyRequest | undefined;
 }
 /** SetNodePoolManagementRequest sets the node management properties of a node pool. */
 export interface SetNodePoolManagementRequest {
@@ -3580,13 +3601,17 @@ export interface SetNodePoolManagementRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
-export interface SetManagementProjectsLocationsClustersNodePoolsRequest {
+export interface SetManagementProjectsLocationsClustersNodePoolsRequest extends Omit<
+  SetNodePoolManagementRequest,
+  "name"
+> {
   /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** Request body */
-  body?: SetNodePoolManagementRequest | undefined;
 }
-export interface SetManagementProjectsZonesClustersNodePoolsRequest {
+export interface SetManagementProjectsZonesClustersNodePoolsRequest extends Omit<
+  SetNodePoolManagementRequest,
+  "projectId" | "clusterId" | "nodePoolId" | "zone"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
@@ -3595,8 +3620,6 @@ export interface SetManagementProjectsZonesClustersNodePoolsRequest {
   zone: string;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Request body */
-  body?: SetNodePoolManagementRequest | undefined;
 }
 export type SetMasterAuthRequestActionEnum =
   | "UNKNOWN"
@@ -3618,27 +3641,30 @@ export interface SetMasterAuthRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
 }
-export interface SetMasterAuthProjectsLocationsClustersRequest {
+export interface SetMasterAuthProjectsLocationsClustersRequest extends Omit<
+  SetMasterAuthRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetMasterAuthRequest | undefined;
 }
-export interface SetMasterAuthProjectsZonesClustersRequest {
+export interface SetMasterAuthProjectsZonesClustersRequest extends Omit<
+  SetMasterAuthRequest,
+  "projectId" | "zone" | "clusterId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** Request body */
-  body?: SetMasterAuthRequest | undefined;
 }
-export interface SetMonitoringProjectsLocationsClustersRequest {
+export interface SetMonitoringProjectsLocationsClustersRequest extends Omit<
+  SetMonitoringServiceRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetMonitoringServiceRequest | undefined;
 }
 /** SetNetworkPolicyRequest enables/disables network policy for a cluster. */
 export interface SetNetworkPolicyRequest {
@@ -3653,27 +3679,30 @@ export interface SetNetworkPolicyRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
-export interface SetNetworkPolicyProjectsLocationsClustersRequest {
+export interface SetNetworkPolicyProjectsLocationsClustersRequest extends Omit<
+  SetNetworkPolicyRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetNetworkPolicyRequest | undefined;
 }
-export interface SetNetworkPolicyProjectsZonesClustersRequest {
+export interface SetNetworkPolicyProjectsZonesClustersRequest extends Omit<
+  SetNetworkPolicyRequest,
+  "clusterId" | "projectId" | "zone"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Request body */
-  body?: SetNetworkPolicyRequest | undefined;
 }
-export interface SetResourceLabelsProjectsLocationsClustersRequest {
+export interface SetResourceLabelsProjectsLocationsClustersRequest extends Omit<
+  SetLabelsRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: SetLabelsRequest | undefined;
 }
 /** SetNodePoolSizeRequest sets the size of a node pool. */
 export interface SetNodePoolSizeRequest {
@@ -3690,13 +3719,17 @@ export interface SetNodePoolSizeRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
 }
-export interface SetSizeProjectsLocationsClustersNodePoolsRequest {
+export interface SetSizeProjectsLocationsClustersNodePoolsRequest extends Omit<
+  SetNodePoolSizeRequest,
+  "name"
+> {
   /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** Request body */
-  body?: SetNodePoolSizeRequest | undefined;
 }
-export interface SetSizeProjectsZonesClustersNodePoolsRequest {
+export interface SetSizeProjectsZonesClustersNodePoolsRequest extends Omit<
+  SetNodePoolSizeRequest,
+  "nodePoolId" | "clusterId" | "zone" | "projectId"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
@@ -3705,8 +3738,6 @@ export interface SetSizeProjectsZonesClustersNodePoolsRequest {
   projectId: string;
   /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
   nodePoolId: string;
-  /** Request body */
-  body?: SetNodePoolSizeRequest | undefined;
 }
 /** StartIPRotationRequest creates a new IP for the cluster and then performs a node upgrade on each node pool to point to the new IP. */
 export interface StartIPRotationRequest {
@@ -3721,27 +3752,30 @@ export interface StartIPRotationRequest {
   /** Whether to rotate credentials during IP rotation. */
   rotateCredentials?: boolean | undefined;
 }
-export interface StartIpRotationProjectsLocationsClustersRequest {
+export interface StartIpRotationProjectsLocationsClustersRequest extends Omit<
+  StartIPRotationRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: StartIPRotationRequest | undefined;
 }
-export interface StartIpRotationProjectsZonesClustersRequest {
+export interface StartIpRotationProjectsZonesClustersRequest extends Omit<
+  StartIPRotationRequest,
+  "projectId" | "clusterId" | "zone"
+> {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** Request body */
-  body?: StartIPRotationRequest | undefined;
 }
-export interface UpdateMasterProjectsLocationsClustersRequest {
+export interface UpdateMasterProjectsLocationsClustersRequest extends Omit<
+  UpdateMasterRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: UpdateMasterRequest | undefined;
 }
 export type ClusterUpdateDesiredPrivateIpv6GoogleAccessEnum =
   | "PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
@@ -3977,11 +4011,9 @@ export interface UpdateClusterRequest {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
 }
-export interface UpdateProjectsLocationsClustersRequest {
+export interface UpdateProjectsLocationsClustersRequest extends Omit<UpdateClusterRequest, "name"> {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Request body */
-  body?: UpdateClusterRequest | undefined;
 }
 /** Collection of Kubernetes [node taints](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration). */
 export interface NodeTaints {
@@ -4085,23 +4117,28 @@ export interface UpdateNodePoolRequest {
   /** GCFS config. */
   gcfsConfig?: GcfsConfig | undefined;
 }
-export interface UpdateProjectsLocationsClustersNodePoolsRequest {
+export interface UpdateProjectsLocationsClustersNodePoolsRequest extends Omit<
+  UpdateNodePoolRequest,
+  "name"
+> {
   /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** Request body */
-  body?: UpdateNodePoolRequest | undefined;
 }
-export interface UpdateProjectsZonesClustersRequest {
+export interface UpdateProjectsZonesClustersRequest extends Omit<
+  UpdateClusterRequest,
+  "zone" | "clusterId" | "projectId"
+> {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** Request body */
-  body?: UpdateClusterRequest | undefined;
 }
-export interface UpdateProjectsZonesClustersNodePoolsRequest {
+export interface UpdateProjectsZonesClustersNodePoolsRequest extends Omit<
+  UpdateNodePoolRequest,
+  "clusterId" | "nodePoolId" | "projectId" | "zone"
+> {
   /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
   nodePoolId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
@@ -4110,8 +4147,6 @@ export interface UpdateProjectsZonesClustersNodePoolsRequest {
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** Request body */
-  body?: UpdateNodePoolRequest | undefined;
 }
 export type AddonsProjectsZonesClustersError =
   | NotFound
@@ -5639,10 +5674,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:completeControlPlaneUpgrade",
@@ -5666,10 +5703,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:completeControlPlaneUpgrade",
@@ -5683,10 +5722,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:completeIpRotation",
@@ -5713,12 +5754,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:completeIpRotation",
@@ -5749,10 +5792,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters",
@@ -7260,10 +7305,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/nodePools",
@@ -7291,11 +7338,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters",
@@ -7309,12 +7358,14 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools",
@@ -7805,12 +7856,14 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/legacyAbac",
@@ -8032,12 +8085,14 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/locations",
@@ -8065,12 +8120,14 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/logging",
@@ -8098,12 +8155,14 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/master",
@@ -8131,12 +8190,14 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/monitoring",
@@ -8164,12 +8225,14 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/resourceLabels",
@@ -8198,12 +8261,14 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/addons",
@@ -8382,10 +8447,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rollback",
@@ -8414,13 +8481,15 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}:rollback",
@@ -8434,10 +8503,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setAddons",
@@ -8451,10 +8522,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3040, __c95, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3040, __c95, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setAutoscaling",
@@ -8468,10 +8541,12 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setLegacyAbac",
@@ -8485,10 +8560,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setLocations",
@@ -8502,10 +8579,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setLogging",
@@ -8519,10 +8598,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setMaintenancePolicy",
@@ -8550,12 +8631,14 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setMaintenancePolicy",
@@ -8569,10 +8652,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2944, __c92, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setManagement",
@@ -8601,13 +8686,15 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3040, __c95, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3040, __c95, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/autoscaling",
@@ -8652,13 +8739,15 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2944, __c92, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/setManagement",
@@ -8672,10 +8761,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setMasterAuth",
@@ -8704,12 +8795,14 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setMasterAuth",
@@ -8723,10 +8816,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setMonitoring",
@@ -8740,10 +8835,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setNetworkPolicy",
@@ -8771,12 +8868,14 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setNetworkPolicy",
@@ -8790,10 +8889,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setResourceLabels",
@@ -8807,10 +8908,12 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setSize",
@@ -8839,13 +8942,15 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/setSize",
@@ -8859,10 +8964,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:startIpRotation",
@@ -8890,10 +8997,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3552, __c111, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3552, __c111, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -8926,12 +9035,14 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:startIpRotation",
@@ -8945,10 +9056,12 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:updateMaster",
@@ -8962,10 +9075,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3715, __c116, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3715, __c116, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -9095,10 +9210,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3778, __c118, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3778, __c118, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -9175,12 +9292,14 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(3715, __c116, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3715, __c116, 3),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}",
@@ -9194,13 +9313,15 @@ function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          nodePoolId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(3778, __c118, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3778, __c118, 2),
+          S.Struct({
+            nodePoolId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/update",
@@ -9214,12 +9335,14 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3552, __c111, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3552, __c111, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            operationId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/zones/{zone}/operations/{operationId}:cancel",

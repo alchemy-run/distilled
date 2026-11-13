@@ -237,11 +237,9 @@ export interface GenerateMediationReportRequest {
   /** Network report specification. */
   reportSpec?: MediationReportSpec | undefined;
 }
-export interface GenerateAccountsMediationReportRequest {
+export interface GenerateAccountsMediationReportRequest extends GenerateMediationReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
-  /** Request body */
-  body?: GenerateMediationReportRequest | undefined;
 }
 /** Groups data helps to treat the generated report. Always sent as a first message in the stream response. */
 export interface ReportHeader {
@@ -426,11 +424,9 @@ export interface GenerateNetworkReportRequest {
   /** Network report specification. */
   reportSpec?: NetworkReportSpec | undefined;
 }
-export interface GenerateAccountsNetworkReportRequest {
+export interface GenerateAccountsNetworkReportRequest extends GenerateNetworkReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
-  /** Request body */
-  body?: GenerateNetworkReportRequest | undefined;
 }
 /** The streaming response for the AdMob Network report where the first response contains the report header, then a stream of row responses, and finally a footer as the last response message. For example: [{ "header": { "dateRange": { "startDate": {"year": 2018, "month": 9, "day": 1}, "endDate": {"year": 2018, "month": 9, "day": 1} }, "localizationSettings": { "currencyCode": "USD", "languageCode": "en-US" } } }, { "row": { "dimensionValues": { "DATE": {"value": "20180918"}, "APP": { "value": "ca-app-pub-8123415297019784~1001342552", displayLabel: "My app name!" } }, "metricValues": { "ESTIMATED_EARNINGS": {"microsValue": 6500000} } } }, { "footer": {"matchingRowCount": 1} }] */
 export interface GenerateNetworkReportResponse {
@@ -710,10 +706,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GenerateMediationReportRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5, __c0, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5, __c0, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mediationReport:generate",
@@ -863,10 +861,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GenerateNetworkReportRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(53, __c3, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(53, __c3, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/networkReport:generate",

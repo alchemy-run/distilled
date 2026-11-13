@@ -125,11 +125,9 @@ export interface AllocateIdsRequest {
   /** Optional. The options for this request. */
   requestOptions?: RequestOptions | undefined;
 }
-export interface AllocateIdsProjectsRequest {
+export interface AllocateIdsProjectsRequest extends AllocateIdsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: AllocateIdsRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -164,11 +162,9 @@ export interface BeginTransactionRequest {
   /** Options for a new transaction. */
   transactionOptions?: TransactionOptions | undefined;
 }
-export interface BeginTransactionProjectsRequest {
+export interface BeginTransactionProjectsRequest extends BeginTransactionRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: BeginTransactionRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -300,11 +296,9 @@ export interface CommitRequest {
   /** The type of commit to perform. Defaults to `TRANSACTIONAL`. */
   mode?: CommitRequestModeEnum | (string & {}) | undefined;
 }
-export interface CommitProjectsRequest {
+export interface CommitProjectsRequest extends CommitRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: CommitRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -371,11 +365,12 @@ export interface GoogleDatastoreAdminV1Index {
   /** Required. The entity kind to which this index applies. */
   kind?: string | undefined;
 }
-export interface CreateProjectsIndexesRequest {
+export interface CreateProjectsIndexesRequest extends Omit<
+  GoogleDatastoreAdminV1Index,
+  "projectId"
+> {
   /** Project ID against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: GoogleDatastoreAdminV1Index | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -428,11 +423,9 @@ export interface GoogleDatastoreAdminV1ExportEntitiesRequest {
   /** Required. Location for the export metadata and data files. The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So output_url_prefix should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Cloud Storage bucket and `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace). For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). The resulting files will be nested deeper than the specified URL prefix. The final output URL will be provided in the google.datastore.admin.v1.ExportEntitiesResponse.output_url field. That value should be used for subsequent ImportEntities operations. By nesting the data files deeper, the same Cloud Storage bucket can be used in multiple ExportEntities operations without conflict. */
   outputUrlPrefix?: string | undefined;
 }
-export interface ExportProjectsRequest {
+export interface ExportProjectsRequest extends GoogleDatastoreAdminV1ExportEntitiesRequest {
   /** Required. Project ID against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: GoogleDatastoreAdminV1ExportEntitiesRequest | undefined;
 }
 export interface GetProjectsIndexesRequest {
   /** The resource ID of the index to get. */
@@ -453,11 +446,9 @@ export interface GoogleDatastoreAdminV1ImportEntitiesRequest {
   /** Optionally specify which kinds/namespaces are to be imported. If provided, the list must be a subset of the EntityFilter used in creating the export, otherwise a FAILED_PRECONDITION error will be returned. If no filter is specified then all entities from the export are imported. */
   entityFilter?: GoogleDatastoreAdminV1EntityFilter | undefined;
 }
-export interface ImportProjectsRequest {
+export interface ImportProjectsRequest extends GoogleDatastoreAdminV1ImportEntitiesRequest {
   /** Required. Project ID against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: GoogleDatastoreAdminV1ImportEntitiesRequest | undefined;
 }
 export interface ListProjectsIndexesRequest {
   /** The next_page_token value returned from a previous List request, if any. */
@@ -523,11 +514,9 @@ export interface LookupRequest {
   /** The properties to return. Defaults to returning all properties. If this field is set and an entity has a property not referenced in the mask, it will be absent from LookupResponse.found.entity.properties. The entity's key is always returned. */
   propertyMask?: PropertyMask | undefined;
 }
-export interface LookupProjectsRequest {
+export interface LookupProjectsRequest extends LookupRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: LookupRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -567,11 +556,9 @@ export interface ReserveIdsRequest {
   /** Required. A list of keys with complete key paths whose numeric IDs should not be auto-allocated. */
   keys?: KeyList | undefined;
 }
-export interface ReserveIdsProjectsRequest {
+export interface ReserveIdsProjectsRequest extends ReserveIdsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: ReserveIdsRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -586,11 +573,9 @@ export interface RollbackRequest {
   /** Required. The transaction identifier, returned by a call to Datastore.BeginTransaction. */
   transaction?: string | undefined;
 }
-export interface RollbackProjectsRequest {
+export interface RollbackProjectsRequest extends RollbackRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: RollbackRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -775,11 +760,9 @@ export interface RunAggregationQueryRequest {
   /** Optional. Explain options for the query. If set, additional query statistics will be returned. If not, only query results will be returned. */
   explainOptions?: ExplainOptions | undefined;
 }
-export interface RunAggregationQueryProjectsRequest {
+export interface RunAggregationQueryProjectsRequest extends RunAggregationQueryRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: RunAggregationQueryRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -857,11 +840,9 @@ export interface RunQueryRequest {
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
   databaseId?: string | undefined;
 }
-export interface RunQueryProjectsRequest {
+export interface RunQueryProjectsRequest extends RunQueryRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: RunQueryRequest | undefined;
   /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
   requestParams?: string | undefined;
 }
@@ -1265,10 +1246,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GoogleDatastoreAdminV1ExportEntitiesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:export",
@@ -1336,10 +1319,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GoogleDatastoreAdminV1ImportEntitiesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:import",
@@ -1421,11 +1406,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "LookupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:lookup",
@@ -1486,11 +1473,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ReserveIdsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:reserveIds",
@@ -1512,11 +1501,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RollbackRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:rollback",
@@ -1566,11 +1557,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RunAggregationQueryRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(420, __c13, 4).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(420, __c13, 4),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:runAggregationQuery",
@@ -1749,11 +1742,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RunQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:runQuery",
@@ -1797,11 +1792,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "AllocateIdsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:allocateIds",
@@ -1880,11 +1877,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BeginTransactionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:beginTransaction",
@@ -1990,11 +1989,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CommitRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(804, __c25, 4).pipe(T.HttpBody())),
-          requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
-        }).pipe(
+        S.Extend(
+          __S(804, __c25, 4),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}:commit",
@@ -2085,10 +2086,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(930, __c29, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(930, __c29, 2),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/indexes",

@@ -127,10 +127,7 @@ export interface QueryRequest {
   /** Optional. If true, the response will include device metadata in the device_metadata field. */
   includeDeviceMetadata?: boolean | undefined;
 }
-export interface QueryDevicesRequest {
-  /** Request body */
-  body?: QueryRequest | undefined;
-}
+export interface QueryDevicesRequest extends QueryRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** Represents a dynamic JSON trait state payload that conforms to `json_trait_schema.md`. This message is used for Category 2 (vendor Matter clusters) and Category 3 (non-Matter capabilities) traits across all wire and internal paths, and for Category 1 traits on external JSON-only wire paths (for example, `Query` with `JSON_TRAIT_ONLY`). */
 export interface JsonTrait {
@@ -274,10 +271,7 @@ export interface ReportStateAndNotificationRequest {
   /** Request ID used for debugging. */
   requestId?: string | undefined;
 }
-export interface ReportStateAndNotificationDevicesRequest {
-  /** Request body */
-  body?: ReportStateAndNotificationRequest | undefined;
-}
+export interface ReportStateAndNotificationDevicesRequest extends ReportStateAndNotificationRequest {}
 /** Result of reporting state and notifications for a single device. */
 export interface Result {
   /** The trait commit timestamp of the state update in Home Graph. */
@@ -298,10 +292,7 @@ export interface RequestSyncDevicesRequest {
   /** Optional. If set, the request will be added to a queue and a response will be returned immediately. This enables concurrent requests for the given `agent_user_id`, but the caller will not receive any error responses. */
   async?: boolean | undefined;
 }
-export interface RequestSyncDevicesRequest_ {
-  /** Request body */
-  body?: RequestSyncDevicesRequest | undefined;
-}
+export interface RequestSyncDevicesRequest_ extends RequestSyncDevicesRequest {}
 /** Response type for the [`RequestSyncDevices`](#google.home.graph.v1.HomeGraphApiService.RequestSyncDevices) call. Intentionally empty upon success. An HTTP response code is returned with more details upon failure. */
 export interface RequestSyncDevicesResponse {}
 /** Request type for the [`Sync`](#google.home.graph.v1.HomeGraphApiService.Sync) call. */
@@ -311,10 +302,7 @@ export interface SyncRequest {
   /** Required. Third-party user ID. */
   agentUserId?: string | undefined;
 }
-export interface SyncDevicesRequest {
-  /** Request body */
-  body?: SyncRequest | undefined;
-}
+export interface SyncDevicesRequest extends SyncRequest {}
 /** Alternate third-party device ID. */
 export interface AgentOtherDeviceId {
   /** Project ID for your smart home Action. */
@@ -535,9 +523,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "QueryRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(69, __c2, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(69, __c2, 5), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/devices:query",
@@ -703,9 +689,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ReportStateAndNotificationRequest" });
     case 13:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(204, __c6, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(204, __c6, 12), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/devices:reportStateAndNotification",
@@ -741,9 +725,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RequestSyncDevicesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(224, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/devices:requestSync",
@@ -764,9 +746,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SyncRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(256, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/devices:sync",

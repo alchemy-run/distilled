@@ -665,10 +665,7 @@ export interface Channel {
   /** The type of delivery mechanism used for this channel. The value should be set to `"web_hook"`. */
   type?: string | undefined;
 }
-export interface StopChannelsRequest {
-  /** Request body */
-  body?: Channel | undefined;
-}
+export interface StopChannelsRequest extends Channel {}
 export interface StopChannelsResponse {}
 export type WatchActivitiesApplicationNameEnum =
   | "access_transparency"
@@ -693,7 +690,7 @@ export type WatchActivitiesApplicationNameEnum =
   | "data_studio"
   | "keep"
   | "classroom";
-export interface WatchActivitiesRequest {
+export interface WatchActivitiesRequest extends Channel {
   /** `Deprecated`. This field is deprecated and is no longer supported. Comma separated group ids (obfuscated) on which user activities are filtered, i.e. the response will contain activities for only those users that are a part of at least one of the group ids mentioned here. Format: "id:abc123,id:xyz456" *Important:* To filter by groups, you must explicitly add the groups to your filtering groups allowlist. For more information about adding groups to filtering groups allowlist, see [Filter results by Google Group](https://support.google.com/a/answer/11482175) */
   groupIdFilter?: string | undefined;
   /** The unique ID of the customer to retrieve data for. */
@@ -718,8 +715,6 @@ export interface WatchActivitiesRequest {
   maxResults?: number | undefined;
   /** `Deprecated`. This field is deprecated and is no longer supported. ID of the organizational unit to report on. Activity records will be shown only for users who belong to the specified organizational unit. Data before Dec 17, 2018 doesn't appear in the filtered results. */
   orgUnitID?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type GetCustomerUsageReportsError = NotFound | Forbidden | GcpOpError;
 /** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */
@@ -1312,9 +1307,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(225, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/reports_v1/channels/stop",
@@ -1351,21 +1344,23 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupIdFilter: S.optional(S.String.pipe(T.Query())),
-          customerId: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          applicationName: S.String.pipe(T.Label()),
-          filters: S.optional(S.String.pipe(T.Query())),
-          eventName: S.optional(S.String.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          userKey: S.String.pipe(T.Label()),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          actorIpAddress: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          orgUnitID: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c7, 1),
+          S.Struct({
+            groupIdFilter: S.optional(S.String.pipe(T.Query())),
+            customerId: S.optional(S.String.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            applicationName: S.String.pipe(T.Label()),
+            filters: S.optional(S.String.pipe(T.Query())),
+            eventName: S.optional(S.String.pipe(T.Query())),
+            startTime: S.optional(S.String.pipe(T.Query())),
+            userKey: S.String.pipe(T.Label()),
+            endTime: S.optional(S.String.pipe(T.Query())),
+            actorIpAddress: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            orgUnitID: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}/watch",

@@ -186,29 +186,23 @@ export interface ChangePlanRequest {
   /** Identifies the resource as a subscription change plan request. Value: `subscriptions#changePlanRequest` */
   kind?: string | undefined;
 }
-export interface ChangePlanSubscriptionsRequest {
+export interface ChangePlanSubscriptionsRequest extends ChangePlanRequest {
   /** This is a required property. The `subscriptionId` is the subscription identifier and is unique for each customer. Since a `subscriptionId` changes when a subscription is updated, we recommend to not use this ID as a key for persistent data. And the `subscriptionId` can be found using the retrieve all reseller subscriptions method. */
   subscriptionId: string;
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
-  /** Request body */
-  body?: ChangePlanRequest | undefined;
 }
-export interface ChangeRenewalSettingsSubscriptionsRequest {
+export interface ChangeRenewalSettingsSubscriptionsRequest extends RenewalSettings {
   /** This is a required property. The `subscriptionId` is the subscription identifier and is unique for each customer. Since a `subscriptionId` changes when a subscription is updated, we recommend to not use this ID as a key for persistent data. And the `subscriptionId` can be found using the retrieve all reseller subscriptions method. */
   subscriptionId: string;
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
-  /** Request body */
-  body?: RenewalSettings | undefined;
 }
-export interface ChangeSeatsSubscriptionsRequest {
+export interface ChangeSeatsSubscriptionsRequest extends Seats {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
   /** This is a required property. The `subscriptionId` is the subscription identifier and is unique for each customer. Since a `subscriptionId` changes when a subscription is updated, we recommend to not use this ID as a key for persistent data. And the `subscriptionId` can be found using the retrieve all reseller subscriptions method. */
   subscriptionId: string;
-  /** Request body */
-  body?: Seats | undefined;
 }
 export type DeleteSubscriptionsDeletionTypeEnum =
   | "deletion_type_undefined"
@@ -293,14 +287,12 @@ export interface ResellernotifyGetwatchdetailsResponse {
   /** Topic name of the PubSub */
   topicName?: string | undefined;
 }
-export interface InsertCustomersRequest {
+export interface InsertCustomersRequest extends Customer {
   /** The `customerAuthToken` query string is required when creating a resold account that transfers a direct customer's subscription or transfers another reseller customer's subscription to your reseller management. This is a hexadecimal authentication token needed to complete the subscription transfer. For more information, see the administrator help center. */
   customerAuthToken?: string | undefined;
-  /** Request body */
-  body?: Customer | undefined;
 }
 export type InsertSubscriptionsActionEnum = "actionUnspecified" | "buy" | "switch";
-export interface InsertSubscriptionsRequest {
+export interface InsertSubscriptionsRequest extends Omit<Subscription, "customerId"> {
   /** The sku_id of the existing subscription to be upgraded or downgraded. This is required when action is SWITCH. */
   sourceSkuId?: string | undefined;
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
@@ -309,8 +301,6 @@ export interface InsertSubscriptionsRequest {
   action?: InsertSubscriptionsActionEnum | (string & {}) | undefined;
   /** The `customerAuthToken` query string is required when creating a resold account that transfers a direct customer's subscription or transfers another reseller customer's subscription to your reseller management. This is a hexadecimal authentication token needed to complete the subscription transfer. For more information, see the administrator help center. */
   customerAuthToken?: string | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 export interface ListSubscriptionsRequest {
   /** When retrieving a large list, the `maxResults` is the maximum number of results per page. The `nextPageToken` value takes you to the next page. The default is 20. */
@@ -334,11 +324,9 @@ export interface Subscriptions {
   /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchCustomersRequest {
+export interface PatchCustomersRequest extends Omit<Customer, "customerId"> {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
-  /** Request body */
-  body?: Customer | undefined;
 }
 export interface RegisterResellernotifyRequest {
   /** The service account which will own the created Cloud-PubSub topic. */
@@ -365,11 +353,9 @@ export interface UnregisterResellernotifyRequest {
   /** The service account which owns the Cloud-PubSub topic. */
   serviceAccountEmailAddress?: string | undefined;
 }
-export interface UpdateCustomersRequest {
+export interface UpdateCustomersRequest extends Omit<Customer, "customerId"> {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
-  /** Request body */
-  body?: Customer | undefined;
 }
 export type ActivateSubscriptionsError =
   | NotFound
@@ -770,10 +756,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerAuthToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(162, __c20, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c20, 2),
+          S.Struct({
+            customerAuthToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apps/reseller/v1/customers",
@@ -787,13 +775,15 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sourceSkuId: S.optional(S.String.pipe(T.Query())),
-          customerId: S.String.pipe(T.Label()),
-          action: S.optional(S.String.pipe(T.Query())),
-          customerAuthToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(118, __c14, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(118, __c14, 6),
+          S.Struct({
+            sourceSkuId: S.optional(S.String.pipe(T.Query())),
+            customerId: S.String.pipe(T.Label()),
+            action: S.optional(S.String.pipe(T.Query())),
+            customerAuthToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apps/reseller/v1/customers/{customerId}/subscriptions",
@@ -837,10 +827,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c20, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c20, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "apps/reseller/v1/customers/{customerId}",
@@ -930,10 +922,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(162, __c20, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c20, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apps/reseller/v1/customers/{customerId}",
@@ -1053,11 +1047,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ChangePlanRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            subscriptionId: S.String.pipe(T.Label()),
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apps/reseller/v1/customers/{customerId}/subscriptions/{subscriptionId}/changePlan",
@@ -1071,11 +1067,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(117, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(117, __c14, 5),
+          S.Struct({
+            subscriptionId: S.String.pipe(T.Label()),
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apps/reseller/v1/customers/{customerId}/subscriptions/{subscriptionId}/changeRenewalSettings",
@@ -1089,11 +1087,13 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          subscriptionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+            subscriptionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apps/reseller/v1/customers/{customerId}/subscriptions/{subscriptionId}/changeSeats",

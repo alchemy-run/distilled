@@ -91,11 +91,9 @@ export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
   /** The command name to execute, represented by the fully qualified protobuf message name. */
   command?: string | undefined;
 }
-export interface ExecuteCommandEnterprisesDevicesRequest {
+export interface ExecuteCommandEnterprisesDevicesRequest extends GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
   /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
   name: string;
-  /** Request body */
-  body?: GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest | undefined;
 }
 /** Response message for SmartDeviceManagementService.ExecuteDeviceCommand */
 export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse {
@@ -342,10 +340,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeCommand",

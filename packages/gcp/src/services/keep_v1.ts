@@ -126,11 +126,9 @@ export interface BatchCreatePermissionsRequest {
   /** The request message specifying the resources to create. */
   requests?: CreatePermissionRequestList | undefined;
 }
-export interface BatchCreateNotesPermissionsRequest {
+export interface BatchCreateNotesPermissionsRequest extends BatchCreatePermissionsRequest {
   /** The parent resource shared by all Permissions being created. Format: `notes/{note}` If this is set, the parent field in the CreatePermission messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: BatchCreatePermissionsRequest | undefined;
 }
 export type PermissionList = Array<Permission>;
 /** The response for creating permissions on a note. */
@@ -144,11 +142,9 @@ export interface BatchDeletePermissionsRequest {
   /** Required. The names of the permissions to delete. Format: `notes/{note}/permissions/{permission}` */
   names?: StringList | undefined;
 }
-export interface BatchDeleteNotesPermissionsRequest {
+export interface BatchDeleteNotesPermissionsRequest extends BatchDeletePermissionsRequest {
   /** The parent resource shared by all permissions being deleted. Format: `notes/{note}` If this is set, the parent of all of the permissions specified in the DeletePermissionRequest messages must match this field. */
   parent: string;
-  /** Request body */
-  body?: BatchDeletePermissionsRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -208,10 +204,7 @@ export interface Note {
   /** The title of the note. Length must be less than 1,000 characters. */
   title?: string | undefined;
 }
-export interface CreateNotesRequest {
-  /** Request body */
-  body?: Note | undefined;
-}
+export interface CreateNotesRequest extends Note {}
 export interface DeleteNotesRequest {
   /** Required. Name of the note to delete. */
   name: string;
@@ -412,10 +405,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "BatchCreatePermissionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/permissions:batchCreate",
@@ -471,10 +466,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "BatchDeletePermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/permissions:batchDelete",
@@ -494,9 +491,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(70, __c8, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(70, __c8, 6), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/notes", baseUrl: "https://keep.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateNotesRequest" });

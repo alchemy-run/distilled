@@ -245,15 +245,13 @@ export interface ConnectionProfile {
   /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
   /** Required. The parent, which owns this collection of connection profiles. */
   parent: string;
   /** Required. The connection profile identifier. */
   connectionProfileId?: string | undefined;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ConnectionProfile | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -361,15 +359,13 @@ export interface MigrationJob {
   /** The migration job display name. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsMigrationJobsRequest {
+export interface CreateProjectsLocationsMigrationJobsRequest extends MigrationJob {
   /** Required. The parent, which owns this collection of migration jobs. */
   parent: string;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. The ID of the instance to create. */
   migrationJobId?: string | undefined;
-  /** Request body */
-  body?: MigrationJob | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. Name of the connection profile resource to delete. */
@@ -416,11 +412,9 @@ export interface GenerateSshScriptRequest {
   /** The VM selection configuration */
   vmSelectionConfig?: VmSelectionConfig | undefined;
 }
-export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest {
+export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest extends GenerateSshScriptRequest {
   /** Name of the migration job resource to generate the SSH script. */
   migrationJob: string;
-  /** Request body */
-  body?: GenerateSshScriptRequest | undefined;
 }
 /** Response message for 'GenerateSshScript' request. */
 export interface SshScript {
@@ -608,25 +602,24 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the connection profile resource by the update. */
   updateMask?: string | undefined;
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
   name: string;
-  /** Request body */
-  body?: ConnectionProfile | undefined;
 }
-export interface PatchProjectsLocationsMigrationJobsRequest {
+export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<MigrationJob, "name"> {
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the migration job resource by the update. */
   updateMask?: string | undefined;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MigrationJob | undefined;
 }
 /** Request message for 'PromoteMigrationJob' request. */
 export type PromoteMigrationJobRequest = CancelOperationRequest;
@@ -659,17 +652,13 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest {
+export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsMigrationJobsRequest {
+export interface SetIamPolicyProjectsLocationsMigrationJobsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for 'StartMigrationJob' request. */
 export type StartMigrationJobRequest = CancelOperationRequest;
@@ -692,22 +681,18 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest {
+export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest {
+export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for 'VerifyMigrationJob' request. */
 export type VerifyMigrationJobRequest = CancelOperationRequest;
@@ -1356,10 +1341,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GenerateSshScriptRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          migrationJob: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            migrationJob: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+migrationJob}:generateSshScript",
@@ -1666,12 +1653,14 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(255, __c31, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(255, __c31, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1685,12 +1674,14 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(299, __c37, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(299, __c37, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1755,10 +1746,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1783,10 +1776,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1834,10 +1829,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -1861,10 +1858,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -1918,12 +1917,14 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(255, __c31, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(255, __c31, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/connectionProfiles",
@@ -2065,12 +2066,14 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          migrationJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(299, __c37, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(299, __c37, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            migrationJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/migrationJobs",

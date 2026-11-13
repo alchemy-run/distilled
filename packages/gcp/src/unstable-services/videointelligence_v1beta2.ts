@@ -242,10 +242,7 @@ export interface GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest {
   /** Optional. Cloud region where annotation should take place. Supported cloud regions are: `us-east1`, `us-west1`, `europe-west1`, `asia-east1`. If no region is specified, the region will be determined based on video file location. */
   locationId?: string | undefined;
 }
-export interface AnnotateVideosRequest {
-  /** Request body */
-  body?: GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest | undefined;
-}
+export interface AnnotateVideosRequest extends GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -394,9 +391,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest" });
     case 15:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(14, __c0, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(14, __c0, 14), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/videos:annotate",

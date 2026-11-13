@@ -586,13 +586,11 @@ export interface DomainMapping {
   /** The spec for this DomainMapping. */
   spec?: DomainMappingSpec | undefined;
 }
-export interface CreateNamespacesDomainmappingsRequest {
+export interface CreateNamespacesDomainmappingsRequest extends DomainMapping {
   /** Required. The namespace in which the domain mapping should be created. For Cloud Run (fully managed), replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   parent: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Request body */
-  body?: DomainMapping | undefined;
 }
 /** InstanceSpec describes how the Instance will look. */
 export interface InstanceSpec {
@@ -633,13 +631,11 @@ export interface Instance {
   /** Optional. Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. */
   kind?: string | undefined;
 }
-export interface CreateNamespacesInstancesRequest {
+export interface CreateNamespacesInstancesRequest extends Instance {
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
   /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/instances` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` Parent resource namespace. */
   parent: string;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type ExecutionReferenceCompletionStatusEnum =
   | "COMPLETION_STATUS_UNSPECIFIED"
@@ -701,13 +697,11 @@ export interface Job {
   /** Optional. Specification of the desired behavior of a job. */
   spec?: JobSpec | undefined;
 }
-export interface CreateNamespacesJobsRequest {
+export interface CreateNamespacesJobsRequest extends Job {
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
   /** Required. The namespace in which the job should be created. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   parent: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 /** Information for connecting over HTTP(s). */
 export interface Addressable {
@@ -796,13 +790,11 @@ export interface Service {
   /** The API version for this call. It must be "serving.knative.dev/v1". */
   apiVersion?: string | undefined;
 }
-export interface CreateNamespacesServicesRequest {
+export interface CreateNamespacesServicesRequest extends Service {
   /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/services` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
   parent: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
 /** Holds a single instance split entry for the Worker. Allocations can be done to a specific Revision name, or pointing to the latest Ready Revision. */
 export interface InstanceSplit {
@@ -847,29 +839,23 @@ export interface WorkerPool {
   /** Communicates the system-controlled state of the WorkerPool. */
   status?: WorkerPoolStatus | undefined;
 }
-export interface CreateNamespacesWorkerpoolsRequest {
+export interface CreateNamespacesWorkerpoolsRequest extends WorkerPool {
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
   /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/workerpools` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
   parent: string;
-  /** Request body */
-  body?: WorkerPool | undefined;
 }
-export interface CreateProjectsLocationsDomainmappingsRequest {
+export interface CreateProjectsLocationsDomainmappingsRequest extends DomainMapping {
   /** Required. The namespace in which the domain mapping should be created. For Cloud Run (fully managed), replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   parent: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Request body */
-  body?: DomainMapping | undefined;
 }
-export interface CreateProjectsLocationsServicesRequest {
+export interface CreateProjectsLocationsServicesRequest extends Service {
   /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/services` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
   parent: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
 export interface DeleteNamespacesDomainmappingsRequest {
   /** Cloud Run currently ignores this parameter. */
@@ -1849,45 +1835,35 @@ export interface ListProjectsLocationsServicesRequest {
   /** Encoded string to continue paging. */
   continue?: string | undefined;
 }
-export interface ReplaceInstanceNamespacesInstancesRequest {
+export interface ReplaceInstanceNamespacesInstancesRequest extends Instance {
   /** Required. The fully qualified name of the Instance being replaced. It can be any of the following forms: * `namespaces/{project_id_or_number}/instances/{instance_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/instances/{instance_name}` * `projects/{project_id_or_number}/regions/{region}/instances/{instance_name}` Parent resource namespace. */
   name: string;
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
-export interface ReplaceJobNamespacesJobsRequest {
+export interface ReplaceJobNamespacesJobsRequest extends Job {
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
   /** Required. The name of the job being replaced. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   name: string;
-  /** Request body */
-  body?: Job | undefined;
 }
-export interface ReplaceServiceNamespacesServicesRequest {
+export interface ReplaceServiceNamespacesServicesRequest extends Service {
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
   /** Required. The fully qualified name of the service to replace. It can be any of the following forms: * `namespaces/{project_id_or_number}/services/{service_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/services/{service_name}` * `projects/{project_id_or_number}/regions/{region}/services/{service_name}` */
   name: string;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface ReplaceServiceProjectsLocationsServicesRequest {
+export interface ReplaceServiceProjectsLocationsServicesRequest extends Service {
   /** Required. The fully qualified name of the service to replace. It can be any of the following forms: * `namespaces/{project_id_or_number}/services/{service_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/services/{service_name}` * `projects/{project_id_or_number}/regions/{region}/services/{service_name}` */
   name: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface ReplaceWorkerPoolNamespacesWorkerpoolsRequest {
+export interface ReplaceWorkerPoolNamespacesWorkerpoolsRequest extends WorkerPool {
   /** Required. The fully qualified name of the worker pool to replace. It can be any of the following forms: * `namespaces/{project_id_or_number}/workerpools/{worker_pool_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/workerpools/{worker_pool_name}` * `projects/{project_id_or_number}/regions/{region}/workerpools/{worker_pool_name}` */
   name: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Request body */
-  body?: WorkerPool | undefined;
 }
 /** Per container override specification. */
 export interface ContainerOverride {
@@ -1917,11 +1893,9 @@ export interface RunJobRequest {
   /** Optional. Overrides existing job configuration for one specific new job execution only, using the specified values to update the job configuration for the new execution. */
   overrides?: Overrides | undefined;
 }
-export interface RunNamespacesJobsRequest {
+export interface RunNamespacesJobsRequest extends RunJobRequest {
   /** Required. The name of the job to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   name: string;
-  /** Request body */
-  body?: RunJobRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1930,93 +1904,71 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsJobsRequest {
+export interface SetIamPolicyProjectsLocationsJobsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsServicesRequest {
+export interface SetIamPolicyProjectsLocationsServicesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkerpoolsRequest {
+export interface SetIamPolicyProjectsLocationsWorkerpoolsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for starting a stopped Instance. */
 export interface StartInstanceRequest {
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
 }
-export interface StartNamespacesInstancesRequest {
+export interface StartNamespacesInstancesRequest extends StartInstanceRequest {
   /** Required. The name of the Instance to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   name: string;
-  /** Request body */
-  body?: StartInstanceRequest | undefined;
 }
 /** Request message for stopping a running Instance. */
 export type StopInstanceRequest = StartInstanceRequest;
-export interface StopNamespacesInstancesRequest {
+export interface StopNamespacesInstancesRequest extends StartInstanceRequest {
   /** Required. The name of the Instance to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   name: string;
-  /** Request body */
-  body?: StartInstanceRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsJobsRequest {
+export interface TestIamPermissionsProjectsLocationsJobsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServicesRequest {
+export interface TestIamPermissionsProjectsLocationsServicesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkerpoolsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkerpoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** The request message for Operations.WaitOperation. */
 export interface GoogleLongrunningWaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
   timeout?: string | undefined;
 }
-export interface WaitProjectsLocationsOperationsRequest {
+export interface WaitProjectsLocationsOperationsRequest extends GoogleLongrunningWaitOperationRequest {
   /** The name of the operation resource to wait on. */
   name: string;
-  /** Request body */
-  body?: GoogleLongrunningWaitOperationRequest | undefined;
 }
 export type CancelNamespacesExecutionsError =
   | NotFound
@@ -3502,11 +3454,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2084, __c65, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2084, __c65, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/domainmappings",
@@ -3520,11 +3474,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3426, __c107, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/services",
@@ -4991,11 +4947,13 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2084, __c65, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2084, __c65, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/domains.cloudrun.com/v1/{+parent}/domainmappings",
@@ -5346,11 +5304,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2530, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2530, __c79, 2),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+parent}/instances",
@@ -5467,11 +5427,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2530, __c79, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2530, __c79, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/run.googleapis.com/v1/{+name}",
@@ -5485,11 +5447,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2948, __c92, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2948, __c92, 4),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/run.googleapis.com/v1/{+name}",
@@ -5503,11 +5467,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3426, __c107, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/serving.knative.dev/v1/{+name}",
@@ -5521,11 +5487,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3426, __c107, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://run.googleapis.com/" }),
         ),
       ).annotate({ identifier: "ReplaceServiceProjectsLocationsServicesRequest" });
@@ -5535,11 +5503,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3556, __c111, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3556, __c111, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/run.googleapis.com/v1/{+name}",
@@ -5579,10 +5549,12 @@ function __c88(j: number): any {
       ).annotate({ identifier: "RunJobRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2819, __c88, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2819, __c88, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+name}:run",
@@ -5596,10 +5568,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5624,11 +5598,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2948, __c92, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2948, __c92, 4),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+parent}/jobs",
@@ -5690,10 +5666,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5707,10 +5685,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5724,10 +5704,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5741,10 +5723,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+name}:start",
@@ -5768,10 +5752,12 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+name}:stop",
@@ -5785,10 +5771,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5812,10 +5800,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5829,10 +5819,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5846,10 +5838,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5869,10 +5863,12 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GoogleLongrunningWaitOperationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:wait",
@@ -5886,11 +5882,13 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3426, __c107, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/serving.knative.dev/v1/{+parent}/services",
@@ -5992,11 +5990,13 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3556, __c111, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3556, __c111, 4),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+parent}/workerpools",

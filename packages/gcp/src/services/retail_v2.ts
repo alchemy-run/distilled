@@ -221,11 +221,9 @@ export interface GoogleCloudRetailV2AddCatalogAttributeRequest {
   /** Required. The CatalogAttribute to add. */
   catalogAttribute?: GoogleCloudRetailV2CatalogAttribute | undefined;
 }
-export interface AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
+export interface AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest extends GoogleCloudRetailV2AddCatalogAttributeRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2AddCatalogAttributeRequest | undefined;
 }
 export type GoogleCloudRetailV2AttributesConfigAttributeConfigLevelEnum =
   | "ATTRIBUTE_CONFIG_LEVEL_UNSPECIFIED"
@@ -251,11 +249,9 @@ export interface GoogleCloudRetailV2AddControlRequest {
   /** Required. The id of the control to apply. Assumed to be in the same catalog as the serving config - if id is not found a NOT_FOUND error is returned. */
   controlId?: string | undefined;
 }
-export interface AddControlProjectsLocationsCatalogsServingConfigsRequest {
+export interface AddControlProjectsLocationsCatalogsServingConfigsRequest extends GoogleCloudRetailV2AddControlRequest {
   /** Required. The source ServingConfig resource name . Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2AddControlRequest | undefined;
 }
 export type GoogleCloudRetailV2ServingConfigSolutionTypesItemEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -340,11 +336,9 @@ export interface GoogleCloudRetailV2AddFulfillmentPlacesRequest {
   /** Required. The fulfillment type, including commonly used types (such as pickup in store and same day delivery), and custom types. Supported values: * "pickup-in-store" * "ship-to-store" * "same-day-delivery" * "next-day-delivery" * "custom-type-1" * "custom-type-2" * "custom-type-3" * "custom-type-4" * "custom-type-5" If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. This field directly corresponds to Product.fulfillment_info.type. */
   type?: string | undefined;
 }
-export interface AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest {
+export interface AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2AddFulfillmentPlacesRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2AddFulfillmentPlacesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -432,11 +426,9 @@ export interface GoogleCloudRetailV2AddLocalInventoriesRequest {
   /** Indicates which inventory fields in the provided list of LocalInventory to update. The field is updated to the provided value. If a field is set while the place does not have a previous local inventory, the local inventory at that store is created. If a field is set while the value of that field is not provided, the original field value, if it exists, is deleted. If the mask is not set or set with empty paths, all inventory fields will be updated. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned and the entire update will be ignored. */
   addMask?: string | undefined;
 }
-export interface AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest {
+export interface AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2AddLocalInventoriesRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2AddLocalInventoriesRequest | undefined;
 }
 /** Configuration for a single generated question. */
 export interface GoogleCloudRetailV2GenerativeQuestionConfig {
@@ -469,11 +461,9 @@ export interface GoogleCloudRetailV2BatchUpdateGenerativeQuestionConfigsRequest 
   /** Required. The updates question configs. */
   requests?: GoogleCloudRetailV2UpdateGenerativeQuestionConfigRequestList | undefined;
 }
-export interface BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest {
+export interface BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest extends GoogleCloudRetailV2BatchUpdateGenerativeQuestionConfigsRequest {
   /** Optional. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2BatchUpdateGenerativeQuestionConfigsRequest | undefined;
 }
 export type GoogleCloudRetailV2GenerativeQuestionConfigList =
   Array<GoogleCloudRetailV2GenerativeQuestionConfig>;
@@ -495,11 +485,9 @@ export interface GoogleCloudRetailV2CollectUserEventRequest {
   /** An arbitrary serialized JSON string that contains necessary information that can comprise a user event. When this field is specified, the user_event field will be ignored. Note: line-delimited JSON is not supported, a single JSON only. */
   rawJson?: string | undefined;
 }
-export interface CollectProjectsLocationsCatalogsUserEventsRequest {
+export interface CollectProjectsLocationsCatalogsUserEventsRequest extends GoogleCloudRetailV2CollectUserEventRequest {
   /** Required. The parent catalog name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2CollectUserEventRequest | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface GoogleApiHttpBody {
@@ -695,11 +683,9 @@ export interface GoogleCloudRetailV2ConversationalSearchRequest {
   /** Optional. Raw search query to be searched for. If this field is empty, the request is considered a category browsing request. */
   query?: string | undefined;
 }
-export interface ConversationalSearchProjectsLocationsCatalogsPlacementsRequest {
+export interface ConversationalSearchProjectsLocationsCatalogsPlacementsRequest extends GoogleCloudRetailV2ConversationalSearchRequest {
   /** Required. The resource name of the search engine placement, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search` or `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` This field is used to identify the serving config name and the set of models that will be used to make the search. */
   placement: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ConversationalSearchRequest | undefined;
 }
 /** Additional filter that client side need to apply. */
 export interface GoogleCloudRetailV2ConversationalSearchResponseConversationalFilteringResultAdditionalFilter {
@@ -759,11 +745,9 @@ export interface GoogleCloudRetailV2ConversationalSearchResponse {
   /** The proposed refined search queries. They can be used to fetch the relevant search results. When using CONVERSATIONAL_FILTER_ONLY mode, the refined_query from search response will be populated here. */
   refinedSearch?: GoogleCloudRetailV2ConversationalSearchResponseRefinedSearchList | undefined;
 }
-export interface ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest {
+export interface ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest extends GoogleCloudRetailV2ConversationalSearchRequest {
   /** Required. The resource name of the search engine placement, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search` or `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` This field is used to identify the serving config name and the set of models that will be used to make the search. */
   placement: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ConversationalSearchRequest | undefined;
 }
 export type GoogleCloudRetailV2ProductAvailabilityEnum =
   | "AVAILABILITY_UNSPECIFIED"
@@ -896,13 +880,11 @@ export interface GoogleCloudRetailV2Product {
   /** The brands of the product. A maximum of 30 brands are allowed unless overridden through the Google Cloud console. Each brand must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [brand](https://support.google.com/merchants/answer/6324351). Schema.org property [Product.brand](https://schema.org/brand). */
   brands?: StringList | undefined;
 }
-export interface CreateProjectsLocationsCatalogsBranchesProductsRequest {
+export interface CreateProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2Product {
   /** Required. The ID to use for the Product, which will become the final component of the Product.name. If the caller does not have permission to create the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. This field must be unique among all Products with the same parent. Otherwise, an ALREADY_EXISTS error is returned. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
   productId?: string | undefined;
   /** Required. The parent catalog resource name, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2Product | undefined;
 }
 /** Removes an attribute/facet in the request if is present. * Rule Condition: Must specify non-empty Condition.query_terms (for search only) or Condition.page_categories (for browse only), but can't specify both. * Action Input: attribute name * Action Result: Will remove the attribute (as a facet) from the request if it is present. Example: Suppose the query is "shoes", the Condition.query_terms is "shoes" and the attribute name "size", then facet key "size" will be removed from the request (if it is present). */
 export interface GoogleCloudRetailV2RuleRemoveFacetAction {
@@ -1067,13 +1049,11 @@ export interface GoogleCloudRetailV2Control {
   /** Output only. List of serving config ids that are associated with this control in the same Catalog. Note the association is managed via the ServingConfig, this is an output only denormalized view. */
   associatedServingConfigIds?: StringList | undefined;
 }
-export interface CreateProjectsLocationsCatalogsControlsRequest {
+export interface CreateProjectsLocationsCatalogsControlsRequest extends GoogleCloudRetailV2Control {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value should be 4-63 characters, and valid characters are /a-z-_/. */
   controlId?: string | undefined;
   /** Required. Full resource name of parent catalog. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2Control | undefined;
 }
 export type GoogleCloudRetailV2ModelPeriodicTuningStateEnum =
   | "PERIODIC_TUNING_STATE_UNSPECIFIED"
@@ -1156,21 +1136,17 @@ export interface GoogleCloudRetailV2Model {
   /** Output only. The serving state of the model: `ACTIVE`, `NOT_ACTIVE`. */
   servingState?: GoogleCloudRetailV2ModelServingStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsCatalogsModelsRequest {
+export interface CreateProjectsLocationsCatalogsModelsRequest extends GoogleCloudRetailV2Model {
   /** Required. The parent resource under which to create the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Optional. Whether to run a dry run to validate the request (without actually creating the model). */
   dryRun?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2Model | undefined;
 }
-export interface CreateProjectsLocationsCatalogsServingConfigsRequest {
+export interface CreateProjectsLocationsCatalogsServingConfigsRequest extends GoogleCloudRetailV2ServingConfig {
   /** Required. Full resource name of parent. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-z-_/. */
   servingConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2ServingConfig | undefined;
 }
 export interface DeleteProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to delete the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the Product to delete does not exist, a NOT_FOUND error is returned. The Product to delete can neither be a Product.Type.COLLECTION Product member nor a Product.Type.PRIMARY Product with more than one variants. Otherwise, an INVALID_ARGUMENT error is returned. All inventory information for the named Product will be deleted. */
@@ -1218,11 +1194,9 @@ export interface GoogleCloudRetailV2ExportAnalyticsMetricsRequest {
   /** A filtering expression to specify restrictions on returned metrics. The expression is a sequence of terms. Each term applies a restriction to the returned metrics. Use this expression to restrict results to a specific time range. Currently we expect only one types of fields: * `timestamp`: This can be specified twice, once with a less than operator and once with a greater than operator. The `timestamp` restriction should result in one, contiguous, valid, `timestamp` range. Some examples of valid filters expressions: * Example 1: `timestamp > "2012-04-23T18:25:43.511Z" timestamp < "2012-04-23T18:30:43.511Z"` * Example 2: `timestamp > "2012-04-23T18:25:43.511Z"` */
   filter?: string | undefined;
 }
-export interface ExportAnalyticsMetricsProjectsLocationsCatalogsRequest {
+export interface ExportAnalyticsMetricsProjectsLocationsCatalogsRequest extends GoogleCloudRetailV2ExportAnalyticsMetricsRequest {
   /** Required. Full resource name of the parent catalog. Expected format: `projects/*\/locations/*\/catalogs/*` */
   catalog: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ExportAnalyticsMetricsRequest | undefined;
 }
 export interface GetAttributesConfigProjectsLocationsCatalogsRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
@@ -1456,11 +1430,9 @@ export interface GoogleCloudRetailV2ImportProductsRequest {
     | (string & {})
     | undefined;
 }
-export interface ImportProjectsLocationsCatalogsBranchesProductsRequest {
+export interface ImportProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2ImportProductsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog/branches/default_branch` If no updateMask is specified, requires products.create permission. If updateMask is specified, requires products.update permission. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ImportProductsRequest | undefined;
 }
 /** Request message for ImportCompletionData methods. */
 export interface GoogleCloudRetailV2ImportCompletionDataRequest {
@@ -1469,11 +1441,9 @@ export interface GoogleCloudRetailV2ImportCompletionDataRequest {
   /** Required. The desired input location of the data. */
   inputConfig?: GoogleCloudRetailV2CompletionDataInputConfig | undefined;
 }
-export interface ImportProjectsLocationsCatalogsCompletionDataRequest {
+export interface ImportProjectsLocationsCatalogsCompletionDataRequest extends GoogleCloudRetailV2ImportCompletionDataRequest {
   /** Required. The catalog which the suggestions dataset belongs to. Format: `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ImportCompletionDataRequest | undefined;
 }
 /** Detailed product information associated with a user event. */
 export interface GoogleCloudRetailV2ProductDetail {
@@ -1590,11 +1560,9 @@ export interface GoogleCloudRetailV2ImportUserEventsRequest {
   /** Required. The desired input location of the data. */
   inputConfig?: GoogleCloudRetailV2UserEventInputConfig | undefined;
 }
-export interface ImportProjectsLocationsCatalogsUserEventsRequest {
+export interface ImportProjectsLocationsCatalogsUserEventsRequest extends GoogleCloudRetailV2ImportUserEventsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ImportUserEventsRequest | undefined;
 }
 export interface ListProjectsLocationsCatalogsRequest {
   /** A page token ListCatalogsResponse.next_page_token, received from a previous CatalogService.ListCatalogs call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to CatalogService.ListCatalogs must match the call that provided the page token. Otherwise, an INVALID_ARGUMENT error is returned. */
@@ -1752,47 +1720,52 @@ export interface ListProjectsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number | undefined;
 }
-export interface PatchProjectsLocationsCatalogsRequest {
+export interface PatchProjectsLocationsCatalogsRequest extends Omit<
+  GoogleCloudRetailV2Catalog,
+  "name"
+> {
   /** Required. Immutable. The fully qualified resource name of the catalog. */
   name: string;
   /** Optional. Indicates which fields in the provided Catalog to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2Catalog | undefined;
 }
-export interface PatchProjectsLocationsCatalogsBranchesProductsRequest {
+export interface PatchProjectsLocationsCatalogsBranchesProductsRequest extends Omit<
+  GoogleCloudRetailV2Product,
+  "name"
+> {
   /** Indicates which fields in the provided Product to update. The immutable and output only fields are NOT supported. If not set, all supported fields (the fields that are neither immutable nor output only) are updated. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. The attribute key can be updated by setting the mask path as "attributes.${key_name}". If a key name is present in the mask but not in the patching product from the request, this key will be deleted after the update. */
   updateMask?: string | undefined;
   /** If set to true, and the Product is not found, a new Product will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
   /** Immutable. Full resource name of the product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2Product | undefined;
 }
-export interface PatchProjectsLocationsCatalogsControlsRequest {
+export interface PatchProjectsLocationsCatalogsControlsRequest extends Omit<
+  GoogleCloudRetailV2Control,
+  "name"
+> {
   /** Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/controls/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2Control | undefined;
 }
-export interface PatchProjectsLocationsCatalogsModelsRequest {
+export interface PatchProjectsLocationsCatalogsModelsRequest extends Omit<
+  GoogleCloudRetailV2Model,
+  "name"
+> {
   /** Required. The fully qualified resource name of the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` catalog_id has char limit of 50. recommendation_model_id has char limit of 40. */
   name: string;
   /** Optional. Indicates which fields in the provided 'model' to update. If not set, by default updates all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2Model | undefined;
 }
-export interface PatchProjectsLocationsCatalogsServingConfigsRequest {
+export interface PatchProjectsLocationsCatalogsServingConfigsRequest extends Omit<
+  GoogleCloudRetailV2ServingConfig,
+  "name"
+> {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/servingConfig/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ServingConfig | undefined;
 }
 /** Request for pausing training of a model. */
 export interface GoogleCloudRetailV2PauseModelRequest {}
@@ -1819,11 +1792,9 @@ export interface GoogleCloudRetailV2PredictRequest {
   /** This field is not used; leave it unset. */
   pageToken?: string | undefined;
 }
-export interface PredictProjectsLocationsCatalogsPlacementsRequest {
+export interface PredictProjectsLocationsCatalogsPlacementsRequest extends GoogleCloudRetailV2PredictRequest {
   /** Required. Full resource name of the format: `{placement=projects/*\/locations/global/catalogs/default_catalog/servingConfigs/*}` or `{placement=projects/*\/locations/global/catalogs/default_catalog/placements/*}`. We recommend using the `servingConfigs` resource. `placements` is a legacy resource. The ID of the Recommendations AI serving config or placement. Before you can request predictions from your model, you must create at least one serving config or placement for it. For more information, see [Manage serving configs] (https://cloud.google.com/retail/docs/manage-configs). The full list of available serving configs can be seen at https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs */
   placement: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2PredictRequest | undefined;
 }
 /** PredictionResult represents the recommendation prediction results. */
 export interface GoogleCloudRetailV2PredictResponsePredictionResult {
@@ -1845,11 +1816,9 @@ export interface GoogleCloudRetailV2PredictResponse {
   /** A list of recommended products. The order represents the ranking (from the most relevant product to the least). */
   results?: GoogleCloudRetailV2PredictResponsePredictionResultList | undefined;
 }
-export interface PredictProjectsLocationsCatalogsServingConfigsRequest {
+export interface PredictProjectsLocationsCatalogsServingConfigsRequest extends GoogleCloudRetailV2PredictRequest {
   /** Required. Full resource name of the format: `{placement=projects/*\/locations/global/catalogs/default_catalog/servingConfigs/*}` or `{placement=projects/*\/locations/global/catalogs/default_catalog/placements/*}`. We recommend using the `servingConfigs` resource. `placements` is a legacy resource. The ID of the Recommendations AI serving config or placement. Before you can request predictions from your model, you must create at least one serving config or placement for it. For more information, see [Manage serving configs] (https://cloud.google.com/retail/docs/manage-configs). The full list of available serving configs can be seen at https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs */
   placement: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2PredictRequest | undefined;
 }
 /** Request message for PurgeProducts method. */
 export interface GoogleCloudRetailV2PurgeProductsRequest {
@@ -1858,11 +1827,9 @@ export interface GoogleCloudRetailV2PurgeProductsRequest {
   /** Actually perform the purge. If `force` is set to false, the method will return the expected purge count without deleting any products. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsCatalogsBranchesProductsRequest {
+export interface PurgeProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2PurgeProductsRequest {
   /** Required. The resource name of the branch under which the products are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}/branches/${branchId}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2PurgeProductsRequest | undefined;
 }
 /** Request message for PurgeUserEvents method. */
 export interface GoogleCloudRetailV2PurgeUserEventsRequest {
@@ -1871,11 +1838,9 @@ export interface GoogleCloudRetailV2PurgeUserEventsRequest {
   /** Required. The filter string to specify the events to be deleted with a length limit of 5,000 characters. Empty string filter is not allowed. The eligible fields for filtering are: * `eventType`: Double quoted UserEvent.event_type string. * `eventTime`: in ISO 8601 "zulu" format. * `visitorId`: Double quoted string. Specifying this will delete all events associated with a visitor. * `userId`: Double quoted string. Specifying this will delete all events associated with a user. Examples: * Deleting all events in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z"` * Deleting specific eventType in time range: `eventTime > "2012-04-23T18:25:43.511Z" eventType = "detail-page-view"` * Deleting all events for a specific visitor: `visitorId = "visitor1024"` The filtering fields are assumed to have an implicit AND. */
   filter?: string | undefined;
 }
-export interface PurgeProjectsLocationsCatalogsUserEventsRequest {
+export interface PurgeProjectsLocationsCatalogsUserEventsRequest extends GoogleCloudRetailV2PurgeUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2PurgeUserEventsRequest | undefined;
 }
 export type GoogleCloudRetailV2RejoinUserEventsRequestUserEventRejoinScopeEnum =
   | "USER_EVENT_REJOIN_SCOPE_UNSPECIFIED"
@@ -1889,33 +1854,27 @@ export interface GoogleCloudRetailV2RejoinUserEventsRequest {
     | (string & {})
     | undefined;
 }
-export interface RejoinProjectsLocationsCatalogsUserEventsRequest {
+export interface RejoinProjectsLocationsCatalogsUserEventsRequest extends GoogleCloudRetailV2RejoinUserEventsRequest {
   /** Required. The parent catalog resource name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2RejoinUserEventsRequest | undefined;
 }
 /** Request for CatalogService.RemoveCatalogAttribute method. */
 export interface GoogleCloudRetailV2RemoveCatalogAttributeRequest {
   /** Required. The attribute name key of the CatalogAttribute to remove. */
   key?: string | undefined;
 }
-export interface RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
+export interface RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest extends GoogleCloudRetailV2RemoveCatalogAttributeRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2RemoveCatalogAttributeRequest | undefined;
 }
 /** Request for RemoveControl method. */
 export interface GoogleCloudRetailV2RemoveControlRequest {
   /** Required. The id of the control to apply. Assumed to be in the same catalog as the serving config. */
   controlId?: string | undefined;
 }
-export interface RemoveControlProjectsLocationsCatalogsServingConfigsRequest {
+export interface RemoveControlProjectsLocationsCatalogsServingConfigsRequest extends GoogleCloudRetailV2RemoveControlRequest {
   /** Required. The source ServingConfig resource name . Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2RemoveControlRequest | undefined;
 }
 /** Request message for ProductService.RemoveFulfillmentPlaces method. */
 export interface GoogleCloudRetailV2RemoveFulfillmentPlacesRequest {
@@ -1928,11 +1887,9 @@ export interface GoogleCloudRetailV2RemoveFulfillmentPlacesRequest {
   /** Required. The fulfillment type, including commonly used types (such as pickup in store and same day delivery), and custom types. Supported values: * "pickup-in-store" * "ship-to-store" * "same-day-delivery" * "next-day-delivery" * "custom-type-1" * "custom-type-2" * "custom-type-3" * "custom-type-4" * "custom-type-5" If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. This field directly corresponds to Product.fulfillment_info.type. */
   type?: string | undefined;
 }
-export interface RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest {
+export interface RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2RemoveFulfillmentPlacesRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2RemoveFulfillmentPlacesRequest | undefined;
 }
 /** Request message for ProductService.RemoveLocalInventories method. */
 export interface GoogleCloudRetailV2RemoveLocalInventoriesRequest {
@@ -1943,11 +1900,9 @@ export interface GoogleCloudRetailV2RemoveLocalInventoriesRequest {
   /** The time when the inventory deletions are issued. Used to prevent out-of-order updates and deletions on local inventory fields. If not provided, the internal system time will be used. */
   removeTime?: string | undefined;
 }
-export interface RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest {
+export interface RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2RemoveLocalInventoriesRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2RemoveLocalInventoriesRequest | undefined;
 }
 /** Request for CatalogService.ReplaceCatalogAttribute method. */
 export interface GoogleCloudRetailV2ReplaceCatalogAttributeRequest {
@@ -1956,11 +1911,9 @@ export interface GoogleCloudRetailV2ReplaceCatalogAttributeRequest {
   /** Required. The updated CatalogAttribute. */
   catalogAttribute?: GoogleCloudRetailV2CatalogAttribute | undefined;
 }
-export interface ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
+export interface ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest extends GoogleCloudRetailV2ReplaceCatalogAttributeRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2ReplaceCatalogAttributeRequest | undefined;
 }
 /** Request for resuming training of a model. */
 export type GoogleCloudRetailV2ResumeModelRequest = GoogleCloudRetailV2PauseModelRequest;
@@ -2147,11 +2100,9 @@ export interface GoogleCloudRetailV2SearchRequest {
   /** Optional. The Unicode country/region code (CLDR) of a location, such as "US" and "419" [list](https://www.unicode.org/cldr/charts/46/supplemental/territory_information.html). For more information, see [Standardized codes](https://google.aip.dev/143). If set, then results will be boosted based on the region_code provided. */
   regionCode?: string | undefined;
 }
-export interface SearchProjectsLocationsCatalogsPlacementsRequest {
+export interface SearchProjectsLocationsCatalogsPlacementsRequest extends GoogleCloudRetailV2SearchRequest {
   /** Required. The resource name of the Retail Search serving config, such as `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` or the name of the legacy placement resource, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search`. This field is used to identify the serving config name and the set of models that are used to make the search. */
   placement: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2SearchRequest | undefined;
 }
 /** Suggested answers to the follow-up question. */
 export type GoogleCloudRetailV2SearchResponseConversationalSearchResultSuggestedAnswer =
@@ -2314,11 +2265,9 @@ export interface GoogleCloudRetailV2SearchResponse {
   /** A unique search token. This should be included in the UserEvent logs resulting from this search, which enables accurate attribution of search model performance. */
   attributionToken?: string | undefined;
 }
-export interface SearchProjectsLocationsCatalogsServingConfigsRequest {
+export interface SearchProjectsLocationsCatalogsServingConfigsRequest extends GoogleCloudRetailV2SearchRequest {
   /** Required. The resource name of the Retail Search serving config, such as `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` or the name of the legacy placement resource, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search`. This field is used to identify the serving config name and the set of models that are used to make the search. */
   placement: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2SearchRequest | undefined;
 }
 /** Request message to set a specified branch as new default_branch. */
 export interface GoogleCloudRetailV2SetDefaultBranchRequest {
@@ -2329,11 +2278,9 @@ export interface GoogleCloudRetailV2SetDefaultBranchRequest {
   /** The final component of the resource name of a branch. This field must be one of "0", "1" or "2". Otherwise, an INVALID_ARGUMENT error is returned. If there are no sufficient active products in the targeted branch and force is not set, a FAILED_PRECONDITION error is returned. */
   branchId?: string | undefined;
 }
-export interface SetDefaultBranchProjectsLocationsCatalogsRequest {
+export interface SetDefaultBranchProjectsLocationsCatalogsRequest extends GoogleCloudRetailV2SetDefaultBranchRequest {
   /** Full resource name of the catalog, such as `projects/*\/locations/global/catalogs/default_catalog`. */
   catalog: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2SetDefaultBranchRequest | undefined;
 }
 /** Request message for ProductService.SetInventory method. */
 export interface GoogleCloudRetailV2SetInventoryRequest {
@@ -2346,11 +2293,9 @@ export interface GoogleCloudRetailV2SetInventoryRequest {
   /** Required. The inventory information to update. The allowable fields to update are: * Product.price_info * Product.availability * Product.available_quantity * Product.fulfillment_info The updated inventory fields must be specified in SetInventoryRequest.set_mask. If SetInventoryRequest.inventory.name is empty or invalid, an INVALID_ARGUMENT error is returned. If the caller does not have permission to update the Product named in Product.name, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the Product to update does not have existing inventory information, the provided inventory information will be inserted. If the Product to update has existing inventory information, the provided inventory information will be merged while respecting the last update time for each inventory field, using the provided or default value for SetInventoryRequest.set_time. The caller can replace place IDs for a subset of fulfillment types in the following ways: * Adds "fulfillment_info" in SetInventoryRequest.set_mask * Specifies only the desired fulfillment types and corresponding place IDs to update in SetInventoryRequest.inventory.fulfillment_info The caller can clear all place IDs from a subset of fulfillment types in the following ways: * Adds "fulfillment_info" in SetInventoryRequest.set_mask * Specifies only the desired fulfillment types to clear in SetInventoryRequest.inventory.fulfillment_info * Checks that only the desired fulfillment info types have empty SetInventoryRequest.inventory.fulfillment_info.place_ids The last update time is recorded for the following inventory fields: * Product.price_info * Product.availability * Product.available_quantity * Product.fulfillment_info If a full overwrite of inventory information while ignoring timestamps is needed, ProductService.UpdateProduct should be invoked instead. */
   inventory?: GoogleCloudRetailV2Product | undefined;
 }
-export interface SetInventoryProjectsLocationsCatalogsBranchesProductsRequest {
+export interface SetInventoryProjectsLocationsCatalogsBranchesProductsRequest extends GoogleCloudRetailV2SetInventoryRequest {
   /** Immutable. Full resource name of the product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2SetInventoryRequest | undefined;
 }
 /** Request to manually start a tuning process now (instead of waiting for the periodically scheduled tuning to happen). */
 export type GoogleCloudRetailV2TuneModelRequest = GoogleCloudRetailV2PauseModelRequest;
@@ -2360,53 +2305,56 @@ export interface TuneProjectsLocationsCatalogsModelsRequest {
   /** Request body */
   body?: GoogleCloudRetailV2PauseModelRequest | undefined;
 }
-export interface UpdateAttributesConfigProjectsLocationsCatalogsRequest {
+export interface UpdateAttributesConfigProjectsLocationsCatalogsRequest extends Omit<
+  GoogleCloudRetailV2AttributesConfig,
+  "name"
+> {
   /** Required. Immutable. The fully qualified resource name of the attribute config. Format: `projects/*\/locations/*\/catalogs/*\/attributesConfig` */
   name: string;
   /** Optional. Indicates which fields in the provided AttributesConfig to update. The following is the only supported field: * AttributesConfig.catalog_attributes If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2AttributesConfig | undefined;
 }
-export interface UpdateCompletionConfigProjectsLocationsCatalogsRequest {
+export interface UpdateCompletionConfigProjectsLocationsCatalogsRequest extends Omit<
+  GoogleCloudRetailV2CompletionConfig,
+  "name"
+> {
   /** Optional. Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.auto_learning If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/catalogs/*\/completionConfig` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2CompletionConfig | undefined;
 }
-export interface UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest {
+export interface UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest extends Omit<
+  GoogleCloudRetailV2ConversationalSearchCustomizationConfig,
+  "catalog"
+> {
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
   /** Optional. Indicates which fields in the provided ConversationalSearchCustomizationConfig to update. If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2ConversationalSearchCustomizationConfig | undefined;
 }
-export interface UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest {
+export interface UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest extends Omit<
+  GoogleCloudRetailV2GenerativeQuestionsFeatureConfig,
+  "catalog"
+> {
   /** Required. Resource name of the affected catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
   /** Optional. Indicates which fields in the provided GenerativeQuestionsFeatureConfig to update. If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2GenerativeQuestionsFeatureConfig | undefined;
 }
-export interface UpdateGenerativeQuestionProjectsLocationsCatalogsRequest {
+export interface UpdateGenerativeQuestionProjectsLocationsCatalogsRequest extends Omit<
+  GoogleCloudRetailV2GenerativeQuestionConfig,
+  "catalog"
+> {
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
   /** Optional. Indicates which fields in the provided GenerativeQuestionConfig to update. The following are NOT supported: * GenerativeQuestionConfig.frequency If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRetailV2GenerativeQuestionConfig | undefined;
 }
-export interface WriteProjectsLocationsCatalogsUserEventsRequest {
+export interface WriteProjectsLocationsCatalogsUserEventsRequest extends GoogleCloudRetailV2UserEvent {
   /** If set to true, the user event will be written asynchronously after validation, and the API will respond without waiting for the write. Therefore, silent failures can occur even if the API returns success. In case of silent failures, error messages can be found in Stackdriver logs. */
   writeAsync?: boolean | undefined;
   /** Required. The parent catalog resource name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRetailV2UserEvent | undefined;
 }
 export type AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
   | NotFound
@@ -4530,10 +4478,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2CollectUserEventRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/userEvents:collect",
@@ -4613,10 +4563,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          placement: S.String.pipe(T.Label()),
-          body: S.optional(__S(101, __c3, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            placement: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+placement}:conversationalSearch",
@@ -4777,10 +4729,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          placement: S.String.pipe(T.Label()),
-          body: S.optional(__S(101, __c3, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            placement: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+placement}:conversationalSearch",
@@ -4796,11 +4750,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            productId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/products",
@@ -4908,11 +4864,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          controlId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(371, __c11, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(371, __c11, 19),
+          S.Struct({
+            controlId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/controls",
@@ -5068,11 +5026,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(420, __c13, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(420, __c13, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/models",
@@ -5130,11 +5090,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          servingConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            servingConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/servingConfigs",
@@ -5246,10 +5208,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2ExportAnalyticsMetricsRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          catalog: S.String.pipe(T.Label()),
-          body: S.optional(__S(643, __c20, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(643, __c20, 3),
+          S.Struct({
+            catalog: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+catalog}:exportAnalyticsMetrics",
@@ -5580,10 +5544,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2ImportProductsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1250, __c39, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1250, __c39, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/products:import",
@@ -5621,10 +5587,12 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2ImportCompletionDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/completionData:import",
@@ -5661,10 +5629,12 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2ImportUserEventsRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1347, __c42, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1347, __c42, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/userEvents:import",
@@ -5994,11 +5964,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1441, __c45, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1441, __c45, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsCatalogsRequest" });
@@ -6008,12 +5980,14 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsCatalogsBranchesProductsRequest" });
@@ -6029,10 +6003,12 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2AddCatalogAttributeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          attributesConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            attributesConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+attributesConfig}:addCatalogAttribute",
@@ -6145,11 +6121,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(371, __c11, 19).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(371, __c11, 19),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsCatalogsControlsRequest" });
@@ -6159,11 +6137,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(420, __c13, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(420, __c13, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsCatalogsModelsRequest" });
@@ -6173,11 +6153,13 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsCatalogsServingConfigsRequest" });
@@ -6204,10 +6186,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          placement: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            placement: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+placement}:predict",
@@ -6255,10 +6239,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          placement: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            placement: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+placement}:predict",
@@ -6279,10 +6265,12 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2PurgeProductsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/products:purge",
@@ -6303,10 +6291,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2PurgeUserEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/userEvents:purge",
@@ -6326,10 +6316,12 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2RejoinUserEventsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/userEvents:rejoin",
@@ -6349,10 +6341,12 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2RemoveCatalogAttributeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          attributesConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(2304, __c72, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2304, __c72, 0),
+          S.Struct({
+            attributesConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+attributesConfig}:removeCatalogAttribute",
@@ -6368,10 +6362,12 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+servingConfig}:addControl",
@@ -6440,10 +6436,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            servingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+servingConfig}:removeControl",
@@ -6466,10 +6464,12 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2RemoveFulfillmentPlacesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          product: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            product: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+product}:removeFulfillmentPlaces",
@@ -6493,10 +6493,12 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2RemoveLocalInventoriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          product: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            product: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+product}:removeLocalInventories",
@@ -6519,10 +6521,12 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2ReplaceCatalogAttributeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          attributesConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            attributesConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+attributesConfig}:replaceCatalogAttribute",
@@ -6555,10 +6559,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          placement: S.String.pipe(T.Label()),
-          body: S.optional(__S(2702, __c84, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2702, __c84, 14),
+          S.Struct({
+            placement: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+placement}:search",
@@ -6823,10 +6829,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          placement: S.String.pipe(T.Label()),
-          body: S.optional(__S(2702, __c84, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2702, __c84, 14),
+          S.Struct({
+            placement: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+placement}:search",
@@ -6848,10 +6856,12 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2SetDefaultBranchRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          catalog: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            catalog: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+catalog}:setDefaultBranch",
@@ -6874,10 +6884,12 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2SetInventoryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:setInventory",
@@ -6917,10 +6929,12 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2AddFulfillmentPlacesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          product: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            product: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+product}:addFulfillmentPlaces",
@@ -6970,11 +6984,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1897, __c59, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1897, __c59, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateAttributesConfigProjectsLocationsCatalogsRequest" });
@@ -6984,11 +7000,13 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://retail.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateCompletionConfigProjectsLocationsCatalogsRequest" });
@@ -6998,11 +7016,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          catalog: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(870, __c27, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(870, __c27, 6),
+          S.Struct({
+            catalog: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+catalog}/conversationalSearchCustomizationConfig",
@@ -7018,11 +7038,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          catalog: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            catalog: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+catalog}/generativeQuestionFeature",
@@ -7036,11 +7058,13 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          catalog: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            catalog: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+catalog}/generativeQuestion",
@@ -7054,11 +7078,13 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          writeAsync: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1382, __c43, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1382, __c43, 6),
+          S.Struct({
+            writeAsync: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/userEvents:write",
@@ -7081,10 +7107,12 @@ function __c100(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2AddLocalInventoriesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          product: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            product: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+product}:addLocalInventories",
@@ -7166,10 +7194,12 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GoogleCloudRetailV2BatchUpdateGenerativeQuestionConfigsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3298, __c103, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3298, __c103, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/generativeQuestion:batchUpdate",

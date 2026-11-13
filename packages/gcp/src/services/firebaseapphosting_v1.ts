@@ -157,7 +157,7 @@ export interface Backend {
   /** Output only. Time at which the backend was deleted. */
   deleteTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBackendsRequest {
+export interface CreateProjectsLocationsBackendsRequest extends Backend {
   /** Required. Id of the backend. Also used as the service ID for Cloud Run, and as part of the default domain name. */
   backendId?: string | undefined;
   /** Required. A parent name of the form `projects/{project}/locations/{locationId}`. */
@@ -166,8 +166,6 @@ export interface CreateProjectsLocationsBackendsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Backend | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -370,7 +368,7 @@ export interface Build {
   /** Output only. Time at which the build was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBackendsBuildsRequest {
+export interface CreateProjectsLocationsBackendsBuildsRequest extends Build {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
@@ -379,8 +377,6 @@ export interface CreateProjectsLocationsBackendsBuildsRequest {
   validateOnly?: boolean | undefined;
   /** Required. Desired ID of the build being created. */
   buildId?: string | undefined;
-  /** Request body */
-  body?: Build | undefined;
 }
 export type CustomDomainStatusCertStateEnum =
   | "CERT_STATE_UNSPECIFIED"
@@ -510,7 +506,7 @@ export interface Domain {
   /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
   reconciling?: boolean | undefined;
 }
-export interface CreateProjectsLocationsBackendsDomainsRequest {
+export interface CreateProjectsLocationsBackendsDomainsRequest extends Domain {
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -519,8 +515,6 @@ export interface CreateProjectsLocationsBackendsDomainsRequest {
   parent: string;
   /** Required. Id of the domain to create. Must be a valid domain name. */
   domainId?: string | undefined;
-  /** Request body */
-  body?: Domain | undefined;
 }
 export type RolloutStateEnum =
   | "STATE_UNSPECIFIED"
@@ -561,7 +555,7 @@ export interface Rollout {
   /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
   annotations?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsBackendsRolloutsRequest {
+export interface CreateProjectsLocationsBackendsRolloutsRequest extends Rollout {
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -570,8 +564,6 @@ export interface CreateProjectsLocationsBackendsRolloutsRequest {
   parent: string;
   /** Optional. Desired ID of the rollout being created. */
   rolloutId?: string | undefined;
-  /** Request body */
-  body?: Rollout | undefined;
 }
 export interface DeleteProjectsLocationsBackendsRequest {
   /** Optional. If the client provided etag is out of date, delete will be returned FAILED_PRECONDITION error. */
@@ -849,7 +841,7 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsBackendsRequest {
+export interface PatchProjectsLocationsBackendsRequest extends Omit<Backend, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the backend resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. If set to true, and the backend is not found, a new backend will be created. */
@@ -860,10 +852,8 @@ export interface PatchProjectsLocationsBackendsRequest {
   requestId?: string | undefined;
   /** Identifier. The resource name of the backend. Format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
   name: string;
-  /** Request body */
-  body?: Backend | undefined;
 }
-export interface PatchProjectsLocationsBackendsDomainsRequest {
+export interface PatchProjectsLocationsBackendsDomainsRequest extends Omit<Domain, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set to true, and the domain is not found, a new domain will be created. */
@@ -874,10 +864,8 @@ export interface PatchProjectsLocationsBackendsDomainsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Domain resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Domain | undefined;
 }
-export interface PatchProjectsLocationsBackendsTrafficRequest {
+export interface PatchProjectsLocationsBackendsTrafficRequest extends Omit<Traffic, "name"> {
   /** Optional. Indicates that the request should be validated, without persisting the request or updating any resources. */
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the backend's traffic. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
@@ -886,8 +874,6 @@ export interface PatchProjectsLocationsBackendsTrafficRequest {
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the traffic resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Traffic | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1814,14 +1800,16 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(404, __c25, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(404, __c25, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1835,14 +1823,16 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(554, __c34, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(554, __c34, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1856,13 +1846,15 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(166, __c10, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(166, __c10, 6),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1899,13 +1891,15 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backendId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(404, __c25, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(404, __c25, 4),
+          S.Struct({
+            backendId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backends",
@@ -2008,13 +2002,15 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          buildId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(508, __c31, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(508, __c31, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            buildId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/builds",
@@ -2155,13 +2151,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          domainId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(554, __c34, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(554, __c34, 10),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            domainId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/domains",
@@ -2256,13 +2254,15 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          rolloutId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            rolloutId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/rollouts",

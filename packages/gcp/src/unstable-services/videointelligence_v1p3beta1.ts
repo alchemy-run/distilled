@@ -243,10 +243,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest {
   /** Optional. Location where the output (in JSON format) should be stored. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. These must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). */
   outputUri?: string | undefined;
 }
-export interface AnnotateVideosRequest {
-  /** Request body */
-  body?: GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest | undefined;
-}
+export interface AnnotateVideosRequest extends GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -395,9 +392,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest" });
     case 15:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(14, __c0, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(14, __c0, 14), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p3beta1/videos:annotate",

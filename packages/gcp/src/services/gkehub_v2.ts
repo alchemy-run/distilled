@@ -1396,15 +1396,13 @@ export interface MembershipFeature {
   /** Output only. When the MembershipFeature resource was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMembershipsFeaturesRequest {
+export interface CreateProjectsLocationsMembershipsFeaturesRequest extends MembershipFeature {
   /** Required. The name of parent where the MembershipFeature will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
   parent: string;
   /** Required. The ID of the membership_feature to create. */
   featureId?: string | undefined;
   /** Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MembershipFeature | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -1524,7 +1522,10 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsMembershipsFeaturesRequest {
+export interface PatchProjectsLocationsMembershipsFeaturesRequest extends Omit<
+  MembershipFeature,
+  "name"
+> {
   /** Idempotent request UUID. */
   requestId?: string | undefined;
   /** Optional. If set to true, and the MembershipFeature is not found, a new MembershipFeature will be created. In this situation, `update_mask` is ignored. */
@@ -1533,8 +1534,6 @@ export interface PatchProjectsLocationsMembershipsFeaturesRequest {
   name: string;
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: MembershipFeature | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1826,13 +1825,15 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(453, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(453, __c14, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsMembershipsFeaturesRequest" });
@@ -1865,12 +1866,14 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          featureId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(453, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(453, __c14, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            featureId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/features",

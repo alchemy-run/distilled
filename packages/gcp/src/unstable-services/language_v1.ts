@@ -102,10 +102,7 @@ export interface AnalyzeEntitiesRequest {
   /** Required. Input document. */
   document?: Document | undefined;
 }
-export interface AnalyzeEntitiesDocumentsRequest {
-  /** Request body */
-  body?: AnalyzeEntitiesRequest | undefined;
-}
+export interface AnalyzeEntitiesDocumentsRequest extends AnalyzeEntitiesRequest {}
 /** Represents the feeling associated with the entire text or entities in the text. */
 export interface Sentiment {
   /** A non-negative number in the [0, +inf) range, which represents the absolute magnitude of sentiment regardless of score (positive or negative). */
@@ -177,10 +174,7 @@ export interface AnalyzeEntitySentimentRequest {
   /** Required. Input document. */
   document?: Document | undefined;
 }
-export interface AnalyzeEntitySentimentDocumentsRequest {
-  /** Request body */
-  body?: AnalyzeEntitySentimentRequest | undefined;
-}
+export interface AnalyzeEntitySentimentDocumentsRequest extends AnalyzeEntitySentimentRequest {}
 /** The entity-level sentiment analysis response message. */
 export interface AnalyzeEntitySentimentResponse {
   /** The recognized entities in the input document with associated sentiments. */
@@ -196,10 +190,7 @@ export interface AnalyzeSentimentRequest {
   /** The encoding type used by the API to calculate sentence offsets. */
   encodingType?: AnalyzeSentimentRequestEncodingTypeEnum | (string & {}) | undefined;
 }
-export interface AnalyzeSentimentDocumentsRequest {
-  /** Request body */
-  body?: AnalyzeSentimentRequest | undefined;
-}
+export interface AnalyzeSentimentDocumentsRequest extends AnalyzeSentimentRequest {}
 /** Represents a sentence in the input document. */
 export interface Sentence {
   /** The sentence text. */
@@ -225,10 +216,7 @@ export interface AnalyzeSyntaxRequest {
   /** Required. Input document. */
   document?: Document | undefined;
 }
-export interface AnalyzeSyntaxDocumentsRequest {
-  /** Request body */
-  body?: AnalyzeSyntaxRequest | undefined;
-}
+export interface AnalyzeSyntaxDocumentsRequest extends AnalyzeSyntaxRequest {}
 export type DependencyEdgeLabelEnum =
   | "UNKNOWN"
   | "ABBREV"
@@ -492,10 +480,7 @@ export interface AnnotateTextRequest {
   /** Required. The enabled features. */
   features?: AnnotateTextRequestFeatures | undefined;
 }
-export interface AnnotateTextDocumentsRequest {
-  /** Request body */
-  body?: AnnotateTextRequest | undefined;
-}
+export interface AnnotateTextDocumentsRequest extends AnnotateTextRequest {}
 /** Represents a category returned from the text classifier. */
 export interface ClassificationCategory {
   /** The classifier's confidence of the category. Number represents how certain the classifier is that this category represents the given text. */
@@ -528,10 +513,7 @@ export interface ClassifyTextRequest {
   /** Optional. Model options to use for classification. Defaults to v1 options if not specified. */
   classificationModelOptions?: ClassificationModelOptions | undefined;
 }
-export interface ClassifyTextDocumentsRequest {
-  /** Request body */
-  body?: ClassifyTextRequest | undefined;
-}
+export interface ClassifyTextDocumentsRequest extends ClassifyTextRequest {}
 /** The document classification response message. */
 export interface ClassifyTextResponse {
   /** Categories representing the input document. */
@@ -542,10 +524,7 @@ export interface ModerateTextRequest {
   /** Required. Input document. */
   document?: Document | undefined;
 }
-export interface ModerateTextDocumentsRequest {
-  /** Request body */
-  body?: ModerateTextRequest | undefined;
-}
+export interface ModerateTextDocumentsRequest extends ModerateTextRequest {}
 /** The document moderation response message. */
 export interface ModerateTextResponse {
   /** Harmful and sensitive categories representing the input document. */
@@ -696,9 +675,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ModerateTextRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents:moderateText",
@@ -718,9 +695,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(40, __c5, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents:analyzeEntities",
@@ -816,9 +791,7 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(40, __c5, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents:analyzeEntitySentiment",
@@ -839,9 +812,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AnalyzeSentimentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(64, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents:analyzeSentiment",
@@ -876,9 +847,7 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(40, __c5, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents:analyzeSyntax",
@@ -959,9 +928,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "AnnotateTextRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(97, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(97, __c12, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents:annotateText",
@@ -1028,9 +995,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ClassifyTextRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(120, __c15, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents:classifyText",

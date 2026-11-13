@@ -153,11 +153,9 @@ export interface GoogleCloudOrgpolicyV2Policy {
   /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
   dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
 }
-export interface CreateFoldersPoliciesRequest {
+export interface CreateFoldersPoliciesRequest extends GoogleCloudOrgpolicyV2Policy {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
 }
 export type GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnum =
   | "METHOD_TYPE_UNSPECIFIED"
@@ -192,23 +190,17 @@ export interface GoogleCloudOrgpolicyV2CustomConstraint {
   /** Detailed information about this custom policy constraint. The max length of the description is 2000 characters. */
   description?: string | undefined;
 }
-export interface CreateOrganizationsCustomConstraintsRequest {
+export interface CreateOrganizationsCustomConstraintsRequest extends GoogleCloudOrgpolicyV2CustomConstraint {
   /** Required. Must be in the following form: * `organizations/{organization_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2CustomConstraint | undefined;
 }
-export interface CreateOrganizationsPoliciesRequest {
+export interface CreateOrganizationsPoliciesRequest extends GoogleCloudOrgpolicyV2Policy {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
 }
-export interface CreateProjectsPoliciesRequest {
+export interface CreateProjectsPoliciesRequest extends GoogleCloudOrgpolicyV2Policy {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
 }
 export interface DeleteFoldersPoliciesRequest {
   /** Required. Name of the policy to delete. See the policy entry for naming rules. */
@@ -443,35 +435,33 @@ export interface ListProjectsPoliciesRequest {
   /** Required. The target Google Cloud resource that parents the set of constraints and policies that will be returned from this call. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
   parent: string;
 }
-export interface PatchFoldersPoliciesRequest {
+export interface PatchFoldersPoliciesRequest extends Omit<GoogleCloudOrgpolicyV2Policy, "name"> {
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
   /** Field mask used to specify the fields to be overwritten in the policy. The fields specified in the update_mask are relative to the policy, not the full request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
 }
-export interface PatchOrganizationsCustomConstraintsRequest {
+export interface PatchOrganizationsCustomConstraintsRequest extends Omit<
+  GoogleCloudOrgpolicyV2CustomConstraint,
+  "name"
+> {
   /** Immutable. Name of the constraint. This is unique within the organization. The name must be of the form: * `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The max length is 71 characters and the minimum length is 1. Note that the prefix `organizations/{organization_id}/customConstraints/custom.` is not counted. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2CustomConstraint | undefined;
 }
-export interface PatchOrganizationsPoliciesRequest {
+export interface PatchOrganizationsPoliciesRequest extends Omit<
+  GoogleCloudOrgpolicyV2Policy,
+  "name"
+> {
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
   /** Field mask used to specify the fields to be overwritten in the policy. The fields specified in the update_mask are relative to the policy, not the full request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
 }
-export interface PatchProjectsPoliciesRequest {
+export interface PatchProjectsPoliciesRequest extends Omit<GoogleCloudOrgpolicyV2Policy, "name"> {
   /** Field mask used to specify the fields to be overwritten in the policy. The fields specified in the update_mask are relative to the policy, not the full request. */
   updateMask?: string | undefined;
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
 }
 export type CreateFoldersPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
@@ -1334,11 +1324,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(391, __c24, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1352,10 +1344,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1369,11 +1363,13 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(391, __c24, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1387,11 +1383,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(391, __c24, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1405,10 +1403,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(391, __c24, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/policies",
@@ -1490,10 +1490,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/customConstraints",
@@ -1530,10 +1532,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(391, __c24, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/policies",
@@ -1547,10 +1551,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(391, __c24, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/policies",

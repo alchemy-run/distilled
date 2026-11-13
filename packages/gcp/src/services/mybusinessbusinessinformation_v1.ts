@@ -447,15 +447,13 @@ export interface Location {
   /** Optional. The different phone numbers that customers can use to get in touch with the business. */
   phoneNumbers?: PhoneNumbers | undefined;
 }
-export interface CreateAccountsLocationsRequest {
+export interface CreateAccountsLocationsRequest extends Location {
   /** Required. The name of the account in which to create this location. */
   parent: string;
   /** Optional. If true, the request is validated without actually creating the location. */
   validateOnly?: boolean | undefined;
   /** Optional. A unique request ID for the server to detect duplicated requests. We recommend using UUIDs. Max length is 50 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Location | undefined;
 }
 export interface DeleteLocationsRequest {
   /** Required. The name of the location to delete. */
@@ -663,15 +661,13 @@ export interface ListCategoriesResponse {
   /** The matching categories based on the requested parameters. */
   categories?: CategoryList | undefined;
 }
-export interface PatchLocationsRequest {
+export interface PatchLocationsRequest extends Omit<Location, "name"> {
   /** Optional. If true, the request is validated without actually updating the location. When this field is set, we will only return validation errors if there were any. The response will be empty if no errors were found. */
   validateOnly?: boolean | undefined;
   /** Required. The specific fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
   name: string;
-  /** Request body */
-  body?: Location | undefined;
 }
 export interface SearchChainsRequest {
   /** The maximum number of matched chains to return from this query. The default is 10. The maximum possible value is 500. */
@@ -694,10 +690,7 @@ export interface SearchGoogleLocationsRequest {
   /** Location to search for. If provided, will find locations which match the provided location details, which must include a value for the title. */
   location?: Location | undefined;
 }
-export interface SearchGoogleLocationsRequest_ {
-  /** Request body */
-  body?: SearchGoogleLocationsRequest | undefined;
-}
+export interface SearchGoogleLocationsRequest_ extends SearchGoogleLocationsRequest {}
 /** Represents a Location that is present on Google. This can be a location that has been claimed by the user, someone else, or could be unclaimed. */
 export interface GoogleLocation {
   /** The sparsely populated Location information. This field can be re-used in CreateLocation if it is not currently claimed by a user. */
@@ -713,13 +706,11 @@ export interface SearchGoogleLocationsResponse {
   /** A collection of GoogleLocations that are potential matches to the specified request, listed in order from most to least accuracy. */
   googleLocations?: GoogleLocationList | undefined;
 }
-export interface UpdateAttributesLocationsRequest {
+export interface UpdateAttributesLocationsRequest extends Omit<Attributes, "name"> {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
   name: string;
   /** Required. Attribute name of attributes that you'd like to update. Represented by `attributes/{attribute}`. Updates: All attributes provided in the attributes field that you would like to update must be set in the `attribute_mask`. Attributes set in the above list but not in the `attribute_mask` will be ignored. Deletes: If you'd like to delete certain attributes, they must be specified in the `attribute_mask` with no matching entry in the attributes list. If you'd like to delete all attributes set on a location, you should look up all the applicable attributes for the location and then add them to the `attribute_mask` with an empty attributes field. */
   attributeMask?: string | undefined;
-  /** Request body */
-  body?: Attributes | undefined;
 }
 export type BatchGetCategoriesError = NotFound | Forbidden | GcpOpError;
 /** Returns a list of business categories for the provided language and GConcept ids. */
@@ -1137,12 +1128,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(447, __c13, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(447, __c13, 31),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1189,9 +1182,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SearchGoogleLocationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(224, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/googleLocations:search",
@@ -1221,11 +1212,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          attributeMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(516, __c16, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(516, __c16, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            attributeMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1304,12 +1297,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(447, __c13, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(447, __c13, 31),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/locations",

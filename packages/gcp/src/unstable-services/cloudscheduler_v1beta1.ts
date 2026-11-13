@@ -239,11 +239,9 @@ export interface Job {
   /** Output only. Whether or not this Job satisfies the requirements of physical zone separation */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
+export interface CreateProjectsLocationsJobsRequest extends Job {
   /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
   parent: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** This field is used to manage the legacy App Engine Cron jobs using the Cloud Scheduler API. If the field is set to true, the job in the __cron queue with the corresponding name will be deleted instead. */
@@ -356,13 +354,11 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsJobsRequest {
+export interface PatchProjectsLocationsJobsRequest extends Omit<Job, "name"> {
   /** A mask used to specify which fields of the job are being updated. */
   updateMask?: string | undefined;
   /** Optionally caller-specified in CreateJob, after which it becomes output only. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the job's location. The list of available locations can be obtained by calling [locations.list](/scheduler/docs/reference/rest/v1beta1/projects.locations/list). For more information, see [Cloud Scheduler locations](/scheduler/docs/locations). * `JOB_ID` can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), or underscores (_). The maximum length is 500 characters. */
   name: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 /** Request message for PauseJob. */
 export type PauseJobRequest = CancelOperationRequest;
@@ -385,11 +381,9 @@ export interface RunJobRequest {
   /** This field is used to manage the legacy App Engine Cron jobs using the Cloud Scheduler API. If the field is set to true, the job in the __cron queue with the corresponding name will be forced to run instead. */
   legacyAppEngineCron?: boolean | undefined;
 }
-export interface RunProjectsLocationsJobsRequest {
+export interface RunProjectsLocationsJobsRequest extends RunJobRequest {
   /** Required. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. */
   name: string;
-  /** Request body */
-  body?: RunJobRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -804,11 +798,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(135, __c16, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(135, __c16, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -862,10 +858,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RunJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:run",
@@ -902,10 +900,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(135, __c16, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(135, __c16, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/jobs",

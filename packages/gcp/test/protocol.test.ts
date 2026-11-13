@@ -176,13 +176,14 @@ describe("request encoding", () => {
     );
   });
 
-  test("the HttpBody member is the whole JSON request body", async () => {
+  test("request body fields are top-level input fields", async () => {
     const { calls, layer } = fakeGoogle(200, JSON.stringify({ name: "projects/p/secrets/s" }));
     await run(
       createProjectsSecrets({
         parent: "projects/p",
         secretId: "s",
-        body: { replication: { automatic: {} }, labels: { env: "test" } },
+        replication: { automatic: {} },
+        labels: { env: "test" },
       }),
       layer,
     );
@@ -211,7 +212,7 @@ describe("request encoding", () => {
       allocateIdsProjects({
         projectId: "p",
         requestParams: "project_id=p",
-        body: { keys: [] },
+        keys: [],
       }),
       layer,
     );

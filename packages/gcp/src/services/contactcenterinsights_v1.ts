@@ -261,11 +261,12 @@ export interface GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsReque
   /** Optional. Deprecated: Use `annotator_selector.run_auto_labeling_annotator` instead. If true, the labeling rules will be re-evaluated for the conversations. */
   relabel?: boolean | undefined;
 }
-export interface BulkAnalyzeProjectsLocationsConversationsRequest {
+export interface BulkAnalyzeProjectsLocationsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource to create analyses in. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -291,11 +292,12 @@ export interface GoogleLongrunningOperation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
-export interface BulkAnalyzeProjectsLocationsConversationsSegmentsRequest {
+export interface BulkAnalyzeProjectsLocationsConversationsSegmentsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource to create analyses in. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest | undefined;
 }
 /** Request for the BulkDeleteFeedbackLabels endpoint. */
 export interface GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest {
@@ -304,17 +306,19 @@ export interface GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsReque
   /** Required. The parent resource for new feedback labels. */
   parent?: string | undefined;
 }
-export interface BulkDeleteFeedbackLabelsProjectsLocationsRequest {
+export interface BulkDeleteFeedbackLabelsProjectsLocationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest,
+  "parent"
+> {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest | undefined;
 }
-export interface BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest {
+export interface BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest,
+  "parent"
+> {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest | undefined;
 }
 /** The request to delete conversations in bulk. */
 export interface GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest {
@@ -327,17 +331,19 @@ export interface GoogleCloudContactcenterinsightsV1BulkDeleteConversationsReques
   /** Filter used to select the subset of conversations to delete. */
   filter?: string | undefined;
 }
-export interface BulkDeleteProjectsLocationsConversationsRequest {
+export interface BulkDeleteProjectsLocationsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest | undefined;
 }
-export interface BulkDeleteProjectsLocationsDatasetsConversationsRequest {
+export interface BulkDeleteProjectsLocationsDatasetsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest | undefined;
 }
 /** Google Sheets document details to write the feedback labels to. */
 export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination {
@@ -397,17 +403,19 @@ export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsReq
     | (string & {})
     | undefined;
 }
-export interface BulkDownloadFeedbackLabelsProjectsLocationsRequest {
+export interface BulkDownloadFeedbackLabelsProjectsLocationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest,
+  "parent"
+> {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest | undefined;
 }
-export interface BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest {
+export interface BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest,
+  "parent"
+> {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSourceFormatEnum =
   | "FORMAT_UNSPECIFIED"
@@ -441,17 +449,13 @@ export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsReque
   /** Optional. If set, upload will not happen and the labels will be validated. If not set, then default behavior will be to upload the labels after validation is complete. */
   validateOnly?: boolean | undefined;
 }
-export interface BulkUploadFeedbackLabelsProjectsLocationsRequest {
+export interface BulkUploadFeedbackLabelsProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest | undefined;
 }
-export interface BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest {
+export interface BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest extends GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest | undefined;
 }
 export interface CalculateIssueModelStatsProjectsLocationsIssueModelsRequest {
   /** Required. The resource name of the issue model to query against. */
@@ -542,11 +546,9 @@ export interface GoogleCloudContactcenterinsightsV1CalculateStatsRequest {
   /** A filter to reduce results to a specific subset. This field is useful for getting statistics about conversations with specific properties. */
   filter?: string | undefined;
 }
-export interface CalculateStatsProjectsLocationsDatasetsConversationsRequest {
+export interface CalculateStatsProjectsLocationsDatasetsConversationsRequest extends GoogleCloudContactcenterinsightsV1CalculateStatsRequest {
   /** Required. The location of the conversations. */
   location: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1CalculateStatsRequest | undefined;
 }
 export interface CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -581,11 +583,9 @@ export interface GoogleCloudContactcenterinsightsV1AnalysisRule {
   /** Selector of annotators to run and the phrase matchers to use for conversations that matches the conversation_filter. If not specified, NO annotators will be run. */
   annotatorSelector?: GoogleCloudContactcenterinsightsV1AnnotatorSelector | undefined;
 }
-export interface CreateProjectsLocationsAnalysisRulesRequest {
+export interface CreateProjectsLocationsAnalysisRulesRequest extends GoogleCloudContactcenterinsightsV1AnalysisRule {
   /** Required. The parent resource of the analysis rule. Required. The location to create a analysis rule for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AnalysisRule | undefined;
 }
 /** Message for sampling conversations. */
 export interface GoogleCloudContactcenterinsightsV1SampleRule {
@@ -630,13 +630,11 @@ export interface GoogleCloudContactcenterinsightsV1AssessmentRule {
   /** Identifier. The resource name of the assessment rule. Format: projects/{project}/locations/{location}/assessmentRules/{assessment_rule} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsAssessmentRulesRequest {
+export interface CreateProjectsLocationsAssessmentRulesRequest extends GoogleCloudContactcenterinsightsV1AssessmentRule {
   /** Optional. A unique ID for the new AssessmentRule. This ID will become the final component of the AssessmentRule's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   assessmentRuleId?: string | undefined;
   /** Required. The parent resource of the assessment rule. Required. The location to create a assessment rule for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AssessmentRule | undefined;
 }
 /** An AuthorizedViewSet contains a set of AuthorizedView resources. */
 export interface GoogleCloudContactcenterinsightsV1AuthorizedViewSet {
@@ -653,13 +651,11 @@ export interface GoogleCloudContactcenterinsightsV1AuthorizedViewSet {
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
 }
-export interface CreateProjectsLocationsAuthorizedViewSetsRequest {
+export interface CreateProjectsLocationsAuthorizedViewSetsRequest extends GoogleCloudContactcenterinsightsV1AuthorizedViewSet {
   /** Optional. A unique ID for the new AuthorizedViewSet. This ID will become the final component of the AuthorizedViewSet's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. See https://google.aip.dev/122#resource-id-segments */
   authorizedViewSetId?: string | undefined;
   /** Required. The parent resource of the AuthorizedViewSet. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AuthorizedViewSet | undefined;
 }
 /** An AuthorizedView represents a view of accessible Insights resources (for example, Conversation and Scorecard). Who have read access to the AuthorizedView resource will have access to these Insight resources as well. */
 export interface GoogleCloudContactcenterinsightsV1AuthorizedView {
@@ -678,19 +674,15 @@ export interface GoogleCloudContactcenterinsightsV1AuthorizedView {
   /** Output only. The time at which the authorized view was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
+export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleCloudContactcenterinsightsV1AuthorizedView {
   /** Required. The parent resource of the AuthorizedView. */
   parent: string;
   /** Optional. A unique ID for the new AuthorizedView. This ID will become the final component of the AuthorizedView's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. See https://google.aip.dev/122#resource-id-segments */
   authorizedViewId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AuthorizedView | undefined;
 }
-export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
+export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest extends GoogleCloudContactcenterinsightsV1Assessment {
   /** Required. The parent resource of the assessment. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Assessment | undefined;
 }
 /** A note about a conversation turn. */
 export interface GoogleCloudContactcenterinsightsV1NoteConversationTurnNote {
@@ -729,11 +721,9 @@ export interface GoogleCloudContactcenterinsightsV1Note {
   /** The note content. */
   content?: string | undefined;
 }
-export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest {
+export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest extends GoogleCloudContactcenterinsightsV1Note {
   /** Required. The parent resource of the note. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Note | undefined;
 }
 /** Message for holding the value of a QaAnswer. QaQuestion.AnswerChoice defines the possible answer values for a question. */
 export interface GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue {
@@ -775,13 +765,11 @@ export interface GoogleCloudContactcenterinsightsV1FeedbackLabel {
   /** Name of the resource to be labeled. Supported resources are: * `projects/{project}/locations/{location}/qaScorecards/{scorecard}/revisions/{revision}/qaQuestions/{question}` * `projects/{project}/locations/{location}/issueModels/{issue_model}` * `projects/{project}/locations/{location}/generators/{generator_id}` */
   labeledResource?: string | undefined;
 }
-export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
+export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest extends GoogleCloudContactcenterinsightsV1FeedbackLabel {
   /** Required. The parent resource of the feedback label. */
   parent: string;
   /** Optional. The ID of the feedback label to create. If one is not specified it will be generated by the server. */
   feedbackLabelId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1FeedbackLabel | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelKeyTypeEnum =
   | "LABEL_KEY_TYPE_UNSPECIFIED"
@@ -819,13 +807,11 @@ export interface GoogleCloudContactcenterinsightsV1AutoLabelingRule {
   /** Output only. The most recent time at which the rule was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAutoLabelingRulesRequest {
+export interface CreateProjectsLocationsAutoLabelingRulesRequest extends GoogleCloudContactcenterinsightsV1AutoLabelingRule {
   /** Required. The project and location to create the auto labeling rule in. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the auto labeling rule, which will become the final component of the auto labeling rule's resource name. */
   autoLabelingRuleId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AutoLabelingRule | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnum =
   | "CORRELATION_TYPE_UNSPECIFIED"
@@ -1823,39 +1809,29 @@ export interface GoogleCloudContactcenterinsightsV1Conversation {
     | GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData
     | undefined;
 }
-export interface CreateProjectsLocationsConversationsRequest {
+export interface CreateProjectsLocationsConversationsRequest extends GoogleCloudContactcenterinsightsV1Conversation {
   /** A unique ID for the new conversation. This ID will become the final component of the conversation's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-` */
   conversationId?: string | undefined;
   /** Required. The parent resource of the conversation. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Conversation | undefined;
 }
-export interface CreateProjectsLocationsConversationsAnalysesRequest {
+export interface CreateProjectsLocationsConversationsAnalysesRequest extends GoogleCloudContactcenterinsightsV1Analysis {
   /** Required. The parent resource of the analysis. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Analysis | undefined;
 }
-export interface CreateProjectsLocationsConversationsAssessmentsRequest {
+export interface CreateProjectsLocationsConversationsAssessmentsRequest extends GoogleCloudContactcenterinsightsV1Assessment {
   /** Required. The parent resource of the assessment. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Assessment | undefined;
 }
-export interface CreateProjectsLocationsConversationsAssessmentsNotesRequest {
+export interface CreateProjectsLocationsConversationsAssessmentsNotesRequest extends GoogleCloudContactcenterinsightsV1Note {
   /** Required. The parent resource of the note. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Note | undefined;
 }
-export interface CreateProjectsLocationsConversationsFeedbackLabelsRequest {
+export interface CreateProjectsLocationsConversationsFeedbackLabelsRequest extends GoogleCloudContactcenterinsightsV1FeedbackLabel {
   /** Optional. The ID of the feedback label to create. If one is not specified it will be generated by the server. */
   feedbackLabelId?: string | undefined;
   /** Required. The parent resource of the feedback label. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1FeedbackLabel | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1ChartChartVisualizationTypeEnum =
   | "CHART_VISUALIZATION_TYPE_UNSPECIFIED"
@@ -2101,13 +2077,11 @@ export interface GoogleCloudContactcenterinsightsV1Dashboard {
   /** Date range config applied to all charts in the dashboard. */
   dateRangeConfig?: GoogleCloudContactcenterinsightsV1DateRangeConfig | undefined;
 }
-export interface CreateProjectsLocationsDashboardsRequest {
+export interface CreateProjectsLocationsDashboardsRequest extends GoogleCloudContactcenterinsightsV1Dashboard {
   /** Required. The parent resource of the dashboard. */
   parent: string;
   /** Optional. A unique ID for the new Dashboard. This ID will become the final component of the Dashboard's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   dashboardId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Dashboard | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1DatasetTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -2134,21 +2108,17 @@ export interface GoogleCloudContactcenterinsightsV1Dataset {
   /** Output only. Dataset update time. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsRequest {
+export interface CreateProjectsLocationsDatasetsRequest extends GoogleCloudContactcenterinsightsV1Dataset {
   /** Required. The parent resource of the dataset. */
   parent: string;
   /** Optional. The ID to use for the dataset. */
   datasetId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Dataset | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
+export interface CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest extends GoogleCloudContactcenterinsightsV1FeedbackLabel {
   /** Optional. The ID of the feedback label to create. If one is not specified it will be generated by the server. */
   feedbackLabelId?: string | undefined;
   /** Required. The parent resource of the feedback label. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1FeedbackLabel | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1IssueModelInputDataConfigMediumEnum =
   | "MEDIUM_UNSPECIFIED"
@@ -2200,11 +2170,9 @@ export interface GoogleCloudContactcenterinsightsV1IssueModel {
   /** Output only. State of the model. */
   state?: GoogleCloudContactcenterinsightsV1IssueModelStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsIssueModelsRequest {
+export interface CreateProjectsLocationsIssueModelsRequest extends GoogleCloudContactcenterinsightsV1IssueModel {
   /** Required. The parent resource of the issue model. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1IssueModel | undefined;
 }
 /** The issue resource. */
 export interface GoogleCloudContactcenterinsightsV1Issue {
@@ -2221,11 +2189,9 @@ export interface GoogleCloudContactcenterinsightsV1Issue {
   /** Output only. The time at which this issue was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsIssueModelsIssuesRequest {
+export interface CreateProjectsLocationsIssueModelsIssuesRequest extends GoogleCloudContactcenterinsightsV1Issue {
   /** Required. The parent resource of the issue. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Issue | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1PhraseMatcherTypeEnum =
   | "PHRASE_MATCHER_TYPE_UNSPECIFIED"
@@ -2304,11 +2270,9 @@ export interface GoogleCloudContactcenterinsightsV1PhraseMatcher {
   /** Output only. The most recent time at which the phrase matcher was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsPhraseMatchersRequest {
+export interface CreateProjectsLocationsPhraseMatchersRequest extends GoogleCloudContactcenterinsightsV1PhraseMatcher {
   /** Required. The parent resource of the phrase matcher. Required. The location to create a phrase matcher for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1PhraseMatcher | undefined;
 }
 /** A tag is a resource which aims to categorize a set of questions across multiple scorecards, e.g., "Customer Satisfaction","Billing", etc. */
 export interface GoogleCloudContactcenterinsightsV1QaQuestionTag {
@@ -2327,13 +2291,11 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionTag {
   /** Optional. The list of Scorecard Question IDs that the tag applies to. Each QaQuestionId is represented as a full resource name containing the Question ID. Lastly, Since a tag may not necessarily be referenced by any Scorecard Questions, we treat this field as optional. */
   qaQuestionIds?: StringList | undefined;
 }
-export interface CreateProjectsLocationsQaQuestionTagsRequest {
+export interface CreateProjectsLocationsQaQuestionTagsRequest extends GoogleCloudContactcenterinsightsV1QaQuestionTag {
   /** Optional. A unique ID for the new QaQuestionTag. This ID will become the final component of the QaQuestionTag's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-`. */
   qaQuestionTagId?: string | undefined;
   /** Required. The parent resource of the QaQuestionTag. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QaQuestionTag | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaScorecardSourceEnum =
   | "QA_SCORECARD_SOURCE_UNSPECIFIED"
@@ -2361,13 +2323,11 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecard {
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsLocationsQaScorecardsRequest {
+export interface CreateProjectsLocationsQaScorecardsRequest extends GoogleCloudContactcenterinsightsV1QaScorecard {
   /** Required. The parent resource of the QaScorecard. */
   parent: string;
   /** Optional. A unique ID for the new QaScorecard. This ID will become the final component of the QaScorecard's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-`. */
   qaScorecardId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QaScorecard | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaScorecardRevisionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2397,13 +2357,11 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecardRevision {
   /** Identifier. The name of the scorecard revision. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsQaScorecardsRevisionsRequest {
+export interface CreateProjectsLocationsQaScorecardsRevisionsRequest extends GoogleCloudContactcenterinsightsV1QaScorecardRevision {
   /** Required. The parent resource of the QaScorecardRevision. */
   parent: string;
   /** Optional. A unique ID for the new QaScorecardRevision. This ID will become the final component of the QaScorecardRevision's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-`. */
   qaScorecardRevisionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QaScorecardRevision | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaQuestionQuestionTypeEnum =
   | "QA_QUESTION_TYPE_UNSPECIFIED"
@@ -2519,13 +2477,11 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestion {
     | GoogleCloudContactcenterinsightsV1QaQuestionQaQuestionDataOptions
     | undefined;
 }
-export interface CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
+export interface CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest extends GoogleCloudContactcenterinsightsV1QaQuestion {
   /** Required. The parent resource of the QaQuestion. */
   parent: string;
   /** Optional. A unique ID for the new question. This ID will become the final component of the question's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-`. */
   qaQuestionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QaQuestion | undefined;
 }
 /** The View resource. */
 export interface GoogleCloudContactcenterinsightsV1View {
@@ -2540,11 +2496,9 @@ export interface GoogleCloudContactcenterinsightsV1View {
   /** Output only. The time at which this view was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsViewsRequest {
+export interface CreateProjectsLocationsViewsRequest extends GoogleCloudContactcenterinsightsV1View {
   /** Required. The parent resource of the view. Required. The location to create a view for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1View | undefined;
 }
 export interface DeleteProjectsLocationsAnalysisRulesRequest {
   /** Required. The name of the analysis rule to delete. */
@@ -2671,11 +2625,12 @@ export interface GoogleCloudContactcenterinsightsV1DeployIssueModelRequest {
   /** Required. The issue model to deploy. */
   name?: string | undefined;
 }
-export interface DeployProjectsLocationsIssueModelsRequest {
+export interface DeployProjectsLocationsIssueModelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1DeployIssueModelRequest,
+  "name"
+> {
   /** Required. The issue model to deploy. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1DeployIssueModelRequest | undefined;
 }
 /** The request to deploy a QaScorecardRevision */
 export type GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest =
@@ -2744,17 +2699,19 @@ export interface GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest {
     | GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQueryDestination
     | undefined;
 }
-export interface ExportProjectsLocationsDatasetsInsightsdataRequest {
+export interface ExportProjectsLocationsDatasetsInsightsdataRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest,
+  "parent"
+> {
   /** Required. The parent resource to export data from. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest | undefined;
 }
-export interface ExportProjectsLocationsInsightsdataRequest {
+export interface ExportProjectsLocationsInsightsdataRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest,
+  "parent"
+> {
   /** Required. The parent resource to export data from. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest | undefined;
 }
 /** Google Cloud Storage Object URI to save the issue model to. */
 export interface GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination {
@@ -2770,11 +2727,12 @@ export interface GoogleCloudContactcenterinsightsV1ExportIssueModelRequest {
     | GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination
     | undefined;
 }
-export interface ExportProjectsLocationsIssueModelsRequest {
+export interface ExportProjectsLocationsIssueModelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1ExportIssueModelRequest,
+  "name"
+> {
   /** Required. The issue model to export. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1ExportIssueModelRequest | undefined;
 }
 /** The message to finalize an assessment. Finalizing makes an assessment and its notes immutable. */
 export type GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest =
@@ -2844,17 +2802,13 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest {
   /** Filter for the data that can be specified in addition to the natural language query. Users are encouraged to use this field to populate time-windows. */
   filter?: string | undefined;
 }
-export interface GenerativeInsightsProjectsLocationsRequest {
+export interface GenerativeInsightsProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest | undefined;
 }
-export interface GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
+export interface GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest | undefined;
 }
 export interface GetCorrelationConfigProjectsLocationsRequest {
   /** Required. The name of the correlation config resource to get. Format: projects/{project}/locations/{location}/correlationConfig */
@@ -3178,11 +3132,12 @@ export interface GoogleCloudContactcenterinsightsV1ImportIssueModelRequest {
   /** Google Cloud Storage source message. */
   gcsSource?: GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination | undefined;
 }
-export interface ImportProjectsLocationsIssueModelsRequest {
+export interface ImportProjectsLocationsIssueModelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1ImportIssueModelRequest,
+  "parent"
+> {
   /** Required. The parent resource of the issue model. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1ImportIssueModelRequest | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSourceBucketObjectTypeEnum =
   | "BUCKET_OBJECT_TYPE_UNSPECIFIED"
@@ -3248,28 +3203,28 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequest {
     | GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig
     | undefined;
 }
-export interface IngestProjectsLocationsConversationsRequest {
+export interface IngestProjectsLocationsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1IngestConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource for new conversations. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1IngestConversationsRequest | undefined;
 }
-export interface IngestProjectsLocationsDatasetsConversationsRequest {
+export interface IngestProjectsLocationsDatasetsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1IngestConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource for new conversations. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1IngestConversationsRequest | undefined;
 }
 /** The request to initialize a location-level encryption specification. */
 export interface GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest {
   /** Required. The encryption spec used for CMEK encryption. It is required that the kms key is in the same region as the endpoint. The same key will be used for all provisioned resources, if encryption is available. If the `kms_key_name` field is left empty, no encryption will be enforced. */
   encryptionSpec?: GoogleCloudContactcenterinsightsV1EncryptionSpec | undefined;
 }
-export interface InitializeProjectsLocationsEncryptionSpecRequest {
+export interface InitializeProjectsLocationsEncryptionSpecRequest extends GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest {
   /** Immutable. The resource name of the encryption key specification resource. Format: projects/{project}/locations/{location}/encryptionSpec */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest | undefined;
 }
 export interface ListAllFeedbackLabelsProjectsLocationsRequest {
   /** Optional. A filter to reduce results to a specific subset in the entire project. Supports disjunctions (OR) and conjunctions (AND). Supported fields: * `issue_model_id` * `qa_question_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
@@ -3792,63 +3747,73 @@ export interface GoogleCloudContactcenterinsightsV1ListViewsResponse {
   /** The views that match the request. */
   views?: GoogleCloudContactcenterinsightsV1ViewList | undefined;
 }
-export interface PatchProjectsLocationsAnalysisRulesRequest {
+export interface PatchProjectsLocationsAnalysisRulesRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1AnalysisRule,
+  "name"
+> {
   /** Identifier. The resource name of the analysis rule. Format: projects/{project}/locations/{location}/analysisRules/{analysis_rule} */
   name: string;
   /** Optional. The list of fields to be updated. If the update_mask is not provided, the update will be applied to all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AnalysisRule | undefined;
 }
-export interface PatchProjectsLocationsAssessmentRulesRequest {
+export interface PatchProjectsLocationsAssessmentRulesRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1AssessmentRule,
+  "name"
+> {
   /** Optional. The list of fields to be updated. If the update_mask is not provided, the update will be applied to all fields. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the assessment rule. Format: projects/{project}/locations/{location}/assessmentRules/{assessment_rule} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AssessmentRule | undefined;
 }
-export interface PatchProjectsLocationsAuthorizedViewSetsRequest {
+export interface PatchProjectsLocationsAuthorizedViewSetsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1AuthorizedViewSet,
+  "name"
+> {
   /** Identifier. The resource name of the AuthorizedViewSet. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set} */
   name: string;
   /** Optional. The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `display_name` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AuthorizedViewSet | undefined;
 }
-export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
+export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1AuthorizedView,
+  "name"
+> {
   /** Optional. The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `conversation_filter` * `display_name` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the AuthorizedView. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set}/authorizedViews/{authorized_view} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AuthorizedView | undefined;
 }
-export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest {
+export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1Note,
+  "name"
+> {
   /** Optional. The list of fields to be updated. If the update_mask is empty, all updateable fields will be updated. Acceptable fields include: * `content` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Note | undefined;
 }
-export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
+export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1FeedbackLabel,
+  "name"
+> {
   /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1FeedbackLabel | undefined;
 }
-export interface PatchProjectsLocationsAutoLabelingRulesRequest {
+export interface PatchProjectsLocationsAutoLabelingRulesRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1AutoLabelingRule,
+  "name"
+> {
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the auto-labeling rule. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1AutoLabelingRule | undefined;
 }
-export interface PatchProjectsLocationsConversationsRequest {
+export interface PatchProjectsLocationsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1Conversation,
+  "name"
+> {
   /** Immutable. The resource name of the conversation. Format: projects/{project}/locations/{location}/conversations/{conversation} */
   name: string;
   /** Optional. Defaults to false. If set to true, and the conversation is not found, a new conversation will be created. In this situation, `update_mask` is ignored. */
@@ -3857,104 +3822,114 @@ export interface PatchProjectsLocationsConversationsRequest {
   "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate"?: boolean | undefined;
   /** The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `agent_id` * `language_code` * `labels` * `metadata` * `quality_metadata` * `call_metadata` * `start_time` * `expire_time` or `ttl` * `data_source.gcs_source.audio_uri` or * `data_source.dialogflow_source.audio_uri` * `data_source.screen_recordings` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Conversation | undefined;
 }
-export interface PatchProjectsLocationsConversationsAssessmentsNotesRequest {
+export interface PatchProjectsLocationsConversationsAssessmentsNotesRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1Note,
+  "name"
+> {
   /** Optional. The list of fields to be updated. If the update_mask is empty, all updateable fields will be updated. Acceptable fields include: * `content` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Note | undefined;
 }
-export interface PatchProjectsLocationsConversationsFeedbackLabelsRequest {
+export interface PatchProjectsLocationsConversationsFeedbackLabelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1FeedbackLabel,
+  "name"
+> {
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1FeedbackLabel | undefined;
 }
-export interface PatchProjectsLocationsDashboardsRequest {
+export interface PatchProjectsLocationsDashboardsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1Dashboard,
+  "name"
+> {
   /** Identifier. Dashboard resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard} */
   name: string;
   /** Optional. List of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `display_name` * `root_container` * `description` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Dashboard | undefined;
 }
-export interface PatchProjectsLocationsDatasetsRequest {
+export interface PatchProjectsLocationsDatasetsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1Dataset,
+  "name"
+> {
   /** Immutable. Identifier. Resource name of the dataset. Format: projects/{project}/locations/{location}/datasets/{dataset} */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Dataset | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
+export interface PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1FeedbackLabel,
+  "name"
+> {
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1FeedbackLabel | undefined;
 }
-export interface PatchProjectsLocationsIssueModelsRequest {
+export interface PatchProjectsLocationsIssueModelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1IssueModel,
+  "name"
+> {
   /** Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1IssueModel | undefined;
 }
-export interface PatchProjectsLocationsIssueModelsIssuesRequest {
+export interface PatchProjectsLocationsIssueModelsIssuesRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1Issue,
+  "name"
+> {
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Immutable. The resource name of the issue. Format: projects/{project}/locations/{location}/issueModels/{issue_model}/issues/{issue} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Issue | undefined;
 }
-export interface PatchProjectsLocationsPhraseMatchersRequest {
+export interface PatchProjectsLocationsPhraseMatchersRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1PhraseMatcher,
+  "name"
+> {
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** The resource name of the phrase matcher. Format: projects/{project}/locations/{location}/phraseMatchers/{phrase_matcher} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1PhraseMatcher | undefined;
 }
-export interface PatchProjectsLocationsQaQuestionTagsRequest {
+export interface PatchProjectsLocationsQaQuestionTagsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1QaQuestionTag,
+  "name"
+> {
   /** Identifier. Resource name for the QaQuestionTag Format projects/{project}/locations/{location}/qaQuestionTags/{qa_question_tag} In the above format, the last segment, i.e., qa_question_tag, is a server-generated ID corresponding to the tag resource. */
   name: string;
   /** Optional. The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `qa_question_tag_name` - the name of the tag * `qa_question_ids` - the list of questions the tag applies to */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QaQuestionTag | undefined;
 }
-export interface PatchProjectsLocationsQaScorecardsRequest {
+export interface PatchProjectsLocationsQaScorecardsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1QaScorecard,
+  "name"
+> {
   /** Required. The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `description` * `display_name` */
   updateMask?: string | undefined;
   /** Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QaScorecard | undefined;
 }
-export interface PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
+export interface PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1QaQuestion,
+  "name"
+> {
   /** Identifier. The resource name of the question. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision}/qaQuestions/{qa_question} */
   name: string;
   /** Required. The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `abbreviation` * `answer_choices` * `answer_instructions` * `order` * `question_body` * `tags` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QaQuestion | undefined;
 }
-export interface PatchProjectsLocationsViewsRequest {
+export interface PatchProjectsLocationsViewsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1View,
+  "name"
+> {
   /** Immutable. The resource name of the view. Format: projects/{project}/locations/{location}/views/{view} */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1View | undefined;
 }
 /** The message to publish an assessment. Draft and appealed assessments can be published. Publishing simply changes the state of the assessment to published, allowing the console and authorized views to filter on the state. */
 export type GoogleCloudContactcenterinsightsV1PublishAssessmentRequest =
@@ -4157,17 +4132,13 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsRequest {
   /** The dimensions that determine the grouping key for the query. Defaults to no dimension if this field is unspecified. If a dimension is specified, its key must also be specified. Each dimension's key must be unique. If a time granularity is also specified, metric values in the dimension will be bucketed by this granularity. Up to one dimension is supported for now. */
   dimensions?: GoogleCloudContactcenterinsightsV1DimensionList | undefined;
 }
-export interface QueryMetricsProjectsLocationsRequest {
+export interface QueryMetricsProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1QueryMetricsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QueryMetricsRequest | undefined;
 }
-export interface QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
+export interface QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleCloudContactcenterinsightsV1QueryMetricsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QueryMetricsRequest | undefined;
 }
 /** The entity whose performance is being queried is a single agent. */
 export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequestAgentSource {
@@ -4187,17 +4158,13 @@ export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewReque
   /** Optional. Filter to select a subset of conversations to compute the performance overview. Supports the same filters as the filter field in QueryMetricsRequest. The source and query interval/comparison query interval should not be included here. */
   filter?: string | undefined;
 }
-export interface QueryPerformanceOverviewProjectsLocationsRequest {
+export interface QueryPerformanceOverviewProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest {
   /** Required. The parent resource of the conversations to derive performance stats from. "projects/{project}/locations/{location}" */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest | undefined;
 }
-export interface QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
+export interface QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest {
   /** Required. The parent resource of the conversations to derive performance stats from. "projects/{project}/locations/{location}" */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest | undefined;
 }
 /** The request to sample conversations to a dataset. */
 export interface GoogleCloudContactcenterinsightsV1SampleConversationsRequest {
@@ -4208,17 +4175,19 @@ export interface GoogleCloudContactcenterinsightsV1SampleConversationsRequest {
   /** Optional. The sample rule used for sampling conversations. */
   sampleRule?: GoogleCloudContactcenterinsightsV1SampleRule | undefined;
 }
-export interface SampleProjectsLocationsConversationsRequest {
+export interface SampleProjectsLocationsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1SampleConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource of the dataset. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1SampleConversationsRequest | undefined;
 }
-export interface SampleProjectsLocationsDatasetsConversationsRequest {
+export interface SampleProjectsLocationsDatasetsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1SampleConversationsRequest,
+  "parent"
+> {
   /** Required. The parent resource of the dataset. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1SampleConversationsRequest | undefined;
 }
 export interface SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Optional. The value returned by the last `ListAuthorizedViewsResponse`. This value indicates that this is a continuation of a prior `ListAuthorizedViews` call and that the system should return the next page of data. */
@@ -4246,11 +4215,9 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
+export interface SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Wrapper for a list of conversations. */
 export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequestConversations {
@@ -4270,22 +4237,18 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest 
   /** Required. The correlation config to test. */
   correlationConfig?: GoogleCloudContactcenterinsightsV1CorrelationConfig | undefined;
 }
-export interface TestCorrelationConfigProjectsLocationsRequest {
+export interface TestCorrelationConfigProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest {
   /** Required. The location to test correlation config. Format: projects/{project}/locations/{location} */
   location: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
+export interface TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
@@ -4299,11 +4262,9 @@ export interface GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest {
   /** Required. Conversation data to test rules against. */
   conversation?: GoogleCloudContactcenterinsightsV1Conversation | undefined;
 }
-export interface TestProjectsLocationsAutoLabelingRulesRequest {
+export interface TestProjectsLocationsAutoLabelingRulesRequest extends GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest {
   /** Required. The parent project and location. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest | undefined;
 }
 /** The response message for testing auto labeling rules. */
 export interface GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleResponse {
@@ -4317,22 +4278,21 @@ export interface GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionReques
   /** Optional. Run in validate only mode, no fine tuning will actually run. Data quality validations like training data distributions will run. Even when set to false, the data quality validations will still run but once the validations complete we will proceed with the fine tune, if applicable. */
   validateOnly?: boolean | undefined;
 }
-export interface TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRequest {
+export interface TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRequest extends GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionRequest {
   /** Required. The parent resource for new fine tuning job instance. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionRequest | undefined;
 }
 /** The request to undeploy an issue model. */
 export interface GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest {
   /** Required. The issue model to undeploy. */
   name?: string | undefined;
 }
-export interface UndeployProjectsLocationsIssueModelsRequest {
+export interface UndeployProjectsLocationsIssueModelsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest,
+  "name"
+> {
   /** Required. The issue model to undeploy. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest | undefined;
 }
 /** The request to undeploy a QaScorecardRevision */
 export type GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest =
@@ -4343,21 +4303,23 @@ export interface UndeployProjectsLocationsQaScorecardsRevisionsRequest {
   /** Request body */
   body?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
 }
-export interface UpdateCorrelationConfigProjectsLocationsRequest {
+export interface UpdateCorrelationConfigProjectsLocationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1CorrelationConfig,
+  "name"
+> {
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of the correlation config. Format: projects/{project}/locations/{location}/correlationConfig */
   name: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1CorrelationConfig | undefined;
 }
-export interface UpdateSettingsProjectsLocationsRequest {
+export interface UpdateSettingsProjectsLocationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1Settings,
+  "name"
+> {
   /** Immutable. The resource name of the settings resource. Format: projects/{project}/locations/{location}/settings */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1Settings | undefined;
 }
 /** Request to upload a conversation. */
 export interface GoogleCloudContactcenterinsightsV1UploadConversationRequest {
@@ -4372,11 +4334,12 @@ export interface GoogleCloudContactcenterinsightsV1UploadConversationRequest {
   /** Optional. Speech-to-Text configuration. Will default to the config specified in Settings. */
   speechConfig?: GoogleCloudContactcenterinsightsV1SpeechConfig | undefined;
 }
-export interface UploadProjectsLocationsConversationsRequest {
+export interface UploadProjectsLocationsConversationsRequest extends Omit<
+  GoogleCloudContactcenterinsightsV1UploadConversationRequest,
+  "parent"
+> {
   /** Required. The parent resource of the conversation. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudContactcenterinsightsV1UploadConversationRequest | undefined;
 }
 export type AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   | NotFound
@@ -8746,10 +8709,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:bulkDeleteFeedbackLabels",
@@ -8937,10 +8902,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:bulkDeleteFeedbackLabels",
@@ -9124,10 +9091,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ImportIssueModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/issueModels:import",
@@ -9141,10 +9110,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(739, __c23, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(739, __c23, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:ingest",
@@ -9207,10 +9178,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(739, __c23, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(739, __c23, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:ingest",
@@ -9232,10 +9205,12 @@ function __c25(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:initialize",
@@ -9249,10 +9224,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:bulkDelete",
@@ -9579,10 +9556,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:bulkDelete",
@@ -9842,10 +9821,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1826, __c57, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1826, __c57, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:bulkDownloadFeedbackLabels",
@@ -10155,10 +10136,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1826, __c57, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1826, __c57, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:bulkDownloadFeedbackLabels",
@@ -10172,11 +10155,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3968, __c124, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3968, __c124, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10190,11 +10175,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4033, __c126, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4033, __c126, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10208,11 +10195,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4128, __c129, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10226,11 +10215,13 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4192, __c131, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10244,11 +10235,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4291, __c134, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4291, __c134, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10265,11 +10258,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10286,11 +10281,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4450, __c139, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4450, __c139, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10304,15 +10301,17 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate": S.optional(
-            S.Boolean.pipe(T.Query()),
-          ),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4764, __c148, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4764, __c148, 28),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate": S.optional(
+              S.Boolean.pipe(T.Query()),
+            ),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10326,11 +10325,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4291, __c134, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4291, __c134, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10344,11 +10345,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10362,10 +10365,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2562, __c80, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2562, __c80, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:bulkUploadFeedbackLabels",
@@ -10410,11 +10415,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4946, __c154, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4946, __c154, 18),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10428,11 +10435,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10446,11 +10455,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10466,11 +10477,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5121, __c160, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5121, __c160, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10484,11 +10497,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5184, __c162, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5184, __c162, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10502,11 +10517,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5254, __c164, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5254, __c164, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10520,11 +10537,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5312, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5312, __c166, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10538,11 +10557,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5376, __c168, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5376, __c168, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10556,11 +10577,13 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5511, __c172, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5511, __c172, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10574,11 +10597,13 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10592,10 +10617,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2562, __c80, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2562, __c80, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:bulkUploadFeedbackLabels",
@@ -10646,10 +10673,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(3053, __c95, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3053, __c95, 13),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:queryMetrics",
@@ -10803,10 +10832,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(3053, __c95, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3053, __c95, 13),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:queryMetrics",
@@ -10822,10 +10853,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3137, __c98, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3137, __c98, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:queryPerformanceOverview",
@@ -10862,10 +10895,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3137, __c98, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3137, __c98, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:queryPerformanceOverview",
@@ -10882,10 +10917,12 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c101, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:sample",
@@ -10911,10 +10948,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3232, __c101, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c101, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:sample",
@@ -10955,10 +10994,12 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GoogleIamV1SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3328, __c104, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -11043,10 +11084,12 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(3457, __c108, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3457, __c108, 1),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:testCorrelationConfig",
@@ -11066,10 +11109,12 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GoogleIamV1TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3488, __c109, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -11092,10 +11137,12 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3520, __c110, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3520, __c110, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/autoLabelingRules:test",
@@ -11124,10 +11171,12 @@ function __c111(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3552, __c111, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3552, __c111, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:tuneQaScorecardRevision",
@@ -11143,10 +11192,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6656, __c208, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:undeploy",
@@ -11177,11 +11228,13 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7363, __c230, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7363, __c230, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11195,11 +11248,13 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(644, __c20, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(644, __c20, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11223,10 +11278,12 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1UploadConversationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:upload",
@@ -11322,10 +11379,12 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CalculateStatsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(3840, __c120, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3840, __c120, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}/conversations:calculateStats",
@@ -11373,10 +11432,12 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3968, __c124, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3968, __c124, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/analysisRules",
@@ -11409,11 +11470,13 @@ function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          assessmentRuleId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4033, __c126, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4033, __c126, 1),
+          S.Struct({
+            assessmentRuleId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assessmentRules",
@@ -11467,11 +11530,13 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authorizedViewSetId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4128, __c129, 0),
+          S.Struct({
+            authorizedViewSetId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authorizedViewSets",
@@ -11500,11 +11565,13 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authorizedViewId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4192, __c131, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            authorizedViewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authorizedViews",
@@ -11534,10 +11601,12 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6080, __c190, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6080, __c190, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assessments",
@@ -11554,10 +11623,12 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4291, __c134, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4291, __c134, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes",
@@ -11609,11 +11680,13 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          feedbackLabelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            feedbackLabelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/feedbackLabels",
@@ -11665,11 +11738,13 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          autoLabelingRuleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4450, __c139, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4450, __c139, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            autoLabelingRuleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/autoLabelingRules",
@@ -11712,11 +11787,13 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conversationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4764, __c148, 28).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4764, __c148, 28),
+          S.Struct({
+            conversationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations",
@@ -12520,10 +12597,12 @@ function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4575, __c142, 31).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4575, __c142, 31),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/analyses",
@@ -12537,10 +12616,12 @@ function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6080, __c190, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6080, __c190, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assessments",
@@ -12554,10 +12635,12 @@ function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4291, __c134, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4291, __c134, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes",
@@ -12571,11 +12654,13 @@ function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          feedbackLabelId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            feedbackLabelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/feedbackLabels",
@@ -12589,11 +12674,13 @@ function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dashboardId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4946, __c154, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4946, __c154, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dashboardId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dashboards",
@@ -12788,11 +12875,13 @@ function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          datasetId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5024, __c157, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5024, __c157, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            datasetId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/datasets",
@@ -12824,11 +12913,13 @@ function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          feedbackLabelId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4384, __c137, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            feedbackLabelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/feedbackLabels",
@@ -12844,10 +12935,12 @@ function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5121, __c160, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5121, __c160, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/issueModels",
@@ -12888,10 +12981,12 @@ function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5184, __c162, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5184, __c162, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/issues",
@@ -12920,10 +13015,12 @@ function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5254, __c164, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5254, __c164, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/phraseMatchers",
@@ -12989,11 +13086,13 @@ function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          qaQuestionTagId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5312, __c166, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5312, __c166, 0),
+          S.Struct({
+            qaQuestionTagId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/qaQuestionTags",
@@ -13023,11 +13122,13 @@ function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          qaScorecardId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5376, __c168, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5376, __c168, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            qaScorecardId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/qaScorecards",
@@ -13059,11 +13160,13 @@ function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          qaScorecardRevisionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5440, __c170, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5440, __c170, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            qaScorecardRevisionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/revisions",
@@ -13093,11 +13196,13 @@ function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          qaQuestionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5511, __c172, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5511, __c172, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            qaQuestionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/qaQuestions",
@@ -13185,10 +13290,12 @@ function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5568, __c174, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/views",
@@ -13744,10 +13851,12 @@ function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6656, __c208, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deploy",
@@ -13788,10 +13897,12 @@ function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6753, __c211, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6753, __c211, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/insightsdata:export",
@@ -13831,10 +13942,12 @@ function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6753, __c211, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6753, __c211, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/insightsdata:export",
@@ -13855,10 +13968,12 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ExportIssueModelRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6816, __c213, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6816, __c213, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -13904,10 +14019,12 @@ function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6944, __c217, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6944, __c217, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:bulkAnalyze",
@@ -14105,10 +14222,12 @@ function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(7264, __c227, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:generativeInsights",
@@ -14141,10 +14260,12 @@ function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(7264, __c227, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:generativeInsights",
@@ -14320,10 +14441,12 @@ function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6944, __c217, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6944, __c217, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/segments:bulkAnalyze",

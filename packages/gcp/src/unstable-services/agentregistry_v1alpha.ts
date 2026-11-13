@@ -132,15 +132,13 @@ export interface Binding {
   /** Optional. User-defined description of a Binding. Can have a maximum length of `2048` characters. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsBindingsRequest {
+export interface CreateProjectsLocationsBindingsRequest extends Binding {
   /** Required. The ID to use for the binding, which will become the final component of the binding's resource name. This value should be 4-63 characters, and must conform to RFC-1034. Specifically, it must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   bindingId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The project and location to create the Binding in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: Binding | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -226,15 +224,13 @@ export interface Service {
   /** Optional. User-defined display name for the Service. Can have a maximum length of `63` characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsServicesRequest {
+export interface CreateProjectsLocationsServicesRequest extends Service {
   /** Required. The project and location to create the Service in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID to use for the service, which will become the final component of the service's resource name. This value should be 4-63 characters, and valid characters are `/a-z-/`. */
   serviceId?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
 export type ScanningConfigPolicyEnum =
   | "POLICY_UNSPECIFIED"
@@ -369,25 +365,21 @@ export interface Skill {
   /** Optional. The publisher resource associated with this skill. Format: `projects/{project}/locations/{location}/publishers/{publisher}` The publisher dictates the allowed namespace prefixes for the skill's name and logical `skill_id` (e.g., Publisher `google` authorizes the `google-*` prefix). */
   publisher?: string | undefined;
 }
-export interface CreateProjectsLocationsSkillsRequest {
+export interface CreateProjectsLocationsSkillsRequest extends Omit<Skill, "skillId"> {
   /** Required. Custom, user-defined unique container identifier. Must be unique within the parent project and location. This value should be 4-64 characters, and valid characters are `/a-z-/`. */
   skillId?: string | undefined;
   /** Optional. Signed UUID request idempotency token. */
   requestId?: string | undefined;
   /** Required. The project and location location to bootstrap. */
   parent: string;
-  /** Request body */
-  body?: Skill | undefined;
 }
-export interface CreateProjectsLocationsSkillsRevisionsRequest {
+export interface CreateProjectsLocationsSkillsRevisionsRequest extends SkillRevision {
   /** Optional. Signed UUID request idempotency token. */
   requestId?: string | undefined;
   /** Required. Parent logical container name. */
   parent: string;
   /** Optional. Custom, user-defined unique revision identifier. Format: 4-63 characters, matching regex `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$` */
   skillRevisionId?: string | undefined;
-  /** Request body */
-  body?: SkillRevision | undefined;
 }
 export interface DeleteProjectsLocationsBindingsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1128,35 +1120,29 @@ export interface ListSkillRevisionsResponse {
   /** Page offset continuation token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsBindingsRequest {
+export interface PatchProjectsLocationsBindingsRequest extends Omit<Binding, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Binding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Binding | undefined;
 }
-export interface PatchProjectsLocationsServicesRequest {
+export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface PatchProjectsLocationsSkillsRequest {
+export interface PatchProjectsLocationsSkillsRequest extends Omit<Skill, "name"> {
   /** Identifier. Resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` The `{skill}` segment acts as the resource ID. If the skill is associated with a Publisher, this segment typically uses a hyphenated namespace prefix corresponding to the publisher (e.g., `google-workspace-create-docs`). */
   name: string;
   /** Optional. Standard update target mask mapping relative fields. */
   updateMask?: string | undefined;
   /** Optional. Signed UUID request idempotency token. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Skill | undefined;
 }
 /** Message for searching Agents */
 export interface SearchAgentsRequest {
@@ -1167,11 +1153,9 @@ export interface SearchAgentsRequest {
   /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
   pageSize?: number | undefined;
 }
-export interface SearchProjectsLocationsAgentsRequest {
+export interface SearchProjectsLocationsAgentsRequest extends SearchAgentsRequest {
   /** Required. Parent value for SearchAgentsRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: SearchAgentsRequest | undefined;
 }
 /** Message for response to searching Agents */
 export interface SearchAgentsResponse {
@@ -1189,11 +1173,9 @@ export interface SearchMcpServersRequest {
   /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
   pageToken?: string | undefined;
 }
-export interface SearchProjectsLocationsMcpServersRequest {
+export interface SearchProjectsLocationsMcpServersRequest extends SearchMcpServersRequest {
   /** Required. Parent value for SearchMcpServersRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: SearchMcpServersRequest | undefined;
 }
 /** Message for response to searching MCP Servers */
 export interface SearchMcpServersResponse {
@@ -1234,39 +1216,31 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAiApplicationsRequest {
+export interface SetIamPolicyProjectsLocationsAiApplicationsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsSkillsRequest {
+export interface SetIamPolicyProjectsLocationsSkillsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAiApplicationsRequest {
+export interface TestIamPermissionsProjectsLocationsAiApplicationsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsSkillsRequest {
+export interface TestIamPermissionsProjectsLocationsSkillsRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -3429,12 +3403,14 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(946, __c59, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(946, __c59, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3448,12 +3424,14 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1201, __c75, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1201, __c75, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3467,12 +3445,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1233, __c77, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1233, __c77, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3486,12 +3466,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bindingId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(946, __c59, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(946, __c59, 2),
+          S.Struct({
+            bindingId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/bindings",
@@ -3580,10 +3562,12 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SearchAgentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/agents:search",
@@ -3605,10 +3589,12 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SearchMcpServersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c64, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/mcpServers:search",
@@ -3650,10 +3636,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1072, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1072, __c67, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -3678,10 +3666,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1072, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1072, __c67, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:setIamPolicy",
@@ -3695,10 +3685,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -3722,10 +3714,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+resource}:testIamPermissions",
@@ -3739,12 +3733,14 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1201, __c75, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1201, __c75, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            serviceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/services",
@@ -3808,12 +3804,14 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skillId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1233, __c77, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1233, __c77, 1),
+          S.Struct({
+            skillId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/skills",
@@ -3914,12 +3912,14 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          skillRevisionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1268, __c79, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1268, __c79, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            skillRevisionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/revisions",

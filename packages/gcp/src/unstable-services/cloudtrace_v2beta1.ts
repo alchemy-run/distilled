@@ -97,11 +97,9 @@ export interface TraceSink {
   /** Required. The export destination. */
   outputConfig?: OutputConfig | undefined;
 }
-export interface CreateProjectsTraceSinksRequest {
+export interface CreateProjectsTraceSinksRequest extends TraceSink {
   /** Required. The resource in which to create the sink (currently only project sinks are supported): "projects/[PROJECT_ID]" Examples: `"projects/my-trace-project"`, `"projects/123456789"`. */
   parent: string;
-  /** Request body */
-  body?: TraceSink | undefined;
 }
 export interface DeleteProjectsTraceSinksRequest {
   /** Required. The full resource name of the sink to delete, including the parent resource and the sink identifier: "projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]" Example: `"projects/12345/traceSinks/my-sink-id"`. */
@@ -129,13 +127,11 @@ export interface ListTraceSinksResponse {
   /** A list of sinks. */
   sinks?: TraceSinkList | undefined;
 }
-export interface PatchProjectsTraceSinksRequest {
+export interface PatchProjectsTraceSinksRequest extends Omit<TraceSink, "name"> {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]" Example: `"projects/12345/traceSinks/my-sink-id"`. */
   name: string;
   /** Required. Field mask that specifies the fields in `trace_sink` that are to be updated. A sink field is overwritten if, and only if, it is in the update mask. `name` and `writer_identity` fields cannot be updated. An empty `update_mask` is considered an error. For a detailed `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask Example: `updateMask=output_config`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TraceSink | undefined;
 }
 export type CreateProjectsTraceSinksError =
   | NotFound
@@ -244,10 +240,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/traceSinks",
@@ -340,11 +338,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",

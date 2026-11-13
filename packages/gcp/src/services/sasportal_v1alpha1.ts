@@ -109,11 +109,9 @@ export interface SasPortalDeployment {
   /** Output only. Resource name. */
   name?: string | undefined;
 }
-export interface CreateCustomersDeploymentsRequest {
+export interface CreateCustomersDeploymentsRequest extends SasPortalDeployment {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDeployment | undefined;
 }
 /** Information about the model of the device. */
 export interface SasPortalDeviceModel {
@@ -329,17 +327,13 @@ export interface SasPortalDevice {
   /** Output only. Device state. */
   state?: SasPortalDeviceStateEnum | (string & {}) | undefined;
 }
-export interface CreateCustomersDeploymentsDevicesRequest {
+export interface CreateCustomersDeploymentsDevicesRequest extends SasPortalDevice {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface CreateCustomersDevicesRequest {
+export interface CreateCustomersDevicesRequest extends SasPortalDevice {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
 /** The Node. */
 export interface SasPortalNode {
@@ -350,65 +344,45 @@ export interface SasPortalNode {
   /** The node's display name. */
   displayName?: string | undefined;
 }
-export interface CreateCustomersNodesRequest {
+export interface CreateCustomersNodesRequest extends SasPortalNode {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
-  /** Request body */
-  body?: SasPortalNode | undefined;
 }
-export interface CreateCustomersNodesDeploymentsRequest {
+export interface CreateCustomersNodesDeploymentsRequest extends SasPortalDeployment {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDeployment | undefined;
 }
-export interface CreateCustomersNodesDevicesRequest {
+export interface CreateCustomersNodesDevicesRequest extends SasPortalDevice {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface CreateCustomersNodesNodesRequest {
+export interface CreateCustomersNodesNodesRequest extends SasPortalNode {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
-  /** Request body */
-  body?: SasPortalNode | undefined;
 }
-export interface CreateNodesDeploymentsDevicesRequest {
+export interface CreateNodesDeploymentsDevicesRequest extends SasPortalDevice {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface CreateNodesDevicesRequest {
+export interface CreateNodesDevicesRequest extends SasPortalDevice {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface CreateNodesNodesRequest {
+export interface CreateNodesNodesRequest extends SasPortalNode {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
-  /** Request body */
-  body?: SasPortalNode | undefined;
 }
-export interface CreateNodesNodesDeploymentsRequest {
+export interface CreateNodesNodesDeploymentsRequest extends SasPortalDeployment {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDeployment | undefined;
 }
-export interface CreateNodesNodesDevicesRequest {
+export interface CreateNodesNodesDevicesRequest extends SasPortalDevice {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface CreateNodesNodesNodesRequest {
+export interface CreateNodesNodesNodesRequest extends SasPortalNode {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
-  /** Request body */
-  body?: SasPortalNode | undefined;
 }
 /** Request for CreateSignedDevice. */
 export interface SasPortalCreateSignedDeviceRequest {
@@ -417,41 +391,29 @@ export interface SasPortalCreateSignedDeviceRequest {
   /** Required. Unique installer id (CPI ID) from the Certified Professional Installers database. */
   installerId?: string | undefined;
 }
-export interface CreateSignedCustomersDeploymentsDevicesRequest {
+export interface CreateSignedCustomersDeploymentsDevicesRequest extends SasPortalCreateSignedDeviceRequest {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
-export interface CreateSignedCustomersDevicesRequest {
+export interface CreateSignedCustomersDevicesRequest extends SasPortalCreateSignedDeviceRequest {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
-export interface CreateSignedCustomersNodesDevicesRequest {
+export interface CreateSignedCustomersNodesDevicesRequest extends SasPortalCreateSignedDeviceRequest {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
-export interface CreateSignedNodesDeploymentsDevicesRequest {
+export interface CreateSignedNodesDeploymentsDevicesRequest extends SasPortalCreateSignedDeviceRequest {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
-export interface CreateSignedNodesDevicesRequest {
+export interface CreateSignedNodesDevicesRequest extends SasPortalCreateSignedDeviceRequest {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
-export interface CreateSignedNodesNodesDevicesRequest {
+export interface CreateSignedNodesNodesDevicesRequest extends SasPortalCreateSignedDeviceRequest {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
 export interface DeleteCustomersDeploymentsRequest {
   /** Required. The name of the deployment. */
@@ -548,10 +510,7 @@ export interface SasPortalGetPolicyRequest {
   /** Required. The resource for which the policy is being requested. */
   resource?: string | undefined;
 }
-export interface GetPoliciesRequest {
-  /** Request body */
-  body?: SasPortalGetPolicyRequest | undefined;
-}
+export interface GetPoliciesRequest extends SasPortalGetPolicyRequest {}
 /** Associates `members` with a `role`. */
 export interface SasPortalAssignment {
   /** The identities the role is assigned to. It can have the following values: * `{user_email}`: An email address that represents a specific Google account. For example: `alice@gmail.com`. * `{group_email}`: An email address that represents a Google group. For example, `viewers@gmail.com`. */
@@ -778,10 +737,7 @@ export interface SasPortalMigrateOrganizationRequest {
   /** Required. Id of the SAS organization to be migrated. */
   organizationId?: string | undefined;
 }
-export interface MigrateOrganizationCustomersRequest {
-  /** Request body */
-  body?: SasPortalMigrateOrganizationRequest | undefined;
-}
+export interface MigrateOrganizationCustomersRequest extends SasPortalMigrateOrganizationRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -811,121 +767,91 @@ export interface SasPortalMoveDeploymentRequest {
   /** Required. The name of the new parent resource node or customer to reparent the deployment under. */
   destination?: string | undefined;
 }
-export interface MoveCustomersDeploymentsRequest {
+export interface MoveCustomersDeploymentsRequest extends SasPortalMoveDeploymentRequest {
   /** Required. The name of the deployment to move. */
   name: string;
-  /** Request body */
-  body?: SasPortalMoveDeploymentRequest | undefined;
 }
 /** Request for MoveDevice. */
 export interface SasPortalMoveDeviceRequest {
   /** Required. The name of the new parent resource node or customer to reparent the device under. */
   destination?: string | undefined;
 }
-export interface MoveCustomersDevicesRequest {
+export interface MoveCustomersDevicesRequest extends SasPortalMoveDeviceRequest {
   /** Required. The name of the device to move. */
   name: string;
-  /** Request body */
-  body?: SasPortalMoveDeviceRequest | undefined;
 }
 /** Request for MoveNode. */
 export interface SasPortalMoveNodeRequest {
   /** Required. The name of the new parent resource node or customer to reparent the node under. */
   destination?: string | undefined;
 }
-export interface MoveCustomersNodesRequest {
+export interface MoveCustomersNodesRequest extends SasPortalMoveNodeRequest {
   /** Required. The name of the node to move. */
   name: string;
-  /** Request body */
-  body?: SasPortalMoveNodeRequest | undefined;
 }
-export interface MoveDeploymentsDevicesRequest {
+export interface MoveDeploymentsDevicesRequest extends SasPortalMoveDeviceRequest {
   /** Required. The name of the device to move. */
   name: string;
-  /** Request body */
-  body?: SasPortalMoveDeviceRequest | undefined;
 }
-export interface MoveNodesDeploymentsRequest {
+export interface MoveNodesDeploymentsRequest extends SasPortalMoveDeploymentRequest {
   /** Required. The name of the deployment to move. */
   name: string;
-  /** Request body */
-  body?: SasPortalMoveDeploymentRequest | undefined;
 }
-export interface MoveNodesDevicesRequest {
+export interface MoveNodesDevicesRequest extends SasPortalMoveDeviceRequest {
   /** Required. The name of the device to move. */
   name: string;
-  /** Request body */
-  body?: SasPortalMoveDeviceRequest | undefined;
 }
-export interface MoveNodesNodesRequest {
+export interface MoveNodesNodesRequest extends SasPortalMoveNodeRequest {
   /** Required. The name of the node to move. */
   name: string;
-  /** Request body */
-  body?: SasPortalMoveNodeRequest | undefined;
 }
-export interface PatchCustomersRequest {
+export interface PatchCustomersRequest extends Omit<SasPortalCustomer, "name"> {
   /** Fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the customer. */
   name: string;
-  /** Request body */
-  body?: SasPortalCustomer | undefined;
 }
-export interface PatchCustomersDeploymentsRequest {
+export interface PatchCustomersDeploymentsRequest extends Omit<SasPortalDeployment, "name"> {
   /** Fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. Resource name. */
   name: string;
-  /** Request body */
-  body?: SasPortalDeployment | undefined;
 }
-export interface PatchCustomersDevicesRequest {
+export interface PatchCustomersDevicesRequest extends Omit<SasPortalDevice, "name"> {
   /** Output only. The resource path name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface PatchCustomersNodesRequest {
+export interface PatchCustomersNodesRequest extends Omit<SasPortalNode, "name"> {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SasPortalNode | undefined;
 }
-export interface PatchDeploymentsDevicesRequest {
+export interface PatchDeploymentsDevicesRequest extends Omit<SasPortalDevice, "name"> {
   /** Fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource path name. */
   name: string;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface PatchNodesDeploymentsRequest {
+export interface PatchNodesDeploymentsRequest extends Omit<SasPortalDeployment, "name"> {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SasPortalDeployment | undefined;
 }
-export interface PatchNodesDevicesRequest {
+export interface PatchNodesDevicesRequest extends Omit<SasPortalDevice, "name"> {
   /** Output only. The resource path name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SasPortalDevice | undefined;
 }
-export interface PatchNodesNodesRequest {
+export interface PatchNodesNodesRequest extends Omit<SasPortalNode, "name"> {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SasPortalNode | undefined;
 }
 /** Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller's GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment. */
 export interface SasPortalProvisionDeploymentRequest {
@@ -936,10 +862,7 @@ export interface SasPortalProvisionDeploymentRequest {
   /** Optional. If this field is set then a new deployment will be created under the organization specified by this id. */
   organizationId?: string | undefined;
 }
-export interface ProvisionDeploymentCustomersRequest {
-  /** Request body */
-  body?: SasPortalProvisionDeploymentRequest | undefined;
-}
+export interface ProvisionDeploymentCustomersRequest extends SasPortalProvisionDeploymentRequest {}
 /** Response for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. */
 export interface SasPortalProvisionDeploymentResponse {
   /** Optional. Optional error message if the provisioning request is not successful. */
@@ -954,41 +877,29 @@ export interface SasPortalSetPolicyRequest {
   /** Required. The policy to be applied to the `resource`. */
   policy?: SasPortalPolicy | undefined;
 }
-export interface SetPoliciesRequest {
-  /** Request body */
-  body?: SasPortalSetPolicyRequest | undefined;
-}
+export interface SetPoliciesRequest extends SasPortalSetPolicyRequest {}
 /** Request for the SetupSasAnalytics rpc. */
 export interface SasPortalSetupSasAnalyticsRequest {
   /** Optional. User id to setup analytics for, if not provided the user id associated with the project is used. optional */
   userId?: string | undefined;
 }
-export interface SetupSasAnalyticsCustomersRequest {
-  /** Request body */
-  body?: SasPortalSetupSasAnalyticsRequest | undefined;
-}
+export interface SetupSasAnalyticsCustomersRequest extends SasPortalSetupSasAnalyticsRequest {}
 /** Request for SignDevice. */
 export interface SasPortalSignDeviceRequest {
   /** Required. The device to sign. The device fields name, fcc_id and serial_number must be set. The user_id field must be set. */
   device?: SasPortalDevice | undefined;
 }
-export interface SignDeviceCustomersDevicesRequest {
+export interface SignDeviceCustomersDevicesRequest extends SasPortalSignDeviceRequest {
   /** Output only. The resource path name. */
   name: string;
-  /** Request body */
-  body?: SasPortalSignDeviceRequest | undefined;
 }
-export interface SignDeviceDeploymentsDevicesRequest {
+export interface SignDeviceDeploymentsDevicesRequest extends SasPortalSignDeviceRequest {
   /** Output only. The resource path name. */
   name: string;
-  /** Request body */
-  body?: SasPortalSignDeviceRequest | undefined;
 }
-export interface SignDeviceNodesDevicesRequest {
+export interface SignDeviceNodesDevicesRequest extends SasPortalSignDeviceRequest {
   /** Output only. The resource path name. */
   name: string;
-  /** Request body */
-  body?: SasPortalSignDeviceRequest | undefined;
 }
 /** Request message for `TestPermissions` method. */
 export interface SasPortalTestPermissionsRequest {
@@ -997,10 +908,7 @@ export interface SasPortalTestPermissionsRequest {
   /** The set of permissions to check for the `resource`. */
   permissions?: StringList | undefined;
 }
-export interface TestPoliciesRequest {
-  /** Request body */
-  body?: SasPortalTestPermissionsRequest | undefined;
-}
+export interface TestPoliciesRequest extends SasPortalTestPermissionsRequest {}
 /** Response message for `TestPermissions` method. */
 export interface SasPortalTestPermissionsResponse {
   /** A set of permissions that the caller is allowed. */
@@ -1013,23 +921,17 @@ export interface SasPortalUpdateSignedDeviceRequest {
   /** Required. Unique installer ID (CPI ID) from the Certified Professional Installers database. */
   installerId?: string | undefined;
 }
-export interface UpdateSignedCustomersDevicesRequest {
+export interface UpdateSignedCustomersDevicesRequest extends SasPortalUpdateSignedDeviceRequest {
   /** Required. The name of the device to update. */
   name: string;
-  /** Request body */
-  body?: SasPortalUpdateSignedDeviceRequest | undefined;
 }
-export interface UpdateSignedDeploymentsDevicesRequest {
+export interface UpdateSignedDeploymentsDevicesRequest extends SasPortalUpdateSignedDeviceRequest {
   /** Required. The name of the device to update. */
   name: string;
-  /** Request body */
-  body?: SasPortalUpdateSignedDeviceRequest | undefined;
 }
-export interface UpdateSignedNodesDevicesRequest {
+export interface UpdateSignedNodesDevicesRequest extends SasPortalUpdateSignedDeviceRequest {
   /** Required. The name of the device to update. */
   name: string;
-  /** Request body */
-  body?: SasPortalUpdateSignedDeviceRequest | undefined;
 }
 /** Request for ValidateInstaller. */
 export interface SasPortalValidateInstallerRequest {
@@ -1040,10 +942,7 @@ export interface SasPortalValidateInstallerRequest {
   /** Required. JSON Web Token signed using a CPI private key. Payload must include a "secret" claim whose value is the secret. */
   encodedSecret?: string | undefined;
 }
-export interface ValidateInstallerRequest {
-  /** Request body */
-  body?: SasPortalValidateInstallerRequest | undefined;
-}
+export interface ValidateInstallerRequest extends SasPortalValidateInstallerRequest {}
 /** Response for ValidateInstaller. */
 export interface SasPortalValidateInstallerResponse {}
 export type CreateCustomersDeploymentsError =
@@ -2821,10 +2720,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices",
@@ -2838,10 +2739,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1392, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1392, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/nodes",
@@ -2855,10 +2758,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices",
@@ -2872,10 +2777,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices",
@@ -2889,10 +2796,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1392, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1392, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/nodes",
@@ -2906,10 +2815,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/deployments",
@@ -2923,10 +2834,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices",
@@ -2940,10 +2853,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1392, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1392, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/nodes",
@@ -2957,10 +2872,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices:createSigned",
@@ -2985,10 +2902,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices:createSigned",
@@ -3002,10 +2921,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices:createSigned",
@@ -3019,10 +2940,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices:createSigned",
@@ -3036,10 +2959,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices:createSigned",
@@ -3053,10 +2978,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices:createSigned",
@@ -3388,9 +3315,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SasPortalGetPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(560, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(560, __c35, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/policies:get",
@@ -3603,10 +3528,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/deployments",
@@ -3849,10 +3776,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices",
@@ -4008,9 +3937,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SasPortalMigrateOrganizationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(992, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(992, __c62, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/customers:migrateOrganization",
@@ -4050,10 +3977,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:move",
@@ -4077,10 +4006,12 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:move",
@@ -4094,10 +4025,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:move",
@@ -4111,10 +4044,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:move",
@@ -4128,10 +4063,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:move",
@@ -4145,10 +4082,12 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:move",
@@ -4162,10 +4101,12 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1040, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:move",
@@ -4179,11 +4120,13 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4197,11 +4140,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4215,10 +4160,12 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/devices",
@@ -4232,11 +4179,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4250,11 +4199,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1392, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1392, __c87, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4268,11 +4219,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4286,11 +4239,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4304,11 +4259,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(991, __c61, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(991, __c61, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4322,11 +4279,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1392, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1392, __c87, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -4348,9 +4307,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "SasPortalProvisionDeploymentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1296, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1296, __c81, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/customers:provisionDeployment",
@@ -4378,9 +4335,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "SasPortalSetPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1312, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1312, __c82, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/policies:set",
@@ -4400,9 +4355,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SasPortalSetupSasAnalyticsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1328, __c83, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1328, __c83, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/customers:setupSasAnalytics",
@@ -4416,10 +4369,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1360, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:signDevice",
@@ -4443,10 +4398,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1392, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1392, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/nodes",
@@ -4472,10 +4429,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1360, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:signDevice",
@@ -4489,10 +4448,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1360, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:signDevice",
@@ -4513,9 +4474,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SasPortalTestPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1440, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1440, __c90, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/policies:test",
@@ -4535,10 +4494,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}:updateSigned",
@@ -4552,10 +4513,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}:updateSigned",
@@ -4569,10 +4532,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}:updateSigned",
@@ -4594,9 +4559,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "SasPortalValidateInstallerRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1504, __c94, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1504, __c94, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/installer:validate",
@@ -4610,10 +4573,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/deployments",

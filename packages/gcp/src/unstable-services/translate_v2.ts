@@ -88,13 +88,11 @@ export interface DetectLanguageRequest {
   /** The input text upon which to perform language detection. Repeat this parameter to perform language detection on multiple text inputs. */
   q?: StringList | undefined;
 }
-export interface DetectDetectionsRequest {
+export interface DetectDetectionsRequest extends DetectLanguageRequest {
   /** OAuth bearer token. */
   bearer_token?: string | undefined;
   /** Pretty-print response. */
   pp?: boolean | undefined;
-  /** Request body */
-  body?: DetectLanguageRequest | undefined;
 }
 export interface DetectionsResourceItem {
   /** A boolean to indicate is the language detection result reliable. */
@@ -186,13 +184,11 @@ export interface TranslateTextRequest {
   /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
   source?: string | undefined;
 }
-export interface TranslateTranslationsRequest {
+export interface TranslateTranslationsRequest extends TranslateTextRequest {
   /** OAuth bearer token. */
   bearer_token?: string | undefined;
   /** Pretty-print response. */
   pp?: boolean | undefined;
-  /** Request body */
-  body?: TranslateTextRequest | undefined;
 }
 export type DetectDetectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Detects the language of text within a request. */
@@ -290,11 +286,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DetectLanguageRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          bearer_token: S.optional(S.String.pipe(T.Query())),
-          pp: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            bearer_token: S.optional(S.String.pipe(T.Query())),
+            pp: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/detect",
@@ -441,11 +439,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TranslateTextRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          bearer_token: S.optional(S.String.pipe(T.Query())),
-          pp: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(28, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28, __c7, 0),
+          S.Struct({
+            bearer_token: S.optional(S.String.pipe(T.Query())),
+            pp: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2",

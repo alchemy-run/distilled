@@ -218,15 +218,13 @@ export interface Change {
   /** Status of the operation (output only). A status of "done" means that the request to update the authoritative servers has been sent, but the servers might not be updated yet. */
   status?: ChangeStatusEnum | (string & {}) | undefined;
 }
-export interface CreateChangesRequest {
+export interface CreateChangesRequest extends Change {
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** Request body */
-  body?: Change | undefined;
 }
 /** Cloud Logging configurations for publicly visible zones. */
 export interface ManagedZoneCloudLoggingConfig {
@@ -380,13 +378,11 @@ export interface ManagedZone {
   /** DNSSEC configuration. */
   dnssecConfig?: ManagedZoneDnsSecConfig | undefined;
 }
-export interface CreateManagedZonesRequest {
+export interface CreateManagedZonesRequest extends ManagedZone {
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: ManagedZone | undefined;
 }
 /** An OutboundEndpoint is a regional resource to enable outbound forwarding from a private IP range in VPCs to on-premise or other networks. */
 export interface OutboundEndpoint {
@@ -411,7 +407,7 @@ export interface OutboundEndpoint {
   /** Optional. Tag bindings as key value pairs */
   tags?: StringMap | undefined;
 }
-export interface CreateOutboundEndpointsRequest {
+export interface CreateOutboundEndpointsRequest extends OutboundEndpoint {
   /** Required. The parent project and location where this OutboundEndpoint will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
@@ -420,8 +416,6 @@ export interface CreateOutboundEndpointsRequest {
   outboundEndpointId?: string | undefined;
   /** Optional. An optional request ID to identify requests. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: OutboundEndpoint | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -512,23 +506,19 @@ export interface Policy {
   /** User-assigned name for this policy. */
   name?: string | undefined;
 }
-export interface CreatePoliciesRequest {
+export interface CreatePoliciesRequest extends Policy {
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: Policy | undefined;
 }
-export interface CreateResourceRecordSetsRequest {
+export interface CreateResourceRecordSetsRequest extends ResourceRecordSet {
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** Request body */
-  body?: ResourceRecordSet | undefined;
 }
 export interface ResponsePolicyGKECluster {
   /** The resource name of the cluster to bind this response policy to. This should be specified in the format like: projects/*\/locations/*\/clusters/*. This is referenced from GKE projects.locations.clusters.get API: https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/get */
@@ -558,13 +548,11 @@ export interface ResponsePolicy {
   /** User labels. */
   labels?: StringMap | undefined;
 }
-export interface CreateResponsePoliciesRequest {
+export interface CreateResponsePoliciesRequest extends ResponsePolicy {
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: ResponsePolicy | undefined;
 }
 export interface ResponsePolicyRuleLocalData {
   /** All resource record sets for this selector, one per resource record type. The name must match the dns_name. */
@@ -583,15 +571,13 @@ export interface ResponsePolicyRule {
   /** Answer this query with a behavior rather than DNS data. */
   behavior?: ResponsePolicyRuleBehaviorEnum | (string & {}) | undefined;
 }
-export interface CreateResponsePolicyRulesRequest {
+export interface CreateResponsePolicyRulesRequest extends ResponsePolicyRule {
   /** User assigned name of the Response Policy containing the Response Policy Rule. */
   responsePolicy: string;
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: ResponsePolicyRule | undefined;
 }
 export interface DeleteManagedZonesRequest {
   /** Identifies the project addressed by this request. */
@@ -727,11 +713,9 @@ export interface GoogleIamV1GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GoogleIamV1GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyManagedZonesRequest {
+export interface GetIamPolicyManagedZonesRequest extends GoogleIamV1GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1193,17 +1177,15 @@ export interface ResponsePolicyRulesListResponse {
   /** The Response Policy Rule resources. */
   responsePolicyRules?: ResponsePolicyRuleList | undefined;
 }
-export interface PatchManagedZonesRequest {
+export interface PatchManagedZonesRequest extends ManagedZone {
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** Request body */
-  body?: ManagedZone | undefined;
 }
-export interface PatchOutboundEndpointsRequest {
+export interface PatchOutboundEndpointsRequest extends Omit<OutboundEndpoint, "name"> {
   /** Identifier. The resource name of the OutboundEndpoint. Format: `projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint}` */
   name: string;
   /** Optional. An optional request ID to identify requests. */
@@ -1212,23 +1194,19 @@ export interface PatchOutboundEndpointsRequest {
   updateMask?: string | undefined;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: OutboundEndpoint | undefined;
 }
-export interface PatchPoliciesRequest {
+export interface PatchPoliciesRequest extends Policy {
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
   /** User given friendly name of the policy addressed by this request. */
   policy: string;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Request body */
-  body?: Policy | undefined;
 }
 export interface PoliciesPatchResponse {
   policy?: Policy | undefined;
 }
-export interface PatchResourceRecordSetsRequest {
+export interface PatchResourceRecordSetsRequest extends Omit<ResourceRecordSet, "name" | "type"> {
   /** RRSet type. */
   type: string;
   /** Fully qualified domain name. */
@@ -1239,23 +1217,19 @@ export interface PatchResourceRecordSetsRequest {
   clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
-  /** Request body */
-  body?: ResourceRecordSet | undefined;
 }
-export interface PatchResponsePoliciesRequest {
+export interface PatchResponsePoliciesRequest extends ResponsePolicy {
   /** Identifies the project addressed by this request. */
   project: string;
   /** User assigned name of the response policy addressed by this request. */
   responsePolicy: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: ResponsePolicy | undefined;
 }
 export interface ResponsePoliciesPatchResponse {
   responsePolicy?: ResponsePolicy | undefined;
 }
-export interface PatchResponsePolicyRulesRequest {
+export interface PatchResponsePolicyRulesRequest extends ResponsePolicyRule {
   /** Identifies the project addressed by this request. */
   project: string;
   /** User assigned name of the Response Policy Rule addressed by this request. */
@@ -1264,8 +1238,6 @@ export interface PatchResponsePolicyRulesRequest {
   responsePolicy: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: ResponsePolicyRule | undefined;
 }
 export interface ResponsePolicyRulesPatchResponse {
   responsePolicyRule?: ResponsePolicyRule | undefined;
@@ -1277,65 +1249,55 @@ export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetIamPolicyManagedZonesRequest {
+export interface SetIamPolicyManagedZonesRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsManagedZonesRequest {
+export interface TestIamPermissionsManagedZonesRequest extends GoogleIamV1TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateManagedZonesRequest {
+export interface UpdateManagedZonesRequest extends ManagedZone {
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
-  /** Request body */
-  body?: ManagedZone | undefined;
 }
-export interface UpdatePoliciesRequest {
+export interface UpdatePoliciesRequest extends Policy {
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
   /** Identifies the project addressed by this request. */
   project: string;
   /** User given friendly name of the policy addressed by this request. */
   policy: string;
-  /** Request body */
-  body?: Policy | undefined;
 }
 export interface PoliciesUpdateResponse {
   policy?: Policy | undefined;
 }
-export interface UpdateResponsePoliciesRequest {
+export interface UpdateResponsePoliciesRequest extends ResponsePolicy {
   /** User assigned name of the Response Policy addressed by this request. */
   responsePolicy: string;
   /** Identifies the project addressed by this request. */
   project: string;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
-  /** Request body */
-  body?: ResponsePolicy | undefined;
 }
 export interface ResponsePoliciesUpdateResponse {
   responsePolicy?: ResponsePolicy | undefined;
 }
-export interface UpdateResponsePolicyRulesRequest {
+export interface UpdateResponsePolicyRulesRequest extends ResponsePolicyRule {
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
   /** User assigned name of the Response Policy Rule addressed by this request. */
@@ -1344,8 +1306,6 @@ export interface UpdateResponsePolicyRulesRequest {
   project: string;
   /** User assigned name of the Response Policy containing the Response Policy Rule. */
   responsePolicy: string;
-  /** Request body */
-  body?: ResponsePolicyRule | undefined;
 }
 export interface ResponsePolicyRulesUpdateResponse {
   responsePolicyRule?: ResponsePolicyRule | undefined;
@@ -2304,11 +2264,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(18, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c1, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/projects/{project}/responsePolicies",
@@ -2347,12 +2309,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          responsePolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            responsePolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/projects/{project}/responsePolicies/{responsePolicy}/rules",
@@ -2593,10 +2557,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GoogleIamV1GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/{+resource}:getIamPolicy",
@@ -3267,12 +3233,14 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
-          body: S.optional(__S(1021, __c63, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1021, __c63, 13),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            managedZone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1beta2/projects/{project}/managedZones/{managedZone}",
@@ -3286,13 +3254,15 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1beta2/{+name}",
@@ -3306,12 +3276,14 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          policy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(1157, __c72, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1157, __c72, 5),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            policy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1beta2/projects/{project}/policies/{policy}",
@@ -3335,14 +3307,16 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(891, __c55, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(891, __c55, 11),
+          S.Struct({
+            type: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+            managedZone: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1beta2/projects/{project}/managedZones/{managedZone}/rrsets/{name}/{type}",
@@ -3356,12 +3330,14 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          responsePolicy: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(18, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c1, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            responsePolicy: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1beta2/projects/{project}/responsePolicies/{responsePolicy}",
@@ -3385,13 +3361,15 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          responsePolicyRule: S.String.pipe(T.Label()),
-          responsePolicy: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            responsePolicyRule: S.String.pipe(T.Label()),
+            responsePolicy: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "dns/v1beta2/projects/{project}/responsePolicies/{responsePolicy}/rules/{responsePolicyRule}",
@@ -3422,10 +3400,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GoogleIamV1SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/{+resource}:setIamPolicy",
@@ -3439,12 +3419,14 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          managedZone: S.String.pipe(T.Label()),
-          body: S.optional(__S(848, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(848, __c53, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            managedZone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/projects/{project}/managedZones/{managedZone}/changes",
@@ -3590,10 +3572,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GoogleIamV1TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c56, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/{+resource}:testIamPermissions",
@@ -3607,12 +3591,14 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
-          body: S.optional(__S(1021, __c63, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1021, __c63, 13),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            managedZone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1beta2/projects/{project}/managedZones/{managedZone}",
@@ -3626,12 +3612,14 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          policy: S.String.pipe(T.Label()),
-          body: S.optional(__S(1157, __c72, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1157, __c72, 5),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            policy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1beta2/projects/{project}/policies/{policy}",
@@ -3645,12 +3633,14 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          responsePolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(18, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18, __c1, 2),
+          S.Struct({
+            responsePolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1beta2/projects/{project}/responsePolicies/{responsePolicy}",
@@ -3664,13 +3654,15 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          responsePolicyRule: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          responsePolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            responsePolicyRule: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            responsePolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "dns/v1beta2/projects/{project}/responsePolicies/{responsePolicy}/rules/{responsePolicyRule}",
@@ -3684,11 +3676,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1021, __c63, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1021, __c63, 13),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/projects/{project}/managedZones",
@@ -3864,13 +3858,15 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          outboundEndpointId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            outboundEndpointId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/{+parent}/outboundEndpoints",
@@ -3933,11 +3929,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1157, __c72, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1157, __c72, 5),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/projects/{project}/policies",
@@ -4002,12 +4000,14 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clientOperationId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          managedZone: S.String.pipe(T.Label()),
-          body: S.optional(__S(891, __c55, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(891, __c55, 11),
+          S.Struct({
+            clientOperationId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            managedZone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "dns/v1beta2/projects/{project}/managedZones/{managedZone}/rrsets",

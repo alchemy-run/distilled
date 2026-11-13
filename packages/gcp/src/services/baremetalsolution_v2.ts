@@ -152,11 +152,9 @@ export interface NfsShare {
   /** Labels as key value pairs. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsNfsSharesRequest {
+export interface CreateProjectsLocationsNfsSharesRequest extends NfsShare {
   /** Required. The parent project and location. */
   parent: string;
-  /** Request body */
-  body?: NfsShare | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -408,13 +406,14 @@ export interface ProvisioningConfig {
   /** Instances to be created. */
   instances?: InstanceConfigList | undefined;
 }
-export interface CreateProjectsLocationsProvisioningConfigsRequest {
+export interface CreateProjectsLocationsProvisioningConfigsRequest extends Omit<
+  ProvisioningConfig,
+  "email"
+> {
   /** Required. The parent project and location containing the ProvisioningConfig. */
   parent: string;
   /** Optional. Email provided to send a confirmation with provisioning config to. */
   email?: string | undefined;
-  /** Request body */
-  body?: ProvisioningConfig | undefined;
 }
 /** An SSH key, used for authorizing with the interactive serial console feature. */
 export interface SSHKey {
@@ -423,13 +422,11 @@ export interface SSHKey {
   /** Output only. The name of this SSH key. Currently, the only valid value for the location is "global". */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsSshKeysRequest {
+export interface CreateProjectsLocationsSshKeysRequest extends SSHKey {
   /** Required. The ID to use for the key, which will become the final component of the key's resource name. This value must match the regex: [a-zA-Z0-9@.\-_]{1,64} */
   sshKeyId?: string | undefined;
   /** Required. The parent containing the SSH keys. */
   parent: string;
-  /** Request body */
-  body?: SSHKey | undefined;
 }
 export type VolumeSnapshotTypeEnum = "SNAPSHOT_TYPE_UNSPECIFIED" | "AD_HOC" | "SCHEDULED";
 /** A snapshot of a volume. Only boot volumes can have snapshots. */
@@ -447,11 +444,9 @@ export interface VolumeSnapshot {
   /** Output only. The type of the snapshot which indicates whether it was scheduled or manual/ad-hoc. */
   type?: VolumeSnapshotTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsVolumesSnapshotsRequest {
+export interface CreateProjectsLocationsVolumesSnapshotsRequest extends VolumeSnapshot {
   /** Required. The volume to snapshot. */
   parent: string;
-  /** Request body */
-  body?: VolumeSnapshot | undefined;
 }
 export interface DeleteProjectsLocationsNfsSharesRequest {
   /** Required. The name of the NFS share to delete. */
@@ -474,11 +469,9 @@ export interface DetachLunRequest {
   /** If true, performs lun unmapping without instance reboot. */
   skipReboot?: boolean | undefined;
 }
-export interface DetachLunProjectsLocationsInstancesRequest {
+export interface DetachLunProjectsLocationsInstancesRequest extends DetachLunRequest {
   /** Required. Name of the instance. */
   instance: string;
-  /** Request body */
-  body?: DetachLunRequest | undefined;
 }
 /** Message requesting to perform disable hyperthreading operation on a server. */
 export interface DisableHyperthreadingRequest {}
@@ -1131,47 +1124,40 @@ export interface LoadInstanceAuthInfoResponse {
   /** List of ssh keys. */
   sshKeys?: SSHKeyList | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Immutable. The resource name of this `Instance`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/instances/{instance}` */
   name: string;
   /** The list of fields to update. The currently supported fields are: `labels` `hyperthreading_enabled` `os_image` `ssh_keys` `kms_key_version` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
-export interface PatchProjectsLocationsNetworksRequest {
+export interface PatchProjectsLocationsNetworksRequest extends Omit<Network, "name"> {
   /** The list of fields to update. The only currently supported fields are: `labels`, `reservations`, `vrf.vlan_attachments` */
   updateMask?: string | undefined;
   /** Output only. The resource name of this `Network`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/networks/{network}` */
   name: string;
-  /** Request body */
-  body?: Network | undefined;
 }
-export interface PatchProjectsLocationsNfsSharesRequest {
+export interface PatchProjectsLocationsNfsSharesRequest extends Omit<NfsShare, "name"> {
   /** Immutable. The name of the NFS share. */
   name: string;
   /** The list of fields to update. The only currently supported fields are: `labels` `allowed_clients` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: NfsShare | undefined;
 }
-export interface PatchProjectsLocationsProvisioningConfigsRequest {
+export interface PatchProjectsLocationsProvisioningConfigsRequest extends Omit<
+  ProvisioningConfig,
+  "email" | "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Optional. Email provided to send a confirmation with provisioning config to. */
   email?: string | undefined;
   /** Output only. The system-generated name of the provisioning config. This follows the UUID format. */
   name: string;
-  /** Request body */
-  body?: ProvisioningConfig | undefined;
 }
-export interface PatchProjectsLocationsVolumesRequest {
+export interface PatchProjectsLocationsVolumesRequest extends Omit<Volume, "name"> {
   /** Output only. The resource name of this `Volume`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/volumes/{volume}` */
   name: string;
   /** The list of fields to update. The only currently supported fields are: 'labels' */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Volume | undefined;
 }
 /** Message requesting to perform reimage operation on a server. */
 export interface ReimageInstanceRequest {
@@ -1182,55 +1168,45 @@ export interface ReimageInstanceRequest {
   /** Optional. List of SSH Keys used during reimaging an instance. */
   sshKeys?: StringList | undefined;
 }
-export interface ReimageProjectsLocationsInstancesRequest {
+export interface ReimageProjectsLocationsInstancesRequest extends ReimageInstanceRequest {
   /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
-  /** Request body */
-  body?: ReimageInstanceRequest | undefined;
 }
 /** Message requesting rename of a server. */
 export interface RenameInstanceRequest {
   /** Required. The new `id` of the instance. */
   newInstanceId?: string | undefined;
 }
-export interface RenameProjectsLocationsInstancesRequest {
+export interface RenameProjectsLocationsInstancesRequest extends RenameInstanceRequest {
   /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
-  /** Request body */
-  body?: RenameInstanceRequest | undefined;
 }
 /** Message requesting rename of a server. */
 export interface RenameNetworkRequest {
   /** Required. The new `id` of the network. */
   newNetworkId?: string | undefined;
 }
-export interface RenameProjectsLocationsNetworksRequest {
+export interface RenameProjectsLocationsNetworksRequest extends RenameNetworkRequest {
   /** Required. The `name` field is used to identify the network. Format: projects/{project}/locations/{location}/networks/{network} */
   name: string;
-  /** Request body */
-  body?: RenameNetworkRequest | undefined;
 }
 /** Message requesting rename of a server. */
 export interface RenameNfsShareRequest {
   /** Required. The new `id` of the nfsshare. */
   newNfsshareId?: string | undefined;
 }
-export interface RenameProjectsLocationsNfsSharesRequest {
+export interface RenameProjectsLocationsNfsSharesRequest extends RenameNfsShareRequest {
   /** Required. The `name` field is used to identify the nfsshare. Format: projects/{project}/locations/{location}/nfsshares/{nfsshare} */
   name: string;
-  /** Request body */
-  body?: RenameNfsShareRequest | undefined;
 }
 /** Message requesting rename of a server. */
 export interface RenameVolumeRequest {
   /** Required. The new `id` of the volume. */
   newVolumeId?: string | undefined;
 }
-export interface RenameProjectsLocationsVolumesRequest {
+export interface RenameProjectsLocationsVolumesRequest extends RenameVolumeRequest {
   /** Required. The `name` field is used to identify the volume. Format: projects/{project}/locations/{location}/volumes/{volume} */
   name: string;
-  /** Request body */
-  body?: RenameVolumeRequest | undefined;
 }
 /** Message requesting to reset a server. */
 export type ResetInstanceRequest = DisableHyperthreadingRequest;
@@ -1245,11 +1221,9 @@ export interface ResizeVolumeRequest {
   /** New Volume size, in GiB. */
   sizeGib?: string | undefined;
 }
-export interface ResizeProjectsLocationsVolumesRequest {
+export interface ResizeProjectsLocationsVolumesRequest extends ResizeVolumeRequest {
   /** Required. Volume to resize. */
   volume: string;
-  /** Request body */
-  body?: ResizeVolumeRequest | undefined;
 }
 /** Message for restoring a volume snapshot. */
 export type RestoreVolumeSnapshotRequest = DisableHyperthreadingRequest;
@@ -1282,11 +1256,9 @@ export interface SubmitProvisioningConfigRequest {
   /** Optional. Email provided to send a confirmation with provisioning config to. */
   email?: string | undefined;
 }
-export interface SubmitProjectsLocationsProvisioningConfigsRequest {
+export interface SubmitProjectsLocationsProvisioningConfigsRequest extends SubmitProvisioningConfigRequest {
   /** Required. The parent project and location containing the ProvisioningConfig. */
   parent: string;
-  /** Request body */
-  body?: SubmitProvisioningConfigRequest | undefined;
 }
 /** Response for SubmitProvisioningConfig. */
 export interface SubmitProvisioningConfigResponse {
@@ -2503,10 +2475,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DetachLunRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+instance}:detachLun",
@@ -3366,11 +3340,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3384,11 +3360,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(216, __c13, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(216, __c13, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3402,11 +3380,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c53, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3420,12 +3400,14 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          email: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1069, __c66, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1069, __c66, 13),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            email: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3439,11 +3421,13 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -3465,10 +3449,12 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ReimageInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(752, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(752, __c47, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:reimage",
@@ -3488,10 +3474,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "RenameInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c48, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:rename",
@@ -3511,10 +3499,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "RenameNetworkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:rename",
@@ -3534,10 +3524,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RenameNfsShareRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:rename",
@@ -3551,10 +3543,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c53, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/nfsShares",
@@ -3644,10 +3638,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RenameVolumeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c56, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:rename",
@@ -3684,10 +3680,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ResizeVolumeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          volume: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c58, 0),
+          S.Struct({
+            volume: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+volume}:resize",
@@ -3759,10 +3757,12 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SubmitProvisioningConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(992, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/provisioningConfigs:submit",
@@ -3782,11 +3782,13 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          email: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1069, __c66, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1069, __c66, 13),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            email: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/provisioningConfigs",
@@ -3955,11 +3957,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sshKeyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c68, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c68, 0),
+          S.Struct({
+            sshKeyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sshKeys",
@@ -3984,10 +3988,12 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c70, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/snapshots",

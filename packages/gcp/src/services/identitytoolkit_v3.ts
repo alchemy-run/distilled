@@ -118,10 +118,7 @@ export interface IdentitytoolkitRelyingpartyCreateAuthUriRequest {
   /** The relying party OAuth client ID. */
   clientId?: string | undefined;
 }
-export interface CreateAuthUriRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyCreateAuthUriRequest | undefined;
-}
+export interface CreateAuthUriRelyingpartyRequest extends IdentitytoolkitRelyingpartyCreateAuthUriRequest {}
 export type StringList = Array<string>;
 /** Response of creating the IDP authentication URL. */
 export interface CreateAuthUriResponse {
@@ -153,10 +150,7 @@ export interface IdentitytoolkitRelyingpartyDeleteAccountRequest {
   /** The local ID of the user. */
   localId?: string | undefined;
 }
-export interface DeleteAccountRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyDeleteAccountRequest | undefined;
-}
+export interface DeleteAccountRelyingpartyRequest extends IdentitytoolkitRelyingpartyDeleteAccountRequest {}
 /** Respone of deleting account. */
 export interface DeleteAccountResponse {
   /** The fixed string "identitytoolkit#DeleteAccountResponse". */
@@ -173,10 +167,7 @@ export interface IdentitytoolkitRelyingpartyDownloadAccountRequest {
   /** Specify which project (field value is actually project id) to operate. Only used when provided credential. */
   targetProjectId?: string | undefined;
 }
-export interface DownloadAccountRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyDownloadAccountRequest | undefined;
-}
+export interface DownloadAccountRelyingpartyRequest extends IdentitytoolkitRelyingpartyDownloadAccountRequest {}
 export interface UserInfoProviderUserInfoItem {
   /** The user's photo url at the IDP. */
   photoUrl?: string | undefined;
@@ -256,10 +247,7 @@ export interface IdentitytoolkitRelyingpartyEmailLinkSigninRequest {
   /** The email address of the user. */
   email?: string | undefined;
 }
-export interface EmailLinkSigninRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyEmailLinkSigninRequest | undefined;
-}
+export interface EmailLinkSigninRelyingpartyRequest extends IdentitytoolkitRelyingpartyEmailLinkSigninRequest {}
 /** Response of email signIn. */
 export interface EmailLinkSigninResponse {
   /** Whether the user is new. */
@@ -290,10 +278,7 @@ export interface IdentitytoolkitRelyingpartyGetAccountInfoRequest {
   /** The list of local ID's of the users to inquiry. */
   localId?: StringList | undefined;
 }
-export interface GetAccountInfoRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyGetAccountInfoRequest | undefined;
-}
+export interface GetAccountInfoRelyingpartyRequest extends IdentitytoolkitRelyingpartyGetAccountInfoRequest {}
 /** Response of getting account information. */
 export interface GetAccountInfoResponse {
   /** The info of the users. */
@@ -334,10 +319,7 @@ export interface Relyingparty {
   /** The recaptcha challenge presented to the user. */
   challenge?: string | undefined;
 }
-export interface GetOobConfirmationCodeRelyingpartyRequest {
-  /** Request body */
-  body?: Relyingparty | undefined;
-}
+export interface GetOobConfirmationCodeRelyingpartyRequest extends Relyingparty {}
 /** Response of getting a code for user confirmation (reset password, change email etc.). */
 export interface GetOobConfirmationCodeResponse {
   /** The fixed string "identitytoolkit#GetOobConfirmationCodeResponse". */
@@ -436,10 +418,7 @@ export interface IdentitytoolkitRelyingpartyResetPasswordRequest {
   /** The email address of the user. */
   email?: string | undefined;
 }
-export interface ResetPasswordRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyResetPasswordRequest | undefined;
-}
+export interface ResetPasswordRelyingpartyRequest extends IdentitytoolkitRelyingpartyResetPasswordRequest {}
 /** Response of resetting the password. */
 export interface ResetPasswordResponse {
   /** The fixed string "identitytoolkit#ResetPasswordResponse". */
@@ -462,10 +441,7 @@ export interface IdentitytoolkitRelyingpartySendVerificationCodeRequest {
   /** The phone number to send the verification code to in E.164 format. */
   phoneNumber?: string | undefined;
 }
-export interface SendVerificationCodeRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartySendVerificationCodeRequest | undefined;
-}
+export interface SendVerificationCodeRelyingpartyRequest extends IdentitytoolkitRelyingpartySendVerificationCodeRequest {}
 /** Response for Identitytoolkit-SendVerificationCode */
 export interface IdentitytoolkitRelyingpartySendVerificationCodeResponse {
   /** Encrypted session information */
@@ -520,10 +496,7 @@ export interface IdentitytoolkitRelyingpartySetAccountInfoRequest {
   /** The local ID of the user. */
   localId?: string | undefined;
 }
-export interface SetAccountInfoRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartySetAccountInfoRequest | undefined;
-}
+export interface SetAccountInfoRelyingpartyRequest extends IdentitytoolkitRelyingpartySetAccountInfoRequest {}
 export interface SetAccountInfoResponseProviderUserInfoItem {
   /** The IdP ID. For whitelisted IdPs it's a short domain name, e.g., google.com, aol.com, live.net and yahoo.com. For other OpenID IdPs it's the OP identifier. */
   providerId?: string | undefined;
@@ -588,10 +561,7 @@ export interface IdentitytoolkitRelyingpartySetProjectConfigRequest {
   /** Legacy reset password email template. */
   legacyResetPasswordTemplate?: EmailTemplate | undefined;
 }
-export interface SetProjectConfigRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartySetProjectConfigRequest | undefined;
-}
+export interface SetProjectConfigRelyingpartyRequest extends IdentitytoolkitRelyingpartySetProjectConfigRequest {}
 /** Response of setting the project configuration. */
 export interface IdentitytoolkitRelyingpartySetProjectConfigResponse {
   /** Project ID of the relying party. */
@@ -604,10 +574,7 @@ export interface IdentitytoolkitRelyingpartySignOutUserRequest {
   /** Instance id token of the app. */
   instanceId?: string | undefined;
 }
-export interface SignOutUserRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartySignOutUserRequest | undefined;
-}
+export interface SignOutUserRelyingpartyRequest extends IdentitytoolkitRelyingpartySignOutUserRequest {}
 /** Response of signing out user. */
 export interface IdentitytoolkitRelyingpartySignOutUserResponse {
   /** The local ID of the user. */
@@ -644,10 +611,7 @@ export interface IdentitytoolkitRelyingpartySignupNewUserRequest {
   /** Privileged caller can create user with specified user id. */
   localId?: string | undefined;
 }
-export interface SignupNewUserRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartySignupNewUserRequest | undefined;
-}
+export interface SignupNewUserRelyingpartyRequest extends IdentitytoolkitRelyingpartySignupNewUserRequest {}
 /** Response of signing up new user, creating anonymous user or anonymous user reauth. */
 export interface SignupNewUserResponse {
   /** If idToken is STS id token, then this field will be refresh token. */
@@ -693,10 +657,7 @@ export interface IdentitytoolkitRelyingpartyUploadAccountRequest {
   targetProjectId?: string | undefined;
   blockSize?: number | undefined;
 }
-export interface UploadAccountRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyUploadAccountRequest | undefined;
-}
+export interface UploadAccountRelyingpartyRequest extends IdentitytoolkitRelyingpartyUploadAccountRequest {}
 export interface UploadAccountResponseErrorItem {
   /** Detailed error message for the account info. */
   message?: string | undefined;
@@ -740,10 +701,7 @@ export interface IdentitytoolkitRelyingpartyVerifyAssertionRequest {
   /** When it's true, automatically creates a new account if the user doesn't exist. When it's false, allows existing user to sign in normally and throws exception if the user doesn't exist. */
   autoCreate?: boolean | undefined;
 }
-export interface VerifyAssertionRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyVerifyAssertionRequest | undefined;
-}
+export interface VerifyAssertionRelyingpartyRequest extends IdentitytoolkitRelyingpartyVerifyAssertionRequest {}
 /** Response of verifying the IDP assertion. */
 export interface VerifyAssertionResponse {
   /** URL for OTA app installation. */
@@ -836,10 +794,7 @@ export interface IdentitytoolkitRelyingpartyVerifyCustomTokenRequest {
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
   delegatedProjectNumber?: string | undefined;
 }
-export interface VerifyCustomTokenRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyVerifyCustomTokenRequest | undefined;
-}
+export interface VerifyCustomTokenRelyingpartyRequest extends IdentitytoolkitRelyingpartyVerifyCustomTokenRequest {}
 /** Response from verifying a custom token */
 export interface VerifyCustomTokenResponse {
   /** If idToken is STS id token, then this field will be refresh token. */
@@ -878,10 +833,7 @@ export interface IdentitytoolkitRelyingpartyVerifyPasswordRequest {
   /** Tenant project number to be used for idp discovery. */
   tenantProjectNumber?: string | undefined;
 }
-export interface VerifyPasswordRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyVerifyPasswordRequest | undefined;
-}
+export interface VerifyPasswordRelyingpartyRequest extends IdentitytoolkitRelyingpartyVerifyPasswordRequest {}
 /** Request of verifying the password. */
 export interface VerifyPasswordResponse {
   /** The lifetime in seconds of the OAuth2 access token. */
@@ -920,10 +872,7 @@ export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest {
   code?: string | undefined;
   operation?: string | undefined;
 }
-export interface VerifyPhoneNumberRelyingpartyRequest {
-  /** Request body */
-  body?: IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest | undefined;
-}
+export interface VerifyPhoneNumberRelyingpartyRequest extends IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest {}
 /** Response for Identitytoolkit-VerifyPhoneNumber */
 export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse {
   localId?: string | undefined;
@@ -1482,9 +1431,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyResetPasswordRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(32, __c4, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "resetPassword",
@@ -1516,9 +1463,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartySendVerificationCodeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(40, __c5, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "sendVerificationCode",
@@ -1566,9 +1511,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartySetAccountInfoRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(48, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(48, __c6, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "setAccountInfo",
@@ -1626,9 +1569,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartySetProjectConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(56, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "setProjectConfig",
@@ -1655,9 +1596,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartySignOutUserRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(64, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "signOutUser",
@@ -1696,9 +1635,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartySignupNewUserRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(72, __c9, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "signupNewUser",
@@ -1743,9 +1680,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyUploadAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(80, __c10, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "uploadAccount",
@@ -1793,9 +1728,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyAssertionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(88, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(88, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "verifyAssertion",
@@ -1862,9 +1795,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyCustomTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(96, __c12, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "verifyCustomToken",
@@ -1904,9 +1835,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyPasswordRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(104, __c13, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "verifyPassword",
@@ -1949,9 +1878,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(112, __c14, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "verifyPhoneNumber",
@@ -2001,9 +1928,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyCreateAuthUriRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(120, __c15, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "createAuthUri",
@@ -2051,9 +1976,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyDeleteAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(144, __c18, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "deleteAccount",
@@ -2082,9 +2005,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyDownloadAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(152, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(152, __c19, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "downloadAccount",
@@ -2159,9 +2080,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyEmailLinkSigninRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(168, __c21, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "emailLinkSignin",
@@ -2197,9 +2116,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "IdentitytoolkitRelyingpartyGetAccountInfoRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(176, __c22, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "getAccountInfo",
@@ -2240,9 +2157,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "Relyingparty" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(184, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(184, __c23, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "getOobConfirmationCode",

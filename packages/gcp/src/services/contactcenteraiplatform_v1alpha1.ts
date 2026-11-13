@@ -330,15 +330,13 @@ export interface ContactCenter {
   /** Optional. Critical release channel. */
   critical?: Critical | undefined;
 }
-export interface CreateProjectsLocationsContactCentersRequest {
+export interface CreateProjectsLocationsContactCentersRequest extends ContactCenter {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Id of the requesting object If auto-generating Id server-side, remove this field and contact_center_id from the method_signature of Create RPC */
   contactCenterId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: ContactCenter | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -522,11 +520,9 @@ export interface GenerateShiftsRequest {
   /** Required. Set of shift templates specifying rules for generating shifts. A shift template can be used for generating multiple shifts. */
   shiftTemplates?: ShiftTemplateList | undefined;
 }
-export interface GenerateShiftsProjectsLocationsRequest {
+export interface GenerateShiftsProjectsLocationsRequest extends GenerateShiftsRequest {
   /** Required. Name of the parent resource associated with the request. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: GenerateShiftsRequest | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -617,15 +613,13 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsContactCentersRequest {
+export interface PatchProjectsLocationsContactCentersRequest extends Omit<ContactCenter, "name"> {
   /** name of resource */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the ContactCenter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ContactCenter | undefined;
 }
 export interface QueryContactCenterQuotaProjectsLocationsRequest {
   /** Required. Parent project resource id. */
@@ -1107,12 +1101,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(429, __c13, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(429, __c13, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -1183,12 +1179,14 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          contactCenterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(429, __c13, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(429, __c13, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            contactCenterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/contactCenters",
@@ -1532,10 +1530,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GenerateShiftsRequest" });
     case 19:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(658, __c20, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(658, __c20, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}:generateShifts",

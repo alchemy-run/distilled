@@ -88,11 +88,9 @@ export interface ApproveEntitlementPlanChangeRequest {
   /** Required. Name of the pending plan that's being approved. */
   pendingPlanName?: string | undefined;
 }
-export interface ApprovePlanChangeProvidersEntitlementsRequest {
+export interface ApprovePlanChangeProvidersEntitlementsRequest extends ApproveEntitlementPlanChangeRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
-  /** Request body */
-  body?: ApproveEntitlementPlanChangeRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -106,11 +104,9 @@ export interface ApproveAccountRequest {
   /** Set of properties that should be associated with the account. Optional. */
   properties?: StringMap | undefined;
 }
-export interface ApproveProvidersAccountsRequest {
+export interface ApproveProvidersAccountsRequest extends ApproveAccountRequest {
   /** Required. The resource name of the account, with the format `providers/{providerId}/accounts/{accountId}`. */
   name: string;
-  /** Request body */
-  body?: ApproveAccountRequest | undefined;
 }
 /** Request message for [PartnerProcurementService.ApproveEntitlement[]. */
 export interface ApproveEntitlementRequest {
@@ -119,11 +115,9 @@ export interface ApproveEntitlementRequest {
   /** Set of properties that should be associated with the entitlement. Optional. */
   properties?: StringMap | undefined;
 }
-export interface ApproveProvidersEntitlementsRequest {
+export interface ApproveProvidersEntitlementsRequest extends ApproveEntitlementRequest {
   /** Required. The resource name of the entitlement, with the format `providers/{providerId}/entitlements/{entitlementId}`. */
   name: string;
-  /** Request body */
-  body?: ApproveEntitlementRequest | undefined;
 }
 export type GetProvidersAccountsViewEnum =
   | "ACCOUNT_VIEW_UNSPECIFIED"
@@ -281,13 +275,11 @@ export interface ListEntitlementsResponse {
   /** The token for fetching the next page. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProvidersEntitlementsRequest {
+export interface PatchProvidersEntitlementsRequest extends Omit<Entitlement, "name"> {
   /** Required. The name of the entitlement to update. */
   name: string;
   /** The update mask that applies to the resource. See the [FieldMask definition] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask) for more details. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Entitlement | undefined;
 }
 /** Request message for PartnerProcurementService.RejectEntitlementPlanChange. */
 export interface RejectEntitlementPlanChangeRequest {
@@ -296,11 +288,9 @@ export interface RejectEntitlementPlanChangeRequest {
   /** Required. Name of the pending plan that is being rejected. */
   pendingPlanName?: string | undefined;
 }
-export interface RejectPlanChangeProvidersEntitlementsRequest {
+export interface RejectPlanChangeProvidersEntitlementsRequest extends RejectEntitlementPlanChangeRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
-  /** Request body */
-  body?: RejectEntitlementPlanChangeRequest | undefined;
 }
 /** Request message for PartnerProcurementService.RejectAccount. */
 export interface RejectAccountRequest {
@@ -309,22 +299,18 @@ export interface RejectAccountRequest {
   /** Free form text string explaining the rejection reason. Max allowed length: 256 bytes. Longer strings will be truncated. */
   reason?: string | undefined;
 }
-export interface RejectProvidersAccountsRequest {
+export interface RejectProvidersAccountsRequest extends RejectAccountRequest {
   /** Required. The resource name of the account. */
   name: string;
-  /** Request body */
-  body?: RejectAccountRequest | undefined;
 }
 /** Request message for PartnerProcurementService.RejectEntitlement. */
 export interface RejectEntitlementRequest {
   /** Free form text string explaining the rejection reason. Max allowed length: 256 bytes. Longer strings will be truncated. */
   reason?: string | undefined;
 }
-export interface RejectProvidersEntitlementsRequest {
+export interface RejectProvidersEntitlementsRequest extends RejectEntitlementRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
-  /** Request body */
-  body?: RejectEntitlementRequest | undefined;
 }
 /** Request message for PartnerProcurementService.ResetAccount. */
 export interface ResetAccountRequest {}
@@ -339,11 +325,9 @@ export interface SuspendEntitlementRequest {
   /** A free-form reason string, explaining the reason for suspension request. */
   reason?: string | undefined;
 }
-export interface SuspendProvidersEntitlementsRequest {
+export interface SuspendProvidersEntitlementsRequest extends SuspendEntitlementRequest {
   /** Required. The name of the entitlement to suspend. */
   name: string;
-  /** Request body */
-  body?: SuspendEntitlementRequest | undefined;
 }
 export type ApprovePlanChangeProvidersEntitlementsError =
   | NotFound
@@ -643,11 +627,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(71, __c17, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(71, __c17, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -668,10 +654,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RejectEntitlementPlanChangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rejectPlanChange",
@@ -692,10 +680,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "RejectAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:reject",
@@ -709,10 +699,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:reject",
@@ -753,10 +745,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:suspend",
@@ -776,10 +770,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ApproveEntitlementPlanChangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approvePlanChange",
@@ -807,10 +803,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ApproveAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -837,10 +835,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ApproveEntitlementRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(48, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",

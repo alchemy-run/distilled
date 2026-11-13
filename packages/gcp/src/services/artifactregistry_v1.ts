@@ -91,11 +91,9 @@ export interface BatchDeleteVersionsRequest {
   /** If true, the request is performed without deleting data, following AIP-163. */
   validateOnly?: boolean | undefined;
 }
-export interface BatchDeleteProjectsLocationsRepositoriesPackagesVersionsRequest {
+export interface BatchDeleteProjectsLocationsRepositoriesPackagesVersionsRequest extends BatchDeleteVersionsRequest {
   /** The name of the repository holding all requested versions. */
   parent: string;
-  /** Request body */
-  body?: BatchDeleteVersionsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -140,11 +138,9 @@ export interface CheckPrewarmedArtifactRequest {
   /** Optional. The artifact version Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
   version?: string | undefined;
 }
-export interface CheckPrewarmedArtifactProjectsLocationsRepositoriesRequest {
+export interface CheckPrewarmedArtifactProjectsLocationsRepositoriesRequest extends CheckPrewarmedArtifactRequest {
   /** Required. The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. If the package or version ID parts contain slashes, the slashes are escaped. */
   repository: string;
-  /** Request body */
-  body?: CheckPrewarmedArtifactRequest | undefined;
 }
 export type PrewarmedArtifactStateEnum = "STATE_UNSPECIFIED" | "CACHING" | "ACTIVE" | "FAILED";
 /** PrewarmedArtifact represents a streamed artifact. */
@@ -517,13 +513,11 @@ export interface Repository {
   /** Optional. Configuration for platform logs. */
   platformLogsConfig?: PlatformLogsConfig | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesRequest {
+export interface CreateProjectsLocationsRepositoriesRequest extends Repository {
   /** Required. The name of the parent resource where the repository will be created. */
   parent: string;
   /** Required. The repository id to use for this repository. */
   repositoryId?: string | undefined;
-  /** Request body */
-  body?: Repository | undefined;
 }
 /** An Attachment refers to additional metadata that can be attached to artifacts in Artifact Registry. An attachment consists of one or more files. */
 export interface Attachment {
@@ -546,13 +540,11 @@ export interface Attachment {
   /** The name of the attachment. E.g. `projects/p1/locations/us/repositories/repo/attachments/sbom`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesAttachmentsRequest {
+export interface CreateProjectsLocationsRepositoriesAttachmentsRequest extends Attachment {
   /** Required. The attachment id to use for this attachment. */
   attachmentId?: string | undefined;
   /** Required. The name of the parent resource where the attachment will be created. */
   parent: string;
-  /** Request body */
-  body?: Attachment | undefined;
 }
 /** Tags point to a version and represent an alternative name that can be used to access the version. */
 export interface Tag {
@@ -561,13 +553,11 @@ export interface Tag {
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest {
+export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest extends Tag {
   /** The name of the parent resource where the tag will be created. */
   parent: string;
   /** The tag id to use for this repository. */
   tagId?: string | undefined;
-  /** Request body */
-  body?: Tag | undefined;
 }
 export type GoogleDevtoolsArtifactregistryV1RuleActionEnum =
   | "ACTION_UNSPECIFIED"
@@ -599,13 +589,11 @@ export interface GoogleDevtoolsArtifactregistryV1Rule {
   /** The package ID the rule applies to. If empty, this rule applies to all packages inside the repository. */
   packageId?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesRulesRequest {
+export interface CreateProjectsLocationsRepositoriesRulesRequest extends GoogleDevtoolsArtifactregistryV1Rule {
   /** Required. The name of the parent resource where the rule will be created. */
   parent: string;
   /** The rule id to use for this repository. */
   ruleId?: string | undefined;
-  /** Request body */
-  body?: GoogleDevtoolsArtifactregistryV1Rule | undefined;
 }
 export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. The name of the repository to delete. */
@@ -652,11 +640,9 @@ export interface ExportArtifactRequest {
   /** The artifact tag to export. Format:projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/tags/{tag} */
   sourceTag?: string | undefined;
 }
-export interface ExportArtifactProjectsLocationsRepositoriesRequest {
+export interface ExportArtifactProjectsLocationsRepositoriesRequest extends ExportArtifactRequest {
   /** Required. The repository of the artifact to export. Format: projects/{project}/locations/{location}/repositories/{repository} */
   repository: string;
-  /** Request body */
-  body?: ExportArtifactRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -958,11 +944,9 @@ export interface ImportAptArtifactsRequest {
   /** Google Cloud Storage location where input content is located. */
   gcsSource?: ImportAptArtifactsGcsSource | undefined;
 }
-export interface ImportProjectsLocationsRepositoriesAptArtifactsRequest {
+export interface ImportProjectsLocationsRepositoriesAptArtifactsRequest extends ImportAptArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
-  /** Request body */
-  body?: ImportAptArtifactsRequest | undefined;
 }
 /** Google Cloud Storage location where the artifacts currently reside. */
 export interface ImportGoogetArtifactsGcsSource {
@@ -976,11 +960,9 @@ export interface ImportGoogetArtifactsRequest {
   /** Google Cloud Storage location where input content is located. */
   gcsSource?: ImportGoogetArtifactsGcsSource | undefined;
 }
-export interface ImportProjectsLocationsRepositoriesGoogetArtifactsRequest {
+export interface ImportProjectsLocationsRepositoriesGoogetArtifactsRequest extends ImportGoogetArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
-  /** Request body */
-  body?: ImportGoogetArtifactsRequest | undefined;
 }
 /** Google Cloud Storage location where the artifacts currently reside. */
 export interface ImportYumArtifactsGcsSource {
@@ -994,11 +976,9 @@ export interface ImportYumArtifactsRequest {
   /** Google Cloud Storage location where input content is located. */
   gcsSource?: ImportYumArtifactsGcsSource | undefined;
 }
-export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest {
+export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest extends ImportYumArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
-  /** Request body */
-  body?: ImportYumArtifactsRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -1241,53 +1221,50 @@ export interface ListRulesResponse {
   /** The token to retrieve the next page of rules, or empty if there are no more rules to return. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesRequest {
+export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name: string;
-  /** Request body */
-  body?: Repository | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesFilesRequest {
+export interface PatchProjectsLocationsRepositoriesFilesRequest extends Omit<
+  GoogleDevtoolsArtifactregistryV1File,
+  "name"
+> {
   /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleDevtoolsArtifactregistryV1File | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPackagesRequest {
+export interface PatchProjectsLocationsRepositoriesPackagesRequest extends Omit<Package, "name"> {
   /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Package | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest {
+export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest extends Omit<Tag, "name"> {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
   name: string;
-  /** Request body */
-  body?: Tag | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPackagesVersionsRequest {
+export interface PatchProjectsLocationsRepositoriesPackagesVersionsRequest extends Omit<
+  Version,
+  "name"
+> {
   /** The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Version | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesRulesRequest {
+export interface PatchProjectsLocationsRepositoriesRulesRequest extends Omit<
+  GoogleDevtoolsArtifactregistryV1Rule,
+  "name"
+> {
   /** The name of the rule, for example: `projects/p1/locations/us-central1/repositories/repo1/rules/rule1`. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleDevtoolsArtifactregistryV1Rule | undefined;
 }
 /** The platform (architecture and OS) of the image. This is a sub-message. */
 export interface PrewarmPlatform {
@@ -1311,11 +1288,9 @@ export interface PrewarmArtifactRequest {
   /** Optional. The location to cache the artifact in. If not specified, the artifact will be cached in the same location as the artifact. multi-region is not supported for this field. */
   streamLocation?: string | undefined;
 }
-export interface PrewarmArtifactProjectsLocationsRepositoriesRequest {
+export interface PrewarmArtifactProjectsLocationsRepositoriesRequest extends PrewarmArtifactRequest {
   /** Required. The repository name, for example: `projects/p1/locations/us-central1/repositories/repo1`. If the package or version ID parts contain slashes, the slashes are escaped. */
   repository: string;
-  /** Request body */
-  body?: PrewarmArtifactRequest | undefined;
 }
 /** The request for removing an artifact from streaming. */
 export interface RemovePrewarmedArtifactRequest {
@@ -1326,11 +1301,9 @@ export interface RemovePrewarmedArtifactRequest {
   /** Optional. The artifact version Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
   version?: string | undefined;
 }
-export interface RemovePrewarmedArtifactProjectsLocationsRepositoriesRequest {
+export interface RemovePrewarmedArtifactProjectsLocationsRepositoriesRequest extends RemovePrewarmedArtifactRequest {
   /** Required. The repository name, for example: `projects/p1/locations/us-central1/repositories/repo1`. */
   repository: string;
-  /** Request body */
-  body?: RemovePrewarmedArtifactRequest | undefined;
 }
 /** The response for removing an artifact from streaming. */
 export interface RemovePrewarmedArtifactResponse {
@@ -1342,51 +1315,41 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
+export interface SetIamPolicyProjectsLocationsRepositoriesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
+export interface TestIamPermissionsProjectsLocationsRepositoriesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateProjectConfigProjectsLocationsRequest {
+export interface UpdateProjectConfigProjectsLocationsRequest extends Omit<ProjectConfig, "name"> {
   /** Identifier. The name of the project's configuration. Always of the form: projects/{project}/locations/{location}/projectConfig */
   name: string;
   /** Optional. Field mask to support partial updates. See https://protobuf.dev/reference/protobuf/google.protobuf/#field-mask for more details. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ProjectConfig | undefined;
 }
-export interface UpdateProjectSettingsProjectsRequest {
+export interface UpdateProjectSettingsProjectsRequest extends Omit<ProjectSettings, "name"> {
   /** Field mask to support partial updates. */
   updateMask?: string | undefined;
   /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
   name: string;
-  /** Request body */
-  body?: ProjectSettings | undefined;
 }
-export interface UpdateVpcscConfigProjectsLocationsRequest {
+export interface UpdateVpcscConfigProjectsLocationsRequest extends Omit<VPCSCConfig, "name"> {
   /** The name of the project's VPC SC Config. Always of the form: projects/{projectID}/locations/{location}/vpcscConfig In update request: never set In response: always set */
   name: string;
   /** Field mask to support partial updates. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: VPCSCConfig | undefined;
 }
 /** The request to upload an artifact. */
 export type UploadAptArtifactRequest = CancelOperationRequest;
@@ -1409,11 +1372,9 @@ export interface UploadFileRequest {
   /** Optional. The type of the file to upload. Defaulting to ATTACHMENT if not specified. */
   fileType?: UploadFileRequestFileTypeEnum | (string & {}) | undefined;
 }
-export interface UploadProjectsLocationsRepositoriesFilesRequest {
+export interface UploadProjectsLocationsRepositoriesFilesRequest extends UploadFileRequest {
   /** Required. The resource name of the repository where the file will be uploaded. */
   parent: string;
-  /** Request body */
-  body?: UploadFileRequest | undefined;
 }
 /** The response to upload a generic artifact. */
 export interface UploadFileMediaResponse {
@@ -1431,11 +1392,9 @@ export interface UploadGenericArtifactRequest {
   /** The ID of the version of the generic artifact. If the version does not exist, a new version will be created. The version_id must start and end with a letter or number, can only contain lowercase letters, numbers, the following characters [-.+~:], i.e.[a-z0-9-.+~:] and cannot exceed a total of 128 characters. Creating a version called `latest` is not allowed. */
   versionId?: string | undefined;
 }
-export interface UploadProjectsLocationsRepositoriesGenericArtifactsRequest {
+export interface UploadProjectsLocationsRepositoriesGenericArtifactsRequest extends UploadGenericArtifactRequest {
   /** The resource name of the repository where the generic artifact will be uploaded. */
   parent: string;
-  /** Request body */
-  body?: UploadGenericArtifactRequest | undefined;
 }
 /** The response to upload a generic artifact. */
 export interface UploadGenericArtifactMediaResponse {
@@ -1475,11 +1434,9 @@ export interface UploadKfpArtifactRequest {
   /** Tags to be created with the version. */
   tags?: StringList | undefined;
 }
-export interface UploadProjectsLocationsRepositoriesKfpArtifactsRequest {
+export interface UploadProjectsLocationsRepositoriesKfpArtifactsRequest extends UploadKfpArtifactRequest {
   /** The resource name of the repository where the KFP artifact will be uploaded. */
   parent: string;
-  /** Request body */
-  body?: UploadKfpArtifactRequest | undefined;
 }
 /** The response to upload an artifact. */
 export interface UploadKfpArtifactMediaResponse {
@@ -3040,11 +2997,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          ruleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            ruleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/rules",
@@ -3222,10 +3181,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ExportArtifactRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            repository: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+repository}:exportArtifact",
@@ -3729,10 +3690,12 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1409, __c44, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1409, __c44, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/aptArtifacts:import",
@@ -3763,10 +3726,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1409, __c44, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1409, __c44, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/googetArtifacts:import",
@@ -3793,10 +3758,12 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ImportYumArtifactsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1473, __c46, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1473, __c46, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/yumArtifacts:import",
@@ -3817,10 +3784,12 @@ function __c47(j: number): any {
       ).annotate({ identifier: "BatchDeleteVersionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions:batchDelete",
@@ -4257,11 +4226,13 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2866, __c89, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2866, __c89, 18),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4275,11 +4246,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4293,11 +4266,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4311,11 +4286,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4329,11 +4306,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4347,11 +4326,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4383,10 +4364,12 @@ function __c72(j: number): any {
       ).annotate({ identifier: "PrewarmArtifactRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(2305, __c72, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2305, __c72, 1),
+          S.Struct({
+            repository: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+repository}:prewarmArtifact",
@@ -4408,10 +4391,12 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CheckPrewarmedArtifactRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            repository: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+repository}:checkPrewarmedArtifact",
@@ -4459,10 +4444,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "RemovePrewarmedArtifactRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            repository: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+repository}:removePrewarmedArtifact",
@@ -4482,10 +4469,12 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4505,10 +4494,12 @@ function __c78(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4522,11 +4513,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4540,11 +4533,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4558,11 +4553,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4610,10 +4607,12 @@ function __c84(j: number): any {
       ).annotate({ identifier: "UploadFileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2688, __c84, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/files:upload",
@@ -4636,10 +4635,12 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UploadGenericArtifactRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/genericArtifacts:create",
@@ -4670,11 +4671,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2866, __c89, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2866, __c89, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/repositories",
@@ -4895,10 +4898,12 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UploadKfpArtifactRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2944, __c92, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/kfpArtifacts:create",
@@ -4929,11 +4934,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          attachmentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3040, __c95, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3040, __c95, 0),
+          S.Struct({
+            attachmentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/attachments",
@@ -4965,11 +4972,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          tagId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            tagId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tags",

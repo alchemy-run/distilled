@@ -97,10 +97,7 @@ export interface QueryHistoryRequest {
   /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
   url?: string | undefined;
 }
-export interface QueryHistoryRecordRecordsRequest {
-  /** Request body */
-  body?: QueryHistoryRequest | undefined;
-}
+export interface QueryHistoryRecordRecordsRequest extends QueryHistoryRequest {}
 /** Object representing the normalization actions taken to normalize a url to achieve a higher chance of successful lookup. These are simple automated changes that are taken when looking up the provided `url_patten` would be known to fail. Complex actions like following redirects are not handled. */
 export interface UrlNormalization {
   /** The URL after any normalization actions. This is a valid user experience URL that could reasonably be looked up. */
@@ -198,10 +195,7 @@ export interface QueryRequest {
   /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
   url?: string | undefined;
 }
-export interface QueryRecordRecordsRequest {
-  /** Request body */
-  body?: QueryRequest | undefined;
-}
+export interface QueryRecordRecordsRequest extends QueryRequest {}
 /** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
 export interface Bin {
   /** Start is the beginning of the data bin. */
@@ -310,9 +304,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "QueryHistoryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/records:queryHistoryRecord",
@@ -427,9 +419,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "QueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(32, __c2, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/records:queryRecord",

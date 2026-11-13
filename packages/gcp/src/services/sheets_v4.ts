@@ -107,7 +107,7 @@ export interface ValueRange {
   /** The data that was read or to be written. This is an array of arrays, the outer array representing all the data and each inner array representing a major dimension. Each item in the inner array corresponds with one cell. For output, empty trailing rows and columns will not be included. For input, supported value types are: bool, string, and double. Null values will be skipped. To set a cell to an empty value, set the string value to an empty string. */
   values?: DocumentListList | undefined;
 }
-export interface AppendSpreadsheetsValuesRequest {
+export interface AppendSpreadsheetsValuesRequest extends Omit<ValueRange, "range"> {
   /** Determines if the update response should include the values of the cells that were appended. By default, responses do not include the updated values. */
   includeValuesInResponse?: boolean | undefined;
   /** How the input data should be inserted. */
@@ -128,8 +128,6 @@ export interface AppendSpreadsheetsValuesRequest {
     | AppendSpreadsheetsValuesResponseDateTimeRenderOptionEnum
     | (string & {})
     | undefined;
-  /** Request body */
-  body?: ValueRange | undefined;
 }
 /** The response when updating a range of values in a spreadsheet. */
 export interface UpdateValuesResponse {
@@ -246,11 +244,9 @@ export interface BatchClearValuesByDataFilterRequest {
   /** The DataFilters used to determine which ranges to clear. */
   dataFilters?: DataFilterList | undefined;
 }
-export interface BatchClearByDataFilterSpreadsheetsValuesRequest {
+export interface BatchClearByDataFilterSpreadsheetsValuesRequest extends BatchClearValuesByDataFilterRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchClearValuesByDataFilterRequest | undefined;
 }
 export type StringList = Array<string>;
 /** The response when clearing a range of values selected with DataFilters in a spreadsheet. */
@@ -265,11 +261,9 @@ export interface BatchClearValuesRequest {
   /** The ranges to clear, in [A1 notation or R1C1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). */
   ranges?: StringList | undefined;
 }
-export interface BatchClearSpreadsheetsValuesRequest {
+export interface BatchClearSpreadsheetsValuesRequest extends BatchClearValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchClearValuesRequest | undefined;
 }
 /** The response when clearing a range of values in a spreadsheet. */
 export interface BatchClearValuesResponse {
@@ -306,11 +300,9 @@ export interface BatchGetValuesByDataFilterRequest {
     | (string & {})
     | undefined;
 }
-export interface BatchGetByDataFilterSpreadsheetsValuesRequest {
+export interface BatchGetByDataFilterSpreadsheetsValuesRequest extends BatchGetValuesByDataFilterRequest {
   /** The ID of the spreadsheet to retrieve data from. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchGetValuesByDataFilterRequest | undefined;
 }
 /** A value range that was matched by one or more data filers. */
 export interface MatchedValueRange {
@@ -405,11 +397,9 @@ export interface BatchUpdateValuesByDataFilterRequest {
     | (string & {})
     | undefined;
 }
-export interface BatchUpdateByDataFilterSpreadsheetsValuesRequest {
+export interface BatchUpdateByDataFilterSpreadsheetsValuesRequest extends BatchUpdateValuesByDataFilterRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchUpdateValuesByDataFilterRequest | undefined;
 }
 /** The response when updating a range of values by a data filter in a spreadsheet. */
 export interface UpdateValuesByDataFilterResponse {
@@ -3084,11 +3074,9 @@ export interface BatchUpdateSpreadsheetRequest {
   /** True if grid data should be returned. Meaningful only if include_spreadsheet_in_response is 'true'. This parameter is ignored if a field mask was set in the request. */
   responseIncludeGridData?: boolean | undefined;
 }
-export interface BatchUpdateSpreadsheetsRequest {
+export interface BatchUpdateSpreadsheetsRequest extends BatchUpdateSpreadsheetRequest {
   /** The spreadsheet to apply the updates to. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchUpdateSpreadsheetRequest | undefined;
 }
 export type SpreadsheetCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
@@ -3564,11 +3552,9 @@ export interface BatchUpdateValuesRequest {
   /** The new values to apply to the spreadsheet. */
   data?: ValueRangeList | undefined;
 }
-export interface BatchUpdateSpreadsheetsValuesRequest {
+export interface BatchUpdateSpreadsheetsValuesRequest extends BatchUpdateValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchUpdateValuesRequest | undefined;
 }
 export type UpdateValuesResponseList = Array<UpdateValuesResponse>;
 /** The response when updating a range of values in a spreadsheet. */
@@ -3608,18 +3594,13 @@ export interface CopySheetToAnotherSpreadsheetRequest {
   /** The ID of the spreadsheet to copy the sheet to. */
   destinationSpreadsheetId?: string | undefined;
 }
-export interface CopyToSpreadsheetsSheetsRequest {
+export interface CopyToSpreadsheetsSheetsRequest extends CopySheetToAnotherSpreadsheetRequest {
   /** The ID of the spreadsheet containing the sheet to copy. */
   spreadsheetId: string;
   /** The ID of the sheet to copy. */
   sheetId: number;
-  /** Request body */
-  body?: CopySheetToAnotherSpreadsheetRequest | undefined;
 }
-export interface CreateSpreadsheetsRequest {
-  /** Request body */
-  body?: Spreadsheet | undefined;
-}
+export interface CreateSpreadsheetsRequest extends Spreadsheet {}
 export type GetSpreadsheetByDataFilterRequestCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
@@ -3639,11 +3620,9 @@ export interface GetSpreadsheetByDataFilterRequest {
   /** The DataFilters used to select which ranges to retrieve from the spreadsheet. */
   dataFilters?: DataFilterList | undefined;
 }
-export interface GetByDataFilterSpreadsheetsRequest {
+export interface GetByDataFilterSpreadsheetsRequest extends GetSpreadsheetByDataFilterRequest {
   /** The spreadsheet to request. */
   spreadsheetId: string;
-  /** Request body */
-  body?: GetSpreadsheetByDataFilterRequest | undefined;
 }
 export type GetSpreadsheetsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
@@ -3691,11 +3670,9 @@ export interface SearchDeveloperMetadataRequest {
   /** The data filters describing the criteria used to determine which DeveloperMetadata entries to return. DeveloperMetadata matching any of the specified filters are included in the response. */
   dataFilters?: DataFilterList | undefined;
 }
-export interface SearchSpreadsheetsDeveloperMetadataRequest {
+export interface SearchSpreadsheetsDeveloperMetadataRequest extends SearchDeveloperMetadataRequest {
   /** The ID of the spreadsheet to retrieve metadata from. */
   spreadsheetId: string;
-  /** Request body */
-  body?: SearchDeveloperMetadataRequest | undefined;
 }
 /** A developer metadata entry and the data filters specified in the original request that matched it. */
 export interface MatchedDeveloperMetadata {
@@ -3721,7 +3698,7 @@ export type UpdateSpreadsheetsValuesResponseValueRenderOptionEnum =
 export type UpdateSpreadsheetsValuesResponseDateTimeRenderOptionEnum =
   | "SERIAL_NUMBER"
   | "FORMATTED_STRING";
-export interface UpdateSpreadsheetsValuesRequest {
+export interface UpdateSpreadsheetsValuesRequest extends Omit<ValueRange, "range"> {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
   /** The [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of the values to update. */
@@ -3740,8 +3717,6 @@ export interface UpdateSpreadsheetsValuesRequest {
     | UpdateSpreadsheetsValuesResponseDateTimeRenderOptionEnum
     | (string & {})
     | undefined;
-  /** Request body */
-  body?: ValueRange | undefined;
 }
 export type AppendSpreadsheetsValuesError =
   | NotFound
@@ -4719,10 +4694,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "BatchUpdateSpreadsheetRequest" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(75, __c2, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(75, __c2, 11),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}:batchUpdate",
@@ -6261,10 +6238,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "BatchUpdateValuesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/values:batchUpdate",
@@ -6324,11 +6303,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CopySheetToAnotherSpreadsheetRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          sheetId: S.Number.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+            sheetId: S.Number.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/sheets/{sheetId}:copyTo",
@@ -6342,9 +6323,7 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(327, __c10, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(327, __c10, 7), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets",
@@ -6367,10 +6346,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetSpreadsheetByDataFilterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}:getByDataFilter",
@@ -6441,10 +6422,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/developerMetadata:search",
@@ -6473,15 +6456,17 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          range: S.String.pipe(T.Label()),
-          includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
-          valueInputOption: S.optional(S.String.pipe(T.Query())),
-          responseValueRenderOption: S.optional(S.String.pipe(T.Query())),
-          responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(770, __c24, 2),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+            range: S.String.pipe(T.Label()),
+            includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
+            valueInputOption: S.optional(S.String.pipe(T.Query())),
+            responseValueRenderOption: S.optional(S.String.pipe(T.Query())),
+            responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v4/spreadsheets/{spreadsheetId}/values/{range}",
@@ -6495,16 +6480,18 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
-          insertDataOption: S.optional(S.String.pipe(T.Query())),
-          spreadsheetId: S.String.pipe(T.Label()),
-          responseValueRenderOption: S.optional(S.String.pipe(T.Query())),
-          range: S.String.pipe(T.Label()),
-          valueInputOption: S.optional(S.String.pipe(T.Query())),
-          responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(770, __c24, 2),
+          S.Struct({
+            includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
+            insertDataOption: S.optional(S.String.pipe(T.Query())),
+            spreadsheetId: S.String.pipe(T.Label()),
+            responseValueRenderOption: S.optional(S.String.pipe(T.Query())),
+            range: S.String.pipe(T.Label()),
+            valueInputOption: S.optional(S.String.pipe(T.Query())),
+            responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/values/{range}:append",
@@ -6557,10 +6544,12 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/values:batchClearByDataFilter",
@@ -6673,10 +6662,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "BatchClearValuesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/values:batchClear",
@@ -6699,10 +6690,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "BatchGetValuesByDataFilterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/values:batchGetByDataFilter",
@@ -6785,10 +6778,12 @@ function __c37(j: number): any {
       ).annotate({ identifier: "BatchUpdateValuesByDataFilterRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            spreadsheetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/spreadsheets/{spreadsheetId}/values:batchUpdateByDataFilter",

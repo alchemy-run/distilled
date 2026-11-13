@@ -249,7 +249,7 @@ export interface Service {
   /** Optional. Input only. The SQL source files like `*.sql` for deploying a PostgREST service. */
   sqlSource?: Source | undefined;
 }
-export interface CreateProjectsLocationsServicesRequest {
+export interface CreateProjectsLocationsServicesRequest extends Service {
   /** Required. Value of parent. */
   parent: string;
   /** Required. The ID to use for the service, which will become the final component of the service's resource name. */
@@ -258,8 +258,6 @@ export interface CreateProjectsLocationsServicesRequest {
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -285,7 +283,7 @@ export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsServicesConnectorsRequest {
+export interface CreateProjectsLocationsServicesConnectorsRequest extends Connector {
   /** Required. The ID to use for the connector, which will become the final component of the connector's resource name. */
   connectorId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -294,10 +292,8 @@ export interface CreateProjectsLocationsServicesConnectorsRequest {
   parent: string;
   /** Optional. If set, validate the request and preview the Connector, but do not actually create it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Connector | undefined;
 }
-export interface CreateProjectsLocationsServicesSchemasRequest {
+export interface CreateProjectsLocationsServicesSchemasRequest extends Firebasedataconnect_Schema {
   /** Required. The ID to use for the schema, which will become the final component of the schema's resource name. Currently, only `main` is supported and any other schema ID will result in an error. */
   schemaId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -306,8 +302,6 @@ export interface CreateProjectsLocationsServicesSchemasRequest {
   parent: string;
   /** Optional. If set, validate the request and preview the Schema, but do not actually update it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Firebasedataconnect_Schema | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -380,11 +374,9 @@ export interface GraphqlRequest {
   /** Optional. Additional GraphQL request information. */
   extensions?: GraphqlRequestExtensions | undefined;
 }
-export interface ExecuteGraphqlProjectsLocationsServicesRequest {
+export interface ExecuteGraphqlProjectsLocationsServicesRequest extends GraphqlRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
-  /** Request body */
-  body?: GraphqlRequest | undefined;
 }
 export type GraphqlErrorExtensionsWarningLevelEnum =
   | "WARNING_LEVEL_UNKNOWN"
@@ -481,11 +473,9 @@ export interface GraphqlResponse {
   /** Additional response information. It conforms to https://spec.graphql.org/draft/#sec-Extensions . */
   extensions?: GraphqlResponseExtensions | undefined;
 }
-export interface ExecuteGraphqlReadProjectsLocationsServicesRequest {
+export interface ExecuteGraphqlReadProjectsLocationsServicesRequest extends GraphqlRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
-  /** Request body */
-  body?: GraphqlRequest | undefined;
 }
 /** The ExecuteMutation request to Firebase SQL Connect. */
 export interface ExecuteMutationRequest {
@@ -494,11 +484,9 @@ export interface ExecuteMutationRequest {
   /** Required. The name of the GraphQL operation name. Required because all Connector operations must be named. See https://graphql.org/learn/queries/#operation-name. */
   operationName?: string | undefined;
 }
-export interface ExecuteMutationProjectsLocationsServicesConnectorsRequest {
+export interface ExecuteMutationProjectsLocationsServicesConnectorsRequest extends ExecuteMutationRequest {
   /** Required. The resource name of the connector to find the predefined mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
-  /** Request body */
-  body?: ExecuteMutationRequest | undefined;
 }
 /** The ExecuteMutation response from Firebase SQL Connect. */
 export interface ExecuteMutationResponse {
@@ -511,11 +499,9 @@ export interface ExecuteMutationResponse {
 }
 /** The ExecuteQuery request to Firebase SQL Connect. */
 export type ExecuteQueryRequest = ExecuteMutationRequest;
-export interface ExecuteQueryProjectsLocationsServicesConnectorsRequest {
+export interface ExecuteQueryProjectsLocationsServicesConnectorsRequest extends ExecuteMutationRequest {
   /** Required. The resource name of the connector to find the predefined query, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
-  /** Request body */
-  body?: ExecuteMutationRequest | undefined;
 }
 /** The ExecuteQuery response from Firebase SQL Connect. */
 export interface ExecuteQueryResponse {
@@ -533,11 +519,9 @@ export interface GenerateQueryRequest {
   /** Required. The natural language description of the desired query. Example: "Find all users who signed up in the last 7 days." */
   prompt?: string | undefined;
 }
-export interface GenerateQueryProjectsLocationsServicesRequest {
+export interface GenerateQueryProjectsLocationsServicesRequest extends GenerateQueryRequest {
   /** Required. The resource name of the service in which to generate the query. Format: projects/{project}/locations/{location}/services/{service} */
   name: string;
-  /** Request body */
-  body?: GenerateQueryRequest | undefined;
 }
 export type GenerationStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -582,11 +566,9 @@ export interface GenerateSchemaRequest {
   /** Required. The natural language description of the data model to generate. Example: "A blog system with Users, Posts, and Comments. Users can have multiple posts." */
   prompt?: string | undefined;
 }
-export interface GenerateSchemaProjectsLocationsServicesRequest {
+export interface GenerateSchemaProjectsLocationsServicesRequest extends GenerateSchemaRequest {
   /** Required. The resource name of the service in which to generate the schema. Format: projects/{project}/locations/{location}/services/{service} */
   name: string;
-  /** Request body */
-  body?: GenerateSchemaRequest | undefined;
 }
 /** Output for streaming generate schema requests */
 export interface GenerateSchemaResponse {
@@ -637,23 +619,17 @@ export interface ImpersonateRequest {
   /** Optional. Values for GraphQL variables provided in this request. */
   variables?: DocumentMap | undefined;
 }
-export interface ImpersonateMutationProjectsLocationsServicesConnectorsRequest {
+export interface ImpersonateMutationProjectsLocationsServicesConnectorsRequest extends ImpersonateRequest {
   /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
-  /** Request body */
-  body?: ImpersonateRequest | undefined;
 }
-export interface ImpersonateQueryProjectsLocationsServicesConnectorsRequest {
+export interface ImpersonateQueryProjectsLocationsServicesConnectorsRequest extends ImpersonateRequest {
   /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
-  /** Request body */
-  body?: ImpersonateRequest | undefined;
 }
-export interface IntrospectGraphqlProjectsLocationsServicesRequest {
+export interface IntrospectGraphqlProjectsLocationsServicesRequest extends GraphqlRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
-  /** Request body */
-  body?: GraphqlRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -785,13 +761,11 @@ export interface MigrateSchemaRequest {
   /** Optional. Execution mode controlling DDL execution and ledger recording. Defaults to EXECUTE_AND_RECORD. */
   executionMode?: MigrateSchemaRequestExecutionModeEnum | (string & {}) | undefined;
 }
-export interface MigrateProjectsLocationsServicesSchemasRequest {
+export interface MigrateProjectsLocationsServicesSchemasRequest extends MigrateSchemaRequest {
   /** Required. Resource name of the target schema: projects/{project}/locations/{location}/services/{service}/schemas/{schema} Note: Only `schemas/main` is supported (singleton schema per service). */
   name: string;
-  /** Request body */
-  body?: MigrateSchemaRequest | undefined;
 }
-export interface PatchProjectsLocationsServicesRequest {
+export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The relative resource name of the Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` Note that the service ID is specific to Firebase SQL Connect and does not correspond to any of the instance IDs of the underlying data source connections. */
@@ -802,10 +776,8 @@ export interface PatchProjectsLocationsServicesRequest {
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the Service, but do not actually update it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Service | undefined;
 }
-export interface PatchProjectsLocationsServicesConnectorsRequest {
+export interface PatchProjectsLocationsServicesConnectorsRequest extends Omit<Connector, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The relative resource name of the connector, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
@@ -816,10 +788,11 @@ export interface PatchProjectsLocationsServicesConnectorsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. If true and the Connector is not found, a new Connector will be created. In this case, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: Connector | undefined;
 }
-export interface PatchProjectsLocationsServicesSchemasRequest {
+export interface PatchProjectsLocationsServicesSchemasRequest extends Omit<
+  Firebasedataconnect_Schema,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Schema resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -830,8 +803,6 @@ export interface PatchProjectsLocationsServicesSchemasRequest {
   allowMissing?: boolean | undefined;
   /** Identifier. The relative resource name of the schema, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` Right now, the only supported schema is "main". */
   name: string;
-  /** Request body */
-  body?: Firebasedataconnect_Schema | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -842,13 +813,11 @@ export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
   contentType?: string | undefined;
 }
-export interface PostgrestCallFunctionProjectsLocationsServicesPostgrestRpcRequest {
+export interface PostgrestCallFunctionProjectsLocationsServicesPostgrestRpcRequest extends HttpBody {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
   /** Required. The name of the database function. */
   firebasedataconnectFunction: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 export interface PostgrestDeleteProjectsLocationsServicesPostgrestRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
@@ -856,13 +825,11 @@ export interface PostgrestDeleteProjectsLocationsServicesPostgrestRequest {
   /** Required. The name of the table to delete from. */
   firebasedataconnectTable: string;
 }
-export interface PostgrestInsertProjectsLocationsServicesPostgrestRequest {
+export interface PostgrestInsertProjectsLocationsServicesPostgrestRequest extends HttpBody {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
   /** Required. The name of the table to insert into. */
   firebasedataconnectTable: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 export interface PostgrestQueryFunctionProjectsLocationsServicesPostgrestRpcRequest {
   /** Required. The name of the database function. */
@@ -876,21 +843,17 @@ export interface PostgrestSelectProjectsLocationsServicesPostgrestRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
 }
-export interface PostgrestUpdateProjectsLocationsServicesPostgrestRequest {
+export interface PostgrestUpdateProjectsLocationsServicesPostgrestRequest extends HttpBody {
   /** Required. The name of the table to update. */
   firebasedataconnectTable: string;
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
-export interface PostgrestUpsertProjectsLocationsServicesPostgrestRequest {
+export interface PostgrestUpsertProjectsLocationsServicesPostgrestRequest extends HttpBody {
   /** Required. The name of the table to upsert into. */
   firebasedataconnectTable: string;
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
-  /** Request body */
-  body?: HttpBody | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1775,10 +1738,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeGraphql",
@@ -1900,10 +1865,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeGraphqlRead",
@@ -1917,10 +1884,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeMutation",
@@ -1953,10 +1922,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeQuery",
@@ -1985,10 +1956,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GenerateQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateQuery",
@@ -2046,10 +2019,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GenerateSchemaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateSchema",
@@ -2157,10 +2132,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:impersonateMutation",
@@ -2186,10 +2163,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:impersonateQuery",
@@ -2203,10 +2182,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:introspectGraphql",
@@ -2383,10 +2364,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "MigrateSchemaRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(466, __c29, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(466, __c29, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:migrate",
@@ -2400,14 +2383,16 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(736, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c46, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2421,14 +2406,16 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(753, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2442,14 +2429,16 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(853, __c53, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(853, __c53, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2463,11 +2452,13 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          firebasedataconnectFunction: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectService: S.String.pipe(T.Label()),
+            firebasedataconnectFunction: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+firebasedataconnectService}/postgrest/rpc/{+firebasedataconnectFunction}",
@@ -2512,11 +2503,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          firebasedataconnectTable: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectService: S.String.pipe(T.Label()),
+            firebasedataconnectTable: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+firebasedataconnectService}/postgrest/{+firebasedataconnectTable}",
@@ -2589,11 +2582,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectTable: S.String.pipe(T.Label()),
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectTable: S.String.pipe(T.Label()),
+            firebasedataconnectService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+firebasedataconnectService}/postgrest/{+firebasedataconnectTable}",
@@ -2607,11 +2602,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectTable: S.String.pipe(T.Label()),
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectTable: S.String.pipe(T.Label()),
+            firebasedataconnectService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+firebasedataconnectService}/postgrest/{+firebasedataconnectTable}",
@@ -2625,13 +2622,15 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(736, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            serviceId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/services",
@@ -2821,13 +2820,15 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          connectorId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(753, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            connectorId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectors",
@@ -2841,13 +2842,15 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          schemaId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(853, __c53, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(853, __c53, 5),
+          S.Struct({
+            schemaId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas",

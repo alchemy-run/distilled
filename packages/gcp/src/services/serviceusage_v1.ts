@@ -89,11 +89,9 @@ export interface BatchEnableServicesRequest {
   /** The identifiers of the services to enable on the project. A valid identifier would be: serviceusage.googleapis.com Enabling services requires that each service is public or is shared with the user enabling the service. A single request can enable a maximum of 20 services at a time. If more than 20 services are specified, the request will fail, and no state changes will occur. */
   serviceIds?: StringList | undefined;
 }
-export interface BatchEnableServicesRequest_ {
+export interface BatchEnableServicesRequest_ extends BatchEnableServicesRequest {
   /** Parent to enable services on. An example name would be: `projects/123` where `123` is the project number. The `BatchEnableServices` method currently only supports projects. */
   parent: string;
-  /** Request body */
-  body?: BatchEnableServicesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -490,11 +488,9 @@ export interface DisableServiceRequest {
   /** Indicates if services that are enabled and which depend on this service should also be disabled. If not set, an error will be generated if any enabled services depend on the service to be disabled. When set, the service, and any enabled services that depend on it, will be disabled together. */
   disableDependentServices?: boolean | undefined;
 }
-export interface DisableServicesRequest {
+export interface DisableServicesRequest extends DisableServiceRequest {
   /** Name of the consumer and service to disable the service on. The enable and disable methods currently only support projects. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. */
   name: string;
-  /** Request body */
-  body?: DisableServiceRequest | undefined;
 }
 /** Request message for the `EnableService` method. */
 export type EnableServiceRequest = CancelOperationRequest;
@@ -824,10 +820,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "BatchEnableServicesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/services:batchEnable",
@@ -1235,10 +1233,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DisableServiceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:disable",

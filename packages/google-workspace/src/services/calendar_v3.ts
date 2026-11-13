@@ -624,7 +624,7 @@ export interface Setting {
   /** Value of the user setting. The format of the value depends on the ID of the setting. It must always be a UTF-8 string of length up to 1024 characters. */
   value?: string | undefined;
 }
-export interface ImportEventsRequest {
+export interface ImportEventsRequest extends Event {
   /** Whether API client performing operation supports event attachments. Optional. The default is False. */
   supportsAttachments?: boolean | undefined;
   /** Version number of conference data supported by the API client. Version 0 assumes no conference data support and ignores conference data in the event's body. Version 1 enables support for copying of ConferenceData as well as for creating new conferences using the createRequest field of conferenceData. The default is 0. */
@@ -633,29 +633,20 @@ export interface ImportEventsRequest {
   calendarId: string;
   /** Version number of the event label feature supported by the API client. Version 0 assumes no event label support and processes the colorId field for color management. Version 1 enables support for event labels, and processes the eventLabelId in the event's body. In this case, the colorId field is ignored. The default is 0. */
   eventLabelVersion?: number | undefined;
-  /** Request body */
-  body?: Event | undefined;
 }
-export interface InsertAclRequest {
+export interface InsertAclRequest extends AclRule {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether to send notifications about the calendar sharing change. Optional. The default is True. */
   sendNotifications?: boolean | undefined;
-  /** Request body */
-  body?: AclRule | undefined;
 }
-export interface InsertCalendarListRequest {
+export interface InsertCalendarListRequest extends CalendarListEntry {
   /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
   colorRgbFormat?: boolean | undefined;
-  /** Request body */
-  body?: CalendarListEntry | undefined;
 }
-export interface InsertCalendarsRequest {
-  /** Request body */
-  body?: Calendar | undefined;
-}
+export interface InsertCalendarsRequest extends Calendar {}
 export type InsertEventsSendUpdatesEnum = "all" | "externalOnly" | "none";
-export interface InsertEventsRequest {
+export interface InsertEventsRequest extends Event {
   /** Whether API client performing operation supports event attachments. Optional. The default is False. */
   supportsAttachments?: boolean | undefined;
   /** The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional. */
@@ -670,8 +661,6 @@ export interface InsertEventsRequest {
   eventLabelVersion?: number | undefined;
   /** Deprecated. Please use sendUpdates instead. Whether to send notifications about the creation of the new event. Note that some emails might still be sent even if you set the value to false. The default is false. */
   sendNotifications?: boolean | undefined;
-  /** Request body */
-  body?: Event | undefined;
 }
 export interface InstancesEventsRequest {
   /** Whether to include deleted events (with status equals "cancelled") in the result. Cancelled instances of recurring events will still be included if singleEvents is False. Optional. The default is False. */
@@ -865,32 +854,26 @@ export interface MoveEventsRequest {
   /** Deprecated. Please use sendUpdates instead. Whether to send notifications about the change of the event's organizer. Note that some emails might still be sent even if you set the value to false. The default is false. */
   sendNotifications?: boolean | undefined;
 }
-export interface PatchAclRequest {
+export interface PatchAclRequest extends AclRule {
   /** ACL rule identifier. */
   ruleId: string;
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether to send notifications about the calendar sharing change. Note that there are no notifications on access removal. Optional. The default is True. */
   sendNotifications?: boolean | undefined;
-  /** Request body */
-  body?: AclRule | undefined;
 }
-export interface PatchCalendarListRequest {
+export interface PatchCalendarListRequest extends CalendarListEntry {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
   colorRgbFormat?: boolean | undefined;
-  /** Request body */
-  body?: CalendarListEntry | undefined;
 }
-export interface PatchCalendarsRequest {
+export interface PatchCalendarsRequest extends Calendar {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
-  /** Request body */
-  body?: Calendar | undefined;
 }
 export type PatchEventsSendUpdatesEnum = "all" | "externalOnly" | "none";
-export interface PatchEventsRequest {
+export interface PatchEventsRequest extends Event {
   /** Whether API client performing operation supports event attachments. Optional. The default is False. */
   supportsAttachments?: boolean | undefined;
   /** Event identifier. */
@@ -909,8 +892,6 @@ export interface PatchEventsRequest {
   eventLabelVersion?: number | undefined;
   /** Deprecated. Please use sendUpdates instead. Whether to send notifications about the event update (for example, description changes, etc.). Note that some emails might still be sent even if you set the value to false. The default is false. */
   sendNotifications?: boolean | undefined;
-  /** Request body */
-  body?: Event | undefined;
 }
 export interface FreeBusyRequestItem {
   /** The identifier of a calendar or a group. */
@@ -931,10 +912,7 @@ export interface FreeBusyRequest {
   /** The start of the interval for the query formatted as per RFC3339. */
   timeMin?: string | undefined;
 }
-export interface QueryFreebusyRequest {
-  /** Request body */
-  body?: FreeBusyRequest | undefined;
-}
+export interface QueryFreebusyRequest extends FreeBusyRequest {}
 export interface TimePeriod {
   /** The (exclusive) end of the time period. */
   end?: string | undefined;
@@ -1008,10 +986,7 @@ export interface Channel {
   /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
   resourceId?: string | undefined;
 }
-export interface StopChannelsRequest {
-  /** Request body */
-  body?: Channel | undefined;
-}
+export interface StopChannelsRequest extends Channel {}
 export interface StopChannelsResponse {}
 export interface TransferOwnershipCalendarsRequest {
   /** When true, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the Manage Calendars privilege. This method currently only supports admin access, thus only true is accepted for this field. */
@@ -1022,32 +997,26 @@ export interface TransferOwnershipCalendarsRequest {
   newDataOwner: string;
 }
 export interface TransferOwnershipCalendarsResponse {}
-export interface UpdateAclRequest {
+export interface UpdateAclRequest extends AclRule {
   /** ACL rule identifier. */
   ruleId: string;
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether to send notifications about the calendar sharing change. Note that there are no notifications on access removal. Optional. The default is True. */
   sendNotifications?: boolean | undefined;
-  /** Request body */
-  body?: AclRule | undefined;
 }
-export interface UpdateCalendarListRequest {
+export interface UpdateCalendarListRequest extends CalendarListEntry {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
   colorRgbFormat?: boolean | undefined;
-  /** Request body */
-  body?: CalendarListEntry | undefined;
 }
-export interface UpdateCalendarsRequest {
+export interface UpdateCalendarsRequest extends Calendar {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
-  /** Request body */
-  body?: Calendar | undefined;
 }
 export type UpdateEventsSendUpdatesEnum = "all" | "externalOnly" | "none";
-export interface UpdateEventsRequest {
+export interface UpdateEventsRequest extends Event {
   /** Version number of the event label feature supported by the API client. Version 0 assumes no event label support and processes the colorId field for color management. Version 1 enables support for event labels, and processes the eventLabelId in the event's body. In this case, the colorId field is ignored. The default is 0. */
   eventLabelVersion?: number | undefined;
   /** Deprecated. Please use sendUpdates instead. Whether to send notifications about the event update (for example, description changes, etc.). Note that some emails might still be sent even if you set the value to false. The default is false. */
@@ -1066,10 +1035,8 @@ export interface UpdateEventsRequest {
   sendUpdates?: UpdateEventsSendUpdatesEnum | (string & {}) | undefined;
   /** Version number of conference data supported by the API client. Version 0 assumes no conference data support and ignores conference data in the event's body. Version 1 enables support for copying of ConferenceData as well as for creating new conferences using the createRequest field of conferenceData. The default is 0. */
   conferenceDataVersion?: number | undefined;
-  /** Request body */
-  body?: Event | undefined;
 }
-export interface WatchAclRequest {
+export interface WatchAclRequest extends Channel {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. All entries deleted since the previous list request will always be in the result set and it is not allowed to set showDeleted to False. If the syncToken expires, the server will respond with a 410 GONE response code and the client should clear its storage and perform a full synchronization without any syncToken. Learn more about incremental synchronization. Optional. The default is to return all entries. */
@@ -1080,8 +1047,6 @@ export interface WatchAclRequest {
   showDeleted?: boolean | undefined;
   /** Token specifying which result page to return. Optional. */
   pageToken?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type WatchCalendarListMinAccessRoleEnum =
   | "freeBusyReader"
@@ -1089,7 +1054,7 @@ export type WatchCalendarListMinAccessRoleEnum =
   | "reader"
   | "writer"
   | "writerWithoutPrivateAccess";
-export interface WatchCalendarListRequest {
+export interface WatchCalendarListRequest extends Channel {
   /** Whether to show only entries for calendars from the organization. This parameter is only applicable to Google Workspace users. Optional. The default is False. */
   showOwnOrganizationOnly?: boolean | undefined;
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
@@ -1104,8 +1069,6 @@ export interface WatchCalendarListRequest {
   syncToken?: string | undefined;
   /** Whether to include deleted calendar list entries in the result. Optional. The default is False. */
   showDeleted?: boolean | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type WatchEventsOrderByEnum = "startTime" | "updated";
 export type WatchEventsEventTypesEnum =
@@ -1116,7 +1079,7 @@ export type WatchEventsEventTypesEnum =
   | "outOfOffice"
   | "workingLocation";
 export type WatchEventsEventTypesEnumList = Array<WatchEventsEventTypesEnum | (string & {})>;
-export interface WatchEventsRequest {
+export interface WatchEventsRequest extends Channel {
   /** Deprecated and ignored. */
   alwaysIncludeEmail?: boolean | undefined;
   /** The order of the events returned in the result. Optional. The default is an unspecified, stable order. */
@@ -1155,18 +1118,14 @@ export interface WatchEventsRequest {
   calendarId: string;
   /** Free text search terms to find events that match these terms in the following fields: - summary - description - location - attendee's displayName - attendee's email - organizer's displayName - organizer's email - workingLocationProperties.officeLocation.buildingId - workingLocationProperties.officeLocation.deskId - workingLocationProperties.officeLocation.label - workingLocationProperties.customLocation.label These search terms also match predefined keywords against all display title translations of working location, out-of-office, and focus-time events. For example, searching for "Office" or "Bureau" returns working location events of type officeLocation, whereas searching for "Out of office" or "Abwesend" returns out-of-office events. Optional. */
   q?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
-export interface WatchSettingsRequest {
+export interface WatchSettingsRequest extends Channel {
   /** Token specifying which result page to return. Optional. */
   pageToken?: string | undefined;
   /** Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. If the syncToken expires, the server will respond with a 410 GONE response code and the client should clear its storage and perform a full synchronization without any syncToken. Learn more about incremental synchronization. Optional. The default is to return all entries. */
   syncToken?: string | undefined;
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number | undefined;
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type ClearCalendarsError =
   | NotFound
@@ -2441,13 +2400,15 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          body: S.optional(__S(346, __c10, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/events/import",
@@ -2461,11 +2422,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1601, __c50, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1601, __c50, 1),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/acl",
@@ -2479,10 +2442,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(131, __c4, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(131, __c4, 3),
+          S.Struct({
+            colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "users/me/calendarList",
@@ -2496,9 +2461,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(198, __c6, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(198, __c6, 6), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "calendars",
@@ -2512,16 +2475,18 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          sendUpdates: S.optional(S.String.pipe(T.Query())),
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(346, __c10, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+            sendUpdates: S.optional(S.String.pipe(T.Query())),
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/events",
@@ -2739,12 +2704,14 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ruleId: S.String.pipe(T.Label()),
-          calendarId: S.String.pipe(T.Label()),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1601, __c50, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1601, __c50, 1),
+          S.Struct({
+            ruleId: S.String.pipe(T.Label()),
+            calendarId: S.String.pipe(T.Label()),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "calendars/{calendarId}/acl/{ruleId}",
@@ -2758,11 +2725,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(131, __c4, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(131, __c4, 3),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "users/me/calendarList/{calendarId}",
@@ -2776,10 +2745,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          body: S.optional(__S(198, __c6, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(198, __c6, 6),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "calendars/{calendarId}",
@@ -2793,18 +2764,20 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          eventId: S.String.pipe(T.Label()),
-          alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          sendUpdates: S.optional(S.String.pipe(T.Query())),
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(346, __c10, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            eventId: S.String.pipe(T.Label()),
+            alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            sendUpdates: S.optional(S.String.pipe(T.Query())),
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "calendars/{calendarId}/events/{eventId}",
@@ -2837,9 +2810,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "FreeBusyRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(962, __c30, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(962, __c30, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "freeBusy",
@@ -2918,9 +2889,7 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(1056, __c33, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "channels/stop",
@@ -2971,12 +2940,14 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ruleId: S.String.pipe(T.Label()),
-          calendarId: S.String.pipe(T.Label()),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1601, __c50, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1601, __c50, 1),
+          S.Struct({
+            ruleId: S.String.pipe(T.Label()),
+            calendarId: S.String.pipe(T.Label()),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "calendars/{calendarId}/acl/{ruleId}",
@@ -2990,11 +2961,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(131, __c4, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(131, __c4, 3),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "users/me/calendarList/{calendarId}",
@@ -3008,10 +2981,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          body: S.optional(__S(198, __c6, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(198, __c6, 6),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "calendars/{calendarId}",
@@ -3025,18 +3000,20 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          eventId: S.String.pipe(T.Label()),
-          calendarId: S.String.pipe(T.Label()),
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          sendUpdates: S.optional(S.String.pipe(T.Query())),
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          body: S.optional(__S(346, __c10, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+            alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            eventId: S.String.pipe(T.Label()),
+            calendarId: S.String.pipe(T.Label()),
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            sendUpdates: S.optional(S.String.pipe(T.Query())),
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "calendars/{calendarId}/events/{eventId}",
@@ -3050,14 +3027,16 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/acl/watch",
@@ -3071,16 +3050,18 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          showOwnOrganizationOnly: S.optional(S.Boolean.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          showHidden: S.optional(S.Boolean.pipe(T.Query())),
-          minAccessRole: S.optional(S.String.pipe(T.Query())),
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            showOwnOrganizationOnly: S.optional(S.Boolean.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            showHidden: S.optional(S.Boolean.pipe(T.Query())),
+            minAccessRole: S.optional(S.String.pipe(T.Query())),
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "users/me/calendarList/watch",
@@ -3116,28 +3097,30 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          singleEvents: S.optional(S.Boolean.pipe(T.Query())),
-          privateExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
-          timeMax: S.optional(S.String.pipe(T.Query())),
-          iCalUID: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          showHiddenInvitations: S.optional(S.Boolean.pipe(T.Query())),
-          timeMin: S.optional(S.String.pipe(T.Query())),
-          timeZone: S.optional(S.String.pipe(T.Query())),
-          eventTypes: S.optional(__S(736, __c23, 0).pipe(T.Query())),
-          updatedMin: S.optional(S.String.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          sharedExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          q: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
+            orderBy: S.optional(S.String.pipe(T.Query())),
+            singleEvents: S.optional(S.Boolean.pipe(T.Query())),
+            privateExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+            timeMax: S.optional(S.String.pipe(T.Query())),
+            iCalUID: S.optional(S.String.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            showHiddenInvitations: S.optional(S.Boolean.pipe(T.Query())),
+            timeMin: S.optional(S.String.pipe(T.Query())),
+            timeZone: S.optional(S.String.pipe(T.Query())),
+            eventTypes: S.optional(__S(736, __c23, 0).pipe(T.Query())),
+            updatedMin: S.optional(S.String.pipe(T.Query())),
+            showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            sharedExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            q: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/events/watch",
@@ -3151,12 +3134,14 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "users/me/settings/watch",

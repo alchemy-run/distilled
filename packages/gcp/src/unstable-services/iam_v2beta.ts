@@ -140,13 +140,11 @@ export interface GoogleIamV2betaPolicy {
   /** Output only. The time when the `Policy` was created. */
   createTime?: string | undefined;
 }
-export interface CreatePolicyPoliciesRequest {
+export interface CreatePolicyPoliciesRequest extends GoogleIamV2betaPolicy {
   /** Required. The resource that the policy is attached to, along with the kind of policy to create. Format: `policies/{attachment_point}/denypolicies` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   parent: string;
   /** The ID to use for this policy, which will become the final component of the policy's resource name. The ID must contain 3 to 63 characters. It can contain lowercase letters and numbers, as well as dashes (`-`) and periods (`.`). The first character must be a lowercase letter. */
   policyId?: string | undefined;
-  /** Request body */
-  body?: GoogleIamV2betaPolicy | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -202,11 +200,9 @@ export interface GoogleIamV2betaListPoliciesResponse {
   /** Metadata for the policies that are attached to the resource. */
   policies?: GoogleIamV2betaPolicyList | undefined;
 }
-export interface UpdatePoliciesRequest {
+export interface UpdatePoliciesRequest extends Omit<GoogleIamV2betaPolicy, "name"> {
   /** Immutable. The resource name of the `Policy`, which must be unique. Format: `policies/{attachment_point}/denypolicies/{policy_id}` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-deny-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, requests can use the alphanumeric or the numeric ID. Responses always contain the numeric ID. */
   name: string;
-  /** Request body */
-  body?: GoogleIamV2betaPolicy | undefined;
 }
 export type CreatePolicyPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a policy. */
@@ -317,11 +313,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          policyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(22, __c2, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            policyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}",
@@ -480,10 +478,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(22, __c2, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v2beta/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdatePoliciesRequest" });

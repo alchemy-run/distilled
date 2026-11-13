@@ -216,17 +216,13 @@ export interface Groups {
   /** Deprecated. The maximum size of a message is 25Mb. */
   maxMessageBytes?: number | undefined;
 }
-export interface PatchGroupsRequest {
+export interface PatchGroupsRequest extends Groups {
   /** The group's email address. */
   groupUniqueId: string;
-  /** Request body */
-  body?: Groups | undefined;
 }
-export interface UpdateGroupsRequest {
+export interface UpdateGroupsRequest extends Groups {
   /** The group's email address. */
   groupUniqueId: string;
-  /** Request body */
-  body?: Groups | undefined;
 }
 export type GetGroupsError = NotFound | Forbidden | GcpOpError;
 /** Gets one resource by id. */
@@ -372,10 +368,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupUniqueId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c1, 0),
+          S.Struct({
+            groupUniqueId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "{groupUniqueId}",
@@ -389,10 +387,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          groupUniqueId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c1, 0),
+          S.Struct({
+            groupUniqueId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "{groupUniqueId}",

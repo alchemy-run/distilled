@@ -189,11 +189,9 @@ export interface GoogleCloudPolicysimulatorV1betaReplay {
   /** Required. The configuration used for the `Replay`. */
   config?: GoogleCloudPolicysimulatorV1betaReplayConfig | undefined;
 }
-export interface CreateFoldersLocationsReplaysRequest {
+export interface CreateFoldersLocationsReplaysRequest extends GoogleCloudPolicysimulatorV1betaReplay {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1betaReplay | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -377,31 +375,23 @@ export interface GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview {
   /** Output only. The resource name of the `OrgPolicyViolationsPreview`. It has the following format: `organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview}` Example: `organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f` */
   name?: string | undefined;
 }
-export interface CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
+export interface CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest extends GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview {
   /** Optional. An optional user-specified ID for the OrgPolicyViolationsPreview. If not provided, a random ID will be generated. */
   orgPolicyViolationsPreviewId?: string | undefined;
   /** Required. The organization under which this OrgPolicyViolationsPreview will be created. Example: `organizations/my-example-org/locations/global` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview | undefined;
 }
-export interface CreateOrganizationsLocationsReplaysRequest {
+export interface CreateOrganizationsLocationsReplaysRequest extends GoogleCloudPolicysimulatorV1betaReplay {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1betaReplay | undefined;
 }
-export interface CreateProjectsLocationsReplaysRequest {
+export interface CreateProjectsLocationsReplaysRequest extends GoogleCloudPolicysimulatorV1betaReplay {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1betaReplay | undefined;
 }
-export interface GenerateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
+export interface GenerateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest extends GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview {
   /** Required. The organization under which this OrgPolicyViolationsPreview will be created. Example: `organizations/my-example-org/locations/global` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1betaOrgPolicyViolationsPreview | undefined;
 }
 export interface GetFoldersLocationsAccessPolicySimulationsOperationsRequest {
   /** The name of the operation resource. */
@@ -2078,10 +2068,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(563, __c35, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(563, __c35, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/replays",
@@ -2230,11 +2222,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          orgPolicyViolationsPreviewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(604, __c37, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(604, __c37, 12),
+          S.Struct({
+            orgPolicyViolationsPreviewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/orgPolicyViolationsPreviews",
@@ -2369,10 +2363,12 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(563, __c35, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(563, __c35, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/replays",
@@ -2386,10 +2382,12 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(563, __c35, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(563, __c35, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/replays",
@@ -2403,10 +2401,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(604, __c37, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(604, __c37, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/orgPolicyViolationsPreviews:generate",

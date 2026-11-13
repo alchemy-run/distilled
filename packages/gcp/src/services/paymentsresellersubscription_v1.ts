@@ -103,11 +103,9 @@ export interface CancelSubscriptionRequest {
   /** Specifies the reason for the cancellation. */
   cancellationReason?: CancelSubscriptionRequestCancellationReasonEnum | (string & {}) | undefined;
 }
-export interface CancelPartnersSubscriptionsRequest {
+export interface CancelPartnersSubscriptionsRequest extends CancelSubscriptionRequest {
   /** Required. The name of the subscription resource to be cancelled. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
-  /** Request body */
-  body?: CancelSubscriptionRequest | undefined;
 }
 export type SubscriptionCancellationDetailsReasonEnum =
   | "CANCELLATION_REASON_UNSPECIFIED"
@@ -405,13 +403,11 @@ export interface CancelSubscriptionResponse {
   /** The cancelled subscription resource. */
   subscription?: Subscription | undefined;
 }
-export interface CreatePartnersSubscriptionsRequest {
+export interface CreatePartnersSubscriptionsRequest extends Subscription {
   /** Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription with the same ID already exists, the creation fails with an `ALREADY_EXISTS` error. */
   subscriptionId?: string | undefined;
   /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
   parent: string;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 /** The details of the line item to be entitled. */
 export interface EntitleSubscriptionRequestLineItemEntitlementDetails {
@@ -427,11 +423,9 @@ export interface EntitleSubscriptionRequest {
   /** Optional. Deprecated: This field is no longer supported. All line items are entitled automatically. Optional. The line items to be entitled. If unspecified, all line items will be entitled. */
   lineItemEntitlementDetails?: EntitleSubscriptionRequestLineItemEntitlementDetailsList | undefined;
 }
-export interface EntitlePartnersSubscriptionsRequest {
+export interface EntitlePartnersSubscriptionsRequest extends EntitleSubscriptionRequest {
   /** Required. The name of the subscription resource that is entitled to the current end user. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
-  /** Request body */
-  body?: EntitleSubscriptionRequest | undefined;
 }
 /** Response that contains the entitled subscription resource. */
 export interface EntitleSubscriptionResponse {
@@ -452,11 +446,9 @@ export interface ExtendSubscriptionRequest {
   /** Required. Specifies details of the extension. Currently, the duration of the extension must be exactly one billing cycle of the original subscription. */
   extension?: Extension | undefined;
 }
-export interface ExtendPartnersSubscriptionsRequest {
+export interface ExtendPartnersSubscriptionsRequest extends ExtendSubscriptionRequest {
   /** Required. The name of the subscription resource to be extended. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". */
   name: string;
-  /** Request body */
-  body?: ExtendSubscriptionRequest | undefined;
 }
 /** Response that contains the timestamps after the extension. */
 export interface ExtendSubscriptionResponse {
@@ -476,11 +468,9 @@ export interface FindEligiblePromotionsRequest {
   /** Optional. Specifies the filters for the promotion results. The syntax is defined in https://google.aip.dev/160 with the following caveats: 1. Only the following features are supported: - Logical operator `AND` - Comparison operator `=` (no wildcards `*`) - Traversal operator `.` - Has operator `:` (no wildcards `*`) 2. Only the following fields are supported: - `applicableProducts` - `regionCodes` - `youtubePayload.partnerEligibilityId` - `youtubePayload.postalCode` 3. Unless explicitly mentioned above, other features are not supported. Example: `applicableProducts:partners/partner1/products/product1 AND regionCodes:US AND youtubePayload.postalCode=94043 AND youtubePayload.partnerEligibilityId=eligibility-id` */
   filter?: string | undefined;
 }
-export interface FindEligiblePartnersPromotionsRequest {
+export interface FindEligiblePartnersPromotionsRequest extends FindEligiblePromotionsRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
-  /** Request body */
-  body?: FindEligiblePromotionsRequest | undefined;
 }
 /** Localized variant of a text in a particular language. */
 export interface GoogleTypeLocalizedText {
@@ -563,11 +553,9 @@ export interface GenerateUserSessionRequest {
   /** The user intent to generate the user session. */
   intentPayload?: IntentPayload | undefined;
 }
-export interface GeneratePartnersUserSessionsRequest {
+export interface GeneratePartnersUserSessionsRequest extends GenerateUserSessionRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
-  /** Request body */
-  body?: GenerateUserSessionRequest | undefined;
 }
 /** Contains a short-lived token containing information required to interact with the Google Payments Reseller Platform via web endpoints. - Generate a user session token dynamically for an authenticated user. Do not share a token directly with a user in an unauthenticated context, such as SMS or email. - You can regenerate new session tokens repeatedly for the same `generate` request if necessary, regardless of whether previous tokens have expired. Multiple sessions will not result in duplicate fulfillments because the `subscription ID` guarantees uniqueness. For more integration details, see the [Google Managed Signup](/payments/reseller/subscription/reference/index/User.Signup.Integration/Google.Managed.Signup) documentation. */
 export interface UserSession {
@@ -668,22 +656,23 @@ export interface ListPromotionsResponse {
   /** The promotions for the specified partner. */
   promotions?: PromotionList | undefined;
 }
-export interface PatchPartnersSubscriptionsLineItemsRequest {
+export interface PatchPartnersSubscriptionsLineItemsRequest extends Omit<
+  SubscriptionLineItem,
+  "name"
+> {
   /** Identifier. Resource name of the line item. Format: partners/{partner}/subscriptions/{subscription}/lineItems/{lineItem} */
   name: string;
   /** Optional. An idempotency ID for the request. A random UUID is recommended. Restricted to 36 ASCII characters. */
   requestId?: string | undefined;
   /** Required. The list of fields to update. Only a limited set of fields can be updated. The allowed fields are the following: - `product_payload.googleHomePayload.googleStructureId` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SubscriptionLineItem | undefined;
 }
 export type ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum =
   | "UNIT_UNSPECIFIED"
   | "MONTH"
   | "DAY"
   | "HOUR";
-export interface ProvisionPartnersSubscriptionsRequest {
+export interface ProvisionPartnersSubscriptionsRequest extends Subscription {
   /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
   parent: string;
   /** Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription with the same ID already exists, the creation fails with an `ALREADY_EXISTS` error. */
@@ -695,8 +684,6 @@ export interface ProvisionPartnersSubscriptionsRequest {
     | ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum
     | (string & {})
     | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 export type ResumeSubscriptionRequestResumeModeEnum =
   | "RESUME_MODE_UNSPECIFIED"
@@ -710,11 +697,9 @@ export interface ResumeSubscriptionRequest {
   /** Optional. The cycle options for the subscription. */
   cycleOptions?: CycleOptions | undefined;
 }
-export interface ResumePartnersSubscriptionsRequest {
+export interface ResumePartnersSubscriptionsRequest extends ResumeSubscriptionRequest {
   /** Required. The name of the subscription resource to be resumed. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
-  /** Request body */
-  body?: ResumeSubscriptionRequest | undefined;
 }
 /** Response that contains the resumed subscription. */
 export interface ResumeSubscriptionResponse {
@@ -730,11 +715,9 @@ export interface SuspendSubscriptionRequest {
   /** Optional. The mode to suspend the subscription. It's required for partners to specify the suspend mode, whether suspend immediately and indefinitely, or cancel the subscription after grace_period_millis or auto_cancel_duration_millis if it's not resumed. */
   suspendMode?: SuspendSubscriptionRequestSuspendModeEnum | (string & {}) | undefined;
 }
-export interface SuspendPartnersSubscriptionsRequest {
+export interface SuspendPartnersSubscriptionsRequest extends SuspendSubscriptionRequest {
   /** Required. The name of the subscription resource to be suspended. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
-  /** Request body */
-  body?: SuspendSubscriptionRequest | undefined;
 }
 /** Response that contains the suspended subscription. */
 export interface SuspendSubscriptionResponse {
@@ -1163,12 +1146,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(219, __c13, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(219, __c13, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1182,13 +1167,15 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          subscriptionId: S.optional(S.String.pipe(T.Query())),
-          "cycleOptions.initialCycleDuration.count": S.optional(S.Number.pipe(T.Query())),
-          "cycleOptions.initialCycleDuration.unit": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(229, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(229, __c14, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            subscriptionId: S.optional(S.String.pipe(T.Query())),
+            "cycleOptions.initialCycleDuration.count": S.optional(S.Number.pipe(T.Query())),
+            "cycleOptions.initialCycleDuration.unit": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/subscriptions:provision",
@@ -1209,10 +1196,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ResumeSubscriptionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(80, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:resume",
@@ -1232,10 +1221,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SuspendSubscriptionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:suspend",
@@ -1277,10 +1268,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CancelSubscriptionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -1512,11 +1505,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(229, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(229, __c14, 5),
+          S.Struct({
+            subscriptionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/subscriptions",
@@ -1545,10 +1540,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "EntitleSubscriptionRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(274, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(274, __c17, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:entitle",
@@ -1576,10 +1573,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ExtendSubscriptionRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(289, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(289, __c18, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:extend",
@@ -1609,10 +1608,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "FindEligiblePromotionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/promotions:findEligible",
@@ -1701,10 +1702,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GenerateUserSessionRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(356, __c22, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c22, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userSessions:generate",

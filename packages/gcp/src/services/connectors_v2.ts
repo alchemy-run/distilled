@@ -130,13 +130,11 @@ export interface Entity {
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest {
+export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest extends Entity {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   parent: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
-  /** Request body */
-  body?: Entity | undefined;
 }
 export interface DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Conditions to be used when deleting entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
@@ -187,10 +185,8 @@ export interface ExchangeAuthCodeRequest {
   /** Optional. AuthCodeData contains the data the runtime requires to exchange for access and refresh tokens. If the data is not provided, the runtime will read the data from the secret manager. */
   authCodeData?: AuthCodeData | undefined;
 }
-export interface ExchangeAuthCodeProjectsLocationsConnectionsRequest {
+export interface ExchangeAuthCodeProjectsLocationsConnectionsRequest extends ExchangeAuthCodeRequest {
   name: string;
-  /** Request body */
-  body?: ExchangeAuthCodeRequest | undefined;
 }
 /** AccessCredentials includes the OAuth access token, and the other fields returned along with it. */
 export interface AccessCredentials {
@@ -234,11 +230,9 @@ export interface ExecuteHttpRequestRequest {
   /** Required. The fully resolved absolute target URL. Callers must pre-encode any query parameters. */
   url?: string | undefined;
 }
-export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest {
+export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest extends ExecuteHttpRequestRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
-  /** Request body */
-  body?: ExecuteHttpRequestRequest | undefined;
 }
 export interface ExecuteHttpRequestResponse {
   /** The HTTP status code received from the backend. */
@@ -257,11 +251,9 @@ export interface ExecuteActionRequest {
   /** Execution config for the request. */
   executionConfig?: ExecutionConfig | undefined;
 }
-export interface ExecuteProjectsLocationsConnectionsActionsRequest {
+export interface ExecuteProjectsLocationsConnectionsActionsRequest extends ExecuteActionRequest {
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
   name: string;
-  /** Request body */
-  body?: ExecuteActionRequest | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** Response message for ActionService.ExecuteAction */
@@ -280,11 +272,9 @@ export interface ExecuteToolRequest {
   /** Tool definition for the tool to be executed. */
   toolDefinition?: DocumentMap | undefined;
 }
-export interface ExecuteProjectsLocationsConnectionsToolsRequest {
+export interface ExecuteProjectsLocationsConnectionsToolsRequest extends ExecuteToolRequest {
   /** Required. Resource name of the Tool. Format: projects/{project}/locations/{location}/connections/{connection}/tools/{tool} */
   name: string;
-  /** Request body */
-  body?: ExecuteToolRequest | undefined;
 }
 /** Response message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolResponse {
@@ -363,11 +353,9 @@ export interface ExecuteSqlQueryRequest {
   /** Required. SQL statement passed by clients like Integration Platform, the query is passed as-is to the driver used for interfacing with external systems. */
   query?: Query | undefined;
 }
-export interface ExecuteSqlQueryProjectsLocationsConnectionsRequest {
+export interface ExecuteSqlQueryProjectsLocationsConnectionsRequest extends ExecuteSqlQueryRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   connection: string;
-  /** Request body */
-  body?: ExecuteSqlQueryRequest | undefined;
 }
 /** A response returned by the connection after executing the sql query. */
 export interface ExecuteSqlQueryResponse {
@@ -394,11 +382,9 @@ export interface GenerateCustomToolspecRequest {
   /** list of tools to be generated. */
   toolNames?: ToolNameList | undefined;
 }
-export interface GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest {
+export interface GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest extends GenerateCustomToolspecRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
-  /** Request body */
-  body?: GenerateCustomToolspecRequest | undefined;
 }
 export interface ToolSpec {
   /** Version of the tool spec. Format: providerId/connectorId/versionId/toolSpecId */
@@ -855,11 +841,9 @@ export interface GetResourcePostRequest {
   /** List of tool specifications. */
   toolSpec?: ToolSpec | undefined;
 }
-export interface GetResourcePostProjectsLocationsConnectionsResourcesRequest {
+export interface GetResourcePostProjectsLocationsConnectionsResourcesRequest extends GetResourcePostRequest {
   /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
   name: string;
-  /** Request body */
-  body?: GetResourcePostRequest | undefined;
 }
 export interface ListCustomToolNamesProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
@@ -1036,13 +1020,14 @@ export interface ListToolsResponse {
   /** Next page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest {
+export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest extends Omit<
+  Entity,
+  "name"
+> {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
-  /** Request body */
-  body?: Entity | undefined;
 }
 /** RefreshAccessTokenRequest includes the refresh token. */
 export interface RefreshAccessTokenRequest {
@@ -1053,10 +1038,8 @@ export interface RefreshAccessTokenRequest {
   /** OAuth2Config contains the OAuth2 config for the connection. */
   oauth2Config?: OAuth2Config | undefined;
 }
-export interface RefreshAccessTokenProjectsLocationsConnectionsRequest {
+export interface RefreshAccessTokenProjectsLocationsConnectionsRequest extends RefreshAccessTokenRequest {
   name: string;
-  /** Request body */
-  body?: RefreshAccessTokenRequest | undefined;
 }
 /** RefreshAccessTokenResponse includes the returned access token and its associated credentials. */
 export interface RefreshAccessTokenResponse {
@@ -1077,21 +1060,17 @@ export interface ListToolsPostRequest {
   /** List of tool names to for selective tool fetching. */
   toolNames?: StringList | undefined;
 }
-export interface ToolsProjectsLocationsConnectionsRequest {
+export interface ToolsProjectsLocationsConnectionsRequest extends ListToolsPostRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
-  /** Request body */
-  body?: ListToolsPostRequest | undefined;
 }
-export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
+export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest extends Entity {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
   /** Required. Conditions to be used when updating entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
   conditions?: string | undefined;
-  /** Request body */
-  body?: Entity | undefined;
 }
 /** Response message for EntityService.UpdateEntitiesWithConditions */
 export interface UpdateEntitiesWithConditionsResponse {
@@ -1702,10 +1681,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ExchangeAuthCodeRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:exchangeAuthCode",
@@ -1780,10 +1761,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ExecuteHttpRequestRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(34, __c4, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c4, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:executeHttpRequest",
@@ -1813,10 +1796,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ExecuteActionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:execute",
@@ -1851,10 +1836,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ExecuteToolRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:execute",
@@ -1900,10 +1887,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ExecuteSqlQueryRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          connection: S.String.pipe(T.Label()),
-          body: S.optional(__S(67, __c8, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(67, __c8, 3),
+          S.Struct({
+            connection: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+connection}:executeSqlQuery",
@@ -1923,10 +1912,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(90, __c11, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(90, __c11, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:generateConnectionToolspecOverride",
@@ -2221,10 +2212,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetResourcePostRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}",
@@ -2444,11 +2437,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -2470,10 +2465,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RefreshAccessTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(232, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:refreshAccessToken",
@@ -2504,10 +2501,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListToolsPostRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(240, __c30, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tools",
@@ -2521,12 +2520,14 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-          conditions: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+            "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+            conditions: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+entityType}/entities:updateEntitiesWithConditions",
@@ -2609,11 +2610,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(296, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/entities",

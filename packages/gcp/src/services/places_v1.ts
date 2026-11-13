@@ -144,10 +144,7 @@ export interface GoogleMapsPlacesV1AutocompletePlacesRequest {
   /** Optional. If true, include businesses that are not yet open but will open in the future. */
   includeFutureOpeningBusinesses?: boolean | undefined;
 }
-export interface AutocompletePlacesRequest {
-  /** Request body */
-  body?: GoogleMapsPlacesV1AutocompletePlacesRequest | undefined;
-}
+export interface AutocompletePlacesRequest extends GoogleMapsPlacesV1AutocompletePlacesRequest {}
 /** Identifies a substring within a given text. */
 export interface GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStringRange {
   /** Zero-based offset of the first Unicode character of the string (inclusive). */
@@ -1103,10 +1100,7 @@ export interface GoogleMapsPlacesV1SearchNearbyRequest {
   /** Included Place type (eg, "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting types, i.e. a type appears in both included_types and excluded_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
   includedTypes?: StringList | undefined;
 }
-export interface SearchNearbyPlacesRequest {
-  /** Request body */
-  body?: GoogleMapsPlacesV1SearchNearbyRequest | undefined;
-}
+export interface SearchNearbyPlacesRequest extends GoogleMapsPlacesV1SearchNearbyRequest {}
 /** A leg is a single portion of a journey from one location to another. */
 export interface GoogleMapsPlacesV1RoutingSummaryLeg {
   /** The time it takes to complete this leg of the trip. */
@@ -1237,10 +1231,7 @@ export interface GoogleMapsPlacesV1SearchTextRequest {
   /** Optional. The maximum number of results per page that can be returned. If the number of available results is larger than `page_size`, a `next_page_token` is returned which can be passed to `page_token` to get the next page of results in subsequent requests. If 0 or no value is provided, a default of 20 is used. The maximum value is 20; values above 20 will be set to 20. Negative values will return an INVALID_ARGUMENT error. If both `max_result_count` and `page_size` are specified, `max_result_count` will be ignored. */
   pageSize?: number | undefined;
 }
-export interface SearchTextPlacesRequest {
-  /** Request body */
-  body?: GoogleMapsPlacesV1SearchTextRequest | undefined;
-}
+export interface SearchTextPlacesRequest extends GoogleMapsPlacesV1SearchTextRequest {}
 /** The range of highlighted text. */
 export interface GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedTextHighlightedTextRange {
   endIndex?: number | undefined;
@@ -1415,9 +1406,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleMapsPlacesV1AutocompletePlacesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/places:autocomplete",
@@ -2129,9 +2118,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GoogleMapsPlacesV1SearchNearbyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(289, __c9, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/places:searchNearby",
@@ -2243,9 +2230,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GoogleMapsPlacesV1SearchTextRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(356, __c11, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(356, __c11, 4), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/places:searchText",

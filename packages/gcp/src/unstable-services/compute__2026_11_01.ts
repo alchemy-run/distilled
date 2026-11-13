@@ -88,7 +88,7 @@ export interface InstanceGroupManagersAbandonInstancesRequest {
   /** The URLs of one or more instances to abandon. This can be a full URL or a partial URL, such as zones/[ZONE]/instances/[INSTANCE_NAME]. */
   instances?: StringList | undefined;
 }
-export interface AbandonInstancesInstanceGroupManagersRequest {
+export interface AbandonInstancesInstanceGroupManagersRequest extends InstanceGroupManagersAbandonInstancesRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -97,8 +97,6 @@ export interface AbandonInstancesInstanceGroupManagersRequest {
   zone: string;
   /** The name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersAbandonInstancesRequest | undefined;
 }
 export type GetHealthOperationMetadataHealthInfoRepairCategoryEnum =
   | "REPAIR_CATEGORY_CRITICAL_FAILURE"
@@ -385,7 +383,7 @@ export interface Operation {
 }
 export type RegionInstanceGroupManagersAbandonInstancesRequest =
   InstanceGroupManagersAbandonInstancesRequest;
-export interface AbandonInstancesRegionInstanceGroupManagersRequest {
+export interface AbandonInstancesRegionInstanceGroupManagersRequest extends InstanceGroupManagersAbandonInstancesRequest {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -394,8 +392,6 @@ export interface AbandonInstancesRegionInstanceGroupManagersRequest {
   project: string;
   /** Name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersAbandonInstancesRequest | undefined;
 }
 export type AccessConfigTypeEnum = "DIRECT_IPV6" | "ONE_TO_ONE_NAT";
 export type AccessConfigNetworkTierEnum =
@@ -428,7 +424,7 @@ export interface AccessConfig {
   /** Output only. [Output Only] Type of the resource. Alwayscompute#accessConfig for access configs. */
   kind?: string | undefined;
 }
-export interface AddAccessConfigInstancesRequest {
+export interface AddAccessConfigInstancesRequest extends AccessConfig {
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
@@ -439,8 +435,6 @@ export interface AddAccessConfigInstancesRequest {
   requestId?: string | undefined;
   /** The name of the network interface to add to this instance. */
   networkInterface: string;
-  /** Request body */
-  body?: AccessConfig | undefined;
 }
 export interface FirewallPolicyAssociation {
   /** [Output Only] Deprecated, please use short name instead. The display name of the firewall policy of the association. */
@@ -456,17 +450,15 @@ export interface FirewallPolicyAssociation {
   /** Output only. [Output Only] The short name of the firewall policy of the association. */
   shortName?: string | undefined;
 }
-export interface AddAssociationFirewallPoliciesRequest {
+export interface AddAssociationFirewallPoliciesRequest extends FirewallPolicyAssociation {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Indicates whether or not to replace it if an association of the attachment already exists. This is false by default, in which case an error will be returned if an association already exists. */
   replaceExistingAssociation?: boolean | undefined;
-  /** Request body */
-  body?: FirewallPolicyAssociation | undefined;
 }
-export interface AddAssociationNetworkFirewallPoliciesRequest {
+export interface AddAssociationNetworkFirewallPoliciesRequest extends FirewallPolicyAssociation {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -475,8 +467,6 @@ export interface AddAssociationNetworkFirewallPoliciesRequest {
   firewallPolicy: string;
   /** Indicates whether or not to replace it if an association of the attachment already exists. This is false by default, in which case an error will be returned if an association already exists. */
   replaceExistingAssociation?: boolean | undefined;
-  /** Request body */
-  body?: FirewallPolicyAssociation | undefined;
 }
 export interface SecurityPolicyAssociation {
   /** A list of projects to exclude from the security policy. */
@@ -494,17 +484,15 @@ export interface SecurityPolicyAssociation {
   /** The resource that the security policy is attached to. */
   attachmentId?: string | undefined;
 }
-export interface AddAssociationOrganizationSecurityPoliciesRequest {
+export interface AddAssociationOrganizationSecurityPoliciesRequest extends SecurityPolicyAssociation {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Indicates whether or not to replace it if an association of the attachment already exists. This is false by default, in which case an error will be returned if an association already exists. */
   replaceExistingAssociation?: boolean | undefined;
   /** Name of the security policy to update. */
   securityPolicy: string;
-  /** Request body */
-  body?: SecurityPolicyAssociation | undefined;
 }
-export interface AddAssociationRegionNetworkFirewallPoliciesRequest {
+export interface AddAssociationRegionNetworkFirewallPoliciesRequest extends FirewallPolicyAssociation {
   /** Indicates whether or not to replace it if an association already exists. This is false by default, in which case an error will be returned if an association already exists. */
   replaceExistingAssociation?: boolean | undefined;
   /** Name of the region scoping this request. */
@@ -517,8 +505,6 @@ export interface AddAssociationRegionNetworkFirewallPoliciesRequest {
   associatedPolicyToBeReplaced?: string | undefined;
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
-  /** Request body */
-  body?: FirewallPolicyAssociation | undefined;
 }
 /** A full or valid partial URL to a health check. For example, the following are valid URLs: - https://www.googleapis.com/compute/beta/projects/project-id/global/httpHealthChecks/health-check - projects/project-id/global/httpHealthChecks/health-check - global/httpHealthChecks/health-check */
 export interface HealthCheckReference {
@@ -529,7 +515,7 @@ export interface TargetPoolsAddHealthCheckRequest {
   /** The HttpHealthCheck to add to the target pool. */
   healthChecks?: HealthCheckReferenceList | undefined;
 }
-export interface AddHealthCheckTargetPoolsRequest {
+export interface AddHealthCheckTargetPoolsRequest extends TargetPoolsAddHealthCheckRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the target pool to add a health check to. */
@@ -538,8 +524,6 @@ export interface AddHealthCheckTargetPoolsRequest {
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: TargetPoolsAddHealthCheckRequest | undefined;
 }
 export interface InstanceReference {
   /** The URL for a specific instance. @required compute.instancegroups.addInstances/removeInstances */
@@ -550,7 +534,7 @@ export interface InstanceGroupsAddInstancesRequest {
   /** The list of instances to add to the instance group. */
   instances?: InstanceReferenceList | undefined;
 }
-export interface AddInstancesInstanceGroupsRequest {
+export interface AddInstancesInstanceGroupsRequest extends InstanceGroupsAddInstancesRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the zone where the instance group is located. */
@@ -559,14 +543,12 @@ export interface AddInstancesInstanceGroupsRequest {
   instanceGroup: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceGroupsAddInstancesRequest | undefined;
 }
 export interface TargetPoolsAddInstanceRequest {
   /** A full or partial URL to an instance to add to this target pool. This can be a full or partial URL. For example, the following are valid URLs: - https://www.googleapis.com/compute/v1/projects/project-id/zones/zone/instances/instance-name - projects/project-id/zones/zone/instances/instance-name - zones/zone/instances/instance-name */
   instances?: InstanceReferenceList | undefined;
 }
-export interface AddInstanceTargetPoolsRequest {
+export interface AddInstanceTargetPoolsRequest extends TargetPoolsAddInstanceRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the TargetPool resource to add instances to. */
@@ -575,8 +557,6 @@ export interface AddInstanceTargetPoolsRequest {
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: TargetPoolsAddInstanceRequest | undefined;
 }
 export type NetworkInterfaceStackTypeEnum = "IPV4_IPV6" | "IPV4_ONLY" | "IPV6_ONLY";
 export type NetworkInterfaceIgmpQueryEnum = "IGMP_QUERY_DISABLED" | "IGMP_QUERY_V2";
@@ -644,7 +624,7 @@ export interface NetworkInterface {
   /** An array of alias IP ranges for this network interface. You can only specify this field for network interfaces in VPC networks. */
   aliasIpRanges?: AliasIpRangeList | undefined;
 }
-export interface AddNetworkInterfaceInstancesRequest {
+export interface AddNetworkInterfaceInstancesRequest extends NetworkInterface {
   /** Project ID for this request. */
   project: string;
   /** The instance name for this request stored as resource_id. Name should conform to RFC1035 or be an unsigned long integer. */
@@ -653,14 +633,12 @@ export interface AddNetworkInterfaceInstancesRequest {
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: NetworkInterface | undefined;
 }
 export interface NodeGroupsAddNodesRequest {
   /** Count of additional nodes to be added to the node group. */
   additionalNodeCount?: number | undefined;
 }
-export interface AddNodesNodeGroupsRequest {
+export interface AddNodesNodeGroupsRequest extends NodeGroupsAddNodesRequest {
   /** The name of the zone for this request. */
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -669,8 +647,6 @@ export interface AddNodesNodeGroupsRequest {
   project: string;
   /** Name of the NodeGroup resource. */
   nodeGroup: string;
-  /** Request body */
-  body?: NodeGroupsAddNodesRequest | undefined;
 }
 export type FirewallPolicyRuleSecureTagStateEnum = "EFFECTIVE" | "INEFFECTIVE";
 export interface FirewallPolicyRuleSecureTag {
@@ -788,7 +764,7 @@ export interface FirewallPolicyRule {
   /** The direction in which this rule applies. */
   direction?: FirewallPolicyRuleDirectionEnum | (string & {}) | undefined;
 }
-export interface AddPacketMirroringRuleNetworkFirewallPoliciesRequest {
+export interface AddPacketMirroringRuleNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -799,8 +775,6 @@ export interface AddPacketMirroringRuleNetworkFirewallPoliciesRequest {
   maxPriority?: number | undefined;
   /** When rule.priority is not specified, auto choose a unused priority betweenminPriority and maxPriority>. This field is exclusive with rule.priority. */
   minPriority?: number | undefined;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
 export type NetworkPeeringStackTypeEnum = "IPV4_IPV6" | "IPV4_ONLY";
 export type NetworkPeeringConnectionStatusConsensusStateDeleteStatusEnum =
@@ -902,21 +876,19 @@ export interface NetworksAddPeeringRequest {
   /** Name of the peering, which should conform to RFC1035. */
   name?: string | undefined;
 }
-export interface AddPeeringNetworksRequest {
+export interface AddPeeringNetworksRequest extends NetworksAddPeeringRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the network resource to add peering to. */
   network: string;
-  /** Request body */
-  body?: NetworksAddPeeringRequest | undefined;
 }
 export interface DisksAddResourcePoliciesRequest {
   /** Full or relative path to the resource policy to be added to this disk. You can only specify one resource policy. */
   resourcePolicies?: StringList | undefined;
 }
-export interface AddResourcePoliciesDisksRequest {
+export interface AddResourcePoliciesDisksRequest extends DisksAddResourcePoliciesRequest {
   /** Project ID for this request. */
   project: string;
   /** The disk name for this request. */
@@ -925,14 +897,12 @@ export interface AddResourcePoliciesDisksRequest {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DisksAddResourcePoliciesRequest | undefined;
 }
 export interface InstancesAddResourcePoliciesRequest {
   /** Resource policies to be added to this instance. */
   resourcePolicies?: StringList | undefined;
 }
-export interface AddResourcePoliciesInstancesRequest {
+export interface AddResourcePoliciesInstancesRequest extends InstancesAddResourcePoliciesRequest {
   /** The name of the zone for this request. */
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -941,14 +911,12 @@ export interface AddResourcePoliciesInstancesRequest {
   instance: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstancesAddResourcePoliciesRequest | undefined;
 }
 export interface RegionDisksAddResourcePoliciesRequest {
   /** Resource policies to be added to this disk. */
   resourcePolicies?: StringList | undefined;
 }
-export interface AddResourcePoliciesRegionDisksRequest {
+export interface AddResourcePoliciesRegionDisksRequest extends RegionDisksAddResourcePoliciesRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
@@ -957,18 +925,14 @@ export interface AddResourcePoliciesRegionDisksRequest {
   requestId?: string | undefined;
   /** The disk name for this request. */
   disk: string;
-  /** Request body */
-  body?: RegionDisksAddResourcePoliciesRequest | undefined;
 }
-export interface AddRuleFirewallPoliciesRequest {
+export interface AddRuleFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
-export interface AddRuleNetworkFirewallPoliciesRequest {
+export interface AddRuleNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** Project ID for this request. */
@@ -979,8 +943,6 @@ export interface AddRuleNetworkFirewallPoliciesRequest {
   minPriority?: number | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
 export interface SecurityPolicyRuleHttpHeaderActionHttpHeaderOption {
   /** The name of the header to set. */
@@ -1203,15 +1165,13 @@ export interface SecurityPolicyRule {
   /** Must be specified if the action is "rate_based_ban" or "throttle" or "fairshare". Cannot be specified for any other actions. */
   rateLimitOptions?: SecurityPolicyRuleRateLimitOptions | undefined;
 }
-export interface AddRuleOrganizationSecurityPoliciesRequest {
+export interface AddRuleOrganizationSecurityPoliciesRequest extends SecurityPolicyRule {
   /** Name of the security policy to update. */
   securityPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SecurityPolicyRule | undefined;
 }
-export interface AddRuleRegionNetworkFirewallPoliciesRequest {
+export interface AddRuleRegionNetworkFirewallPoliciesRequest extends FirewallPolicyRule {
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the firewall policy to update. */
@@ -1224,10 +1184,8 @@ export interface AddRuleRegionNetworkFirewallPoliciesRequest {
   minPriority?: number | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
-export interface AddRuleRegionSecurityPoliciesRequest {
+export interface AddRuleRegionSecurityPoliciesRequest extends SecurityPolicyRule {
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
   /** Name of the security policy to update. */
@@ -1236,18 +1194,14 @@ export interface AddRuleRegionSecurityPoliciesRequest {
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: SecurityPolicyRule | undefined;
 }
-export interface AddRuleSecurityPoliciesRequest {
+export interface AddRuleSecurityPoliciesRequest extends SecurityPolicyRule {
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the security policy to update. */
   securityPolicy: string;
-  /** Request body */
-  body?: SecurityPolicyRule | undefined;
 }
 /** Represents a customer-supplied Signing Key used by Cloud CDN Signed URLs */
 export interface SignedUrlKey {
@@ -1256,25 +1210,21 @@ export interface SignedUrlKey {
   /** 128-bit key value used for signing the URL. The key value must be a validRFC 4648 Section 5 base64url encoded string. */
   keyValue?: string | undefined;
 }
-export interface AddSignedUrlKeyBackendBucketsRequest {
+export interface AddSignedUrlKeyBackendBucketsRequest extends SignedUrlKey {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the BackendBucket resource to which the Signed URL Key should be added. The name should conform to RFC1035. */
   backendBucket: string;
-  /** Request body */
-  body?: SignedUrlKey | undefined;
 }
-export interface AddSignedUrlKeyBackendServicesRequest {
+export interface AddSignedUrlKeyBackendServicesRequest extends SignedUrlKey {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the BackendService resource to which the Signed URL Key should be added. The name should conform to RFC1035. */
   backendService: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SignedUrlKey | undefined;
 }
 export interface AdvanceRolloutsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -14213,15 +14163,13 @@ export interface InstanceGroupManagersApplyUpdatesRequest {
   /** Flag to update all instances instead of specified list of "instances". If the flag is set to true then the instances may not be specified in the request. */
   allInstances?: boolean | undefined;
 }
-export interface ApplyUpdatesToInstancesInstanceGroupManagersRequest {
+export interface ApplyUpdatesToInstancesInstanceGroupManagersRequest extends InstanceGroupManagersApplyUpdatesRequest {
   /** The name of the managed instance group, should conform to RFC1035. */
   instanceGroupManager: string;
   /** The name of thezone where the managed instance group is located. Should conform to RFC1035. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroupManagersApplyUpdatesRequest | undefined;
 }
 export type RegionInstanceGroupManagersApplyUpdatesRequestMinimalActionEnum =
   | "NONE"
@@ -14250,17 +14198,15 @@ export interface RegionInstanceGroupManagersApplyUpdatesRequest {
     | (string & {})
     | undefined;
 }
-export interface ApplyUpdatesToInstancesRegionInstanceGroupManagersRequest {
+export interface ApplyUpdatesToInstancesRegionInstanceGroupManagersRequest extends RegionInstanceGroupManagersApplyUpdatesRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the managed instance group, should conform to RFC1035. */
   instanceGroupManager: string;
   /** Name of the region scoping this request, should conform to RFC1035. */
   region: string;
-  /** Request body */
-  body?: RegionInstanceGroupManagersApplyUpdatesRequest | undefined;
 }
-export interface AttachDiskInstancesRequest {
+export interface AttachDiskInstancesRequest extends Omit<AttachedDisk, "forceAttach"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -14271,8 +14217,6 @@ export interface AttachDiskInstancesRequest {
   zone: string;
   /** The instance name for this request. */
   instance: string;
-  /** Request body */
-  body?: AttachedDisk | undefined;
 }
 /** The network endpoint. */
 export interface NetworkEndpoint {
@@ -14296,19 +14240,17 @@ export interface GlobalNetworkEndpointGroupsAttachEndpointsRequest {
   /** The list of network endpoints to be attached. */
   networkEndpoints?: NetworkEndpointList | undefined;
 }
-export interface AttachNetworkEndpointsGlobalNetworkEndpointGroupsRequest {
+export interface AttachNetworkEndpointsGlobalNetworkEndpointGroupsRequest extends GlobalNetworkEndpointGroupsAttachEndpointsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** The name of the network endpoint group where you are attaching network endpoints to. It should comply with RFC1035. */
   networkEndpointGroup: string;
-  /** Request body */
-  body?: GlobalNetworkEndpointGroupsAttachEndpointsRequest | undefined;
 }
 export type NetworkEndpointGroupsAttachEndpointsRequest =
   GlobalNetworkEndpointGroupsAttachEndpointsRequest;
-export interface AttachNetworkEndpointsNetworkEndpointGroupsRequest {
+export interface AttachNetworkEndpointsNetworkEndpointGroupsRequest extends GlobalNetworkEndpointGroupsAttachEndpointsRequest {
   /** The name of the network endpoint group where you are attaching network endpoints to. It should comply with RFC1035. */
   networkEndpointGroup: string;
   /** Project ID for this request. */
@@ -14317,12 +14259,10 @@ export interface AttachNetworkEndpointsNetworkEndpointGroupsRequest {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GlobalNetworkEndpointGroupsAttachEndpointsRequest | undefined;
 }
 export type RegionNetworkEndpointGroupsAttachEndpointsRequest =
   GlobalNetworkEndpointGroupsAttachEndpointsRequest;
-export interface AttachNetworkEndpointsRegionNetworkEndpointGroupsRequest {
+export interface AttachNetworkEndpointsRegionNetworkEndpointGroupsRequest extends GlobalNetworkEndpointGroupsAttachEndpointsRequest {
   /** The name of the network endpoint group where you are attaching network endpoints to. It should comply with RFC1035. */
   networkEndpointGroup: string;
   /** The name of the region where you want to create the network endpoint group. It should comply with RFC1035. */
@@ -14331,8 +14271,6 @@ export interface AttachNetworkEndpointsRegionNetworkEndpointGroupsRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GlobalNetworkEndpointGroupsAttachEndpointsRequest | undefined;
 }
 export interface SnapshotGroupParameters {
   /** URL of the disk type resource describing which disk type to use to create disks. Provide this when creating the disk. For example:projects/project/zones/zone/diskTypes/pd-ssd. See Persistent disk types. */
@@ -14355,15 +14293,13 @@ export interface BulkInsertDiskResource {
   /** The URL of the DiskConsistencyGroupPolicy for the group of disks to clone. This may be a full or partial URL, such as: - https://www.googleapis.com/compute/v1/projects/project/regions/region/resourcePolicies/resourcePolicy - projects/project/regions/region/resourcePolicies/resourcePolicy - regions/region/resourcePolicies/resourcePolicy */
   sourceConsistencyGroupPolicy?: string | undefined;
 }
-export interface BulkInsertDisksRequest {
+export interface BulkInsertDisksRequest extends BulkInsertDiskResource {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: BulkInsertDiskResource | undefined;
 }
 /** Per-instance properties to be set on individual instances. To be extended in the future. */
 export interface BulkInsertInstanceResourcePerInstanceProperties {
@@ -14441,35 +14377,29 @@ export interface BulkInsertInstanceResource {
   /** Policy for choosing target zone. For more information, seeCreate VMs in bulk. */
   locationPolicy?: LocationPolicy | undefined;
 }
-export interface BulkInsertInstancesRequest {
+export interface BulkInsertInstancesRequest extends BulkInsertInstanceResource {
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: BulkInsertInstanceResource | undefined;
 }
-export interface BulkInsertRegionDisksRequest {
+export interface BulkInsertRegionDisksRequest extends BulkInsertDiskResource {
   /** The name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: BulkInsertDiskResource | undefined;
 }
-export interface BulkInsertRegionInstancesRequest {
+export interface BulkInsertRegionInstancesRequest extends BulkInsertInstanceResource {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: BulkInsertInstanceResource | undefined;
 }
 export interface BulkSetLabelsRequest {
   /** The labels to set for this resource. */
@@ -14481,7 +14411,7 @@ export type BulkSetLabelsRequestList = Array<BulkSetLabelsRequest>;
 export interface BulkZoneSetLabelsRequest {
   requests?: BulkSetLabelsRequestList | undefined;
 }
-export interface BulkSetLabelsDisksRequest {
+export interface BulkSetLabelsDisksRequest extends BulkZoneSetLabelsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -14490,8 +14420,6 @@ export interface BulkSetLabelsDisksRequest {
   resource?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: BulkZoneSetLabelsRequest | undefined;
 }
 export type FutureResourcesSpecDeploymentTypeEnum = "DENSE" | "DEPLOYMENT_TYPE_UNSPECIFIED";
 /** Specifies a flexible time range with flexible start time and duration. It is possible to specify a contradictory time range that cannot be matched by any Interval. This causes a validation error. */
@@ -14577,13 +14505,11 @@ export interface CalendarModeAdviceRequest {
   /** Specification of resources to create in the future. The key of the map is an arbitrary string specified by the caller. Value of the map is a specification of required resources and their constraints. Currently only one value is allowed in this map. */
   futureResourcesSpecs?: FutureResourcesSpecMap | undefined;
 }
-export interface CalendarModeAdviceRequest_ {
+export interface CalendarModeAdviceRequest_ extends CalendarModeAdviceRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: CalendarModeAdviceRequest | undefined;
 }
 export type FutureResourcesRecommendationOtherLocationStatusEnum =
   | "CONDITIONS_NOT_MET"
@@ -14669,15 +14595,13 @@ export interface NetworksCancelRequestRemovePeeringRequest {
   /** Name of the peering, which should conform to RFC1035. */
   name?: string | undefined;
 }
-export interface CancelRequestRemovePeeringNetworksRequest {
+export interface CancelRequestRemovePeeringNetworksRequest extends NetworksCancelRequestRemovePeeringRequest {
   /** Name of the network resource to remove peering from. */
   network: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NetworksCancelRequestRemovePeeringRequest | undefined;
 }
 export interface CancelRolloutsRequest {
   /** Optional. If true, then the ongoing rollout must be rolled back. Else, just cancel the rollout without taking any further actions. Note that products must support at least one of these options, however, it does not need to support both. */
@@ -14773,13 +14697,11 @@ export interface CapacityAdviceRequest {
   /** Policy for instance selectors. */
   instanceFlexibilityPolicy?: CapacityAdviceRequestInstanceFlexibilityPolicy | undefined;
 }
-export interface CapacityAdviceRequest_ {
+export interface CapacityAdviceRequest_ extends CapacityAdviceRequest {
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: CapacityAdviceRequest | undefined;
 }
 /** Groups information about a shard of capacity. */
 export interface CapacityAdviceResponseRecommendationScores {
@@ -14874,13 +14796,11 @@ export interface CapacityHistoryRequest {
   /** Location policy for this request. */
   locationPolicy?: CapacityHistoryRequestLocationPolicy | undefined;
 }
-export interface CapacityHistoryAdviceRequest {
+export interface CapacityHistoryAdviceRequest extends CapacityHistoryRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: CapacityHistoryRequest | undefined;
 }
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
@@ -15029,7 +14949,7 @@ export interface InstanceGroupManagersCreateInstancesRequest {
   /** [Required] List of specifications of per-instance configs. */
   instances?: PerInstanceConfigList | undefined;
 }
-export interface CreateInstancesInstanceGroupManagersRequest {
+export interface CreateInstancesInstanceGroupManagersRequest extends InstanceGroupManagersCreateInstancesRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -15038,13 +14958,11 @@ export interface CreateInstancesInstanceGroupManagersRequest {
   zone: string;
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersCreateInstancesRequest | undefined;
 }
 /** RegionInstanceGroupManagers.createInstances */
 export type RegionInstanceGroupManagersCreateInstancesRequest =
   InstanceGroupManagersCreateInstancesRequest;
-export interface CreateInstancesRegionInstanceGroupManagersRequest {
+export interface CreateInstancesRegionInstanceGroupManagersRequest extends InstanceGroupManagersCreateInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of theregion where the managed instance group is located. It should conform to RFC1035. */
@@ -15053,8 +14971,6 @@ export interface CreateInstancesRegionInstanceGroupManagersRequest {
   project: string;
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersCreateInstancesRequest | undefined;
 }
 export type InterconnectGroupsCreateMembersInterconnectInputRequestedFeaturesItemEnum =
   | "IF_CROSS_SITE_NETWORK"
@@ -15122,13 +15038,11 @@ export interface InterconnectGroupsCreateMembers {
 export interface InterconnectGroupsCreateMembersRequest {
   request?: InterconnectGroupsCreateMembers | undefined;
 }
-export interface CreateMembersInterconnectGroupsRequest {
+export interface CreateMembersInterconnectGroupsRequest extends InterconnectGroupsCreateMembersRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the group resource to create members for. */
   interconnectGroup: string;
-  /** Request body */
-  body?: InterconnectGroupsCreateMembersRequest | undefined;
 }
 export type SnapshotSnapshotTypeEnum = "ARCHIVE" | "STANDARD";
 export type SnapshotStatusEnum = "CREATING" | "DELETING" | "FAILED" | "READY" | "UPLOADING";
@@ -15224,7 +15138,7 @@ export interface Snapshot {
   /** Output only. [Output Only] The architecture of the snapshot. Valid values are ARM64 or X86_64. */
   architecture?: SnapshotArchitectureEnum | (string & {}) | undefined;
 }
-export interface CreateSnapshotDisksRequest {
+export interface CreateSnapshotDisksRequest extends Omit<Snapshot, "guestFlush"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the persistent disk to snapshot. */
@@ -15235,10 +15149,8 @@ export interface CreateSnapshotDisksRequest {
   project: string;
   /** [Input Only] Whether to attempt an application consistent snapshot by informing the OS to prepare for the snapshot process. */
   guestFlush?: boolean | undefined;
-  /** Request body */
-  body?: Snapshot | undefined;
 }
-export interface CreateSnapshotRegionDisksRequest {
+export interface CreateSnapshotRegionDisksRequest extends Omit<Snapshot, "region"> {
   /** Name of the regional persistent disk to snapshot. */
   disk: string;
   /** Name of the region for this request. */
@@ -15247,8 +15159,6 @@ export interface CreateSnapshotRegionDisksRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Snapshot | undefined;
 }
 export interface DeleteAccessConfigInstancesRequest {
   /** The instance name for this request. */
@@ -15423,15 +15333,13 @@ export interface GlobalVmExtensionPolicyRolloutOperationRolloutInput {
   /** Optional. The UUID that identifies a policy rollout retry attempt for update and delete operations. Set this field only when retrying a rollout for an existing extension policy. * `update` method: Lets you retry policy rollout without changes. An error occurs if you set retry_uuid but the policy is modified. * `delete` method: Lets you retry policy deletion rollout if the previous deletion rollout is not finished and the policy is in the DELETING state. If you set this field when the policy is not in the DELETING state, an error occurs. */
   retryUuid?: string | undefined;
 }
-export interface DeleteGlobalVmExtensionPoliciesRequest {
+export interface DeleteGlobalVmExtensionPoliciesRequest extends GlobalVmExtensionPolicyRolloutOperationRolloutInput {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the global VM extension policy to purge scoped resources for. */
   globalVmExtensionPolicy: string;
-  /** Request body */
-  body?: GlobalVmExtensionPolicyRolloutOperationRolloutInput | undefined;
 }
 export interface DeleteHealthChecksRequest {
   /** Project ID for this request. */
@@ -15517,7 +15425,7 @@ export interface InstanceGroupManagersDeleteInstancesRequest {
   /** The URLs of one or more instances to delete. This can be a full URL or a partial URL, such as zones/[ZONE]/instances/[INSTANCE_NAME]. Queued instances do not have URL and can be deleted only by name. One cannot specify both URLs and names in a single request. */
   instances?: StringList | undefined;
 }
-export interface DeleteInstancesInstanceGroupManagersRequest {
+export interface DeleteInstancesInstanceGroupManagersRequest extends InstanceGroupManagersDeleteInstancesRequest {
   /** The name of thezone where the managed instance group is located. */
   zone: string;
   /** When set, graceful shutdown is skipped for instance deletion even if it's configured for the instances. */
@@ -15528,8 +15436,6 @@ export interface DeleteInstancesInstanceGroupManagersRequest {
   project: string;
   /** The name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersDeleteInstancesRequest | undefined;
 }
 export interface RegionInstanceGroupManagersDeleteInstancesRequest {
   /** The URLs of one or more instances to delete. This can be a full URL or a partial URL, such as zones/[ZONE]/instances/[INSTANCE_NAME]. */
@@ -15537,7 +15443,7 @@ export interface RegionInstanceGroupManagersDeleteInstancesRequest {
   /** Specifies whether the request should proceed despite the inclusion of instances that are not members of the group or that are already in the process of being deleted or abandoned. If this field is set to `false` and such an instance is specified in the request, the operation fails. The operation always fails if the request contains a malformed instance URL or a reference to an instance that exists in a zone or region other than the group's zone or region. */
   skipInstancesOnValidationError?: boolean | undefined;
 }
-export interface DeleteInstancesRegionInstanceGroupManagersRequest {
+export interface DeleteInstancesRegionInstanceGroupManagersRequest extends RegionInstanceGroupManagersDeleteInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
@@ -15548,8 +15454,6 @@ export interface DeleteInstancesRegionInstanceGroupManagersRequest {
   project: string;
   /** Name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: RegionInstanceGroupManagersDeleteInstancesRequest | undefined;
 }
 export interface DeleteInstanceTemplatesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -15713,7 +15617,7 @@ export interface NodeGroupsDeleteNodesRequest {
   /** Names of the nodes to delete. */
   nodes?: StringList | undefined;
 }
-export interface DeleteNodesNodeGroupsRequest {
+export interface DeleteNodesNodeGroupsRequest extends NodeGroupsDeleteNodesRequest {
   /** Name of the NodeGroup resource whose nodes will be deleted. */
   nodeGroup: string;
   /** The name of the zone for this request. */
@@ -15722,8 +15626,6 @@ export interface DeleteNodesNodeGroupsRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: NodeGroupsDeleteNodesRequest | undefined;
 }
 export interface DeleteNodeTemplatesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -15756,28 +15658,24 @@ export interface InstanceGroupManagersDeletePerInstanceConfigsReq {
   /** The list of instance names for which we want to delete per-instance configs on this managed instance group. */
   names?: StringList | undefined;
 }
-export interface DeletePerInstanceConfigsInstanceGroupManagersRequest {
+export interface DeletePerInstanceConfigsInstanceGroupManagersRequest extends InstanceGroupManagersDeletePerInstanceConfigsReq {
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
   /** Project ID for this request. */
   project: string;
   /** The name of thezone where the managed instance group is located. It should conform to RFC1035. */
   zone: string;
-  /** Request body */
-  body?: InstanceGroupManagersDeletePerInstanceConfigsReq | undefined;
 }
 /** RegionInstanceGroupManagers.deletePerInstanceConfigs */
 export type RegionInstanceGroupManagerDeleteInstanceConfigReq =
   InstanceGroupManagersDeletePerInstanceConfigsReq;
-export interface DeletePerInstanceConfigsRegionInstanceGroupManagersRequest {
+export interface DeletePerInstanceConfigsRegionInstanceGroupManagersRequest extends InstanceGroupManagersDeletePerInstanceConfigsReq {
   /** Project ID for this request. */
   project: string;
   /** Name of the region scoping this request, should conform to RFC1035. */
   region: string;
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersDeletePerInstanceConfigsReq | undefined;
 }
 export interface DeletePublicAdvertisedPrefixesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -16334,15 +16232,13 @@ export interface DeleteZoneVmExtensionPoliciesRequest {
   /** Name of the zone for this request. */
   zone: string;
 }
-export interface DeprecateImagesRequest {
+export interface DeprecateImagesRequest extends DeprecationStatus {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Image name. */
   image: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: DeprecationStatus | undefined;
 }
 export interface DetachDiskInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -16360,19 +16256,17 @@ export interface GlobalNetworkEndpointGroupsDetachEndpointsRequest {
   /** The list of network endpoints to be detached. */
   networkEndpoints?: NetworkEndpointList | undefined;
 }
-export interface DetachNetworkEndpointsGlobalNetworkEndpointGroupsRequest {
+export interface DetachNetworkEndpointsGlobalNetworkEndpointGroupsRequest extends GlobalNetworkEndpointGroupsDetachEndpointsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the network endpoint group where you are removing network endpoints. It should comply with RFC1035. */
   networkEndpointGroup: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GlobalNetworkEndpointGroupsDetachEndpointsRequest | undefined;
 }
 export type NetworkEndpointGroupsDetachEndpointsRequest =
   GlobalNetworkEndpointGroupsDetachEndpointsRequest;
-export interface DetachNetworkEndpointsNetworkEndpointGroupsRequest {
+export interface DetachNetworkEndpointsNetworkEndpointGroupsRequest extends GlobalNetworkEndpointGroupsDetachEndpointsRequest {
   /** The name of the network endpoint group where you are removing network endpoints. It should comply with RFC1035. */
   networkEndpointGroup: string;
   /** The name of the zone where the network endpoint group is located. It should comply with RFC1035. */
@@ -16381,12 +16275,10 @@ export interface DetachNetworkEndpointsNetworkEndpointGroupsRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalNetworkEndpointGroupsDetachEndpointsRequest | undefined;
 }
 export type RegionNetworkEndpointGroupsDetachEndpointsRequest =
   GlobalNetworkEndpointGroupsDetachEndpointsRequest;
-export interface DetachNetworkEndpointsRegionNetworkEndpointGroupsRequest {
+export interface DetachNetworkEndpointsRegionNetworkEndpointGroupsRequest extends GlobalNetworkEndpointGroupsDetachEndpointsRequest {
   /** The name of the network endpoint group you are detaching network endpoints from. It should comply with RFC1035. */
   networkEndpointGroup: string;
   /** The name of the region where the network endpoint group is located. It should comply with RFC1035. */
@@ -16395,8 +16287,6 @@ export interface DetachNetworkEndpointsRegionNetworkEndpointGroupsRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalNetworkEndpointGroupsDetachEndpointsRequest | undefined;
 }
 export interface DisableXpnHostProjectsRequest {
   /** Project ID for this request. */
@@ -16416,13 +16306,11 @@ export interface ProjectsDisableXpnResourceRequest {
   /** Service resource (a.k.a service project) ID. */
   xpnResource?: XpnResourceId | undefined;
 }
-export interface DisableXpnResourceProjectsRequest {
+export interface DisableXpnResourceProjectsRequest extends ProjectsDisableXpnResourceRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ProjectsDisableXpnResourceRequest | undefined;
 }
 export interface EnableXpnHostProjectsRequest {
   /** Project ID for this request. */
@@ -16431,19 +16319,17 @@ export interface EnableXpnHostProjectsRequest {
   requestId?: string | undefined;
 }
 export type ProjectsEnableXpnResourceRequest = ProjectsDisableXpnResourceRequest;
-export interface EnableXpnResourceProjectsRequest {
+export interface EnableXpnResourceProjectsRequest extends ProjectsDisableXpnResourceRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ProjectsDisableXpnResourceRequest | undefined;
 }
 export interface SubnetworksExpandIpCidrRangeRequest {
   /** The IP (in CIDR format or netmask) of internal addresses that are legal on this Subnetwork. This range should be disjoint from other subnetworks within this network. This range can only be larger than (i.e. a superset of) the range previously defined before the update. */
   ipCidrRange?: string | undefined;
 }
-export interface ExpandIpCidrRangeSubnetworksRequest {
+export interface ExpandIpCidrRangeSubnetworksRequest extends SubnetworksExpandIpCidrRangeRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the Subnetwork resource to update. */
@@ -16452,8 +16338,6 @@ export interface ExpandIpCidrRangeSubnetworksRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SubnetworksExpandIpCidrRangeRequest | undefined;
 }
 export interface GetAcceleratorTypesRequest {
   /** Project ID for this request. */
@@ -17232,12 +17116,10 @@ export interface ResourceGroupReference {
   /** A URI referencing one of the instance groups or network endpoint groups listed in the backend service. */
   group?: string | undefined;
 }
-export interface GetHealthBackendServicesRequest {
+export interface GetHealthBackendServicesRequest extends ResourceGroupReference {
   /** Name of the BackendService resource to which the queried instance belongs. */
   backendService: string;
   project: string;
-  /** Request body */
-  body?: ResourceGroupReference | undefined;
 }
 export type HealthStatusIpv6HealthStateEnum = "HEALTHY" | "UNHEALTHY";
 export type HealthStatusHealthStateEnum = "HEALTHY" | "UNHEALTHY";
@@ -17282,14 +17164,12 @@ export interface GetHealthChecksRequest {
   /** Name of the HealthCheck resource to return. */
   healthCheck: string;
 }
-export interface GetHealthRegionBackendServicesRequest {
+export interface GetHealthRegionBackendServicesRequest extends ResourceGroupReference {
   /** Name of the BackendService resource for which to get health. */
   backendService: string;
   /** Name of the region scoping this request. */
   region: string;
   project: string;
-  /** Request body */
-  body?: ResourceGroupReference | undefined;
 }
 export interface GetHealthRegionCompositeHealthChecksRequest {
   /** Name of the project scoping this request. */
@@ -17371,15 +17251,13 @@ export interface GetHealthReservationSlotsRequest {
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
   zone: string;
 }
-export interface GetHealthTargetPoolsRequest {
+export interface GetHealthTargetPoolsRequest extends InstanceReference {
   /** Project ID for this request. */
   project: string;
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the TargetPool resource to which the queried instance belongs. */
   targetPool: string;
-  /** Request body */
-  body?: InstanceReference | undefined;
 }
 export interface TargetPoolInstanceHealth {
   healthStatus?: HealthStatusList | undefined;
@@ -21916,7 +21794,7 @@ export interface HostsGetVersionRequest {
   /** The SBOM selection to return. Duplicate values in the list will be ignored. */
   sbomSelections?: HostsGetVersionRequestSbomSelectionsItemEnumList | undefined;
 }
-export interface GetVersionHostsRequest {
+export interface GetVersionHostsRequest extends HostsGetVersionRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -21927,8 +21805,6 @@ export interface GetVersionHostsRequest {
   association: string;
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
   zone: string;
-  /** Request body */
-  body?: HostsGetVersionRequest | undefined;
 }
 export type ReservationSlotsGetVersionRequestSbomSelectionsItemEnum =
   | "SBOM_SELECTION_CURRENT"
@@ -21941,7 +21817,7 @@ export interface ReservationSlotsGetVersionRequest {
   /** The SBOM selection to return. Duplicate values in the list will be ignored. */
   sbomSelections?: ReservationSlotsGetVersionRequestSbomSelectionsItemEnumList | undefined;
 }
-export interface GetVersionReservationSlotsRequest {
+export interface GetVersionReservationSlotsRequest extends ReservationSlotsGetVersionRequest {
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
   zone: string;
   /** The name of the parent reservation and parent block. In the format of reservations/{reservation_name}/reservationBlocks/{reservation_block_name}/reservationSubBlocks/{reservation_sub_block_name} */
@@ -21952,8 +21828,6 @@ export interface GetVersionReservationSlotsRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ReservationSlotsGetVersionRequest | undefined;
 }
 export type ReservationSubBlocksGetVersionRequestSbomSelectionsItemEnum =
   | "SBOM_SELECTION_CURRENT"
@@ -21966,7 +21840,7 @@ export interface ReservationSubBlocksGetVersionRequest {
   /** The SBOM selection to return. */
   sbomSelections?: ReservationSubBlocksGetVersionRequestSbomSelectionsItemEnumList | undefined;
 }
-export interface GetVersionReservationSubBlocksRequest {
+export interface GetVersionReservationSubBlocksRequest extends ReservationSubBlocksGetVersionRequest {
   /** The name of the reservation subBlock. Name should conform to RFC1035 or be a resource ID. */
   reservationSubBlock: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -21977,8 +21851,6 @@ export interface GetVersionReservationSubBlocksRequest {
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ReservationSubBlocksGetVersionRequest | undefined;
 }
 export interface GetVpnGatewaysRequest {
   /** Name of the VPN gateway to return. */
@@ -22219,53 +22091,43 @@ export interface GetZoneVmExtensionPoliciesRequest {
   /** Name of the zone for this request. */
   zone: string;
 }
-export interface InsertAddressesRequest {
+export interface InsertAddressesRequest extends Omit<Address, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Address | undefined;
 }
-export interface InsertAutoscalersRequest {
+export interface InsertAutoscalersRequest extends Omit<Autoscaler, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Autoscaler | undefined;
 }
-export interface InsertBackendBucketsRequest {
+export interface InsertBackendBucketsRequest extends BackendBucket {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: BackendBucket | undefined;
 }
-export interface InsertBackendServicesRequest {
+export interface InsertBackendServicesRequest extends BackendService {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: BackendService | undefined;
 }
-export interface InsertCrossSiteNetworksRequest {
+export interface InsertCrossSiteNetworksRequest extends CrossSiteNetwork {
   /** [Input Only] Validate the new configuration, but don't create it. */
   validateOnly?: boolean | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: CrossSiteNetwork | undefined;
 }
-export interface InsertDisksRequest {
+export interface InsertDisksRequest extends Omit<Disk, "sourceImage" | "zone"> {
   /** Project ID for this request. */
   project: string;
   /** Source image to restore onto a disk. This field is optional. */
@@ -22274,128 +22136,101 @@ export interface InsertDisksRequest {
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: Disk | undefined;
 }
-export interface InsertExternalVpnGatewaysRequest {
+export interface InsertExternalVpnGatewaysRequest extends ExternalVpnGateway {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ExternalVpnGateway | undefined;
 }
-export interface InsertFirewallPoliciesRequest {
+export interface InsertFirewallPoliciesRequest extends FirewallPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Parent ID for this request. The ID can be either be "folders/[FOLDER_ID]" if the parent is a folder or "organizations/[ORGANIZATION_ID]" if the parent is an organization. */
   parentId?: string | undefined;
-  /** Request body */
-  body?: FirewallPolicy | undefined;
 }
-export interface InsertFirewallsRequest {
+export interface InsertFirewallsRequest extends Firewall {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Firewall | undefined;
 }
-export interface InsertForwardingRulesRequest {
+export interface InsertForwardingRulesRequest extends Omit<ForwardingRule, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: ForwardingRule | undefined;
 }
-export interface InsertFutureReservationsRequest {
+export interface InsertFutureReservationsRequest extends Omit<FutureReservation, "zone"> {
   /** Name of the zone for this request. Name should conform to RFC1035. */
   zone: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: FutureReservation | undefined;
 }
-export interface InsertGlobalAddressesRequest {
+export interface InsertGlobalAddressesRequest extends Address {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Address | undefined;
 }
-export interface InsertGlobalForwardingRulesRequest {
+export interface InsertGlobalForwardingRulesRequest extends ForwardingRule {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ForwardingRule | undefined;
 }
-export interface InsertGlobalNetworkEndpointGroupsRequest {
+export interface InsertGlobalNetworkEndpointGroupsRequest extends NetworkEndpointGroup {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NetworkEndpointGroup | undefined;
 }
-export interface InsertGlobalPublicDelegatedPrefixesRequest {
+export interface InsertGlobalPublicDelegatedPrefixesRequest extends PublicDelegatedPrefix {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: PublicDelegatedPrefix | undefined;
 }
-export interface InsertGlobalVmExtensionPoliciesRequest {
+export interface InsertGlobalVmExtensionPoliciesRequest extends GlobalVmExtensionPolicy {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GlobalVmExtensionPolicy | undefined;
 }
-export interface InsertHealthChecksRequest {
+export interface InsertHealthChecksRequest extends HealthCheck {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: HealthCheck | undefined;
 }
-export interface InsertHttpHealthChecksRequest {
+export interface InsertHttpHealthChecksRequest extends HttpHealthCheck {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: HttpHealthCheck | undefined;
 }
-export interface InsertHttpsHealthChecksRequest {
+export interface InsertHttpsHealthChecksRequest extends HttpsHealthCheck {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: HttpsHealthCheck | undefined;
 }
-export interface InsertImagesRequest {
+export interface InsertImagesRequest extends Image {
   /** Force image creation if true. */
   forceCreate?: boolean | undefined;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Image | undefined;
 }
-export interface InsertInstanceGroupManagerResizeRequestsRequest {
+export interface InsertInstanceGroupManagerResizeRequestsRequest extends Omit<
+  InstanceGroupManagerResizeRequest,
+  "zone"
+> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -22404,30 +22239,24 @@ export interface InsertInstanceGroupManagerResizeRequestsRequest {
   zone: string;
   /** The name of the managed instance group to which the resize request will be added. Name should conform to RFC1035 or be a resource ID. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagerResizeRequest | undefined;
 }
-export interface InsertInstanceGroupManagersRequest {
+export interface InsertInstanceGroupManagersRequest extends Omit<InstanceGroupManager, "zone"> {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the zone where you want to create the managed instance group. */
   zone: string;
-  /** Request body */
-  body?: InstanceGroupManager | undefined;
 }
-export interface InsertInstanceGroupsRequest {
+export interface InsertInstanceGroupsRequest extends Omit<InstanceGroup, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the zone where you want to create the instance group. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroup | undefined;
 }
-export interface InsertInstancesRequest {
+export interface InsertInstancesRequest extends Omit<Instance, "zone" | "sourceMachineImage"> {
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
@@ -22438,18 +22267,17 @@ export interface InsertInstancesRequest {
   sourceMachineImage?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
-export interface InsertInstanceTemplatesRequest {
+export interface InsertInstanceTemplatesRequest extends InstanceTemplate {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceTemplate | undefined;
 }
-export interface InsertInstantSnapshotGroupsRequest {
+export interface InsertInstantSnapshotGroupsRequest extends Omit<
+  InstantSnapshotGroup,
+  "zone" | "sourceConsistencyGroup"
+> {
   /** begin_interface: MixerMutationRequestBuilder */
   sourceConsistencyGroup?: string | undefined;
   /** Name of the zone for this request. */
@@ -22458,28 +22286,25 @@ export interface InsertInstantSnapshotGroupsRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstantSnapshotGroup | undefined;
 }
-export interface InsertInstantSnapshotsRequest {
+export interface InsertInstantSnapshotsRequest extends Omit<InstantSnapshot, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstantSnapshot | undefined;
 }
-export interface InsertInterconnectAttachmentGroupsRequest {
+export interface InsertInterconnectAttachmentGroupsRequest extends InterconnectAttachmentGroup {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InterconnectAttachmentGroup | undefined;
 }
-export interface InsertInterconnectAttachmentsRequest {
+export interface InsertInterconnectAttachmentsRequest extends Omit<
+  InterconnectAttachment,
+  "region"
+> {
   /** Project ID for this request. */
   project: string;
   /** Name of the region for this request. */
@@ -22488,54 +22313,45 @@ export interface InsertInterconnectAttachmentsRequest {
   validateOnly?: boolean | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InterconnectAttachment | undefined;
 }
-export interface InsertInterconnectGroupsRequest {
+export interface InsertInterconnectGroupsRequest extends InterconnectGroup {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InterconnectGroup | undefined;
 }
-export interface InsertInterconnectsRequest {
+export interface InsertInterconnectsRequest extends Interconnect {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Interconnect | undefined;
 }
-export interface InsertLicensesRequest {
+export interface InsertLicensesRequest extends License {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: License | undefined;
 }
-export interface InsertMachineImagesRequest {
+export interface InsertMachineImagesRequest extends Omit<MachineImage, "sourceInstance"> {
   /** Required. Source instance that is used to create the machine image from. */
   sourceInstance?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: MachineImage | undefined;
 }
-export interface InsertNetworkAttachmentsRequest {
+export interface InsertNetworkAttachmentsRequest extends Omit<NetworkAttachment, "region"> {
   /** Name of the region of this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NetworkAttachment | undefined;
 }
-export interface InsertNetworkEdgeSecurityServicesRequest {
+export interface InsertNetworkEdgeSecurityServicesRequest extends Omit<
+  NetworkEdgeSecurityService,
+  "region"
+> {
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
@@ -22544,36 +22360,28 @@ export interface InsertNetworkEdgeSecurityServicesRequest {
   requestId?: string | undefined;
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: NetworkEdgeSecurityService | undefined;
 }
-export interface InsertNetworkEndpointGroupsRequest {
+export interface InsertNetworkEndpointGroupsRequest extends Omit<NetworkEndpointGroup, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone where you want to create the network endpoint group. It should comply with RFC1035. */
   zone: string;
-  /** Request body */
-  body?: NetworkEndpointGroup | undefined;
 }
-export interface InsertNetworkFirewallPoliciesRequest {
+export interface InsertNetworkFirewallPoliciesRequest extends FirewallPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: FirewallPolicy | undefined;
 }
-export interface InsertNetworksRequest {
+export interface InsertNetworksRequest extends Network {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Network | undefined;
 }
-export interface InsertNodeGroupsRequest {
+export interface InsertNodeGroupsRequest extends Omit<NodeGroup, "zone"> {
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
@@ -22582,106 +22390,90 @@ export interface InsertNodeGroupsRequest {
   requestId?: string | undefined;
   /** Initial count of nodes in the node group. */
   initialNodeCount: number;
-  /** Request body */
-  body?: NodeGroup | undefined;
 }
-export interface InsertNodeTemplatesRequest {
+export interface InsertNodeTemplatesRequest extends Omit<NodeTemplate, "region"> {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: NodeTemplate | undefined;
 }
-export interface InsertOrganizationSecurityPoliciesRequest {
+export interface InsertOrganizationSecurityPoliciesRequest extends SecurityPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Parent ID for this request. The ID can be either be "folders/[FOLDER_ID]" if the parent is a folder or "organizations/[ORGANIZATION_ID]" if the parent is an organization. */
   parentId?: string | undefined;
-  /** Request body */
-  body?: SecurityPolicy | undefined;
 }
-export interface InsertPacketMirroringsRequest {
+export interface InsertPacketMirroringsRequest extends Omit<PacketMirroring, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: PacketMirroring | undefined;
 }
-export interface InsertPublicAdvertisedPrefixesRequest {
+export interface InsertPublicAdvertisedPrefixesRequest extends PublicAdvertisedPrefix {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: PublicAdvertisedPrefix | undefined;
 }
-export interface InsertPublicDelegatedPrefixesRequest {
+export interface InsertPublicDelegatedPrefixesRequest extends Omit<
+  PublicDelegatedPrefix,
+  "region"
+> {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region of this request. */
   region: string;
-  /** Request body */
-  body?: PublicDelegatedPrefix | undefined;
 }
-export interface InsertRegionAutoscalersRequest {
+export interface InsertRegionAutoscalersRequest extends Omit<Autoscaler, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Autoscaler | undefined;
 }
-export interface InsertRegionBackendBucketsRequest {
+export interface InsertRegionBackendBucketsRequest extends Omit<BackendBucket, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the region of this request. */
   region: string;
-  /** Request body */
-  body?: BackendBucket | undefined;
 }
-export interface InsertRegionBackendServicesRequest {
+export interface InsertRegionBackendServicesRequest extends Omit<BackendService, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: BackendService | undefined;
 }
-export interface InsertRegionCommitmentsRequest {
+export interface InsertRegionCommitmentsRequest extends Omit<Commitment, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Commitment | undefined;
 }
-export interface InsertRegionCompositeHealthChecksRequest {
+export interface InsertRegionCompositeHealthChecksRequest extends Omit<
+  CompositeHealthCheck,
+  "region"
+> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: CompositeHealthCheck | undefined;
 }
-export interface InsertRegionDisksRequest {
+export interface InsertRegionDisksRequest extends Omit<Disk, "region" | "sourceImage"> {
   /** Name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -22690,50 +22482,46 @@ export interface InsertRegionDisksRequest {
   project: string;
   /** Source image to restore onto a disk. This field is optional. */
   sourceImage?: string | undefined;
-  /** Request body */
-  body?: Disk | undefined;
 }
-export interface InsertRegionHealthAggregationPoliciesRequest {
+export interface InsertRegionHealthAggregationPoliciesRequest extends Omit<
+  HealthAggregationPolicy,
+  "region"
+> {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: HealthAggregationPolicy | undefined;
 }
-export interface InsertRegionHealthChecksRequest {
+export interface InsertRegionHealthChecksRequest extends Omit<HealthCheck, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: HealthCheck | undefined;
 }
-export interface InsertRegionHealthCheckServicesRequest {
+export interface InsertRegionHealthCheckServicesRequest extends Omit<HealthCheckService, "region"> {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: HealthCheckService | undefined;
 }
-export interface InsertRegionHealthSourcesRequest {
+export interface InsertRegionHealthSourcesRequest extends Omit<HealthSource, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: HealthSource | undefined;
 }
-export interface InsertRegionInstanceGroupManagerResizeRequestsRequest {
+export interface InsertRegionInstanceGroupManagerResizeRequestsRequest extends Omit<
+  InstanceGroupManagerResizeRequest,
+  "region"
+> {
   /** Name of the managed instance group to which the resize request is scoped. Name should conform to RFC1035 or be a resource ID. */
   instanceGroupManager: string;
   /** Project ID for this request. */
@@ -22742,30 +22530,30 @@ export interface InsertRegionInstanceGroupManagerResizeRequestsRequest {
   requestId?: string | undefined;
   /** Name of the region scoping this request. Name should conform to RFC1035. */
   region: string;
-  /** Request body */
-  body?: InstanceGroupManagerResizeRequest | undefined;
 }
-export interface InsertRegionInstanceGroupManagersRequest {
+export interface InsertRegionInstanceGroupManagersRequest extends Omit<
+  InstanceGroupManager,
+  "region"
+> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroupManager | undefined;
 }
-export interface InsertRegionInstanceTemplatesRequest {
+export interface InsertRegionInstanceTemplatesRequest extends Omit<InstanceTemplate, "region"> {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: InstanceTemplate | undefined;
 }
-export interface InsertRegionInstantSnapshotGroupsRequest {
+export interface InsertRegionInstantSnapshotGroupsRequest extends Omit<
+  InstantSnapshotGroup,
+  "region" | "sourceConsistencyGroup"
+> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -22774,50 +22562,46 @@ export interface InsertRegionInstantSnapshotGroupsRequest {
   region: string;
   /** begin_interface: MixerMutationRequestBuilder */
   sourceConsistencyGroup?: string | undefined;
-  /** Request body */
-  body?: InstantSnapshotGroup | undefined;
 }
-export interface InsertRegionInstantSnapshotsRequest {
+export interface InsertRegionInstantSnapshotsRequest extends Omit<InstantSnapshot, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstantSnapshot | undefined;
 }
-export interface InsertRegionNetworkEndpointGroupsRequest {
+export interface InsertRegionNetworkEndpointGroupsRequest extends Omit<
+  NetworkEndpointGroup,
+  "region"
+> {
   /** Project ID for this request. */
   project: string;
   /** The name of the region where you want to create the network endpoint group. It should comply with RFC1035. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: NetworkEndpointGroup | undefined;
 }
-export interface InsertRegionNetworkFirewallPoliciesRequest {
+export interface InsertRegionNetworkFirewallPoliciesRequest extends Omit<FirewallPolicy, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: FirewallPolicy | undefined;
 }
-export interface InsertRegionNotificationEndpointsRequest {
+export interface InsertRegionNotificationEndpointsRequest extends Omit<
+  NotificationEndpoint,
+  "region"
+> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NotificationEndpoint | undefined;
 }
-export interface InsertRegionSecurityPoliciesRequest {
+export interface InsertRegionSecurityPoliciesRequest extends Omit<SecurityPolicy, "region"> {
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
   /** Project ID for this request. */
@@ -22826,288 +22610,226 @@ export interface InsertRegionSecurityPoliciesRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SecurityPolicy | undefined;
 }
-export interface InsertRegionSnapshotsRequest {
+export interface InsertRegionSnapshotsRequest extends Omit<Snapshot, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Snapshot | undefined;
 }
-export interface InsertRegionSslCertificatesRequest {
+export interface InsertRegionSslCertificatesRequest extends Omit<SslCertificate, "region"> {
   /** Project ID for this request. */
   project: string;
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SslCertificate | undefined;
 }
-export interface InsertRegionSslPoliciesRequest {
+export interface InsertRegionSslPoliciesRequest extends Omit<SslPolicy, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SslPolicy | undefined;
 }
-export interface InsertRegionTargetHttpProxiesRequest {
+export interface InsertRegionTargetHttpProxiesRequest extends Omit<TargetHttpProxy, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetHttpProxy | undefined;
 }
-export interface InsertRegionTargetHttpsProxiesRequest {
+export interface InsertRegionTargetHttpsProxiesRequest extends Omit<TargetHttpsProxy, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetHttpsProxy | undefined;
 }
-export interface InsertRegionTargetTcpProxiesRequest {
+export interface InsertRegionTargetTcpProxiesRequest extends Omit<TargetTcpProxy, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetTcpProxy | undefined;
 }
-export interface InsertRegionUrlMapsRequest {
+export interface InsertRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** begin_interface: MixerMutationRequestBuilder Request ID to support idempotency. */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: UrlMap | undefined;
 }
-export interface InsertReservationsRequest {
+export interface InsertReservationsRequest extends Omit<Reservation, "zone"> {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: Reservation | undefined;
 }
-export interface InsertResourcePoliciesRequest {
+export interface InsertResourcePoliciesRequest extends Omit<ResourcePolicy, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ResourcePolicy | undefined;
 }
-export interface InsertRolloutPlansRequest {
+export interface InsertRolloutPlansRequest extends RolloutPlan {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RolloutPlan | undefined;
 }
-export interface InsertRoutersRequest {
+export interface InsertRoutersRequest extends Omit<Router, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Router | undefined;
 }
-export interface InsertRoutesRequest {
+export interface InsertRoutesRequest extends Route {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Route | undefined;
 }
-export interface InsertSecurityPoliciesRequest {
+export interface InsertSecurityPoliciesRequest extends SecurityPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SecurityPolicy | undefined;
 }
-export interface InsertServiceAttachmentsRequest {
+export interface InsertServiceAttachmentsRequest extends Omit<ServiceAttachment, "region"> {
   /** Name of the region of this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceAttachment | undefined;
 }
-export interface InsertSnapshotsRequest {
+export interface InsertSnapshotsRequest extends Snapshot {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Snapshot | undefined;
 }
-export interface InsertSslCertificatesRequest {
+export interface InsertSslCertificatesRequest extends SslCertificate {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SslCertificate | undefined;
 }
-export interface InsertSslPoliciesRequest {
+export interface InsertSslPoliciesRequest extends SslPolicy {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SslPolicy | undefined;
 }
-export interface InsertStoragePoolsRequest {
+export interface InsertStoragePoolsRequest extends Omit<StoragePool, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: StoragePool | undefined;
 }
-export interface InsertSubnetworksRequest {
+export interface InsertSubnetworksRequest extends Omit<Subnetwork, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Subnetwork | undefined;
 }
-export interface InsertTargetGrpcProxiesRequest {
+export interface InsertTargetGrpcProxiesRequest extends TargetGrpcProxy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetGrpcProxy | undefined;
 }
-export interface InsertTargetHttpProxiesRequest {
+export interface InsertTargetHttpProxiesRequest extends TargetHttpProxy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetHttpProxy | undefined;
 }
-export interface InsertTargetHttpsProxiesRequest {
+export interface InsertTargetHttpsProxiesRequest extends TargetHttpsProxy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetHttpsProxy | undefined;
 }
-export interface InsertTargetInstancesRequest {
+export interface InsertTargetInstancesRequest extends Omit<TargetInstance, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the zone scoping this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetInstance | undefined;
 }
-export interface InsertTargetPoolsRequest {
+export interface InsertTargetPoolsRequest extends Omit<TargetPool, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetPool | undefined;
 }
-export interface InsertTargetSslProxiesRequest {
+export interface InsertTargetSslProxiesRequest extends TargetSslProxy {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetSslProxy | undefined;
 }
-export interface InsertTargetTcpProxiesRequest {
+export interface InsertTargetTcpProxiesRequest extends TargetTcpProxy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetTcpProxy | undefined;
 }
-export interface InsertTargetVpnGatewaysRequest {
+export interface InsertTargetVpnGatewaysRequest extends Omit<TargetVpnGateway, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetVpnGateway | undefined;
 }
-export interface InsertUrlMapsRequest {
+export interface InsertUrlMapsRequest extends UrlMap {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: UrlMap | undefined;
 }
-export interface InsertVpnGatewaysRequest {
+export interface InsertVpnGatewaysRequest extends Omit<VpnGateway, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: VpnGateway | undefined;
 }
-export interface InsertVpnTunnelsRequest {
+export interface InsertVpnTunnelsRequest extends Omit<VpnTunnel, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: VpnTunnel | undefined;
 }
-export interface InsertWireGroupsRequest {
+export interface InsertWireGroupsRequest extends WireGroup {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
   crossSiteNetwork: string;
@@ -23115,18 +22837,14 @@ export interface InsertWireGroupsRequest {
   validateOnly?: boolean | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: WireGroup | undefined;
 }
-export interface InsertZoneVmExtensionPoliciesRequest {
+export interface InsertZoneVmExtensionPoliciesRequest extends VmExtensionPolicy {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: VmExtensionPolicy | undefined;
 }
 export interface CacheInvalidationRule {
   /** A list of cache tags used to identify cached objects. - Cache tags are specified when the response is first cached, by setting the `Cache-Tag` response header at the origin. - Multiple cache tags in the same invalidation request are treated as Boolean `OR` - for example, `tag1 OR tag2 OR tag3`. - If other fields are also specified, these are treated as Boolean `AND` with any tags. Up to 10 tags can be specified in a single invalidation request. */
@@ -23141,15 +22859,13 @@ export interface CacheInvalidationRule {
   backendService?: string | undefined;
   path?: string | undefined;
 }
-export interface InvalidateCacheUrlMapsRequest {
+export interface InvalidateCacheUrlMapsRequest extends CacheInvalidationRule {
   /** Project ID for this request. */
   project: string;
   /** Name of the UrlMap scoping this request. */
   urlMap: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CacheInvalidationRule | undefined;
 }
 export interface ListAcceleratorTypesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
@@ -25417,7 +25133,7 @@ export interface InstanceGroupsListInstancesRequest {
   /** A filter for the state of the instances in the instance group. Valid options are ALL or RUNNING. If you do not specify this parameter the list includes all instances regardless of their state. */
   instanceState?: InstanceGroupsListInstancesRequestInstanceStateEnum | (string & {}) | undefined;
 }
-export interface ListInstancesInstanceGroupsRequest {
+export interface ListInstancesInstanceGroupsRequest extends InstanceGroupsListInstancesRequest {
   /** The name of the zone where the instance group is located. */
   zone: string;
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
@@ -25432,8 +25148,6 @@ export interface ListInstancesInstanceGroupsRequest {
   pageToken?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroupsListInstancesRequest | undefined;
 }
 export type InstanceWithNamedPortsStatusEnum =
   | "DEPROVISIONING"
@@ -25521,7 +25235,7 @@ export interface RegionInstanceGroupsListInstancesRequest {
   /** Name of port user is interested in. It is optional. If it is set, only information about this ports will be returned. If it is not set, all the named ports will be returned. Always lists all instances. */
   portName?: string | undefined;
 }
-export interface ListInstancesRegionInstanceGroupsRequest {
+export interface ListInstancesRegionInstanceGroupsRequest extends RegionInstanceGroupsListInstancesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string | undefined;
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
@@ -25536,8 +25250,6 @@ export interface ListInstancesRegionInstanceGroupsRequest {
   instanceGroup: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: RegionInstanceGroupsListInstancesRequest | undefined;
 }
 export type RegionInstanceGroupsListInstancesWarningDataItem = OperationWarningsItemDataItem;
 export type RegionInstanceGroupsListInstancesWarningDataItemList =
@@ -26935,7 +26647,7 @@ export interface NetworkEndpointGroupsListEndpointsRequest {
     | (string & {})
     | undefined;
 }
-export interface ListNetworkEndpointsNetworkEndpointGroupsRequest {
+export interface ListNetworkEndpointsNetworkEndpointGroupsRequest extends NetworkEndpointGroupsListEndpointsRequest {
   /** The name of the zone where the network endpoint group is located. It should comply with RFC1035. */
   zone: string;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
@@ -26950,8 +26662,6 @@ export interface ListNetworkEndpointsNetworkEndpointGroupsRequest {
   maxResults?: number | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NetworkEndpointGroupsListEndpointsRequest | undefined;
 }
 export interface ListNetworkEndpointsRegionNetworkEndpointGroupsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
@@ -31672,7 +31382,7 @@ export interface ProjectsListXpnHostsRequest {
   /** Optional organization ID managed by Cloud Resource Manager, for which to list shared VPC host projects. If not specified, the organization will be inferred from the project. */
   organization?: string | undefined;
 }
-export interface ListXpnHostsProjectsRequest {
+export interface ListXpnHostsProjectsRequest extends ProjectsListXpnHostsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string | undefined;
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
@@ -31683,8 +31393,6 @@ export interface ListXpnHostsProjectsRequest {
   pageToken?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ProjectsListXpnHostsRequest | undefined;
 }
 export type ProjectList = Array<Project>;
 export type XpnHostListWarningDataItem = OperationWarningsItemDataItem;
@@ -31845,7 +31553,7 @@ export interface RegionAddressesMoveRequest {
   /** An optional destination address description if intended to be different from the source. */
   description?: string | undefined;
 }
-export interface MoveAddressesRequest {
+export interface MoveAddressesRequest extends RegionAddressesMoveRequest {
   /** Name of the region for this request. */
   region: string;
   /** Source project ID which the Address is moved from. */
@@ -31854,8 +31562,6 @@ export interface MoveAddressesRequest {
   requestId?: string | undefined;
   /** Name of the address resource to move. */
   address: string;
-  /** Request body */
-  body?: RegionAddressesMoveRequest | undefined;
 }
 export interface DiskMoveRequest {
   /** The URL of the target disk to move. This can be a full or partial URL. For example, the following are all valid URLs to a disk: - https://www.googleapis.com/compute/v1/projects/project/zones/zone/disks/disk - projects/project/zones/zone/disks/disk - zones/zone/disks/disk */
@@ -31863,13 +31569,11 @@ export interface DiskMoveRequest {
   /** The URL of the destination zone to move the disk. This can be a full or partial URL. For example, the following are all valid URLs to a zone: - https://www.googleapis.com/compute/v1/projects/project/zones/zone - projects/project/zones/zone - zones/zone */
   destinationZone?: string | undefined;
 }
-export interface MoveDiskProjectsRequest {
+export interface MoveDiskProjectsRequest extends DiskMoveRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: DiskMoveRequest | undefined;
 }
 export interface MoveFirewallPoliciesRequest {
   /** The new parent of the firewall policy. The ID can be either be "folders/[FOLDER_ID]" if the parent is a folder or "organizations/[ORGANIZATION_ID]" if the parent is an organization. */
@@ -31885,15 +31589,13 @@ export interface GlobalAddressesMoveRequest {
   /** The URL of the destination address to move to. This can be a full or partial URL. For example, the following are all valid URLs to a address: - https://www.googleapis.com/compute/v1/projects/project/global/addresses/address - projects/project/global/addresses/address Note that destination project must be different from the source project. So/global/addresses/address is not valid partial url. */
   destinationAddress?: string | undefined;
 }
-export interface MoveGlobalAddressesRequest {
+export interface MoveGlobalAddressesRequest extends GlobalAddressesMoveRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the address resource to move. */
   address: string;
   /** Source project ID which the Address is moved from. */
   project: string;
-  /** Request body */
-  body?: GlobalAddressesMoveRequest | undefined;
 }
 export interface InstanceMoveRequest {
   /** The URL of the target instance to move. This can be a full or partial URL. For example, the following are all valid URLs to an instance: - https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance - projects/project/zones/zone/instances/instance - zones/zone/instances/instance */
@@ -31901,13 +31603,11 @@ export interface InstanceMoveRequest {
   /** The URL of the destination zone to move the instance. This can be a full or partial URL. For example, the following are all valid URLs to a zone: - https://www.googleapis.com/compute/v1/projects/project/zones/zone - projects/project/zones/zone - zones/zone */
   destinationZone?: string | undefined;
 }
-export interface MoveInstanceProjectsRequest {
+export interface MoveInstanceProjectsRequest extends InstanceMoveRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceMoveRequest | undefined;
 }
 export interface MoveOrganizationSecurityPoliciesRequest {
   /** The new parent of the security policy. */
@@ -31917,7 +31617,7 @@ export interface MoveOrganizationSecurityPoliciesRequest {
   /** Name of the security policy to update. */
   securityPolicy: string;
 }
-export interface PatchAssociationRegionNetworkFirewallPoliciesRequest {
+export interface PatchAssociationRegionNetworkFirewallPoliciesRequest extends FirewallPolicyAssociation {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -31926,10 +31626,8 @@ export interface PatchAssociationRegionNetworkFirewallPoliciesRequest {
   firewallPolicy: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: FirewallPolicyAssociation | undefined;
 }
-export interface PatchAutoscalersRequest {
+export interface PatchAutoscalersRequest extends Omit<Autoscaler, "zone"> {
   /** Name of the autoscaler to patch. */
   autoscaler?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -31938,30 +31636,24 @@ export interface PatchAutoscalersRequest {
   project: string;
   /** Name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: Autoscaler | undefined;
 }
-export interface PatchBackendBucketsRequest {
+export interface PatchBackendBucketsRequest extends BackendBucket {
   /** Project ID for this request. */
   project: string;
   /** Name of the BackendBucket resource to patch. */
   backendBucket: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: BackendBucket | undefined;
 }
-export interface PatchBackendServicesRequest {
+export interface PatchBackendServicesRequest extends BackendService {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the BackendService resource to patch. */
   backendService: string;
-  /** Request body */
-  body?: BackendService | undefined;
 }
-export interface PatchCrossSiteNetworksRequest {
+export interface PatchCrossSiteNetworksRequest extends CrossSiteNetwork {
   /** Project ID for this request. */
   project: string;
   /** [Input Only] Validate the new configuration, but don't update it. */
@@ -31972,28 +31664,22 @@ export interface PatchCrossSiteNetworksRequest {
   updateMask?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CrossSiteNetwork | undefined;
 }
-export interface PatchFirewallPoliciesRequest {
+export interface PatchFirewallPoliciesRequest extends FirewallPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
-  /** Request body */
-  body?: FirewallPolicy | undefined;
 }
-export interface PatchFirewallsRequest {
+export interface PatchFirewallsRequest extends Firewall {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the firewall rule to patch. */
   firewall: string;
-  /** Request body */
-  body?: Firewall | undefined;
 }
-export interface PatchForwardingRulesRequest {
+export interface PatchForwardingRulesRequest extends Omit<ForwardingRule, "region"> {
   /** Project ID for this request. */
   project: string;
   /** Name of the ForwardingRule resource to patch. */
@@ -32002,85 +31688,69 @@ export interface PatchForwardingRulesRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ForwardingRule | undefined;
 }
-export interface PatchGlobalForwardingRulesRequest {
+export interface PatchGlobalForwardingRulesRequest extends ForwardingRule {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the ForwardingRule resource to patch. */
   forwardingRule: string;
-  /** Request body */
-  body?: ForwardingRule | undefined;
 }
-export interface PatchGlobalFrontendSettingsRequest {
+export interface PatchGlobalFrontendSettingsRequest extends GlobalFrontendSettings {
   /** Field mask to support patch. E.g., "type". */
   updateMask?: string | undefined;
   /** An optional request ID to identify requests. */
   requestId?: string | undefined;
   /** Required. Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalFrontendSettings | undefined;
 }
 /** Response to an UpdateGlobalFrontendSettingsRequest. */
 export interface GlobalFrontendSettingsPatchResponse {
   /** The Operation resource for this long-running operation. */
   operation?: Operation | undefined;
 }
-export interface PatchGlobalPublicDelegatedPrefixesRequest {
+export interface PatchGlobalPublicDelegatedPrefixesRequest extends PublicDelegatedPrefix {
   /** Name of the PublicDelegatedPrefix resource to patch. */
   publicDelegatedPrefix: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: PublicDelegatedPrefix | undefined;
 }
-export interface PatchHealthChecksRequest {
+export interface PatchHealthChecksRequest extends HealthCheck {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the HealthCheck resource to patch. */
   healthCheck: string;
-  /** Request body */
-  body?: HealthCheck | undefined;
 }
-export interface PatchHttpHealthChecksRequest {
+export interface PatchHttpHealthChecksRequest extends HttpHealthCheck {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the HttpHealthCheck resource to patch. */
   httpHealthCheck: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: HttpHealthCheck | undefined;
 }
-export interface PatchHttpsHealthChecksRequest {
+export interface PatchHttpsHealthChecksRequest extends HttpsHealthCheck {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the HttpsHealthCheck resource to patch. */
   httpsHealthCheck: string;
-  /** Request body */
-  body?: HttpsHealthCheck | undefined;
 }
-export interface PatchImagesRequest {
+export interface PatchImagesRequest extends Image {
   /** Name of the image resource to patch. */
   image: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Image | undefined;
 }
-export interface PatchInstanceGroupManagersRequest {
+export interface PatchInstanceGroupManagersRequest extends Omit<InstanceGroupManager, "zone"> {
   /** Project ID for this request. */
   project: string;
   /** The name of the instance group manager. */
@@ -32089,10 +31759,8 @@ export interface PatchInstanceGroupManagersRequest {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceGroupManager | undefined;
 }
-export interface PatchInstanceSettingsRequest {
+export interface PatchInstanceSettingsRequest extends Omit<InstanceSettings, "zone"> {
   /** The zone scoping this request. It should conform to RFC1035. */
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32101,10 +31769,8 @@ export interface PatchInstanceSettingsRequest {
   updateMask?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceSettings | undefined;
 }
-export interface PatchInterconnectAttachmentGroupsRequest {
+export interface PatchInterconnectAttachmentGroupsRequest extends InterconnectAttachmentGroup {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
   /** The list of fields to update. */
@@ -32113,10 +31779,11 @@ export interface PatchInterconnectAttachmentGroupsRequest {
   interconnectAttachmentGroup: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InterconnectAttachmentGroup | undefined;
 }
-export interface PatchInterconnectAttachmentsRequest {
+export interface PatchInterconnectAttachmentsRequest extends Omit<
+  InterconnectAttachment,
+  "region"
+> {
   /** Project ID for this request. */
   project: string;
   /** Name of the interconnect attachment to patch. */
@@ -32125,10 +31792,8 @@ export interface PatchInterconnectAttachmentsRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InterconnectAttachment | undefined;
 }
-export interface PatchInterconnectGroupsRequest {
+export interface PatchInterconnectGroupsRequest extends InterconnectGroup {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
   /** The list of fields to update. */
@@ -32137,20 +31802,16 @@ export interface PatchInterconnectGroupsRequest {
   project: string;
   /** Name of the InterconnectGroup resource to patch. */
   interconnectGroup: string;
-  /** Request body */
-  body?: InterconnectGroup | undefined;
 }
-export interface PatchInterconnectsRequest {
+export interface PatchInterconnectsRequest extends Interconnect {
   /** Project ID for this request. */
   project: string;
   /** Name of the interconnect to update. */
   interconnect: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Interconnect | undefined;
 }
-export interface PatchNamedSetRoutersRequest {
+export interface PatchNamedSetRoutersRequest extends NamedSet {
   /** Name of the Router resource where Named Set is defined. */
   router: string;
   /** Name of the region for this request. */
@@ -32159,10 +31820,8 @@ export interface PatchNamedSetRoutersRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NamedSet | undefined;
 }
-export interface PatchNetworkAttachmentsRequest {
+export interface PatchNetworkAttachmentsRequest extends Omit<NetworkAttachment, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -32171,10 +31830,11 @@ export interface PatchNetworkAttachmentsRequest {
   networkAttachment: string;
   /** Name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: NetworkAttachment | undefined;
 }
-export interface PatchNetworkEdgeSecurityServicesRequest {
+export interface PatchNetworkEdgeSecurityServicesRequest extends Omit<
+  NetworkEdgeSecurityService,
+  "region"
+> {
   paths?: StringList | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
@@ -32186,30 +31846,24 @@ export interface PatchNetworkEdgeSecurityServicesRequest {
   region: string;
   /** Name of the network edge security service to update. */
   networkEdgeSecurityService: string;
-  /** Request body */
-  body?: NetworkEdgeSecurityService | undefined;
 }
-export interface PatchNetworkFirewallPoliciesRequest {
+export interface PatchNetworkFirewallPoliciesRequest extends FirewallPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: FirewallPolicy | undefined;
 }
-export interface PatchNetworksRequest {
+export interface PatchNetworksRequest extends Network {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the network to update. */
   network: string;
-  /** Request body */
-  body?: Network | undefined;
 }
-export interface PatchNodeGroupsRequest {
+export interface PatchNodeGroupsRequest extends Omit<NodeGroup, "zone"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -32218,18 +31872,17 @@ export interface PatchNodeGroupsRequest {
   zone: string;
   /** Name of the NodeGroup resource to update. */
   nodeGroup: string;
-  /** Request body */
-  body?: NodeGroup | undefined;
 }
-export interface PatchOrganizationSecurityPoliciesRequest {
+export interface PatchOrganizationSecurityPoliciesRequest extends SecurityPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the security policy to update. */
   securityPolicy: string;
-  /** Request body */
-  body?: SecurityPolicy | undefined;
 }
-export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest {
+export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest extends Omit<
+  FirewallPolicyRule,
+  "priority"
+> {
   /** The priority of the rule to patch. */
   priority?: number | undefined;
   /** Project ID for this request. */
@@ -32238,10 +31891,8 @@ export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest {
   requestId?: string | undefined;
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
-export interface PatchPacketMirroringsRequest {
+export interface PatchPacketMirroringsRequest extends Omit<PacketMirroring, "region"> {
   /** Name of the PacketMirroring resource to patch. */
   packetMirroring: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32250,15 +31901,13 @@ export interface PatchPacketMirroringsRequest {
   project: string;
   /** Name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: PacketMirroring | undefined;
 }
 /** InstanceGroupManagers.patchPerInstanceConfigs */
 export interface InstanceGroupManagersPatchPerInstanceConfigsReq {
   /** The list of per-instance configurations to insert or patch on this managed instance group. */
   perInstanceConfigs?: PerInstanceConfigList | undefined;
 }
-export interface PatchPerInstanceConfigsInstanceGroupManagersRequest {
+export interface PatchPerInstanceConfigsInstanceGroupManagersRequest extends InstanceGroupManagersPatchPerInstanceConfigsReq {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -32267,13 +31916,11 @@ export interface PatchPerInstanceConfigsInstanceGroupManagersRequest {
   instanceGroupManager: string;
   /** The name of thezone where the managed instance group is located. It should conform to RFC1035. */
   zone: string;
-  /** Request body */
-  body?: InstanceGroupManagersPatchPerInstanceConfigsReq | undefined;
 }
 /** RegionInstanceGroupManagers.patchPerInstanceConfigs */
 export type RegionInstanceGroupManagerPatchInstanceConfigReq =
   InstanceGroupManagersPatchPerInstanceConfigsReq;
-export interface PatchPerInstanceConfigsRegionInstanceGroupManagersRequest {
+export interface PatchPerInstanceConfigsRegionInstanceGroupManagersRequest extends InstanceGroupManagersPatchPerInstanceConfigsReq {
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32282,20 +31929,16 @@ export interface PatchPerInstanceConfigsRegionInstanceGroupManagersRequest {
   project: string;
   /** Name of the region scoping this request, should conform to RFC1035. */
   region: string;
-  /** Request body */
-  body?: InstanceGroupManagersPatchPerInstanceConfigsReq | undefined;
 }
-export interface PatchPublicAdvertisedPrefixesRequest {
+export interface PatchPublicAdvertisedPrefixesRequest extends PublicAdvertisedPrefix {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the PublicAdvertisedPrefix resource to patch. */
   publicAdvertisedPrefix: string;
-  /** Request body */
-  body?: PublicAdvertisedPrefix | undefined;
 }
-export interface PatchPublicDelegatedPrefixesRequest {
+export interface PatchPublicDelegatedPrefixesRequest extends Omit<PublicDelegatedPrefix, "region"> {
   /** Name of the PublicDelegatedPrefix resource to patch. */
   publicDelegatedPrefix: string;
   /** Name of the region for this request. */
@@ -32304,10 +31947,8 @@ export interface PatchPublicDelegatedPrefixesRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: PublicDelegatedPrefix | undefined;
 }
-export interface PatchRegionAutoscalersRequest {
+export interface PatchRegionAutoscalersRequest extends Omit<Autoscaler, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
@@ -32316,10 +31957,8 @@ export interface PatchRegionAutoscalersRequest {
   autoscaler?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Autoscaler | undefined;
 }
-export interface PatchRegionBackendBucketsRequest {
+export interface PatchRegionBackendBucketsRequest extends Omit<BackendBucket, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
@@ -32328,10 +31967,8 @@ export interface PatchRegionBackendBucketsRequest {
   project: string;
   /** Name of the BackendBucket resource to patch. */
   backendBucket: string;
-  /** Request body */
-  body?: BackendBucket | undefined;
 }
-export interface PatchRegionBackendServicesRequest {
+export interface PatchRegionBackendServicesRequest extends Omit<BackendService, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -32340,10 +31977,11 @@ export interface PatchRegionBackendServicesRequest {
   region: string;
   /** Name of the BackendService resource to patch. */
   backendService: string;
-  /** Request body */
-  body?: BackendService | undefined;
 }
-export interface PatchRegionCompositeHealthChecksRequest {
+export interface PatchRegionCompositeHealthChecksRequest extends Omit<
+  CompositeHealthCheck,
+  "region"
+> {
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the CompositeHealthCheck to update. The name must be 1-63 characters long, and comply with RFC1035. */
@@ -32352,10 +31990,11 @@ export interface PatchRegionCompositeHealthChecksRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: CompositeHealthCheck | undefined;
 }
-export interface PatchRegionHealthAggregationPoliciesRequest {
+export interface PatchRegionHealthAggregationPoliciesRequest extends Omit<
+  HealthAggregationPolicy,
+  "region"
+> {
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the HealthAggregationPolicy to update. The name must be 1-63 characters long, and comply with RFC1035. */
@@ -32364,10 +32003,8 @@ export interface PatchRegionHealthAggregationPoliciesRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: HealthAggregationPolicy | undefined;
 }
-export interface PatchRegionHealthChecksRequest {
+export interface PatchRegionHealthChecksRequest extends Omit<HealthCheck, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
@@ -32376,10 +32013,8 @@ export interface PatchRegionHealthChecksRequest {
   healthCheck: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: HealthCheck | undefined;
 }
-export interface PatchRegionHealthCheckServicesRequest {
+export interface PatchRegionHealthCheckServicesRequest extends Omit<HealthCheckService, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the HealthCheckService to update. The name must be 1-63 characters long, and comply with RFC1035. */
@@ -32388,10 +32023,8 @@ export interface PatchRegionHealthCheckServicesRequest {
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: HealthCheckService | undefined;
 }
-export interface PatchRegionHealthSourcesRequest {
+export interface PatchRegionHealthSourcesRequest extends Omit<HealthSource, "region"> {
   /** Name of the HealthSource to update. The name must be 1-63 characters long, and comply with RFC1035. */
   healthSource: string;
   /** Name of the region scoping this request. */
@@ -32400,10 +32033,11 @@ export interface PatchRegionHealthSourcesRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: HealthSource | undefined;
 }
-export interface PatchRegionInstanceGroupManagersRequest {
+export interface PatchRegionInstanceGroupManagersRequest extends Omit<
+  InstanceGroupManager,
+  "region"
+> {
   /** Name of the region scoping this request. */
   region: string;
   /** The name of the instance group manager. */
@@ -32412,10 +32046,8 @@ export interface PatchRegionInstanceGroupManagersRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceGroupManager | undefined;
 }
-export interface PatchRegionNetworkFirewallPoliciesRequest {
+export interface PatchRegionNetworkFirewallPoliciesRequest extends Omit<FirewallPolicy, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
@@ -32424,10 +32056,8 @@ export interface PatchRegionNetworkFirewallPoliciesRequest {
   firewallPolicy: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: FirewallPolicy | undefined;
 }
-export interface PatchRegionSecurityPoliciesRequest {
+export interface PatchRegionSecurityPoliciesRequest extends Omit<SecurityPolicy, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the security policy to update. */
@@ -32438,10 +32068,8 @@ export interface PatchRegionSecurityPoliciesRequest {
   updateMask?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SecurityPolicy | undefined;
 }
-export interface PatchRegionSnapshotSettingsRequest {
+export interface PatchRegionSnapshotSettingsRequest extends SnapshotSettings {
   /** Project ID for this request. */
   project: string;
   /** update_mask indicates fields to be updated as part of this request. */
@@ -32450,10 +32078,8 @@ export interface PatchRegionSnapshotSettingsRequest {
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: SnapshotSettings | undefined;
 }
-export interface PatchRegionSslPoliciesRequest {
+export interface PatchRegionSslPoliciesRequest extends Omit<SslPolicy, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the SSL policy to update. The name must be 1-63 characters long, and comply with RFC1035. */
@@ -32462,10 +32088,8 @@ export interface PatchRegionSslPoliciesRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SslPolicy | undefined;
 }
-export interface PatchRegionTargetHttpsProxiesRequest {
+export interface PatchRegionTargetHttpsProxiesRequest extends Omit<TargetHttpsProxy, "region"> {
   /** Project ID for this request. */
   project: string;
   /** Name of the region for this request. */
@@ -32474,10 +32098,8 @@ export interface PatchRegionTargetHttpsProxiesRequest {
   requestId?: string | undefined;
   /** Name of the TargetHttpsProxy resource to patch. */
   targetHttpsProxy: string;
-  /** Request body */
-  body?: TargetHttpsProxy | undefined;
 }
-export interface PatchRegionUrlMapsRequest {
+export interface PatchRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   /** begin_interface: MixerMutationRequestBuilder Request ID to support idempotency. */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
@@ -32486,10 +32108,8 @@ export interface PatchRegionUrlMapsRequest {
   urlMap: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: UrlMap | undefined;
 }
-export interface PatchResourcePoliciesRequest {
+export interface PatchResourcePoliciesRequest extends Omit<ResourcePolicy, "region"> {
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
   /** Name of the region for this request. */
@@ -32500,10 +32120,8 @@ export interface PatchResourcePoliciesRequest {
   project: string;
   /** Id of the resource policy to patch. */
   resourcePolicy: string;
-  /** Request body */
-  body?: ResourcePolicy | undefined;
 }
-export interface PatchRoutePolicyRoutersRequest {
+export interface PatchRoutePolicyRoutersRequest extends RoutePolicy {
   /** Name of the Router resource where Route Policy is defined. */
   router: string;
   /** Name of the region for this request. */
@@ -32512,10 +32130,8 @@ export interface PatchRoutePolicyRoutersRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: RoutePolicy | undefined;
 }
-export interface PatchRoutersRequest {
+export interface PatchRoutersRequest extends Omit<Router, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -32524,20 +32140,19 @@ export interface PatchRoutersRequest {
   router: string;
   /** Name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: Router | undefined;
 }
-export interface PatchRuleFirewallPoliciesRequest {
+export interface PatchRuleFirewallPoliciesRequest extends Omit<FirewallPolicyRule, "priority"> {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The priority of the rule to patch. */
   priority?: number | undefined;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
-export interface PatchRuleNetworkFirewallPoliciesRequest {
+export interface PatchRuleNetworkFirewallPoliciesRequest extends Omit<
+  FirewallPolicyRule,
+  "priority"
+> {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32546,20 +32161,22 @@ export interface PatchRuleNetworkFirewallPoliciesRequest {
   priority?: number | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
-export interface PatchRuleOrganizationSecurityPoliciesRequest {
+export interface PatchRuleOrganizationSecurityPoliciesRequest extends Omit<
+  SecurityPolicyRule,
+  "priority"
+> {
   /** The priority of the rule to patch. */
   priority?: number | undefined;
   /** Name of the security policy to update. */
   securityPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SecurityPolicyRule | undefined;
 }
-export interface PatchRuleRegionNetworkFirewallPoliciesRequest {
+export interface PatchRuleRegionNetworkFirewallPoliciesRequest extends Omit<
+  FirewallPolicyRule,
+  "priority"
+> {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
   /** Project ID for this request. */
@@ -32570,10 +32187,11 @@ export interface PatchRuleRegionNetworkFirewallPoliciesRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: FirewallPolicyRule | undefined;
 }
-export interface PatchRuleRegionSecurityPoliciesRequest {
+export interface PatchRuleRegionSecurityPoliciesRequest extends Omit<
+  SecurityPolicyRule,
+  "priority"
+> {
   /** If true, the request will not be committed. */
   validateOnly?: boolean | undefined;
   /** Name of the security policy to update. */
@@ -32586,10 +32204,8 @@ export interface PatchRuleRegionSecurityPoliciesRequest {
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SecurityPolicyRule | undefined;
 }
-export interface PatchRuleSecurityPoliciesRequest {
+export interface PatchRuleSecurityPoliciesRequest extends Omit<SecurityPolicyRule, "priority"> {
   /** Project ID for this request. */
   project: string;
   /** If true, the request will not be committed. */
@@ -32600,10 +32216,8 @@ export interface PatchRuleSecurityPoliciesRequest {
   priority?: number | undefined;
   /** Name of the security policy to update. */
   securityPolicy: string;
-  /** Request body */
-  body?: SecurityPolicyRule | undefined;
 }
-export interface PatchSecurityPoliciesRequest {
+export interface PatchSecurityPoliciesRequest extends SecurityPolicy {
   /** Name of the security policy to update. */
   securityPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32612,10 +32226,8 @@ export interface PatchSecurityPoliciesRequest {
   updateMask?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SecurityPolicy | undefined;
 }
-export interface PatchServiceAttachmentsRequest {
+export interface PatchServiceAttachmentsRequest extends Omit<ServiceAttachment, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The resource id of the ServiceAttachment to patch. It should conform to RFC1035 resource name or be a string form on an unsigned long number. */
@@ -32624,30 +32236,24 @@ export interface PatchServiceAttachmentsRequest {
   project: string;
   /** The region scoping this request and should conform to RFC1035. */
   region: string;
-  /** Request body */
-  body?: ServiceAttachment | undefined;
 }
-export interface PatchSnapshotSettingsRequest {
+export interface PatchSnapshotSettingsRequest extends SnapshotSettings {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SnapshotSettings | undefined;
 }
-export interface PatchSslPoliciesRequest {
+export interface PatchSslPoliciesRequest extends SslPolicy {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the SSL policy to update. The name must be 1-63 characters long, and comply with RFC1035. */
   sslPolicy: string;
-  /** Request body */
-  body?: SslPolicy | undefined;
 }
-export interface PatchSubnetworksRequest {
+export interface PatchSubnetworksRequest extends Omit<Subnetwork, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32658,50 +32264,40 @@ export interface PatchSubnetworksRequest {
   subnetwork: string;
   /** The drain timeout specifies the upper bound in seconds on the amount of time allowed to drain connections from the current ACTIVE subnetwork to the current BACKUP subnetwork. The drain timeout is only applicable when the following conditions are true: - the subnetwork being patched has purpose = INTERNAL_HTTPS_LOAD_BALANCER - the subnetwork being patched has role = BACKUP - the patch request is setting the role to ACTIVE. Note that after this patch operation the roles of the ACTIVE and BACKUP subnetworks will be swapped. */
   drainTimeoutSeconds?: number | undefined;
-  /** Request body */
-  body?: Subnetwork | undefined;
 }
-export interface PatchTargetGrpcProxiesRequest {
+export interface PatchTargetGrpcProxiesRequest extends TargetGrpcProxy {
   /** Name of the TargetGrpcProxy resource to patch. */
   targetGrpcProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetGrpcProxy | undefined;
 }
-export interface PatchTargetHttpProxiesRequest {
+export interface PatchTargetHttpProxiesRequest extends TargetHttpProxy {
   /** Name of the TargetHttpProxy resource to patch. */
   targetHttpProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetHttpProxy | undefined;
 }
-export interface PatchTargetHttpsProxiesRequest {
+export interface PatchTargetHttpsProxiesRequest extends TargetHttpsProxy {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the TargetHttpsProxy resource to patch. */
   targetHttpsProxy: string;
-  /** Request body */
-  body?: TargetHttpsProxy | undefined;
 }
-export interface PatchUrlMapsRequest {
+export interface PatchUrlMapsRequest extends UrlMap {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the UrlMap resource to patch. */
   urlMap: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: UrlMap | undefined;
 }
-export interface PatchWireGroupsRequest {
+export interface PatchWireGroupsRequest extends WireGroup {
   /** Project ID for this request. */
   project: string;
   /** [Input Only] Validate the new configuration, but don't update it. */
@@ -32713,8 +32309,6 @@ export interface PatchWireGroupsRequest {
   updateMask?: string | undefined;
   /** Name of the WireGroups resource to patch. */
   wireGroup: string;
-  /** Request body */
-  body?: WireGroup | undefined;
 }
 export interface PauseRolloutsRequest {
   /** Required. Project ID for this request. */
@@ -32742,7 +32336,7 @@ export interface NodeGroupsPerformMaintenanceRequest {
   /** [Required] List of nodes affected by the call. */
   nodes?: StringList | undefined;
 }
-export interface PerformMaintenanceNodeGroupsRequest {
+export interface PerformMaintenanceNodeGroupsRequest extends NodeGroupsPerformMaintenanceRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the node group scoping this request. */
@@ -32751,8 +32345,6 @@ export interface PerformMaintenanceNodeGroupsRequest {
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: NodeGroupsPerformMaintenanceRequest | undefined;
 }
 export type ReservationsBlocksPerformMaintenanceRequestMaintenanceScopeEnum =
   | "ALL"
@@ -32766,7 +32358,7 @@ export interface ReservationsBlocksPerformMaintenanceRequest {
     | (string & {})
     | undefined;
 }
-export interface PerformMaintenanceReservationBlocksRequest {
+export interface PerformMaintenanceReservationBlocksRequest extends ReservationsBlocksPerformMaintenanceRequest {
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
   zone: string;
   /** The name of the reservation. Name should conform to RFC1035 or be a resource ID. */
@@ -32777,8 +32369,6 @@ export interface PerformMaintenanceReservationBlocksRequest {
   reservationBlock: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ReservationsBlocksPerformMaintenanceRequest | undefined;
 }
 export type ReservationsPerformMaintenanceRequestMaintenanceScopeEnum =
   | "ALL"
@@ -32792,7 +32382,7 @@ export interface ReservationsPerformMaintenanceRequest {
     | (string & {})
     | undefined;
 }
-export interface PerformMaintenanceReservationsRequest {
+export interface PerformMaintenanceReservationsRequest extends ReservationsPerformMaintenanceRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the reservation. Name should conform to RFC1035 or be a resource ID. */
@@ -32801,8 +32391,6 @@ export interface PerformMaintenanceReservationsRequest {
   requestId?: string | undefined;
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
   zone: string;
-  /** Request body */
-  body?: ReservationsPerformMaintenanceRequest | undefined;
 }
 export interface PerformMaintenanceReservationSubBlocksRequest {
   /** The name of the parent reservation and parent block. In the format of reservations/{reservation_name}/reservationBlocks/{reservation_block_name} */
@@ -32816,15 +32404,13 @@ export interface PerformMaintenanceReservationSubBlocksRequest {
   /** Project ID for this request. */
   project: string;
 }
-export interface PreviewRoutersRequest {
+export interface PreviewRoutersRequest extends Omit<Router, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** Name of the Router resource to query. */
   router: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Router | undefined;
 }
 export interface RoutersPreviewResponse {
   /** Preview of given router. */
@@ -32834,7 +32420,7 @@ export interface InstanceGroupManagersRecreateInstancesRequest {
   /** The URLs of one or more instances to recreate. This can be a full URL or a partial URL, such as zones/[ZONE]/instances/[INSTANCE_NAME]. */
   instances?: StringList | undefined;
 }
-export interface RecreateInstancesInstanceGroupManagersRequest {
+export interface RecreateInstancesInstanceGroupManagersRequest extends InstanceGroupManagersRecreateInstancesRequest {
   /** The name of thezone where the managed instance group is located. */
   zone: string;
   /** The name of the managed instance group. */
@@ -32845,12 +32431,10 @@ export interface RecreateInstancesInstanceGroupManagersRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroupManagersRecreateInstancesRequest | undefined;
 }
 export type RegionInstanceGroupManagersRecreateRequest =
   InstanceGroupManagersRecreateInstancesRequest;
-export interface RecreateInstancesRegionInstanceGroupManagersRequest {
+export interface RecreateInstancesRegionInstanceGroupManagersRequest extends InstanceGroupManagersRecreateInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -32861,8 +32445,6 @@ export interface RecreateInstancesRegionInstanceGroupManagersRequest {
   noGracefulShutdown?: boolean | undefined;
   /** Name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersRecreateInstancesRequest | undefined;
 }
 export interface RemoveAssociationFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32906,7 +32488,7 @@ export interface TargetPoolsRemoveHealthCheckRequest {
   /** Health check URL to be removed. This can be a full or valid partial URL. For example, the following are valid URLs: - https://www.googleapis.com/compute/beta/projects/project/global/httpHealthChecks/health-check - projects/project/global/httpHealthChecks/health-check - global/httpHealthChecks/health-check */
   healthChecks?: HealthCheckReferenceList | undefined;
 }
-export interface RemoveHealthCheckTargetPoolsRequest {
+export interface RemoveHealthCheckTargetPoolsRequest extends TargetPoolsRemoveHealthCheckRequest {
   /** Name of the target pool to remove health checks from. */
   targetPool: string;
   /** Project ID for this request. */
@@ -32915,14 +32497,12 @@ export interface RemoveHealthCheckTargetPoolsRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetPoolsRemoveHealthCheckRequest | undefined;
 }
 export interface InstanceGroupsRemoveInstancesRequest {
   /** The list of instances to remove from the instance group. */
   instances?: InstanceReferenceList | undefined;
 }
-export interface RemoveInstancesInstanceGroupsRequest {
+export interface RemoveInstancesInstanceGroupsRequest extends InstanceGroupsRemoveInstancesRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -32931,14 +32511,12 @@ export interface RemoveInstancesInstanceGroupsRequest {
   zone: string;
   /** The name of the instance group where the specified instances will be removed. */
   instanceGroup: string;
-  /** Request body */
-  body?: InstanceGroupsRemoveInstancesRequest | undefined;
 }
 export interface TargetPoolsRemoveInstanceRequest {
   /** URLs of the instances to be removed from target pool. */
   instances?: InstanceReferenceList | undefined;
 }
-export interface RemoveInstanceTargetPoolsRequest {
+export interface RemoveInstanceTargetPoolsRequest extends TargetPoolsRemoveInstanceRequest {
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the TargetPool resource to remove instances from. */
@@ -32947,8 +32525,6 @@ export interface RemoveInstanceTargetPoolsRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetPoolsRemoveInstanceRequest | undefined;
 }
 export interface RemovePacketMirroringRuleNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
@@ -32961,21 +32537,19 @@ export interface RemovePacketMirroringRuleNetworkFirewallPoliciesRequest {
   project: string;
 }
 export type NetworksRemovePeeringRequest = NetworksCancelRequestRemovePeeringRequest;
-export interface RemovePeeringNetworksRequest {
+export interface RemovePeeringNetworksRequest extends NetworksCancelRequestRemovePeeringRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the network resource to remove peering from. */
   network: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NetworksCancelRequestRemovePeeringRequest | undefined;
 }
 export interface DisksRemoveResourcePoliciesRequest {
   /** Resource policies to be removed from this disk. */
   resourcePolicies?: StringList | undefined;
 }
-export interface RemoveResourcePoliciesDisksRequest {
+export interface RemoveResourcePoliciesDisksRequest extends DisksRemoveResourcePoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The disk name for this request. */
@@ -32984,14 +32558,12 @@ export interface RemoveResourcePoliciesDisksRequest {
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: DisksRemoveResourcePoliciesRequest | undefined;
 }
 export interface InstancesRemoveResourcePoliciesRequest {
   /** Resource policies to be removed from this instance. */
   resourcePolicies?: StringList | undefined;
 }
-export interface RemoveResourcePoliciesInstancesRequest {
+export interface RemoveResourcePoliciesInstancesRequest extends InstancesRemoveResourcePoliciesRequest {
   /** The instance name for this request. */
   instance: string;
   /** The name of the zone for this request. */
@@ -33000,11 +32572,9 @@ export interface RemoveResourcePoliciesInstancesRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstancesRemoveResourcePoliciesRequest | undefined;
 }
 export type RegionDisksRemoveResourcePoliciesRequest = DisksRemoveResourcePoliciesRequest;
-export interface RemoveResourcePoliciesRegionDisksRequest {
+export interface RemoveResourcePoliciesRegionDisksRequest extends DisksRemoveResourcePoliciesRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
@@ -33013,8 +32583,6 @@ export interface RemoveResourcePoliciesRegionDisksRequest {
   disk: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DisksRemoveResourcePoliciesRequest | undefined;
 }
 export interface RemoveRuleFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33114,7 +32682,7 @@ export interface ReservationSubBlocksReportFaultyRequest {
     | (string & {})
     | undefined;
 }
-export interface ReportFaultyReservationSubBlocksRequest {
+export interface ReportFaultyReservationSubBlocksRequest extends ReservationSubBlocksReportFaultyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
@@ -33125,8 +32693,6 @@ export interface ReportFaultyReservationSubBlocksRequest {
   parentName: string;
   /** The name of the reservation subBlock. Name should conform to RFC1035 or be a resource ID. */
   reservationSubBlock: string;
-  /** Request body */
-  body?: ReservationSubBlocksReportFaultyRequest | undefined;
 }
 export type InstancesReportHostAsFaultyRequestDisruptionScheduleEnum =
   | "DISRUPTION_SCHEDULE_UNSPECIFIED"
@@ -33152,7 +32718,7 @@ export interface InstancesReportHostAsFaultyRequest {
     | undefined;
   faultReasons?: InstancesReportHostAsFaultyRequestFaultReasonList | undefined;
 }
-export interface ReportHostAsFaultyInstancesRequest {
+export interface ReportHostAsFaultyInstancesRequest extends InstancesReportHostAsFaultyRequest {
   /** Name of the instance scoping this request. */
   instance: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33161,19 +32727,15 @@ export interface ReportHostAsFaultyInstancesRequest {
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: InstancesReportHostAsFaultyRequest | undefined;
 }
 export type NetworksRequestRemovePeeringRequest = NetworksCancelRequestRemovePeeringRequest;
-export interface RequestRemovePeeringNetworksRequest {
+export interface RequestRemovePeeringNetworksRequest extends NetworksCancelRequestRemovePeeringRequest {
   /** Name of the network resource to remove peering from. */
   network: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NetworksCancelRequestRemovePeeringRequest | undefined;
 }
 export interface ResetInstancesRequest {
   /** The name of the zone for this request. */
@@ -33189,7 +32751,7 @@ export interface DisksResizeRequest {
   /** The new size of the persistent disk, which is specified in GB. */
   sizeGb?: string | undefined;
 }
-export interface ResizeDisksRequest {
+export interface ResizeDisksRequest extends DisksResizeRequest {
   /** The name of the persistent disk. */
   disk: string;
   /** The name of the zone for this request. */
@@ -33198,8 +32760,6 @@ export interface ResizeDisksRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DisksResizeRequest | undefined;
 }
 export interface ResizeInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33217,7 +32777,7 @@ export interface RegionDisksResizeRequest {
   /** The new size of the regional persistent disk, which is specified in GB. */
   sizeGb?: string | undefined;
 }
-export interface ResizeRegionDisksRequest {
+export interface ResizeRegionDisksRequest extends RegionDisksResizeRequest {
   /** The project ID for this request. */
   project: string;
   /** Name of the regional persistent disk. */
@@ -33226,8 +32786,6 @@ export interface ResizeRegionDisksRequest {
   requestId?: string | undefined;
   /** Name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionDisksResizeRequest | undefined;
 }
 export interface ResizeRegionInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33245,7 +32803,7 @@ export interface ReservationsResizeRequest {
   /** Number of allocated resources can be resized with minimum = 1 and maximum = 1000. */
   specificSkuCount?: string | undefined;
 }
-export interface ResizeReservationsRequest {
+export interface ResizeReservationsRequest extends ReservationsResizeRequest {
   /** Name of the reservation to update. */
   reservation: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33254,8 +32812,6 @@ export interface ResizeReservationsRequest {
   project: string;
   /** Name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: ReservationsResizeRequest | undefined;
 }
 export interface ResumeInstancesRequest {
   /** Project ID for this request. */
@@ -33271,7 +32827,7 @@ export interface InstanceGroupManagersResumeInstancesRequest {
   /** The URLs of one or more instances to resume. This can be a full URL or a partial URL, such as zones/[ZONE]/instances/[INSTANCE_NAME]. */
   instances?: StringList | undefined;
 }
-export interface ResumeInstancesInstanceGroupManagersRequest {
+export interface ResumeInstancesInstanceGroupManagersRequest extends InstanceGroupManagersResumeInstancesRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the managed instance group. */
@@ -33280,12 +32836,10 @@ export interface ResumeInstancesInstanceGroupManagersRequest {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceGroupManagersResumeInstancesRequest | undefined;
 }
 export type RegionInstanceGroupManagersResumeInstancesRequest =
   InstanceGroupManagersResumeInstancesRequest;
-export interface ResumeInstancesRegionInstanceGroupManagersRequest {
+export interface ResumeInstancesRegionInstanceGroupManagersRequest extends InstanceGroupManagersResumeInstancesRequest {
   /** Name of the region scoping this request. */
   region: string;
   /** Project ID for this request. */
@@ -33294,8 +32848,6 @@ export interface ResumeInstancesRegionInstanceGroupManagersRequest {
   instanceGroupManager: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceGroupManagersResumeInstancesRequest | undefined;
 }
 export interface ResumeRolloutsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33320,34 +32872,30 @@ export interface TargetSslProxiesSetBackendServiceRequest {
   /** The URL of the new BackendService resource for the targetSslProxy. */
   service?: string | undefined;
 }
-export interface SetBackendServiceTargetSslProxiesRequest {
+export interface SetBackendServiceTargetSslProxiesRequest extends TargetSslProxiesSetBackendServiceRequest {
   /** Name of the TargetSslProxy resource whose BackendService resource is to be set. */
   targetSslProxy: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetSslProxiesSetBackendServiceRequest | undefined;
 }
 export interface TargetTcpProxiesSetBackendServiceRequest {
   /** The URL of the new BackendService resource for the targetTcpProxy. */
   service?: string | undefined;
 }
-export interface SetBackendServiceTargetTcpProxiesRequest {
+export interface SetBackendServiceTargetTcpProxiesRequest extends TargetTcpProxiesSetBackendServiceRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the TargetTcpProxy resource whose BackendService resource is to be set. */
   targetTcpProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetTcpProxiesSetBackendServiceRequest | undefined;
 }
 export interface TargetReference {
   target?: string | undefined;
 }
-export interface SetBackupTargetPoolsRequest {
+export interface SetBackupTargetPoolsRequest extends TargetReference {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -33358,36 +32906,30 @@ export interface SetBackupTargetPoolsRequest {
   failoverRatio?: number | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: TargetReference | undefined;
 }
 export interface TargetHttpsProxiesSetCertificateMapRequest {
   /** URL of the Certificate Map to associate with this TargetHttpsProxy. Accepted format is//certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}. */
   certificateMap?: string | undefined;
 }
-export interface SetCertificateMapTargetHttpsProxiesRequest {
+export interface SetCertificateMapTargetHttpsProxiesRequest extends TargetHttpsProxiesSetCertificateMapRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the TargetHttpsProxy resource whose CertificateMap is to be set. The name must be 1-63 characters long, and comply with RFC1035. */
   targetHttpsProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetHttpsProxiesSetCertificateMapRequest | undefined;
 }
 export interface TargetSslProxiesSetCertificateMapRequest {
   /** URL of the Certificate Map to associate with this TargetSslProxy. Accepted format is//certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}. */
   certificateMap?: string | undefined;
 }
-export interface SetCertificateMapTargetSslProxiesRequest {
+export interface SetCertificateMapTargetSslProxiesRequest extends TargetSslProxiesSetCertificateMapRequest {
   /** Name of the TargetSslProxy resource whose CertificateMap is to be set. The name must be 1-63 characters long, and comply with RFC1035. */
   targetSslProxy: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetSslProxiesSetCertificateMapRequest | undefined;
 }
 export type ProjectsSetCloudArmorTierRequestCloudArmorTierEnum =
   | "CA_ENTERPRISE_ANNUAL"
@@ -33397,21 +32939,17 @@ export interface ProjectsSetCloudArmorTierRequest {
   /** Managed protection tier to be set. */
   cloudArmorTier?: ProjectsSetCloudArmorTierRequestCloudArmorTierEnum | (string & {}) | undefined;
 }
-export interface SetCloudArmorTierProjectsRequest {
+export interface SetCloudArmorTierProjectsRequest extends ProjectsSetCloudArmorTierRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ProjectsSetCloudArmorTierRequest | undefined;
 }
-export interface SetCommonInstanceMetadataProjectsRequest {
+export interface SetCommonInstanceMetadataProjectsRequest extends Metadata {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Metadata | undefined;
 }
 export type ProjectsSetDefaultNetworkTierRequestNetworkTierEnum =
   | "FIXED_STANDARD"
@@ -33422,13 +32960,11 @@ export interface ProjectsSetDefaultNetworkTierRequest {
   /** Default network tier to be set. */
   networkTier?: ProjectsSetDefaultNetworkTierRequestNetworkTierEnum | (string & {}) | undefined;
 }
-export interface SetDefaultNetworkTierProjectsRequest {
+export interface SetDefaultNetworkTierProjectsRequest extends ProjectsSetDefaultNetworkTierRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ProjectsSetDefaultNetworkTierRequest | undefined;
 }
 export interface SetDeletionProtectionInstancesRequest {
   /** Project ID for this request. */
@@ -33459,25 +32995,21 @@ export interface SetDiskAutoDeleteInstancesRequest {
 export interface SecurityPolicyReference {
   securityPolicy?: string | undefined;
 }
-export interface SetEdgeSecurityPolicyBackendBucketsRequest {
+export interface SetEdgeSecurityPolicyBackendBucketsRequest extends SecurityPolicyReference {
   /** Name of the BackendBucket resource to which the security policy should be set. The name should conform to RFC1035. */
   backendBucket: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SecurityPolicyReference | undefined;
 }
-export interface SetEdgeSecurityPolicyBackendServicesRequest {
+export interface SetEdgeSecurityPolicyBackendServicesRequest extends SecurityPolicyReference {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the BackendService resource to which the edge security policy should be set. The name should conform to RFC1035. */
   backendService: string;
-  /** Request body */
-  body?: SecurityPolicyReference | undefined;
 }
 export interface GlobalSetPolicyRequest {
   /** Flatten Policy to create a backward compatible wire-format. Deprecated. Use 'policy' to specify bindings. */
@@ -33487,21 +33019,17 @@ export interface GlobalSetPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the 'resource'. The size of the policy is limited to a few 10s of KB. An empty policy is in general a valid policy but certain services (like Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyBackendBucketsRequest {
+export interface SetIamPolicyBackendBucketsRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyBackendServicesRequest {
+export interface SetIamPolicyBackendServicesRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
 export interface ZoneSetPolicyRequest {
   /** Flatten Policy to create a backwacd compatible wire-format. Deprecated. Use 'policy' to specify bindings. */
@@ -33511,108 +33039,84 @@ export interface ZoneSetPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the 'resource'. The size of the policy is limited to a few 10s of KB. An empty policy is in general a valid policy but certain services (like Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyDisksRequest {
+export interface SetIamPolicyDisksRequest extends ZoneSetPolicyRequest {
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: ZoneSetPolicyRequest | undefined;
 }
 export type GlobalOrganizationSetPolicyRequest = GlobalSetPolicyRequest;
-export interface SetIamPolicyFirewallPoliciesRequest {
+export interface SetIamPolicyFirewallPoliciesRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyImagesRequest {
+export interface SetIamPolicyImagesRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyInstancesRequest {
+export interface SetIamPolicyInstancesRequest extends ZoneSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: ZoneSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyInstanceTemplatesRequest {
+export interface SetIamPolicyInstanceTemplatesRequest extends GlobalSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyInstantSnapshotGroupsRequest {
+export interface SetIamPolicyInstantSnapshotGroupsRequest extends ZoneSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ZoneSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyInstantSnapshotsRequest {
+export interface SetIamPolicyInstantSnapshotsRequest extends ZoneSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ZoneSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyInterconnectAttachmentGroupsRequest {
+export interface SetIamPolicyInterconnectAttachmentGroupsRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyInterconnectGroupsRequest {
+export interface SetIamPolicyInterconnectGroupsRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyLicenseCodesRequest {
+export interface SetIamPolicyLicenseCodesRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyLicensesRequest {
+export interface SetIamPolicyLicensesRequest extends GlobalSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyMachineImagesRequest {
+export interface SetIamPolicyMachineImagesRequest extends GlobalSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
 export interface RegionSetPolicyRequest {
   /** Flatten Policy to create a backward compatible wire-format. Deprecated. Use 'policy' to specify the etag. */
@@ -33622,123 +33126,99 @@ export interface RegionSetPolicyRequest {
   /** Flatten Policy to create a backwacd compatible wire-format. Deprecated. Use 'policy' to specify bindings. */
   bindings?: BindingList | undefined;
 }
-export interface SetIamPolicyNetworkAttachmentsRequest {
+export interface SetIamPolicyNetworkAttachmentsRequest extends RegionSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyNetworkFirewallPoliciesRequest {
+export interface SetIamPolicyNetworkFirewallPoliciesRequest extends GlobalSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyNodeGroupsRequest {
+export interface SetIamPolicyNodeGroupsRequest extends ZoneSetPolicyRequest {
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: ZoneSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyNodeTemplatesRequest {
+export interface SetIamPolicyNodeTemplatesRequest extends RegionSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionBackendBucketsRequest {
+export interface SetIamPolicyRegionBackendBucketsRequest extends RegionSetPolicyRequest {
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionBackendServicesRequest {
+export interface SetIamPolicyRegionBackendServicesRequest extends RegionSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionDisksRequest {
+export interface SetIamPolicyRegionDisksRequest extends RegionSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionInstantSnapshotGroupsRequest {
+export interface SetIamPolicyRegionInstantSnapshotGroupsRequest extends RegionSetPolicyRequest {
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionInstantSnapshotsRequest {
+export interface SetIamPolicyRegionInstantSnapshotsRequest extends RegionSetPolicyRequest {
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionNetworkFirewallPoliciesRequest {
+export interface SetIamPolicyRegionNetworkFirewallPoliciesRequest extends RegionSetPolicyRequest {
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionSnapshotsRequest {
+export interface SetIamPolicyRegionSnapshotsRequest extends RegionSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyRegionSslPoliciesRequest {
+export interface SetIamPolicyRegionSslPoliciesRequest extends RegionSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
 export interface ZoneSetNestedPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the 'resource'. The size of the policy is limited to a few 10s of KB. An empty policy is in general a valid policy but certain services (like Projects) might reject them. */
@@ -33748,7 +33228,7 @@ export interface ZoneSetNestedPolicyRequest {
   /** Flatten Policy to create a backwacd compatible wire-format. Deprecated. Use 'policy' to specify bindings. */
   bindings?: BindingList | undefined;
 }
-export interface SetIamPolicyReservationBlocksRequest {
+export interface SetIamPolicyReservationBlocksRequest extends ZoneSetNestedPolicyRequest {
   /** Name or id of parent resource of the resource for this request. */
   parentResource: string;
   /** Name or id of the resource for this request. */
@@ -33757,20 +33237,16 @@ export interface SetIamPolicyReservationBlocksRequest {
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ZoneSetNestedPolicyRequest | undefined;
 }
-export interface SetIamPolicyReservationsRequest {
+export interface SetIamPolicyReservationsRequest extends ZoneSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: ZoneSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyReservationSubBlocksRequest {
+export interface SetIamPolicyReservationSubBlocksRequest extends ZoneSetNestedPolicyRequest {
   /** Name or id of parent resource of the resource for this request. */
   parentResource: string;
   /** The name of the zone for this request. */
@@ -33779,70 +33255,56 @@ export interface SetIamPolicyReservationSubBlocksRequest {
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: ZoneSetNestedPolicyRequest | undefined;
 }
-export interface SetIamPolicyResourcePoliciesRequest {
+export interface SetIamPolicyResourcePoliciesRequest extends RegionSetPolicyRequest {
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyServiceAttachmentsRequest {
+export interface SetIamPolicyServiceAttachmentsRequest extends RegionSetPolicyRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
-export interface SetIamPolicySnapshotsRequest {
+export interface SetIamPolicySnapshotsRequest extends GlobalSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicySslPoliciesRequest {
+export interface SetIamPolicySslPoliciesRequest extends GlobalSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetPolicyRequest | undefined;
 }
-export interface SetIamPolicyStoragePoolsRequest {
+export interface SetIamPolicyStoragePoolsRequest extends ZoneSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: ZoneSetPolicyRequest | undefined;
 }
-export interface SetIamPolicySubnetworksRequest {
+export interface SetIamPolicySubnetworksRequest extends RegionSetPolicyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionSetPolicyRequest | undefined;
 }
 export interface InstanceGroupManagersSetInstanceTemplateRequest {
   /** The URL of the instance template that is specified for this managed instance group. The group uses this template to create all new instances in the managed instance group. The templates for existing instances in the group do not change unless you run recreateInstances, runapplyUpdatesToInstances, or set the group'supdatePolicy.type to PROACTIVE. */
   instanceTemplate?: string | undefined;
 }
-export interface SetInstanceTemplateInstanceGroupManagersRequest {
+export interface SetInstanceTemplateInstanceGroupManagersRequest extends InstanceGroupManagersSetInstanceTemplateRequest {
   /** The name of thezone where the managed instance group is located. */
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33851,14 +33313,12 @@ export interface SetInstanceTemplateInstanceGroupManagersRequest {
   instanceGroupManager: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroupManagersSetInstanceTemplateRequest | undefined;
 }
 export interface RegionInstanceGroupManagersSetTemplateRequest {
   /** URL of the InstanceTemplate resource from which all new instances will be created. */
   instanceTemplate?: string | undefined;
 }
-export interface SetInstanceTemplateRegionInstanceGroupManagersRequest {
+export interface SetInstanceTemplateRegionInstanceGroupManagersRequest extends RegionInstanceGroupManagersSetTemplateRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33867,8 +33327,6 @@ export interface SetInstanceTemplateRegionInstanceGroupManagersRequest {
   region: string;
   /** The name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: RegionInstanceGroupManagersSetTemplateRequest | undefined;
 }
 export interface RegionSetLabelsRequest {
   /** The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash in order to update or change labels. Make a get() request to the resource to get the latest fingerprint. */
@@ -33876,7 +33334,7 @@ export interface RegionSetLabelsRequest {
   /** The labels to set for this resource. */
   labels?: StringMap | undefined;
 }
-export interface SetLabelsAddressesRequest {
+export interface SetLabelsAddressesRequest extends RegionSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** The region for this request. */
@@ -33885,8 +33343,6 @@ export interface SetLabelsAddressesRequest {
   requestId?: string | undefined;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
 export interface ZoneSetLabelsRequest {
   /** The labels to set for this resource. */
@@ -33894,7 +33350,7 @@ export interface ZoneSetLabelsRequest {
   /** The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash in order to update or change labels. Make a get() request to the resource to get the latest fingerprint. */
   labelFingerprint?: string | undefined;
 }
-export interface SetLabelsDisksRequest {
+export interface SetLabelsDisksRequest extends ZoneSetLabelsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -33903,8 +33359,6 @@ export interface SetLabelsDisksRequest {
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: ZoneSetLabelsRequest | undefined;
 }
 export interface GlobalSetLabelsRequest {
   /** A list of labels to apply for this resource. Each label must comply with the requirements for labels. For example,"webserver-frontend": "images". A label value can also be empty (e.g. "my-label": ""). */
@@ -33912,15 +33366,13 @@ export interface GlobalSetLabelsRequest {
   /** The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash when updating or changing labels, otherwise the request will fail with error412 conditionNotMet. Make a get() request to the resource to get the latest fingerprint. */
   labelFingerprint?: string | undefined;
 }
-export interface SetLabelsExternalVpnGatewaysRequest {
+export interface SetLabelsExternalVpnGatewaysRequest extends GlobalSetLabelsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
-export interface SetLabelsForwardingRulesRequest {
+export interface SetLabelsForwardingRulesRequest extends RegionSetLabelsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The region for this request. */
@@ -33929,39 +33381,31 @@ export interface SetLabelsForwardingRulesRequest {
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsGlobalAddressesRequest {
+export interface SetLabelsGlobalAddressesRequest extends GlobalSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
-export interface SetLabelsGlobalForwardingRulesRequest {
+export interface SetLabelsGlobalForwardingRulesRequest extends GlobalSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
-export interface SetLabelsImagesRequest {
+export interface SetLabelsImagesRequest extends GlobalSetLabelsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
 export interface InstancesSetLabelsRequest {
   /** Fingerprint of the previous set of labels for this resource, used to prevent conflicts. Provide the latest fingerprint value when making a request to add or change labels. */
   labelFingerprint?: string | undefined;
   labels?: StringMap | undefined;
 }
-export interface SetLabelsInstancesRequest {
+export interface SetLabelsInstancesRequest extends InstancesSetLabelsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the instance scoping this request. */
@@ -33970,10 +33414,8 @@ export interface SetLabelsInstancesRequest {
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstancesSetLabelsRequest | undefined;
 }
-export interface SetLabelsInstantSnapshotsRequest {
+export interface SetLabelsInstantSnapshotsRequest extends ZoneSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
@@ -33982,10 +33424,8 @@ export interface SetLabelsInstantSnapshotsRequest {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ZoneSetLabelsRequest | undefined;
 }
-export interface SetLabelsInterconnectAttachmentsRequest {
+export interface SetLabelsInterconnectAttachmentsRequest extends RegionSetLabelsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The region for this request. */
@@ -33994,26 +33434,20 @@ export interface SetLabelsInterconnectAttachmentsRequest {
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsInterconnectsRequest {
+export interface SetLabelsInterconnectsRequest extends GlobalSetLabelsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
-export interface SetLabelsMachineImagesRequest {
+export interface SetLabelsMachineImagesRequest extends GlobalSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
-export interface SetLabelsRegionDisksRequest {
+export interface SetLabelsRegionDisksRequest extends RegionSetLabelsRequest {
   /** The region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34022,10 +33456,8 @@ export interface SetLabelsRegionDisksRequest {
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsRegionInstantSnapshotsRequest {
+export interface SetLabelsRegionInstantSnapshotsRequest extends RegionSetLabelsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
@@ -34034,10 +33466,8 @@ export interface SetLabelsRegionInstantSnapshotsRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsRegionSecurityPoliciesRequest {
+export interface SetLabelsRegionSecurityPoliciesRequest extends RegionSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
@@ -34046,10 +33476,8 @@ export interface SetLabelsRegionSecurityPoliciesRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsRegionSnapshotsRequest {
+export interface SetLabelsRegionSnapshotsRequest extends RegionSetLabelsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34058,26 +33486,20 @@ export interface SetLabelsRegionSnapshotsRequest {
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsSecurityPoliciesRequest {
+export interface SetLabelsSecurityPoliciesRequest extends GlobalSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
-export interface SetLabelsSnapshotsRequest {
+export interface SetLabelsSnapshotsRequest extends GlobalSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: GlobalSetLabelsRequest | undefined;
 }
-export interface SetLabelsTargetVpnGatewaysRequest {
+export interface SetLabelsTargetVpnGatewaysRequest extends RegionSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
@@ -34086,10 +33508,8 @@ export interface SetLabelsTargetVpnGatewaysRequest {
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsVpnGatewaysRequest {
+export interface SetLabelsVpnGatewaysRequest extends RegionSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34098,10 +33518,8 @@ export interface SetLabelsVpnGatewaysRequest {
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
-export interface SetLabelsVpnTunnelsRequest {
+export interface SetLabelsVpnTunnelsRequest extends RegionSetLabelsRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34110,14 +33528,12 @@ export interface SetLabelsVpnTunnelsRequest {
   resource: string;
   /** The region for this request. */
   region: string;
-  /** Request body */
-  body?: RegionSetLabelsRequest | undefined;
 }
 export interface InstancesSetMachineResourcesRequest {
   /** A list of the type and count of accelerator cards attached to the instance. */
   guestAccelerators?: AcceleratorConfigList | undefined;
 }
-export interface SetMachineResourcesInstancesRequest {
+export interface SetMachineResourcesInstancesRequest extends InstancesSetMachineResourcesRequest {
   /** Name of the instance scoping this request. */
   instance: string;
   /** Project ID for this request. */
@@ -34126,14 +33542,12 @@ export interface SetMachineResourcesInstancesRequest {
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: InstancesSetMachineResourcesRequest | undefined;
 }
 export interface InstancesSetMachineTypeRequest {
   /** Full or partial URL of the machine type resource. See Machine Types for a full list of machine types. For example:zones/us-central1-f/machineTypes/n1-standard-1 */
   machineType?: string | undefined;
 }
-export interface SetMachineTypeInstancesRequest {
+export interface SetMachineTypeInstancesRequest extends InstancesSetMachineTypeRequest {
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
@@ -34142,10 +33556,8 @@ export interface SetMachineTypeInstancesRequest {
   requestId?: string | undefined;
   /** Name of the instance scoping this request. */
   instance: string;
-  /** Request body */
-  body?: InstancesSetMachineTypeRequest | undefined;
 }
-export interface SetMetadataInstancesRequest {
+export interface SetMetadataInstancesRequest extends Metadata {
   /** The name of the zone for this request. */
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34154,14 +33566,12 @@ export interface SetMetadataInstancesRequest {
   project: string;
   /** Name of the instance scoping this request. */
   instance: string;
-  /** Request body */
-  body?: Metadata | undefined;
 }
 export interface InstancesSetMinCpuPlatformRequest {
   /** Minimum cpu/platform this instance should be started at. */
   minCpuPlatform?: string | undefined;
 }
-export interface SetMinCpuPlatformInstancesRequest {
+export interface SetMinCpuPlatformInstancesRequest extends InstancesSetMinCpuPlatformRequest {
   /** The name of the zone for this request. */
   zone: string;
   /** Name of the instance scoping this request. */
@@ -34170,8 +33580,6 @@ export interface SetMinCpuPlatformInstancesRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstancesSetMinCpuPlatformRequest | undefined;
 }
 export interface InstanceGroupsSetNamedPortsRequest {
   /** The list of named ports to set for this instance group. */
@@ -34179,7 +33587,7 @@ export interface InstanceGroupsSetNamedPortsRequest {
   /** The fingerprint of the named ports information for this instance group. Use this optional property to prevent conflicts when multiple users change the named ports settings concurrently. Obtain the fingerprint with theinstanceGroups.get method. Then, include the fingerprint in your request to ensure that you do not overwrite changes that were applied from another concurrent request. A request with an incorrect fingerprint will fail with error412 conditionNotMet. */
   fingerprint?: string | undefined;
 }
-export interface SetNamedPortsInstanceGroupsRequest {
+export interface SetNamedPortsInstanceGroupsRequest extends InstanceGroupsSetNamedPortsRequest {
   /** The name of the zone where the instance group is located. */
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34188,8 +33596,6 @@ export interface SetNamedPortsInstanceGroupsRequest {
   project: string;
   /** The name of the instance group where the named ports are updated. */
   instanceGroup: string;
-  /** Request body */
-  body?: InstanceGroupsSetNamedPortsRequest | undefined;
 }
 export interface RegionInstanceGroupsSetNamedPortsRequest {
   /** The fingerprint of the named ports information for this instance group. Use this optional property to prevent conflicts when multiple users change the named ports settings concurrently. Obtain the fingerprint with theinstanceGroups.get method. Then, include the fingerprint in your request to ensure that you do not overwrite changes that were applied from another concurrent request. */
@@ -34197,7 +33603,7 @@ export interface RegionInstanceGroupsSetNamedPortsRequest {
   /** The list of named ports to set for this instance group. */
   namedPorts?: NamedPortList | undefined;
 }
-export interface SetNamedPortsRegionInstanceGroupsRequest {
+export interface SetNamedPortsRegionInstanceGroupsRequest extends RegionInstanceGroupsSetNamedPortsRequest {
   /** Name of the region scoping this request. */
   region: string;
   /** The name of the regional instance group where the named ports are updated. */
@@ -34206,8 +33612,6 @@ export interface SetNamedPortsRegionInstanceGroupsRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionInstanceGroupsSetNamedPortsRequest | undefined;
 }
 export interface InstancesSetNameRequest {
   /** The name to be applied to the instance. Needs to be RFC 1035 compliant. */
@@ -34215,7 +33619,7 @@ export interface InstancesSetNameRequest {
   /** The current name of this resource, used to prevent conflicts. Provide the latest name when making a request to change name. */
   currentName?: string | undefined;
 }
-export interface SetNameInstancesRequest {
+export interface SetNameInstancesRequest extends InstancesSetNameRequest {
   /** The instance name for this request. */
   instance: string;
   /** The name of the zone for this request. */
@@ -34224,8 +33628,6 @@ export interface SetNameInstancesRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstancesSetNameRequest | undefined;
 }
 /** Request to rename an interconnect. */
 export interface InterconnectsSetNameRequest {
@@ -34234,21 +33636,19 @@ export interface InterconnectsSetNameRequest {
   /** The current name of the interconnect. The name must be 1-63 characters long, and comply with RFC1035. */
   currentName?: string | undefined;
 }
-export interface SetNameInterconnectsRequest {
+export interface SetNameInterconnectsRequest extends InterconnectsSetNameRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the interconnect to update. */
   interconnect: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InterconnectsSetNameRequest | undefined;
 }
 export interface NodeGroupsSetNodeTemplateRequest {
   /** Full or partial URL of the node template resource to be updated for this node group. */
   nodeTemplate?: string | undefined;
 }
-export interface SetNodeTemplateNodeGroupsRequest {
+export interface SetNodeTemplateNodeGroupsRequest extends NodeGroupsSetNodeTemplateRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the zone for this request. */
@@ -34257,13 +33657,11 @@ export interface SetNodeTemplateNodeGroupsRequest {
   project: string;
   /** Name of the NodeGroup resource to update. */
   nodeGroup: string;
-  /** Request body */
-  body?: NodeGroupsSetNodeTemplateRequest | undefined;
 }
 export interface SubnetworksSetPrivateIpGoogleAccessRequest {
   privateIpGoogleAccess?: boolean | undefined;
 }
-export interface SetPrivateIpGoogleAccessSubnetworksRequest {
+export interface SetPrivateIpGoogleAccessSubnetworksRequest extends SubnetworksSetPrivateIpGoogleAccessRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34272,38 +33670,32 @@ export interface SetPrivateIpGoogleAccessSubnetworksRequest {
   subnetwork: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: SubnetworksSetPrivateIpGoogleAccessRequest | undefined;
 }
 export type TargetSslProxiesSetProxyHeaderRequestProxyHeaderEnum = "NONE" | "PROXY_V1";
 export interface TargetSslProxiesSetProxyHeaderRequest {
   /** The new type of proxy header to append before sending data to the backend. NONE or PROXY_V1 are allowed. */
   proxyHeader?: TargetSslProxiesSetProxyHeaderRequestProxyHeaderEnum | (string & {}) | undefined;
 }
-export interface SetProxyHeaderTargetSslProxiesRequest {
+export interface SetProxyHeaderTargetSslProxiesRequest extends TargetSslProxiesSetProxyHeaderRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the TargetSslProxy resource whose ProxyHeader is to be set. */
   targetSslProxy: string;
-  /** Request body */
-  body?: TargetSslProxiesSetProxyHeaderRequest | undefined;
 }
 export type TargetTcpProxiesSetProxyHeaderRequestProxyHeaderEnum = "NONE" | "PROXY_V1";
 export interface TargetTcpProxiesSetProxyHeaderRequest {
   /** The new type of proxy header to append before sending data to the backend. NONE or PROXY_V1 are allowed. */
   proxyHeader?: TargetTcpProxiesSetProxyHeaderRequestProxyHeaderEnum | (string & {}) | undefined;
 }
-export interface SetProxyHeaderTargetTcpProxiesRequest {
+export interface SetProxyHeaderTargetTcpProxiesRequest extends TargetTcpProxiesSetProxyHeaderRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the TargetTcpProxy resource whose ProxyHeader is to be set. */
   targetTcpProxy: string;
-  /** Request body */
-  body?: TargetTcpProxiesSetProxyHeaderRequest | undefined;
 }
 export type TargetHttpsProxiesSetQuicOverrideRequestQuicOverrideEnum =
   | "DISABLE"
@@ -34316,17 +33708,15 @@ export interface TargetHttpsProxiesSetQuicOverrideRequest {
     | (string & {})
     | undefined;
 }
-export interface SetQuicOverrideTargetHttpsProxiesRequest {
+export interface SetQuicOverrideTargetHttpsProxiesRequest extends TargetHttpsProxiesSetQuicOverrideRequest {
   /** Name of the TargetHttpsProxy resource to set the QUIC override policy for. The name should conform to RFC1035. */
   targetHttpsProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetHttpsProxiesSetQuicOverrideRequest | undefined;
 }
-export interface SetSchedulingInstancesRequest {
+export interface SetSchedulingInstancesRequest extends Scheduling {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the zone for this request. */
@@ -34335,18 +33725,14 @@ export interface SetSchedulingInstancesRequest {
   project: string;
   /** Instance name for this request. */
   instance: string;
-  /** Request body */
-  body?: Scheduling | undefined;
 }
-export interface SetSecurityPolicyBackendServicesRequest {
+export interface SetSecurityPolicyBackendServicesRequest extends SecurityPolicyReference {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the BackendService resource to which the security policy should be set. The name should conform to RFC1035. */
   backendService: string;
-  /** Request body */
-  body?: SecurityPolicyReference | undefined;
 }
 export interface InstancesSetSecurityPolicyRequest {
   /** A full or partial URL to a security policy to add to this instance. If this field is set to an empty string it will remove the associated security policy. */
@@ -34354,7 +33740,7 @@ export interface InstancesSetSecurityPolicyRequest {
   /** The network interfaces that the security policy will be applied to. Network interfaces use the nicN naming format. You can only set a security policy for network interfaces with an access config. */
   networkInterfaces?: StringList | undefined;
 }
-export interface SetSecurityPolicyInstancesRequest {
+export interface SetSecurityPolicyInstancesRequest extends InstancesSetSecurityPolicyRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the Instance resource to which the security policy should be set. The name should conform to RFC1035. */
@@ -34363,10 +33749,8 @@ export interface SetSecurityPolicyInstancesRequest {
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstancesSetSecurityPolicyRequest | undefined;
 }
-export interface SetSecurityPolicyRegionBackendServicesRequest {
+export interface SetSecurityPolicyRegionBackendServicesRequest extends SecurityPolicyReference {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
@@ -34375,10 +33759,8 @@ export interface SetSecurityPolicyRegionBackendServicesRequest {
   backendService: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SecurityPolicyReference | undefined;
 }
-export interface SetSecurityPolicyTargetInstancesRequest {
+export interface SetSecurityPolicyTargetInstancesRequest extends SecurityPolicyReference {
   /** Name of the zone scoping this request. */
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34387,10 +33769,8 @@ export interface SetSecurityPolicyTargetInstancesRequest {
   project: string;
   /** Name of the TargetInstance resource to which the security policy should be set. The name should conform to RFC1035. */
   targetInstance: string;
-  /** Request body */
-  body?: SecurityPolicyReference | undefined;
 }
-export interface SetSecurityPolicyTargetPoolsRequest {
+export interface SetSecurityPolicyTargetPoolsRequest extends SecurityPolicyReference {
   /** Name of the TargetPool resource to which the security policy should be set. The name should conform to RFC1035. */
   targetPool: string;
   /** Name of the region scoping this request. */
@@ -34399,11 +33779,9 @@ export interface SetSecurityPolicyTargetPoolsRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SecurityPolicyReference | undefined;
 }
 export type InstancesSetServiceAccountRequest = ServiceAccount;
-export interface SetServiceAccountInstancesRequest {
+export interface SetServiceAccountInstancesRequest extends ServiceAccount {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -34412,10 +33790,8 @@ export interface SetServiceAccountInstancesRequest {
   zone: string;
   /** Name of the instance resource to start. */
   instance: string;
-  /** Request body */
-  body?: ServiceAccount | undefined;
 }
-export interface SetShieldedInstanceIntegrityPolicyInstancesRequest {
+export interface SetShieldedInstanceIntegrityPolicyInstancesRequest extends ShieldedInstanceIntegrityPolicy {
   /** The name of the zone for this request. */
   zone: string;
   /** Name or id of the instance scoping this request. */
@@ -34424,14 +33800,12 @@ export interface SetShieldedInstanceIntegrityPolicyInstancesRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ShieldedInstanceIntegrityPolicy | undefined;
 }
 export interface RegionTargetHttpsProxiesSetSslCertificatesRequest {
   /** New set of SslCertificate resources to associate with this TargetHttpsProxy resource. */
   sslCertificates?: StringList | undefined;
 }
-export interface SetSslCertificatesRegionTargetHttpsProxiesRequest {
+export interface SetSslCertificatesRegionTargetHttpsProxiesRequest extends RegionTargetHttpsProxiesSetSslCertificatesRequest {
   /** Name of the TargetHttpsProxy resource to set an SslCertificates resource for. */
   targetHttpsProxy: string;
   /** Project ID for this request. */
@@ -34440,61 +33814,51 @@ export interface SetSslCertificatesRegionTargetHttpsProxiesRequest {
   requestId?: string | undefined;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: RegionTargetHttpsProxiesSetSslCertificatesRequest | undefined;
 }
 export interface TargetHttpsProxiesSetSslCertificatesRequest {
   /** New set of SslCertificate resources to associate with this TargetHttpsProxy resource. At least one SSL certificate must be specified. Currently, you may specify up to 15 SSL certificates. */
   sslCertificates?: StringList | undefined;
 }
-export interface SetSslCertificatesTargetHttpsProxiesRequest {
+export interface SetSslCertificatesTargetHttpsProxiesRequest extends TargetHttpsProxiesSetSslCertificatesRequest {
   /** Name of the TargetHttpsProxy resource to set an SslCertificates resource for. */
   targetHttpsProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetHttpsProxiesSetSslCertificatesRequest | undefined;
 }
 export interface TargetSslProxiesSetSslCertificatesRequest {
   /** New set of URLs to SslCertificate resources to associate with this TargetSslProxy. At least one SSL certificate must be specified. Currently, you may specify up to 15 SSL certificates. */
   sslCertificates?: StringList | undefined;
 }
-export interface SetSslCertificatesTargetSslProxiesRequest {
+export interface SetSslCertificatesTargetSslProxiesRequest extends TargetSslProxiesSetSslCertificatesRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the TargetSslProxy resource whose SslCertificate resource is to be set. */
   targetSslProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: TargetSslProxiesSetSslCertificatesRequest | undefined;
 }
 export interface SslPolicyReference {
   sslPolicy?: string | undefined;
 }
-export interface SetSslPolicyTargetHttpsProxiesRequest {
+export interface SetSslPolicyTargetHttpsProxiesRequest extends SslPolicyReference {
   /** Name of the TargetHttpsProxy resource whose SSL policy is to be set. The name must be 1-63 characters long, and comply with RFC1035. */
   targetHttpsProxy: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: SslPolicyReference | undefined;
 }
-export interface SetSslPolicyTargetSslProxiesRequest {
+export interface SetSslPolicyTargetSslProxiesRequest extends SslPolicyReference {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the TargetSslProxy resource whose SSL policy is to be set. The name must be 1-63 characters long, and comply with RFC1035. */
   targetSslProxy: string;
-  /** Request body */
-  body?: SslPolicyReference | undefined;
 }
-export interface SetTagsInstancesRequest {
+export interface SetTagsInstancesRequest extends Tags {
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
@@ -34503,10 +33867,8 @@ export interface SetTagsInstancesRequest {
   instance: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Tags | undefined;
 }
-export interface SetTargetForwardingRulesRequest {
+export interface SetTargetForwardingRulesRequest extends TargetReference {
   /** Name of the ForwardingRule resource in which target is to be set. */
   forwardingRule: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34515,18 +33877,14 @@ export interface SetTargetForwardingRulesRequest {
   project: string;
   /** Name of the region scoping this request. */
   region: string;
-  /** Request body */
-  body?: TargetReference | undefined;
 }
-export interface SetTargetGlobalForwardingRulesRequest {
+export interface SetTargetGlobalForwardingRulesRequest extends TargetReference {
   /** Name of the ForwardingRule resource in which target is to be set. */
   forwardingRule: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TargetReference | undefined;
 }
 export interface InstanceGroupManagersSetTargetPoolsRequest {
   /** The fingerprint of the target pools information. Use this optional property to prevent conflicts when multiple users change the target pools settings concurrently. Obtain the fingerprint with theinstanceGroupManagers.get method. Then, include the fingerprint in your request to ensure that you do not overwrite changes that were applied from another concurrent request. */
@@ -34534,7 +33892,7 @@ export interface InstanceGroupManagersSetTargetPoolsRequest {
   /** The list of target pool URLs that instances in this managed instance group belong to. The managed instance group applies these target pools to all of the instances in the group. Existing instances and new instances in the group all receive these target pool settings. */
   targetPools?: StringList | undefined;
 }
-export interface SetTargetPoolsInstanceGroupManagersRequest {
+export interface SetTargetPoolsInstanceGroupManagersRequest extends InstanceGroupManagersSetTargetPoolsRequest {
   /** The name of the managed instance group. */
   instanceGroupManager: string;
   /** Project ID for this request. */
@@ -34543,8 +33901,6 @@ export interface SetTargetPoolsInstanceGroupManagersRequest {
   requestId?: string | undefined;
   /** The name of thezone where the managed instance group is located. */
   zone: string;
-  /** Request body */
-  body?: InstanceGroupManagersSetTargetPoolsRequest | undefined;
 }
 export interface RegionInstanceGroupManagersSetTargetPoolsRequest {
   /** The URL of all TargetPool resources to which instances in theinstanceGroup field are added. The target pools automatically apply to all of the instances in the managed instance group. */
@@ -34552,7 +33908,7 @@ export interface RegionInstanceGroupManagersSetTargetPoolsRequest {
   /** Fingerprint of the target pools information, which is a hash of the contents. This field is used for optimistic locking when you update the target pool entries. This field is optional. */
   fingerprint?: string | undefined;
 }
-export interface SetTargetPoolsRegionInstanceGroupManagersRequest {
+export interface SetTargetPoolsRegionInstanceGroupManagersRequest extends RegionInstanceGroupManagersSetTargetPoolsRequest {
   /** Name of the managed instance group. */
   instanceGroupManager: string;
   /** Name of the region scoping this request. */
@@ -34561,13 +33917,11 @@ export interface SetTargetPoolsRegionInstanceGroupManagersRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: RegionInstanceGroupManagersSetTargetPoolsRequest | undefined;
 }
 export interface UrlMapReference {
   urlMap?: string | undefined;
 }
-export interface SetUrlMapRegionTargetHttpProxiesRequest {
+export interface SetUrlMapRegionTargetHttpProxiesRequest extends UrlMapReference {
   /** Project ID for this request. */
   project: string;
   /** Name of the region scoping this request. */
@@ -34576,10 +33930,8 @@ export interface SetUrlMapRegionTargetHttpProxiesRequest {
   targetHttpProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: UrlMapReference | undefined;
 }
-export interface SetUrlMapRegionTargetHttpsProxiesRequest {
+export interface SetUrlMapRegionTargetHttpsProxiesRequest extends UrlMapReference {
   /** Name of the TargetHttpsProxy to set a URL map for. */
   targetHttpsProxy: string;
   /** Name of the region scoping this request. */
@@ -34588,36 +33940,28 @@ export interface SetUrlMapRegionTargetHttpsProxiesRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: UrlMapReference | undefined;
 }
-export interface SetUrlMapTargetHttpProxiesRequest {
+export interface SetUrlMapTargetHttpProxiesRequest extends UrlMapReference {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the TargetHttpProxy to set a URL map for. */
   targetHttpProxy: string;
-  /** Request body */
-  body?: UrlMapReference | undefined;
 }
-export interface SetUrlMapTargetHttpsProxiesRequest {
+export interface SetUrlMapTargetHttpsProxiesRequest extends UrlMapReference {
   /** Name of the TargetHttpsProxy resource whose URL map is to be set. */
   targetHttpsProxy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: UrlMapReference | undefined;
 }
-export interface SetUsageExportBucketProjectsRequest {
+export interface SetUsageExportBucketProjectsRequest extends UsageExportLocation {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: UsageExportLocation | undefined;
 }
 export interface SimulateMaintenanceEventInstancesRequest {
   /** Name of the instance scoping this request. */
@@ -34635,7 +33979,7 @@ export interface NodeGroupsSimulateMaintenanceEventRequest {
   /** Names of the nodes to go under maintenance simulation. */
   nodes?: StringList | undefined;
 }
-export interface SimulateMaintenanceEventNodeGroupsRequest {
+export interface SimulateMaintenanceEventNodeGroupsRequest extends NodeGroupsSimulateMaintenanceEventRequest {
   /** Name of the NodeGroup resource whose nodes will go under maintenance simulation. */
   nodeGroup: string;
   /** The name of the zone for this request. */
@@ -34644,14 +33988,12 @@ export interface SimulateMaintenanceEventNodeGroupsRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: NodeGroupsSimulateMaintenanceEventRequest | undefined;
 }
 export interface DisksStartAsyncReplicationRequest {
   /** The secondary disk to start asynchronous replication to. You can provide this as a partial or full URL to the resource. For example, the following are valid values: - https://www.googleapis.com/compute/v1/projects/project/zones/zone/disks/disk - https://www.googleapis.com/compute/v1/projects/project/regions/region/disks/disk - projects/project/zones/zone/disks/disk - projects/project/regions/region/disks/disk - zones/zone/disks/disk - regions/region/disks/disk */
   asyncSecondaryDisk?: string | undefined;
 }
-export interface StartAsyncReplicationDisksRequest {
+export interface StartAsyncReplicationDisksRequest extends DisksStartAsyncReplicationRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the persistent disk. */
@@ -34660,11 +34002,9 @@ export interface StartAsyncReplicationDisksRequest {
   zone: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DisksStartAsyncReplicationRequest | undefined;
 }
 export type RegionDisksStartAsyncReplicationRequest = DisksStartAsyncReplicationRequest;
-export interface StartAsyncReplicationRegionDisksRequest {
+export interface StartAsyncReplicationRegionDisksRequest extends DisksStartAsyncReplicationRequest {
   /** The name of the persistent disk. */
   disk: string;
   /** The name of the region for this request. */
@@ -34673,8 +34013,6 @@ export interface StartAsyncReplicationRegionDisksRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: DisksStartAsyncReplicationRequest | undefined;
 }
 export interface StartInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34690,7 +34028,7 @@ export interface InstanceGroupManagersStartInstancesRequest {
   /** The URLs of one or more instances to start. This can be a full URL or a partial URL, such as zones/[ZONE]/instances/[INSTANCE_NAME]. */
   instances?: StringList | undefined;
 }
-export interface StartInstancesInstanceGroupManagersRequest {
+export interface StartInstancesInstanceGroupManagersRequest extends InstanceGroupManagersStartInstancesRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34699,12 +34037,10 @@ export interface StartInstancesInstanceGroupManagersRequest {
   instanceGroupManager: string;
   /** The name of thezone where the managed instance group is located. */
   zone: string;
-  /** Request body */
-  body?: InstanceGroupManagersStartInstancesRequest | undefined;
 }
 export type RegionInstanceGroupManagersStartInstancesRequest =
   InstanceGroupManagersStartInstancesRequest;
-export interface StartInstancesRegionInstanceGroupManagersRequest {
+export interface StartInstancesRegionInstanceGroupManagersRequest extends InstanceGroupManagersStartInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -34713,8 +34049,6 @@ export interface StartInstancesRegionInstanceGroupManagersRequest {
   region: string;
   /** Name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: InstanceGroupManagersStartInstancesRequest | undefined;
 }
 export interface CustomerEncryptionKeyProtectedDisk {
   /** Specifies a valid partial or full URL to an existing Persistent Disk resource. This field is only applicable for persistent disks. For example: "source": "/compute/v1/projects/project_id/zones/zone/disks/ disk_name */
@@ -34727,7 +34061,7 @@ export interface InstancesStartWithEncryptionKeyRequest {
   /** Array of disks associated with this instance that are protected with acustomer-supplied encryption key. In order to start the instance, the disk url and its corresponding key must be provided. If the disk is not protected with a customer-supplied encryption key it should not be specified. */
   disks?: CustomerEncryptionKeyProtectedDiskList | undefined;
 }
-export interface StartWithEncryptionKeyInstancesRequest {
+export interface StartWithEncryptionKeyInstancesRequest extends InstancesStartWithEncryptionKeyRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the instance resource to start. */
@@ -34736,8 +34070,6 @@ export interface StartWithEncryptionKeyInstancesRequest {
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: InstancesStartWithEncryptionKeyRequest | undefined;
 }
 export interface StopAsyncReplicationDisksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -34764,25 +34096,21 @@ export interface DisksStopGroupAsyncReplicationResource {
   /** The URL of the DiskConsistencyGroupPolicy for the group of disks to stop. This may be a full or partial URL, such as: - https://www.googleapis.com/compute/v1/projects/project/regions/region/resourcePolicies/resourcePolicy - projects/project/regions/region/resourcePolicies/resourcePolicy - regions/region/resourcePolicies/resourcePolicy */
   resourcePolicy?: string | undefined;
 }
-export interface StopGroupAsyncReplicationDisksRequest {
+export interface StopGroupAsyncReplicationDisksRequest extends DisksStopGroupAsyncReplicationResource {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the zone for this request. This must be the zone of the primary or secondary disks in the consistency group. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: DisksStopGroupAsyncReplicationResource | undefined;
 }
-export interface StopGroupAsyncReplicationRegionDisksRequest {
+export interface StopGroupAsyncReplicationRegionDisksRequest extends DisksStopGroupAsyncReplicationResource {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the region for this request. This must be the region of the primary or secondary disks in the consistency group. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: DisksStopGroupAsyncReplicationResource | undefined;
 }
 export interface StopInstancesRequest {
   /** Project ID for this request. */
@@ -34804,7 +34132,7 @@ export interface InstanceGroupManagersStopInstancesRequest {
   /** If this flag is set to true, the Instance Group Manager will proceed to stop the instances, skipping initialization on them. */
   forceStop?: boolean | undefined;
 }
-export interface StopInstancesInstanceGroupManagersRequest {
+export interface StopInstancesInstanceGroupManagersRequest extends InstanceGroupManagersStopInstancesRequest {
   /** The name of the managed instance group. */
   instanceGroupManager: string;
   /** When set, graceful shutdown is skipped for instance stopping even if it's configured for the instances. */
@@ -34815,12 +34143,10 @@ export interface StopInstancesInstanceGroupManagersRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: InstanceGroupManagersStopInstancesRequest | undefined;
 }
 export type RegionInstanceGroupManagersStopInstancesRequest =
   InstanceGroupManagersStopInstancesRequest;
-export interface StopInstancesRegionInstanceGroupManagersRequest {
+export interface StopInstancesRegionInstanceGroupManagersRequest extends InstanceGroupManagersStopInstancesRequest {
   /** When set, graceful shutdown is skipped for instance stopping even if it's configured for the instances. */
   noGracefulShutdown?: boolean | undefined;
   /** Name of the region scoping this request. */
@@ -34831,8 +34157,6 @@ export interface StopInstancesRegionInstanceGroupManagersRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroupManagersStopInstancesRequest | undefined;
 }
 export interface SuspendInstancesRequest {
   /** Project ID for this request. */
@@ -34852,7 +34176,7 @@ export interface InstanceGroupManagersSuspendInstancesRequest {
   /** If this flag is set to true, the Instance Group Manager will proceed to suspend the instances, skipping initialization on them. */
   forceSuspend?: boolean | undefined;
 }
-export interface SuspendInstancesInstanceGroupManagersRequest {
+export interface SuspendInstancesInstanceGroupManagersRequest extends InstanceGroupManagersSuspendInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the managed instance group. */
@@ -34861,8 +34185,6 @@ export interface SuspendInstancesInstanceGroupManagersRequest {
   project: string;
   /** The name of thezone where the managed instance group is located. */
   zone: string;
-  /** Request body */
-  body?: InstanceGroupManagersSuspendInstancesRequest | undefined;
 }
 export interface RegionInstanceGroupManagersSuspendInstancesRequest {
   /** If this flag is set to true, the Instance Group Manager will proceed to suspend the instances, skipping initialization on them. */
@@ -34870,7 +34192,7 @@ export interface RegionInstanceGroupManagersSuspendInstancesRequest {
   /** The URLs of one or more instances to suspend. This can be a full URL or a partial URL, such as zones/[ZONE]/instances/[INSTANCE_NAME]. */
   instances?: StringList | undefined;
 }
-export interface SuspendInstancesRegionInstanceGroupManagersRequest {
+export interface SuspendInstancesRegionInstanceGroupManagersRequest extends RegionInstanceGroupManagersSuspendInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -34879,8 +34201,6 @@ export interface SuspendInstancesRegionInstanceGroupManagersRequest {
   region: string;
   /** Name of the managed instance group. */
   instanceGroupManager: string;
-  /** Request body */
-  body?: RegionInstanceGroupManagersSuspendInstancesRequest | undefined;
 }
 export interface SwitchToCustomModeNetworksRequest {
   /** Name of the network to be updated. */
@@ -34894,425 +34214,335 @@ export interface TestPermissionsRequest {
   /** The set of permissions to check for the 'resource'. Permissions with wildcards (such as '*' or 'storage.*') are not allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsAddressesRequest {
+export interface TestIamPermissionsAddressesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
 export interface TestPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsAutoscalersRequest {
+export interface TestIamPermissionsAutoscalersRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsBackendBucketsRequest {
+export interface TestIamPermissionsBackendBucketsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsBackendServicesRequest {
+export interface TestIamPermissionsBackendServicesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsDisksRequest {
+export interface TestIamPermissionsDisksRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsExternalVpnGatewaysRequest {
+export interface TestIamPermissionsExternalVpnGatewaysRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsFirewallPoliciesRequest {
+export interface TestIamPermissionsFirewallPoliciesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsFirewallsRequest {
+export interface TestIamPermissionsFirewallsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsGlobalAddressesRequest {
+export interface TestIamPermissionsGlobalAddressesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsHealthChecksRequest {
+export interface TestIamPermissionsHealthChecksRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsHttpHealthChecksRequest {
+export interface TestIamPermissionsHttpHealthChecksRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsHttpsHealthChecksRequest {
+export interface TestIamPermissionsHttpsHealthChecksRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsImagesRequest {
+export interface TestIamPermissionsImagesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsInstanceGroupsRequest {
+export interface TestIamPermissionsInstanceGroupsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsInstancesRequest {
+export interface TestIamPermissionsInstancesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsInstanceTemplatesRequest {
+export interface TestIamPermissionsInstanceTemplatesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsInstantSnapshotGroupsRequest {
+export interface TestIamPermissionsInstantSnapshotGroupsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsInstantSnapshotsRequest {
+export interface TestIamPermissionsInstantSnapshotsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsInterconnectAttachmentGroupsRequest {
+export interface TestIamPermissionsInterconnectAttachmentGroupsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsInterconnectGroupsRequest {
+export interface TestIamPermissionsInterconnectGroupsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsLicenseCodesRequest {
+export interface TestIamPermissionsLicenseCodesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsLicensesRequest {
+export interface TestIamPermissionsLicensesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsMachineImagesRequest {
+export interface TestIamPermissionsMachineImagesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsNetworkAttachmentsRequest {
+export interface TestIamPermissionsNetworkAttachmentsRequest extends TestPermissionsRequest {
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsNetworkEndpointGroupsRequest {
+export interface TestIamPermissionsNetworkEndpointGroupsRequest extends TestPermissionsRequest {
   /** The name of the zone for this request. */
   zone: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsNetworkFirewallPoliciesRequest {
+export interface TestIamPermissionsNetworkFirewallPoliciesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsNodeGroupsRequest {
+export interface TestIamPermissionsNodeGroupsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsNodeTemplatesRequest {
+export interface TestIamPermissionsNodeTemplatesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsPacketMirroringsRequest {
+export interface TestIamPermissionsPacketMirroringsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionAutoscalersRequest {
+export interface TestIamPermissionsRegionAutoscalersRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionBackendBucketsRequest {
+export interface TestIamPermissionsRegionBackendBucketsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionBackendServicesRequest {
+export interface TestIamPermissionsRegionBackendServicesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionCompositeHealthChecksRequest {
+export interface TestIamPermissionsRegionCompositeHealthChecksRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionDisksRequest {
+export interface TestIamPermissionsRegionDisksRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionHealthAggregationPoliciesRequest {
+export interface TestIamPermissionsRegionHealthAggregationPoliciesRequest extends TestPermissionsRequest {
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionHealthChecksRequest {
+export interface TestIamPermissionsRegionHealthChecksRequest extends TestPermissionsRequest {
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionHealthCheckServicesRequest {
+export interface TestIamPermissionsRegionHealthCheckServicesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionHealthSourcesRequest {
+export interface TestIamPermissionsRegionHealthSourcesRequest extends TestPermissionsRequest {
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionInstanceGroupsRequest {
+export interface TestIamPermissionsRegionInstanceGroupsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionInstantSnapshotGroupsRequest {
+export interface TestIamPermissionsRegionInstantSnapshotGroupsRequest extends TestPermissionsRequest {
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionInstantSnapshotsRequest {
+export interface TestIamPermissionsRegionInstantSnapshotsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionNetworkFirewallPoliciesRequest {
+export interface TestIamPermissionsRegionNetworkFirewallPoliciesRequest extends TestPermissionsRequest {
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionNotificationEndpointsRequest {
+export interface TestIamPermissionsRegionNotificationEndpointsRequest extends TestPermissionsRequest {
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionSnapshotsRequest {
+export interface TestIamPermissionsRegionSnapshotsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRegionSslPoliciesRequest {
+export interface TestIamPermissionsRegionSslPoliciesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsReservationBlocksRequest {
+export interface TestIamPermissionsReservationBlocksRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of parent resource of the resource for this request. */
@@ -35321,20 +34551,16 @@ export interface TestIamPermissionsReservationBlocksRequest {
   zone: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsReservationsRequest {
+export interface TestIamPermissionsReservationsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsReservationSubBlocksRequest {
+export interface TestIamPermissionsReservationSubBlocksRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
@@ -35343,128 +34569,100 @@ export interface TestIamPermissionsReservationSubBlocksRequest {
   parentResource: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsResourcePoliciesRequest {
+export interface TestIamPermissionsResourcePoliciesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsRoutesRequest {
+export interface TestIamPermissionsRoutesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsServiceAttachmentsRequest {
+export interface TestIamPermissionsServiceAttachmentsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsSnapshotsRequest {
+export interface TestIamPermissionsSnapshotsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsSslPoliciesRequest {
+export interface TestIamPermissionsSslPoliciesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsStoragePoolsRequest {
+export interface TestIamPermissionsStoragePoolsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsSubnetworksRequest {
+export interface TestIamPermissionsSubnetworksRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTargetInstancesRequest {
+export interface TestIamPermissionsTargetInstancesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the zone for this request. */
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTargetPoolsRequest {
+export interface TestIamPermissionsTargetPoolsRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTargetSslProxiesRequest {
+export interface TestIamPermissionsTargetSslProxiesRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsTargetTcpProxiesRequest {
+export interface TestIamPermissionsTargetTcpProxiesRequest extends TestPermissionsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsUrlMapsRequest {
+export interface TestIamPermissionsUrlMapsRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsVpnGatewaysRequest {
+export interface TestIamPermissionsVpnGatewaysRequest extends TestPermissionsRequest {
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
   /** The name of the region for this request. */
   region: string;
-  /** Request body */
-  body?: TestPermissionsRequest | undefined;
 }
-export interface UpdateAccessConfigInstancesRequest {
+export interface UpdateAccessConfigInstancesRequest extends AccessConfig {
   /** The name of the network interface where the access config is attached. */
   networkInterface: string;
   /** The name of the zone for this request. */
@@ -35475,10 +34673,8 @@ export interface UpdateAccessConfigInstancesRequest {
   project: string;
   /** The instance name for this request. */
   instance: string;
-  /** Request body */
-  body?: AccessConfig | undefined;
 }
-export interface UpdateAutoscalersRequest {
+export interface UpdateAutoscalersRequest extends Omit<Autoscaler, "zone"> {
   /** Project ID for this request. */
   project: string;
   /** Name of the zone for this request. */
@@ -35487,30 +34683,24 @@ export interface UpdateAutoscalersRequest {
   autoscaler?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Autoscaler | undefined;
 }
-export interface UpdateBackendBucketsRequest {
+export interface UpdateBackendBucketsRequest extends BackendBucket {
   /** Name of the BackendBucket resource to update. */
   backendBucket: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: BackendBucket | undefined;
 }
-export interface UpdateBackendServicesRequest {
+export interface UpdateBackendServicesRequest extends BackendService {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name of the BackendService resource to update. */
   backendService: string;
-  /** Request body */
-  body?: BackendService | undefined;
 }
-export interface UpdateDisksRequest {
+export interface UpdateDisksRequest extends Omit<Disk, "zone"> {
   paths?: StringList | undefined;
   /** Project ID for this request. */
   project: string;
@@ -35522,10 +34712,8 @@ export interface UpdateDisksRequest {
   updateMask?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Disk | undefined;
 }
-export interface UpdateDisplayDeviceInstancesRequest {
+export interface UpdateDisplayDeviceInstancesRequest extends DisplayDevice {
   /** Name of the instance scoping this request. */
   instance: string;
   /** Project ID for this request. */
@@ -35534,20 +34722,16 @@ export interface UpdateDisplayDeviceInstancesRequest {
   requestId?: string | undefined;
   /** The name of the zone for this request. */
   zone: string;
-  /** Request body */
-  body?: DisplayDevice | undefined;
 }
-export interface UpdateFirewallsRequest {
+export interface UpdateFirewallsRequest extends Firewall {
   /** Name of the firewall rule to update. */
   firewall: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Firewall | undefined;
 }
-export interface UpdateFutureReservationsRequest {
+export interface UpdateFutureReservationsRequest extends Omit<FutureReservation, "zone"> {
   /** Name of the zone for this request. Name should conform to RFC1035. */
   zone: string;
   /** update_mask indicates fields to be updated as part of this request. */
@@ -35558,48 +34742,38 @@ export interface UpdateFutureReservationsRequest {
   project: string;
   /** Name of the reservation to update. Name should conform to RFC1035. */
   futureReservation: string;
-  /** Request body */
-  body?: FutureReservation | undefined;
 }
-export interface UpdateGlobalVmExtensionPoliciesRequest {
+export interface UpdateGlobalVmExtensionPoliciesRequest extends GlobalVmExtensionPolicy {
   /** Project ID for this request. */
   project: string;
   /** Name of the global VM extension policy to update. */
   globalVmExtensionPolicy: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GlobalVmExtensionPolicy | undefined;
 }
-export interface UpdateHealthChecksRequest {
+export interface UpdateHealthChecksRequest extends HealthCheck {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the HealthCheck resource to update. */
   healthCheck: string;
-  /** Request body */
-  body?: HealthCheck | undefined;
 }
-export interface UpdateHttpHealthChecksRequest {
+export interface UpdateHttpHealthChecksRequest extends HttpHealthCheck {
   /** Project ID for this request. */
   project: string;
   /** Name of the HttpHealthCheck resource to update. */
   httpHealthCheck: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: HttpHealthCheck | undefined;
 }
-export interface UpdateHttpsHealthChecksRequest {
+export interface UpdateHttpsHealthChecksRequest extends HttpsHealthCheck {
   /** Project ID for this request. */
   project: string;
   /** Name of the HttpsHealthCheck resource to update. */
   httpsHealthCheck: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: HttpsHealthCheck | undefined;
 }
 export type UpdateInstancesMostDisruptiveAllowedActionEnum =
   | "INVALID"
@@ -35607,7 +34781,7 @@ export type UpdateInstancesMostDisruptiveAllowedActionEnum =
   | "REFRESH"
   | "RESTART";
 export type UpdateInstancesMinimalActionEnum = "INVALID" | "NO_EFFECT" | "REFRESH" | "RESTART";
-export interface UpdateInstancesRequest {
+export interface UpdateInstancesRequest extends Omit<Instance, "zone"> {
   /** Name of the instance resource to update. */
   instance: string;
   /** Specifies the most disruptive action that can be taken on the instance as part of the update. Compute Engine returns an error if the instance properties require a more disruptive action as part of the instance update. Valid options from lowest to highest are NO_EFFECT, REFRESH, and RESTART. */
@@ -35625,14 +34799,12 @@ export interface UpdateInstancesRequest {
   minimalAction?: UpdateInstancesMinimalActionEnum | (string & {}) | undefined;
   /** Whether to discard local SSDs from the instance during restart default value is false. */
   discardLocalSsd?: boolean | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export interface DiskUpdateKmsKeyRequest {
   /** Optional. The new KMS key to replace the current one on the disk. If empty, the disk will be re-encrypted using the primary version of the disk's current KMS key. The KMS key can be provided in the following formats: - projects/project_id/locations/location/keyRings/key_ring/cryptoKeys/key Where project is the project ID or project number. */
   kmsKeyName?: string | undefined;
 }
-export interface UpdateKmsKeyDisksRequest {
+export interface UpdateKmsKeyDisksRequest extends DiskUpdateKmsKeyRequest {
   /** Name of the Disk resource, should conform to RFC1035. */
   disk: string;
   /** The name of the zone for this request. */
@@ -35641,11 +34813,9 @@ export interface UpdateKmsKeyDisksRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DiskUpdateKmsKeyRequest | undefined;
 }
 export type RegionDiskUpdateKmsKeyRequest = DiskUpdateKmsKeyRequest;
-export interface UpdateKmsKeyRegionDisksRequest {
+export interface UpdateKmsKeyRegionDisksRequest extends DiskUpdateKmsKeyRequest {
   /** The name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35654,14 +34824,12 @@ export interface UpdateKmsKeyRegionDisksRequest {
   project: string;
   /** Name of the Disk resource, should conform to RFC1035. */
   disk: string;
-  /** Request body */
-  body?: DiskUpdateKmsKeyRequest | undefined;
 }
 export interface RegionSnapshotUpdateKmsKeyRequest {
   /** Optional. The new KMS key to replace the current one on the snapshot. If empty, the snapshot will be re-encrypted using the primary version of the snapshot's current KMS key. The KMS key can be provided in the following formats: - projects/project_id/locations/region/keyRings/region/cryptoKeys/key */
   kmsKeyName?: string | undefined;
 }
-export interface UpdateKmsKeyRegionSnapshotsRequest {
+export interface UpdateKmsKeyRegionSnapshotsRequest extends RegionSnapshotUpdateKmsKeyRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region for this request. */
@@ -35670,24 +34838,20 @@ export interface UpdateKmsKeyRegionSnapshotsRequest {
   project: string;
   /** Name of the snapshot resource to update. Should conform to RFC1035. */
   snapshot: string;
-  /** Request body */
-  body?: RegionSnapshotUpdateKmsKeyRequest | undefined;
 }
 export interface SnapshotUpdateKmsKeyRequest {
   /** Optional. The new KMS key to replace the current one on the snapshot. If empty, the snapshot will be re-encrypted using the primary version of the snapshot's current KMS key. The KMS key can be provided in the following formats: - projects/project_id/locations/region/keyRings/key_ring/cryptoKeys/key */
   kmsKeyName?: string | undefined;
 }
-export interface UpdateKmsKeySnapshotsRequest {
+export interface UpdateKmsKeySnapshotsRequest extends SnapshotUpdateKmsKeyRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the snapshot resource to update. Should conform to RFC1035. */
   snapshot: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: SnapshotUpdateKmsKeyRequest | undefined;
 }
-export interface UpdateLicensesRequest {
+export interface UpdateLicensesRequest extends License {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -35696,10 +34860,8 @@ export interface UpdateLicensesRequest {
   license: string;
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: License | undefined;
 }
-export interface UpdateNamedSetRoutersRequest {
+export interface UpdateNamedSetRoutersRequest extends NamedSet {
   /** Name of the region for this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35708,10 +34870,8 @@ export interface UpdateNamedSetRoutersRequest {
   router: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: NamedSet | undefined;
 }
-export interface UpdateNetworkInterfaceInstancesRequest {
+export interface UpdateNetworkInterfaceInstancesRequest extends NetworkInterface {
   /** The instance name for this request. */
   instance: string;
   /** The name of the network interface to update. */
@@ -35722,26 +34882,22 @@ export interface UpdateNetworkInterfaceInstancesRequest {
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: NetworkInterface | undefined;
 }
 export interface NetworksUpdatePeeringRequest {
   networkPeering?: NetworkPeering | undefined;
 }
-export interface UpdatePeeringNetworksRequest {
+export interface UpdatePeeringNetworksRequest extends NetworksUpdatePeeringRequest {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the network resource which the updated peering is belonging to. */
   network: string;
-  /** Request body */
-  body?: NetworksUpdatePeeringRequest | undefined;
 }
 /** InstanceGroupManagers.updatePerInstanceConfigs */
 export type InstanceGroupManagersUpdatePerInstanceConfigsReq =
   InstanceGroupManagersPatchPerInstanceConfigsReq;
-export interface UpdatePerInstanceConfigsInstanceGroupManagersRequest {
+export interface UpdatePerInstanceConfigsInstanceGroupManagersRequest extends InstanceGroupManagersPatchPerInstanceConfigsReq {
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35750,13 +34906,11 @@ export interface UpdatePerInstanceConfigsInstanceGroupManagersRequest {
   project: string;
   /** The name of thezone where the managed instance group is located. It should conform to RFC1035. */
   zone: string;
-  /** Request body */
-  body?: InstanceGroupManagersPatchPerInstanceConfigsReq | undefined;
 }
 /** RegionInstanceGroupManagers.updatePerInstanceConfigs */
 export type RegionInstanceGroupManagerUpdateInstanceConfigReq =
   InstanceGroupManagersPatchPerInstanceConfigsReq;
-export interface UpdatePerInstanceConfigsRegionInstanceGroupManagersRequest {
+export interface UpdatePerInstanceConfigsRegionInstanceGroupManagersRequest extends InstanceGroupManagersPatchPerInstanceConfigsReq {
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
   /** Name of the region scoping this request, should conform to RFC1035. */
@@ -35765,20 +34919,16 @@ export interface UpdatePerInstanceConfigsRegionInstanceGroupManagersRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: InstanceGroupManagersPatchPerInstanceConfigsReq | undefined;
 }
-export interface UpdatePreviewFeaturesRequest {
+export interface UpdatePreviewFeaturesRequest extends PreviewFeature {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the PreviewFeature for this request. */
   previewFeature: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: PreviewFeature | undefined;
 }
-export interface UpdateRegionAutoscalersRequest {
+export interface UpdateRegionAutoscalersRequest extends Omit<Autoscaler, "region"> {
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35787,10 +34937,8 @@ export interface UpdateRegionAutoscalersRequest {
   region: string;
   /** Name of the autoscaler to update. */
   autoscaler?: string | undefined;
-  /** Request body */
-  body?: Autoscaler | undefined;
 }
-export interface UpdateRegionBackendServicesRequest {
+export interface UpdateRegionBackendServicesRequest extends Omit<BackendService, "region"> {
   /** Name of the BackendService resource to update. */
   backendService: string;
   /** Name of the region scoping this request. */
@@ -35799,10 +34947,8 @@ export interface UpdateRegionBackendServicesRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: BackendService | undefined;
 }
-export interface UpdateRegionCommitmentsRequest {
+export interface UpdateRegionCommitmentsRequest extends Omit<Commitment, "region"> {
   /** Name of the region for this request. */
   region: string;
   /** Project ID for this request. */
@@ -35814,10 +34960,8 @@ export interface UpdateRegionCommitmentsRequest {
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
   paths?: StringList | undefined;
-  /** Request body */
-  body?: Commitment | undefined;
 }
-export interface UpdateRegionDisksRequest {
+export interface UpdateRegionDisksRequest extends Omit<Disk, "region"> {
   /** The name of the region for this request. */
   region: string;
   /** update_mask indicates fields to be updated as part of this request. */
@@ -35829,10 +34973,8 @@ export interface UpdateRegionDisksRequest {
   requestId?: string | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Disk | undefined;
 }
-export interface UpdateRegionHealthChecksRequest {
+export interface UpdateRegionHealthChecksRequest extends Omit<HealthCheck, "region"> {
   /** Name of the region scoping this request. */
   region: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35841,10 +34983,8 @@ export interface UpdateRegionHealthChecksRequest {
   project: string;
   /** Name of the HealthCheck resource to update. */
   healthCheck: string;
-  /** Request body */
-  body?: HealthCheck | undefined;
 }
-export interface UpdateRegionUrlMapsRequest {
+export interface UpdateRegionUrlMapsRequest extends Omit<UrlMap, "region"> {
   /** Name of the UrlMap resource to update. */
   urlMap: string;
   /** Project ID for this request. */
@@ -35853,10 +34993,8 @@ export interface UpdateRegionUrlMapsRequest {
   region: string;
   /** begin_interface: MixerMutationRequestBuilder Request ID to support idempotency. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: UrlMap | undefined;
 }
-export interface UpdateReservationsRequest {
+export interface UpdateReservationsRequest extends Omit<Reservation, "zone"> {
   /** Update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
   /** Name of the zone for this request. */
@@ -35868,10 +35006,8 @@ export interface UpdateReservationsRequest {
   paths?: StringList | undefined;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Reservation | undefined;
 }
-export interface UpdateReservationSlotsRequest {
+export interface UpdateReservationSlotsRequest extends Omit<ReservationSlot, "zone"> {
   /** The name of the slot resource. */
   reservationSlot: string;
   /** The name of the sub-block resource. */
@@ -35882,10 +35018,8 @@ export interface UpdateReservationSlotsRequest {
   project: string;
   /** The name of the zone for this request, formatted as RFC1035. */
   zone: string;
-  /** Request body */
-  body?: ReservationSlot | undefined;
 }
-export interface UpdateRoutePolicyRoutersRequest {
+export interface UpdateRoutePolicyRoutersRequest extends RoutePolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -35894,10 +35028,8 @@ export interface UpdateRoutePolicyRoutersRequest {
   region: string;
   /** Name of the Router resource where Route Policy is defined. */
   router: string;
-  /** Request body */
-  body?: RoutePolicy | undefined;
 }
-export interface UpdateRoutersRequest {
+export interface UpdateRoutersRequest extends Omit<Router, "region"> {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Name of the region for this request. */
@@ -35906,10 +35038,8 @@ export interface UpdateRoutersRequest {
   router: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: Router | undefined;
 }
-export interface UpdateShieldedInstanceConfigInstancesRequest {
+export interface UpdateShieldedInstanceConfigInstancesRequest extends ShieldedInstanceConfig {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** The name of the zone for this request. */
@@ -35918,10 +35048,8 @@ export interface UpdateShieldedInstanceConfigInstancesRequest {
   project: string;
   /** Name or id of the instance scoping this request. */
   instance: string;
-  /** Request body */
-  body?: ShieldedInstanceConfig | undefined;
 }
-export interface UpdateStoragePoolsRequest {
+export interface UpdateStoragePoolsRequest extends Omit<StoragePool, "zone"> {
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string | undefined;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -35932,20 +35060,16 @@ export interface UpdateStoragePoolsRequest {
   zone: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: StoragePool | undefined;
 }
-export interface UpdateUrlMapsRequest {
+export interface UpdateUrlMapsRequest extends UrlMap {
   /** Name of the UrlMap resource to update. */
   urlMap: string;
   /** Project ID for this request. */
   project: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: UrlMap | undefined;
 }
-export interface UpdateZoneVmExtensionPoliciesRequest {
+export interface UpdateZoneVmExtensionPoliciesRequest extends VmExtensionPolicy {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Project ID for this request. */
@@ -35954,22 +35078,18 @@ export interface UpdateZoneVmExtensionPoliciesRequest {
   zone: string;
   /** Name of the zone VM extension policy to update. */
   vmExtensionPolicy: string;
-  /** Request body */
-  body?: VmExtensionPolicy | undefined;
 }
 export interface RegionUrlMapsValidateRequest {
   /** Content of the UrlMap to be validated. */
   resource?: UrlMap | undefined;
 }
-export interface ValidateRegionUrlMapsRequest {
+export interface ValidateRegionUrlMapsRequest extends RegionUrlMapsValidateRequest {
   /** Name of the region scoping this request. */
   region: string;
   /** Name of the UrlMap resource to be validated as. */
   urlMap: string;
   /** Project ID for this request. */
   project: string;
-  /** Request body */
-  body?: RegionUrlMapsValidateRequest | undefined;
 }
 export interface TestFailure {
   /** Expected BackendService or BackendBucket resource the given URL should be mapped to. */
@@ -36019,13 +35139,11 @@ export interface UrlMapsValidateRequest {
   /** Specifies the load balancer type(s) this validation request is for. UseEXTERNAL_MANAGED for global external Application Load Balancers and regional external Application Load Balancers. Use EXTERNAL for classic Application Load Balancers. Use INTERNAL_MANAGED for internal Application Load Balancers. For more information, refer to Choosing a load balancer. If unspecified, the load balancing scheme will be inferred from the backend service resources this URL map references. If that can not be inferred (for example, this URL map only references backend buckets, or this Url map is for rewrites and redirects only and doesn't reference any backends),EXTERNAL will be used as the default type. If specified, the scheme(s) must not conflict with the load balancing scheme of the backend service resources this Url map references. */
   loadBalancingSchemes?: UrlMapsValidateRequestLoadBalancingSchemesItemEnumList | undefined;
 }
-export interface ValidateUrlMapsRequest {
+export interface ValidateUrlMapsRequest extends UrlMapsValidateRequest {
   /** Project ID for this request. */
   project: string;
   /** Name of the UrlMap resource to be validated as. */
   urlMap: string;
-  /** Request body */
-  body?: UrlMapsValidateRequest | undefined;
 }
 export interface WaitGlobalOperationsRequest {
   /** Name of the Operations resource to return, or its unique numeric identifier. */
@@ -56222,15 +55340,17 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          associatedPolicyToBeReplaced: S.optional(S.String.pipe(T.Query())),
-          firewallPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(30272, __c946, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30272, __c946, 0),
+          S.Struct({
+            replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            associatedPolicyToBeReplaced: S.optional(S.String.pipe(T.Query())),
+            firewallPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/firewallPolicies/{firewallPolicy}/addAssociation",
@@ -56244,12 +55364,14 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          network: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28448, __c889, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28448, __c889, 0),
+          S.Struct({
+            network: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networks/{network}/cancelRequestRemovePeering",
@@ -56263,12 +55385,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          snapshot: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(42592, __c1331, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42592, __c1331, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            snapshot: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/snapshots/{snapshot}/updateKmsKey",
@@ -56282,13 +55406,15 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          license: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11009, __c344, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11009, __c344, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            license: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/licenses/{license}",
@@ -56302,13 +55428,15 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          router: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11552, __c361, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11552, __c361, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            router: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/routers/{router}/updateNamedSet",
@@ -56322,14 +55450,16 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          networkInterface: S.String.pipe(T.Query()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2723, __c85, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2723, __c85, 3),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            networkInterface: S.String.pipe(T.Query()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/updateNetworkInterface",
@@ -56349,12 +55479,14 @@ function __c6(j: number): any {
       ).annotate({ identifier: "NetworksUpdatePeeringRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          network: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            network: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/networks/{network}/updatePeering",
@@ -56368,13 +55500,15 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(31136, __c973, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31136, __c973, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/updatePerInstanceConfigs",
@@ -56388,13 +55522,15 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(31136, __c973, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31136, __c973, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/updatePerInstanceConfigs",
@@ -56408,12 +55544,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          previewFeature: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(12677, __c396, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12677, __c396, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            previewFeature: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/previewFeatures/{previewFeature}",
@@ -56427,13 +55565,15 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          autoscaler: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10380, __c324, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10380, __c324, 12),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            autoscaler: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/regions/{region}/autoscalers",
@@ -56447,13 +55587,15 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backendService: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11846, __c370, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11846, __c370, 6),
+          S.Struct({
+            backendService: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/regions/{region}/backendServices/{backendService}",
@@ -56486,15 +55628,17 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          commitment: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
-          body: S.optional(__S(24612, __c769, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24612, __c769, 4),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            commitment: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/commitments/{commitment}",
@@ -56508,15 +55652,17 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          disk: S.String.pipe(T.Label()),
-          paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(12452, __c389, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12452, __c389, 4),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            disk: S.String.pipe(T.Label()),
+            paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/disks/{disk}",
@@ -56530,13 +55676,15 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          healthCheck: S.String.pipe(T.Label()),
-          body: S.optional(__S(16072, __c502, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16072, __c502, 8),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            healthCheck: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/regions/{region}/healthChecks/{healthCheck}",
@@ -56550,13 +55698,15 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          urlMap: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34701, __c1084, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34701, __c1084, 13),
+          S.Struct({
+            urlMap: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/regions/{region}/urlMaps/{urlMap}",
@@ -56570,15 +55720,17 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          reservation: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(24710, __c772, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24710, __c772, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            reservation: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/reservations/{reservation}",
@@ -56592,14 +55744,16 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          reservationSlot: S.String.pipe(T.Label()),
-          parentName: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(14690, __c459, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14690, __c459, 2),
+          S.Struct({
+            reservationSlot: S.String.pipe(T.Label()),
+            parentName: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/{+parentName}/reservationSlots/{reservationSlot}",
@@ -56613,13 +55767,15 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          router: S.String.pipe(T.Label()),
-          body: S.optional(__S(15042, __c470, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15042, __c470, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            router: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/routers/{router}/updateRoutePolicy",
@@ -56633,13 +55789,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          router: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28501, __c890, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28501, __c890, 21),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            router: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/regions/{region}/routers/{router}",
@@ -56653,13 +55811,15 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(17984, __c562, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17984, __c562, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/updateShieldedInstanceConfig",
@@ -56673,14 +55833,16 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          storagePool: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(30754, __c961, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30754, __c961, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            storagePool: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/storagePools/{storagePool}",
@@ -56733,11 +55895,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CapacityAdviceRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(741, __c23, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(741, __c23, 5),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/advice/capacity",
@@ -56794,12 +55958,14 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          urlMap: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34701, __c1084, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34701, __c1084, 13),
+          S.Struct({
+            urlMap: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/global/urlMaps/{urlMap}",
@@ -56813,13 +55979,15 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          vmExtensionPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(15648, __c489, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15648, __c489, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            vmExtensionPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/vmExtensionPolicies/{vmExtensionPolicy}",
@@ -56839,12 +56007,14 @@ function __c27(j: number): any {
       ).annotate({ identifier: "RegionUrlMapsValidateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          urlMap: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            urlMap: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/urlMaps/{urlMap}/validate",
@@ -56901,11 +56071,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UrlMapsValidateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          urlMap: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            urlMap: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/urlMaps/{urlMap}/validate",
@@ -57032,11 +56204,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CapacityHistoryRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(1122, __c35, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1122, __c35, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/advice/capacityHistory",
@@ -57167,13 +56341,15 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/createInstances",
@@ -57251,13 +56427,15 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/createInstances",
@@ -57271,13 +56449,15 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          targetPool: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(1505, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1505, __c47, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            targetPool: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{targetPool}/addHealthCheck",
@@ -57345,11 +56525,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "InterconnectGroupsCreateMembersRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          interconnectGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(1539, __c48, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1539, __c48, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            interconnectGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnectGroups/{interconnectGroup}/createMembers",
@@ -57363,14 +56545,16 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          disk: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          guestFlush: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            disk: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            guestFlush: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{disk}/createSnapshot",
@@ -57434,13 +56618,15 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          disk: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            disk: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{disk}/createSnapshot",
@@ -57586,13 +56772,15 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          instanceGroup: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1953, __c61, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1953, __c61, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            instanceGroup: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroups/{instanceGroup}/addInstances",
@@ -57807,13 +56995,15 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          targetPool: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(1953, __c61, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1953, __c61, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            targetPool: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{targetPool}/addInstance",
@@ -57845,12 +57035,14 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          globalVmExtensionPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            globalVmExtensionPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/vmExtensionPolicies/{globalVmExtensionPolicy}/delete",
@@ -58028,13 +57220,15 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(2723, __c85, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2723, __c85, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/addNetworkInterface",
@@ -58097,14 +57291,16 @@ function __c86(j: number): any {
       ).annotate({ identifier: "InstanceGroupManagersDeleteInstancesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2752, __c86, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/deleteInstances",
@@ -58125,14 +57321,16 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RegionInstanceGroupManagersDeleteInstancesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/deleteInstances",
@@ -58299,13 +57497,15 @@ function __c96(j: number): any {
       ).annotate({ identifier: "NodeGroupsAddNodesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          nodeGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(3072, __c96, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            nodeGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{nodeGroup}/addNodes",
@@ -58489,13 +57689,15 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          nodeGroup: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3424, __c107, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3424, __c107, 0),
+          S.Struct({
+            nodeGroup: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{nodeGroup}/deleteNodes",
@@ -58519,14 +57721,16 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          firewallPolicy: S.String.pipe(T.Label()),
-          maxPriority: S.optional(S.Number.pipe(T.Query())),
-          minPriority: S.optional(S.Number.pipe(T.Query())),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            firewallPolicy: S.String.pipe(T.Label()),
+            maxPriority: S.optional(S.Number.pipe(T.Query())),
+            minPriority: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies/{firewallPolicy}/addPacketMirroringRule",
@@ -58661,12 +57865,14 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/deletePerInstanceConfigs",
@@ -58690,12 +57896,14 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3648, __c114, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/deletePerInstanceConfigs",
@@ -58812,12 +58020,14 @@ function __c121(j: number): any {
       ).annotate({ identifier: "NetworksAddPeeringRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          network: S.String.pipe(T.Label()),
-          body: S.optional(__S(3872, __c121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3872, __c121, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            network: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networks/{network}/addPeering",
@@ -59071,13 +58281,15 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          disk: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4288, __c134, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4288, __c134, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            disk: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{disk}/addResourcePolicies",
@@ -59290,13 +58502,15 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(4288, __c134, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4288, __c134, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/addResourcePolicies",
@@ -59498,13 +58712,15 @@ function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          disk: S.String.pipe(T.Label()),
-          body: S.optional(__S(4288, __c134, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4288, __c134, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            disk: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{disk}/addResourcePolicies",
@@ -59703,11 +58919,13 @@ function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewallPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            firewallPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/firewallPolicies/{firewallPolicy}/addRule",
@@ -59906,14 +59124,16 @@ function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewallPolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          maxPriority: S.optional(S.Number.pipe(T.Query())),
-          minPriority: S.optional(S.Number.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            firewallPolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            maxPriority: S.optional(S.Number.pipe(T.Query())),
+            minPriority: S.optional(S.Number.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies/{firewallPolicy}/addRule",
@@ -59983,12 +59203,14 @@ function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          image: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(9248, __c289, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9248, __c289, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            image: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/images/{image}/deprecate",
@@ -60022,12 +59244,14 @@ function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          networkEndpointGroup: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38017, __c1188, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38017, __c1188, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            networkEndpointGroup: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networkEndpointGroups/{networkEndpointGroup}/detachNetworkEndpoints",
@@ -60041,13 +59265,15 @@ function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          networkEndpointGroup: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(38017, __c1188, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38017, __c1188, 1),
+          S.Struct({
+            networkEndpointGroup: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/networkEndpointGroups/{networkEndpointGroup}/detachNetworkEndpoints",
@@ -60061,13 +59287,15 @@ function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          networkEndpointGroup: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(38017, __c1188, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38017, __c1188, 1),
+          S.Struct({
+            networkEndpointGroup: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/networkEndpointGroups/{networkEndpointGroup}/detachNetworkEndpoints",
@@ -60098,11 +59326,13 @@ function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6048, __c189, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6048, __c189, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/disableXpnResource",
@@ -60137,11 +59367,13 @@ function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          securityPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6228, __c194, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6228, __c194, 20),
+          S.Struct({
+            securityPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/securityPolicies/{securityPolicy}/addRule",
@@ -60342,11 +59574,13 @@ function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6048, __c189, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6048, __c189, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/enableXpnResource",
@@ -60366,13 +59600,15 @@ function __c197(j: number): any {
       ).annotate({ identifier: "SubnetworksExpandIpCidrRangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          subnetwork: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6304, __c197, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            subnetwork: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/subnetworks/{subnetwork}/expandIpCidrRange",
@@ -60511,15 +59747,17 @@ function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          firewallPolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          maxPriority: S.optional(S.Number.pipe(T.Query())),
-          minPriority: S.optional(S.Number.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            firewallPolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            maxPriority: S.optional(S.Number.pipe(T.Query())),
+            minPriority: S.optional(S.Number.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/firewallPolicies/{firewallPolicy}/addRule",
@@ -60905,13 +60143,15 @@ function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          securityPolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(6228, __c194, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6228, __c194, 20),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            securityPolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/securityPolicies/{securityPolicy}/addRule",
@@ -61195,12 +60435,14 @@ function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          securityPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(6228, __c194, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6228, __c194, 20),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            securityPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/securityPolicies/{securityPolicy}/addRule",
@@ -61378,11 +60620,13 @@ function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backendService: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(7744, __c242, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7744, __c242, 0),
+          S.Struct({
+            backendService: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendServices/{backendService}/getHealth",
@@ -61453,12 +60697,14 @@ function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backendService: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(7744, __c242, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7744, __c242, 0),
+          S.Struct({
+            backendService: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendServices/{backendService}/getHealth",
@@ -61553,12 +60799,14 @@ function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          backendBucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(7968, __c249, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            backendBucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendBuckets/{backendBucket}/addSignedUrlKey",
@@ -61603,12 +60851,14 @@ function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          targetPool: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            targetPool: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{targetPool}/getHealth",
@@ -61893,12 +61143,14 @@ function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          backendService: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(7968, __c249, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            backendService: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendServices/{backendService}/addSignedUrlKey",
@@ -67679,13 +66931,15 @@ function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/abandonInstances",
@@ -69282,14 +68536,16 @@ function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          host: S.String.pipe(T.Label()),
-          association: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(17088, __c534, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17088, __c534, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            host: S.String.pipe(T.Label()),
+            association: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/{association}/hosts/{host}/getVersion",
@@ -69313,14 +68569,16 @@ function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          parentName: S.String.pipe(T.Label()),
-          reservationSlot: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(17088, __c534, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17088, __c534, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            parentName: S.String.pipe(T.Label()),
+            reservationSlot: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/{+parentName}/reservationSlots/{reservationSlot}/getVersion",
@@ -69334,14 +68592,16 @@ function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          reservationSubBlock: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parentName: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(17088, __c534, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17088, __c534, 0),
+          S.Struct({
+            reservationSubBlock: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parentName: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/{+parentName}/reservationSubBlocks/{reservationSubBlock}/getVersion",
@@ -69721,12 +68981,14 @@ function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9760, __c305, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9760, __c305, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/addresses",
@@ -69740,12 +69002,14 @@ function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(10380, __c324, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10380, __c324, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/autoscalers",
@@ -69759,11 +69023,13 @@ function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11140, __c348, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11140, __c348, 4),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendBuckets",
@@ -70154,11 +69420,13 @@ function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11846, __c370, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11846, __c370, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendServices",
@@ -70172,12 +69440,14 @@ function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(6688, __c209, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6688, __c209, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/crossSiteNetworks",
@@ -70191,13 +69461,15 @@ function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          sourceImage: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(12452, __c389, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12452, __c389, 4),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            sourceImage: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks",
@@ -70211,11 +69483,13 @@ function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7106, __c222, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7106, __c222, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/externalVpnGateways",
@@ -70229,11 +69503,13 @@ function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(21504, __c672, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21504, __c672, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/firewallPolicies",
@@ -70247,11 +69523,13 @@ function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(6883, __c215, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6883, __c215, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewalls",
@@ -70265,12 +69543,14 @@ function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(13570, __c424, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13570, __c424, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/forwardingRules",
@@ -70284,12 +69564,14 @@ function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(14090, __c440, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14090, __c440, 10),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/futureReservations",
@@ -70303,11 +69585,13 @@ function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(9760, __c305, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(9760, __c305, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/addresses",
@@ -70321,11 +69605,13 @@ function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(13570, __c424, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13570, __c424, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/forwardingRules",
@@ -70455,11 +69741,13 @@ function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(21028, __c657, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21028, __c657, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networkEndpointGroups",
@@ -70473,11 +69761,13 @@ function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(24066, __c752, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24066, __c752, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/publicDelegatedPrefixes",
@@ -70491,11 +69781,13 @@ function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7652, __c239, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7652, __c239, 4),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/vmExtensionPolicies",
@@ -70509,11 +69801,13 @@ function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16072, __c502, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16072, __c502, 8),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/healthChecks",
@@ -70527,11 +69821,13 @@ function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8160, __c255, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8160, __c255, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/httpHealthChecks",
@@ -70545,11 +69841,13 @@ function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(8224, __c257, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8224, __c257, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/httpsHealthChecks",
@@ -70563,12 +69861,14 @@ function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forceCreate: S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7265, __c227, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7265, __c227, 1),
+          S.Struct({
+            forceCreate: S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/images",
@@ -70582,13 +69882,15 @@ function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(10058, __c314, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10058, __c314, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/resizeRequests",
@@ -70602,12 +69904,14 @@ function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(16582, __c518, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16582, __c518, 6),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers",
@@ -70621,12 +69925,14 @@ function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(17248, __c539, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17248, __c539, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroups",
@@ -70726,14 +70032,16 @@ function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          sourceInstanceTemplate: S.optional(S.String.pipe(T.Query())),
-          sourceMachineImage: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(17800, __c556, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17800, __c556, 8),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            sourceInstanceTemplate: S.optional(S.String.pipe(T.Query())),
+            sourceMachineImage: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances",
@@ -70747,11 +70055,13 @@ function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(18467, __c577, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18467, __c577, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/instanceTemplates",
@@ -70765,13 +70075,15 @@ function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sourceConsistencyGroup: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10306, __c322, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10306, __c322, 2),
+          S.Struct({
+            sourceConsistencyGroup: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instantSnapshotGroups",
@@ -70785,12 +70097,14 @@ function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(18913, __c591, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18913, __c591, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instantSnapshots",
@@ -70804,11 +70118,13 @@ function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10603, __c331, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10603, __c331, 11),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnectAttachmentGroups",
@@ -70822,13 +70138,15 @@ function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(19368, __c605, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(19368, __c605, 8),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/interconnectAttachments",
@@ -70842,11 +70160,13 @@ function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(10729, __c335, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10729, __c335, 9),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnectGroups",
@@ -70860,11 +70180,13 @@ function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(10923, __c341, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10923, __c341, 11),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnects",
@@ -70878,11 +70200,13 @@ function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11009, __c344, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11009, __c344, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/licenses",
@@ -70896,12 +70220,14 @@ function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sourceInstance: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11080, __c346, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11080, __c346, 8),
+          S.Struct({
+            sourceInstance: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/machineImages",
@@ -71091,12 +70417,14 @@ function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(20194, __c631, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20194, __c631, 2),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/networkAttachments",
@@ -71110,13 +70438,15 @@ function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(20640, __c645, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20640, __c645, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/networkEdgeSecurityServices",
@@ -71130,12 +70460,14 @@ function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(21028, __c657, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21028, __c657, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/networkEndpointGroups",
@@ -71149,11 +70481,13 @@ function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(21504, __c672, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21504, __c672, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies",
@@ -71167,11 +70501,13 @@ function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(12098, __c378, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12098, __c378, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networks",
@@ -71185,13 +70521,15 @@ function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          initialNodeCount: S.Number.pipe(T.Query()),
-          body: S.optional(__S(21922, __c685, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21922, __c685, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            initialNodeCount: S.Number.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups",
@@ -71205,12 +70543,14 @@ function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(22433, __c701, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22433, __c701, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/nodeTemplates",
@@ -71224,11 +70564,13 @@ function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(28941, __c904, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28941, __c904, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/securityPolicies",
@@ -71242,12 +70584,14 @@ function __c615(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(23589, __c737, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(23589, __c737, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/packetMirrorings",
@@ -71261,11 +70605,13 @@ function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(12898, __c403, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12898, __c403, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/publicAdvertisedPrefixes",
@@ -71370,12 +70716,14 @@ function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(24066, __c752, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24066, __c752, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/publicDelegatedPrefixes",
@@ -71389,12 +70737,14 @@ function __c621(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(10380, __c324, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10380, __c324, 12),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/autoscalers",
@@ -71408,12 +70758,14 @@ function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(11140, __c348, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11140, __c348, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendBuckets",
@@ -71427,12 +70779,14 @@ function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11846, __c370, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11846, __c370, 6),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendServices",
@@ -71446,12 +70800,14 @@ function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(24612, __c769, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24612, __c769, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/commitments",
@@ -71465,12 +70821,14 @@ function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(25152, __c786, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25152, __c786, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/compositeHealthChecks",
@@ -71484,13 +70842,15 @@ function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          sourceImage: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12452, __c389, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12452, __c389, 4),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            sourceImage: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks",
@@ -71504,12 +70864,14 @@ function __c627(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(25664, __c802, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25664, __c802, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthAggregationPolicies",
@@ -71523,12 +70885,14 @@ function __c628(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(16072, __c502, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16072, __c502, 8),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthChecks",
@@ -71542,12 +70906,14 @@ function __c629(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(26144, __c817, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26144, __c817, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthCheckServices",
@@ -71648,12 +71014,14 @@ function __c633(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(26560, __c830, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26560, __c830, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthSources",
@@ -71667,13 +71035,15 @@ function __c634(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(10058, __c314, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10058, __c314, 10),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/resizeRequests",
@@ -71687,12 +71057,14 @@ function __c635(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(16582, __c518, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16582, __c518, 6),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers",
@@ -71706,12 +71078,14 @@ function __c636(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(18467, __c577, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18467, __c577, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceTemplates",
@@ -71725,13 +71099,15 @@ function __c637(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          sourceConsistencyGroup: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10306, __c322, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10306, __c322, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            sourceConsistencyGroup: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instantSnapshotGroups",
@@ -71745,12 +71121,14 @@ function __c638(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(18913, __c591, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(18913, __c591, 1),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instantSnapshots",
@@ -71764,12 +71142,14 @@ function __c639(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(21028, __c657, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21028, __c657, 4),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/networkEndpointGroups",
@@ -71783,12 +71163,14 @@ function __c640(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(21504, __c672, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21504, __c672, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/firewallPolicies",
@@ -71802,12 +71184,14 @@ function __c641(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(26977, __c843, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26977, __c843, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/notificationEndpoints",
@@ -71821,13 +71205,15 @@ function __c642(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(28941, __c904, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28941, __c904, 13),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/securityPolicies",
@@ -71841,13 +71227,15 @@ function __c643(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/abandonInstances",
@@ -71926,12 +71314,14 @@ function __c646(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/snapshots",
@@ -71945,12 +71335,14 @@ function __c647(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29859, __c933, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29859, __c933, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/sslCertificates",
@@ -71964,12 +71356,14 @@ function __c648(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(30337, __c948, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30337, __c948, 1),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/sslPolicies",
@@ -71983,12 +71377,14 @@ function __c649(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(32032, __c1001, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32032, __c1001, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetHttpProxies",
@@ -72002,12 +71398,14 @@ function __c650(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(32448, __c1014, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32448, __c1014, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetHttpsProxies",
@@ -72021,12 +71419,14 @@ function __c651(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33728, __c1054, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33728, __c1054, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetTcpProxies",
@@ -72040,12 +71440,14 @@ function __c652(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(34701, __c1084, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34701, __c1084, 13),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/urlMaps",
@@ -72059,12 +71461,14 @@ function __c653(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(24710, __c772, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24710, __c772, 6),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations",
@@ -72078,12 +71482,14 @@ function __c654(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28047, __c876, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28047, __c876, 15),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/resourcePolicies",
@@ -72097,11 +71503,13 @@ function __c655(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(14923, __c466, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14923, __c466, 11),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/rolloutPlans",
@@ -72224,12 +71632,14 @@ function __c659(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28501, __c890, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28501, __c890, 21),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/routers",
@@ -72243,11 +71653,13 @@ function __c660(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15139, __c473, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15139, __c473, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/routes",
@@ -72261,12 +71673,14 @@ function __c661(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28941, __c904, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28941, __c904, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/securityPolicies",
@@ -72280,12 +71694,14 @@ function __c662(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29412, __c919, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29412, __c919, 4),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/serviceAttachments",
@@ -72299,11 +71715,13 @@ function __c663(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/snapshots",
@@ -72317,11 +71735,13 @@ function __c664(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29859, __c933, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29859, __c933, 3),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/sslCertificates",
@@ -72335,11 +71755,13 @@ function __c665(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(30337, __c948, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30337, __c948, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/sslPolicies",
@@ -72353,12 +71775,14 @@ function __c666(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(30754, __c961, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30754, __c961, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/storagePools",
@@ -72372,12 +71796,14 @@ function __c667(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(31623, __c988, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31623, __c988, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/subnetworks",
@@ -72391,11 +71817,13 @@ function __c668(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(16384, __c512, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16384, __c512, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetGrpcProxies",
@@ -72497,11 +71925,13 @@ function __c674(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(32032, __c1001, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32032, __c1001, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetHttpProxies",
@@ -72515,11 +71945,13 @@ function __c675(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(32448, __c1014, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32448, __c1014, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetHttpsProxies",
@@ -72533,12 +71965,14 @@ function __c676(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(32864, __c1027, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32864, __c1027, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/targetInstances",
@@ -72552,12 +71986,14 @@ function __c677(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(33312, __c1041, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33312, __c1041, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools",
@@ -72571,11 +72007,13 @@ function __c678(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16928, __c529, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16928, __c529, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetSslProxies",
@@ -72589,11 +72027,13 @@ function __c679(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(33728, __c1054, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33728, __c1054, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetTcpProxies",
@@ -72607,12 +72047,14 @@ function __c680(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(34176, __c1068, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34176, __c1068, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetVpnGateways",
@@ -72626,11 +72068,13 @@ function __c681(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(34701, __c1084, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34701, __c1084, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/urlMaps",
@@ -72644,12 +72088,14 @@ function __c682(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35202, __c1100, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35202, __c1100, 2),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/vpnGateways",
@@ -72663,12 +72109,14 @@ function __c683(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35651, __c1114, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35651, __c1114, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/vpnTunnels",
@@ -72772,13 +72220,15 @@ function __c687(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          crossSiteNetwork: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(17388, __c543, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17388, __c543, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            crossSiteNetwork: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/crossSiteNetworks/{crossSiteNetwork}/wireGroups",
@@ -72792,12 +72242,14 @@ function __c688(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(15648, __c489, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15648, __c489, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/vmExtensionPolicies",
@@ -72822,12 +72274,14 @@ function __c689(j: number): any {
       ).annotate({ identifier: "CacheInvalidationRule" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          urlMap: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(22048, __c689, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22048, __c689, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            urlMap: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/urlMaps/{urlMap}/invalidateCache",
@@ -74508,16 +73962,18 @@ function __c755(j: number): any {
       ).annotate({ identifier: "InstanceGroupsListInstancesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          instanceGroup: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(24160, __c755, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24160, __c755, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            filter: S.optional(S.String.pipe(T.Query())),
+            orderBy: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            instanceGroup: S.String.pipe(T.Label()),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroups/{instanceGroup}/listInstances",
@@ -74563,16 +74019,18 @@ function __c757(j: number): any {
       ).annotate({ identifier: "RegionInstanceGroupsListInstancesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instanceGroup: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(24224, __c757, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24224, __c757, 0),
+          S.Struct({
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            orderBy: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            filter: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instanceGroup: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroups/{instanceGroup}/listInstances",
@@ -75631,16 +75089,18 @@ function __c791(j: number): any {
       ).annotate({ identifier: "NetworkEndpointGroupsListEndpointsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          networkEndpointGroup: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(25312, __c791, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25312, __c791, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            filter: S.optional(S.String.pipe(T.Query())),
+            orderBy: S.optional(S.String.pipe(T.Query())),
+            networkEndpointGroup: S.String.pipe(T.Label()),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/networkEndpointGroups/{networkEndpointGroup}/listNetworkEndpoints",
@@ -75900,14 +75360,16 @@ function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          networkInterface: S.String.pipe(T.Query()),
-          body: S.optional(__S(25600, __c800, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25600, __c800, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            networkInterface: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/addAccessConfig",
@@ -79326,14 +78788,16 @@ function __c917(j: number): any {
       ).annotate({ identifier: "ProjectsListXpnHostsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(29344, __c917, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29344, __c917, 0),
+          S.Struct({
+            orderBy: S.optional(S.String.pipe(T.Query())),
+            filter: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/listXpnHosts",
@@ -79558,13 +79022,15 @@ function __c925(j: number): any {
       ).annotate({ identifier: "RegionAddressesMoveRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          address: S.String.pipe(T.Label()),
-          body: S.optional(__S(29600, __c925, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29600, __c925, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            address: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/addresses/{address}/move",
@@ -79585,11 +79051,13 @@ function __c926(j: number): any {
       ).annotate({ identifier: "DiskMoveRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(29632, __c926, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29632, __c926, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/moveDisk",
@@ -79628,12 +79096,14 @@ function __c928(j: number): any {
       ).annotate({ identifier: "GlobalAddressesMoveRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          address: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(29696, __c928, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29696, __c928, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            address: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/addresses/{address}/move",
@@ -79654,11 +79124,13 @@ function __c929(j: number): any {
       ).annotate({ identifier: "InstanceMoveRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(29728, __c929, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29728, __c929, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/moveInstance",
@@ -79690,13 +79162,15 @@ function __c931(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          firewallPolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(30272, __c946, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30272, __c946, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            firewallPolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/firewallPolicies/{firewallPolicy}/patchAssociation",
@@ -79799,13 +79273,15 @@ function __c935(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          autoscaler: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(10380, __c324, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10380, __c324, 12),
+          S.Struct({
+            autoscaler: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/autoscalers",
@@ -79819,12 +79295,14 @@ function __c936(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          backendBucket: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(11140, __c348, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11140, __c348, 4),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            backendBucket: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/backendBuckets/{backendBucket}",
@@ -79838,12 +79316,14 @@ function __c937(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          backendService: S.String.pipe(T.Label()),
-          body: S.optional(__S(11846, __c370, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11846, __c370, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            backendService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/backendServices/{backendService}",
@@ -79857,14 +79337,16 @@ function __c938(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          crossSiteNetwork: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6688, __c209, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6688, __c209, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            crossSiteNetwork: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/crossSiteNetworks/{crossSiteNetwork}",
@@ -79878,11 +79360,13 @@ function __c939(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          firewallPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(21504, __c672, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21504, __c672, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            firewallPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "locations/global/firewallPolicies/{firewallPolicy}",
@@ -79896,12 +79380,14 @@ function __c940(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          firewall: S.String.pipe(T.Label()),
-          body: S.optional(__S(6883, __c215, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6883, __c215, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            firewall: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/firewalls/{firewall}",
@@ -79915,13 +79401,15 @@ function __c941(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          forwardingRule: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(13570, __c424, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13570, __c424, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            forwardingRule: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/forwardingRules/{forwardingRule}",
@@ -79935,12 +79423,14 @@ function __c942(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          forwardingRule: S.String.pipe(T.Label()),
-          body: S.optional(__S(13570, __c424, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13570, __c424, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            forwardingRule: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/forwardingRules/{forwardingRule}",
@@ -79954,12 +79444,14 @@ function __c943(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(7424, __c232, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7424, __c232, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/globalFrontendSettings",
@@ -79979,12 +79471,14 @@ function __c944(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          publicDelegatedPrefix: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(24066, __c752, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24066, __c752, 2),
+          S.Struct({
+            publicDelegatedPrefix: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/publicDelegatedPrefixes/{publicDelegatedPrefix}",
@@ -79998,12 +79492,14 @@ function __c945(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewallPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(30272, __c946, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30272, __c946, 0),
+          S.Struct({
+            firewallPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/firewallPolicies/{firewallPolicy}/addAssociation",
@@ -80107,12 +79603,14 @@ function __c950(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          healthCheck: S.String.pipe(T.Label()),
-          body: S.optional(__S(16072, __c502, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16072, __c502, 8),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            healthCheck: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/healthChecks/{healthCheck}",
@@ -80126,12 +79624,14 @@ function __c951(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          httpHealthCheck: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(8160, __c255, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8160, __c255, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            httpHealthCheck: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/httpHealthChecks/{httpHealthCheck}",
@@ -80145,12 +79645,14 @@ function __c952(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          httpsHealthCheck: S.String.pipe(T.Label()),
-          body: S.optional(__S(8224, __c257, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8224, __c257, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            httpsHealthCheck: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/httpsHealthChecks/{httpsHealthCheck}",
@@ -80164,12 +79666,14 @@ function __c953(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          image: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7265, __c227, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7265, __c227, 1),
+          S.Struct({
+            image: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/images/{image}",
@@ -80183,13 +79687,15 @@ function __c954(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16582, __c518, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16582, __c518, 6),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}",
@@ -80203,13 +79709,15 @@ function __c955(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(10209, __c319, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10209, __c319, 1),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/instanceSettings",
@@ -80223,13 +79731,15 @@ function __c956(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          interconnectAttachmentGroup: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(10603, __c331, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10603, __c331, 11),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            interconnectAttachmentGroup: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/interconnectAttachmentGroups/{interconnectAttachmentGroup}",
@@ -80243,13 +79753,15 @@ function __c957(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          interconnectAttachment: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(19368, __c605, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(19368, __c605, 8),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            interconnectAttachment: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/interconnectAttachments/{interconnectAttachment}",
@@ -80263,13 +79775,15 @@ function __c958(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          interconnectGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(10729, __c335, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10729, __c335, 9),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            interconnectGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/interconnectGroups/{interconnectGroup}",
@@ -80283,12 +79797,14 @@ function __c959(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          interconnect: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10923, __c341, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10923, __c341, 11),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            interconnect: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/interconnects/{interconnect}",
@@ -80408,13 +79924,15 @@ function __c963(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          router: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11552, __c361, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11552, __c361, 0),
+          S.Struct({
+            router: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/routers/{router}/patchNamedSet",
@@ -80428,13 +79946,15 @@ function __c964(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          networkAttachment: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(20194, __c631, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20194, __c631, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            networkAttachment: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/networkAttachments/{networkAttachment}",
@@ -80448,15 +79968,17 @@ function __c965(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          networkEdgeSecurityService: S.String.pipe(T.Label()),
-          body: S.optional(__S(20640, __c645, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(20640, __c645, 0),
+          S.Struct({
+            paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            networkEdgeSecurityService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/networkEdgeSecurityServices/{networkEdgeSecurityService}",
@@ -80470,12 +79992,14 @@ function __c966(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          firewallPolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(21504, __c672, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21504, __c672, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            firewallPolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/firewallPolicies/{firewallPolicy}",
@@ -80489,12 +80013,14 @@ function __c967(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          network: S.String.pipe(T.Label()),
-          body: S.optional(__S(12098, __c378, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12098, __c378, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            network: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/networks/{network}",
@@ -80508,13 +80034,15 @@ function __c968(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          nodeGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(21922, __c685, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21922, __c685, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            nodeGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{nodeGroup}",
@@ -80528,11 +80056,13 @@ function __c969(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          securityPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(28941, __c904, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28941, __c904, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            securityPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "locations/global/securityPolicies/{securityPolicy}",
@@ -80546,13 +80076,15 @@ function __c970(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          priority: S.optional(S.Number.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          firewallPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            priority: S.optional(S.Number.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            firewallPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies/{firewallPolicy}/patchPacketMirroringRule",
@@ -80566,13 +80098,15 @@ function __c971(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packetMirroring: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(23589, __c737, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(23589, __c737, 5),
+          S.Struct({
+            packetMirroring: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/packetMirrorings/{packetMirroring}",
@@ -80586,13 +80120,15 @@ function __c972(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(31136, __c973, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31136, __c973, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/patchPerInstanceConfigs",
@@ -80690,13 +80226,15 @@ function __c977(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(31136, __c973, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31136, __c973, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/patchPerInstanceConfigs",
@@ -80710,12 +80248,14 @@ function __c978(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          publicAdvertisedPrefix: S.String.pipe(T.Label()),
-          body: S.optional(__S(12898, __c403, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12898, __c403, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            publicAdvertisedPrefix: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/publicAdvertisedPrefixes/{publicAdvertisedPrefix}",
@@ -80729,13 +80269,15 @@ function __c979(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          publicDelegatedPrefix: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(24066, __c752, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24066, __c752, 2),
+          S.Struct({
+            publicDelegatedPrefix: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/publicDelegatedPrefixes/{publicDelegatedPrefix}",
@@ -80749,13 +80291,15 @@ function __c980(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          autoscaler: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10380, __c324, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10380, __c324, 12),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            autoscaler: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/autoscalers",
@@ -80769,13 +80313,15 @@ function __c981(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          backendBucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(11140, __c348, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11140, __c348, 4),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            backendBucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/backendBuckets/{backendBucket}",
@@ -80789,13 +80335,15 @@ function __c982(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          backendService: S.String.pipe(T.Label()),
-          body: S.optional(__S(11846, __c370, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11846, __c370, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            backendService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/backendServices/{backendService}",
@@ -80809,13 +80357,15 @@ function __c983(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          compositeHealthCheck: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(25152, __c786, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25152, __c786, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            compositeHealthCheck: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/compositeHealthChecks/{compositeHealthCheck}",
@@ -80829,13 +80379,15 @@ function __c984(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          healthAggregationPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(25664, __c802, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25664, __c802, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            healthAggregationPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/healthAggregationPolicies/{healthAggregationPolicy}",
@@ -80849,13 +80401,15 @@ function __c985(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          healthCheck: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16072, __c502, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16072, __c502, 8),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            healthCheck: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/healthChecks/{healthCheck}",
@@ -80869,13 +80423,15 @@ function __c986(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          healthCheckService: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(26144, __c817, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26144, __c817, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            healthCheckService: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/healthCheckServices/{healthCheckService}",
@@ -81030,13 +80586,15 @@ function __c990(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          healthSource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(26560, __c830, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(26560, __c830, 0),
+          S.Struct({
+            healthSource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/healthSources/{healthSource}",
@@ -81050,13 +80608,15 @@ function __c991(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(16582, __c518, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16582, __c518, 6),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}",
@@ -81070,13 +80630,15 @@ function __c992(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          firewallPolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(21504, __c672, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(21504, __c672, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            firewallPolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/firewallPolicies/{firewallPolicy}",
@@ -81090,14 +80652,16 @@ function __c993(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          securityPolicy: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28941, __c904, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28941, __c904, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            securityPolicy: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/securityPolicies/{securityPolicy}",
@@ -81111,13 +80675,15 @@ function __c994(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(14021, __c438, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14021, __c438, 5),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/snapshotSettings",
@@ -81131,13 +80697,15 @@ function __c995(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          sslPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(30337, __c948, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30337, __c948, 1),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            sslPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/sslPolicies/{sslPolicy}",
@@ -81151,13 +80719,15 @@ function __c996(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          body: S.optional(__S(32448, __c1014, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32448, __c1014, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            targetHttpsProxy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/targetHttpsProxies/{targetHttpsProxy}",
@@ -81171,13 +80741,15 @@ function __c997(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          urlMap: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(34701, __c1084, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34701, __c1084, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            urlMap: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/urlMaps/{urlMap}",
@@ -81191,14 +80763,16 @@ function __c998(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          resourcePolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(28047, __c876, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28047, __c876, 15),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            resourcePolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/resourcePolicies/{resourcePolicy}",
@@ -81212,13 +80786,15 @@ function __c999(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          router: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15042, __c470, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15042, __c470, 2),
+          S.Struct({
+            router: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/routers/{router}/patchRoutePolicy",
@@ -81300,13 +80876,15 @@ function __c1003(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          router: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(28501, __c890, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28501, __c890, 21),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            router: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/routers/{router}",
@@ -81320,12 +80898,14 @@ function __c1004(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewallPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          priority: S.optional(S.Number.pipe(T.Query())),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            firewallPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            priority: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/firewallPolicies/{firewallPolicy}/patchRule",
@@ -81339,13 +80919,15 @@ function __c1005(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewallPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          priority: S.optional(S.Number.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            firewallPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            priority: S.optional(S.Number.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies/{firewallPolicy}/patchRule",
@@ -81359,12 +80941,14 @@ function __c1006(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          priority: S.optional(S.Number.pipe(T.Query())),
-          securityPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6228, __c194, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6228, __c194, 20),
+          S.Struct({
+            priority: S.optional(S.Number.pipe(T.Query())),
+            securityPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/securityPolicies/{securityPolicy}/patchRule",
@@ -81378,14 +80962,16 @@ function __c1007(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewallPolicy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          priority: S.optional(S.Number.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3493, __c109, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3493, __c109, 5),
+          S.Struct({
+            firewallPolicy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            priority: S.optional(S.Number.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/firewallPolicies/{firewallPolicy}/patchRule",
@@ -81399,15 +80985,17 @@ function __c1008(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          securityPolicy: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          priority: S.optional(S.Number.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(6228, __c194, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6228, __c194, 20),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            securityPolicy: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            priority: S.optional(S.Number.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/securityPolicies/{securityPolicy}/patchRule",
@@ -81421,14 +81009,16 @@ function __c1009(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          priority: S.optional(S.Number.pipe(T.Query())),
-          securityPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(6228, __c194, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6228, __c194, 20),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            priority: S.optional(S.Number.pipe(T.Query())),
+            securityPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/securityPolicies/{securityPolicy}/patchRule",
@@ -81442,13 +81032,15 @@ function __c1010(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          securityPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28941, __c904, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28941, __c904, 13),
+          S.Struct({
+            securityPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/securityPolicies/{securityPolicy}",
@@ -81462,13 +81054,15 @@ function __c1011(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          serviceAttachment: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(29412, __c919, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(29412, __c919, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            serviceAttachment: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/serviceAttachments/{serviceAttachment}",
@@ -81482,12 +81076,14 @@ function __c1012(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(14021, __c438, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14021, __c438, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/snapshotSettings",
@@ -81577,12 +81173,14 @@ function __c1016(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          sslPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(30337, __c948, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30337, __c948, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            sslPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/sslPolicies/{sslPolicy}",
@@ -81596,14 +81194,16 @@ function __c1017(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          subnetwork: S.String.pipe(T.Label()),
-          drainTimeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          body: S.optional(__S(31623, __c988, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(31623, __c988, 7),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            subnetwork: S.String.pipe(T.Label()),
+            drainTimeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/regions/{region}/subnetworks/{subnetwork}",
@@ -81617,12 +81217,14 @@ function __c1018(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetGrpcProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(16384, __c512, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16384, __c512, 0),
+          S.Struct({
+            targetGrpcProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/targetGrpcProxies/{targetGrpcProxy}",
@@ -81636,12 +81238,14 @@ function __c1019(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetHttpProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(32032, __c1001, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32032, __c1001, 0),
+          S.Struct({
+            targetHttpProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/targetHttpProxies/{targetHttpProxy}",
@@ -81655,12 +81259,14 @@ function __c1020(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          body: S.optional(__S(32448, __c1014, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32448, __c1014, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            targetHttpsProxy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/targetHttpsProxies/{targetHttpsProxy}",
@@ -81674,12 +81280,14 @@ function __c1021(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          urlMap: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(34701, __c1084, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34701, __c1084, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            urlMap: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/urlMaps/{urlMap}",
@@ -81693,15 +81301,17 @@ function __c1022(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          crossSiteNetwork: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          wireGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(17388, __c543, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17388, __c543, 12),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            crossSiteNetwork: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            wireGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/crossSiteNetworks/{crossSiteNetwork}/wireGroups/{wireGroup}",
@@ -81760,13 +81370,15 @@ function __c1025(j: number): any {
       ).annotate({ identifier: "NodeGroupsPerformMaintenanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          nodeGroup: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(32800, __c1025, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32800, __c1025, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            nodeGroup: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{nodeGroup}/performMaintenance",
@@ -81849,14 +81461,16 @@ function __c1029(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          reservation: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          reservationBlock: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(32960, __c1030, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32960, __c1030, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            reservation: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            reservationBlock: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations/{reservation}/reservationBlocks/{reservationBlock}/performMaintenance",
@@ -81880,13 +81494,15 @@ function __c1031(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          reservation: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(32960, __c1030, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32960, __c1030, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            reservation: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations/{reservation}/performMaintenance",
@@ -81920,12 +81536,14 @@ function __c1033(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          router: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28501, __c890, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28501, __c890, 21),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            router: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/routers/{router}/preview",
@@ -81945,14 +81563,16 @@ function __c1034(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/recreateInstances",
@@ -81966,14 +81586,16 @@ function __c1035(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/recreateInstances",
@@ -82133,13 +81755,15 @@ function __c1043(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetPool: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1505, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1505, __c47, 1),
+          S.Struct({
+            targetPool: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{targetPool}/removeHealthCheck",
@@ -82153,13 +81777,15 @@ function __c1044(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          instanceGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(1953, __c61, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1953, __c61, 1),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            instanceGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroups/{instanceGroup}/removeInstances",
@@ -82173,13 +81799,15 @@ function __c1045(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          targetPool: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1953, __c61, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1953, __c61, 1),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            targetPool: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{targetPool}/removeInstance",
@@ -82212,12 +81840,14 @@ function __c1047(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          network: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28448, __c889, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28448, __c889, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            network: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networks/{network}/removePeering",
@@ -82231,13 +81861,15 @@ function __c1048(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          disk: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(4288, __c134, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4288, __c134, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            disk: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{disk}/removeResourcePolicies",
@@ -82251,13 +81883,15 @@ function __c1049(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4288, __c134, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4288, __c134, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/removeResourcePolicies",
@@ -82271,13 +81905,15 @@ function __c1050(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          disk: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4288, __c134, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4288, __c134, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            disk: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{disk}/removeResourcePolicies",
@@ -82489,14 +82125,16 @@ function __c1060(j: number): any {
       ).annotate({ identifier: "ReservationSubBlocksReportFaultyRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parentName: S.String.pipe(T.Label()),
-          reservationSubBlock: S.String.pipe(T.Label()),
-          body: S.optional(__S(33922, __c1060, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33922, __c1060, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parentName: S.String.pipe(T.Label()),
+            reservationSubBlock: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/{+parentName}/reservationSubBlocks/{reservationSubBlock}/reportFaulty",
@@ -82526,13 +82164,15 @@ function __c1061(j: number): any {
       ).annotate({ identifier: "InstancesReportHostAsFaultyRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(33954, __c1061, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33954, __c1061, 2),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/reportHostAsFaulty",
@@ -82546,12 +82186,14 @@ function __c1062(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          network: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(28448, __c889, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28448, __c889, 0),
+          S.Struct({
+            network: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networks/{network}/requestRemovePeering",
@@ -82584,13 +82226,15 @@ function __c1064(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          disk: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34080, __c1065, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34080, __c1065, 0),
+          S.Struct({
+            disk: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{disk}/resize",
@@ -82706,13 +82350,15 @@ function __c1070(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          disk: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(34080, __c1065, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34080, __c1065, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            disk: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{disk}/resize",
@@ -82752,13 +82398,15 @@ function __c1072(j: number): any {
       ).annotate({ identifier: "ReservationsResizeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          reservation: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(34304, __c1072, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34304, __c1072, 0),
+          S.Struct({
+            reservation: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations/{reservation}/resize",
@@ -82791,13 +82439,15 @@ function __c1074(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/resumeInstances",
@@ -82811,13 +82461,15 @@ function __c1075(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/resumeInstances",
@@ -82868,12 +82520,14 @@ function __c1078(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetSslProxy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34528, __c1079, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34528, __c1079, 0),
+          S.Struct({
+            targetSslProxy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetSslProxies/{targetSslProxy}/setBackendService",
@@ -82897,12 +82551,14 @@ function __c1080(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          targetTcpProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34528, __c1079, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34528, __c1079, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            targetTcpProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetTcpProxies/{targetTcpProxy}/setBackendService",
@@ -82916,13 +82572,15 @@ function __c1081(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          firewallPolicy: S.String.pipe(T.Label()),
-          replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(30272, __c946, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(30272, __c946, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            firewallPolicy: S.String.pipe(T.Label()),
+            replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies/{firewallPolicy}/addAssociation",
@@ -83338,14 +82996,16 @@ function __c1086(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          targetPool: S.String.pipe(T.Label()),
-          failoverRatio: S.optional(S.Number.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(34784, __c1087, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34784, __c1087, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            targetPool: S.String.pipe(T.Label()),
+            failoverRatio: S.optional(S.Number.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{targetPool}/setBackup",
@@ -83369,12 +83029,14 @@ function __c1088(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34848, __c1089, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34848, __c1089, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            targetHttpsProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetHttpsProxies/{targetHttpsProxy}/setCertificateMap",
@@ -83398,12 +83060,14 @@ function __c1090(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetSslProxy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34848, __c1089, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34848, __c1089, 0),
+          S.Struct({
+            targetSslProxy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetSslProxies/{targetSslProxy}/setCertificateMap",
@@ -83423,11 +83087,13 @@ function __c1091(j: number): any {
       ).annotate({ identifier: "ProjectsSetCloudArmorTierRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34912, __c1091, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34912, __c1091, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/setCloudArmorTier",
@@ -83441,11 +83107,13 @@ function __c1092(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(17824, __c557, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17824, __c557, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/setCommonInstanceMetadata",
@@ -83465,11 +83133,13 @@ function __c1093(j: number): any {
       ).annotate({ identifier: "ProjectsSetDefaultNetworkTierRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34976, __c1093, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34976, __c1093, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/setDefaultNetworkTier",
@@ -83524,12 +83194,14 @@ function __c1096(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backendBucket: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(35104, __c1097, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35104, __c1097, 0),
+          S.Struct({
+            backendBucket: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendBuckets/{backendBucket}/setEdgeSecurityPolicy",
@@ -83553,12 +83225,14 @@ function __c1098(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          backendService: S.String.pipe(T.Label()),
-          body: S.optional(__S(35104, __c1097, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35104, __c1097, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            backendService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendServices/{backendService}/setEdgeSecurityPolicy",
@@ -83655,11 +83329,13 @@ function __c1102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendBuckets/{resource}/setIamPolicy",
@@ -83685,11 +83361,13 @@ function __c1104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendServices/{resource}/setIamPolicy",
@@ -83703,12 +83381,14 @@ function __c1105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{resource}/setIamPolicy",
@@ -83722,10 +83402,12 @@ function __c1106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/firewallPolicies/{resource}/setIamPolicy",
@@ -83739,11 +83421,13 @@ function __c1107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/images/{resource}/setIamPolicy",
@@ -83757,12 +83441,14 @@ function __c1108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{resource}/setIamPolicy",
@@ -83776,11 +83462,13 @@ function __c1109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/instanceTemplates/{resource}/setIamPolicy",
@@ -83794,12 +83482,14 @@ function __c1110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instantSnapshotGroups/{resource}/setIamPolicy",
@@ -83813,12 +83503,14 @@ function __c1111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instantSnapshots/{resource}/setIamPolicy",
@@ -83832,11 +83524,13 @@ function __c1112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnectAttachmentGroups/{resource}/setIamPolicy",
@@ -83958,11 +83652,13 @@ function __c1116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnectGroups/{resource}/setIamPolicy",
@@ -83976,11 +83672,13 @@ function __c1117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/licenseCodes/{resource}/setIamPolicy",
@@ -83994,11 +83692,13 @@ function __c1118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/licenses/{resource}/setIamPolicy",
@@ -84012,11 +83712,13 @@ function __c1119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/machineImages/{resource}/setIamPolicy",
@@ -84030,12 +83732,14 @@ function __c1120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/networkAttachments/{resource}/setIamPolicy",
@@ -84061,11 +83765,13 @@ function __c1122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies/{resource}/setIamPolicy",
@@ -84079,12 +83785,14 @@ function __c1123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{resource}/setIamPolicy",
@@ -84098,12 +83806,14 @@ function __c1124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/nodeTemplates/{resource}/setIamPolicy",
@@ -84117,12 +83827,14 @@ function __c1125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendBuckets/{resource}/setIamPolicy",
@@ -84136,12 +83848,14 @@ function __c1126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendServices/{resource}/setIamPolicy",
@@ -84173,12 +83887,14 @@ function __c1128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{resource}/setIamPolicy",
@@ -84192,12 +83908,14 @@ function __c1129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instantSnapshotGroups/{resource}/setIamPolicy",
@@ -84211,12 +83929,14 @@ function __c1130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instantSnapshots/{resource}/setIamPolicy",
@@ -84230,12 +83950,14 @@ function __c1131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/firewallPolicies/{resource}/setIamPolicy",
@@ -84249,12 +83971,14 @@ function __c1132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/snapshots/{resource}/setIamPolicy",
@@ -84268,12 +83992,14 @@ function __c1133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/sslPolicies/{resource}/setIamPolicy",
@@ -84287,13 +84013,15 @@ function __c1134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parentResource: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36320, __c1135, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36320, __c1135, 0),
+          S.Struct({
+            parentResource: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations/{parentResource}/reservationBlocks/{resource}/setIamPolicy",
@@ -84319,12 +84047,14 @@ function __c1136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations/{resource}/setIamPolicy",
@@ -84338,13 +84068,15 @@ function __c1137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parentResource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(36320, __c1135, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36320, __c1135, 0),
+          S.Struct({
+            parentResource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/{+parentResource}/reservationSubBlocks/{resource}/setIamPolicy",
@@ -84358,12 +84090,14 @@ function __c1138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/resourcePolicies/{resource}/setIamPolicy",
@@ -84396,12 +84130,14 @@ function __c1140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/serviceAttachments/{resource}/setIamPolicy",
@@ -84415,11 +84151,13 @@ function __c1141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/snapshots/{resource}/setIamPolicy",
@@ -84433,11 +84171,13 @@ function __c1142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/sslPolicies/{resource}/setIamPolicy",
@@ -84451,12 +84191,14 @@ function __c1143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(35296, __c1103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35296, __c1103, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/storagePools/{resource}/setIamPolicy",
@@ -84470,12 +84212,14 @@ function __c1144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(35872, __c1121, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35872, __c1121, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/subnetworks/{resource}/setIamPolicy",
@@ -84489,13 +84233,15 @@ function __c1145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36672, __c1146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36672, __c1146, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/setInstanceTemplate",
@@ -84519,13 +84265,15 @@ function __c1147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(36672, __c1146, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36672, __c1146, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/setInstanceTemplate",
@@ -84539,13 +84287,15 @@ function __c1148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/addresses/{resource}/setLabels",
@@ -84570,13 +84320,15 @@ function __c1150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{resource}/setLabels",
@@ -84590,11 +84342,13 @@ function __c1151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/externalVpnGateways/{resource}/setLabels",
@@ -84617,12 +84371,14 @@ function __c1152(j: number): any {
       ).annotate({ identifier: "InstanceGroupManagersApplyUpdatesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36864, __c1152, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36864, __c1152, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/applyUpdatesToInstances",
@@ -84636,13 +84392,15 @@ function __c1153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/forwardingRules/{resource}/setLabels",
@@ -84656,11 +84414,13 @@ function __c1154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/addresses/{resource}/setLabels",
@@ -84674,11 +84434,13 @@ function __c1155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/forwardingRules/{resource}/setLabels",
@@ -84692,11 +84454,13 @@ function __c1156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/images/{resource}/setLabels",
@@ -84710,13 +84474,15 @@ function __c1157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setLabels",
@@ -84730,13 +84496,15 @@ function __c1158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instantSnapshots/{resource}/setLabels",
@@ -84750,13 +84518,15 @@ function __c1159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/interconnectAttachments/{resource}/setLabels",
@@ -84770,11 +84540,13 @@ function __c1160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnects/{resource}/setLabels",
@@ -84788,11 +84560,13 @@ function __c1161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/machineImages/{resource}/setLabels",
@@ -84806,13 +84580,15 @@ function __c1162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{resource}/setLabels",
@@ -84835,12 +84611,14 @@ function __c1163(j: number): any {
       ).annotate({ identifier: "RegionInstanceGroupManagersApplyUpdatesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(37216, __c1163, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37216, __c1163, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/applyUpdatesToInstances",
@@ -84854,13 +84632,15 @@ function __c1164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instantSnapshots/{resource}/setLabels",
@@ -84874,13 +84654,15 @@ function __c1165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/securityPolicies/{resource}/setLabels",
@@ -84894,13 +84676,15 @@ function __c1166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/snapshots/{resource}/setLabels",
@@ -84914,11 +84698,13 @@ function __c1167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/securityPolicies/{resource}/setLabels",
@@ -84932,11 +84718,13 @@ function __c1168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(40896, __c1278, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40896, __c1278, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/snapshots/{resource}/setLabels",
@@ -84950,13 +84738,15 @@ function __c1169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetVpnGateways/{resource}/setLabels",
@@ -84970,13 +84760,15 @@ function __c1170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/vpnGateways/{resource}/setLabels",
@@ -84990,13 +84782,15 @@ function __c1171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(36768, __c1149, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36768, __c1149, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/vpnTunnels/{resource}/setLabels",
@@ -85016,13 +84810,15 @@ function __c1172(j: number): any {
       ).annotate({ identifier: "InstancesSetMachineResourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(37504, __c1172, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37504, __c1172, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setMachineResources",
@@ -85042,13 +84838,15 @@ function __c1173(j: number): any {
       ).annotate({ identifier: "InstancesSetMachineTypeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(37536, __c1173, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37536, __c1173, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setMachineType",
@@ -85062,14 +84860,16 @@ function __c1174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          forceAttach: S.optional(S.Boolean.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(16673, __c521, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16673, __c521, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            forceAttach: S.optional(S.Boolean.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/attachDisk",
@@ -85083,13 +84883,15 @@ function __c1175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(17824, __c557, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17824, __c557, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setMetadata",
@@ -85109,13 +84911,15 @@ function __c1176(j: number): any {
       ).annotate({ identifier: "InstancesSetMinCpuPlatformRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(37632, __c1176, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37632, __c1176, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setMinCpuPlatform",
@@ -85136,13 +84940,15 @@ function __c1177(j: number): any {
       ).annotate({ identifier: "InstanceGroupsSetNamedPortsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instanceGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(37664, __c1177, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37664, __c1177, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instanceGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroups/{instanceGroup}/setNamedPorts",
@@ -85163,13 +84969,15 @@ function __c1178(j: number): any {
       ).annotate({ identifier: "RegionInstanceGroupsSetNamedPortsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          instanceGroup: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(37696, __c1178, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37696, __c1178, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            instanceGroup: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroups/{instanceGroup}/setNamedPorts",
@@ -85183,13 +84991,15 @@ function __c1179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(37760, __c1180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37760, __c1180, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setName",
@@ -85214,12 +85024,14 @@ function __c1181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          interconnect: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(37760, __c1180, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37760, __c1180, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            interconnect: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnects/{interconnect}/setName",
@@ -85239,13 +85051,15 @@ function __c1182(j: number): any {
       ).annotate({ identifier: "NodeGroupsSetNodeTemplateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          nodeGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(37824, __c1182, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37824, __c1182, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            nodeGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{nodeGroup}/setNodeTemplate",
@@ -85265,13 +85079,15 @@ function __c1183(j: number): any {
       ).annotate({ identifier: "SubnetworksSetPrivateIpGoogleAccessRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          subnetwork: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(37856, __c1183, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37856, __c1183, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            subnetwork: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/subnetworks/{subnetwork}/setPrivateIpGoogleAccess",
@@ -85285,12 +85101,14 @@ function __c1184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          targetSslProxy: S.String.pipe(T.Label()),
-          body: S.optional(__S(37920, __c1185, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37920, __c1185, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            targetSslProxy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetSslProxies/{targetSslProxy}/setProxyHeader",
@@ -85314,12 +85132,14 @@ function __c1186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          targetTcpProxy: S.String.pipe(T.Label()),
-          body: S.optional(__S(37920, __c1185, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(37920, __c1185, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            targetTcpProxy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetTcpProxies/{targetTcpProxy}/setProxyHeader",
@@ -85333,12 +85153,14 @@ function __c1187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          networkEndpointGroup: S.String.pipe(T.Label()),
-          body: S.optional(__S(38017, __c1188, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38017, __c1188, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            networkEndpointGroup: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/networkEndpointGroups/{networkEndpointGroup}/attachNetworkEndpoints",
@@ -85386,12 +85208,14 @@ function __c1190(j: number): any {
       ).annotate({ identifier: "TargetHttpsProxiesSetQuicOverrideRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(38080, __c1190, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38080, __c1190, 0),
+          S.Struct({
+            targetHttpsProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetHttpsProxies/{targetHttpsProxy}/setQuicOverride",
@@ -85405,13 +85229,15 @@ function __c1191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(17860, __c558, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17860, __c558, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setScheduling",
@@ -85425,12 +85251,14 @@ function __c1192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          backendService: S.String.pipe(T.Label()),
-          body: S.optional(__S(35104, __c1097, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35104, __c1097, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            backendService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendServices/{backendService}/setSecurityPolicy",
@@ -85451,13 +85279,15 @@ function __c1193(j: number): any {
       ).annotate({ identifier: "InstancesSetSecurityPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          instance: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(38176, __c1193, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38176, __c1193, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            instance: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setSecurityPolicy",
@@ -85471,13 +85301,15 @@ function __c1194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          backendService: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(35104, __c1097, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35104, __c1097, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            backendService: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendServices/{backendService}/setSecurityPolicy",
@@ -85491,13 +85323,15 @@ function __c1195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          targetInstance: S.String.pipe(T.Label()),
-          body: S.optional(__S(35104, __c1097, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35104, __c1097, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            targetInstance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/targetInstances/{targetInstance}/setSecurityPolicy",
@@ -85511,13 +85345,15 @@ function __c1196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetPool: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(35104, __c1097, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(35104, __c1097, 0),
+          S.Struct({
+            targetPool: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{targetPool}/setSecurityPolicy",
@@ -85531,13 +85367,15 @@ function __c1197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(17888, __c559, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17888, __c559, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setServiceAccount",
@@ -85551,13 +85389,15 @@ function __c1198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(17728, __c554, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17728, __c554, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setShieldedInstanceIntegrityPolicy",
@@ -85571,13 +85411,15 @@ function __c1199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(38400, __c1200, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38400, __c1200, 0),
+          S.Struct({
+            targetHttpsProxy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetHttpsProxies/{targetHttpsProxy}/setSslCertificates",
@@ -85601,13 +85443,15 @@ function __c1201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          networkEndpointGroup: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38017, __c1188, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38017, __c1188, 1),
+          S.Struct({
+            networkEndpointGroup: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/networkEndpointGroups/{networkEndpointGroup}/attachNetworkEndpoints",
@@ -85621,12 +85465,14 @@ function __c1202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(38400, __c1200, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38400, __c1200, 0),
+          S.Struct({
+            targetHttpsProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/targetHttpsProxies/{targetHttpsProxy}/setSslCertificates",
@@ -85640,12 +85486,14 @@ function __c1203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          targetSslProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38400, __c1200, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38400, __c1200, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            targetSslProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetSslProxies/{targetSslProxy}/setSslCertificates",
@@ -85659,12 +85507,14 @@ function __c1204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38560, __c1205, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38560, __c1205, 0),
+          S.Struct({
+            targetHttpsProxy: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetHttpsProxies/{targetHttpsProxy}/setSslPolicy",
@@ -85688,12 +85538,14 @@ function __c1206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          targetSslProxy: S.String.pipe(T.Label()),
-          body: S.optional(__S(38560, __c1205, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38560, __c1205, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            targetSslProxy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetSslProxies/{targetSslProxy}/setSslPolicy",
@@ -85707,13 +85559,15 @@ function __c1207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(17920, __c560, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17920, __c560, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/setTags",
@@ -85727,13 +85581,15 @@ function __c1208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forwardingRule: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(34784, __c1087, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34784, __c1087, 0),
+          S.Struct({
+            forwardingRule: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/forwardingRules/{forwardingRule}/setTarget",
@@ -85747,12 +85603,14 @@ function __c1209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forwardingRule: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(34784, __c1087, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34784, __c1087, 0),
+          S.Struct({
+            forwardingRule: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/forwardingRules/{forwardingRule}/setTarget",
@@ -85773,13 +85631,15 @@ function __c1210(j: number): any {
       ).annotate({ identifier: "InstanceGroupManagersSetTargetPoolsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(38720, __c1210, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38720, __c1210, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/setTargetPools",
@@ -85800,13 +85660,15 @@ function __c1211(j: number): any {
       ).annotate({ identifier: "RegionInstanceGroupManagersSetTargetPoolsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38752, __c1211, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38752, __c1211, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/setTargetPools",
@@ -85820,13 +85682,15 @@ function __c1212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          targetHttpProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38816, __c1213, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38816, __c1213, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            targetHttpProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetHttpProxies/{targetHttpProxy}/setUrlMap",
@@ -85850,12 +85714,14 @@ function __c1214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
-          securityPolicy: S.String.pipe(T.Label()),
-          body: S.optional(__S(38880, __c1215, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38880, __c1215, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            replaceExistingAssociation: S.optional(S.Boolean.pipe(T.Query())),
+            securityPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/securityPolicies/{securityPolicy}/addAssociation",
@@ -85885,13 +85751,15 @@ function __c1216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          networkEndpointGroup: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(38017, __c1188, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38017, __c1188, 1),
+          S.Struct({
+            networkEndpointGroup: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/networkEndpointGroups/{networkEndpointGroup}/attachNetworkEndpoints",
@@ -85905,13 +85773,15 @@ function __c1217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(38816, __c1213, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38816, __c1213, 0),
+          S.Struct({
+            targetHttpsProxy: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetHttpsProxies/{targetHttpsProxy}/setUrlMap",
@@ -85925,12 +85795,14 @@ function __c1218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          targetHttpProxy: S.String.pipe(T.Label()),
-          body: S.optional(__S(38816, __c1213, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38816, __c1213, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            targetHttpProxy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/targetHttpProxies/{targetHttpProxy}/setUrlMap",
@@ -85944,12 +85816,14 @@ function __c1219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetHttpsProxy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(38816, __c1213, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(38816, __c1213, 0),
+          S.Struct({
+            targetHttpsProxy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/targetHttpsProxies/{targetHttpsProxy}/setUrlMap",
@@ -85963,11 +85837,13 @@ function __c1220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(12800, __c400, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12800, __c400, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/setUsageExportBucket",
@@ -86001,13 +85877,15 @@ function __c1222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          nodeGroup: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3424, __c107, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3424, __c107, 0),
+          S.Struct({
+            nodeGroup: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{nodeGroup}/simulateMaintenanceEvent",
@@ -86021,13 +85899,15 @@ function __c1223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          disk: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(39168, __c1224, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39168, __c1224, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            disk: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{disk}/startAsyncReplication",
@@ -86051,13 +85931,15 @@ function __c1225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          disk: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39168, __c1224, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39168, __c1224, 0),
+          S.Struct({
+            disk: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{disk}/startAsyncReplication",
@@ -86090,13 +85972,15 @@ function __c1227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/startInstances",
@@ -86110,12 +85994,14 @@ function __c1228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39330, __c1229, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39330, __c1229, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/bulkInsert",
@@ -86155,13 +86041,15 @@ function __c1230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(15520, __c485, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(15520, __c485, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/startInstances",
@@ -86190,13 +86078,15 @@ function __c1231(j: number): any {
       ).annotate({ identifier: "InstancesStartWithEncryptionKeyRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39394, __c1231, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39394, __c1231, 2),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/startWithEncryptionKey",
@@ -86248,12 +86138,14 @@ function __c1234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39520, __c1235, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39520, __c1235, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/stopGroupAsyncReplication",
@@ -86277,12 +86169,14 @@ function __c1236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39520, __c1235, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39520, __c1235, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/stopGroupAsyncReplication",
@@ -86317,14 +86211,16 @@ function __c1238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceGroupManager: S.String.pipe(T.Label()),
-          noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(39648, __c1239, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39648, __c1239, 0),
+          S.Struct({
+            instanceGroupManager: S.String.pipe(T.Label()),
+            noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/stopInstances",
@@ -86349,14 +86245,16 @@ function __c1240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39648, __c1239, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39648, __c1239, 0),
+          S.Struct({
+            noGracefulShutdown: S.optional(S.Boolean.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/stopInstances",
@@ -86390,12 +86288,14 @@ function __c1242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(39785, __c1243, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39785, __c1243, 9),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/bulkInsert",
@@ -86482,13 +86382,15 @@ function __c1244(j: number): any {
       ).annotate({ identifier: "InstanceGroupManagersSuspendInstancesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39808, __c1244, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39808, __c1244, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            instanceGroupManager: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroupManagers/{instanceGroupManager}/suspendInstances",
@@ -86509,13 +86411,15 @@ function __c1245(j: number): any {
       ).annotate({ identifier: "RegionInstanceGroupManagersSuspendInstancesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          instanceGroupManager: S.String.pipe(T.Label()),
-          body: S.optional(__S(39840, __c1245, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39840, __c1245, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            instanceGroupManager: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroupManagers/{instanceGroupManager}/suspendInstances",
@@ -86547,12 +86451,14 @@ function __c1247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/addresses/{resource}/testIamPermissions",
@@ -86576,12 +86482,14 @@ function __c1249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/autoscalers/{resource}/testIamPermissions",
@@ -86595,11 +86503,13 @@ function __c1250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendBuckets/{resource}/testIamPermissions",
@@ -86613,11 +86523,13 @@ function __c1251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/backendServices/{resource}/testIamPermissions",
@@ -86631,12 +86543,14 @@ function __c1252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{resource}/testIamPermissions",
@@ -86650,11 +86564,13 @@ function __c1253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/externalVpnGateways/{resource}/testIamPermissions",
@@ -86668,10 +86584,12 @@ function __c1254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "locations/global/firewallPolicies/{resource}/testIamPermissions",
@@ -86685,12 +86603,14 @@ function __c1255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39330, __c1229, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39330, __c1229, 2),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/bulkInsert",
@@ -86704,11 +86624,13 @@ function __c1256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewalls/{resource}/testIamPermissions",
@@ -86722,11 +86644,13 @@ function __c1257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/addresses/{resource}/testIamPermissions",
@@ -86740,11 +86664,13 @@ function __c1258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/healthChecks/{resource}/testIamPermissions",
@@ -86758,11 +86684,13 @@ function __c1259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/httpHealthChecks/{resource}/testIamPermissions",
@@ -86776,11 +86704,13 @@ function __c1260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/httpsHealthChecks/{resource}/testIamPermissions",
@@ -86794,11 +86724,13 @@ function __c1261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/images/{resource}/testIamPermissions",
@@ -86812,12 +86744,14 @@ function __c1262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instanceGroups/{resource}/testIamPermissions",
@@ -86831,12 +86765,14 @@ function __c1263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{resource}/testIamPermissions",
@@ -86850,11 +86786,13 @@ function __c1264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/instanceTemplates/{resource}/testIamPermissions",
@@ -86868,12 +86806,14 @@ function __c1265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instantSnapshotGroups/{resource}/testIamPermissions",
@@ -86887,12 +86827,14 @@ function __c1266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39785, __c1243, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39785, __c1243, 9),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instances/bulkInsert",
@@ -86906,12 +86848,14 @@ function __c1267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instantSnapshots/{resource}/testIamPermissions",
@@ -86925,11 +86869,13 @@ function __c1268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnectAttachmentGroups/{resource}/testIamPermissions",
@@ -86943,11 +86889,13 @@ function __c1269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/interconnectGroups/{resource}/testIamPermissions",
@@ -86961,11 +86909,13 @@ function __c1270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/licenseCodes/{resource}/testIamPermissions",
@@ -86979,11 +86929,13 @@ function __c1271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/licenses/{resource}/testIamPermissions",
@@ -86997,11 +86949,13 @@ function __c1272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/machineImages/{resource}/testIamPermissions",
@@ -87015,12 +86969,14 @@ function __c1273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/networkAttachments/{resource}/testIamPermissions",
@@ -87034,12 +86990,14 @@ function __c1274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/networkEndpointGroups/{resource}/testIamPermissions",
@@ -87053,11 +87011,13 @@ function __c1275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/firewallPolicies/{resource}/testIamPermissions",
@@ -87071,12 +87031,14 @@ function __c1276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/nodeGroups/{resource}/testIamPermissions",
@@ -87098,13 +87060,15 @@ function __c1277(j: number): any {
       ).annotate({ identifier: "BulkZoneSetLabelsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          resource: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(40865, __c1277, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40865, __c1277, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            resource: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/bulkSetLabels",
@@ -87129,12 +87093,14 @@ function __c1279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/nodeTemplates/{resource}/testIamPermissions",
@@ -87148,12 +87114,14 @@ function __c1280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/packetMirrorings/{resource}/testIamPermissions",
@@ -87167,12 +87135,14 @@ function __c1281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/autoscalers/{resource}/testIamPermissions",
@@ -87186,12 +87156,14 @@ function __c1282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendBuckets/{resource}/testIamPermissions",
@@ -87205,12 +87177,14 @@ function __c1283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/backendServices/{resource}/testIamPermissions",
@@ -87224,12 +87198,14 @@ function __c1284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/compositeHealthChecks/{resource}/testIamPermissions",
@@ -87243,12 +87219,14 @@ function __c1285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{resource}/testIamPermissions",
@@ -87262,12 +87240,14 @@ function __c1286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthAggregationPolicies/{resource}/testIamPermissions",
@@ -87281,12 +87261,14 @@ function __c1287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthChecks/{resource}/testIamPermissions",
@@ -87300,12 +87282,14 @@ function __c1288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthCheckServices/{resource}/testIamPermissions",
@@ -87391,11 +87375,13 @@ function __c1289(j: number): any {
       ).annotate({ identifier: "CalendarModeAdviceRequest" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(41259, __c1289, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(41259, __c1289, 11),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/advice/calendarMode",
@@ -87445,12 +87431,14 @@ function __c1290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/healthSources/{resource}/testIamPermissions",
@@ -87464,12 +87452,14 @@ function __c1291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instanceGroups/{resource}/testIamPermissions",
@@ -87483,12 +87473,14 @@ function __c1292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instantSnapshotGroups/{resource}/testIamPermissions",
@@ -87502,12 +87494,14 @@ function __c1293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/instantSnapshots/{resource}/testIamPermissions",
@@ -87521,12 +87515,14 @@ function __c1294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/firewallPolicies/{resource}/testIamPermissions",
@@ -87540,12 +87536,14 @@ function __c1295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/notificationEndpoints/{resource}/testIamPermissions",
@@ -87559,12 +87557,14 @@ function __c1296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/snapshots/{resource}/testIamPermissions",
@@ -87578,12 +87578,14 @@ function __c1297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/sslPolicies/{resource}/testIamPermissions",
@@ -87597,13 +87599,15 @@ function __c1298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          parentResource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            parentResource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations/{parentResource}/reservationBlocks/{resource}/testIamPermissions",
@@ -87617,12 +87621,14 @@ function __c1299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/reservations/{resource}/testIamPermissions",
@@ -87655,13 +87661,15 @@ function __c1301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          parentResource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            parentResource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/{+parentResource}/reservationSubBlocks/{resource}/testIamPermissions",
@@ -87675,12 +87683,14 @@ function __c1302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/resourcePolicies/{resource}/testIamPermissions",
@@ -87694,11 +87704,13 @@ function __c1303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/routes/{resource}/testIamPermissions",
@@ -87712,12 +87724,14 @@ function __c1304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/serviceAttachments/{resource}/testIamPermissions",
@@ -87731,11 +87745,13 @@ function __c1305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/snapshots/{resource}/testIamPermissions",
@@ -87749,11 +87765,13 @@ function __c1306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/sslPolicies/{resource}/testIamPermissions",
@@ -87767,12 +87785,14 @@ function __c1307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/storagePools/{resource}/testIamPermissions",
@@ -87786,12 +87806,14 @@ function __c1308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/subnetworks/{resource}/testIamPermissions",
@@ -87805,12 +87827,14 @@ function __c1309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/targetInstances/{resource}/testIamPermissions",
@@ -87824,12 +87848,14 @@ function __c1310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/targetPools/{resource}/testIamPermissions",
@@ -87863,11 +87889,13 @@ function __c1312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetSslProxies/{resource}/testIamPermissions",
@@ -87881,11 +87909,13 @@ function __c1313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/targetTcpProxies/{resource}/testIamPermissions",
@@ -87899,11 +87929,13 @@ function __c1314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/global/urlMaps/{resource}/testIamPermissions",
@@ -87917,12 +87949,14 @@ function __c1315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          resource: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(39936, __c1248, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39936, __c1248, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/vpnGateways/{resource}/testIamPermissions",
@@ -87936,14 +87970,16 @@ function __c1316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          networkInterface: S.String.pipe(T.Query()),
-          zone: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(25600, __c800, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(25600, __c800, 0),
+          S.Struct({
+            networkInterface: S.String.pipe(T.Query()),
+            zone: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/updateAccessConfig",
@@ -87957,13 +87993,15 @@ function __c1317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          autoscaler: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10380, __c324, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10380, __c324, 12),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            autoscaler: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/zones/{zone}/autoscalers",
@@ -87977,12 +88015,14 @@ function __c1318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backendBucket: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(11140, __c348, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11140, __c348, 4),
+          S.Struct({
+            backendBucket: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/global/backendBuckets/{backendBucket}",
@@ -87996,12 +88036,14 @@ function __c1319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          backendService: S.String.pipe(T.Label()),
-          body: S.optional(__S(11846, __c370, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(11846, __c370, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            backendService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/global/backendServices/{backendService}",
@@ -88015,15 +88057,17 @@ function __c1320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          disk: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(12452, __c389, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12452, __c389, 4),
+          S.Struct({
+            paths: S.optional(__S(15552, __c486, 0).pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            disk: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/disks/{disk}",
@@ -88037,13 +88081,15 @@ function __c1321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          body: S.optional(__S(17760, __c555, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17760, __c555, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/instances/{instance}/updateDisplayDevice",
@@ -88077,12 +88123,14 @@ function __c1323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firewall: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6883, __c215, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6883, __c215, 3),
+          S.Struct({
+            firewall: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/global/firewalls/{firewall}",
@@ -88096,14 +88144,16 @@ function __c1324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          zone: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          futureReservation: S.String.pipe(T.Label()),
-          body: S.optional(__S(14090, __c440, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14090, __c440, 10),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            futureReservation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/zones/{zone}/futureReservations/{futureReservation}",
@@ -88117,12 +88167,14 @@ function __c1325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          globalVmExtensionPolicy: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7652, __c239, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(7652, __c239, 4),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            globalVmExtensionPolicy: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{project}/global/vmExtensionPolicies/{globalVmExtensionPolicy}",
@@ -88136,12 +88188,14 @@ function __c1326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          healthCheck: S.String.pipe(T.Label()),
-          body: S.optional(__S(16072, __c502, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16072, __c502, 8),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            healthCheck: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/global/healthChecks/{healthCheck}",
@@ -88155,12 +88209,14 @@ function __c1327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          httpHealthCheck: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8160, __c255, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8160, __c255, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            httpHealthCheck: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/global/httpHealthChecks/{httpHealthCheck}",
@@ -88174,12 +88230,14 @@ function __c1328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          httpsHealthCheck: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8224, __c257, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8224, __c257, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+            httpsHealthCheck: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/global/httpsHealthChecks/{httpsHealthCheck}",
@@ -88193,16 +88251,18 @@ function __c1329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          mostDisruptiveAllowedAction: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          minimalAction: S.optional(S.String.pipe(T.Query())),
-          discardLocalSsd: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(17800, __c556, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(17800, __c556, 8),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+            mostDisruptiveAllowedAction: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            minimalAction: S.optional(S.String.pipe(T.Query())),
+            discardLocalSsd: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{project}/zones/{zone}/instances/{instance}",
@@ -88216,13 +88276,15 @@ function __c1330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          disk: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(42592, __c1331, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42592, __c1331, 0),
+          S.Struct({
+            disk: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/zones/{zone}/disks/{disk}/updateKmsKey",
@@ -88246,13 +88308,15 @@ function __c1332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
-          disk: S.String.pipe(T.Label()),
-          body: S.optional(__S(42592, __c1331, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42592, __c1331, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
+            disk: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/disks/{disk}/updateKmsKey",
@@ -88266,13 +88330,15 @@ function __c1333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          snapshot: S.String.pipe(T.Label()),
-          body: S.optional(__S(42592, __c1331, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(42592, __c1331, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            snapshot: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{project}/regions/{region}/snapshots/{snapshot}/updateKmsKey",

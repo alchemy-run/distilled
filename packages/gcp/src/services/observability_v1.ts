@@ -133,13 +133,11 @@ export interface Bucket {
   /** Optional. User friendly display name. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsBucketsRequest {
+export interface CreateProjectsLocationsBucketsRequest extends Bucket {
   /** Required. Name of the project and location for the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
   parent: string;
   /** Required. Id of the bucket to create. */
   bucketId?: string | undefined;
-  /** Request body */
-  body?: Bucket | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -176,13 +174,11 @@ export interface Link {
   /** Output only. Create timestamp. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBucketsDatasetsLinksRequest {
+export interface CreateProjectsLocationsBucketsDatasetsLinksRequest extends Link {
   /** Required. Name of the containing dataset for this link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
   /** Required. Id of the link to create. */
   linkId?: string | undefined;
-  /** Request body */
-  body?: Link | undefined;
 }
 export type StringList = Array<string>;
 /** A trace scope is a collection of resources whose traces are queried together. */
@@ -198,13 +194,11 @@ export interface TraceScope {
   /** Required. Names of the projects that are included in this trace scope. * `projects/[PROJECT_ID]` A trace scope can include a maximum of 20 projects. */
   resourceNames?: StringList | undefined;
 }
-export interface CreateProjectsLocationsTraceScopesRequest {
+export interface CreateProjectsLocationsTraceScopesRequest extends TraceScope {
   /** Required. The full resource name of the location where the trace scope should be created projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
   parent: string;
   /** Required. A client-assigned identifier for the trace scope. */
   traceScopeId?: string | undefined;
-  /** Request body */
-  body?: TraceScope | undefined;
 }
 export interface DeleteFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -524,37 +518,29 @@ export interface ListTraceScopesResponse {
   /** Optional. A list of trace scopes. */
   traceScopes?: TraceScopeList | undefined;
 }
-export interface PatchProjectsLocationsBucketsRequest {
+export interface PatchProjectsLocationsBucketsRequest extends Omit<Bucket, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   name: string;
-  /** Request body */
-  body?: Bucket | undefined;
 }
-export interface PatchProjectsLocationsBucketsDatasetsLinksRequest {
+export interface PatchProjectsLocationsBucketsDatasetsLinksRequest extends Omit<Link, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
-  /** Request body */
-  body?: Link | undefined;
 }
-export interface PatchProjectsLocationsScopesRequest {
+export interface PatchProjectsLocationsScopesRequest extends Omit<Scope, "name"> {
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Scope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten when it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Scope | undefined;
 }
-export interface PatchProjectsLocationsTraceScopesRequest {
+export interface PatchProjectsLocationsTraceScopesRequest extends Omit<TraceScope, "name"> {
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TraceScope | undefined;
 }
 /** Request for reprovisioning a bucket, replaces configuration with that of the configured Observability settings. */
 export type ReprovisionBucketRequest = CancelOperationRequest;
@@ -564,29 +550,23 @@ export interface ReprovisionProjectsLocationsBucketsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface UpdateSettingsFoldersLocationsRequest {
+export interface UpdateSettingsFoldersLocationsRequest extends Omit<Settings, "name"> {
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the settings. */
   name: string;
-  /** Request body */
-  body?: Settings | undefined;
 }
-export interface UpdateSettingsOrganizationsLocationsRequest {
+export interface UpdateSettingsOrganizationsLocationsRequest extends Omit<Settings, "name"> {
   /** Identifier. The resource name of the settings. */
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
 }
-export interface UpdateSettingsProjectsLocationsRequest {
+export interface UpdateSettingsProjectsLocationsRequest extends Omit<Settings, "name"> {
   /** Identifier. The resource name of the settings. */
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
 }
 export type CancelFoldersLocationsOperationsError =
   | NotFound
@@ -2173,11 +2153,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(205, __c51, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(205, __c51, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2191,11 +2173,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(220, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(220, __c55, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2209,11 +2193,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(76, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(76, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2227,11 +2213,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(232, __c58, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2262,11 +2250,13 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(88, __c22, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2280,11 +2270,13 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(88, __c22, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2298,11 +2290,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(88, __c22, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2350,11 +2344,13 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(205, __c51, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(205, __c51, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/buckets",
@@ -2423,11 +2419,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(220, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(220, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/links",
@@ -2454,11 +2452,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          traceScopeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(232, __c58, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            traceScopeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/traceScopes",

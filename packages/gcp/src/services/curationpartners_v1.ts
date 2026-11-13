@@ -417,17 +417,13 @@ export interface DataSegment {
   /** Output only. The state of the data segment. */
   state?: DataSegmentStateEnum | (string & {}) | undefined;
 }
-export interface CreateCuratorsCuratedPackagesRequest {
+export interface CreateCuratorsCuratedPackagesRequest extends CuratedPackage {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: CuratedPackage | undefined;
 }
-export interface CreateCuratorsDataSegmentsRequest {
+export interface CreateCuratorsDataSegmentsRequest extends DataSegment {
   /** Required. The parent resource where this data segment will be created. Format: `curators/{accountId}` */
   parent: string;
-  /** Request body */
-  body?: DataSegment | undefined;
 }
 export type ReportDefinitionTimeZoneSourceEnum =
   | "TIME_ZONE_SOURCE_UNSPECIFIED"
@@ -701,11 +697,9 @@ export interface Report {
   /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
   locale?: string | undefined;
 }
-export interface CreateCuratorsReportsRequest {
+export interface CreateCuratorsReportsRequest extends Report {
   /** Required. The parent resource where this `Report` will be created. Format: `curators/{account_id}` */
   parent: string;
-  /** Request body */
-  body?: Report | undefined;
 }
 /** Request message for DeactivateCuratedPackage. */
 export type DeactivateCuratedPackageRequest = ActivateCuratedPackageRequest;
@@ -890,29 +884,23 @@ export interface ListMediaPlannersResponse {
   /** A token which can be passed to a subsequent call to the ListMediaPlanners method to retrieve the next page of results in ListMediaPlannersRequest.page_token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchCuratorsCuratedPackagesRequest {
+export interface PatchCuratorsCuratedPackagesRequest extends Omit<CuratedPackage, "name"> {
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CuratedPackage | undefined;
 }
-export interface PatchCuratorsDataSegmentsRequest {
+export interface PatchCuratorsDataSegmentsRequest extends Omit<DataSegment, "name"> {
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DataSegment | undefined;
 }
-export interface PatchCuratorsReportsRequest {
+export interface PatchCuratorsReportsRequest extends Omit<Report, "name"> {
   /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Report | undefined;
 }
 /** Request message for a running a report. */
 export type RunReportRequest = ActivateCuratedPackageRequest;
@@ -1664,11 +1652,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(380, __c23, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(380, __c23, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1682,11 +1672,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1700,11 +1692,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(489, __c30, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(489, __c30, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1961,10 +1955,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(380, __c23, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(380, __c23, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/curatedPackages",
@@ -1978,10 +1974,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataSegments",
@@ -1995,10 +1993,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(489, __c30, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(489, __c30, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reports",

@@ -300,10 +300,7 @@ export interface ClientStatusRequest {
   /** The node making the csds request. */
   node?: Node | undefined;
 }
-export interface Client_statusDiscoveryRequest {
-  /** Request body */
-  body?: ClientStatusRequest | undefined;
-}
+export interface Client_statusDiscoveryRequest extends ClientStatusRequest {}
 export type GenericXdsConfigConfigStatusEnum =
   | "UNKNOWN"
   | "SYNCED"
@@ -824,9 +821,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ClientStatusRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(33, __c1, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/discovery:client_status",

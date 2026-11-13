@@ -424,11 +424,9 @@ export interface Report {
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
   name?: string | undefined;
 }
-export interface CreateAgenciesReportsRequest {
+export interface CreateAgenciesReportsRequest extends Report {
   /** Required. The parent resource where this `Report` will be created. Format: `agencies/{account_id}` */
   parent: string;
-  /** Request body */
-  body?: Report | undefined;
 }
 export interface DeleteAgenciesReportsRequest {
   /** Required. Resource name of the report to delete. Format: `agencies/{account_id}/reports/{report_id}` */
@@ -528,13 +526,11 @@ export interface ListReportsResponse {
   /** The `Report` objects from the specified network. */
   reports?: ReportList | undefined;
 }
-export interface PatchAgenciesReportsRequest {
+export interface PatchAgenciesReportsRequest extends Omit<Report, "name"> {
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Report | undefined;
 }
 /** Request message for a running a report. */
 export interface RunReportRequest {}
@@ -689,11 +685,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(74, __c4, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(74, __c4, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -724,10 +722,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(74, __c4, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(74, __c4, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reports",

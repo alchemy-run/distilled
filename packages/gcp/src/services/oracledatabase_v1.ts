@@ -116,11 +116,9 @@ export interface ConfigureExascaleCloudExadataInfrastructureRequest {
   /** Optional. Storage size needed for VM storage on Exascale in GBs. */
   totalVmStorageSizeGb?: number | undefined;
 }
-export interface ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresRequest {
+export interface ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresRequest extends ConfigureExascaleCloudExadataInfrastructureRequest {
   /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
   name: string;
-  /** Request body */
-  body?: ConfigureExascaleCloudExadataInfrastructureRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -651,15 +649,13 @@ export interface AutonomousDatabase {
   /** Optional. Immutable. The display name for the Autonomous Database. The name does not have to be unique within your project. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsAutonomousDatabasesRequest {
+export interface CreateProjectsLocationsAutonomousDatabasesRequest extends AutonomousDatabase {
   /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID of the Autonomous Database to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   autonomousDatabaseId?: string | undefined;
-  /** Request body */
-  body?: AutonomousDatabase | undefined;
 }
 export type CloudExadataInfrastructurePropertiesComputeModelEnum =
   | "COMPUTE_MODEL_UNSPECIFIED"
@@ -826,15 +822,13 @@ export interface CloudExadataInfrastructure {
   /** Optional. Immutable. Various properties of the infra. */
   properties?: CloudExadataInfrastructureProperties | undefined;
 }
-export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest {
+export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest extends CloudExadataInfrastructure {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID of the Exadata Infrastructure to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   cloudExadataInfrastructureId?: string | undefined;
   /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: CloudExadataInfrastructure | undefined;
 }
 export type CloudVmClusterPropertiesVmFileSystemStorageTypeEnum =
   | "VM_FILE_SYSTEM_STORAGE_TYPE_UNSPECIFIED"
@@ -1022,15 +1016,13 @@ export interface CloudVmCluster {
   /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsCloudVmClustersRequest {
+export interface CreateProjectsLocationsCloudVmClustersRequest extends CloudVmCluster {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID of the VM Cluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   cloudVmClusterId?: string | undefined;
   /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: CloudVmCluster | undefined;
 }
 export type DatabaseConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1065,15 +1057,13 @@ export interface DatabaseConnection {
   /** Output only. The update time of the resource. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDatabaseConnectionsRequest {
+export interface CreateProjectsLocationsDatabaseConnectionsRequest extends DatabaseConnection {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent value for the DatabaseConnection in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Required. The ID of the DatabaseConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   databaseConnectionId?: string | undefined;
-  /** Request body */
-  body?: DatabaseConnection | undefined;
 }
 export type DbSystemOptionsStorageManagementEnum = "STORAGE_MANAGEMENT_UNSPECIFIED" | "ASM" | "LVM";
 /** Details of the DbSystem Options. */
@@ -1354,15 +1344,13 @@ export interface DbSystem {
   /** Optional. The labels or tags associated with the DbSystem. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsDbSystemsRequest {
+export interface CreateProjectsLocationsDbSystemsRequest extends DbSystem {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The value for parent of the DbSystem in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Required. The ID of the DbSystem to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   dbSystemId?: string | undefined;
-  /** Request body */
-  body?: DbSystem | undefined;
 }
 /** Data collection options for diagnostics. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/DataCollectionOptions */
 export interface DataCollectionOptionsCommon {
@@ -1463,15 +1451,13 @@ export interface ExadbVmCluster {
   /** Optional. Immutable. The name of the OdbNetwork associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
   odbNetwork?: string | undefined;
 }
-export interface CreateProjectsLocationsExadbVmClustersRequest {
+export interface CreateProjectsLocationsExadbVmClustersRequest extends ExadbVmCluster {
   /** Required. The value for parent of the ExadbVmCluster in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID of the ExadbVmCluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   exadbVmClusterId?: string | undefined;
-  /** Request body */
-  body?: ExadbVmCluster | undefined;
 }
 /** The storage details of the ExascaleDbStorageVault. */
 export interface ExascaleDbStorageDetails {
@@ -1550,15 +1536,13 @@ export interface ExascaleDbStorageVault {
   /** Output only. The ID of the subscription entitlement associated with the ExascaleDbStorageVault. */
   entitlementId?: string | undefined;
 }
-export interface CreateProjectsLocationsExascaleDbStorageVaultsRequest {
+export interface CreateProjectsLocationsExascaleDbStorageVaultsRequest extends ExascaleDbStorageVault {
   /** Required. The ID of the ExascaleDbStorageVault to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   exascaleDbStorageVaultId?: string | undefined;
   /** Required. The value for parent of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ExascaleDbStorageVault | undefined;
 }
 export type GoldengateConnectionAssignmentPropertiesStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1595,15 +1579,13 @@ export interface GoldengateConnectionAssignment {
   /** Optional. Immutable. The display name for the GoldengateConnectionAssignment. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsGoldengateConnectionAssignmentsRequest {
+export interface CreateProjectsLocationsGoldengateConnectionAssignmentsRequest extends GoldengateConnectionAssignment {
   /** Required. The parent resource where this GoldengateConnectionAssignment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID of the GoldengateConnectionAssignment to create. */
   goldengateConnectionAssignmentId?: string | undefined;
-  /** Request body */
-  body?: GoldengateConnectionAssignment | undefined;
 }
 export type GoldengateMysqlConnectionPropertiesSslModeEnum =
   | "SSL_MODE_UNSPECIFIED"
@@ -2608,15 +2590,13 @@ export interface GoldengateConnection {
   /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
   ociUrl?: string | undefined;
 }
-export interface CreateProjectsLocationsGoldengateConnectionsRequest {
+export interface CreateProjectsLocationsGoldengateConnectionsRequest extends GoldengateConnection {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID of the GoldengateConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   goldengateConnectionId?: string | undefined;
   /** Required. The value for parent of the GoldengateConnection in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Request body */
-  body?: GoldengateConnection | undefined;
 }
 export type GoldengateDeploymentPropertiesLicenseModelEnum =
   | "LICENSE_MODEL_UNSPECIFIED"
@@ -2913,15 +2893,13 @@ export interface GoldengateDeployment {
   /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsGoldengateDeploymentsRequest {
+export interface CreateProjectsLocationsGoldengateDeploymentsRequest extends GoldengateDeployment {
   /** Required. The ID of the GoldengateDeployment to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   goldengateDeploymentId?: string | undefined;
   /** Required. The value for parent of the GoldengateDeployment in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GoldengateDeployment | undefined;
 }
 /** Configuration for a Private Service Connect (PSC) interface used by Oracledatabase@Google Cloud to establish private connectivity to the database. */
 export interface PscInterfaceConfig {
@@ -2960,15 +2938,13 @@ export interface OdbNetwork {
   /** Output only. The date and time that the OdbNetwork was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsOdbNetworksRequest {
+export interface CreateProjectsLocationsOdbNetworksRequest extends OdbNetwork {
   /** Required. The parent value for the OdbNetwork in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Required. The ID of the OdbNetwork to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   odbNetworkId?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: OdbNetwork | undefined;
 }
 export type OdbDnsZoneStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2990,15 +2966,13 @@ export interface OdbDnsZone {
   /** Identifier. The name of the OdbDnsZone resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest {
+export interface CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest extends OdbDnsZone {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent value for the OdbDnsZone in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   parent: string;
   /** Required. The ID of the OdbDnsZone to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   odbDnsZoneId?: string | undefined;
-  /** Request body */
-  body?: OdbDnsZone | undefined;
 }
 export type OdbSubnetStateEnum =
   | "STATE_UNSPECIFIED"
@@ -3022,15 +2996,13 @@ export interface OdbSubnet {
   /** Required. Immutable. Purpose of the subnet. */
   purpose?: OdbSubnetPurposeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsOdbNetworksOdbSubnetsRequest {
+export interface CreateProjectsLocationsOdbNetworksOdbSubnetsRequest extends OdbSubnet {
   /** Required. The ID of the OdbSubnet to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   odbSubnetId?: string | undefined;
   /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   parent: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: OdbSubnet | undefined;
 }
 export interface DeleteProjectsLocationsAutonomousDatabasesRequest {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3167,11 +3139,9 @@ export interface ExecuteSqlRequest {
   /** Required. The SQL statement to execute. */
   sqlStatement?: string | undefined;
 }
-export interface ExecuteSqlProjectsLocationsDatabaseConnectionsRequest {
+export interface ExecuteSqlProjectsLocationsDatabaseConnectionsRequest extends ExecuteSqlRequest {
   /** Required. The name of the DatabaseConnection in the following format: projects/{project}/locations/{location}/databaseConnections/{database_connection}. */
   name: string;
-  /** Request body */
-  body?: ExecuteSqlRequest | undefined;
 }
 export type ExecuteSqlMetadataStatusEnum = "STATUS_UNSPECIFIED" | "OK" | "PARTIAL" | "ERROR";
 /** Any additional metadata information regarding the execution of the SQL */
@@ -3227,11 +3197,9 @@ export interface FailoverAutonomousDatabaseRequest {
   /** Optional. The peer database name to fail over to. Required for cross-region standby, and must be omitted for in-region Data Guard. */
   peerAutonomousDatabase?: string | undefined;
 }
-export interface FailoverProjectsLocationsAutonomousDatabasesRequest {
+export interface FailoverProjectsLocationsAutonomousDatabasesRequest extends FailoverAutonomousDatabaseRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
-  /** Request body */
-  body?: FailoverAutonomousDatabaseRequest | undefined;
 }
 export type GenerateAutonomousDatabaseWalletRequestTypeEnum =
   | "GENERATE_TYPE_UNSPECIFIED"
@@ -3246,11 +3214,9 @@ export interface GenerateAutonomousDatabaseWalletRequest {
   /** Optional. True when requesting regional connection strings in PDB connect info, applicable to cross-region Data Guard only. */
   isRegional?: boolean | undefined;
 }
-export interface GenerateWalletProjectsLocationsAutonomousDatabasesRequest {
+export interface GenerateWalletProjectsLocationsAutonomousDatabasesRequest extends GenerateAutonomousDatabaseWalletRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
-  /** Request body */
-  body?: GenerateAutonomousDatabaseWalletRequest | undefined;
 }
 /** The response for `AutonomousDatabase.GenerateWallet`. */
 export interface GenerateAutonomousDatabaseWalletResponse {
@@ -4687,136 +4653,134 @@ export interface ListPluggableDatabasesResponse {
   /** The list of PluggableDatabases. */
   pluggableDatabases?: PluggableDatabaseList | undefined;
 }
-export interface PatchProjectsLocationsAutonomousDatabasesRequest {
+export interface PatchProjectsLocationsAutonomousDatabasesRequest extends Omit<
+  AutonomousDatabase,
+  "name"
+> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Exadata resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
   name: string;
-  /** Request body */
-  body?: AutonomousDatabase | undefined;
 }
-export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest {
+export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest extends Omit<
+  CloudExadataInfrastructure,
+  "name"
+> {
   /** Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Exadata resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CloudExadataInfrastructure | undefined;
 }
-export interface PatchProjectsLocationsCloudVmClustersRequest {
+export interface PatchProjectsLocationsCloudVmClustersRequest extends Omit<CloudVmCluster, "name"> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
   name: string;
   /** Optional. A mask specifying which fields in the VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CloudVmCluster | undefined;
 }
-export interface PatchProjectsLocationsDatabaseConnectionsRequest {
+export interface PatchProjectsLocationsDatabaseConnectionsRequest extends Omit<
+  DatabaseConnection,
+  "name"
+> {
   /** Optional. A mask specifying which fields in the DatabaseConnection should be updated. A field specified in the mask is overwritten. If a mask isn't provided then all the fields in the DatabaseConnection are overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The resource name of the DatabaseConnection. Format: projects/{project}/locations/{location}/databaseConnections/{database_connection} */
   name: string;
-  /** Request body */
-  body?: DatabaseConnection | undefined;
 }
-export interface PatchProjectsLocationsDbSystemsRequest {
+export interface PatchProjectsLocationsDbSystemsRequest extends Omit<DbSystem, "name"> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} */
   name: string;
   /** Optional. A mask specifying which fields in the DbSystem should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DbSystem | undefined;
 }
-export interface PatchProjectsLocationsExadbVmClustersRequest {
+export interface PatchProjectsLocationsExadbVmClustersRequest extends Omit<ExadbVmCluster, "name"> {
   /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
   name: string;
   /** Optional. A mask specifying which fields in th VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ExadbVmCluster | undefined;
 }
-export interface PatchProjectsLocationsExascaleDbStorageVaultsRequest {
+export interface PatchProjectsLocationsExascaleDbStorageVaultsRequest extends Omit<
+  ExascaleDbStorageVault,
+  "name"
+> {
   /** Optional. A mask specifying which fields in the ExascaleDbStorageVault should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ExascaleDbStorageVault | undefined;
 }
-export interface PatchProjectsLocationsGoldengateConnectionAssignmentsRequest {
+export interface PatchProjectsLocationsGoldengateConnectionAssignmentsRequest extends Omit<
+  GoldengateConnectionAssignment,
+  "name"
+> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the GoldengateConnectionAssignment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Identifier. The name of the GoldengateConnectionAssignment resource in the following format: projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
   name: string;
-  /** Request body */
-  body?: GoldengateConnectionAssignment | undefined;
 }
-export interface PatchProjectsLocationsGoldengateConnectionsRequest {
+export interface PatchProjectsLocationsGoldengateConnectionsRequest extends Omit<
+  GoldengateConnection,
+  "name"
+> {
   /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
   name: string;
   /** Optional. A mask specifying which fields in the GoldengateConnection should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GoldengateConnection | undefined;
 }
-export interface PatchProjectsLocationsGoldengateDeploymentsRequest {
+export interface PatchProjectsLocationsGoldengateDeploymentsRequest extends Omit<
+  GoldengateDeployment,
+  "name"
+> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
   name: string;
   /** Optional. A mask specifying which fields in the GoldengateDeployment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoldengateDeployment | undefined;
 }
-export interface PatchProjectsLocationsOdbNetworksRequest {
+export interface PatchProjectsLocationsOdbNetworksRequest extends Omit<OdbNetwork, "name"> {
   /** Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the OdbNetwork should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: OdbNetwork | undefined;
 }
-export interface PatchProjectsLocationsOdbNetworksOdbSubnetsRequest {
+export interface PatchProjectsLocationsOdbNetworksOdbSubnetsRequest extends Omit<
+  OdbSubnet,
+  "name"
+> {
   /** Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the OdbSubnet should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: OdbSubnet | undefined;
 }
 /** Request message for RefreshAutonomousDatabase method. */
 export interface RefreshAutonomousDatabaseRequest {
   /** Required. The timestamp to which the Autonomous Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh. */
   refreshCutoffTime?: string | undefined;
 }
-export interface RefreshProjectsLocationsAutonomousDatabasesRequest {
+export interface RefreshProjectsLocationsAutonomousDatabasesRequest extends RefreshAutonomousDatabaseRequest {
   /** Required. The name of the AutonomousDatabase resource. Format: projects/{project}/location/{location}/autonomousDatabases/{autonomous_database} */
   name: string;
-  /** Request body */
-  body?: RefreshAutonomousDatabaseRequest | undefined;
 }
 /** The request for `ExadbVmCluster.RemoveVirtualMachine`. */
 export interface RemoveVirtualMachineExadbVmClusterRequest {
@@ -4825,11 +4789,9 @@ export interface RemoveVirtualMachineExadbVmClusterRequest {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest {
+export interface RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest extends RemoveVirtualMachineExadbVmClusterRequest {
   /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
   name: string;
-  /** Request body */
-  body?: RemoveVirtualMachineExadbVmClusterRequest | undefined;
 }
 /** The request for `AutonomousDatabase.Restart`. */
 export type RestartAutonomousDatabaseRequest = CancelOperationRequest;
@@ -4844,11 +4806,9 @@ export interface RestoreAutonomousDatabaseRequest {
   /** Required. The time and date to restore the database to. */
   restoreTime?: string | undefined;
 }
-export interface RestoreProjectsLocationsAutonomousDatabasesRequest {
+export interface RestoreProjectsLocationsAutonomousDatabasesRequest extends RestoreAutonomousDatabaseRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
-  /** Request body */
-  body?: RestoreAutonomousDatabaseRequest | undefined;
 }
 /** The request for `AutonomousDatabase.Start`. */
 export type StartAutonomousDatabaseRequest = CancelOperationRequest;
@@ -4887,11 +4847,9 @@ export interface SwitchoverAutonomousDatabaseRequest {
   /** Optional. The peer database name to switch over to. Required for cross-region standby, and must be omitted for in-region Data Guard. */
   peerAutonomousDatabase?: string | undefined;
 }
-export interface SwitchoverProjectsLocationsAutonomousDatabasesRequest {
+export interface SwitchoverProjectsLocationsAutonomousDatabasesRequest extends SwitchoverAutonomousDatabaseRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
-  /** Request body */
-  body?: SwitchoverAutonomousDatabaseRequest | undefined;
 }
 /** Request message for `DatabaseConnection.TestDatabaseConnection`. */
 export type TestDatabaseConnectionRequest = CancelOperationRequest;
@@ -4914,11 +4872,9 @@ export interface TestGoldengateConnectionAssignmentRequest {
   /** Optional. The type of the test of the assigned connection. The only type actually supported is DEFAULT. */
   type?: TestGoldengateConnectionAssignmentRequestTypeEnum | (string & {}) | undefined;
 }
-export interface TestProjectsLocationsGoldengateConnectionAssignmentsRequest {
+export interface TestProjectsLocationsGoldengateConnectionAssignmentsRequest extends TestGoldengateConnectionAssignmentRequest {
   /** Required. Name of the connection assignment for which to test connection. projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
   name: string;
-  /** Request body */
-  body?: TestGoldengateConnectionAssignmentRequest | undefined;
 }
 export type TestGoldengateConnectionAssignmentResponseResultTypeEnum =
   | "RESULT_TYPE_UNSPECIFIED"
@@ -7641,12 +7597,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          databaseConnectionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            databaseConnectionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/databaseConnections",
@@ -7681,12 +7639,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(835, __c26, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(835, __c26, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7700,12 +7660,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(898, __c28, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(898, __c28, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7719,12 +7681,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7738,12 +7702,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1066, __c33, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1066, __c33, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7757,12 +7723,14 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1133, __c35, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1133, __c35, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7776,12 +7744,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7795,12 +7765,14 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7820,10 +7792,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RefreshAutonomousDatabaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:refresh",
@@ -7844,10 +7818,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "RemoveVirtualMachineExadbVmClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:removeVirtualMachine",
@@ -7878,12 +7854,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          dbSystemId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(516, __c16, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(516, __c16, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            dbSystemId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dbSystems",
@@ -8041,10 +8019,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RestoreAutonomousDatabaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restore",
@@ -8126,10 +8106,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:switchover",
@@ -8167,10 +8149,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:test",
@@ -8203,12 +8187,14 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          exadbVmClusterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(835, __c26, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(835, __c26, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            exadbVmClusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/exadbVmClusters",
@@ -8281,12 +8267,14 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          exascaleDbStorageVaultId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(898, __c28, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(898, __c28, 2),
+          S.Struct({
+            exascaleDbStorageVaultId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/exascaleDbStorageVaults",
@@ -8340,12 +8328,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          goldengateConnectionAssignmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            goldengateConnectionAssignmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/goldengateConnectionAssignments",
@@ -8384,12 +8374,14 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          goldengateConnectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1066, __c33, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1066, __c33, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            goldengateConnectionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/goldengateConnections",
@@ -8948,12 +8940,14 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          goldengateDeploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1133, __c35, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1133, __c35, 13),
+          S.Struct({
+            goldengateDeploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/goldengateDeployments",
@@ -9125,12 +9119,14 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          odbNetworkId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1186, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            odbNetworkId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/odbNetworks",
@@ -9174,12 +9170,14 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          odbDnsZoneId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            odbDnsZoneId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/odbDnsZones",
@@ -9207,12 +9205,14 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          odbSubnetId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            odbSubnetId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/odbSubnets",
@@ -9565,10 +9565,12 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ExecuteSqlRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1922, __c60, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1922, __c60, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeSql",
@@ -9633,10 +9635,12 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:failover",
@@ -9668,10 +9672,12 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GenerateAutonomousDatabaseWalletRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateWallet",
@@ -10125,10 +10131,12 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ConfigureExascaleCloudExadataInfrastructureRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:configureExascale",
@@ -10568,12 +10576,14 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          autonomousDatabaseId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3279, __c102, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3279, __c102, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            autonomousDatabaseId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/autonomousDatabases",
@@ -11197,12 +11207,14 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          cloudExadataInfrastructureId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3780, __c118, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3780, __c118, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            cloudExadataInfrastructureId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cloudExadataInfrastructures",
@@ -11687,12 +11699,14 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          cloudVmClusterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4226, __c132, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            cloudVmClusterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cloudVmClusters",
@@ -11954,12 +11968,14 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3279, __c102, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3279, __c102, 15),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11973,12 +11989,14 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3780, __c118, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3780, __c118, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -11992,12 +12010,14 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4226, __c132, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -12011,12 +12031,14 @@ function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -12030,12 +12052,14 @@ function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(516, __c16, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(516, __c16, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

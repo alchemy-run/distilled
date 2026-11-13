@@ -243,17 +243,19 @@ export interface ListProjectsLocationsNotificationsRequest {
   /** A page token returned from a previous request. When paginating, all other parameters provided in the request must match the call that returned the page token. */
   pageToken?: string | undefined;
 }
-export interface UpdateSettingsOrganizationsLocationsRequest {
+export interface UpdateSettingsOrganizationsLocationsRequest extends Omit<
+  GoogleCloudAdvisorynotificationsV1Settings,
+  "name"
+> {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAdvisorynotificationsV1Settings | undefined;
 }
-export interface UpdateSettingsProjectsLocationsRequest {
+export interface UpdateSettingsProjectsLocationsRequest extends Omit<
+  GoogleCloudAdvisorynotificationsV1Settings,
+  "name"
+> {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAdvisorynotificationsV1Settings | undefined;
 }
 export type GetOrganizationsLocationsNotificationsError = NotFound | Forbidden | GcpOpError;
 /** Gets a notification. */
@@ -418,10 +420,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c6, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c6, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -435,10 +439,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c6, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(98, __c6, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

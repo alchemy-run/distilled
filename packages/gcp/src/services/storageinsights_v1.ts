@@ -207,15 +207,13 @@ export interface DatasetConfig {
   /** Defines the options for providing source projects for the dataset. */
   sourceProjects?: SourceProjects | undefined;
 }
-export interface CreateProjectsLocationsDatasetConfigsRequest {
+export interface CreateProjectsLocationsDatasetConfigsRequest extends DatasetConfig {
   /** Required. Value for parent. */
   parent: string;
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. ID of the requesting object. If auto-generating ID is enabled on the server-side, remove this field and `dataset_config_id` from the method_signature of Create RPC Note: The value should not contain any hyphens. */
   datasetConfigId?: string | undefined;
-  /** Request body */
-  body?: DatasetConfig | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -302,13 +300,11 @@ export interface ReportConfig {
   /** Output only. The UTC time at which the inventory report configuration was created. This is auto-populated. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsReportConfigsRequest {
+export interface CreateProjectsLocationsReportConfigsRequest extends ReportConfig {
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: ReportConfig | undefined;
 }
 export interface DeleteProjectsLocationsDatasetConfigsRequest {
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
@@ -529,25 +525,21 @@ export interface ListReportDetailsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsDatasetConfigsRequest {
+export interface PatchProjectsLocationsDatasetConfigsRequest extends Omit<DatasetConfig, "name"> {
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `DatasetConfig` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask then it returns an "Invalid Argument" error. */
   updateMask?: string | undefined;
   /** Identifier. name of resource */
   name: string;
-  /** Request body */
-  body?: DatasetConfig | undefined;
 }
-export interface PatchProjectsLocationsReportConfigsRequest {
+export interface PatchProjectsLocationsReportConfigsRequest extends Omit<ReportConfig, "name"> {
   /** Required. A mask specifying a list of fields to be updated in the `ReportConfig` resource. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. The `update_mask` is required. */
   updateMask?: string | undefined;
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
   name: string;
-  /** Request body */
-  body?: ReportConfig | undefined;
 }
 /** Request message for `UnlinkDataset` */
 export type UnlinkDatasetRequest = CancelOperationRequest;
@@ -1273,12 +1265,14 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(312, __c19, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(312, __c19, 8),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1292,12 +1286,14 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(422, __c26, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(422, __c26, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1351,12 +1347,14 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          datasetConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(312, __c19, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(312, __c19, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            datasetConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/datasetConfigs",
@@ -1495,11 +1493,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(422, __c26, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(422, __c26, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reportConfigs",

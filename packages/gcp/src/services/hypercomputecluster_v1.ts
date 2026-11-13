@@ -431,15 +431,13 @@ export interface Cluster {
   /** Optional. Orchestrator that is responsible for scheduling and running jobs on the cluster. */
   orchestrator?: Orchestrator | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
+export interface CreateProjectsLocationsClustersRequest extends Cluster {
   /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
   requestId?: string | undefined;
   /** Required. Parent location in which the cluster should be created, in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID of the cluster to create. The cluster ID must start with a lowercase letter (`a`-`z`), use only lowercase letters or numbers, and contain up to 10 characters. For example, specify `cluster001`. */
   clusterId?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -564,15 +562,13 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsClustersRequest {
+export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
   /** Optional. Mask specifying which fields in the cluster to update. All paths must be specified explicitly - wildcards are not supported. At least one path must be provided. */
   updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
   requestId?: string | undefined;
   /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
   name: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -902,12 +898,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(423, __c13, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(423, __c13, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -944,12 +942,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(423, __c13, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(423, __c13, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters",

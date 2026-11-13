@@ -99,11 +99,9 @@ export interface CheckAuthorizationRequest {
   /** Optional. The details of the OAuth authorization response. This may include additional params such as dry_run, version_info, origin, propagate, etc. */
   authorizationDetails?: StringMap | undefined;
 }
-export interface CheckAuthorizationProjectsLocationsInstancesRequest {
+export interface CheckAuthorizationProjectsLocationsInstancesRequest extends CheckAuthorizationRequest {
   /** Required. The name of the Notebook Instance resource. Format: `projects/{project}/locations/{location}/instances/{instance}` */
   name: string;
-  /** Request body */
-  body?: CheckAuthorizationRequest | undefined;
 }
 /** Response message for checking authorization for the instance owner. */
 export interface CheckAuthorizationResponse {
@@ -424,15 +422,13 @@ export interface Instance {
   /** Output only. Identifier. The name of this notebook instance. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. User-defined unique ID of this instance. */
   instanceId?: string | undefined;
   /** Required. Format: `parent=projects/{project_id}/locations/{location}` */
   parent: string;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -488,22 +484,18 @@ export interface DiagnoseInstanceRequest {
   /** Optional. Maximum amount of time in minutes before the operation times out. */
   timeoutMinutes?: number | undefined;
 }
-export interface DiagnoseProjectsLocationsInstancesRequest {
+export interface DiagnoseProjectsLocationsInstancesRequest extends DiagnoseInstanceRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Request body */
-  body?: DiagnoseInstanceRequest | undefined;
 }
 /** Request message for generating an EUC for the instance owner. */
 export interface GenerateAccessTokenRequest {
   /** Required. The VM identity token (a JWT) for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmToken?: string | undefined;
 }
-export interface GenerateAccessTokenProjectsLocationsInstancesRequest {
+export interface GenerateAccessTokenProjectsLocationsInstancesRequest extends GenerateAccessTokenRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Request body */
-  body?: GenerateAccessTokenRequest | undefined;
 }
 /** Response message for generating an EUC for the instance owner. */
 export interface GenerateAccessTokenResponse {
@@ -680,15 +672,13 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
   /** Output only. Identifier. The name of this notebook instance. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
   /** Required. Mask used to update an instance. Updatable fields: * `labels` * `gce_setup.min_cpu_platform` * `gce_setup.metadata` * `gce_setup.machine_type` * `gce_setup.accelerator_configs` * `gce_setup.accelerator_configs.type` * `gce_setup.accelerator_configs.core_count` * `gce_setup.gpu_driver_config` * `gce_setup.gpu_driver_config.enable_gpu_driver` * `gce_setup.gpu_driver_config.custom_gpu_driver_path` * `gce_setup.shielded_instance_config` * `gce_setup.shielded_instance_config.enable_secure_boot` * `gce_setup.shielded_instance_config.enable_vtpm` * `gce_setup.shielded_instance_config.enable_integrity_monitoring` * `gce_setup.reservation_affinity` * `gce_setup.reservation_affinity.consume_reservation_type` * `gce_setup.reservation_affinity.key` * `gce_setup.reservation_affinity.values` * `gce_setup.tags` * `gce_setup.container_image` * `gce_setup.container_image.repository` * `gce_setup.container_image.tag` * `gce_setup.disable_public_ip` * `disable_proxy_access` Note: `gce_setup.disable_public_ip` and `disable_proxy_access` are one-way on update -- they can only be used to *disable* the feature (set the field to `true`). Requests that set either field back to `false` (re-enabling the external IP or proxy access) are rejected with `INVALID_ARGUMENT`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type EventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -713,11 +703,9 @@ export interface ReportInstanceInfoSystemRequest {
   /** Required. The VM hardware token for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmId?: string | undefined;
 }
-export interface ReportInfoSystemProjectsLocationsInstancesRequest {
+export interface ReportInfoSystemProjectsLocationsInstancesRequest extends ReportInstanceInfoSystemRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Request body */
-  body?: ReportInstanceInfoSystemRequest | undefined;
 }
 /** Request for resetting a notebook instance */
 export type ResetInstanceRequest = CancelOperationRequest;
@@ -734,11 +722,9 @@ export interface ResizeDiskRequest {
   /** Required. The data disk to be resized. Only disk_size_gb will be used. */
   dataDisk?: DataDisk | undefined;
 }
-export interface ResizeDiskProjectsLocationsInstancesRequest {
+export interface ResizeDiskProjectsLocationsInstancesRequest extends ResizeDiskRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   notebookInstance: string;
-  /** Request body */
-  body?: ResizeDiskRequest | undefined;
 }
 /** Snapshot represents the snapshot of the data disk used to restore the Workbench Instance from. Refers to: compute/v1/projects/{project_id}/global/snapshots/{snapshot_id} */
 export interface Snapshot {
@@ -752,11 +738,9 @@ export interface RestoreInstanceRequest {
   /** Snapshot to be used for restore. */
   snapshot?: Snapshot | undefined;
 }
-export interface RestoreProjectsLocationsInstancesRequest {
+export interface RestoreProjectsLocationsInstancesRequest extends RestoreInstanceRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Request body */
-  body?: RestoreInstanceRequest | undefined;
 }
 /** Request for rollbacking a notebook instance */
 export interface RollbackInstanceRequest {
@@ -765,22 +749,18 @@ export interface RollbackInstanceRequest {
   /** Required. The snapshot for rollback. Example: "projects/test-project/global/snapshots/krwlzipynril". */
   targetSnapshot?: string | undefined;
 }
-export interface RollbackProjectsLocationsInstancesRequest {
+export interface RollbackProjectsLocationsInstancesRequest extends RollbackInstanceRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Request body */
-  body?: RollbackInstanceRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request for starting a notebook instance */
 export type StartInstanceRequest = CancelOperationRequest;
@@ -803,11 +783,9 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -819,22 +797,18 @@ export interface UpgradeInstanceRequest {
   /** Optional. The Compute Engine image family resource name to upgrade to. Format: `projects/{project_id}/global/images/family/{image_family}` If specified, the instance will be upgraded to the latest image in the specified image family, allowing upgrades across image families. If not specified, the instance will be upgraded to the latest image in its current image family. */
   imageFamily?: string | undefined;
 }
-export interface UpgradeProjectsLocationsInstancesRequest {
+export interface UpgradeProjectsLocationsInstancesRequest extends UpgradeInstanceRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Request body */
-  body?: UpgradeInstanceRequest | undefined;
 }
 /** Request for upgrading a notebook instance from within the VM */
 export interface UpgradeInstanceSystemRequest {
   /** Required. The VM hardware token for authenticating the VM. https://cloud.google.com/compute/docs/instances/verifying-instance-identity */
   vmId?: string | undefined;
 }
-export interface UpgradeSystemProjectsLocationsInstancesRequest {
+export interface UpgradeSystemProjectsLocationsInstancesRequest extends UpgradeInstanceSystemRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Request body */
-  body?: UpgradeInstanceSystemRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1435,10 +1409,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DiagnoseInstanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:diagnose",
@@ -1458,10 +1434,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GenerateAccessTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:generateAccessToken",
@@ -1732,12 +1710,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1010, __c31, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1010, __c31, 18),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1766,10 +1746,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ReportInstanceInfoSystemRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(417, __c13, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(417, __c13, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:reportInfoSystem",
@@ -1807,10 +1789,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ResizeDiskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          notebookInstance: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            notebookInstance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+notebookInstance}:resizeDisk",
@@ -1837,10 +1821,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RestoreInstanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(513, __c16, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:restore",
@@ -1861,10 +1847,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RollbackInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:rollback",
@@ -1884,10 +1872,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -1941,10 +1931,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -1964,10 +1956,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpgradeInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:upgrade",
@@ -1987,10 +1981,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpgradeInstanceSystemRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(736, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c23, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:upgradeSystem",
@@ -2033,10 +2029,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CheckAuthorizationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:checkAuthorization",
@@ -2089,12 +2087,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1010, __c31, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1010, __c31, 18),
+          S.Struct({
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/instances",

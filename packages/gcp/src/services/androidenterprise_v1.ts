@@ -119,13 +119,11 @@ export interface ProductsApproveRequest {
   /** The approval URL that was shown to the user. Only the permissions shown to the user with that URL will be accepted, which may not be the product's entire set of permissions. For example, the URL may only display new permissions from an update after the product was approved, or not include new permissions if the product was updated since the URL was generated. */
   approvalUrlInfo?: ApprovalUrlInfo | undefined;
 }
-export interface ApproveProductsRequest {
+export interface ApproveProductsRequest extends ProductsApproveRequest {
   /** The ID of the product. */
   productId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ProductsApproveRequest | undefined;
 }
 export interface ApproveProductsResponse {}
 export interface CompleteSignupEnterprisesRequest {
@@ -206,11 +204,9 @@ export interface EnrollmentToken {
   /** [Required] The type of the enrollment token. */
   enrollmentTokenType?: EnrollmentTokenEnrollmentTokenTypeEnum | (string & {}) | undefined;
 }
-export interface CreateEnrollmentTokensRequest {
+export interface CreateEnrollmentTokensRequest extends EnrollmentToken {
   /** Required. The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: EnrollmentToken | undefined;
 }
 export interface AdministratorWebTokenSpecPrivateApps {
   /** Whether the Private Apps page is displayed. Default is true. */
@@ -261,11 +257,9 @@ export interface AdministratorWebTokenSpec {
   /** Options for displaying the Managed Configuration page. */
   managedConfigurations?: AdministratorWebTokenSpecManagedConfigurations | undefined;
 }
-export interface CreateWebTokenEnterprisesRequest {
+export interface CreateWebTokenEnterprisesRequest extends AdministratorWebTokenSpec {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: AdministratorWebTokenSpec | undefined;
 }
 /** A token authorizing an admin to access an iframe. */
 export interface AdministratorWebToken {
@@ -349,11 +343,9 @@ export interface DeleteWebappsRequest {
   enterpriseId: string;
 }
 export interface DeleteWebappsResponse {}
-export interface EnrollEnterprisesRequest {
+export interface EnrollEnterprisesRequest extends Enterprise {
   /** Required. The token provided by the enterprise to register the EMM. */
   token: string;
-  /** Request body */
-  body?: Enterprise | undefined;
 }
 export interface ForceReportUploadDevicesRequest {
   /** The ID of the user. */
@@ -1135,37 +1127,27 @@ export interface WebApp {
   /** The ID of the application. A string of the form "app:<package name>" where the package name always starts with the prefix "com.google.enterprise.webapp." followed by a random id. */
   webAppId?: string | undefined;
 }
-export interface InsertServiceaccountkeysRequest {
+export interface InsertServiceaccountkeysRequest extends ServiceAccountKey {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ServiceAccountKey | undefined;
 }
-export interface InsertStorelayoutclustersRequest {
+export interface InsertStorelayoutclustersRequest extends StoreCluster {
   /** The ID of the page. */
   pageId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StoreCluster | undefined;
 }
-export interface InsertStorelayoutpagesRequest {
+export interface InsertStorelayoutpagesRequest extends StorePage {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StorePage | undefined;
 }
-export interface InsertUsersRequest {
+export interface InsertUsersRequest extends User {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: User | undefined;
 }
-export interface InsertWebappsRequest {
+export interface InsertWebappsRequest extends WebApp {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: WebApp | undefined;
 }
 export interface ListDevicesRequest {
   /** The ID of the user. */
@@ -1518,35 +1500,27 @@ export interface EnterpriseAccount {
   /** The email address of the service account. */
   accountEmail?: string | undefined;
 }
-export interface SetAccountEnterprisesRequest {
+export interface SetAccountEnterprisesRequest extends EnterpriseAccount {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: EnterpriseAccount | undefined;
 }
-export interface SetAvailableProductSetUsersRequest {
+export interface SetAvailableProductSetUsersRequest extends ProductSet {
   /** The ID of the user. */
   userId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ProductSet | undefined;
 }
-export interface SetStateDevicesRequest {
+export interface SetStateDevicesRequest extends DeviceState {
   /** The ID of the user. */
   userId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
   /** The ID of the device. */
   deviceId: string;
-  /** Request body */
-  body?: DeviceState | undefined;
 }
-export interface SetStoreLayoutEnterprisesRequest {
+export interface SetStoreLayoutEnterprisesRequest extends StoreLayout {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StoreLayout | undefined;
 }
 export interface UnapproveProductsRequest {
   /** The ID of the enterprise. */
@@ -1560,7 +1534,7 @@ export interface UnenrollEnterprisesRequest {
   enterpriseId: string;
 }
 export interface UnenrollEnterprisesResponse {}
-export interface UpdateDevicesRequest {
+export interface UpdateDevicesRequest extends Device {
   /** The ID of the enterprise. */
   enterpriseId: string;
   /** The ID of the device. */
@@ -1569,10 +1543,8 @@ export interface UpdateDevicesRequest {
   userId: string;
   /** Mask that identifies which fields to update. If not set, all modifiable fields will be modified. When set in a query parameter, this field should be specified as updateMask=<field1>,<field2>,... */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Device | undefined;
 }
-export interface UpdateEntitlementsRequest {
+export interface UpdateEntitlementsRequest extends Entitlement {
   /** Set to true to also install the product on all the user's devices where possible. Failure to install on one or more devices will not prevent this operation from returning successfully, as long as the entitlement was successfully assigned to the user. */
   install?: boolean | undefined;
   /** The ID of the entitlement (a product ID), e.g. "app:com.google.android.gm". */
@@ -1581,10 +1553,8 @@ export interface UpdateEntitlementsRequest {
   enterpriseId: string;
   /** The ID of the user. */
   userId: string;
-  /** Request body */
-  body?: Entitlement | undefined;
 }
-export interface UpdateInstallsRequest {
+export interface UpdateInstallsRequest extends Install {
   /** The ID of the user. */
   userId: string;
   /** The ID of the product represented by the install, e.g. "app:com.google.android.gm". */
@@ -1593,10 +1563,8 @@ export interface UpdateInstallsRequest {
   deviceId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: Install | undefined;
 }
-export interface UpdateManagedconfigurationsfordeviceRequest {
+export interface UpdateManagedconfigurationsfordeviceRequest extends ManagedConfiguration {
   /** The ID of the managed configuration (a product ID), e.g. "app:com.google.android.gm". */
   managedConfigurationForDeviceId: string;
   /** The Android ID of the device. */
@@ -1605,52 +1573,40 @@ export interface UpdateManagedconfigurationsfordeviceRequest {
   userId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ManagedConfiguration | undefined;
 }
-export interface UpdateManagedconfigurationsforuserRequest {
+export interface UpdateManagedconfigurationsforuserRequest extends ManagedConfiguration {
   /** The ID of the user. */
   userId: string;
   /** The ID of the managed configuration (a product ID), e.g. "app:com.google.android.gm". */
   managedConfigurationForUserId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ManagedConfiguration | undefined;
 }
-export interface UpdateStorelayoutclustersRequest {
+export interface UpdateStorelayoutclustersRequest extends StoreCluster {
   /** The ID of the page. */
   pageId: string;
   /** The ID of the cluster. */
   clusterId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StoreCluster | undefined;
 }
-export interface UpdateStorelayoutpagesRequest {
+export interface UpdateStorelayoutpagesRequest extends StorePage {
   /** The ID of the enterprise. */
   enterpriseId: string;
   /** The ID of the page. */
   pageId: string;
-  /** Request body */
-  body?: StorePage | undefined;
 }
-export interface UpdateUsersRequest {
+export interface UpdateUsersRequest extends User {
   /** The ID of the user. */
   userId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: User | undefined;
 }
-export interface UpdateWebappsRequest {
+export interface UpdateWebappsRequest extends Omit<WebApp, "webAppId"> {
   /** The ID of the web app. */
   webAppId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: WebApp | undefined;
 }
 export type AcknowledgeNotificationSetEnterprisesError =
   | NotFound
@@ -3358,10 +3314,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.Query()),
-          body: S.optional(__S(1379, __c86, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1379, __c86, 3),
+          S.Struct({
+            token: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/enroll",
@@ -4288,10 +4246,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/serviceAccountKeys",
@@ -4305,11 +4265,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pageId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            pageId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/storeLayout/pages/{pageId}/clusters",
@@ -4323,10 +4285,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/storeLayout/pages",
@@ -4340,10 +4304,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users",
@@ -4357,10 +4323,12 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c53, 2),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/webApps",
@@ -4720,11 +4688,13 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ProductsApproveRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1185, __c74, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1185, __c74, 1),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/products/{productId}/approve",
@@ -4977,10 +4947,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "EnterpriseAccount" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c82, 0),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/account",
@@ -4994,11 +4966,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c20, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c20, 2),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}/availableProductSet",
@@ -5012,12 +4986,14 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          deviceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c42, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+            deviceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}/devices/{deviceId}/state",
@@ -5078,10 +5054,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(752, __c47, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(752, __c47, 0),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/storeLayout",
@@ -5128,13 +5106,15 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          deviceId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(393, __c24, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(393, __c24, 9),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+            deviceId: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}/devices/{deviceId}",
@@ -5148,13 +5128,15 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          install: S.optional(S.Boolean.pipe(T.Query())),
-          entitlementId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            install: S.optional(S.Boolean.pipe(T.Query())),
+            entitlementId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}/entitlements/{entitlementId}",
@@ -5168,13 +5150,15 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          installId: S.String.pipe(T.Label()),
-          deviceId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(496, __c31, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            installId: S.String.pipe(T.Label()),
+            deviceId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}/devices/{deviceId}/installs/{installId}",
@@ -5188,13 +5172,15 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          managedConfigurationForDeviceId: S.String.pipe(T.Label()),
-          deviceId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(359, __c22, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(359, __c22, 7),
+          S.Struct({
+            managedConfigurationForDeviceId: S.String.pipe(T.Label()),
+            deviceId: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}/devices/{deviceId}/managedConfigurationsForDevice/{managedConfigurationForDeviceId}",
@@ -5208,12 +5194,14 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          managedConfigurationForUserId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(359, __c22, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(359, __c22, 7),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            managedConfigurationForUserId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}/managedConfigurationsForUser/{managedConfigurationForUserId}",
@@ -5227,12 +5215,14 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pageId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(720, __c45, 0),
+          S.Struct({
+            pageId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/storeLayout/pages/{pageId}/clusters/{clusterId}",
@@ -5246,11 +5236,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          pageId: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(784, __c49, 0),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+            pageId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/storeLayout/pages/{pageId}",
@@ -5280,10 +5272,12 @@ function __c97(j: number): any {
       ).annotate({ identifier: "EnrollmentToken" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1553, __c97, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/enrollmentTokens",
@@ -5297,11 +5291,13 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/users/{userId}",
@@ -5315,11 +5311,13 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          webAppId: S.String.pipe(T.Label()),
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(850, __c53, 2),
+          S.Struct({
+            webAppId: S.String.pipe(T.Label()),
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/webApps/{webAppId}",
@@ -5359,10 +5357,12 @@ function __c100(j: number): any {
       ).annotate({ identifier: "AdministratorWebTokenSpec" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1602, __c100, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1602, __c100, 2),
+          S.Struct({
+            enterpriseId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "androidenterprise/v1/enterprises/{enterpriseId}/createWebToken",

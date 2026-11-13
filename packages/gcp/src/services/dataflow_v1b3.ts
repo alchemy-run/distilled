@@ -809,28 +809,27 @@ export interface ConfigStoreSetting {
   /** Identifier. The resource name of the setting. */
   name?: string | undefined;
 }
-export interface CreateFoldersLocationsConfigStoreSettingsRequest {
+export interface CreateFoldersLocationsConfigStoreSettingsRequest extends ConfigStoreSetting {
   /** Required. The parent resource where this setting will be created. */
   parent: string;
   /** Required. The ID to use for the setting. */
   configStoreSettingId?: string | undefined;
-  /** Request body */
-  body?: ConfigStoreSetting | undefined;
 }
-export interface CreateOrganizationsLocationsConfigStoreSettingsRequest {
+export interface CreateOrganizationsLocationsConfigStoreSettingsRequest extends ConfigStoreSetting {
   /** Required. The ID to use for the setting. */
   configStoreSettingId?: string | undefined;
   /** Required. The parent resource where this setting will be created. */
   parent: string;
-  /** Request body */
-  body?: ConfigStoreSetting | undefined;
 }
 export type CreateProjectsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
   | "JOB_VIEW_SUMMARY"
   | "JOB_VIEW_ALL"
   | "JOB_VIEW_DESCRIPTION";
-export interface CreateProjectsJobsRequest {
+export interface CreateProjectsJobsRequest extends Omit<
+  Job,
+  "location" | "projectId" | "replaceJobId"
+> {
   /** The level of information requested in response. */
   view?: CreateProjectsJobsViewEnum | (string & {}) | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
@@ -839,23 +838,22 @@ export interface CreateProjectsJobsRequest {
   replaceJobId?: string | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** Request body */
-  body?: Job | undefined;
 }
-export interface CreateProjectsLocationsConfigStoreSettingsRequest {
+export interface CreateProjectsLocationsConfigStoreSettingsRequest extends ConfigStoreSetting {
   /** Required. The ID to use for the setting. */
   configStoreSettingId?: string | undefined;
   /** Required. The parent resource where this setting will be created. */
   parent: string;
-  /** Request body */
-  body?: ConfigStoreSetting | undefined;
 }
 export type CreateProjectsLocationsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
   | "JOB_VIEW_SUMMARY"
   | "JOB_VIEW_ALL"
   | "JOB_VIEW_DESCRIPTION";
-export interface CreateProjectsLocationsJobsRequest {
+export interface CreateProjectsLocationsJobsRequest extends Omit<
+  Job,
+  "location" | "projectId" | "replaceJobId"
+> {
   /** Deprecated. This field is now in the Job message. */
   replaceJobId?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
@@ -864,8 +862,6 @@ export interface CreateProjectsLocationsJobsRequest {
   view?: CreateProjectsLocationsJobsViewEnum | (string & {}) | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 export type RuntimeEnvironmentIpConfigurationEnum =
   | "WORKER_IP_UNSPECIFIED"
@@ -929,19 +925,18 @@ export interface CreateJobFromTemplateRequest {
   /** The runtime parameters to pass to the job. */
   parameters?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsTemplatesRequest {
+export interface CreateProjectsLocationsTemplatesRequest extends Omit<
+  CreateJobFromTemplateRequest,
+  "location"
+> {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
   location: string;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** Request body */
-  body?: CreateJobFromTemplateRequest | undefined;
 }
-export interface CreateProjectsTemplatesRequest {
+export interface CreateProjectsTemplatesRequest extends CreateJobFromTemplateRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** Request body */
-  body?: CreateJobFromTemplateRequest | undefined;
 }
 export interface DeleteFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The name of the ConfigStoreSetting to delete. */
@@ -984,28 +979,27 @@ export interface GetDebugConfigRequest {
   /** The internal component id for which debug configuration is requested. */
   componentId?: string | undefined;
 }
-export interface GetConfigProjectsJobsDebugRequest {
+export interface GetConfigProjectsJobsDebugRequest extends GetDebugConfigRequest {
   /** The job id. */
   jobId: string;
   /** The project id. */
   projectId: string;
-  /** Request body */
-  body?: GetDebugConfigRequest | undefined;
 }
 /** Response to a get debug configuration request. */
 export interface GetDebugConfigResponse {
   /** The encoded debug configuration for the requested component. */
   config?: string | undefined;
 }
-export interface GetConfigProjectsLocationsJobsDebugRequest {
+export interface GetConfigProjectsLocationsJobsDebugRequest extends Omit<
+  GetDebugConfigRequest,
+  "location"
+> {
   /** The project id. */
   projectId: string;
   /** The job id. */
   jobId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
-  /** Request body */
-  body?: GetDebugConfigRequest | undefined;
 }
 export interface GetExecutionDetailsProjectsLocationsJobsRequest {
   /** The job to get execution details for. */
@@ -1497,15 +1491,13 @@ export interface GetWorkerStacktracesRequest {
   /** The worker for which to get stacktraces. The returned stacktraces will be for the SDK harness running on this worker. */
   workerId?: string | undefined;
 }
-export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest {
+export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest extends GetWorkerStacktracesRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
   /** The job for which to get stacktraces. */
   jobId: string;
   /** The project id. */
   projectId: string;
-  /** Request body */
-  body?: GetWorkerStacktracesRequest | undefined;
 }
 /** A structuredstacktrace for a process running on the worker. */
 export interface Stack {
@@ -1651,13 +1643,11 @@ export interface LaunchFlexTemplateRequest {
   /** If true, the request is validated but not actually executed. Defaults to false. */
   validateOnly?: boolean | undefined;
 }
-export interface LaunchProjectsLocationsFlexTemplatesRequest {
+export interface LaunchProjectsLocationsFlexTemplatesRequest extends LaunchFlexTemplateRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Required. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. E.g., us-central1, us-west1. */
   location: string;
-  /** Request body */
-  body?: LaunchFlexTemplateRequest | undefined;
 }
 /** Response to the request to launch a job from Flex Template. */
 export interface LaunchFlexTemplateResponse {
@@ -1677,7 +1667,7 @@ export interface LaunchTemplateParameters {
   /** Required. The job name to use for the created job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
   jobName?: string | undefined;
 }
-export interface LaunchProjectsLocationsTemplatesRequest {
+export interface LaunchProjectsLocationsTemplatesRequest extends LaunchTemplateParameters {
   /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
   "dynamicTemplate.gcsPath"?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
@@ -1690,15 +1680,13 @@ export interface LaunchProjectsLocationsTemplatesRequest {
   projectId: string;
   /** A Cloud Storage path to the template to use to create the job. Must be valid Cloud Storage URL, beginning with `gs://`. */
   gcsPath?: string | undefined;
-  /** Request body */
-  body?: LaunchTemplateParameters | undefined;
 }
 /** Response to the request to launch a template. */
 export interface LaunchTemplateResponse {
   /** The job that was launched, if the request was not a dry run and the job was successfully launched. */
   job?: Job | undefined;
 }
-export interface LaunchProjectsTemplatesRequest {
+export interface LaunchProjectsTemplatesRequest extends LaunchTemplateParameters {
   /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
   "dynamicTemplate.gcsPath"?: string | undefined;
   /** A Cloud Storage path to the template to use to create the job. Must be valid Cloud Storage URL, beginning with `gs://`. */
@@ -1711,8 +1699,6 @@ export interface LaunchProjectsTemplatesRequest {
   location?: string | undefined;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** Request body */
-  body?: LaunchTemplateParameters | undefined;
 }
 /** Request to lease WorkItems. */
 export interface LeaseWorkItemRequest {
@@ -1733,13 +1719,11 @@ export interface LeaseWorkItemRequest {
   /** The current timestamp at the worker. */
   currentWorkerTime?: string | undefined;
 }
-export interface LeaseProjectsJobsWorkItemsRequest {
+export interface LeaseProjectsJobsWorkItemsRequest extends LeaseWorkItemRequest {
   /** Identifies the workflow job this worker belongs to. */
   jobId: string;
   /** Identifies the project this worker belongs to. */
   projectId: string;
-  /** Request body */
-  body?: LeaseWorkItemRequest | undefined;
 }
 /** Metadata about a Source useful for automatically optimizing and tuning the pipeline, etc. */
 export interface SourceMetadata {
@@ -2216,15 +2200,16 @@ export interface LeaseWorkItemResponse {
   /** Untranslated bag-of-bytes WorkResponse for UnifiedWorker. */
   unifiedWorkerResponse?: DocumentMap | undefined;
 }
-export interface LeaseProjectsLocationsJobsWorkItemsRequest {
+export interface LeaseProjectsLocationsJobsWorkItemsRequest extends Omit<
+  LeaseWorkItemRequest,
+  "location"
+> {
   /** Identifies the workflow job this worker belongs to. */
   jobId: string;
   /** Identifies the project this worker belongs to. */
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
   location: string;
-  /** Request body */
-  body?: LeaseWorkItemRequest | undefined;
 }
 export interface ListFoldersLocationsConfigStoreSettingsRequest {
   /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
@@ -2839,13 +2824,11 @@ export interface ReportWorkItemStatusRequest {
   /** Optional. The project number of the project which owns the WorkItem's job. */
   projectNumber?: string | undefined;
 }
-export interface ReportStatusProjectsJobsWorkItemsRequest {
+export interface ReportStatusProjectsJobsWorkItemsRequest extends ReportWorkItemStatusRequest {
   /** The job which the WorkItem is part of. */
   jobId: string;
   /** The project which owns the WorkItem's job. */
   projectId: string;
-  /** Request body */
-  body?: ReportWorkItemStatusRequest | undefined;
 }
 /** Proto describing a hot key detected on a given WorkItem. */
 export interface HotKeyDetection {
@@ -2904,15 +2887,16 @@ export interface ReportWorkItemStatusResponse {
   /** Untranslated bag-of-bytes WorkProgressUpdateResponse for UnifiedWorker. */
   unifiedWorkerResponse?: DocumentMap | undefined;
 }
-export interface ReportStatusProjectsLocationsJobsWorkItemsRequest {
+export interface ReportStatusProjectsLocationsJobsWorkItemsRequest extends Omit<
+  ReportWorkItemStatusRequest,
+  "location"
+> {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
   location: string;
   /** The project which owns the WorkItem's job. */
   projectId: string;
   /** The job which the WorkItem is part of. */
   jobId: string;
-  /** Request body */
-  body?: ReportWorkItemStatusRequest | undefined;
 }
 /** Request message for ResolveConfigStoreSetting. */
 export interface ResolveConfigStoreSettingRequest {}
@@ -2960,25 +2944,24 @@ export interface SendDebugCaptureRequest {
   /** Format for the data field above (id=5). */
   dataFormat?: SendDebugCaptureRequestDataFormatEnum | (string & {}) | undefined;
 }
-export interface SendCaptureProjectsJobsDebugRequest {
+export interface SendCaptureProjectsJobsDebugRequest extends SendDebugCaptureRequest {
   /** The project id. */
   projectId: string;
   /** The job id. */
   jobId: string;
-  /** Request body */
-  body?: SendDebugCaptureRequest | undefined;
 }
 /** Response to a send capture request. nothing */
 export interface SendDebugCaptureResponse {}
-export interface SendCaptureProjectsLocationsJobsDebugRequest {
+export interface SendCaptureProjectsLocationsJobsDebugRequest extends Omit<
+  SendDebugCaptureRequest,
+  "location"
+> {
   /** The job id. */
   jobId: string;
   /** The project id. */
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
-  /** Request body */
-  body?: SendDebugCaptureRequest | undefined;
 }
 /** Request to create a snapshot of a job. */
 export interface SnapshotJobRequest {
@@ -2991,25 +2974,21 @@ export interface SnapshotJobRequest {
   /** The location that contains this job. */
   location?: string | undefined;
 }
-export interface SnapshotProjectsJobsRequest {
+export interface SnapshotProjectsJobsRequest extends SnapshotJobRequest {
   /** The job to be snapshotted. */
   jobId: string;
   /** The project which owns the job to be snapshotted. */
   projectId: string;
-  /** Request body */
-  body?: SnapshotJobRequest | undefined;
 }
-export interface SnapshotProjectsLocationsJobsRequest {
+export interface SnapshotProjectsLocationsJobsRequest extends Omit<SnapshotJobRequest, "location"> {
   /** The job to be snapshotted. */
   jobId: string;
   /** The location that contains this job. */
   location: string;
   /** The project which owns the job to be snapshotted. */
   projectId: string;
-  /** Request body */
-  body?: SnapshotJobRequest | undefined;
 }
-export interface UpdateProjectsJobsRequest {
+export interface UpdateProjectsJobsRequest extends Omit<Job, "location" | "projectId"> {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** The job ID. */
@@ -3018,10 +2997,8 @@ export interface UpdateProjectsJobsRequest {
   updateMask?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
 }
-export interface UpdateProjectsLocationsJobsRequest {
+export interface UpdateProjectsLocationsJobsRequest extends Omit<Job, "location" | "projectId"> {
   /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
   updateMask?: string | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
@@ -3030,8 +3007,6 @@ export interface UpdateProjectsLocationsJobsRequest {
   location: string;
   /** The job ID. */
   jobId: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 /** WorkerHealthReport contains information about the health of a worker. The VM should be identified by the labels attached to the WorkerMessage that this health ping belongs to. */
 export interface WorkerHealthReport {
@@ -3283,11 +3258,9 @@ export interface SendWorkerMessagesRequest {
   /** The WorkerMessages to send. */
   workerMessages?: WorkerMessageList | undefined;
 }
-export interface WorkerMessagesProjectsRequest {
+export interface WorkerMessagesProjectsRequest extends SendWorkerMessagesRequest {
   /** The project to send the WorkerMessages to. */
   projectId: string;
-  /** Request body */
-  body?: SendWorkerMessagesRequest | undefined;
 }
 /** WorkerHealthReportResponse contains information returned to the worker in response to a health ping. */
 export interface WorkerHealthReportResponse {
@@ -3327,13 +3300,14 @@ export interface SendWorkerMessagesResponse {
   /** The servers response to the worker messages. */
   workerMessageResponses?: WorkerMessageResponseList | undefined;
 }
-export interface WorkerMessagesProjectsLocationsRequest {
+export interface WorkerMessagesProjectsLocationsRequest extends Omit<
+  SendWorkerMessagesRequest,
+  "location"
+> {
   /** The project to send the WorkerMessages to. */
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
   location: string;
-  /** Request body */
-  body?: SendWorkerMessagesRequest | undefined;
 }
 export type AggregatedProjectsJobsError = NotFound | Forbidden | GcpOpError;
 /** List the jobs of a project across all regions. **Note:** This method doesn't support filtering the list of jobs by name. # IAM Permissions Requires the `dataflow.jobs.list` permission on the project. */
@@ -4498,11 +4472,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/templates",
@@ -4558,10 +4534,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/templates",
@@ -4665,11 +4643,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/jobs/{jobId}/debug/getConfig",
@@ -4701,12 +4681,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs/{jobId}/debug/getConfig",
@@ -5262,12 +5244,14 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetWorkerStacktracesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs/{jobId}/debug/getWorkerStacktraces",
@@ -5371,11 +5355,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "LaunchFlexTemplateRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(1123, __c35, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1123, __c35, 3),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/flexTemplates:launch",
@@ -5399,15 +5385,17 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
-          location: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          "dynamicTemplate.stagingLocation": S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          gcsPath: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
+            location: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            "dynamicTemplate.stagingLocation": S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            gcsPath: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/templates:launch",
@@ -5435,15 +5423,17 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
-          gcsPath: S.optional(S.String.pipe(T.Query())),
-          "dynamicTemplate.stagingLocation": S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          location: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            "dynamicTemplate.gcsPath": S.optional(S.String.pipe(T.Query())),
+            gcsPath: S.optional(S.String.pipe(T.Query())),
+            "dynamicTemplate.stagingLocation": S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            location: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/templates:launch",
@@ -5457,11 +5447,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/jobs/{jobId}/workItems:lease",
@@ -5902,12 +5894,14 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs/{jobId}/workItems:lease",
@@ -6715,11 +6709,13 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2181, __c68, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2181, __c68, 5),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/jobs/{jobId}/workItems:reportStatus",
@@ -7070,12 +7066,14 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2181, __c68, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2181, __c68, 5),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs/{jobId}/workItems:reportStatus",
@@ -7089,11 +7087,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          configStoreSettingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2273, __c71, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2273, __c71, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            configStoreSettingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/{+parent}/configStoreSettings",
@@ -7187,11 +7187,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/jobs/{jobId}/debug/sendCapture",
@@ -7219,12 +7221,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs/{jobId}/debug/sendCapture",
@@ -7238,11 +7242,13 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/jobs/{jobId}:snapshot",
@@ -7269,12 +7275,14 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs/{jobId}:snapshot",
@@ -7288,13 +7296,15 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1782, __c55, 22),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            location: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1b3/projects/{projectId}/jobs/{jobId}",
@@ -7308,13 +7318,15 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1782, __c55, 22),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+            jobId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs/{jobId}",
@@ -7328,10 +7340,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2749, __c85, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2749, __c85, 29),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/WorkerMessages",
@@ -7605,11 +7619,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          configStoreSettingId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2273, __c71, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2273, __c71, 1),
+          S.Struct({
+            configStoreSettingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/{+parent}/configStoreSettings",
@@ -7623,11 +7639,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(2749, __c85, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2749, __c85, 29),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/WorkerMessages",
@@ -7641,13 +7659,15 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
-          location: S.optional(S.String.pipe(T.Query())),
-          replaceJobId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1782, __c55, 22),
+          S.Struct({
+            view: S.optional(S.String.pipe(T.Query())),
+            location: S.optional(S.String.pipe(T.Query())),
+            replaceJobId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/jobs",
@@ -7661,11 +7681,13 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          configStoreSettingId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2273, __c71, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2273, __c71, 1),
+          S.Struct({
+            configStoreSettingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/{+parent}/configStoreSettings",
@@ -7679,13 +7701,15 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          replaceJobId: S.optional(S.String.pipe(T.Query())),
-          location: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1782, __c55, 22),
+          S.Struct({
+            replaceJobId: S.optional(S.String.pipe(T.Query())),
+            location: S.String.pipe(T.Label()),
+            view: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1b3/projects/{projectId}/locations/{location}/jobs",

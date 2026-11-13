@@ -88,11 +88,9 @@ export interface AbandonBackupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest extends AbandonBackupRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
-  /** Request body */
-  body?: AbandonBackupRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -198,15 +196,13 @@ export interface AutoProtectionPolicy {
   /** Output only. Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsAutoProtectionPoliciesRequest {
+export interface CreateProjectsLocationsAutoProtectionPoliciesRequest extends AutoProtectionPolicy {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID to use for the policy. This will become the final component of the policy's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
   autoProtectionPolicyId?: string | undefined;
   /** Required. The parent resource where this policy will be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: AutoProtectionPolicy | undefined;
 }
 export type AutoProtectionPolicyBindingStateEnum =
   | "STATE_UNSPECIFIED"
@@ -241,15 +237,13 @@ export interface AutoProtectionPolicyBinding {
   /** Required. Immutable. Resource Id of target container on which policy will be applied. Format: projects/{project_id} */
   scope?: string | undefined;
 }
-export interface CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest {
+export interface CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest extends AutoProtectionPolicyBinding {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource where this binding will be created. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
   parent: string;
   /** Required. The ID to use for the binding. This will become the final component of the binding's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
   autoProtectionPolicyBindingId?: string | undefined;
-  /** Request body */
-  body?: AutoProtectionPolicyBinding | undefined;
 }
 /** Cloud SQL instance's BPA properties. */
 export interface CloudSqlInstanceBackupPlanAssociationProperties {
@@ -338,15 +332,13 @@ export interface BackupPlanAssociation {
   /** Output only. The config info related to backup rules. */
   rulesConfigInfo?: RuleConfigInfoList | undefined;
 }
-export interface CreateProjectsLocationsBackupPlanAssociationsRequest {
+export interface CreateProjectsLocationsBackupPlanAssociationsRequest extends BackupPlanAssociation {
   /** Required. The name of the backup plan association to create. The name must be unique for the specified project and location. */
   backupPlanAssociationId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The backup plan association project and location in the format `projects/{project_id}/locations/{location}`. In Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
-  /** Request body */
-  body?: BackupPlanAssociation | undefined;
 }
 /** Properties for a disk backup plan. */
 export interface DiskBackupPlanProperties {
@@ -505,15 +497,13 @@ export interface BackupPlan {
   /** Output only. When the `BackupPlan` was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBackupPlansRequest {
+export interface CreateProjectsLocationsBackupPlansRequest extends BackupPlan {
   /** Required. The `BackupPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Required. The name of the `BackupPlan` to create. The name must be unique for the specified project and location.The name must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, /a-z{,62}/. */
   backupPlanId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: BackupPlan | undefined;
 }
 export type BackupVaultBackupRetentionInheritanceEnum =
   | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
@@ -579,7 +569,7 @@ export interface BackupVault {
   /** Optional. Restricts access to certain sources and destinations for data being sent into, or restored from, the backup vault. Defaults to WITHIN_ORGANIZATION if not provided during creation. */
   accessRestriction?: BackupVaultAccessRestrictionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsBackupVaultsRequest {
+export interface CreateProjectsLocationsBackupVaultsRequest extends BackupVault {
   /** Required. ID of the requesting object If auto-generating ID server-side, remove this field and backup_vault_id from the method_signature of Create RPC */
   backupVaultId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -588,8 +578,6 @@ export interface CreateProjectsLocationsBackupVaultsRequest {
   parent: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: BackupVault | undefined;
 }
 export type ManagementServerTypeEnum = "INSTANCE_TYPE_UNSPECIFIED" | "BACKUP_RESTORE";
 /** ManagementURI depending on the Workforce Identity i.e. either 1p or 3p. */
@@ -666,15 +654,13 @@ export interface ManagementServer {
   /** Output only. Identifier. The resource name. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsManagementServersRequest {
+export interface CreateProjectsLocationsManagementServersRequest extends ManagementServer {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The name of the management server to create. The name must be unique for the specified project and location. */
   managementServerId?: string | undefined;
   /** Required. The management server project and location in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
-  /** Request body */
-  body?: ManagementServer | undefined;
 }
 export type ExecutionSummaryLastExecutionStateEnum =
   | "EXECUTION_STATE_UNSPECIFIED"
@@ -747,15 +733,13 @@ export interface RestoreTemplate {
   /** Required. Backup selection configuration. */
   backupSelectionConfig?: BackupSelectionConfig | undefined;
 }
-export interface CreateProjectsLocationsRestoreTemplatesRequest {
+export interface CreateProjectsLocationsRestoreTemplatesRequest extends RestoreTemplate {
   /** Required. The ID of the restore template to create. The ID must be unique for the specified project and location. */
   restoreTemplateId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The restore template project and location in the format 'projects/{project_id}/locations/{location}'. */
   parent: string;
-  /** Request body */
-  body?: RestoreTemplate | undefined;
 }
 /** Defines the specific cleanup action. */
 export interface RestoreVerificationCleanupRule {
@@ -795,15 +779,13 @@ export interface RestoreVerificationPlan {
   /** Optional. The cleanup rule to apply if the restore verification fails. */
   failureCleanupRule?: RestoreVerificationCleanupRule | undefined;
 }
-export interface CreateProjectsLocationsRestoreVerificationPlansRequest {
+export interface CreateProjectsLocationsRestoreVerificationPlansRequest extends RestoreVerificationPlan {
   /** Required. The `RestoreVerificationPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
   /** Required. The name of the `RestoreVerificationPlan` to create. The name must be unique for the specified project and location. The name must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, `^[a-z]([-a-z0-9]*[a-z0-9])?$`. */
   restoreVerificationPlanId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: RestoreVerificationPlan | undefined;
 }
 /** `TriggerSummary` contains the results of the most recent automated restore initiation and the next scheduled execution time. */
 export interface TriggerSummary {
@@ -845,15 +827,13 @@ export interface RestoreVerificationPlanAssociation {
   /** Output only. The time when the association was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsRestoreVerificationPlansAssociationsRequest {
+export interface CreateProjectsLocationsRestoreVerificationPlansAssociationsRequest extends RestoreVerificationPlanAssociation {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know that the server has already received the duplicate request and can avoid responding with an error. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource where this association will be created. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}` */
   parent: string;
   /** Required. The ID to use for the association, which will become the final component of the association's resource name. This value should be 1-63 characters, and valid characters are /[a-z0-9_-]/. */
   restoreVerificationPlanAssociationId?: string | undefined;
-  /** Request body */
-  body?: RestoreVerificationPlanAssociation | undefined;
 }
 export interface DeleteProjectsLocationsAutoProtectionPoliciesRequest {
   /** Required. The name of the policy to delete. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
@@ -940,11 +920,9 @@ export interface EndTrialRequest {
   /** Required. The reason for ending the trial. */
   endReason?: EndTrialRequestEndReasonEnum | (string & {}) | undefined;
 }
-export interface EndProjectsLocationsTrialRequest {
+export interface EndProjectsLocationsTrialRequest extends EndTrialRequest {
   /** Required. The parent resource where the trial has been created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: EndTrialRequest | undefined;
 }
 export type TrialStateEnum =
   | "STATE_UNSPECIFIED"
@@ -972,11 +950,9 @@ export interface FetchAccessTokenRequest {
   /** Required. The generation of the backup to update. */
   generationId?: number | undefined;
 }
-export interface FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest extends FetchAccessTokenRequest {
   /** Required. The resource name for the location for which static IPs should be returned. Must be in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources'. */
   name: string;
-  /** Request body */
-  body?: FetchAccessTokenRequest | undefined;
 }
 /** Response message for FetchAccessToken. */
 export interface FetchAccessTokenResponse {
@@ -1830,11 +1806,9 @@ export interface FinalizeBackupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest extends FinalizeBackupRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
-  /** Request body */
-  body?: FinalizeBackupRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsManagementServersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -2462,11 +2436,9 @@ export interface InitializeServiceRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface InitializeProjectsLocationsServiceConfigRequest {
+export interface InitializeProjectsLocationsServiceConfigRequest extends InitializeServiceRequest {
   /** Required. The resource name of the serviceConfig used to initialize the service. The location must be the location of the BackupVault. Format: `projects/{project_id}/locations/{location}/serviceConfig`. */
   name: string;
-  /** Request body */
-  body?: InitializeServiceRequest | undefined;
 }
 /** request message for InitiateBackup. */
 export interface InitiateBackupRequest {
@@ -2475,11 +2447,9 @@ export interface InitiateBackupRequest {
   /** Required. Resource ID of the Backup resource. */
   backupId?: string | undefined;
 }
-export interface InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest extends InitiateBackupRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
-  /** Request body */
-  body?: InitiateBackupRequest | undefined;
 }
 /** Response message for InitiateBackup. */
 export interface InitiateBackupResponse {
@@ -2497,11 +2467,9 @@ export interface InitiateDeleteAutoProtectionPolicyBindingRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindingsRequest {
+export interface InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindingsRequest extends InitiateDeleteAutoProtectionPolicyBindingRequest {
   /** Required. The name of the binding to delete. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding} */
   name: string;
-  /** Request body */
-  body?: InitiateDeleteAutoProtectionPolicyBindingRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -2945,48 +2913,46 @@ export interface FetchMsComplianceMetadataRequest {
   /** Required. The project id of the target project */
   projectId?: string | undefined;
 }
-export interface MsComplianceMetadataProjectsLocationsManagementServersRequest {
+export interface MsComplianceMetadataProjectsLocationsManagementServersRequest extends FetchMsComplianceMetadataRequest {
   /** Required. The project and location to be used to check CSS metadata for target project information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
-  /** Request body */
-  body?: FetchMsComplianceMetadataRequest | undefined;
 }
 /** Response message for GetMsComplianceMetadata */
 export interface FetchMsComplianceMetadataResponse {
   /** The ms compliance metadata of the target project, if the project is an Assured Workloads project, values will be true, otherwise false. */
   isAssuredWorkload?: boolean | undefined;
 }
-export interface PatchProjectsLocationsAutoProtectionPoliciesRequest {
+export interface PatchProjectsLocationsAutoProtectionPoliciesRequest extends Omit<
+  AutoProtectionPolicy,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AutoProtectionPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
   name: string;
-  /** Request body */
-  body?: AutoProtectionPolicy | undefined;
 }
-export interface PatchProjectsLocationsBackupPlanAssociationsRequest {
+export interface PatchProjectsLocationsBackupPlanAssociationsRequest extends Omit<
+  BackupPlanAssociation,
+  "name"
+> {
   /** Required. The list of fields to update. Field mask is used to specify the fields to be overwritten in the BackupPlanAssociation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. Currently backup_plan_association.backup_plan is the only supported field. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: BackupPlanAssociation | undefined;
 }
-export interface PatchProjectsLocationsBackupPlansRequest {
+export interface PatchProjectsLocationsBackupPlansRequest extends Omit<BackupPlan, "name"> {
   /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The list of fields to update. Field mask is used to specify the fields to be overwritten in the BackupPlan resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. Currently, these fields are supported in update: description, schedules, retention period, adding and removing Backup Rules. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BackupPlan | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsRequest {
+export interface PatchProjectsLocationsBackupVaultsRequest extends Omit<BackupVault, "name"> {
   /** Optional. If set to true, we will force update access restriction even if some non compliant data sources are present. The default is 'false'. */
   forceUpdateAccessRestriction?: boolean | undefined;
   /** Optional. If set to true, will not check plan duration against backup vault enforcement duration. */
@@ -2999,10 +2965,11 @@ export interface PatchProjectsLocationsBackupVaultsRequest {
   requestId?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: BackupVault | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest extends Omit<
+  DataSource,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the DataSource resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
   updateMask?: string | undefined;
   /** Optional. Enable upsert. */
@@ -3011,20 +2978,22 @@ export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
   requestId?: string | undefined;
   /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
   name: string;
-  /** Request body */
-  body?: DataSource | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
+export interface PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest extends Omit<
+  Backup,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
   updateMask?: string | undefined;
   /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
   name: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface PatchProjectsLocationsRestoreTemplatesRequest {
+export interface PatchProjectsLocationsRestoreTemplatesRequest extends Omit<
+  RestoreTemplate,
+  "name"
+> {
   /** Optional. The list of fields to update. Field mask is used to specify the fields to be overwritten in the RestoreTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3033,19 +3002,15 @@ export interface PatchProjectsLocationsRestoreTemplatesRequest {
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the RestoreTemplate. */
   name: string;
-  /** Request body */
-  body?: RestoreTemplate | undefined;
 }
 /** Message for deleting a DataSource. */
 export interface RemoveDataSourceRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RemoveProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface RemoveProjectsLocationsBackupVaultsDataSourcesRequest extends RemoveDataSourceRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: RemoveDataSourceRequest | undefined;
 }
 /** Options for creating a disk from a source Compute Instance backup. */
 export interface RestoreDiskFromInstanceOptions {
@@ -3264,11 +3229,9 @@ export interface RestoreBackupRequest {
   /** Optional. A field mask used to clear server-side default values for fields within the `instance_properties` oneof. When a field in this mask is cleared, the server will not apply its default logic (like inheriting a value from the source) for that field. The most common current use case is clearing default encryption keys. Examples of field mask paths: - Compute Instance Disks: `compute_instance_restore_properties.disks.*.disk_encryption_key` - Single Disk: `disk_restore_properties.disk_encryption_key` */
   clearOverridesFieldMask?: string | undefined;
 }
-export interface RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
+export interface RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest extends RestoreBackupRequest {
   /** Required. The resource name of the Backup instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/*\/backups/'. */
   name: string;
-  /** Request body */
-  body?: RestoreBackupRequest | undefined;
 }
 /** Request message for running a RestoreTemplate. */
 export interface RunRestoreTemplateRequest {
@@ -3277,11 +3240,9 @@ export interface RunRestoreTemplateRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RunProjectsLocationsRestoreTemplatesRequest {
+export interface RunProjectsLocationsRestoreTemplatesRequest extends RunRestoreTemplateRequest {
   /** Required. The name of the restore template to run. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}' */
   name: string;
-  /** Request body */
-  body?: RunRestoreTemplateRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -3290,11 +3251,9 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsManagementServersRequest {
+export interface SetIamPolicyProjectsLocationsManagementServersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 export type SetInternalStatusRequestBackupConfigStateEnum =
   | "BACKUP_CONFIG_STATE_UNSPECIFIED"
@@ -3310,11 +3269,9 @@ export interface SetInternalStatusRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest extends SetInternalStatusRequest {
   /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
   dataSource: string;
-  /** Request body */
-  body?: SetInternalStatusRequest | undefined;
 }
 /** Request message for subscribing to a trial. */
 export type SubscribeTrialRequest = CancelOperationRequest;
@@ -3329,22 +3286,18 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupVaultsRequest {
+export interface TestIamPermissionsProjectsLocationsBackupVaultsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsManagementServersRequest {
+export interface TestIamPermissionsProjectsLocationsManagementServersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for triggering a backup. */
 export interface TriggerBackupRequest {
@@ -3357,33 +3310,27 @@ export interface TriggerBackupRequest {
   /** Optional. backup rule_id for which a backup needs to be triggered. If not specified, on-demand backup with custom retention will be triggered. */
   ruleId?: string | undefined;
 }
-export interface TriggerBackupProjectsLocationsBackupPlanAssociationsRequest {
+export interface TriggerBackupProjectsLocationsBackupPlanAssociationsRequest extends TriggerBackupRequest {
   /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
   name: string;
-  /** Request body */
-  body?: TriggerBackupRequest | undefined;
 }
 /** Request message for triggering a restore cleanup. */
 export interface TriggerRestoreCleanupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface TriggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutionsRequest {
+export interface TriggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutionsRequest extends TriggerRestoreCleanupRequest {
   /** Required. Name of the restore template execution. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}/executions/{execution_id}' */
   name: string;
-  /** Request body */
-  body?: TriggerRestoreCleanupRequest | undefined;
 }
 /** Request message for TriggerRestoreVerification. */
 export interface TriggerRestoreVerificationRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know that the server has already received the duplicate request and can avoid responding with an error. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface TriggerRestoreVerificationProjectsLocationsRestoreVerificationPlansAssociationsRequest {
+export interface TriggerRestoreVerificationProjectsLocationsRestoreVerificationPlansAssociationsRequest extends TriggerRestoreVerificationRequest {
   /** Required. The resource name of the RestoreVerificationPlanAssociation to trigger. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}/associations/{association}` */
   name: string;
-  /** Request body */
-  body?: TriggerRestoreVerificationRequest | undefined;
 }
 export type AbandonBackupProjectsLocationsBackupVaultsDataSourcesError =
   | NotFound
@@ -5453,13 +5400,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupVaultId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            backupVaultId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backupVaults",
@@ -5506,12 +5455,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          managementServerId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(101, __c3, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            managementServerId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/managementServers",
@@ -5580,12 +5531,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          restoreTemplateId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(193, __c6, 1),
+          S.Struct({
+            restoreTemplateId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/restoreTemplates",
@@ -5653,12 +5606,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restoreVerificationPlanId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restoreVerificationPlanId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/restoreVerificationPlans",
@@ -5702,12 +5657,14 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          restoreVerificationPlanAssociationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(353, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(353, __c11, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            restoreVerificationPlanAssociationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/associations",
@@ -5936,10 +5893,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "EndTrialRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/trial:end",
@@ -5973,10 +5932,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "FetchAccessTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:fetchAccessToken",
@@ -6704,10 +6665,12 @@ function __c41(j: number): any {
       ).annotate({ identifier: "FinalizeBackupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          dataSource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:finalizeBackup",
@@ -6890,10 +6853,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataSource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:abandonBackup",
@@ -7451,10 +7416,12 @@ function __c74(j: number): any {
       ).annotate({ identifier: "InitializeServiceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2369, __c74, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2369, __c74, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:initialize",
@@ -7475,10 +7442,12 @@ function __c75(j: number): any {
       ).annotate({ identifier: "InitiateBackupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          dataSource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:initiateBackup",
@@ -7507,10 +7476,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "InitiateDeleteAutoProtectionPolicyBindingRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:initiateDelete",
@@ -7628,12 +7599,14 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          autoProtectionPolicyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2626, __c82, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2626, __c82, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            autoProtectionPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/autoProtectionPolicies",
@@ -8004,12 +7977,14 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          autoProtectionPolicyBindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3072, __c96, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            autoProtectionPolicyBindingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/bindings",
@@ -8230,10 +8205,12 @@ function __c103(j: number): any {
       ).annotate({ identifier: "FetchMsComplianceMetadataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:msComplianceMetadata",
@@ -8253,12 +8230,14 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2626, __c82, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2626, __c82, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8272,12 +8251,14 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3461, __c108, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3461, __c108, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8291,12 +8272,14 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3880, __c121, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3880, __c121, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8310,12 +8293,14 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupPlanAssociationId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3461, __c108, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3461, __c108, 5),
+          S.Struct({
+            backupPlanAssociationId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backupPlanAssociations",
@@ -8383,15 +8368,17 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forceUpdateAccessRestriction: S.optional(S.Boolean.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            forceUpdateAccessRestriction: S.optional(S.Boolean.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8405,13 +8392,15 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1963, __c61, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1963, __c61, 11),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8425,12 +8414,14 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(974, __c30, 14).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(974, __c30, 14),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8444,13 +8435,15 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(193, __c6, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8464,10 +8457,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:remove",
@@ -8619,10 +8614,12 @@ function __c114(j: number): any {
       ).annotate({ identifier: "RestoreBackupRequest" });
     case 13:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3660, __c114, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3660, __c114, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:restore",
@@ -8643,10 +8640,12 @@ function __c115(j: number): any {
       ).annotate({ identifier: "RunRestoreTemplateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3680, __c115, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3680, __c115, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:run",
@@ -8667,10 +8666,12 @@ function __c116(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3712, __c116, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -8692,10 +8693,12 @@ function __c117(j: number): any {
       ).annotate({ identifier: "SetInternalStatusRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          dataSource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3744, __c117, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3744, __c117, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:setInternalStatus",
@@ -8728,12 +8731,14 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupPlanId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3880, __c121, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3880, __c121, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupPlanId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backupPlans",
@@ -8829,10 +8834,12 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3936, __c123, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -8856,10 +8863,12 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(3936, __c123, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -8882,10 +8891,12 @@ function __c125(j: number): any {
       ).annotate({ identifier: "TriggerBackupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4000, __c125, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:triggerBackup",
@@ -8899,10 +8910,12 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:triggerRestoreCleanup",
@@ -8918,10 +8931,12 @@ function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:triggerRestoreVerification",

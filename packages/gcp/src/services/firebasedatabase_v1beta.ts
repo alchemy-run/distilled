@@ -105,15 +105,13 @@ export interface DatabaseInstance {
   /** Output only. Output Only. The globally unique hostname of the database. */
   databaseUrl?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends DatabaseInstance {
   /** Required. The parent project for which to create a database instance, in the form: `projects/{project-number}/locations/{location-id}`. */
   parent: string;
   /** When set to true, the request will be validated but not submitted. */
   validateOnly?: boolean | undefined;
   /** The globally unique identifier of the database instance. */
   databaseId?: string | undefined;
-  /** Request body */
-  body?: DatabaseInstance | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
@@ -333,12 +331,14 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          databaseId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c2, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            databaseId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/instances",

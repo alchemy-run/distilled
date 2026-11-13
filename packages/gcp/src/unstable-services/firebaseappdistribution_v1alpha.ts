@@ -89,11 +89,9 @@ export interface GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest {
   /** Required. The name of the test cases to delete. A maximum number of 1000 test cases can be deleted in one batch Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsAppsTestCasesRequest {
+export interface BatchDeleteProjectsAppsTestCasesRequest extends GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest {
   /** Required. The parent resource of the test cases being deleted. Format: `projects/{project_number}/apps/{app}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -144,11 +142,9 @@ export interface GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest {
   /** Required. The update requests. A maximum number of 1000 test cases can be updated in one batch */
   requests?: GoogleFirebaseAppdistroV1alphaUpdateTestCaseRequestList | undefined;
 }
-export interface BatchUpdateProjectsAppsTestCasesRequest {
+export interface BatchUpdateProjectsAppsTestCasesRequest extends GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest {
   /** Required. The parent resource of the test cases being updated. Format: `projects/{project_number}/apps/{app}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest | undefined;
 }
 export type GoogleFirebaseAppdistroV1alphaTestCaseList =
   Array<GoogleFirebaseAppdistroV1alphaTestCase>;
@@ -181,11 +177,9 @@ export interface GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest {
   /** Optional. The list of devices for which to clear the cache. If not present, clear all of them. */
   testDevices?: GoogleFirebaseAppdistroV1alphaTestDeviceList | undefined;
 }
-export interface ClearTestCaseCacheProjectsAppsTestCasesRequest {
+export interface ClearTestCaseCacheProjectsAppsTestCasesRequest extends GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest {
   /** Required. The name of the test case resource for which to clear the cache. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
   testCase: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest | undefined;
 }
 /** Response empty (google.protobuf.Empty) message for `ClearTestCaseCache` */
 export interface GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse {}
@@ -199,13 +193,11 @@ export interface GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest {
   /** The actual release notes body from the user */
   releaseNotes?: GoogleFirebaseAppdistroV1alphaReleaseNotes | undefined;
 }
-export interface CreateAppsReleasesNotesRequest {
+export interface CreateAppsReleasesNotesRequest extends GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest {
   /** Required. Release identifier */
   releaseId: string;
   /** Required. Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
   mobilesdkAppId: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest | undefined;
 }
 /** The response message for `CreateReleaseNotes`. */
 export interface GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse {}
@@ -515,21 +507,17 @@ export interface GoogleFirebaseAppdistroV1alphaReleaseTest {
   /** The name of the release test resource. Format: `projects/{project_number}/apps/{app}/releases/{release}/tests/{test}` */
   name?: string | undefined;
 }
-export interface CreateProjectsAppsReleasesTestsRequest {
+export interface CreateProjectsAppsReleasesTestsRequest extends GoogleFirebaseAppdistroV1alphaReleaseTest {
   /** Required. The name of the release resource, which is the parent of the test Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   parent: string;
   /** Optional. The ID to use for the test, which will become the final component of the test's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. If it is not provided one will be automatically generated. */
   releaseTestId?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaReleaseTest | undefined;
 }
-export interface CreateProjectsAppsTestCasesRequest {
+export interface CreateProjectsAppsTestCasesRequest extends GoogleFirebaseAppdistroV1alphaTestCase {
   /** Required. The parent resource where this test case will be created. Format: `projects/{project_number}/apps/{app}` */
   parent: string;
   /** Optional. The ID to use for the test case, which will become the final component of the test case's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
   testCaseId?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaTestCase | undefined;
 }
 export interface DeleteProjectsAppsTestCasesRequest {
   /** Required. The name of the test case resource to delete. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
@@ -546,13 +534,11 @@ export interface GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest {
   /** Optional. Ignored. Used to be build version of the app release if an instance identifier was provided for the release_id. */
   buildVersion?: string | undefined;
 }
-export interface EnableAccessAppsReleasesRequest {
+export interface EnableAccessAppsReleasesRequest extends GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest {
   /** Required. Release identifier */
   releaseId: string;
   /** Required. Unique id for a Firebase app of the format: {version}:{project_number}:{platform}:{hash(bundle_id)} Example: 1:581234567376:android:aa0a3c7b135e90289 */
   mobilesdkAppId: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest | undefined;
 }
 /** The response message for `EnableAccessOnRelease`. */
 export interface GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse {}
@@ -803,21 +789,23 @@ export interface GoogleFirebaseAppdistroV1alphaListTestCasesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsAppsTestCasesRequest {
+export interface PatchProjectsAppsTestCasesRequest extends Omit<
+  GoogleFirebaseAppdistroV1alphaTestCase,
+  "name"
+> {
   /** Optional. If set to true, and the test case is not found, a new test case will be created. */
   allowMissing?: boolean | undefined;
   /** Identifier. The name of the test case resource. Format: `projects/{project_number}/apps/{app}/testCases/{test_case}` */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaTestCase | undefined;
 }
-export interface UpdateTestConfigProjectsAppsRequest {
+export interface UpdateTestConfigProjectsAppsRequest extends Omit<
+  GoogleFirebaseAppdistroV1alphaTestConfig,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The name of the test configuration resource. Format: `projects/{project_number}/apps/{app}/testConfig` */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1alphaTestConfig | undefined;
 }
 export type BatchDeleteProjectsAppsTestCasesError =
   | NotFound
@@ -1313,11 +1301,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          testCaseId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            testCaseId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/testCases",
@@ -1356,11 +1346,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          releaseId: S.String.pipe(T.Label()),
-          mobilesdkAppId: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            releaseId: S.String.pipe(T.Label()),
+            mobilesdkAppId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/apps/{mobilesdkAppId}/releases/{releaseId}/enable_access",
@@ -1702,11 +1694,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1720,11 +1714,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(353, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(353, __c11, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1744,10 +1740,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/testCases:batchDelete",
@@ -1788,10 +1786,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(738, __c23, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(738, __c23, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/testCases:batchUpdate",
@@ -1876,10 +1876,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          testCase: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            testCase: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+testCase}:clearTestCaseCache",
@@ -1924,11 +1926,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          releaseId: S.String.pipe(T.Label()),
-          mobilesdkAppId: S.String.pipe(T.Label()),
-          body: S.optional(__S(993, __c31, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(993, __c31, 1),
+          S.Struct({
+            releaseId: S.String.pipe(T.Label()),
+            mobilesdkAppId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/apps/{mobilesdkAppId}/releases/{releaseId}/notes",
@@ -1942,11 +1946,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          releaseTestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1110, __c34, 22).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1110, __c34, 22),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            releaseTestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/tests",

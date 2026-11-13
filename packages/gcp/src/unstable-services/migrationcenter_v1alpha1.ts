@@ -98,11 +98,9 @@ export interface AddAssetsToGroupRequest {
   /** Required. List of assets to be added. The maximum number of assets that can be added in a single request is 2000. */
   assets?: AssetList | undefined;
 }
-export interface AddAssetsProjectsLocationsGroupsRequest {
+export interface AddAssetsProjectsLocationsGroupsRequest extends AddAssetsToGroupRequest {
   /** Required. Group reference. */
   group: string;
-  /** Request body */
-  body?: AddAssetsToGroupRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -163,11 +161,9 @@ export interface AggregateAssetsValuesRequest {
   /** Array of aggregations to perform. Up to 25 aggregations can be defined. */
   aggregations?: AggregationList | undefined;
 }
-export interface AggregateValuesProjectsLocationsAssetsRequest {
+export interface AggregateValuesProjectsLocationsAssetsRequest extends AggregateAssetsValuesRequest {
   /** Required. Parent value for `AggregateAssetsValuesRequest`. */
   parent: string;
-  /** Request body */
-  body?: AggregateAssetsValuesRequest | undefined;
 }
 /** A histogram bucket with a lower and upper bound, and a count of items with a field value between those bounds. The lower bound is inclusive and the upper bound is exclusive. Lower bound may be -infinity and upper bound may be infinity. */
 export interface AggregationResultHistogramBucket {
@@ -228,11 +224,9 @@ export interface BatchDeleteAssetsRequest {
   /** Required. The IDs of the assets to delete. A maximum of 1000 assets can be deleted in a batch. Format: projects/{project}/locations/{location}/assets/{name}. */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsLocationsAssetsRequest {
+export interface BatchDeleteProjectsLocationsAssetsRequest extends BatchDeleteAssetsRequest {
   /** Required. Parent value for batch asset delete. */
   parent: string;
-  /** Request body */
-  body?: BatchDeleteAssetsRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -1732,11 +1726,9 @@ export interface BatchUpdateAssetsRequest {
   /** Required. The request message specifying the resources to update. A maximum of 1000 assets can be modified in a batch. */
   requests?: UpdateAssetRequestList | undefined;
 }
-export interface BatchUpdateProjectsLocationsAssetsRequest {
+export interface BatchUpdateProjectsLocationsAssetsRequest extends BatchUpdateAssetsRequest {
   /** Required. Parent value for batch asset update. */
   parent: string;
-  /** Request body */
-  body?: BatchUpdateAssetsRequest | undefined;
 }
 export type AssetList_ = Array<Asset>;
 /** Response for updating a list of assets. */
@@ -1864,15 +1856,13 @@ export interface AssetsExportJob {
   /** Optional. Labels as key value pairs. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsAssetsExportJobsRequest {
+export interface CreateProjectsLocationsAssetsExportJobsRequest extends AssetsExportJob {
   /** Required. The parent resource where the assts export job will be created. */
   parent: string;
   /** Required. The ID to use for the asset export job. */
   assetsExportJobId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: AssetsExportJob | undefined;
 }
 export type StatusList = Array<Status>;
 /** Discovery client recommended version. */
@@ -1925,15 +1915,13 @@ export interface DiscoveryClient {
   /** Output only. Time when the discovery client was last updated. This value is not updated by heartbeats, to view the last heartbeat time please refer to the `heartbeat_time` field. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDiscoveryClientsRequest {
+export interface CreateProjectsLocationsDiscoveryClientsRequest extends DiscoveryClient {
   /** Required. Parent resource. */
   parent: string;
   /** Required. User specified ID for the discovery client. It will become the last component of the discovery client name. The ID must be unique within the project, is restricted to lower-cased letters and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   discoveryClientId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DiscoveryClient | undefined;
 }
 /** A resource that represents an asset group. The purpose of an asset group is to bundle a set of assets that have something in common, while allowing users to add annotations to the group. An asset can belong to multiple groups. */
 export interface Group {
@@ -1950,15 +1938,13 @@ export interface Group {
   /** Labels as key value pairs. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsGroupsRequest {
+export interface CreateProjectsLocationsGroupsRequest extends Group {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Required. User specified ID for the group. It will become the last component of the group name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   groupId?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 /** Error details for a CSV file. */
 export interface ImportRowErrorCsvErrorDetails {
@@ -2114,15 +2100,13 @@ export interface ImportJob {
   /** User-friendly display name. Maximum length is 63 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsImportJobsRequest {
+export interface CreateProjectsLocationsImportJobsRequest extends ImportJob {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Required. ID of the import job. */
   importJobId?: string | undefined;
-  /** Request body */
-  body?: ImportJob | undefined;
 }
 export type ImportDataFileStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE";
 /** A resource that contains a URI to which a data file can be uploaded. */
@@ -2158,15 +2142,13 @@ export interface ImportDataFile {
   /** Optional. User-friendly display name. Maximum length is 256 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsImportJobsImportDataFilesRequest {
+export interface CreateProjectsLocationsImportJobsImportDataFilesRequest extends ImportDataFile {
   /** Required. The ID of the new data file. */
   importDataFileId?: string | undefined;
   /** Required. Name of the parent of the ImportDataFile. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ImportDataFile | undefined;
 }
 export type DatabasePreferencesCloudSqlCommonSizingOptimizationStrategyEnum =
   | "SIZING_OPTIMIZATION_STRATEGY_UNSPECIFIED"
@@ -2523,14 +2505,12 @@ export interface PreferenceSet {
   /** Optional. Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If unspecified, VirtualMachinePreferences.RegionPreferences is used. */
   regionPreferences?: RegionPreferences | undefined;
 }
-export interface CreateProjectsLocationsPreferenceSetsRequest {
+export interface CreateProjectsLocationsPreferenceSetsRequest extends PreferenceSet {
   preferenceSetId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: PreferenceSet | undefined;
 }
 /** Represents a combination of a group with a preference set. */
 export interface ReportConfigGroupPreferenceSetAssignment {
@@ -2556,15 +2536,13 @@ export interface ReportConfig {
   /** Output only. Name of resource. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsReportConfigsRequest {
+export interface CreateProjectsLocationsReportConfigsRequest extends ReportConfig {
   /** Required. User specified ID for the report config. It will become the last component of the report config name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   reportConfigId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: ReportConfig | undefined;
 }
 export type ReportTypeEnum = "TYPE_UNSPECIFIED" | "TOTAL_COST_OF_OWNERSHIP";
 /** Utilization Chart is a specific type of visualization which displays a metric classified into "Used" and "Free" buckets. */
@@ -2839,15 +2817,13 @@ export interface Report {
   /** User-friendly display name. Maximum length is 63 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsReportConfigsReportsRequest {
+export interface CreateProjectsLocationsReportConfigsReportsRequest extends Report {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Required. User specified id for the report. It will become the last component of the report name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   reportId?: string | undefined;
-  /** Request body */
-  body?: Report | undefined;
 }
 /** Contains the result of the report export. */
 export interface ReportExportExecutionResult {
@@ -2883,15 +2859,13 @@ export interface ReportExportJob {
   /** Output only. Identifier. Resource name. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsReportConfigsReportsReportExportJobsRequest {
+export interface CreateProjectsLocationsReportConfigsReportsReportExportJobsRequest extends ReportExportJob {
   /** Required. The ID to use for the report export job. */
   reportExportJobId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The parent resource where this export job will be created. */
   parent: string;
-  /** Request body */
-  body?: ReportExportJob | undefined;
 }
 export type SourceTypeEnum =
   | "SOURCE_TYPE_UNKNOWN"
@@ -2926,15 +2900,13 @@ export interface Source {
   /** If `true`, the source is managed by other service(s). */
   isManaged?: boolean | undefined;
 }
-export interface CreateProjectsLocationsSourcesRequest {
+export interface CreateProjectsLocationsSourcesRequest extends Source {
   /** Required. User specified ID for the source. It will become the last component of the source name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   sourceId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
 }
 export interface DeleteProjectsLocationsAssetsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3625,65 +3597,56 @@ export interface ListErrorFramesResponse {
   /** The list of error frames. */
   errorFrames?: ErrorFrameList | undefined;
 }
-export interface PatchProjectsLocationsAssetsRequest {
+export interface PatchProjectsLocationsAssetsRequest extends Omit<Asset, "name"> {
   /** Output only. The full name of the asset. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Asset | undefined;
 }
-export interface PatchProjectsLocationsDiscoveryClientsRequest {
+export interface PatchProjectsLocationsDiscoveryClientsRequest extends Omit<
+  DiscoveryClient,
+  "name"
+> {
   /** Required. Update mask is used to specify the fields to be overwritten in the `DiscoveryClient` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
   /** Output only. Identifier. Full name of this discovery client. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DiscoveryClient | undefined;
 }
-export interface PatchProjectsLocationsGroupsRequest {
+export interface PatchProjectsLocationsGroupsRequest extends Omit<Group, "name"> {
   /** Output only. The name of the group. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Group` resource by the update. The values specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
-export interface PatchProjectsLocationsImportJobsRequest {
+export interface PatchProjectsLocationsImportJobsRequest extends Omit<ImportJob, "name"> {
   /** Output only. The full name of the import job. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ImportJob | undefined;
 }
-export interface PatchProjectsLocationsPreferenceSetsRequest {
+export interface PatchProjectsLocationsPreferenceSetsRequest extends Omit<PreferenceSet, "name"> {
   /** Output only. Name of the PreferenceSet. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `PreferenceSet` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: PreferenceSet | undefined;
 }
-export interface PatchProjectsLocationsSourcesRequest {
+export interface PatchProjectsLocationsSourcesRequest extends Omit<Source, "name"> {
   /** Output only. The full name of the source. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Source` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
 }
 /** A request to remove assets from a group. */
 export interface RemoveAssetsFromGroupRequest {
@@ -3694,11 +3657,9 @@ export interface RemoveAssetsFromGroupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RemoveAssetsProjectsLocationsGroupsRequest {
+export interface RemoveAssetsProjectsLocationsGroupsRequest extends RemoveAssetsFromGroupRequest {
   /** Required. Group reference. */
   group: string;
-  /** Request body */
-  body?: RemoveAssetsFromGroupRequest | undefined;
 }
 export type AssetFrameList = Array<AssetFrame>;
 /** Collection of frame data. */
@@ -3706,13 +3667,11 @@ export interface Frames {
   /** A repeated field of asset data. */
   framesData?: AssetFrameList | undefined;
 }
-export interface ReportAssetFramesProjectsLocationsAssetsRequest {
+export interface ReportAssetFramesProjectsLocationsAssetsRequest extends Frames {
   /** Required. Parent of the resource. */
   parent: string;
   /** Required. Reference to a source. */
   source?: string | undefined;
-  /** Request body */
-  body?: Frames | undefined;
 }
 /** A response to a call to `ReportAssetFrame`. */
 export interface ReportAssetFramesResponse {}
@@ -3721,27 +3680,21 @@ export interface RunAssetsExportJobRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RunProjectsLocationsAssetsExportJobsRequest {
+export interface RunProjectsLocationsAssetsExportJobsRequest extends RunAssetsExportJobRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
 }
 /** A request to run an import job. */
 export type RunImportJobRequest = RunAssetsExportJobRequest;
-export interface RunProjectsLocationsImportJobsRequest {
+export interface RunProjectsLocationsImportJobsRequest extends RunAssetsExportJobRequest {
   /** Required. The name of the import job to run. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
 }
 /** A request to run a report export job. */
 export type RunReportExportJobRequest = RunAssetsExportJobRequest;
-export interface RunProjectsLocationsReportConfigsReportsReportExportJobsRequest {
+export interface RunProjectsLocationsReportConfigsReportsReportExportJobsRequest extends RunAssetsExportJobRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
 }
 /** A request to send a discovery client heartbeat. */
 export interface SendDiscoveryClientHeartbeatRequest {
@@ -3750,29 +3703,23 @@ export interface SendDiscoveryClientHeartbeatRequest {
   /** Optional. Client application version. */
   version?: string | undefined;
 }
-export interface SendHeartbeatProjectsLocationsDiscoveryClientsRequest {
+export interface SendHeartbeatProjectsLocationsDiscoveryClientsRequest extends SendDiscoveryClientHeartbeatRequest {
   /** Required. The discovery client name. */
   name: string;
-  /** Request body */
-  body?: SendDiscoveryClientHeartbeatRequest | undefined;
 }
-export interface UpdateSettingsProjectsLocationsRequest {
+export interface UpdateSettingsProjectsLocationsRequest extends Omit<Settings, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the `Settings` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. The name of the resource. */
   name: string;
-  /** Request body */
-  body?: Settings | undefined;
 }
 /** A request to validate an import job. */
 export type ValidateImportJobRequest = RunAssetsExportJobRequest;
-export interface ValidateProjectsLocationsImportJobsRequest {
+export interface ValidateProjectsLocationsImportJobsRequest extends RunAssetsExportJobRequest {
   /** Required. The name of the import job to validate. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
 }
 export type AddAssetsProjectsLocationsGroupsError =
   | NotFound
@@ -5284,12 +5231,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          discoveryClientId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            discoveryClientId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/discoveryClients",
@@ -5343,12 +5292,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          groupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            groupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/groups",
@@ -5377,12 +5328,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          importJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(207, __c6, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(207, __c6, 15),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            importJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/importJobs",
@@ -5511,12 +5464,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          importDataFileId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(257, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            importDataFileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/importDataFiles",
@@ -5553,12 +5508,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          preferenceSetId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(341, __c10, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(341, __c10, 21),
+          S.Struct({
+            preferenceSetId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/preferenceSets",
@@ -5750,12 +5707,14 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          reportConfigId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(386, __c12, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(386, __c12, 2),
+          S.Struct({
+            reportConfigId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/reportConfigs",
@@ -5793,12 +5752,14 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          reportId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(474, __c14, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(474, __c14, 26),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            reportId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/reports",
@@ -6018,12 +5979,14 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          reportExportJobId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(515, __c16, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(515, __c16, 3),
+          S.Struct({
+            reportExportJobId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/reportExportJobs",
@@ -6072,12 +6035,14 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sourceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            sourceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/sources",
@@ -6485,10 +6450,12 @@ function __c41(j: number): any {
       ).annotate({ identifier: "AddAssetsToGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            group: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+group}:addAssets",
@@ -6912,10 +6879,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "AggregateAssetsValuesRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1956, __c61, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1956, __c61, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/assets:aggregateValues",
@@ -7312,10 +7281,12 @@ function __c75(j: number): any {
       ).annotate({ identifier: "BatchDeleteAssetsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2402, __c75, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/assets:batchDelete",
@@ -7388,12 +7359,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2938, __c91, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2938, __c91, 26),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -7407,12 +7380,14 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -7426,12 +7401,14 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -7445,12 +7422,14 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(207, __c6, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(207, __c6, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -7464,12 +7443,14 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(341, __c10, 21).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(341, __c10, 21),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -7483,12 +7464,14 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -7510,10 +7493,12 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RemoveAssetsFromGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2688, __c84, 0),
+          S.Struct({
+            group: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+group}:removeAssets",
@@ -7535,11 +7520,13 @@ function __c85(j: number): any {
       ).annotate({ identifier: "Frames" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          source: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2721, __c85, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            source: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/assets:reportAssetFrames",
@@ -7569,10 +7556,12 @@ function __c86(j: number): any {
       ).annotate({ identifier: "BatchUpdateAssetsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2754, __c86, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/assets:batchUpdate",
@@ -8637,10 +8626,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3008, __c94, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:run",
@@ -8664,10 +8655,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3008, __c94, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:run",
@@ -8681,10 +8674,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3008, __c94, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:run",
@@ -8705,10 +8700,12 @@ function __c97(j: number): any {
       ).annotate({ identifier: "SendDiscoveryClientHeartbeatRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:sendHeartbeat",
@@ -8722,12 +8719,14 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -8741,10 +8740,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3008, __c94, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}:validate",
@@ -8775,12 +8776,14 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          assetsExportJobId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3301, __c103, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3301, __c103, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            assetsExportJobId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/assetsExportJobs",

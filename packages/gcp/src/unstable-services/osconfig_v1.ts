@@ -629,15 +629,13 @@ export interface OSPolicyAssignment {
   /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
+export interface CreateProjectsLocationsOsPolicyAssignmentsRequest extends OSPolicyAssignment {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
   osPolicyAssignmentId?: string | undefined;
   /** Required. The parent resource name in the form: projects/{project}/locations/{location}. Note: Specify the zone of your VMs as the location. */
   parent: string;
-  /** Request body */
-  body?: OSPolicyAssignment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -779,13 +777,11 @@ export interface PatchDeployment {
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name?: string | undefined;
 }
-export interface CreateProjectsPatchDeploymentsRequest {
+export interface CreateProjectsPatchDeploymentsRequest extends PatchDeployment {
   /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
   patchDeploymentId?: string | undefined;
   /** Required. The project to apply this patch deployment to in the form `projects/*`. */
   parent: string;
-  /** Request body */
-  body?: PatchDeployment | undefined;
 }
 export interface DeleteProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The name of the OS policy assignment to be deleted */
@@ -814,11 +810,9 @@ export interface ExecutePatchJobRequest {
   /** Required. Instances to patch, either explicitly or filtered by some criteria such as zone or labels. */
   instanceFilter?: PatchInstanceFilter | undefined;
 }
-export interface ExecuteProjectsPatchJobsRequest {
+export interface ExecuteProjectsPatchJobsRequest extends ExecutePatchJobRequest {
   /** Required. The project in which to run this patch in the form `projects/*` */
   parent: string;
-  /** Request body */
-  body?: ExecutePatchJobRequest | undefined;
 }
 export interface GetProjectFeatureSettingsProjectsLocationsGlobalRequest {
   /** Required. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
@@ -1412,7 +1406,10 @@ export interface ListOSPolicyAssignmentRevisionsResponse {
   /** The pagination token to retrieve the next page of OS policy assignment revisions. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
+export interface PatchProjectsLocationsOsPolicyAssignmentsRequest extends Omit<
+  OSPolicyAssignment,
+  "name"
+> {
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
   name: string;
   /** Optional. Field mask that controls which fields of the assignment should be updated. */
@@ -1421,16 +1418,12 @@ export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
   requestId?: string | undefined;
   /** Optional. If set to true, and the OS policy assignment is not found, a new OS policy assignment will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: OSPolicyAssignment | undefined;
 }
-export interface PatchProjectsPatchDeploymentsRequest {
+export interface PatchProjectsPatchDeploymentsRequest extends Omit<PatchDeployment, "name"> {
   /** Optional. Field mask that controls which fields of the patch deployment should be updated. */
   updateMask?: string | undefined;
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name: string;
-  /** Request body */
-  body?: PatchDeployment | undefined;
 }
 /** A request message for pausing a patch deployment. */
 export type PausePatchDeploymentRequest = CancelOperationRequest;
@@ -1448,13 +1441,14 @@ export interface ResumeProjectsPatchDeploymentsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest {
+export interface UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest extends Omit<
+  ProjectFeatureSettings,
+  "name"
+> {
   /** Optional. Field mask that controls which fields of the ProjectFeatureSettings should be updated. */
   updateMask?: string | undefined;
   /** Required. Immutable. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
   name: string;
-  /** Request body */
-  body?: ProjectFeatureSettings | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound
@@ -2082,10 +2076,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ExecutePatchJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/patchJobs:execute",
@@ -2696,13 +2692,15 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1146, __c35, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1146, __c35, 26),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2716,11 +2714,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1223, __c38, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1223, __c38, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2768,11 +2768,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2998,12 +3000,14 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1146, __c35, 26).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1146, __c35, 26),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/osPolicyAssignments",
@@ -3258,11 +3262,13 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          patchDeploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1223, __c38, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1223, __c38, 7),
+          S.Struct({
+            patchDeploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/patchDeployments",

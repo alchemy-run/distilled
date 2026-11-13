@@ -105,11 +105,9 @@ export interface GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest {
   /** List of policies that will be deleted as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to a group resource. 3. All `policyTargetKey` values must have the same `app_id` key name in the `additionalTargetKeys`. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
   requests?: GoogleChromePolicyVersionsV1DeleteGroupPolicyRequestList | undefined;
 }
-export interface BatchDeleteCustomersPoliciesGroupsRequest {
+export interface BatchDeleteCustomersPoliciesGroupsRequest extends GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest {
   /** ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -127,11 +125,9 @@ export interface GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest 
   /** List of policies that have to inherit their values as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to an org unit resource. 3. All `policyTargetKey` values must have the same key names in the ` additionalTargetKeys`. This also means if one of the targets has an empty `additionalTargetKeys` map, all of the targets must have an empty `additionalTargetKeys` map. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
   requests?: GoogleChromePolicyVersionsV1InheritOrgUnitPolicyRequestList | undefined;
 }
-export interface BatchInheritCustomersPoliciesOrgunitsRequest {
+export interface BatchInheritCustomersPoliciesOrgunitsRequest extends GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** A particular value for a policy managed by the service. */
@@ -157,11 +153,9 @@ export interface GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest {
   /** List of policies to modify as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to a group resource. 3. All `policyTargetKey` values must have the same `app_id` key name in the `additionalTargetKeys`. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
   requests?: GoogleChromePolicyVersionsV1ModifyGroupPolicyRequestList | undefined;
 }
-export interface BatchModifyCustomersPoliciesGroupsRequest {
+export interface BatchModifyCustomersPoliciesGroupsRequest extends GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest {
   /** ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest | undefined;
 }
 /** Request parameters for modifying a policy value for a specific org unit target. */
 export interface GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequest {
@@ -179,11 +173,9 @@ export interface GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest {
   /** List of policies to modify as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to an org unit resource. 3. All `policyTargetKey` values must have the same key names in the ` additionalTargetKeys`. This also means if one of the targets has an empty `additionalTargetKeys` map, all of the targets must have an empty `additionalTargetKeys` map. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
   requests?: GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequestList | undefined;
 }
-export interface BatchModifyCustomersPoliciesOrgunitsRequest {
+export interface BatchModifyCustomersPoliciesOrgunitsRequest extends GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest | undefined;
 }
 /** A network setting contains network configurations. It adheres to the PolicyAPI formats defined under the namespace chrome.networks.{wifi/ethernet/cellular/vpn}.Details */
 export interface GoogleChromePolicyVersionsV1NetworkSetting {
@@ -205,11 +197,9 @@ export interface GoogleChromePolicyVersionsV1DefineCertificateRequest {
   /** Optional. The optional name of the certificate. If not specified, the certificate issuer will be used as the name. */
   ceritificateName?: string | undefined;
 }
-export interface DefineCertificateCustomersPoliciesNetworksRequest {
+export interface DefineCertificateCustomersPoliciesNetworksRequest extends GoogleChromePolicyVersionsV1DefineCertificateRequest {
   /** Required. The customer for which the certificate will apply. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1DefineCertificateRequest | undefined;
 }
 /** Response object for creating a certificate. */
 export interface GoogleChromePolicyVersionsV1DefineCertificateResponse {
@@ -229,11 +219,9 @@ export interface GoogleChromePolicyVersionsV1DefineNetworkRequest {
   /** Required. Name of the new created network. */
   name?: string | undefined;
 }
-export interface DefineNetworkCustomersPoliciesNetworksRequest {
+export interface DefineNetworkCustomersPoliciesNetworksRequest extends GoogleChromePolicyVersionsV1DefineNetworkRequest {
   /** Required. The customer who will own this new network. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1DefineNetworkRequest | undefined;
 }
 /** Response object for creating a network. */
 export interface GoogleChromePolicyVersionsV1DefineNetworkResponse {
@@ -570,11 +558,9 @@ export interface GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest {
   /** The namespace of the policy type for the request. */
   policyNamespace?: string | undefined;
 }
-export interface ListGroupPriorityOrderingCustomersPoliciesGroupsRequest {
+export interface ListGroupPriorityOrderingCustomersPoliciesGroupsRequest extends GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest {
   /** Required. ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest | undefined;
 }
 /** Response message for listing the group priority ordering of an app. */
 export interface GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse {
@@ -594,11 +580,9 @@ export interface GoogleChromePolicyVersionsV1RemoveCertificateRequest {
   /** Required. The target resource on which this certificate will be removed. The following resources are supported: * Organizational Unit ("orgunits/{orgunit_id}") */
   targetResource?: string | undefined;
 }
-export interface RemoveCertificateCustomersPoliciesNetworksRequest {
+export interface RemoveCertificateCustomersPoliciesNetworksRequest extends GoogleChromePolicyVersionsV1RemoveCertificateRequest {
   /** Required. The customer whose certificate will be removed. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1RemoveCertificateRequest | undefined;
 }
 /** Response object for removing a certificate. */
 export interface GoogleChromePolicyVersionsV1RemoveCertificateResponse {}
@@ -609,11 +593,9 @@ export interface GoogleChromePolicyVersionsV1RemoveNetworkRequest {
   /** Required. The GUID of the network to remove. */
   networkId?: string | undefined;
 }
-export interface RemoveNetworkCustomersPoliciesNetworksRequest {
+export interface RemoveNetworkCustomersPoliciesNetworksRequest extends GoogleChromePolicyVersionsV1RemoveNetworkRequest {
   /** Required. The customer whose network will be removed. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1RemoveNetworkRequest | undefined;
 }
 /** Response object for removing a network. */
 export interface GoogleChromePolicyVersionsV1RemoveNetworkResponse {}
@@ -628,11 +610,9 @@ export interface GoogleChromePolicyVersionsV1ResolveRequest {
   /** The maximum number of policies to return, defaults to 100 and has a maximum of 1000. */
   pageSize?: number | undefined;
 }
-export interface ResolveCustomersPoliciesRequest {
+export interface ResolveCustomersPoliciesRequest extends GoogleChromePolicyVersionsV1ResolveRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1ResolveRequest | undefined;
 }
 /** The resolved value of a policy for a given target. */
 export interface GoogleChromePolicyVersionsV1ResolvedPolicy {
@@ -665,22 +645,18 @@ export interface GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest 
   /** Required. The group IDs, in desired priority ordering. */
   groupIds?: StringList | undefined;
 }
-export interface UpdateGroupPriorityOrderingCustomersPoliciesGroupsRequest {
+export interface UpdateGroupPriorityOrderingCustomersPoliciesGroupsRequest extends GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest {
   /** Required. ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest | undefined;
 }
 /** Request message for uploading a file for a policy. */
 export interface GoogleChromePolicyVersionsV1UploadPolicyFileRequest {
   /** Required. The fully qualified policy schema and field name this file is uploaded for. This information will be used to validate the content type of the file. */
   policyField?: string | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends GoogleChromePolicyVersionsV1UploadPolicyFileRequest {
   /** Required. The customer for which the file upload will apply. */
   customer: string;
-  /** Request body */
-  body?: GoogleChromePolicyVersionsV1UploadPolicyFileRequest | undefined;
 }
 /** Response message for downloading an uploaded file. */
 export interface GoogleChromePolicyVersionsV1UploadPolicyFileResponse {
@@ -1272,10 +1248,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/groups:listGroupPriorityOrdering",
@@ -1305,10 +1283,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1RemoveCertificateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/networks:removeCertificate",
@@ -1329,10 +1309,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1RemoveNetworkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/networks:removeNetwork",
@@ -1355,10 +1337,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1ResolveRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies:resolve",
@@ -1399,10 +1383,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/groups:updateGroupPriorityOrdering",
@@ -1422,10 +1408,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1UploadPolicyFileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/files:uploadPolicyFile",
@@ -1460,10 +1448,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/groups:batchDelete",
@@ -1511,10 +1501,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(418, __c13, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(418, __c13, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/orgunits:batchInherit",
@@ -1544,10 +1536,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(450, __c14, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(450, __c14, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/groups:batchModify",
@@ -1590,10 +1584,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(514, __c16, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(514, __c16, 2),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/orgunits:batchModify",
@@ -1616,10 +1612,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1DefineCertificateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/networks:defineCertificate",
@@ -1655,10 +1653,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GoogleChromePolicyVersionsV1DefineNetworkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            customer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+customer}/policies/networks:defineNetwork",

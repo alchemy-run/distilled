@@ -143,11 +143,9 @@ export interface GoogleCloudAssetV1p7beta1ExportAssetsRequest {
   /** Timestamp to take an asset snapshot. This can only be set to a timestamp between the current time and the current time minus 35 days (inclusive). If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query may get different results. */
   readTime?: string | undefined;
 }
-export interface ExportAssetsV1p7beta1Request {
+export interface ExportAssetsV1p7beta1Request extends GoogleCloudAssetV1p7beta1ExportAssetsRequest {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudAssetV1p7beta1ExportAssetsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -258,10 +256,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssetV1p7beta1ExportAssetsRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5, __c0, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5, __c0, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p7beta1/{+parent}:exportAssets",

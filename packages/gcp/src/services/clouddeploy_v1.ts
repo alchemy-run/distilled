@@ -101,11 +101,9 @@ export interface AdvanceRolloutRequest {
   /** Required. The phase ID to advance the `Rollout` to. */
   phaseId?: string | undefined;
 }
-export interface AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
+export interface AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends AdvanceRolloutRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
   name: string;
-  /** Request body */
-  body?: AdvanceRolloutRequest | undefined;
 }
 /** The response object from `AdvanceRollout`. */
 export interface AdvanceRolloutResponse {}
@@ -116,11 +114,9 @@ export interface ApproveRolloutRequest {
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
 }
-export interface ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
+export interface ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends ApproveRolloutRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
   name: string;
-  /** Request body */
-  body?: ApproveRolloutRequest | undefined;
 }
 /** The response object from `ApproveRollout`. */
 export interface ApproveRolloutResponse {}
@@ -139,11 +135,9 @@ export interface CancelRolloutRequest {
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
 }
-export interface CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
+export interface CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends CancelRolloutRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
   name: string;
-  /** Request body */
-  body?: CancelRolloutRequest | undefined;
 }
 /** The response object from `CancelRollout`. */
 export interface CancelRolloutResponse {}
@@ -252,7 +246,10 @@ export interface CustomTargetType {
   /** Optional. Description of the `CustomTargetType`. Max length is 255 characters. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsCustomTargetTypesRequest {
+export interface CreateProjectsLocationsCustomTargetTypesRequest extends Omit<
+  CustomTargetType,
+  "customTargetTypeId"
+> {
   /** Required. The parent collection in which the `CustomTargetType` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -261,8 +258,6 @@ export interface CreateProjectsLocationsCustomTargetTypesRequest {
   validateOnly?: boolean | undefined;
   /** Required. ID of the `CustomTargetType`. */
   customTargetTypeId?: string | undefined;
-  /** Request body */
-  body?: CustomTargetType | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -554,7 +549,7 @@ export interface DeliveryPipeline {
   /** Output only. Unique identifier of the `DeliveryPipeline`. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsDeliveryPipelinesRequest {
+export interface CreateProjectsLocationsDeliveryPipelinesRequest extends DeliveryPipeline {
   /** Required. The parent collection in which the `DeliveryPipeline` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -563,8 +558,6 @@ export interface CreateProjectsLocationsDeliveryPipelinesRequest {
   validateOnly?: boolean | undefined;
   /** Required. ID of the `DeliveryPipeline`. */
   deliveryPipelineId?: string | undefined;
-  /** Request body */
-  body?: DeliveryPipeline | undefined;
 }
 /** The targets involved in a single timed promotion. */
 export interface Targets {
@@ -720,7 +713,7 @@ export interface Automation {
   /** Optional. Description of the `Automation`. Max length is 255 characters. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsDeliveryPipelinesAutomationsRequest {
+export interface CreateProjectsLocationsDeliveryPipelinesAutomationsRequest extends Automation {
   /** Required. The parent collection in which the `Automation` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -729,8 +722,6 @@ export interface CreateProjectsLocationsDeliveryPipelinesAutomationsRequest {
   automationId?: string | undefined;
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Automation | undefined;
 }
 /** Contains the paths to the artifacts, relative to the URI, for a phase. */
 export interface PhaseArtifact {
@@ -1084,7 +1075,7 @@ export interface Release {
   /** Output only. Time at which the `Release` was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDeliveryPipelinesReleasesRequest {
+export interface CreateProjectsLocationsDeliveryPipelinesReleasesRequest extends Release {
   /** Required. The parent collection in which the `Release` is created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
   parent: string;
   /** Required. ID of the `Release`. */
@@ -1095,8 +1086,6 @@ export interface CreateProjectsLocationsDeliveryPipelinesReleasesRequest {
   overrideDeployPolicy?: StringList | undefined;
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Release | undefined;
 }
 export type RolloutStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1320,7 +1309,7 @@ export interface Rollout {
   /** Output only. Time at which the `Rollout` was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
+export interface CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends Rollout {
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
   /** Required. The parent collection in which the `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`. */
@@ -1333,8 +1322,6 @@ export interface CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest
   requestId?: string | undefined;
   /** Required. ID of the `Rollout`. */
   rolloutId?: string | undefined;
-  /** Request body */
-  body?: Rollout | undefined;
 }
 export type RolloutRestrictionInvokersItemEnum =
   | "INVOKER_UNSPECIFIED"
@@ -1476,7 +1463,7 @@ export interface DeployPolicy {
   /** Output only. Unique identifier of the `DeployPolicy`. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsDeployPoliciesRequest {
+export interface CreateProjectsLocationsDeployPoliciesRequest extends DeployPolicy {
   /** Required. The parent collection in which the `DeployPolicy` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1485,10 +1472,8 @@ export interface CreateProjectsLocationsDeployPoliciesRequest {
   validateOnly?: boolean | undefined;
   /** Required. ID of the `DeployPolicy`. */
   deployPolicyId?: string | undefined;
-  /** Request body */
-  body?: DeployPolicy | undefined;
 }
-export interface CreateProjectsLocationsTargetsRequest {
+export interface CreateProjectsLocationsTargetsRequest extends Omit<Target, "targetId"> {
   /** Required. ID of the `Target`. */
   targetId?: string | undefined;
   /** Required. The parent collection in which the `Target` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
@@ -1497,8 +1482,6 @@ export interface CreateProjectsLocationsTargetsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Target | undefined;
 }
 export interface DeleteProjectsLocationsCustomTargetTypesRequest {
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
@@ -2130,11 +2113,9 @@ export interface IgnoreJobRequest {
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
 }
-export interface IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
+export interface IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends IgnoreJobRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
   rollout: string;
-  /** Request body */
-  body?: IgnoreJobRequest | undefined;
 }
 /** The response object from `IgnoreJob`. */
 export interface IgnoreJobResponse {}
@@ -2376,7 +2357,10 @@ export interface ListTargetsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsCustomTargetTypesRequest {
+export interface PatchProjectsLocationsCustomTargetTypesRequest extends Omit<
+  CustomTargetType,
+  "name"
+> {
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `CustomTargetType` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
@@ -2387,10 +2371,11 @@ export interface PatchProjectsLocationsCustomTargetTypesRequest {
   requestId?: string | undefined;
   /** Optional. If set to true, updating a `CustomTargetType` that does not exist will result in the creation of a new `CustomTargetType`. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: CustomTargetType | undefined;
 }
-export interface PatchProjectsLocationsDeliveryPipelinesRequest {
+export interface PatchProjectsLocationsDeliveryPipelinesRequest extends Omit<
+  DeliveryPipeline,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeliveryPipeline` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2401,10 +2386,11 @@ export interface PatchProjectsLocationsDeliveryPipelinesRequest {
   allowMissing?: boolean | undefined;
   /** Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name: string;
-  /** Request body */
-  body?: DeliveryPipeline | undefined;
 }
-export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest {
+export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest extends Omit<
+  Automation,
+  "name"
+> {
   /** Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2415,10 +2401,8 @@ export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest {
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Automation` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Automation | undefined;
 }
-export interface PatchProjectsLocationsDeployPoliciesRequest {
+export interface PatchProjectsLocationsDeployPoliciesRequest extends Omit<DeployPolicy, "name"> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeployPolicy` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
@@ -2429,10 +2413,8 @@ export interface PatchProjectsLocationsDeployPoliciesRequest {
   name: string;
   /** Optional. If set to true, updating a `DeployPolicy` that does not exist will result in the creation of a new `DeployPolicy`. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: DeployPolicy | undefined;
 }
-export interface PatchProjectsLocationsTargetsRequest {
+export interface PatchProjectsLocationsTargetsRequest extends Omit<Target, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Target` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2443,8 +2425,6 @@ export interface PatchProjectsLocationsTargetsRequest {
   name: string;
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Target | undefined;
 }
 /** RetryJobRequest is the request object used by `RetryJob`. */
 export interface RetryJobRequest {
@@ -2455,11 +2435,9 @@ export interface RetryJobRequest {
   /** Required. The phase ID the Job to retry belongs to. */
   phaseId?: string | undefined;
 }
-export interface RetryJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
+export interface RetryJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends RetryJobRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
   rollout: string;
-  /** Request body */
-  body?: RetryJobRequest | undefined;
 }
 /** The response object from 'RetryJob'. */
 export interface RetryJobResponse {}
@@ -2487,11 +2465,9 @@ export interface RollbackTargetRequest {
   /** Optional. ID of the `Release` to roll back to. If this isn't specified, the previous successful `Rollout` to the specified target will be used to determine the `Release`. */
   releaseId?: string | undefined;
 }
-export interface RollbackTargetProjectsLocationsDeliveryPipelinesRequest {
+export interface RollbackTargetProjectsLocationsDeliveryPipelinesRequest extends RollbackTargetRequest {
   /** Required. The `DeliveryPipeline` for which the rollback `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
   name: string;
-  /** Request body */
-  body?: RollbackTargetRequest | undefined;
 }
 /** The response object from `RollbackTarget`. */
 export interface RollbackTargetResponse {
@@ -2505,37 +2481,27 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCustomTargetTypesRequest {
+export interface SetIamPolicyProjectsLocationsCustomTargetTypesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDeliveryPipelinesRequest {
+export interface SetIamPolicyProjectsLocationsDeliveryPipelinesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDeployPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsDeployPoliciesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsTargetsRequest {
+export interface SetIamPolicyProjectsLocationsTargetsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** The request object used by `TerminateJobRun`. */
 export type TerminateJobRunRequest = CancelRolloutRequest;
-export interface TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest {
+export interface TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest extends CancelRolloutRequest {
   /** Required. Name of the `JobRun`. Format must be `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}/jobRuns/{jobRun}`. */
   name: string;
-  /** Request body */
-  body?: CancelRolloutRequest | undefined;
 }
 /** The response object from `TerminateJobRun`. */
 export interface TerminateJobRunResponse {}
@@ -2544,22 +2510,18 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest {
+export interface TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsTargetsRequest {
+export interface TestIamPermissionsProjectsLocationsTargetsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type AbandonProjectsLocationsDeliveryPipelinesReleasesError =
   | NotFound
@@ -3935,13 +3897,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          customTargetTypeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(167, __c5, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(167, __c5, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            customTargetTypeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customTargetTypes",
@@ -4079,13 +4043,15 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          deliveryPipelineId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(312, __c9, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(312, __c9, 24),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            deliveryPipelineId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deliveryPipelines",
@@ -4349,13 +4315,15 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          automationId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(400, __c12, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c12, 16),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            automationId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/automations",
@@ -4507,14 +4475,16 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          releaseId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(623, __c19, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(623, __c19, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            releaseId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/releases",
@@ -4810,15 +4780,17 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          startingPhaseId: S.optional(S.String.pipe(T.Query())),
-          overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          rolloutId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(745, __c23, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(745, __c23, 9),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            startingPhaseId: S.optional(S.String.pipe(T.Query())),
+            overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            rolloutId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/rollouts",
@@ -4950,13 +4922,15 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          deployPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(844, __c26, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(844, __c26, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            deployPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deployPolicies",
@@ -5073,13 +5047,15 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(525, __c16, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(525, __c16, 13),
+          S.Struct({
+            targetId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targets",
@@ -5830,10 +5806,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "IgnoreJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          rollout: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            rollout: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+rollout}:ignoreJob",
@@ -6178,10 +6156,12 @@ function __c67(j: number): any {
       ).annotate({ identifier: "AdvanceRolloutRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:advance",
@@ -6231,14 +6211,16 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(167, __c5, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(167, __c5, 7),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6252,14 +6234,16 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(312, __c9, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(312, __c9, 24),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6273,14 +6257,16 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(400, __c12, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c12, 16),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6294,14 +6280,16 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(844, __c26, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(844, __c26, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6315,14 +6303,16 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(525, __c16, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(525, __c16, 13),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6344,10 +6334,12 @@ function __c75(j: number): any {
       ).annotate({ identifier: "RetryJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          rollout: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            rollout: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+rollout}:retryJob",
@@ -6382,10 +6374,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "RollbackTargetRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2433, __c76, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2433, __c76, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rollbackTarget",
@@ -6405,10 +6399,12 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6433,10 +6429,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6457,10 +6455,12 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ApproveRolloutRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -6476,10 +6476,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6493,10 +6495,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6510,10 +6514,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:terminate",
@@ -6529,10 +6535,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6556,10 +6564,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6590,10 +6600,12 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",

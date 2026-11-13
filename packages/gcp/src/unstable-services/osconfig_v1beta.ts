@@ -583,13 +583,11 @@ export interface GuestPolicy {
   /** Description of the guest policy. Length of the description is limited to 1024 characters. */
   description?: string | undefined;
 }
-export interface CreateProjectsGuestPoliciesRequest {
+export interface CreateProjectsGuestPoliciesRequest extends GuestPolicy {
   /** Required. The resource name of the parent using one of the following forms: `projects/{project_number}`. */
   parent: string;
   /** Required. The logical name of the guest policy in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
   guestPolicyId?: string | undefined;
-  /** Request body */
-  body?: GuestPolicy | undefined;
 }
 export type PatchDeploymentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "PAUSED";
 /** Sets the time for a one time patch deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
@@ -707,13 +705,11 @@ export interface PatchDeployment {
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name?: string | undefined;
 }
-export interface CreateProjectsPatchDeploymentsRequest {
+export interface CreateProjectsPatchDeploymentsRequest extends PatchDeployment {
   /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
   patchDeploymentId?: string | undefined;
   /** Required. The project to apply this patch deployment to in the form `projects/*`. */
   parent: string;
-  /** Request body */
-  body?: PatchDeployment | undefined;
 }
 export interface DeleteProjectsGuestPoliciesRequest {
   /** Required. The resource name of the guest policy using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
@@ -742,11 +738,9 @@ export interface ExecutePatchJobRequest {
   /** Display name for this patch job. This does not have to be unique. */
   displayName?: string | undefined;
 }
-export interface ExecuteProjectsPatchJobsRequest {
+export interface ExecuteProjectsPatchJobsRequest extends ExecutePatchJobRequest {
   /** Required. The project in which to run this patch in the form `projects/*` */
   parent: string;
-  /** Request body */
-  body?: ExecutePatchJobRequest | undefined;
 }
 export interface GetProjectsGuestPoliciesRequest {
   /** Required. The resource name of the guest policy using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
@@ -868,11 +862,9 @@ export interface LookupEffectiveGuestPolicyRequest {
   /** Architecture of OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that instance. */
   osArchitecture?: string | undefined;
 }
-export interface LookupEffectiveGuestPolicyProjectsZonesInstancesRequest {
+export interface LookupEffectiveGuestPolicyProjectsZonesInstancesRequest extends LookupEffectiveGuestPolicyRequest {
   /** Required. The VM instance whose policies are being looked up. */
   instance: string;
-  /** Request body */
-  body?: LookupEffectiveGuestPolicyRequest | undefined;
 }
 /** A guest policy package repository including its source. */
 export interface EffectiveGuestPolicySourcedPackageRepository {
@@ -909,21 +901,17 @@ export interface EffectiveGuestPolicy {
   /** List of recipes assigned to the VM instance. */
   softwareRecipes?: EffectiveGuestPolicySourcedSoftwareRecipeList | undefined;
 }
-export interface PatchProjectsGuestPoliciesRequest {
+export interface PatchProjectsGuestPoliciesRequest extends Omit<GuestPolicy, "name"> {
   /** Field mask that controls which fields of the guest policy should be updated. */
   updateMask?: string | undefined;
   /** Required. Unique name of the resource in this project using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
   name: string;
-  /** Request body */
-  body?: GuestPolicy | undefined;
 }
-export interface PatchProjectsPatchDeploymentsRequest {
+export interface PatchProjectsPatchDeploymentsRequest extends Omit<PatchDeployment, "name"> {
   /** Optional. Field mask that controls which fields of the patch deployment should be updated. */
   updateMask?: string | undefined;
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name: string;
-  /** Request body */
-  body?: PatchDeployment | undefined;
 }
 /** A request message for pausing a patch deployment. */
 export type PausePatchDeploymentRequest = CancelPatchJobRequest;
@@ -1495,10 +1483,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "LookupEffectiveGuestPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+instance}:lookupEffectiveGuestPolicy",
@@ -1547,11 +1537,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(646, __c20, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(646, __c20, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1565,11 +1557,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(711, __c22, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(711, __c22, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1812,11 +1806,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          guestPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(646, __c20, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(646, __c20, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            guestPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/guestPolicies",
@@ -2029,11 +2025,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          patchDeploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(711, __c22, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(711, __c22, 7),
+          S.Struct({
+            patchDeploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/patchDeployments",
@@ -2169,10 +2167,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ExecutePatchJobRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/patchJobs:execute",

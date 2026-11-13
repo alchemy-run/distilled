@@ -243,15 +243,13 @@ export interface Instance {
   /** Output only. The software release version currently running on the instance. */
   effectiveVersion?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The instance's project and location, in the format `projects/{project}/locations/{location}`. Locations map to Google Cloud zones; for example, `us-west1-b`. */
   parent: string;
   /** Required. The name of the Managed Lustre instance. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. */
   instanceId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -291,13 +289,11 @@ export interface DirectoryPolicy {
   /** Output only. The lustre project ID assigned for the directory by the service. This read-only ID can be used to manage quotas. See more details in https://docs.cloud.google.com/managed-lustre/docs/file-system-quotas#set_quotas */
   lustreProjectId?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesDirectoryPoliciesRequest {
+export interface CreateProjectsLocationsInstancesDirectoryPoliciesRequest extends DirectoryPolicy {
   /** Required. The parent instance. It must be in the format of `projects/{project}/locations/{location}/instances/{instance}`. */
   parent: string;
   /** Required. The ID for the DirectoryPolicy to create. */
   directoryPolicyId?: string | undefined;
-  /** Request body */
-  body?: DirectoryPolicy | undefined;
 }
 /** The root directory path to the Lustre file system. */
 export interface LustrePath {
@@ -342,15 +338,13 @@ export interface Mirror {
   /** Required. Immutable. Represents the direction of the mirror. */
   direction?: MirrorDirectionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsInstancesMirrorsRequest {
+export interface CreateProjectsLocationsInstancesMirrorsRequest extends Mirror {
   /** Required. The ID to use for the mirror. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. The ID cannot be changed after the mirror is created. */
   mirrorId?: string | undefined;
   /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate mirrors for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate mirrors. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Required. Parent instance resource where the mirror will be created, in the format: `projects/{project}/locations/{location}/instances/{instance}` */
   parent: string;
-  /** Request body */
-  body?: Mirror | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -385,11 +379,9 @@ export interface ExportDataRequest {
   /** The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs:////`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   gcsPath?: GcsPath | undefined;
 }
-export interface ExportDataProjectsLocationsInstancesRequest {
+export interface ExportDataProjectsLocationsInstancesRequest extends ExportDataRequest {
   /** Required. The name of the Managed Lustre instance in the format `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
-  /** Request body */
-  body?: ExportDataRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -500,11 +492,9 @@ export interface ImportDataRequest {
   /** Optional. User-specified service account used to perform the transfer. If unspecified, the default Managed Lustre service agent will be used. The caller must have the `iam.serviceAccounts.actAs` permission (`roles/iam.serviceAccountUser`) on the specified service account. When IAM-based access control (`iam_access_control_enabled`) is enabled on the instance, specifying a custom service account is mandatory. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
   serviceAccount?: string | undefined;
 }
-export interface ImportDataProjectsLocationsInstancesRequest {
+export interface ImportDataProjectsLocationsInstancesRequest extends ImportDataRequest {
   /** Required. The name of the Managed Lustre instance in the format `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
-  /** Request body */
-  body?: ImportDataRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -608,25 +598,21 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Specifies the fields to be overwritten in the instance resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If no mask is provided then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The name of the instance. */
   name: string;
-  /** Request body */
-  body?: Instance | undefined;
 }
-export interface PatchProjectsLocationsInstancesMirrorsRequest {
+export interface PatchProjectsLocationsInstancesMirrorsRequest extends Omit<Mirror, "name"> {
   /** Identifier. Name of the mirror. Format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
   name: string;
   /** Optional. Fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If no mask is provided then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
   /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in the same update request being executed for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Mirror | undefined;
 }
 export type RescheduleRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -647,11 +633,9 @@ export interface RescheduleMaintenanceRequest {
   /** Required. The desired reschedule settings. */
   reschedule?: Reschedule | undefined;
 }
-export interface RescheduleMaintenanceProjectsLocationsInstancesRequest {
+export interface RescheduleMaintenanceProjectsLocationsInstancesRequest extends RescheduleMaintenanceRequest {
   /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
-  /** Request body */
-  body?: RescheduleMaintenanceRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -660,39 +644,31 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesDirectoryPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsInstancesDirectoryPoliciesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesDirectoryPoliciesRequest {
+export interface TestIamPermissionsProjectsLocationsInstancesDirectoryPoliciesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1367,10 +1343,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ExportDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:exportData",
@@ -1551,10 +1529,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ImportDataRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:importData",
@@ -1714,12 +1694,14 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(508, __c31, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(508, __c31, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
@@ -1729,12 +1711,14 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesMirrorsRequest" });
@@ -1758,10 +1742,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RescheduleMaintenanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c20, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(321, __c20, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rescheduleMaintenance",
@@ -1775,10 +1761,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1803,10 +1791,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1820,10 +1810,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1847,10 +1839,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1888,12 +1882,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(508, __c31, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(508, __c31, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -2056,11 +2052,13 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          directoryPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            directoryPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/directoryPolicies",
@@ -2088,12 +2086,14 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          mirrorId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            mirrorId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/mirrors",

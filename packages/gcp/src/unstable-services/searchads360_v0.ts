@@ -225,11 +225,9 @@ export interface GoogleAdsSearchads360V0Services__SearchSearchAds360Request {
   /** Number of elements to retrieve in a single page. When too large a page is requested, the server may decide to further limit the number of returned resources. */
   pageSize?: number | undefined;
 }
-export interface SearchCustomersSearchAds360Request {
+export interface SearchCustomersSearchAds360Request extends GoogleAdsSearchads360V0Services__SearchSearchAds360Request {
   /** Required. The ID of the customer being queried. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V0Services__SearchSearchAds360Request | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__GeoTargetConstantStatusEnum =
   | "UNSPECIFIED"
@@ -3927,10 +3925,7 @@ export interface GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsReques
   /** Required. The query string. */
   query?: string | undefined;
 }
-export interface SearchSearchAds360FieldsRequest {
-  /** Request body */
-  body?: GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsRequest | undefined;
-}
+export interface SearchSearchAds360FieldsRequest extends GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsRequest {}
 export type GoogleAdsSearchads360V0Resources__SearchAds360FieldList =
   Array<GoogleAdsSearchads360V0Resources__SearchAds360Field>;
 /** Response message for SearchAds360FieldService.SearchSearchAds360Fields. */
@@ -4212,10 +4207,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V0Services__SearchSearchAds360Request" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v0/customers/{+customerId}/searchAds360:search",
@@ -5880,9 +5877,7 @@ function __c12(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(384, __c12, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v0/searchAds360Fields:search",

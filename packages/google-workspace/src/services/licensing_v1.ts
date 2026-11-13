@@ -123,13 +123,11 @@ export interface LicenseAssignmentInsert {
   /** Email id of the user */
   userId?: string | undefined;
 }
-export interface InsertLicenseAssignmentsRequest {
+export interface InsertLicenseAssignmentsRequest extends LicenseAssignmentInsert {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
-  /** Request body */
-  body?: LicenseAssignmentInsert | undefined;
 }
 export interface ListForProductAndSkuLicenseAssignmentsRequest {
   /** The `maxResults` query string determines how many entries are returned on each page of a large response. This is an optional parameter. The value must be a positive number. */
@@ -164,25 +162,27 @@ export interface ListForProductLicenseAssignmentsRequest {
   /** Token to fetch the next page of data. The `maxResults` query string is related to the `pageToken` since `maxResults` determines how many entries are returned on each page. This is an optional query string. If not specified, the server returns the first page. */
   pageToken?: string | undefined;
 }
-export interface PatchLicenseAssignmentsRequest {
+export interface PatchLicenseAssignmentsRequest extends Omit<
+  LicenseAssignment,
+  "productId" | "skuId" | "userId"
+> {
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
   userId: string;
-  /** Request body */
-  body?: LicenseAssignment | undefined;
 }
-export interface UpdateLicenseAssignmentsRequest {
+export interface UpdateLicenseAssignmentsRequest extends Omit<
+  LicenseAssignment,
+  "productId" | "skuId" | "userId"
+> {
   /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
   userId: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
-  /** Request body */
-  body?: LicenseAssignment | undefined;
 }
 export type DeleteLicenseAssignmentsError =
   | NotFound
@@ -335,12 +335,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          skuId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6, __c3, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+            skuId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",
@@ -415,11 +417,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "LicenseAssignmentInsert" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          productId: S.String.pipe(T.Label()),
-          skuId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(8, __c4, 0),
+          S.Struct({
+            productId: S.String.pipe(T.Label()),
+            skuId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apps/licensing/v1/product/{productId}/sku/{skuId}/user",
@@ -487,12 +491,14 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skuId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(6, __c3, 0),
+          S.Struct({
+            skuId: S.String.pipe(T.Label()),
+            productId: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "apps/licensing/v1/product/{productId}/sku/{skuId}/user/{userId}",

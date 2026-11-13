@@ -200,15 +200,13 @@ export interface CapacityCommitment {
   /** Optional. Number of slots in this commitment. */
   slotCount?: string | undefined;
 }
-export interface CreateProjectsLocationsCapacityCommitmentsRequest {
+export interface CreateProjectsLocationsCapacityCommitmentsRequest extends CapacityCommitment {
   /** Required. Resource name of the parent reservation. E.g., `projects/myproject/locations/US` */
   parent: string;
   /** If true, fail the request if another project in the organization has a capacity commitment. */
   enforceSingleAdminProjectPerOrg?: boolean | undefined;
   /** The optional capacity commitment ID. Capacity commitment name will be generated automatically if this field is empty. This field must only contain lower case alphanumeric characters or dashes. The first and last character cannot be a dash. Max length is 64 characters. NOTE: this ID won't be kept if the capacity commitment is split or merged. */
   capacityCommitmentId?: string | undefined;
-  /** Request body */
-  body?: CapacityCommitment | undefined;
 }
 /** A reservation group is a container for reservations. */
 export interface ReservationGroup {
@@ -221,13 +219,11 @@ export interface ReservationGroup {
   /** Output only. Last update time of the reservation group via a user operation. This timestamp is updated only when an update operation explicitly targets this reservation group directly. It is not updated when parent or child groups are created, updated, or deleted. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsReservationGroupsRequest {
+export interface CreateProjectsLocationsReservationGroupsRequest extends ReservationGroup {
   /** Required. The reservation group ID. It must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   reservationGroupId?: string | undefined;
   /** Required. Project, location. E.g., `projects/myproject/locations/US` */
   parent: string;
-  /** Request body */
-  body?: ReservationGroup | undefined;
 }
 export type StringList = Array<string>;
 export type ReservationScalingModeEnum =
@@ -307,13 +303,11 @@ export interface Reservation {
   /** Optional. The labels associated with this reservation. You can use these to organize and group your reservations. You can set this property when you create or update a reservation. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsReservationsRequest {
+export interface CreateProjectsLocationsReservationsRequest extends Reservation {
   /** The reservation ID. It must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   reservationId?: string | undefined;
   /** Required. Project, location. E.g., `projects/myproject/locations/US` */
   parent: string;
-  /** Request body */
-  body?: Reservation | undefined;
 }
 export type AssignmentStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "ACTIVE";
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
@@ -359,13 +353,11 @@ export interface Assignment {
   /** Optional. Which type of jobs will use the reservation. */
   jobType?: AssignmentJobTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsReservationsAssignmentsRequest {
+export interface CreateProjectsLocationsReservationsAssignmentsRequest extends Assignment {
   /** The optional assignment ID. Assignment name will be generated automatically if this field is empty. This field must only contain lower case alphanumeric characters or dashes. Max length is 64 characters. */
   assignmentId?: string | undefined;
   /** Required. The parent resource name of the assignment E.g. `projects/myproject/locations/US/reservations/team1-prod` */
   parent: string;
-  /** Request body */
-  body?: Assignment | undefined;
 }
 export interface DeleteProjectsLocationsCapacityCommitmentsRequest {
   /** Required. Resource name of the capacity commitment to delete. E.g., `projects/myproject/locations/US/capacityCommitments/123` */
@@ -396,11 +388,9 @@ export interface FailoverReservationRequest {
   /** Optional. A parameter that determines how writes that are pending replication are handled after a failover is initiated. If not specified, HARD failover mode is used by default. */
   failoverMode?: FailoverReservationRequestFailoverModeEnum | (string & {}) | undefined;
 }
-export interface FailoverReservationProjectsLocationsReservationsRequest {
+export interface FailoverReservationProjectsLocationsReservationsRequest extends FailoverReservationRequest {
   /** Required. Resource name of the reservation to failover. E.g., `projects/myproject/locations/US/reservations/team1-prod` */
   name: string;
-  /** Request body */
-  body?: FailoverReservationRequest | undefined;
 }
 export interface GetBiReservationProjectsLocationsRequest {
   /** Required. Name of the requested reservation, for example: `projects/{project_id}/locations/{location_id}/biReservation` */
@@ -564,11 +554,9 @@ export interface MergeCapacityCommitmentsRequest {
   /** Optional. The optional resulting capacity commitment ID. Capacity commitment name will be generated automatically if this field is empty. This field must only contain lower case alphanumeric characters or dashes. The first and last character cannot be a dash. Max length is 64 characters. */
   capacityCommitmentId?: string | undefined;
 }
-export interface MergeProjectsLocationsCapacityCommitmentsRequest {
+export interface MergeProjectsLocationsCapacityCommitmentsRequest extends MergeCapacityCommitmentsRequest {
   /** Parent resource that identifies admin project and location e.g., `projects/myproject/locations/us` */
   parent: string;
-  /** Request body */
-  body?: MergeCapacityCommitmentsRequest | undefined;
 }
 /** The request for ReservationService.MoveAssignment. **Note**: "bigquery.reservationAssignments.create" permission is required on the destination_id. **Note**: "bigquery.reservationAssignments.create" and "bigquery.reservationAssignments.delete" permission are required on the related assignee. */
 export interface MoveAssignmentRequest {
@@ -577,43 +565,42 @@ export interface MoveAssignmentRequest {
   /** The optional assignment ID. A new assignment name is generated if this field is empty. This field can contain only lowercase alphanumeric characters or dashes. Max length is 64 characters. */
   assignmentId?: string | undefined;
 }
-export interface MoveProjectsLocationsReservationsAssignmentsRequest {
+export interface MoveProjectsLocationsReservationsAssignmentsRequest extends MoveAssignmentRequest {
   /** Required. The resource name of the assignment, e.g. `projects/myproject/locations/US/reservations/team1-prod/assignments/123` */
   name: string;
-  /** Request body */
-  body?: MoveAssignmentRequest | undefined;
 }
-export interface PatchProjectsLocationsCapacityCommitmentsRequest {
+export interface PatchProjectsLocationsCapacityCommitmentsRequest extends Omit<
+  CapacityCommitment,
+  "name"
+> {
   /** Output only. The resource name of the capacity commitment, e.g., `projects/myproject/locations/US/capacityCommitments/123` The commitment_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   name: string;
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CapacityCommitment | undefined;
 }
-export interface PatchProjectsLocationsReservationGroupsRequest {
+export interface PatchProjectsLocationsReservationGroupsRequest extends Omit<
+  ReservationGroup,
+  "name"
+> {
   /** Identifier. The resource name of the reservation group, e.g., `projects/*\/locations/*\/reservationGroups/team1-prod`. The reservation_group_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   name: string;
   /** Optional. Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ReservationGroup | undefined;
 }
-export interface PatchProjectsLocationsReservationsRequest {
+export interface PatchProjectsLocationsReservationsRequest extends Omit<Reservation, "name"> {
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the reservation, e.g., `projects/*\/locations/*\/reservations/team1-prod`. The reservation_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   name: string;
-  /** Request body */
-  body?: Reservation | undefined;
 }
-export interface PatchProjectsLocationsReservationsAssignmentsRequest {
+export interface PatchProjectsLocationsReservationsAssignmentsRequest extends Omit<
+  Assignment,
+  "name"
+> {
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. Name of the resource. E.g.: `projects/myproject/locations/US/reservations/team1-prod/assignments/123`. The assignment_id must only contain lower case alphanumeric characters or dashes and the max length is 64 characters. */
   name: string;
-  /** Request body */
-  body?: Assignment | undefined;
 }
 export interface SearchAllAssignmentsProjectsLocationsRequest {
   /** Please specify resource name as assignee in the query. Examples: * `assignee=projects/myproject` * `assignee=folders/123` * `assignee=organizations/456` */
@@ -656,28 +643,22 @@ export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsReservationsRequest {
+export interface SetIamPolicyProjectsLocationsReservationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsReservationsAssignmentsRequest {
+export interface SetIamPolicyProjectsLocationsReservationsAssignmentsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** The request for ReservationService.SplitCapacityCommitment. */
 export interface SplitCapacityCommitmentRequest {
   /** Number of slots in the capacity commitment after the split. */
   slotCount?: string | undefined;
 }
-export interface SplitProjectsLocationsCapacityCommitmentsRequest {
+export interface SplitProjectsLocationsCapacityCommitmentsRequest extends SplitCapacityCommitmentRequest {
   /** Required. The resource name e.g.,: `projects/myproject/locations/US/capacityCommitments/123` */
   name: string;
-  /** Request body */
-  body?: SplitCapacityCommitmentRequest | undefined;
 }
 /** The response for ReservationService.SplitCapacityCommitment. */
 export interface SplitCapacityCommitmentResponse {
@@ -691,30 +672,24 @@ export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsReservationsRequest {
+export interface TestIamPermissionsProjectsLocationsReservationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest {
+export interface TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdateBiReservationProjectsLocationsRequest {
+export interface UpdateBiReservationProjectsLocationsRequest extends Omit<BiReservation, "name"> {
   /** Identifier. The resource name of the singleton BI reservation. Reservation names have the form `projects/{project_id}/locations/{location_id}/biReservation`. */
   name: string;
   /** A list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: BiReservation | undefined;
 }
 export type UpgradeEditionRequestTargetEditionEnum =
   | "EDITION_UNSPECIFIED"
@@ -730,11 +705,9 @@ export interface UpgradeEditionRequest {
   /** Optional. The resource names of the reservations to upgrade, in the format `projects/{project}/locations/{location}/reservations/{reservation}`. For example, `projects/myproject/locations/us-west1/reservations/team1-prod`. These reservations must exist under the specified `parent`. */
   reservations?: StringList | undefined;
 }
-export interface UpgradeEditionProjectsLocationsRequest {
+export interface UpgradeEditionProjectsLocationsRequest extends UpgradeEditionRequest {
   /** The parent resource name that identifies the admin project and location, in the format `projects/{project}/locations/{location}`. For example, `projects/myproject/locations/us-west1`. */
   parent: string;
-  /** Request body */
-  body?: UpgradeEditionRequest | undefined;
 }
 /** The response for ReservationService.UpgradeEdition. */
 export interface UpgradeEditionResponse {
@@ -1492,11 +1465,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          assignmentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            assignmentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assignments",
@@ -1618,10 +1593,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "FailoverReservationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:failoverReservation",
@@ -1924,10 +1901,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "MergeCapacityCommitmentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c24, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/capacityCommitments:merge",
@@ -1948,10 +1927,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "MoveAssignmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -1965,11 +1946,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(344, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(344, __c43, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1983,11 +1966,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(368, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(368, __c46, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2001,11 +1986,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(403, __c50, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(403, __c50, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2019,11 +2006,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2086,10 +2075,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c34, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2114,10 +2105,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c34, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2137,10 +2130,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SplitCapacityCommitmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c36, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:split",
@@ -2161,10 +2156,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c38, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2188,10 +2185,12 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c38, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(304, __c38, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2207,11 +2206,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(82, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(82, __c10, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2233,10 +2234,12 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpgradeEditionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(328, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(328, __c41, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:upgradeEdition",
@@ -2257,12 +2260,14 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          enforceSingleAdminProjectPerOrg: S.optional(S.Boolean.pipe(T.Query())),
-          capacityCommitmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(344, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(344, __c43, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            enforceSingleAdminProjectPerOrg: S.optional(S.Boolean.pipe(T.Query())),
+            capacityCommitmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/capacityCommitments",
@@ -2312,11 +2317,13 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          reservationGroupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c46, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(368, __c46, 0),
+          S.Struct({
+            reservationGroupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reservationGroups",
@@ -2343,11 +2350,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          reservationId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(403, __c50, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(403, __c50, 3),
+          S.Struct({
+            reservationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reservations",

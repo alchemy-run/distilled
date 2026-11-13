@@ -417,11 +417,9 @@ export interface BatchCreateJobsRequest {
   /** Required. The jobs to be created. A maximum of 200 jobs can be created in a batch. */
   jobs?: JobList | undefined;
 }
-export interface BatchCreateProjectsTenantsJobsRequest {
+export interface BatchCreateProjectsTenantsJobsRequest extends BatchCreateJobsRequest {
   /** Required. The resource name of the tenant under which the job is created. The format is "projects/{project_id}/tenants/{tenant_id}". For example, "projects/foo/tenants/bar". */
   parent: string;
-  /** Request body */
-  body?: BatchCreateJobsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -452,11 +450,9 @@ export interface BatchDeleteJobsRequest {
   /** The names of the jobs to delete. The format is "projects/{project_id}/tenants/{tenant_id}/jobs/{job_id}". For example, "projects/foo/tenants/bar/jobs/baz". A maximum of 200 jobs can be deleted in a batch. */
   names?: StringList | undefined;
 }
-export interface BatchDeleteProjectsTenantsJobsRequest {
+export interface BatchDeleteProjectsTenantsJobsRequest extends BatchDeleteJobsRequest {
   /** Required. The resource name of the tenant under which the job is created. The format is "projects/{project_id}/tenants/{tenant_id}". For example, "projects/foo/tenants/bar". The parent of all of the jobs specified in `names` must match this field. */
   parent: string;
-  /** Request body */
-  body?: BatchDeleteJobsRequest | undefined;
 }
 /** Request to update a batch of jobs. */
 export interface BatchUpdateJobsRequest {
@@ -465,11 +461,9 @@ export interface BatchUpdateJobsRequest {
   /** Strongly recommended for the best service experience. Be aware that it will also increase latency when checking the status of a batch operation. If update_mask is provided, only the specified fields in Job are updated. Otherwise all the fields are updated. A field mask to restrict the fields that are updated. Only top level fields of Job are supported. If update_mask is provided, The Job inside JobResult will only contains fields that is updated, plus the Id of the Job. Otherwise, Job will include all fields, which can yield a very large response. */
   updateMask?: string | undefined;
 }
-export interface BatchUpdateProjectsTenantsJobsRequest {
+export interface BatchUpdateProjectsTenantsJobsRequest extends BatchUpdateJobsRequest {
   /** Required. The resource name of the tenant under which the job is created. The format is "projects/{project_id}/tenants/{tenant_id}". For example, "projects/foo/tenants/bar". */
   parent: string;
-  /** Request body */
-  body?: BatchUpdateJobsRequest | undefined;
 }
 export type CompleteQueryProjectsTenantsTypeEnum =
   | "COMPLETION_TYPE_UNSPECIFIED"
@@ -530,11 +524,9 @@ export interface Tenant {
   /** Required. Client side tenant identifier, used to uniquely identify the tenant. The maximum number of allowed characters is 255. */
   externalId?: string | undefined;
 }
-export interface CreateProjectsTenantsRequest {
+export interface CreateProjectsTenantsRequest extends Tenant {
   /** Required. Resource name of the project under which the tenant is created. The format is "projects/{project_id}", for example, "projects/foo". */
   parent: string;
-  /** Request body */
-  body?: Tenant | undefined;
 }
 export type JobEventTypeEnum =
   | "JOB_EVENT_TYPE_UNSPECIFIED"
@@ -573,11 +565,9 @@ export interface ClientEvent {
   /** An event issued when a job seeker interacts with the application that implements Cloud Talent Solution. */
   jobEvent?: JobEvent | undefined;
 }
-export interface CreateProjectsTenantsClientEventsRequest {
+export interface CreateProjectsTenantsClientEventsRequest extends ClientEvent {
   /** Required. Resource name of the tenant under which the event is created. The format is "projects/{project_id}/tenants/{tenant_id}", for example, "projects/foo/tenants/bar". */
   parent: string;
-  /** Request body */
-  body?: ClientEvent | undefined;
 }
 /** Derived details about the company. */
 export interface CompanyDerivedInfo {
@@ -622,17 +612,13 @@ export interface Company {
   /** The street address of the company's main headquarters, which may be different from the job location. The service attempts to geolocate the provided address, and populates a more specific location wherever possible in DerivedInfo.headquarters_location. */
   headquartersAddress?: string | undefined;
 }
-export interface CreateProjectsTenantsCompaniesRequest {
+export interface CreateProjectsTenantsCompaniesRequest extends Company {
   /** Required. Resource name of the tenant under which the company is created. The format is "projects/{project_id}/tenants/{tenant_id}", for example, "projects/foo/tenants/bar". */
   parent: string;
-  /** Request body */
-  body?: Company | undefined;
 }
-export interface CreateProjectsTenantsJobsRequest {
+export interface CreateProjectsTenantsJobsRequest extends Job {
   /** Required. The resource name of the tenant under which the job is created. The format is "projects/{project_id}/tenants/{tenant_id}". For example, "projects/foo/tenants/bar". */
   parent: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 export interface DeleteProjectsTenantsRequest {
   /** Required. The resource name of the tenant to be deleted. The format is "projects/{project_id}/tenants/{tenant_id}", for example, "projects/foo/tenants/bar". */
@@ -729,29 +715,23 @@ export interface ListJobsResponse {
   /** The Jobs for a given company. The maximum number of items returned is based on the limit field provided in the request. */
   jobs?: JobList | undefined;
 }
-export interface PatchProjectsTenantsRequest {
+export interface PatchProjectsTenantsRequest extends Omit<Tenant, "name"> {
   /** Strongly recommended for the best service experience. If update_mask is provided, only the specified fields in tenant are updated. Otherwise all the fields are updated. A field mask to specify the tenant fields to be updated. Only top level fields of Tenant are supported. */
   updateMask?: string | undefined;
   /** Required during tenant update. The resource name for a tenant. This is generated by the service when a tenant is created. The format is "projects/{project_id}/tenants/{tenant_id}", for example, "projects/foo/tenants/bar". */
   name: string;
-  /** Request body */
-  body?: Tenant | undefined;
 }
-export interface PatchProjectsTenantsCompaniesRequest {
+export interface PatchProjectsTenantsCompaniesRequest extends Omit<Company, "name"> {
   /** Required during company update. The resource name for a company. This is generated by the service when a company is created. The format is "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for example, "projects/foo/tenants/bar/companies/baz". */
   name: string;
   /** Strongly recommended for the best service experience. If update_mask is provided, only the specified fields in company are updated. Otherwise all the fields are updated. A field mask to specify the company fields to be updated. Only top level fields of Company are supported. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Company | undefined;
 }
-export interface PatchProjectsTenantsJobsRequest {
+export interface PatchProjectsTenantsJobsRequest extends Omit<Job, "name"> {
   /** Required during job update. The resource name for the job. This is generated by the service when a job is created. The format is "projects/{project_id}/tenants/{tenant_id}/jobs/{job_id}". For example, "projects/foo/tenants/bar/jobs/baz". Use of this field in job queries and API calls is preferred over the use of requisition_id since this value is unique. */
   name: string;
   /** Strongly recommended for the best service experience. If update_mask is provided, only the specified fields in job are updated. Otherwise all the fields are updated. A field mask to restrict the fields that are updated. Only top level fields of Job are supported. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
 }
 export type SearchJobsRequestKeywordMatchModeEnum =
   | "KEYWORD_MATCH_MODE_UNSPECIFIED"
@@ -1037,11 +1017,9 @@ export interface SearchJobsRequest {
   /** Required. The meta information collected about the job searcher, used to improve the search quality of the service. The identifiers (such as `user_id`) are provided by users, and must be unique and consistent. */
   requestMetadata?: RequestMetadata | undefined;
 }
-export interface SearchForAlertProjectsTenantsJobsRequest {
+export interface SearchForAlertProjectsTenantsJobsRequest extends SearchJobsRequest {
   /** Required. The resource name of the tenant to search within. The format is "projects/{project_id}/tenants/{tenant_id}". For example, "projects/foo/tenants/bar". */
   parent: string;
-  /** Request body */
-  body?: SearchJobsRequest | undefined;
 }
 /** Spell check result. */
 export interface SpellingCorrection {
@@ -1101,11 +1079,9 @@ export interface SearchJobsResponse {
   /** If query broadening is enabled, we may append additional results from the broadened query. This number indicates how many of the jobs returned in the jobs field are from the broadened query. These results are always at the end of the jobs list. In particular, a value of 0, or if the field isn't set, all the jobs in the jobs list are from the original (without broadening) query. If this field is non-zero, subsequent requests with offset after this result set should contain all broadened results. */
   broadenedQueryJobsCount?: number | undefined;
 }
-export interface SearchProjectsTenantsJobsRequest {
+export interface SearchProjectsTenantsJobsRequest extends SearchJobsRequest {
   /** Required. The resource name of the tenant to search within. The format is "projects/{project_id}/tenants/{tenant_id}". For example, "projects/foo/tenants/bar". */
   parent: string;
-  /** Request body */
-  body?: SearchJobsRequest | undefined;
 }
 export type BatchCreateProjectsTenantsJobsError =
   | NotFound
@@ -1668,10 +1644,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ClientEvent" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/clientEvents",
@@ -1685,10 +1663,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/companies",
@@ -1730,10 +1710,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(812, __c25, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(812, __c25, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/jobs",
@@ -1922,11 +1904,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v4/{+name}", baseUrl: "https://jobs.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsTenantsRequest" });
@@ -1936,11 +1920,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v4/{+name}", baseUrl: "https://jobs.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsTenantsCompaniesRequest" });
@@ -1950,11 +1936,13 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(812, __c25, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(812, __c25, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v4/{+name}", baseUrl: "https://jobs.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsTenantsJobsRequest" });
@@ -1964,10 +1952,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(620, __c19, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(620, __c19, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/jobs:searchForAlert",
@@ -2155,10 +2145,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(620, __c19, 12).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(620, __c19, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/jobs:search",
@@ -2178,10 +2170,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BatchCreateJobsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/jobs:batchCreate",
@@ -2387,10 +2381,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "BatchDeleteJobsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/jobs:batchDelete",
@@ -2411,10 +2407,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "BatchUpdateJobsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/jobs:batchUpdate",
@@ -2477,10 +2475,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v4/{+parent}/tenants",

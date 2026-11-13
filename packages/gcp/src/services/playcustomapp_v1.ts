@@ -102,11 +102,9 @@ export interface CustomApp {
   /** Default listing language in BCP 47 format. */
   languageCode?: string | undefined;
 }
-export interface CreateAccountsCustomAppsRequest {
+export interface CreateAccountsCustomAppsRequest extends CustomApp {
   /** Developer account ID. */
   account: string;
-  /** Request body */
-  body?: CustomApp | undefined;
 }
 export type CreateAccountsCustomAppsError =
   | NotFound
@@ -153,10 +151,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CustomApp" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          account: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            account: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "playcustomapp/v1/accounts/{account}/customApps",

@@ -129,10 +129,7 @@ export interface BulkCheckRequest {
   /** If specified, will be used in any given template statement that doesn't specify a relation. */
   defaultRelation?: string | undefined;
 }
-export interface BulkCheckAssetlinksRequest {
-  /** Request body */
-  body?: BulkCheckRequest | undefined;
-}
+export interface BulkCheckAssetlinksRequest extends BulkCheckRequest {}
 export type BulkCheckResponseBulkErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
   | "ERROR_CODE_INVALID_QUERY"
@@ -323,9 +320,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "BulkCheckRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2, __c0, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/assetlinks:bulkCheck",

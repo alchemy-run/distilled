@@ -129,11 +129,9 @@ export interface GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest {
   /** Required. IP override added to the key. */
   ipOverrideData?: GoogleCloudRecaptchaenterpriseV1IpOverrideData | undefined;
 }
-export interface AddIpOverrideProjectsKeysRequest {
+export interface AddIpOverrideProjectsKeysRequest extends GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest {
   /** Required. The name of the key to which the IP override is added, in the format `projects/{project}/keys/{key}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest | undefined;
 }
 /** Response for AddIpOverride. */
 export interface GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse {}
@@ -223,11 +221,9 @@ export interface GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest {
   /** Optional. If the assessment is part of a payment transaction, provide details on payment lifecycle events that occur in the transaction. */
   transactionEvent?: GoogleCloudRecaptchaenterpriseV1TransactionEvent | undefined;
 }
-export interface AnnotateProjectsAssessmentsRequest {
+export interface AnnotateProjectsAssessmentsRequest extends GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest {
   /** Required. The resource name of the Assessment, in the format `projects/{project}/assessments/{assessment}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest | undefined;
 }
 /** Empty response for AnnotateAssessment. */
 export interface GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse {}
@@ -801,17 +797,13 @@ export interface GoogleCloudRecaptchaenterpriseV1Assessment {
   /** Output only. Fraud Signals specific to the users involved in a payment transaction. */
   fraudSignals?: GoogleCloudRecaptchaenterpriseV1FraudSignals | undefined;
 }
-export interface CreateProjectsAssessmentsRequest {
+export interface CreateProjectsAssessmentsRequest extends GoogleCloudRecaptchaenterpriseV1Assessment {
   /** Required. The name of the project in which the assessment is created, in the format `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1Assessment | undefined;
 }
-export interface CreateProjectsFirewallpoliciesRequest {
+export interface CreateProjectsFirewallpoliciesRequest extends GoogleCloudRecaptchaenterpriseV1FirewallPolicy {
   /** Required. The name of the project this policy applies to, in the format `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1FirewallPolicy | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type GoogleCloudRecaptchaenterpriseV1TestingOptionsTestingChallengeEnum =
@@ -958,11 +950,9 @@ export interface GoogleCloudRecaptchaenterpriseV1Key {
   /** Settings for keys that can be used by Android apps. */
   androidSettings?: GoogleCloudRecaptchaenterpriseV1AndroidKeySettings | undefined;
 }
-export interface CreateProjectsKeysRequest {
+export interface CreateProjectsKeysRequest extends GoogleCloudRecaptchaenterpriseV1Key {
   /** Required. The name of the project in which the key is created, in the format `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1Key | undefined;
 }
 export interface DeleteProjectsFirewallpoliciesRequest {
   /** Required. The name of the policy to be deleted, in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
@@ -1210,38 +1200,36 @@ export interface GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest {
   /** Optional. If true, skips the billing check. A reCAPTCHA Enterprise key or migrated key behaves differently than a reCAPTCHA (non-Enterprise version) key when you reach a quota limit (see https://docs.cloud.google.com/recaptcha/quotas#quota_limit). To avoid any disruption of your usage, we check that a billing account is present. If your usage of reCAPTCHA is under the free quota, you can safely skip the billing check and proceed with the migration. See https://cloud.google.com/recaptcha/docs/billing-information. */
   skipBillingCheck?: boolean | undefined;
 }
-export interface MigrateProjectsKeysRequest {
+export interface MigrateProjectsKeysRequest extends GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest {
   /** Required. The name of the key to be migrated, in the format `projects/{project}/keys/{key}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest | undefined;
 }
-export interface PatchProjectsFirewallpoliciesRequest {
+export interface PatchProjectsFirewallpoliciesRequest extends Omit<
+  GoogleCloudRecaptchaenterpriseV1FirewallPolicy,
+  "name"
+> {
   /** Optional. The mask to control which fields of the policy get updated. If the mask is not present, all fields are updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name for the FirewallPolicy in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1FirewallPolicy | undefined;
 }
-export interface PatchProjectsKeysRequest {
+export interface PatchProjectsKeysRequest extends Omit<
+  GoogleCloudRecaptchaenterpriseV1Key,
+  "name"
+> {
   /** Optional. The mask to control which fields of the key get updated. If the mask is not present, all fields are updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name for the Key in the format `projects/{project}/keys/{key}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1Key | undefined;
 }
 /** The RemoveIpOverride request message. */
 export interface GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest {
   /** Required. IP override to be removed from the key. */
   ipOverrideData?: GoogleCloudRecaptchaenterpriseV1IpOverrideData | undefined;
 }
-export interface RemoveIpOverrideProjectsKeysRequest {
+export interface RemoveIpOverrideProjectsKeysRequest extends GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest {
   /** Required. The name of the key from which the IP override is removed, in the format `projects/{project}/keys/{key}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest | undefined;
 }
 /** Response for RemoveIpOverride. */
 export interface GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse {}
@@ -1250,11 +1238,9 @@ export interface GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest 
   /** Required. A list containing all policy names, in the new order. Each name is in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
   names?: StringList | undefined;
 }
-export interface ReorderProjectsFirewallpoliciesRequest {
+export interface ReorderProjectsFirewallpoliciesRequest extends GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest {
   /** Required. The name of the project to list the policies for, in the format `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest | undefined;
 }
 /** The reorder firewall policies response message. */
 export interface GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse {}
@@ -1269,11 +1255,9 @@ export interface GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMember
   /** Optional. Deprecated: use `account_id` instead. The unique stable hashed account identifier used to search connections. The identifier should correspond to a `hashed_account_id` provided in a previous `CreateAssessment` or `AnnotateAssessment` call. Either hashed_account_id or account_id must be set, but not both. */
   hashedAccountId?: string | undefined;
 }
-export interface SearchProjectsRelatedaccountgroupmembershipsRequest {
+export interface SearchProjectsRelatedaccountgroupmembershipsRequest extends GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRequest {
   /** Required. The name of the project to search related account group memberships from. Specify the project name in the following format: `projects/{project}`. */
   project: string;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRequest | undefined;
 }
 /** The response to a `SearchRelatedAccountGroupMemberships` call. */
 export interface GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsResponse {
@@ -1284,13 +1268,14 @@ export interface GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMember
     | GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembershipList
     | undefined;
 }
-export interface UpdatePolicyProjectsKeysRequest {
+export interface UpdatePolicyProjectsKeysRequest extends Omit<
+  GoogleCloudRecaptchaenterpriseV1Policy,
+  "name"
+> {
   /** Identifier. Resource name for this policy. Format: "projects/{project}/keys/{key}/policy" for a policy under a key. */
   name: string;
   /** Optional. The mask to control which fields of the policy get updated. If the mask is not present, all fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudRecaptchaenterpriseV1Policy | undefined;
 }
 export type AddIpOverrideProjectsKeysError =
   | NotFound
@@ -1846,10 +1831,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(73, __c2, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(73, __c2, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/keys",
@@ -2329,10 +2316,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:migrate",
@@ -2346,11 +2335,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1060, __c33, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1060, __c33, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2364,11 +2355,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(73, __c2, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(73, __c2, 9),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2382,10 +2375,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:removeIpOverride",
@@ -2405,10 +2400,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/firewallpolicies:reorder",
@@ -2433,10 +2430,12 @@ function __c22(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+project}/relatedaccountgroupmemberships:search",
@@ -2450,11 +2449,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(265, __c8, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(265, __c8, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2468,10 +2469,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:addIpOverride",
@@ -2541,10 +2544,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(898, __c28, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(898, __c28, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:annotate",
@@ -2877,10 +2882,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GoogleCloudRecaptchaenterpriseV1Assessment" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(998, __c31, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(998, __c31, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/assessments",
@@ -2940,10 +2947,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1060, __c33, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1060, __c33, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/firewallpolicies",

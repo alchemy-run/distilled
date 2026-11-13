@@ -153,10 +153,7 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {
   /** The version ID for this markup. Except for update requests, this field is output-only and should not be set by the user. */
   versionId?: string | undefined;
 }
-export interface CreatePagesRequest {
-  /** Request body */
-  body?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage | undefined;
-}
+export interface CreatePagesRequest extends GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {}
 export interface DeletePagesRequest {
   /** The name of the resource to delete, in the form of `pages/{page_id}`. */
   name: string;
@@ -278,11 +275,12 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchR
   /** The next pagination token in the Search response. It should be used as the `page_token` for the following request. An empty value means no more results. */
   nextPageToken?: string | undefined;
 }
-export interface UpdatePagesRequest {
+export interface UpdatePagesRequest extends Omit<
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage,
+  "name"
+> {
   /** The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
   name: string;
-  /** Request body */
-  body?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage | undefined;
 }
 export type CreatePagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Create `ClaimReview` markup on a page. */
@@ -438,10 +436,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(22, __c2, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1alpha1/{+name}",
@@ -455,9 +455,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(22, __c2, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(22, __c2, 6), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/pages",

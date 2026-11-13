@@ -892,11 +892,9 @@ export interface AnalyzeBatchRequest {
   /** Optional. The requestor ID is used to identify if the request comes from a GCA investigation or the old Ask Gemini Experience. */
   requestorId?: string | undefined;
 }
-export interface AnalyzeProjectsLocationsBatchesRequest {
+export interface AnalyzeProjectsLocationsBatchesRequest extends AnalyzeBatchRequest {
   /** Required. The fully qualified name of the batch to analyze in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
   name: string;
-  /** Request body */
-  body?: AnalyzeBatchRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1345,11 +1343,9 @@ export interface AutoscalingPolicy {
   workerConfig?: InstanceGroupAutoscalingPolicyConfig | undefined;
   basicAlgorithm?: BasicAutoscalingAlgorithm | undefined;
 }
-export interface CreateProjectsLocationsAutoscalingPoliciesRequest {
+export interface CreateProjectsLocationsAutoscalingPoliciesRequest extends AutoscalingPolicy {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: AutoscalingPolicy | undefined;
 }
 /** A configuration for running a PySpark Notebook batch workload. */
 export interface PySparkNotebookBatch {
@@ -1657,15 +1653,13 @@ export interface Batch {
   /** Output only. Batch state details, such as a failure description if the state is FAILED. */
   stateMessage?: string | undefined;
 }
-export interface CreateProjectsLocationsBatchesRequest {
+export interface CreateProjectsLocationsBatchesRequest extends Batch {
   /** Optional. The ID to use for the batch, which will become the final component of the batch's resource name.This value must be 4-63 characters. Valid characters are /[a-z][0-9]-/. */
   batchId?: string | undefined;
   /** Required. The parent resource where this batch will be created. */
   parent: string;
   /** Optional. A unique ID used to identify the request. If the service receives two CreateBatchRequests with the same request_id, the second request is ignored and the operation that corresponds to the first Batch created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Batch | undefined;
 }
 export type SessionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1736,15 +1730,13 @@ export interface Session {
   /** Output only. Historical state information for the session. */
   stateHistory?: SessionStateHistoryList | undefined;
 }
-export interface CreateProjectsLocationsSessionsRequest {
+export interface CreateProjectsLocationsSessionsRequest extends Session {
   /** Required. The ID to use for the session, which becomes the final component of the session's resource name.This value must be 4-63 characters. Valid characters are /a-z-/. */
   sessionId?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the service receives two CreateSessionRequests (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateSessionRequest)s with the same ID, the second request is ignored, and the first Session is created and stored in the backend.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. The parent resource where this session will be created. */
   parent: string;
-  /** Request body */
-  body?: Session | undefined;
 }
 /** A representation of a session template. */
 export interface SessionTemplate {
@@ -1773,11 +1765,9 @@ export interface SessionTemplate {
   /** Optional. User-friendly display name for the session template. Can be up to 63 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsSessionTemplatesRequest {
+export interface CreateProjectsLocationsSessionTemplatesRequest extends SessionTemplate {
   /** Required. The parent resource where this session template will be created. */
   parent: string;
-  /** Request body */
-  body?: SessionTemplate | undefined;
 }
 /** Configuration to handle the startup of instances during cluster create and update process. */
 export interface StartupConfig {
@@ -2465,17 +2455,13 @@ export interface WorkflowTemplate {
   /** Optional. Encryption settings for encrypting workflow template job arguments. */
   encryptionConfig?: GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig | undefined;
 }
-export interface CreateProjectsLocationsWorkflowTemplatesRequest {
+export interface CreateProjectsLocationsWorkflowTemplatesRequest extends WorkflowTemplate {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: WorkflowTemplate | undefined;
 }
-export interface CreateProjectsRegionsAutoscalingPoliciesRequest {
+export interface CreateProjectsRegionsAutoscalingPoliciesRequest extends AutoscalingPolicy {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: AutoscalingPolicy | undefined;
 }
 export type CreateProjectsRegionsClustersActionOnFailedPrimaryWorkersEnum =
   | "FAILURE_ACTION_UNSPECIFIED"
@@ -2567,7 +2553,7 @@ export interface Cluster {
   /** Optional. The labels to associate with this cluster. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a cluster. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsRegionsClustersRequest {
+export interface CreateProjectsRegionsClustersRequest extends Omit<Cluster, "projectId"> {
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
   /** Optional. Failure action when primary worker creation fails. */
@@ -2579,10 +2565,8 @@ export interface CreateProjectsRegionsClustersRequest {
   region: string;
   /** Optional. A unique ID used to identify the request. If the server receives two CreateClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
-export interface CreateProjectsRegionsClustersNodeGroupsRequest {
+export interface CreateProjectsRegionsClustersNodeGroupsRequest extends NodeGroup {
   /** Required. The parent resource where this node group will be created. Format: projects/{project}/regions/{region}/clusters/{cluster} */
   parent: string;
   /** Optional. A unique ID used to identify the request. If the server receives two CreateNodeGroupRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateNodeGroupRequest) with the same ID, the second request is ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
@@ -2591,14 +2575,10 @@ export interface CreateProjectsRegionsClustersNodeGroupsRequest {
   nodeGroupId?: string | undefined;
   /** Optional. operation id of the parent operation sending the create request */
   parentOperationId?: string | undefined;
-  /** Request body */
-  body?: NodeGroup | undefined;
 }
-export interface CreateProjectsRegionsWorkflowTemplatesRequest {
+export interface CreateProjectsRegionsWorkflowTemplatesRequest extends WorkflowTemplate {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
-  /** Request body */
-  body?: WorkflowTemplate | undefined;
 }
 export interface DeleteProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
@@ -2692,15 +2672,13 @@ export interface DiagnoseClusterRequest {
   /** Optional. (Optional) The access type to the diagnostic tarball. If not specified, falls back to default access of the bucket */
   tarballAccess?: DiagnoseClusterRequestTarballAccessEnum | (string & {}) | undefined;
 }
-export interface DiagnoseProjectsRegionsClustersRequest {
+export interface DiagnoseProjectsRegionsClustersRequest extends DiagnoseClusterRequest {
   /** Required. The region in which to handle the request. */
   region: string;
   /** Required. The cluster name. */
   clusterName: string;
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
-  /** Request body */
-  body?: DiagnoseClusterRequest | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
@@ -2712,11 +2690,9 @@ export interface GetIamPolicyRequest {
   /** OPTIONAL: A GetPolicyOptions object for specifying options to GetIamPolicy. */
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest {
+export interface GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -2748,41 +2724,29 @@ export interface Policy {
   /** Specifies the format of the policy.Valid values are 0, 1, and 3. Requests that specify an invalid value are rejected.Any operation that affects conditional role bindings must specify version 3. This requirement applies to the following operations: Getting a policy that includes a conditional role binding Adding a conditional role binding to a policy Changing a conditional role binding in a policy Removing any role binding, with or without a condition, from a policy that includes conditionsImportant: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost.If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsWorkflowTemplatesRequest {
+export interface GetIamPolicyProjectsLocationsWorkflowTemplatesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest {
+export interface GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsRegionsClustersRequest {
+export interface GetIamPolicyProjectsRegionsClustersRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsRegionsJobsRequest {
+export interface GetIamPolicyProjectsRegionsJobsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsRegionsOperationsRequest {
+export interface GetIamPolicyProjectsRegionsOperationsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
-export interface GetIamPolicyProjectsRegionsWorkflowTemplatesRequest {
+export interface GetIamPolicyProjectsRegionsWorkflowTemplatesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
@@ -2851,31 +2815,25 @@ export interface InjectCredentialsRequest {
   /** Required. The cluster UUID. */
   clusterUuid?: string | undefined;
 }
-export interface InjectCredentialsProjectsRegionsClustersRequest {
+export interface InjectCredentialsProjectsRegionsClustersRequest extends InjectCredentialsRequest {
   /** Required. The region containing the cluster, of the form regions/. */
   region: string;
   /** Required. The cluster, in the form clusters/. */
   cluster: string;
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to, of the form projects/. */
   project: string;
-  /** Request body */
-  body?: InjectCredentialsRequest | undefined;
 }
-export interface InstantiateInlineProjectsLocationsWorkflowTemplatesRequest {
+export interface InstantiateInlineProjectsLocationsWorkflowTemplatesRequest extends WorkflowTemplate {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,instantiateinline, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.instantiateinline, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: WorkflowTemplate | undefined;
 }
-export interface InstantiateInlineProjectsRegionsWorkflowTemplatesRequest {
+export interface InstantiateInlineProjectsRegionsWorkflowTemplatesRequest extends WorkflowTemplate {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,instantiateinline, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.instantiateinline, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: WorkflowTemplate | undefined;
 }
 /** A request to instantiate a workflow template. */
 export interface InstantiateWorkflowTemplateRequest {
@@ -2886,17 +2844,13 @@ export interface InstantiateWorkflowTemplateRequest {
   /** Optional. Map from parameter names to values that should be used for those parameters. Values may not exceed 1000 characters. */
   parameters?: StringMap | undefined;
 }
-export interface InstantiateProjectsLocationsWorkflowTemplatesRequest {
+export interface InstantiateProjectsLocationsWorkflowTemplatesRequest extends InstantiateWorkflowTemplateRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
-  /** Request body */
-  body?: InstantiateWorkflowTemplateRequest | undefined;
 }
-export interface InstantiateProjectsRegionsWorkflowTemplatesRequest {
+export interface InstantiateProjectsRegionsWorkflowTemplatesRequest extends InstantiateWorkflowTemplateRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
-  /** Request body */
-  body?: InstantiateWorkflowTemplateRequest | undefined;
 }
 export interface ListProjectsLocationsAutoscalingPoliciesRequest {
   /** Optional. The maximum number of results to return in each response. Must be less than or equal to 1000. Defaults to 100. */
@@ -3087,13 +3041,17 @@ export interface ListProjectsRegionsWorkflowTemplatesRequest {
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
   pageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsSessionTemplatesRequest {
+export interface PatchProjectsLocationsSessionTemplatesRequest extends Omit<
+  SessionTemplate,
+  "name"
+> {
   /** Required. Identifier. The resource name of the session template. */
   name: string;
-  /** Request body */
-  body?: SessionTemplate | undefined;
 }
-export interface PatchProjectsRegionsClustersRequest {
+export interface PatchProjectsRegionsClustersRequest extends Omit<
+  Cluster,
+  "projectId" | "clusterName"
+> {
   /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress. Timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs). Default timeout is 0 (for forceful decommission), and the maximum allowed timeout is 1 day. (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Supported in image versions 1.2 and higher. */
   gracefulDecommissionTimeout?: string | undefined;
   /** Required. The cluster name. */
@@ -3106,10 +3064,8 @@ export interface PatchProjectsRegionsClustersRequest {
   projectId: string;
   /** Required. Specifies the path, relative to Cluster, of the field to update. For example, to change the number of workers in a cluster to 5, the update_mask parameter would be specified as config.worker_config.num_instances, and the PATCH request body would specify the new value, as follows: { "config":{ "workerConfig":{ "numInstances":"5" } } } Similarly, to change the number of preemptible workers in a cluster to 5, the update_mask parameter would be config.secondary_worker_config.num_instances, and the PATCH request body would be set as follows: { "config":{ "secondaryWorkerConfig":{ "numInstances":"5" } } } *Note:* Currently, only the following fields can be updated: *Mask* *Purpose* *labels* Update labels *config.worker_config.num_instances* Resize primary worker group *config.secondary_worker_config.num_instances* Resize secondary worker group config.autoscaling_config.policy_uri Use, stop using, or change autoscaling policies */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
-export interface PatchProjectsRegionsJobsRequest {
+export interface PatchProjectsRegionsJobsRequest extends Job {
   /** Required. The job ID. */
   jobId: string;
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
@@ -3118,8 +3074,6 @@ export interface PatchProjectsRegionsJobsRequest {
   region: string;
   /** Required. Specifies the path, relative to Job, of the field to update. For example, to update the labels of a Job the update_mask parameter would be specified as labels, and the PATCH request body would specify the new value. *Note:* Currently, labels is the only field that can be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
 }
 export type NodePoolRepairActionEnum = "REPAIR_ACTION_UNSPECIFIED" | "DELETE";
 /** indicating a list of workers of same type */
@@ -3157,15 +3111,13 @@ export interface RepairClusterRequest {
   /** Optional. Specifying the cluster_uuid means the RPC will fail (with error NOT_FOUND) if a cluster with the specified UUID does not exist. */
   clusterUuid?: string | undefined;
 }
-export interface RepairProjectsRegionsClustersRequest {
+export interface RepairProjectsRegionsClustersRequest extends RepairClusterRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
   /** Required. The cluster name. */
   clusterName: string;
   /** Required. The region in which to handle the request. */
   region: string;
-  /** Request body */
-  body?: RepairClusterRequest | undefined;
 }
 export type RepairNodeGroupRequestRepairActionEnum = "REPAIR_ACTION_UNSPECIFIED" | "REPLACE";
 export interface RepairNodeGroupRequest {
@@ -3176,11 +3128,9 @@ export interface RepairNodeGroupRequest {
   /** Required. Repair action to take on specified resources of the node pool. */
   repairAction?: RepairNodeGroupRequestRepairActionEnum | (string & {}) | undefined;
 }
-export interface RepairProjectsRegionsClustersNodeGroupsRequest {
+export interface RepairProjectsRegionsClustersNodeGroupsRequest extends RepairNodeGroupRequest {
   /** Required. The name of the node group to resize. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
   name: string;
-  /** Request body */
-  body?: RepairNodeGroupRequest | undefined;
 }
 /** A request to resize a node group. */
 export interface ResizeNodeGroupRequest {
@@ -3193,11 +3143,9 @@ export interface ResizeNodeGroupRequest {
   /** Optional. operation id of the parent operation sending the resize request */
   parentOperationId?: string | undefined;
 }
-export interface ResizeProjectsRegionsClustersNodeGroupsRequest {
+export interface ResizeProjectsRegionsClustersNodeGroupsRequest extends ResizeNodeGroupRequest {
   /** Required. The name of the node group to resize. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
   name: string;
-  /** Request body */
-  body?: ResizeNodeGroupRequest | undefined;
 }
 export type SearchExecutorsProjectsLocationsBatchesSparkApplicationsExecutorStatusEnum =
   | "EXECUTOR_STATUS_UNSPECIFIED"
@@ -3732,47 +3680,33 @@ export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkflowTemplatesRequest {
+export interface SetIamPolicyProjectsLocationsWorkflowTemplatesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest {
+export interface SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsRegionsClustersRequest {
+export interface SetIamPolicyProjectsRegionsClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsRegionsJobsRequest {
+export interface SetIamPolicyProjectsRegionsJobsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsRegionsOperationsRequest {
+export interface SetIamPolicyProjectsRegionsOperationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
-export interface SetIamPolicyProjectsRegionsWorkflowTemplatesRequest {
+export interface SetIamPolicyProjectsRegionsWorkflowTemplatesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 /** A request to start a cluster. */
 export interface StartClusterRequest {
@@ -3781,15 +3715,13 @@ export interface StartClusterRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two StartClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.StartClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
 }
-export interface StartProjectsRegionsClustersRequest {
+export interface StartProjectsRegionsClustersRequest extends StartClusterRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
   /** Required. The cluster name. */
   clusterName: string;
   /** Required. The region in which to handle the request. */
   region: string;
-  /** Request body */
-  body?: StartClusterRequest | undefined;
 }
 /** A request to stop a cluster. */
 export interface StopClusterRequest {
@@ -3798,15 +3730,13 @@ export interface StopClusterRequest {
   /** Optional. Specifying the cluster_uuid means the RPC will fail (with error NOT_FOUND) if a cluster with the specified UUID does not exist. */
   clusterUuid?: string | undefined;
 }
-export interface StopProjectsRegionsClustersRequest {
+export interface StopProjectsRegionsClustersRequest extends StopClusterRequest {
   /** Required. The cluster name. */
   clusterName: string;
   /** Required. The region in which to handle the request. */
   region: string;
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
-  /** Request body */
-  body?: StopClusterRequest | undefined;
 }
 /** A request to submit a job. */
 export interface SubmitJobRequest {
@@ -3815,21 +3745,17 @@ export interface SubmitJobRequest {
   /** Optional. A unique id used to identify the request. If the server receives two SubmitJobRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.SubmitJobRequest)s with the same id, then the second request will be ignored and the first Job created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
 }
-export interface SubmitAsOperationProjectsRegionsJobsRequest {
+export interface SubmitAsOperationProjectsRegionsJobsRequest extends SubmitJobRequest {
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
-  /** Request body */
-  body?: SubmitJobRequest | undefined;
 }
-export interface SubmitProjectsRegionsJobsRequest {
+export interface SubmitProjectsRegionsJobsRequest extends SubmitJobRequest {
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
-  /** Request body */
-  body?: SubmitJobRequest | undefined;
 }
 export interface SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
@@ -4004,87 +3930,75 @@ export interface TerminateSessionRequest {
   /** Optional. A unique ID used to identify the request. If the service receives two TerminateSessionRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.TerminateSessionRequest)s with the same ID, the second request is ignored.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
 }
-export interface TerminateProjectsLocationsSessionsRequest {
+export interface TerminateProjectsLocationsSessionsRequest extends TerminateSessionRequest {
   /** Required. The name of the session resource to terminate. */
   name: string;
-  /** Request body */
-  body?: TerminateSessionRequest | undefined;
 }
 /** Request message for TestIamPermissions method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest {
+export interface TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for TestIamPermissions method. */
 export interface TestIamPermissionsResponse {
   /** A subset of TestPermissionsRequest.permissions that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest {
+export interface TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest {
+export interface TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsRegionsClustersRequest {
+export interface TestIamPermissionsProjectsRegionsClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsRegionsJobsRequest {
+export interface TestIamPermissionsProjectsRegionsJobsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsRegionsOperationsRequest {
+export interface TestIamPermissionsProjectsRegionsOperationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest {
+export interface TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
-export interface UpdateProjectsLocationsAutoscalingPoliciesRequest {
+export interface UpdateProjectsLocationsAutoscalingPoliciesRequest extends Omit<
+  AutoscalingPolicy,
+  "name"
+> {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
-  /** Request body */
-  body?: AutoscalingPolicy | undefined;
 }
-export interface UpdateProjectsLocationsWorkflowTemplatesRequest {
+export interface UpdateProjectsLocationsWorkflowTemplatesRequest extends Omit<
+  WorkflowTemplate,
+  "name"
+> {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
-  /** Request body */
-  body?: WorkflowTemplate | undefined;
 }
-export interface UpdateProjectsRegionsAutoscalingPoliciesRequest {
+export interface UpdateProjectsRegionsAutoscalingPoliciesRequest extends Omit<
+  AutoscalingPolicy,
+  "name"
+> {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
-  /** Request body */
-  body?: AutoscalingPolicy | undefined;
 }
-export interface UpdateProjectsRegionsWorkflowTemplatesRequest {
+export interface UpdateProjectsRegionsWorkflowTemplatesRequest extends Omit<
+  WorkflowTemplate,
+  "name"
+> {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
-  /** Request body */
-  body?: WorkflowTemplate | undefined;
 }
 /** Process Summary */
 export interface ProcessSummary {
@@ -4297,11 +4211,9 @@ export interface WriteSparkApplicationContextRequest {
   parent?: string | undefined;
   sparkWrapperObjects?: SparkWrapperObjectList | undefined;
 }
-export interface WriteProjectsLocationsBatchesSparkApplicationsRequest {
+export interface WriteProjectsLocationsBatchesSparkApplicationsRequest extends WriteSparkApplicationContextRequest {
   /** Required. The fully qualified name of the spark application to write data about in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
-  /** Request body */
-  body?: WriteSparkApplicationContextRequest | undefined;
 }
 /** Response returned as an acknowledgement of receipt of data. */
 export interface WriteSparkApplicationContextResponse {}
@@ -4312,11 +4224,9 @@ export interface WriteSessionSparkApplicationContextRequest {
   /** Required. The batch of spark application context objects sent for ingestion. */
   sparkWrapperObjects?: SparkWrapperObjectList | undefined;
 }
-export interface WriteProjectsLocationsSessionsSparkApplicationsRequest {
+export interface WriteProjectsLocationsSessionsSparkApplicationsRequest extends WriteSessionSparkApplicationContextRequest {
   /** Required. The fully qualified name of the spark application to write data about in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
-  /** Request body */
-  body?: WriteSessionSparkApplicationContextRequest | undefined;
 }
 /** Response returned as an acknowledgement of receipt of data. */
 export interface WriteSessionSparkApplicationContextResponse {}
@@ -7723,10 +7633,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7750,10 +7662,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7767,10 +7681,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7804,10 +7720,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7821,10 +7739,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7838,10 +7758,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7855,10 +7777,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7879,12 +7803,14 @@ function __c22(j: number): any {
       ).annotate({ identifier: "StartClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          clusterName: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            clusterName: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:start",
@@ -7905,12 +7831,14 @@ function __c23(j: number): any {
       ).annotate({ identifier: "StopClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          clusterName: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(736, __c23, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(736, __c23, 0),
+          S.Struct({
+            clusterName: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:stop",
@@ -7924,11 +7852,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/regions/{region}/jobs:submitAsOperation",
@@ -7953,11 +7883,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/regions/{region}/jobs:submit",
@@ -8304,10 +8236,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "TerminateSessionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1376, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:terminate",
@@ -8321,10 +8255,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8348,10 +8284,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8365,10 +8303,12 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8399,10 +8339,12 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8416,10 +8358,12 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8433,10 +8377,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8450,10 +8396,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8467,10 +8415,12 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2916, __c91, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2916, __c91, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateProjectsLocationsAutoscalingPoliciesRequest" });
@@ -8480,10 +8430,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3435, __c107, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3435, __c107, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateProjectsLocationsWorkflowTemplatesRequest" });
@@ -8493,10 +8445,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2916, __c91, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2916, __c91, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateProjectsRegionsAutoscalingPoliciesRequest" });
@@ -8506,10 +8460,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3435, __c107, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3435, __c107, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateProjectsRegionsWorkflowTemplatesRequest" });
@@ -8519,10 +8475,12 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1876, __c58, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1876, __c58, 20),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:write",
@@ -8759,10 +8717,12 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1876, __c58, 20).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1876, __c58, 20),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:write",
@@ -9507,10 +9467,12 @@ function __c81(j: number): any {
       ).annotate({ identifier: "AnalyzeBatchRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:analyze",
@@ -9854,10 +9816,12 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2916, __c91, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2916, __c91, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/autoscalingPolicies",
@@ -9924,12 +9888,14 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          batchId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3111, __c97, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3111, __c97, 7),
+          S.Struct({
+            batchId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/batches",
@@ -10181,12 +10147,14 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sessionId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3202, __c100, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3202, __c100, 2),
+          S.Struct({
+            sessionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sessions",
@@ -10246,10 +10214,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sessionTemplates",
@@ -10284,10 +10254,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3435, __c107, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3435, __c107, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflowTemplates",
@@ -10811,10 +10783,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2916, __c91, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2916, __c91, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/autoscalingPolicies",
@@ -10828,13 +10802,15 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          actionOnFailedPrimaryWorkers: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3527, __c110, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3527, __c110, 7),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            actionOnFailedPrimaryWorkers: S.optional(S.String.pipe(T.Query())),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/regions/{region}/clusters",
@@ -10914,13 +10890,15 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          nodeGroupId: S.optional(S.String.pipe(T.Query())),
-          parentOperationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3344, __c104, 16).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3344, __c104, 16),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            nodeGroupId: S.optional(S.String.pipe(T.Query())),
+            parentOperationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/nodeGroups",
@@ -10934,10 +10912,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3435, __c107, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3435, __c107, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflowTemplates",
@@ -11245,12 +11225,14 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DiagnoseClusterRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          clusterName: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4097, __c128, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4097, __c128, 1),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            clusterName: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:diagnose",
@@ -11264,10 +11246,12 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4161, __c130, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4161, __c130, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -11328,10 +11312,12 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4161, __c130, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4161, __c130, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -11364,10 +11350,12 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4161, __c130, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4161, __c130, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -11381,10 +11369,12 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4161, __c130, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4161, __c130, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -11398,10 +11388,12 @@ function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4161, __c130, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4161, __c130, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -11415,10 +11407,12 @@ function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4161, __c130, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4161, __c130, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -11432,10 +11426,12 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4161, __c130, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4161, __c130, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -11687,12 +11683,14 @@ function __c156(j: number): any {
       ).annotate({ identifier: "InjectCredentialsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          region: S.String.pipe(T.Label()),
-          cluster: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
-          body: S.optional(__S(4992, __c156, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4992, __c156, 0),
+          S.Struct({
+            region: S.String.pipe(T.Label()),
+            cluster: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+project}/{+region}/{+cluster}:injectCredentials",
@@ -11706,11 +11704,13 @@ function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3435, __c107, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3435, __c107, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflowTemplates:instantiateInline",
@@ -11724,11 +11724,13 @@ function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3435, __c107, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3435, __c107, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflowTemplates:instantiateInline",
@@ -11760,10 +11762,12 @@ function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5152, __c161, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5152, __c161, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:instantiate",
@@ -11789,10 +11793,12 @@ function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5152, __c161, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5152, __c161, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:instantiate",
@@ -12143,10 +12149,12 @@ function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3264, __c102, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -12160,15 +12168,17 @@ function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          gracefulDecommissionTimeout: S.optional(S.String.pipe(T.Query())),
-          clusterName: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3527, __c110, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3527, __c110, 7),
+          S.Struct({
+            gracefulDecommissionTimeout: S.optional(S.String.pipe(T.Query())),
+            clusterName: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectId}/regions/{region}/clusters/{clusterName}",
@@ -12182,13 +12192,15 @@ function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jobId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2791, __c87, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2791, __c87, 7),
+          S.Struct({
+            jobId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectId}/regions/{region}/jobs/{jobId}",
@@ -12230,12 +12242,14 @@ function __c182(j: number): any {
       ).annotate({ identifier: "RepairClusterRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          clusterName: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          body: S.optional(__S(5827, __c182, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5827, __c182, 3),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            clusterName: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/regions/{region}/clusters/{clusterName}:repair",
@@ -12257,10 +12271,12 @@ function __c183(j: number): any {
       ).annotate({ identifier: "RepairNodeGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5856, __c183, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5856, __c183, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:repair",
@@ -12283,10 +12299,12 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ResizeNodeGroupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5888, __c184, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(5888, __c184, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:resize",

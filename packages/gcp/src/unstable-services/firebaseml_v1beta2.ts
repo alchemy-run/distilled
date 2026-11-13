@@ -148,11 +148,9 @@ export interface Model {
   /** User defined tags which can be used to group/filter models during listing */
   tags?: StringList | undefined;
 }
-export interface CreateProjectsModelsRequest {
+export interface CreateProjectsModelsRequest extends Model {
   /** Required. The parent project resource where the model is to be created. The parent must have the form `projects/{project_id}` */
   parent: string;
-  /** Request body */
-  body?: Model | undefined;
 }
 export interface DeleteProjectsModelsRequest {
   /** Required. The name of the model to delete. The name must have the form `projects/{project_id}/models/{model_id}` */
@@ -202,13 +200,11 @@ export interface ListModelsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsModelsRequest {
+export interface PatchProjectsModelsRequest extends Omit<Model, "name"> {
   /** The resource name of the Model. Model names have the form `projects/{project_id}/models/{model_id}` The name is ignored when creating a model. */
   name: string;
   /** The update mask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Model | undefined;
 }
 export type CreateProjectsModelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a model in Firebase ML. The longrunning operation will eventually return a Model */
@@ -336,11 +332,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(28, __c3, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28, __c3, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta2/{+name}",
@@ -354,10 +352,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(28, __c3, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(28, __c3, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+parent}/models",

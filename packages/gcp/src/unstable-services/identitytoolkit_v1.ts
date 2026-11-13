@@ -137,11 +137,12 @@ export interface GoogleCloudIdentitytoolkitV1SignUpRequest {
   /** The multi-factor authentication providers for the user to create. */
   mfaInfo?: GoogleCloudIdentitytoolkitV1MfaFactorList | undefined;
 }
-export interface AccountsProjectsRequest {
+export interface AccountsProjectsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1SignUpRequest,
+  "targetProjectId"
+> {
   /** The project ID of the project which the user should belong to. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). If this is not set, the target project is inferred from the scope associated to the Bearer access token. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignUpRequest | undefined;
 }
 /** Response message for SignUp. */
 export interface GoogleCloudIdentitytoolkitV1SignUpResponse {
@@ -159,13 +160,14 @@ export interface GoogleCloudIdentitytoolkitV1SignUpResponse {
   /** An Identity Platform ID token for the created user. This field is only set for non-admin requests. */
   idToken?: string | undefined;
 }
-export interface AccountsProjectsTenantsRequest {
+export interface AccountsProjectsTenantsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1SignUpRequest,
+  "targetProjectId" | "tenantId"
+> {
   /** The project ID of the project which the user should belong to. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). If this is not set, the target project is inferred from the scope associated to the Bearer access token. */
   targetProjectId: string;
   /** The ID of the Identity Platform tenant to create a user under. If not set, the user will be created under the default Identity Platform project. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignUpRequest | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1Argon2ParametersVersionEnum =
   | "VERSION_UNSPECIFIED"
@@ -339,11 +341,9 @@ export interface GoogleCloudIdentitytoolkitV1UploadAccountRequest {
   /** Whether to overwrite an existing account in Identity Platform with a matching `local_id` in the request. If true, the existing account will be overwritten. If false, an error will be returned. */
   allowOverwrite?: boolean | undefined;
 }
-export interface BatchCreateProjectsAccountsRequest {
+export interface BatchCreateProjectsAccountsRequest extends GoogleCloudIdentitytoolkitV1UploadAccountRequest {
   /** The Project ID of the Identity Platform project which the account belongs to. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1UploadAccountRequest | undefined;
 }
 /** Error information explaining why an account cannot be uploaded. batch upload. */
 export interface GoogleCloudIdentitytoolkitV1ErrorInfo {
@@ -360,13 +360,14 @@ export interface GoogleCloudIdentitytoolkitV1UploadAccountResponse {
   /** Detailed error info for accounts that cannot be uploaded. */
   error?: GoogleCloudIdentitytoolkitV1ErrorInfoList | undefined;
 }
-export interface BatchCreateProjectsTenantsAccountsRequest {
+export interface BatchCreateProjectsTenantsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1UploadAccountRequest,
+  "tenantId"
+> {
   /** The Project ID of the Identity Platform project which the account belongs to. */
   targetProjectId: string;
   /** The ID of the Identity Platform tenant the account belongs to. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1UploadAccountRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Request message for BatchDeleteAccounts. */
@@ -378,11 +379,9 @@ export interface GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest {
   /** Whether to force deleting accounts that are not in disabled state. If false, only disabled accounts will be deleted, and accounts that are not disabled will be added to the `errors`. */
   force?: boolean | undefined;
 }
-export interface BatchDeleteProjectsAccountsRequest {
+export interface BatchDeleteProjectsAccountsRequest extends GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest {
   /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that accounts belong to. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest | undefined;
 }
 /** Error info for account failed to be deleted. */
 export interface GoogleCloudIdentitytoolkitV1BatchDeleteErrorInfo {
@@ -400,13 +399,14 @@ export interface GoogleCloudIdentitytoolkitV1BatchDeleteAccountsResponse {
   /** Detailed error info for accounts that cannot be deleted. */
   errors?: GoogleCloudIdentitytoolkitV1BatchDeleteErrorInfoList | undefined;
 }
-export interface BatchDeleteProjectsTenantsAccountsRequest {
+export interface BatchDeleteProjectsTenantsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest,
+  "tenantId"
+> {
   /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that accounts belong to. */
   targetProjectId: string;
   /** If the accounts belong to an Identity Platform tenant, the ID of the tenant. If the accounts belong to a default Identity Platform project, the field is not needed. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest | undefined;
 }
 export interface BatchGetProjectsAccountsRequest {
   /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that the accounts belong to. */
@@ -466,10 +466,7 @@ export interface GoogleCloudIdentitytoolkitV1CreateAuthUriRequest {
   otaApp?: string | undefined;
   appId?: string | undefined;
 }
-export interface CreateAuthUriAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1CreateAuthUriRequest | undefined;
-}
+export interface CreateAuthUriAccountsRequest extends GoogleCloudIdentitytoolkitV1CreateAuthUriRequest {}
 /** Response message for CreateAuthUri. */
 export interface GoogleCloudIdentitytoolkitV1CreateAuthUriResponse {
   kind?: string | undefined;
@@ -498,24 +495,23 @@ export interface GoogleCloudIdentitytoolkitV1CreateSessionCookieRequest {
   /** Required. A valid Identity Platform ID token. */
   idToken?: string | undefined;
 }
-export interface CreateSessionCookieProjectsRequest {
+export interface CreateSessionCookieProjectsRequest extends GoogleCloudIdentitytoolkitV1CreateSessionCookieRequest {
   /** The ID of the project that the account belongs to. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1CreateSessionCookieRequest | undefined;
 }
 /** Response message for CreateSessionCookie. */
 export interface GoogleCloudIdentitytoolkitV1CreateSessionCookieResponse {
   /** The session cookie that has been created from the Identity Platform ID token specified in the request. It is in the form of a JSON Web Token (JWT). Always present. */
   sessionCookie?: string | undefined;
 }
-export interface CreateSessionCookieProjectsTenantsRequest {
+export interface CreateSessionCookieProjectsTenantsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1CreateSessionCookieRequest,
+  "tenantId"
+> {
   /** The ID of the project that the account belongs to. */
   targetProjectId: string;
   /** The tenant ID of the Identity Platform tenant the account belongs to. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1CreateSessionCookieRequest | undefined;
 }
 /** Request message for DeleteAccount. */
 export interface GoogleCloudIdentitytoolkitV1DeleteAccountRequest {
@@ -529,27 +525,26 @@ export interface GoogleCloudIdentitytoolkitV1DeleteAccountRequest {
   /** The Identity Platform ID token of the account to delete. Require to be specified for requests from end users that lack Google OAuth 2.0 credential. Authenticated requests bearing a Google OAuth2 credential with proper permissions may pass local_id to specify the account to delete alternatively. */
   idToken?: string | undefined;
 }
-export interface DeleteAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1DeleteAccountRequest | undefined;
-}
+export interface DeleteAccountsRequest extends GoogleCloudIdentitytoolkitV1DeleteAccountRequest {}
 /** Response message for DeleteAccount. */
 export interface GoogleCloudIdentitytoolkitV1DeleteAccountResponse {
   kind?: string | undefined;
 }
-export interface DeleteProjectsAccountsRequest {
+export interface DeleteProjectsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1DeleteAccountRequest,
+  "targetProjectId"
+> {
   /** The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1DeleteAccountRequest | undefined;
 }
-export interface DeleteProjectsTenantsAccountsRequest {
+export interface DeleteProjectsTenantsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1DeleteAccountRequest,
+  "tenantId" | "targetProjectId"
+> {
   /** The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
   targetProjectId: string;
   /** The ID of the tenant that the account belongs to, if applicable. Only require to be specified for authenticated requests bearing a Google OAuth 2.0 credential that specify local_id of an account that belongs to an Identity Platform tenant. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1DeleteAccountRequest | undefined;
 }
 export interface GetProjectsV1Request {
   /** The Firebase app ID, for applications that use Firebase. This can be found in the Firebase console for your project. If set, a check will be performed to ensure that the app ID is valid for the retrieved project. If not valid, the request will be rejected with a client error. */
@@ -698,10 +693,7 @@ export interface GoogleCloudIdentitytoolkitV1IssueSamlResponseRequest {
   /** The Identity Platform ID token. It will be verified and then converted to a new SAMLResponse. */
   idToken?: string | undefined;
 }
-export interface IssueSamlResponseAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1IssueSamlResponseRequest | undefined;
-}
+export interface IssueSamlResponseAccountsRequest extends GoogleCloudIdentitytoolkitV1IssueSamlResponseRequest {}
 /** Response for IssueSamlResponse request. */
 export interface GoogleCloudIdentitytoolkitV1IssueSamlResponseResponse {
   /** Email of the user. */
@@ -748,29 +740,28 @@ export interface GoogleCloudIdentitytoolkitV1GetAccountInfoRequest {
   /** The ID of the tenant that the account belongs to. Should only be specified by authenticated requests from a developer. */
   tenantId?: string | undefined;
 }
-export interface LookupAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1GetAccountInfoRequest | undefined;
-}
+export interface LookupAccountsRequest extends GoogleCloudIdentitytoolkitV1GetAccountInfoRequest {}
 /** Response message for GetAccountInfo. */
 export interface GoogleCloudIdentitytoolkitV1GetAccountInfoResponse {
   kind?: string | undefined;
   /** The information of specific user account(s) matching the parameters in the request. */
   users?: GoogleCloudIdentitytoolkitV1UserInfoList | undefined;
 }
-export interface LookupProjectsAccountsRequest {
+export interface LookupProjectsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1GetAccountInfoRequest,
+  "targetProjectId"
+> {
   /** The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1GetAccountInfoRequest | undefined;
 }
-export interface LookupProjectsTenantsAccountsRequest {
+export interface LookupProjectsTenantsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1GetAccountInfoRequest,
+  "targetProjectId" | "tenantId"
+> {
   /** The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
   targetProjectId: string;
   /** The ID of the tenant that the account belongs to. Should only be specified by authenticated requests from a developer. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1GetAccountInfoRequest | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1QueryUserInfoRequestSortByEnum =
   | "SORT_BY_FIELD_UNSPECIFIED"
@@ -811,11 +802,9 @@ export interface GoogleCloudIdentitytoolkitV1QueryUserInfoRequest {
   /** If `true`, this request will return the accounts matching the query. If `false`, only the __count__ of accounts matching the query will be returned. Defaults to `true`. */
   returnUserInfo?: boolean | undefined;
 }
-export interface QueryAccountsProjectsRequest {
+export interface QueryAccountsProjectsRequest extends GoogleCloudIdentitytoolkitV1QueryUserInfoRequest {
   /** The ID of the project to which the result is scoped. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1QueryUserInfoRequest | undefined;
 }
 /** Response message for QueryUserInfo. */
 export interface GoogleCloudIdentitytoolkitV1QueryUserInfoResponse {
@@ -824,19 +813,18 @@ export interface GoogleCloudIdentitytoolkitV1QueryUserInfoResponse {
   /** If `return_user_info` in the request is true, this is the accounts matching the query. */
   userInfo?: GoogleCloudIdentitytoolkitV1UserInfoList | undefined;
 }
-export interface QueryProjectsAccountsRequest {
+export interface QueryProjectsAccountsRequest extends GoogleCloudIdentitytoolkitV1QueryUserInfoRequest {
   /** The ID of the project to which the result is scoped. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1QueryUserInfoRequest | undefined;
 }
-export interface QueryProjectsTenantsAccountsRequest {
+export interface QueryProjectsTenantsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1QueryUserInfoRequest,
+  "tenantId"
+> {
   /** The ID of the project to which the result is scoped. */
   targetProjectId: string;
   /** The ID of the tenant to which the result is scoped. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1QueryUserInfoRequest | undefined;
 }
 /** Request message for ResetPassword. */
 export interface GoogleCloudIdentitytoolkitV1ResetPasswordRequest {
@@ -851,10 +839,7 @@ export interface GoogleCloudIdentitytoolkitV1ResetPasswordRequest {
   /** The new password to be set for this account. Specifying this field will result in a change to the account and consume the out-of-band code if one was specified and it was of type PASSWORD_RESET. */
   newPassword?: string | undefined;
 }
-export interface ResetPasswordAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1ResetPasswordRequest | undefined;
-}
+export interface ResetPasswordAccountsRequest extends GoogleCloudIdentitytoolkitV1ResetPasswordRequest {}
 export type GoogleCloudIdentitytoolkitV1ResetPasswordResponseRequestTypeEnum =
   | "OOB_REQ_TYPE_UNSPECIFIED"
   | "PASSWORD_RESET"
@@ -945,10 +930,7 @@ export interface GoogleCloudIdentitytoolkitV1GetOobCodeRequest {
   /** If an associated iOS app can handle the OOB code, the iOS bundle id of this app. This will allow the correct app to open if it is already installed. */
   iOSBundleId?: string | undefined;
 }
-export interface SendOobCodeAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1GetOobCodeRequest | undefined;
-}
+export interface SendOobCodeAccountsRequest extends GoogleCloudIdentitytoolkitV1GetOobCodeRequest {}
 /** Response message for GetOobCode. */
 export interface GoogleCloudIdentitytoolkitV1GetOobCodeResponse {
   /** If return_oob_link is false in the request, the email address the verification was sent to. */
@@ -959,19 +941,21 @@ export interface GoogleCloudIdentitytoolkitV1GetOobCodeResponse {
   /** If return_oob_link is true in the request, the OOB link to be sent to the user. This returns the constructed link including [Firebase Dynamic Link](https://firebase.google.com/docs/dynamic-links) related parameters. */
   oobLink?: string | undefined;
 }
-export interface SendOobCodeProjectsAccountsRequest {
+export interface SendOobCodeProjectsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1GetOobCodeRequest,
+  "targetProjectId"
+> {
   /** The Project ID of the Identity Platform project which the account belongs to. To specify this field, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1GetOobCodeRequest | undefined;
 }
-export interface SendOobCodeProjectsTenantsAccountsRequest {
+export interface SendOobCodeProjectsTenantsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1GetOobCodeRequest,
+  "targetProjectId" | "tenantId"
+> {
   /** The Project ID of the Identity Platform project which the account belongs to. To specify this field, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
   targetProjectId: string;
   /** The tenant ID of the Identity Platform tenant the account belongs to. */
   tenantId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1GetOobCodeRequest | undefined;
 }
 /** The information required to auto-retrieve an SMS. */
 export interface GoogleCloudIdentitytoolkitV1AutoRetrievalInfo {
@@ -1017,10 +1001,7 @@ export interface GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest {
   /** Optional. The reCAPTCHA Enterprise token provided by the reCAPTCHA client-side integration. Required when reCAPTCHA enterprise is enabled. */
   captchaResponse?: string | undefined;
 }
-export interface SendVerificationCodeAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest | undefined;
-}
+export interface SendVerificationCodeAccountsRequest extends GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest {}
 /** Response message for SendVerificationCode. */
 export interface GoogleCloudIdentitytoolkitV1SendVerificationCodeResponse {
   /** Encrypted session information. This can be used in signInWithPhoneNumber to authenticate the phone number. */
@@ -1037,10 +1018,7 @@ export interface GoogleCloudIdentitytoolkitV1SignInWithCustomTokenRequest {
   token?: string | undefined;
   instanceId?: string | undefined;
 }
-export interface SignInWithCustomTokenAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignInWithCustomTokenRequest | undefined;
-}
+export interface SignInWithCustomTokenAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithCustomTokenRequest {}
 /** Response message for SignInWithCustomToken. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithCustomTokenResponse {
   /** An Identity Platform ID token for the authenticated user. */
@@ -1064,10 +1042,7 @@ export interface GoogleCloudIdentitytoolkitV1SignInWithEmailLinkRequest {
   /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform project. */
   tenantId?: string | undefined;
 }
-export interface SignInWithEmailLinkAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignInWithEmailLinkRequest | undefined;
-}
+export interface SignInWithEmailLinkAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithEmailLinkRequest {}
 /** Response message for SignInWithEmailLink. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithEmailLinkResponse {
   /** Refresh token for the authenticated user. */
@@ -1111,10 +1086,7 @@ export interface GoogleCloudIdentitytoolkitV1SignInWithGameCenterRequest {
   /** A valid ID token for an Identity Platform account. If present, this request will link the Game Center player ID to the account represented by this ID token. */
   idToken?: string | undefined;
 }
-export interface SignInWithGameCenterAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignInWithGameCenterRequest | undefined;
-}
+export interface SignInWithGameCenterAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithGameCenterRequest {}
 /** Response message for SignInWithGameCenter */
 export interface GoogleCloudIdentitytoolkitV1SignInWithGameCenterResponse {
   /** An Identity Platform refresh token for the authenticated user. */
@@ -1160,10 +1132,7 @@ export interface GoogleCloudIdentitytoolkitV1SignInWithIdpRequest {
   /** Should always be true. */
   returnSecureToken?: boolean | undefined;
 }
-export interface SignInWithIdpAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignInWithIdpRequest | undefined;
-}
+export interface SignInWithIdpAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithIdpRequest {}
 /** Response message for SignInWithIdp. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithIdpResponse {
   needEmail?: boolean | undefined;
@@ -1278,10 +1247,7 @@ export interface GoogleCloudIdentitytoolkitV1SignInWithPasswordRequest {
   /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform instance in the project. */
   tenantId?: string | undefined;
 }
-export interface SignInWithPasswordAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignInWithPasswordRequest | undefined;
-}
+export interface SignInWithPasswordAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithPasswordRequest {}
 export type GoogleCloudIdentitytoolkitV1UserNotificationNotificationCodeEnum =
   | "NOTIFICATION_CODE_UNSPECIFIED"
   | "MISSING_LOWERCASE_CHARACTER"
@@ -1357,10 +1323,7 @@ export interface GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequest {
   /** Encrypted session information from the response of sendVerificationCode. In the case of authenticating with an SMS code this must be specified, but in the case of using a temporary proof it can be unspecified. */
   sessionInfo?: string | undefined;
 }
-export interface SignInWithPhoneNumberAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequest | undefined;
-}
+export interface SignInWithPhoneNumberAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequest {}
 /** Response message for SignInWithPhoneNumber. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberResponse {
   /** A proof of the phone number verification, provided if a phone authentication is successful but the user operation fails. This happens when the request tries to link a phone number to a user with an ID token or reauthenticate with an ID token but the phone number is linked to a different user. */
@@ -1384,10 +1347,7 @@ export interface GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberResponse {
   /** Refresh token for the authenticated user. */
   refreshToken?: string | undefined;
 }
-export interface SignUpAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SignUpRequest | undefined;
-}
+export interface SignUpAccountsRequest extends GoogleCloudIdentitytoolkitV1SignUpRequest {}
 /** Multi-factor authentication related information. */
 export interface GoogleCloudIdentitytoolkitV1MfaInfo {
   /** The second factors the user has enrolled. */
@@ -1460,10 +1420,7 @@ export interface GoogleCloudIdentitytoolkitV1SetAccountInfoRequest {
   /** A valid Identity Platform ID token. Required when attempting to change user-related information. */
   idToken?: string | undefined;
 }
-export interface UpdateAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SetAccountInfoRequest | undefined;
-}
+export interface UpdateAccountsRequest extends GoogleCloudIdentitytoolkitV1SetAccountInfoRequest {}
 /** Response message for SetAccountInfo */
 export interface GoogleCloudIdentitytoolkitV1SetAccountInfoResponse {
   /** A refresh token for the account. This is used for legacy user sign up. */
@@ -1490,19 +1447,21 @@ export interface GoogleCloudIdentitytoolkitV1SetAccountInfoResponse {
   /** Whether the account's email has been verified. */
   emailVerified?: boolean | undefined;
 }
-export interface UpdateProjectsAccountsRequest {
+export interface UpdateProjectsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1SetAccountInfoRequest,
+  "targetProjectId"
+> {
   /** The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SetAccountInfoRequest | undefined;
 }
-export interface UpdateProjectsTenantsAccountsRequest {
+export interface UpdateProjectsTenantsAccountsRequest extends Omit<
+  GoogleCloudIdentitytoolkitV1SetAccountInfoRequest,
+  "targetProjectId" | "tenantId"
+> {
   /** The tenant ID of the Identity Platform tenant that the account belongs to. Requests from end users should pass an Identity Platform ID token rather than setting this field. */
   tenantId: string;
   /** The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
   targetProjectId: string;
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1SetAccountInfoRequest | undefined;
 }
 /** Request message for VerifyIosClient */
 export interface GoogleCloudIdentitytoolkitV1VerifyIosClientRequest {
@@ -1511,10 +1470,7 @@ export interface GoogleCloudIdentitytoolkitV1VerifyIosClientRequest {
   /** A device token that the iOS client gets after registering to APNs (Apple Push Notification service). */
   appToken?: string | undefined;
 }
-export interface VerifyIosClientAccountsRequest {
-  /** Request body */
-  body?: GoogleCloudIdentitytoolkitV1VerifyIosClientRequest | undefined;
-}
+export interface VerifyIosClientAccountsRequest extends GoogleCloudIdentitytoolkitV1VerifyIosClientRequest {}
 /** Response message for VerifyIosClient. */
 export interface GoogleCloudIdentitytoolkitV1VerifyIosClientResponse {
   /** Suggested time that the client should wait in seconds for delivery of the push notification. */
@@ -2462,9 +2418,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1CreateAuthUriRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(25, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(25, __c3, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:createAuthUri",
@@ -2492,10 +2446,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}:createSessionCookie",
@@ -2527,11 +2483,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}:createSessionCookie",
@@ -2545,9 +2503,7 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(64, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:delete",
@@ -2581,10 +2537,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts:delete",
@@ -2598,11 +2556,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:delete",
@@ -2763,9 +2723,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1IssueSamlResponseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(120, __c15, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:issueSamlResponse",
@@ -2791,9 +2749,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(138, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(138, __c17, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:lookup",
@@ -2841,10 +2797,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(138, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(138, __c17, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts:lookup",
@@ -2858,11 +2816,13 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(138, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(138, __c17, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:lookup",
@@ -2876,10 +2836,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(170, __c21, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(170, __c21, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}:queryAccounts",
@@ -2926,10 +2888,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(170, __c21, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(170, __c21, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts:query",
@@ -2943,11 +2907,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(170, __c21, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(170, __c21, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:query",
@@ -2971,9 +2937,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1ResetPasswordRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(192, __c24, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:resetPassword",
@@ -2997,9 +2961,7 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(208, __c26, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:sendOobCode",
@@ -3052,10 +3014,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c26, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts:sendOobCode",
@@ -3069,11 +3033,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c26, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:sendOobCode",
@@ -3109,9 +3075,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(233, __c29, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(233, __c29, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:sendVerificationCode",
@@ -3141,9 +3105,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithCustomTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(240, __c30, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:signInWithCustomToken",
@@ -3176,9 +3138,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithEmailLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(248, __c31, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:signInWithEmailLink",
@@ -3221,9 +3181,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithGameCenterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(256, __c32, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:signInWithGameCenter",
@@ -3268,9 +3226,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithIdpRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(264, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(264, __c33, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:signInWithIdp",
@@ -3345,9 +3301,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithPasswordRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(272, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(272, __c34, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:signInWithPassword",
@@ -3403,9 +3357,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(280, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(280, __c35, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:signInWithPhoneNumber",
@@ -3434,10 +3386,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c37, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts",
@@ -3498,9 +3452,7 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(298, __c37, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:signUp",
@@ -3514,9 +3466,7 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(322, __c40, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(322, __c40, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:update",
@@ -3591,10 +3541,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c40, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c40, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts:update",
@@ -3608,11 +3560,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenantId: S.String.pipe(T.Label()),
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c40, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c40, 2),
+          S.Struct({
+            tenantId: S.String.pipe(T.Label()),
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:update",
@@ -3633,9 +3587,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1VerifyIosClientRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(344, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(344, __c43, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts:verifyIosClient",
@@ -3656,11 +3608,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c37, 2),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts",
@@ -3674,10 +3628,12 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(369, __c46, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(369, __c46, 1),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts:batchCreate",
@@ -3837,11 +3793,13 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(369, __c46, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(369, __c46, 1),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:batchCreate",
@@ -3855,10 +3813,12 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c54, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/accounts:batchDelete",
@@ -3906,11 +3866,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetProjectId: S.String.pipe(T.Label()),
-          tenantId: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c54, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c54, 0),
+          S.Struct({
+            targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:batchDelete",

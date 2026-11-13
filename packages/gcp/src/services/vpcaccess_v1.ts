@@ -123,13 +123,11 @@ export interface Connector {
   /** Machine type of VM Instance underlying connector. Default is e2-micro */
   machineType?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectorsRequest {
+export interface CreateProjectsLocationsConnectorsRequest extends Connector {
   /** Required. The project ID and location in which the configuration should be created, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. The ID to use for this connector. */
   connectorId?: string | undefined;
-  /** Request body */
-  body?: Connector | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -239,13 +237,11 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectorsRequest {
+export interface PatchProjectsLocationsConnectorsRequest extends Omit<Connector, "name"> {
   /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
   name: string;
   /** The fields to update on the entry group. If absent or empty, all modifiable fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Connector | undefined;
 }
 export type CreateProjectsLocationsConnectorsError =
   | NotFound
@@ -439,11 +435,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(49, __c6, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c6, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -457,11 +455,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(49, __c6, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c6, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectors",

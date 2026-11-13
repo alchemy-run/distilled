@@ -144,13 +144,11 @@ export interface Workflow {
   /** Output only. State of the workflow deployment. */
   state?: WorkflowStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsWorkflowsRequest {
+export interface CreateProjectsLocationsWorkflowsRequest extends Workflow {
   /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID of the workflow to be created. It has to fulfill the following requirements: * Must contain only letters, numbers, underscores and hyphens. * Must start with a letter. * Must be between 1-64 characters. * Must end with a number or a letter. * Must be unique within the customer project and location. */
   workflowId?: string | undefined;
-  /** Request body */
-  body?: Workflow | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -292,13 +290,11 @@ export interface ListWorkflowRevisionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsWorkflowsRequest {
+export interface PatchProjectsLocationsWorkflowsRequest extends Omit<Workflow, "name"> {
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}. This is a workflow-wide field and is not tied to a specific revision. */
   name: string;
   /** List of fields to be updated. If not present, the entire workflow will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Workflow | undefined;
 }
 export type CreateProjectsLocationsWorkflowsError =
   | NotFound
@@ -638,11 +634,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(45, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45, __c11, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -656,11 +654,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workflowId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(45, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(45, __c11, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workflowId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflows",

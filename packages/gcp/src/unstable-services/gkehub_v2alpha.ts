@@ -1396,15 +1396,13 @@ export interface MembershipFeature {
   /** Output only. When the MembershipFeature resource was deleted. */
   deleteTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMembershipsFeaturesRequest {
+export interface CreateProjectsLocationsMembershipsFeaturesRequest extends MembershipFeature {
   /** Required. The ID of the membership_feature to create. */
   featureId?: string | undefined;
   /** Required. The name of parent where the MembershipFeature will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
   parent: string;
   /** Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MembershipFeature | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -1524,7 +1522,10 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsMembershipsFeaturesRequest {
+export interface PatchProjectsLocationsMembershipsFeaturesRequest extends Omit<
+  MembershipFeature,
+  "name"
+> {
   /** Output only. The resource name of the membershipFeature, in the format: `projects/{project}/locations/{location}/memberships/{membership}/features/{feature}`. Note that `membershipFeatures` is shortened to `features` in the resource name. (see http://go/aip/122#collection-identifiers) */
   name: string;
   /** Optional. If set to true, and the MembershipFeature is not found, a new MembershipFeature will be created. In this situation, `update_mask` is ignored. */
@@ -1533,8 +1534,6 @@ export interface PatchProjectsLocationsMembershipsFeaturesRequest {
   updateMask?: string | undefined;
   /** Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MembershipFeature | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1826,13 +1825,15 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(453, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(453, __c14, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2alpha/{+name}",
@@ -1869,12 +1870,14 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          featureId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(453, __c14, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(453, __c14, 5),
+          S.Struct({
+            featureId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha/{+parent}/features",

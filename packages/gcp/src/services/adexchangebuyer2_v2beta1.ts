@@ -102,13 +102,11 @@ export interface AcceptProposalRequest {
   /** The last known client revision number of the proposal. */
   proposalRevision?: string | undefined;
 }
-export interface AcceptAccountsProposalsRequest {
+export interface AcceptAccountsProposalsRequest extends AcceptProposalRequest {
   /** Account ID of the buyer. */
   accountId: string;
   /** The ID of the proposal to accept. */
   proposalId: string;
-  /** Request body */
-  body?: AcceptProposalRequest | undefined;
 }
 /** Contains information on how a buyer or seller can be reached. */
 export interface ContactInformation {
@@ -673,13 +671,11 @@ export interface AddDealAssociationRequest {
   /** The association between a creative and a deal that should be added. */
   association?: CreativeDealAssociation | undefined;
 }
-export interface AddAccountsCreativesDealAssociationsRequest {
+export interface AddAccountsCreativesDealAssociationsRequest extends AddDealAssociationRequest {
   /** The account the creative belongs to. */
   accountId: string;
   /** The ID of the creative associated with the deal. */
   creativeId: string;
-  /** Request body */
-  body?: AddDealAssociationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -688,13 +684,11 @@ export interface AddNoteRequest {
   /** Details of the note to add. */
   note?: Note | undefined;
 }
-export interface AddNoteAccountsProposalsRequest {
+export interface AddNoteAccountsProposalsRequest extends AddNoteRequest {
   /** The ID of the proposal to attach the note to. */
   proposalId: string;
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: AddNoteRequest | undefined;
 }
 /** Request to cancel an ongoing negotiation. */
 export interface CancelNegotiationRequest {}
@@ -711,13 +705,11 @@ export interface CompleteSetupRequest {
   /** The external deal ids of the deals to mark as setup completed. If empty, all the deals in the proposal will be marked as setup completed. */
   externalDealIds?: StringList | undefined;
 }
-export interface CompleteSetupAccountsProposalsRequest {
+export interface CompleteSetupAccountsProposalsRequest extends CompleteSetupRequest {
   /** The ID of the proposal to mark as setup completed. */
   proposalId: string;
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: CompleteSetupRequest | undefined;
 }
 export type ClientEntityTypeEnum =
   | "ENTITY_TYPE_UNSPECIFIED"
@@ -752,11 +744,9 @@ export interface Client {
   /** The name of the entity. This field is automatically fetched based on the type and ID. The value of this field is ignored in create and update operations. */
   entityName?: string | undefined;
 }
-export interface CreateAccountsClientsRequest {
+export interface CreateAccountsClientsRequest extends Client {
   /** Unique numerical account ID for the buyer of which the client buyer is a customer; the sponsor buyer to create a client for. (required) */
   accountId: string;
-  /** Request body */
-  body?: Client | undefined;
 }
 /** An invitation for a new client user to get access to the Authorized Buyers UI. All fields are required unless otherwise specified. */
 export interface ClientUserInvitation {
@@ -767,13 +757,14 @@ export interface ClientUserInvitation {
   /** The email address to which the invitation is sent. Email addresses should be unique among all client users under each sponsor buyer. */
   email?: string | undefined;
 }
-export interface CreateAccountsClientsInvitationsRequest {
+export interface CreateAccountsClientsInvitationsRequest extends Omit<
+  ClientUserInvitation,
+  "clientAccountId"
+> {
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
   /** Numerical account ID of the client buyer that the user should be associated with. (required) */
   clientAccountId: string;
-  /** Request body */
-  body?: ClientUserInvitation | undefined;
 }
 export type CreateAccountsCreativesDuplicateIdModeEnum =
   | "NO_DUPLICATES"
@@ -1159,19 +1150,15 @@ export interface Creative {
   /** Output only. Shows any corrections that were applied to this creative. */
   corrections?: CorrectionList | undefined;
 }
-export interface CreateAccountsCreativesRequest {
+export interface CreateAccountsCreativesRequest extends Omit<Creative, "accountId"> {
   /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
   accountId: string;
   /** Indicates if multiple creatives can share an ID or not. Default is NO_DUPLICATES (one ID per creative). */
   duplicateIdMode?: CreateAccountsCreativesDuplicateIdModeEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Creative | undefined;
 }
-export interface CreateAccountsProposalsRequest {
+export interface CreateAccountsProposalsRequest extends Proposal {
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: Proposal | undefined;
 }
 /** An open-ended realtime time range specified by the start timestamp. For filter sets that specify a realtime time range RTB metrics continue to be aggregated throughout the lifetime of the filter set. */
 export interface RealtimeTimeRange {
@@ -1258,29 +1245,23 @@ export interface FilterSet {
   /** The ID of the deal on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
   dealId?: string | undefined;
 }
-export interface CreateBiddersAccountsFilterSetsRequest {
+export interface CreateBiddersAccountsFilterSetsRequest extends FilterSet {
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
   /** Whether the filter set is transient, or should be persisted indefinitely. By default, filter sets are not transient. If transient, it will be available for at least 1 hour after creation. */
   isTransient?: boolean | undefined;
-  /** Request body */
-  body?: FilterSet | undefined;
 }
-export interface CreateBiddersFilterSetsRequest {
+export interface CreateBiddersFilterSetsRequest extends FilterSet {
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
   /** Whether the filter set is transient, or should be persisted indefinitely. By default, filter sets are not transient. If transient, it will be available for at least 1 hour after creation. */
   isTransient?: boolean | undefined;
-  /** Request body */
-  body?: FilterSet | undefined;
 }
-export interface CreateBuyersFilterSetsRequest {
+export interface CreateBuyersFilterSetsRequest extends FilterSet {
   /** Whether the filter set is transient, or should be persisted indefinitely. By default, filter sets are not transient. If transient, it will be available for at least 1 hour after creation. */
   isTransient?: boolean | undefined;
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
-  /** Request body */
-  body?: FilterSet | undefined;
 }
 export interface DeleteBiddersAccountsFilterSetsRequest {
   /** Full name of the resource to delete. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
@@ -2133,52 +2114,44 @@ export interface PauseProposalDealsRequest {
   /** The reason why the deals are being paused. This human readable message will be displayed in the seller's UI. (Max length: 1000 unicode code units.) */
   reason?: string | undefined;
 }
-export interface PauseAccountsFinalizedProposalsRequest {
+export interface PauseAccountsFinalizedProposalsRequest extends PauseProposalDealsRequest {
   /** Account ID of the buyer. */
   accountId: string;
   /** The proposal_id of the proposal containing the deals. */
   proposalId: string;
-  /** Request body */
-  body?: PauseProposalDealsRequest | undefined;
 }
 /** Request message to pause serving for an already-finalized proposal. */
 export interface PauseProposalRequest {
   /** The reason why the proposal is being paused. This human readable message will be displayed in the seller's UI. (Max length: 1000 unicode code units.) */
   reason?: string | undefined;
 }
-export interface PauseAccountsProposalsRequest {
+export interface PauseAccountsProposalsRequest extends PauseProposalRequest {
   /** Account ID of the buyer. */
   accountId: string;
   /** The ID of the proposal to pause. */
   proposalId: string;
-  /** Request body */
-  body?: PauseProposalRequest | undefined;
 }
 /** A request for removing the association between a deal and a creative. */
 export interface RemoveDealAssociationRequest {
   /** The association between a creative and a deal that should be removed. */
   association?: CreativeDealAssociation | undefined;
 }
-export interface RemoveAccountsCreativesDealAssociationsRequest {
+export interface RemoveAccountsCreativesDealAssociationsRequest extends RemoveDealAssociationRequest {
   /** The account the creative belongs to. */
   accountId: string;
   /** The ID of the creative associated with the deal. */
   creativeId: string;
-  /** Request body */
-  body?: RemoveDealAssociationRequest | undefined;
 }
 /** Request message to resume (unpause) serving for already-finalized deals. */
 export interface ResumeProposalDealsRequest {
   /** The external_deal_id's of the deals to resume. If empty, all the deals in the proposal will be resumed. */
   externalDealIds?: StringList | undefined;
 }
-export interface ResumeAccountsFinalizedProposalsRequest {
+export interface ResumeAccountsFinalizedProposalsRequest extends ResumeProposalDealsRequest {
   /** Account ID of the buyer. */
   accountId: string;
   /** The proposal_id of the proposal containing the deals. */
   proposalId: string;
-  /** Request body */
-  body?: ResumeProposalDealsRequest | undefined;
 }
 /** Request message to resume (unpause) serving for an already-finalized proposal. */
 export type ResumeProposalRequest = CancelNegotiationRequest;
@@ -2200,52 +2173,45 @@ export interface StopWatchingAccountsCreativesRequest {
   /** Request body */
   body?: CancelNegotiationRequest | undefined;
 }
-export interface UpdateAccountsClientsRequest {
+export interface UpdateAccountsClientsRequest extends Omit<Client, "clientAccountId"> {
   /** Unique numerical account ID for the buyer of which the client buyer is a customer; the sponsor buyer to update a client for. (required) */
   accountId: string;
   /** Unique numerical account ID of the client to update. (required) */
   clientAccountId: string;
-  /** Request body */
-  body?: Client | undefined;
 }
-export interface UpdateAccountsClientsUsersRequest {
+export interface UpdateAccountsClientsUsersRequest extends Omit<
+  ClientUser,
+  "clientAccountId" | "userId"
+> {
   /** Numerical identifier of the user to retrieve. (required) */
   userId: string;
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
   /** Numerical account ID of the client buyer that the user to be retrieved is associated with. (required) */
   clientAccountId: string;
-  /** Request body */
-  body?: ClientUser | undefined;
 }
-export interface UpdateAccountsCreativesRequest {
+export interface UpdateAccountsCreativesRequest extends Omit<Creative, "creativeId" | "accountId"> {
   /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
   accountId: string;
   /** The buyer-defined creative ID of this creative. Can be used to filter the response of the creatives.list method. */
   creativeId: string;
-  /** Request body */
-  body?: Creative | undefined;
 }
-export interface UpdateAccountsProposalsRequest {
+export interface UpdateAccountsProposalsRequest extends Omit<Proposal, "proposalId"> {
   /** The unique ID of the proposal. */
   proposalId: string;
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: Proposal | undefined;
 }
 /** A request for watching changes to creative Status. */
 export interface WatchCreativeRequest {
   /** The Pub/Sub topic to publish notifications to. This topic must already exist and must give permission to ad-exchange-buyside-reports@google.com to write to the topic. This should be the full resource name in "projects/{project_id}/topics/{topic_id}" format. */
   topic?: string | undefined;
 }
-export interface WatchAccountsCreativesRequest {
+export interface WatchAccountsCreativesRequest extends WatchCreativeRequest {
   /** The account of the creative to watch. */
   accountId: string;
   /** The creative ID to watch for status changes. Specify "-" to watch all creatives under the above account. If both creative-level and account-level notifications are sent, only a single notification will be sent to the creative-level notification topic. */
   creativeId: string;
-  /** Request body */
-  body?: WatchCreativeRequest | undefined;
 }
 export type AcceptAccountsProposalsError =
   | NotFound
@@ -4002,10 +3968,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/clients",
@@ -4037,11 +4005,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          clientAccountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            clientAccountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/invitations",
@@ -4067,11 +4037,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          duplicateIdMode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(210, __c6, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(210, __c6, 18),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            duplicateIdMode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/creatives",
@@ -4247,10 +4219,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2232, __c69, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2232, __c69, 24),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/proposals",
@@ -4264,11 +4238,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ownerName: S.String.pipe(T.Label()),
-          isTransient: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(292, __c9, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(292, __c9, 4),
+          S.Struct({
+            ownerName: S.String.pipe(T.Label()),
+            isTransient: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+ownerName}/filterSets",
@@ -4333,11 +4309,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ownerName: S.String.pipe(T.Label()),
-          isTransient: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(292, __c9, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(292, __c9, 4),
+          S.Struct({
+            ownerName: S.String.pipe(T.Label()),
+            isTransient: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+ownerName}/filterSets",
@@ -4351,11 +4329,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          isTransient: S.optional(S.Boolean.pipe(T.Query())),
-          ownerName: S.String.pipe(T.Label()),
-          body: S.optional(__S(292, __c9, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(292, __c9, 4),
+          S.Struct({
+            isTransient: S.optional(S.Boolean.pipe(T.Query())),
+            ownerName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+ownerName}/filterSets",
@@ -5360,11 +5340,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "AcceptProposalRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            proposalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/proposals/{proposalId}:accept",
@@ -5948,11 +5930,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            creativeId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations:add",
@@ -6182,11 +6166,13 @@ function __c94(j: number): any {
       ).annotate({ identifier: "AddNoteRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          proposalId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3008, __c94, 0),
+          S.Struct({
+            proposalId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/proposals/{proposalId}:addNote",
@@ -6243,11 +6229,13 @@ function __c97(j: number): any {
       ).annotate({ identifier: "PauseProposalDealsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            proposalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/finalizedProposals/{proposalId}:pause",
@@ -6267,11 +6255,13 @@ function __c98(j: number): any {
       ).annotate({ identifier: "PauseProposalRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            proposalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/proposals/{proposalId}:pause",
@@ -6285,11 +6275,13 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2624, __c82, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            creativeId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations:remove",
@@ -6303,11 +6295,13 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3520, __c110, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3520, __c110, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            proposalId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/finalizedProposals/{proposalId}:resume",
@@ -6357,11 +6351,13 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          clientAccountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            clientAccountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2beta1/accounts/{accountId}/clients/{clientAccountId}",
@@ -6375,12 +6371,14 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          clientAccountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+            clientAccountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/users/{userId}",
@@ -6412,11 +6410,13 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(210, __c6, 18).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(210, __c6, 18),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            creativeId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2beta1/accounts/{accountId}/creatives/{creativeId}",
@@ -6430,11 +6430,13 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          proposalId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2232, __c69, 24).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2232, __c69, 24),
+          S.Struct({
+            proposalId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2beta1/accounts/{accountId}/proposals/{proposalId}",
@@ -6454,11 +6456,13 @@ function __c108(j: number): any {
       ).annotate({ identifier: "WatchCreativeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3456, __c108, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3456, __c108, 0),
+          S.Struct({
+            accountId: S.String.pipe(T.Label()),
+            creativeId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/creatives/{creativeId}:watch",
@@ -6472,11 +6476,13 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          proposalId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3520, __c110, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3520, __c110, 0),
+          S.Struct({
+            proposalId: S.String.pipe(T.Label()),
+            accountId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/accounts/{accountId}/proposals/{proposalId}:completeSetup",

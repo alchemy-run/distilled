@@ -125,11 +125,9 @@ export interface AdUnit {
   /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   name?: string | undefined;
 }
-export interface CreateAccountsAdclientsAdunitsRequest {
+export interface CreateAccountsAdclientsAdunitsRequest extends AdUnit {
   /** Required. Ad client to create an ad unit under. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
-  /** Request body */
-  body?: AdUnit | undefined;
 }
 /** Representation of a custom channel. */
 export interface CustomChannel {
@@ -142,11 +140,9 @@ export interface CustomChannel {
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name?: string | undefined;
 }
-export interface CreateAccountsAdclientsCustomchannelsRequest {
+export interface CreateAccountsAdclientsCustomchannelsRequest extends CustomChannel {
   /** Required. The ad client to create a custom channel under. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
-  /** Request body */
-  body?: CustomChannel | undefined;
 }
 export interface DeleteAccountsAdclientsCustomchannelsRequest {
   /** Required. Name of the custom channel to delete. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
@@ -1004,21 +1000,17 @@ export interface ListLinkedCustomChannelsResponse {
   /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string | undefined;
 }
-export interface PatchAccountsAdclientsAdunitsRequest {
+export interface PatchAccountsAdclientsAdunitsRequest extends Omit<AdUnit, "name"> {
   /** The list of fields to update. If empty, a full update is performed. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   name: string;
-  /** Request body */
-  body?: AdUnit | undefined;
 }
-export interface PatchAccountsAdclientsCustomchannelsRequest {
+export interface PatchAccountsAdclientsCustomchannelsRequest extends Omit<CustomChannel, "name"> {
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name: string;
   /** The list of fields to update. If empty, a full update is performed. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CustomChannel | undefined;
 }
 export type CreateAccountsAdclientsAdunitsError =
   | NotFound
@@ -2405,11 +2397,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(313, __c39, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(313, __c39, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -2423,11 +2417,13 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(328, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(328, __c41, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -2441,10 +2437,12 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(313, __c39, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(313, __c39, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/adunits",
@@ -2479,10 +2477,12 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(328, __c41, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(328, __c41, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/customchannels",

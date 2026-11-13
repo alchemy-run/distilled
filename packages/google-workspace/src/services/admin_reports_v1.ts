@@ -663,10 +663,7 @@ export interface Channel {
   /** The address where notifications are delivered for this channel. */
   address?: string | undefined;
 }
-export interface StopChannelsRequest {
-  /** Request body */
-  body?: Channel | undefined;
-}
+export interface StopChannelsRequest extends Channel {}
 export interface StopChannelsResponse {}
 export type WatchActivitiesApplicationNameEnum =
   | "access_transparency"
@@ -691,7 +688,7 @@ export type WatchActivitiesApplicationNameEnum =
   | "data_studio"
   | "keep"
   | "classroom";
-export interface WatchActivitiesRequest {
+export interface WatchActivitiesRequest extends Channel {
   /** The name of the event being queried by the API. Each `eventName` is related to a specific Google Workspace service or feature which the API organizes into types of events. An example is the Google Calendar events in the Admin console application's reports. The Calendar Settings `type` structure has all of the Calendar `eventName` activities reported by the API. When an administrator changes a Calendar setting, the API reports this activity in the Calendar Settings `type` and `eventName` parameters. For more information about `eventName` query strings and parameters, see the list of event names for various applications above in `applicationName`. */
   eventName?: string | undefined;
   /** `Deprecated`. This field is deprecated and is no longer supported. ID of the organizational unit to report on. Activity records will be shown only for users who belong to the specified organizational unit. Data before Dec 17, 2018 doesn't appear in the filtered results. */
@@ -716,8 +713,6 @@ export interface WatchActivitiesRequest {
   userKey: string;
   /** Application name for which the events are to be retrieved. */
   applicationName: WatchActivitiesApplicationNameEnum | (string & {});
-  /** Request body */
-  body?: Channel | undefined;
 }
 export type GetCustomerUsageReportsError = NotFound | Forbidden | GoogleWorkspaceOpError;
 /** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */
@@ -1320,9 +1315,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(225, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/reports_v1/channels/stop",
@@ -1359,21 +1352,23 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          eventName: S.optional(S.String.pipe(T.Query())),
-          orgUnitID: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          actorIpAddress: S.optional(S.String.pipe(T.Query())),
-          groupIdFilter: S.optional(S.String.pipe(T.Query())),
-          filters: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          customerId: S.optional(S.String.pipe(T.Query())),
-          userKey: S.String.pipe(T.Label()),
-          applicationName: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c7, 1),
+          S.Struct({
+            eventName: S.optional(S.String.pipe(T.Query())),
+            orgUnitID: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            actorIpAddress: S.optional(S.String.pipe(T.Query())),
+            groupIdFilter: S.optional(S.String.pipe(T.Query())),
+            filters: S.optional(S.String.pipe(T.Query())),
+            endTime: S.optional(S.String.pipe(T.Query())),
+            startTime: S.optional(S.String.pipe(T.Query())),
+            customerId: S.optional(S.String.pipe(T.Query())),
+            userKey: S.String.pipe(T.Label()),
+            applicationName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}/watch",

@@ -103,11 +103,9 @@ export interface BatchDeleteConversationsRequest {
   /** Required. The resource names of the conversations to delete. */
   conversations?: StringList | undefined;
 }
-export interface BatchDeleteProjectsLocationsAppsConversationsRequest {
+export interface BatchDeleteProjectsLocationsAppsConversationsRequest extends BatchDeleteConversationsRequest {
   /** Required. The resource name of the app to delete conversations from. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
-  /** Request body */
-  body?: BatchDeleteConversationsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -138,11 +136,9 @@ export interface CancelAssistantTurnRequest {
   /** Optional. The turn to cancel; empty cancels whichever turn is running. A cancel naming a turn that is no longer the running one is a no-op. */
   turnId?: string | undefined;
 }
-export interface CancelAssistantTurnProjectsLocationsAppsAssistantSessionsRequest {
+export interface CancelAssistantTurnProjectsLocationsAppsAssistantSessionsRequest extends CancelAssistantTurnRequest {
   /** Required. The assistant session whose in-flight turn to cancel. */
   name: string;
-  /** Request body */
-  body?: CancelAssistantTurnRequest | undefined;
 }
 /** Response for CancelAssistantTurn. */
 export interface CancelAssistantTurnResponse {
@@ -703,13 +699,11 @@ export interface App {
   /** Optional. VPC-SC settings for the app. */
   vpcScSettings?: VpcScSettings | undefined;
 }
-export interface CreateProjectsLocationsAppsRequest {
+export interface CreateProjectsLocationsAppsRequest extends App {
   /** Required. The resource name of the location to create an app in. */
   parent: string;
   /** Optional. The ID to use for the app, which will become the final component of the app's resource name. If not provided, a unique ID will be automatically assigned for the app. */
   appId?: string | undefined;
-  /** Request body */
-  body?: App | undefined;
 }
 /** A callback defines the custom logic to be executed at various stages of agent interaction. */
 export interface Callback {
@@ -958,13 +952,11 @@ export interface Agent {
   /** Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsAppsAgentsRequest {
+export interface CreateProjectsLocationsAppsAgentsRequest extends Agent {
   /** Optional. The ID to use for the agent, which will become the final component of the agent's resource name. If not provided, a unique ID will be automatically assigned for the agent. */
   agentId?: string | undefined;
   /** Required. The resource name of the app to create an agent in. */
   parent: string;
-  /** Request body */
-  body?: Agent | undefined;
 }
 /** Traffic allocation for the version release. */
 export interface ExperimentConfigVersionReleaseTrafficAllocation {
@@ -1056,13 +1048,11 @@ export interface Deployment {
   /** Optional. Input only. Ephemeral Instagram credentials required when configuring a Instagram channel profile. */
   instagramCredentials?: InstagramCredentials | undefined;
 }
-export interface CreateProjectsLocationsAppsDeploymentsRequest {
+export interface CreateProjectsLocationsAppsDeploymentsRequest extends Deployment {
   /** Required. The parent app. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
   /** Optional. The ID to use for the deployment, which will become the final component of the deployment's resource name. If not provided, a unique ID will be automatically assigned for the deployment. */
   deploymentId?: string | undefined;
-  /** Request body */
-  body?: Deployment | undefined;
 }
 /** A tool that is created from a toolset. */
 export interface ToolsetTool {
@@ -1183,13 +1173,11 @@ export interface Example {
   /** Output only. The example may become invalid if referencing resources are deleted. Invalid examples will not be used as few-shot examples. */
   invalid?: boolean | undefined;
 }
-export interface CreateProjectsLocationsAppsExamplesRequest {
+export interface CreateProjectsLocationsAppsExamplesRequest extends Example {
   /** Optional. The ID to use for the example, which will become the final component of the example's resource name. If not provided, a unique ID will be automatically assigned for the example. */
   exampleId?: string | undefined;
   /** Required. The resource name of the app to create an example in. */
   parent: string;
-  /** Request body */
-  body?: Example | undefined;
 }
 export type GuardrailContentFilterMatchTypeEnum =
   | "MATCH_TYPE_UNSPECIFIED"
@@ -1369,13 +1357,11 @@ export interface Guardrail {
   /** Output only. Timestamp when the guardrail was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAppsGuardrailsRequest {
+export interface CreateProjectsLocationsAppsGuardrailsRequest extends Guardrail {
   /** Optional. The ID to use for the guardrail, which will become the final component of the guardrail's resource name. If not provided, a unique ID will be automatically assigned for the guardrail. */
   guardrailId?: string | undefined;
   /** Required. The resource name of the app to create a guardrail in. */
   parent: string;
-  /** Request body */
-  body?: Guardrail | undefined;
 }
 /** Configuration for tools using Service Directory. */
 export interface ServiceDirectoryConfig {
@@ -1892,13 +1878,11 @@ export interface Tool {
   /** Optional. The widget tool. */
   widgetTool?: WidgetTool | undefined;
 }
-export interface CreateProjectsLocationsAppsToolsRequest {
+export interface CreateProjectsLocationsAppsToolsRequest extends Tool {
   /** Required. The resource name of the app to create a tool in. */
   parent: string;
   /** Optional. The ID to use for the tool, which will become the final component of the tool's resource name. If not provided, a unique ID will be automatically assigned for the tool. */
   toolId?: string | undefined;
-  /** Request body */
-  body?: Tool | undefined;
 }
 export type ActionList = Array<Action>;
 /** A toolset that generates tools from an Integration Connectors Connection. */
@@ -1992,13 +1976,11 @@ export interface Toolset {
   /** ETag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsAppsToolsetsRequest {
+export interface CreateProjectsLocationsAppsToolsetsRequest extends Toolset {
   /** Required. The resource name of the app to create a toolset in. */
   parent: string;
   /** Optional. The ID to use for the toolset, which will become the final component of the toolset's resource name. If not provided, a unique ID will be automatically assigned for the toolset. */
   toolsetId?: string | undefined;
-  /** Request body */
-  body?: Toolset | undefined;
 }
 export type ToolList = Array<Tool>;
 export type GuardrailList = Array<Guardrail>;
@@ -2039,13 +2021,11 @@ export interface AppVersion {
   /** Output only. The snapshot of the app when the version is created. */
   snapshot?: AppSnapshot | undefined;
 }
-export interface CreateProjectsLocationsAppsVersionsRequest {
+export interface CreateProjectsLocationsAppsVersionsRequest extends AppVersion {
   /** Required. The resource name of the app to create an app version in. */
   parent: string;
   /** Optional. The ID to use for the app version, which will become the final component of the app version's resource name. If not provided, a unique ID will be automatically assigned for the app version. */
   appVersionId?: string | undefined;
-  /** Request body */
-  body?: AppVersion | undefined;
 }
 export interface DeleteProjectsLocationsAppsRequest {
   /** Required. The resource name of the app to delete. */
@@ -2159,11 +2139,9 @@ export interface ExecuteToolRequest {
   /** Optional. The input parameters and values for the tool in JSON object format. */
   args?: DocumentMap | undefined;
 }
-export interface ExecuteToolProjectsLocationsAppsRequest {
+export interface ExecuteToolProjectsLocationsAppsRequest extends ExecuteToolRequest {
   /** Required. The resource name of the app which the tool/toolset belongs to. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
-  /** Request body */
-  body?: ExecuteToolRequest | undefined;
 }
 /** Piece of cited information. */
 export interface CitationsCitedChunk {
@@ -2235,11 +2213,9 @@ export interface ExportAppRequest {
   /** Optional. The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI to which to export the app. The format of this URI must be `gs:///`. The exported app archive will be written directly to the specified GCS object. */
   gcsUri?: string | undefined;
 }
-export interface ExportAppProjectsLocationsAppsRequest {
+export interface ExportAppProjectsLocationsAppsRequest extends ExportAppRequest {
   /** Required. The resource name of the app to export. */
   name: string;
-  /** Request body */
-  body?: ExportAppRequest | undefined;
 }
 /** Request message for WidgetService.GenerateChatToken. */
 export interface GenerateChatTokenRequest {
@@ -2250,11 +2226,9 @@ export interface GenerateChatTokenRequest {
   /** Optional. Indicates if live handoff is enabled for the session. */
   liveHandoffEnabled?: boolean | undefined;
 }
-export interface GenerateChatTokenProjectsLocationsAppsSessionsRequest {
+export interface GenerateChatTokenProjectsLocationsAppsSessionsRequest extends GenerateChatTokenRequest {
   /** Required. The session name to generate the chat token for. Format: projects/{project}/locations/{location}/apps/{app}/sessions/{session} */
   name: string;
-  /** Request body */
-  body?: GenerateChatTokenRequest | undefined;
 }
 /** Response message for WidgetService.GenerateChatToken. */
 export interface GenerateChatTokenResponse {
@@ -2268,11 +2242,9 @@ export interface GenerateOnboardingSuggestionsRequest {
   /** Optional. Maximum number of suggestions to return. Defaults to 4 when unset. */
   maxSuggestions?: number | undefined;
 }
-export interface GenerateOnboardingSuggestionsProjectsLocationsAppsRequest {
+export interface GenerateOnboardingSuggestionsProjectsLocationsAppsRequest extends GenerateOnboardingSuggestionsRequest {
   /** Required. The app whose zero state is being rendered. Format: `projects/{project}/locations/{location}/apps/{app}` */
   name: string;
-  /** Request body */
-  body?: GenerateOnboardingSuggestionsRequest | undefined;
 }
 export type GenerateOnboardingSuggestionsResponseUserProfileEnum =
   | "USER_PROFILE_UNSPECIFIED"
@@ -2747,11 +2719,9 @@ export interface RetrieveToolSchemaRequest {
   /** Optional. The name of the tool to retrieve the schema for. Format: projects/{project}/locations/{location}/apps/{app}/tools/{tool} */
   tool?: string | undefined;
 }
-export interface GetToolSchemaProjectsLocationsAppsRequest {
+export interface GetToolSchemaProjectsLocationsAppsRequest extends RetrieveToolSchemaRequest {
   /** Required. The resource name of the app which the tool/toolset belongs to. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
-  /** Request body */
-  body?: RetrieveToolSchemaRequest | undefined;
 }
 /** Response message for ToolService.RetrieveToolSchema. */
 export interface RetrieveToolSchemaResponse {
@@ -2771,11 +2741,9 @@ export interface RetrieveToolsRequest {
   /** Optional. If true, the returned tools will contain raw descriptions and schemas directly from the server, bypassing any stored persistence configurations (overrides/snapshots). */
   bypassPersistenceConfig?: boolean | undefined;
 }
-export interface GetToolsProjectsLocationsAppsToolsetsRequest {
+export interface GetToolsProjectsLocationsAppsToolsetsRequest extends RetrieveToolsRequest {
   /** Required. The name of the toolset to retrieve the tools for. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
   toolset: string;
-  /** Request body */
-  body?: RetrieveToolsRequest | undefined;
 }
 /** Response message for ToolService.RetrieveTools. */
 export interface RetrieveToolsResponse {
@@ -2815,11 +2783,9 @@ export interface ImportAppRequest {
   /** Optional. Flag for overriding the app lock during import. If set to true, the import process will ignore the app lock. */
   ignoreAppLock?: boolean | undefined;
 }
-export interface ImportAppProjectsLocationsAppsRequest {
+export interface ImportAppProjectsLocationsAppsRequest extends ImportAppRequest {
   /** Required. The parent resource name with the location of the app to import. */
   parent: string;
-  /** Request body */
-  body?: ImportAppRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
@@ -3075,69 +3041,53 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsAppsRequest {
+export interface PatchProjectsLocationsAppsRequest extends Omit<App, "name"> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the app. Format: `projects/{project}/locations/{location}/apps/{app}` */
   name: string;
-  /** Request body */
-  body?: App | undefined;
 }
-export interface PatchProjectsLocationsAppsAgentsRequest {
+export interface PatchProjectsLocationsAppsAgentsRequest extends Omit<Agent, "name"> {
   /** Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Agent | undefined;
 }
-export interface PatchProjectsLocationsAppsDeploymentsRequest {
+export interface PatchProjectsLocationsAppsDeploymentsRequest extends Omit<Deployment, "name"> {
   /** Identifier. The resource name of the deployment. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Deployment | undefined;
 }
-export interface PatchProjectsLocationsAppsExamplesRequest {
+export interface PatchProjectsLocationsAppsExamplesRequest extends Omit<Example, "name"> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
   name: string;
-  /** Request body */
-  body?: Example | undefined;
 }
-export interface PatchProjectsLocationsAppsGuardrailsRequest {
+export interface PatchProjectsLocationsAppsGuardrailsRequest extends Omit<Guardrail, "name"> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the guardrail. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
   name: string;
-  /** Request body */
-  body?: Guardrail | undefined;
 }
-export interface PatchProjectsLocationsAppsToolsRequest {
+export interface PatchProjectsLocationsAppsToolsRequest extends Omit<Tool, "name"> {
   /** Identifier. The resource name of the tool. Format: * `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` for standalone tools. * `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}/tools/{tool}` for tools retrieved from a toolset. These tools are dynamic and output-only; they cannot be referenced directly where a tool is expected. */
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Tool | undefined;
 }
-export interface PatchProjectsLocationsAppsToolsetsRequest {
+export interface PatchProjectsLocationsAppsToolsetsRequest extends Omit<Toolset, "name"> {
   /** Identifier. The unique identifier of the toolset. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Toolset | undefined;
 }
-export interface PatchProjectsLocationsAppsVersionsRequest {
+export interface PatchProjectsLocationsAppsVersionsRequest extends Omit<AppVersion, "name"> {
   /** Optional. The list of fields to update. If empty, fields `display_name` and `description` will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the app version. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
   name: string;
-  /** Request body */
-  body?: AppVersion | undefined;
 }
 /** Request message for AgentService.RestoreAppVersion */
 export type RestoreAppVersionRequest = CancelOperationRequest;
@@ -3257,11 +3207,9 @@ export interface RunSessionRequest {
   /** Required. Inputs for the session. */
   inputs?: SessionInputList | undefined;
 }
-export interface RunSessionProjectsLocationsAppsSessionsRequest {
+export interface RunSessionProjectsLocationsAppsSessionsRequest extends RunSessionRequest {
   /** Required. The unique identifier of the session. Format: `projects/{project}/locations/{location}/apps/{app}/sessions/{session}` */
   session: string;
-  /** Request body */
-  body?: RunSessionRequest | undefined;
 }
 export type ToolCallList = Array<ToolCall>;
 /** Request for the client to execute the tools and return the execution results before continuing the session. */
@@ -3394,11 +3342,9 @@ export interface LfA2aV1SendMessageRequest {
   /** A flexible key-value map for passing additional context or parameters. */
   metadata?: DocumentMap | undefined;
 }
-export interface SendProjectsLocationsAppsDeploymentsMessageRequest {
+export interface SendProjectsLocationsAppsDeploymentsMessageRequest extends LfA2aV1SendMessageRequest {
   /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant: string;
-  /** Request body */
-  body?: LfA2aV1SendMessageRequest | undefined;
 }
 export type LfA2aV1TaskStatusStateEnum =
   | "TASK_STATE_UNSPECIFIED"
@@ -3458,17 +3404,13 @@ export interface LfA2aV1SendMessageResponse {
   /** A message from the agent. */
   message?: LfA2aV1Message | undefined;
 }
-export interface SendProjectsLocationsAppsMessageRequest {
+export interface SendProjectsLocationsAppsMessageRequest extends LfA2aV1SendMessageRequest {
   /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant: string;
-  /** Request body */
-  body?: LfA2aV1SendMessageRequest | undefined;
 }
-export interface SendProjectsLocationsAppsVersionsMessageRequest {
+export interface SendProjectsLocationsAppsVersionsMessageRequest extends LfA2aV1SendMessageRequest {
   /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant: string;
-  /** Request body */
-  body?: LfA2aV1SendMessageRequest | undefined;
 }
 /** Event sent by the client or background worker to resume an assistant session after an asynchronous Long-Running Operation (LRO) completes. */
 export interface OperationCompletedEvent {
@@ -3522,11 +3464,9 @@ export interface StreamChatAiAssistantRequest {
   /** Optional. Response features this client can render. The server only emits events that need a capability (e.g. `confirmation_request`) when the capability is declared, so older clients never receive events they would silently drop. */
   clientCapabilities?: StreamChatAiAssistantRequestClientCapabilitiesItemEnumList | undefined;
 }
-export interface StreamChatAiAssistantProjectsLocationsAppsAssistantSessionsRequest {
+export interface StreamChatAiAssistantProjectsLocationsAppsAssistantSessionsRequest extends StreamChatAiAssistantRequest {
   /** Required. The assistant session to be used to run the assistant. Format: `projects/{project}/locations/{location}/apps/{app}/assistantSessions/{assistant_session}` */
   name: string;
-  /** Request body */
-  body?: StreamChatAiAssistantRequest | undefined;
 }
 /** Represents a UI event payload. */
 export interface UiEvent {
@@ -3692,11 +3632,9 @@ export interface StreamChatAiAssistantResponse {
   /** Simple status update. */
   status?: Status | undefined;
 }
-export interface StreamProjectsLocationsAppsDeploymentsMessageRequest {
+export interface StreamProjectsLocationsAppsDeploymentsMessageRequest extends LfA2aV1SendMessageRequest {
   /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant: string;
-  /** Request body */
-  body?: LfA2aV1SendMessageRequest | undefined;
 }
 /** An event sent by the agent to notify the client of a change in a task's status. */
 export interface LfA2aV1TaskStatusUpdateEvent {
@@ -3735,23 +3673,17 @@ export interface LfA2aV1StreamResponse {
   /** A Message object containing a message from the agent. */
   message?: LfA2aV1Message | undefined;
 }
-export interface StreamProjectsLocationsAppsMessageRequest {
+export interface StreamProjectsLocationsAppsMessageRequest extends LfA2aV1SendMessageRequest {
   /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant: string;
-  /** Request body */
-  body?: LfA2aV1SendMessageRequest | undefined;
 }
-export interface StreamProjectsLocationsAppsVersionsMessageRequest {
+export interface StreamProjectsLocationsAppsVersionsMessageRequest extends LfA2aV1SendMessageRequest {
   /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant: string;
-  /** Request body */
-  body?: LfA2aV1SendMessageRequest | undefined;
 }
-export interface StreamRunSessionProjectsLocationsAppsSessionsRequest {
+export interface StreamRunSessionProjectsLocationsAppsSessionsRequest extends RunSessionRequest {
   /** Required. The unique identifier of the session. Format: `projects/{project}/locations/{location}/apps/{app}/sessions/{session}` */
   session: string;
-  /** Request body */
-  body?: RunSessionRequest | undefined;
 }
 export type BatchDeleteProjectsLocationsAppsConversationsError =
   | NotFound
@@ -5296,11 +5228,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          deploymentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(39, __c1, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c1, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            deploymentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deployments",
@@ -5383,11 +5317,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          exampleId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            exampleId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/examples",
@@ -5511,11 +5447,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          guardrailId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(271, __c8, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(271, __c8, 15),
+          S.Struct({
+            guardrailId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/guardrails",
@@ -5654,11 +5592,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          toolId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(387, __c12, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(387, __c12, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            toolId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/tools",
@@ -6054,11 +5994,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          toolsetId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(455, __c14, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(455, __c14, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            toolsetId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/toolsets",
@@ -6144,11 +6086,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          appVersionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(673, __c21, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            appVersionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -6383,10 +6327,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ExecuteToolRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1027, __c32, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1027, __c32, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:executeTool",
@@ -6469,10 +6415,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ExportAppRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:exportApp",
@@ -6494,10 +6442,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GenerateChatTokenRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateChatToken",
@@ -6524,10 +6474,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GenerateOnboardingSuggestionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateOnboardingSuggestions",
@@ -7057,10 +7009,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "RetrieveToolSchemaRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1856, __c58, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:retrieveToolSchema",
@@ -7090,10 +7044,12 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RetrieveToolsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          toolset: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            toolset: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+toolset}:retrieveTools",
@@ -7133,10 +7089,12 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ImportAppRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1921, __c60, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1921, __c60, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apps:importApp",
@@ -7215,10 +7173,12 @@ function __c63(j: number): any {
       ).annotate({ identifier: "BatchDeleteConversationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/conversations:batchDelete",
@@ -7563,10 +7523,12 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CancelAssistantTurnRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancelAssistantTurn",
@@ -7588,11 +7550,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3458, __c108, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3458, __c108, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsRequest" });
@@ -7602,11 +7566,13 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3691, __c115, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3691, __c115, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsAgentsRequest" });
@@ -7616,11 +7582,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(39, __c1, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(39, __c1, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsDeploymentsRequest" });
@@ -7630,11 +7598,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsExamplesRequest" });
@@ -7644,11 +7614,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(271, __c8, 15).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(271, __c8, 15),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsGuardrailsRequest" });
@@ -7658,11 +7630,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(387, __c12, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(387, __c12, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsToolsRequest" });
@@ -7672,11 +7646,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(455, __c14, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(455, __c14, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsToolsetsRequest" });
@@ -7686,11 +7662,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(673, __c21, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ces.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsAppsVersionsRequest" });
@@ -7717,10 +7695,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(2889, __c90, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2889, __c90, 9),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:runSession",
@@ -7886,10 +7866,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(3046, __c95, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3046, __c95, 6),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/message:send",
@@ -8014,10 +7996,12 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(3046, __c95, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3046, __c95, 6),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/message:send",
@@ -8031,10 +8015,12 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(3046, __c95, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3046, __c95, 6),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/message:send",
@@ -8081,10 +8067,12 @@ function __c98(j: number): any {
       ).annotate({ identifier: "StreamChatAiAssistantRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3138, __c98, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3138, __c98, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:streamChatAiAssistant",
@@ -8220,10 +8208,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(3046, __c95, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3046, __c95, 6),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/message:stream",
@@ -8270,10 +8260,12 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(3046, __c95, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3046, __c95, 6),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/message:stream",
@@ -8287,10 +8279,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tenant: S.String.pipe(T.Label()),
-          body: S.optional(__S(3046, __c95, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3046, __c95, 6),
+          S.Struct({
+            tenant: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+tenant}/message:stream",
@@ -8304,10 +8298,12 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          session: S.String.pipe(T.Label()),
-          body: S.optional(__S(2889, __c90, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2889, __c90, 9),
+          S.Struct({
+            session: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+session}:streamRunSession",
@@ -8321,11 +8317,13 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          appId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3458, __c108, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3458, __c108, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            appId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/apps",
@@ -8738,11 +8736,13 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          agentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3691, __c115, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3691, __c115, 11),
+          S.Struct({
+            agentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/agents",

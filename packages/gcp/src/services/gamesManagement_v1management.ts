@@ -251,10 +251,7 @@ export interface AchievementResetMultipleForAllRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetMultipleForAllRequest`. */
   kind?: string | undefined;
 }
-export interface ResetMultipleForAllPlayersAchievementsRequest {
-  /** Request body */
-  body?: AchievementResetMultipleForAllRequest | undefined;
-}
+export interface ResetMultipleForAllPlayersAchievementsRequest extends AchievementResetMultipleForAllRequest {}
 export interface ResetMultipleForAllPlayersAchievementsResponse {}
 /** Multiple events reset all request. */
 export interface EventsResetMultipleForAllRequest {
@@ -263,10 +260,7 @@ export interface EventsResetMultipleForAllRequest {
   /** The IDs of events to reset. */
   event_ids?: StringList | undefined;
 }
-export interface ResetMultipleForAllPlayersEventsRequest {
-  /** Request body */
-  body?: EventsResetMultipleForAllRequest | undefined;
-}
+export interface ResetMultipleForAllPlayersEventsRequest extends EventsResetMultipleForAllRequest {}
 export interface ResetMultipleForAllPlayersEventsResponse {}
 export interface ScoresResetMultipleForAllRequest {
   /** The IDs of leaderboards to reset. */
@@ -274,10 +268,7 @@ export interface ScoresResetMultipleForAllRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#scoresResetMultipleForAllRequest`. */
   kind?: string | undefined;
 }
-export interface ResetMultipleForAllPlayersScoresRequest {
-  /** Request body */
-  body?: ScoresResetMultipleForAllRequest | undefined;
-}
+export interface ResetMultipleForAllPlayersScoresRequest extends ScoresResetMultipleForAllRequest {}
 export interface ResetMultipleForAllPlayersScoresResponse {}
 export interface ResetScoresRequest {
   /** The ID of the leaderboard. */
@@ -788,9 +779,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "AchievementResetMultipleForAllRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(144, __c9, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1management/achievements/resetMultipleForAllPlayers",
@@ -811,9 +800,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "EventsResetMultipleForAllRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(160, __c10, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(160, __c10, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1management/events/resetMultipleForAllPlayers",
@@ -834,9 +821,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ScoresResetMultipleForAllRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(176, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "games/v1management/scores/resetMultipleForAllPlayers",

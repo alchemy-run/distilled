@@ -160,11 +160,9 @@ export interface BatchGetDocumentsRequest {
   /** The names of the documents to retrieve. In the format: `projects/{project_id}/databases/{database_id}/documents/{document_path}`. The request will fail if any of the document is not a child resource of the given `database`. Duplicate names will be elided. */
   documents?: StringList | undefined;
 }
-export interface BatchGetProjectsDatabasesDocumentsRequest {
+export interface BatchGetProjectsDatabasesDocumentsRequest extends BatchGetDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
-  /** Request body */
-  body?: BatchGetDocumentsRequest | undefined;
 }
 export type ValueList = Array<Value>;
 /** A single operation within a pipeline. A stage is made up of a unique name, and a list of arguments. The exact number of arguments & types is dependent on the stage type. To give an example, the stage `filter(state = "MD")` would be encoded as: ``` name: "filter" args { function_value { name: "eq" args { field_reference_value: "state" } args { string_value: "MD" } } } ``` See public documentation for the full list. */
@@ -324,11 +322,9 @@ export interface BatchWriteRequest {
   /** Labels associated with this batch write. */
   labels?: StringMap | undefined;
 }
-export interface BatchWriteProjectsDatabasesDocumentsRequest {
+export interface BatchWriteProjectsDatabasesDocumentsRequest extends BatchWriteRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
-  /** Request body */
-  body?: BatchWriteRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -364,11 +360,9 @@ export interface BeginTransactionRequest {
   /** Optional. The request options for this request. */
   requestOptions?: RequestOptions | undefined;
 }
-export interface BeginTransactionProjectsDatabasesDocumentsRequest {
+export interface BeginTransactionProjectsDatabasesDocumentsRequest extends BeginTransactionRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
-  /** Request body */
-  body?: BeginTransactionRequest | undefined;
 }
 /** The response for Firestore.BeginTransaction. */
 export interface BeginTransactionResponse {
@@ -382,11 +376,9 @@ export interface GoogleFirestoreAdminV1BulkDeleteDocumentsRequest {
   /** Optional. Namespaces to delete. An empty list means all namespaces. This is the recommended usage for databases that don't use namespaces. An empty string element represents the default namespace. This should be used if the database has data in non-default namespaces, but doesn't want to delete from them. Each namespace in this list must be unique. */
   namespaceIds?: StringList | undefined;
 }
-export interface BulkDeleteDocumentsProjectsDatabasesRequest {
+export interface BulkDeleteDocumentsProjectsDatabasesRequest extends GoogleFirestoreAdminV1BulkDeleteDocumentsRequest {
   /** Required. Database to operate. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1BulkDeleteDocumentsRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -450,11 +442,9 @@ export interface GoogleFirestoreAdminV1CloneDatabaseRequest {
   /** Required. Specification of the PITR data to clone from. The source database must exist. The cloned database will be created in the same location as the source database. */
   pitrSnapshot?: GoogleFirestoreAdminV1PitrSnapshot | undefined;
 }
-export interface CloneProjectsDatabasesRequest {
+export interface CloneProjectsDatabasesRequest extends GoogleFirestoreAdminV1CloneDatabaseRequest {
   /** Required. The project to clone the database in. Format is `projects/{project_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1CloneDatabaseRequest | undefined;
 }
 /** The request for Firestore.Commit. */
 export interface CommitRequest {
@@ -465,11 +455,9 @@ export interface CommitRequest {
   /** The writes to apply. Always executed atomically and in order. */
   writes?: WriteList | undefined;
 }
-export interface CommitProjectsDatabasesDocumentsRequest {
+export interface CommitProjectsDatabasesDocumentsRequest extends CommitRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
-  /** Request body */
-  body?: CommitRequest | undefined;
 }
 /** The response for Firestore.Commit. */
 export interface CommitResponse {
@@ -478,7 +466,7 @@ export interface CommitResponse {
   /** The result of applying the writes. This i-th write result corresponds to the i-th write in the request. */
   writeResults?: WriteResultList | undefined;
 }
-export interface CreateDocumentProjectsDatabasesDocumentsRequest {
+export interface CreateDocumentProjectsDatabasesDocumentsRequest extends Document {
   /** The list of field paths in the mask. See Document.fields for a field path syntax reference. */
   "mask.fieldPaths"?: StringList | undefined;
   /** The client-assigned document ID to use for this document. Optional. If not specified, an ID will be assigned by the service. */
@@ -489,8 +477,6 @@ export interface CreateDocumentProjectsDatabasesDocumentsRequest {
   collectionId: string;
   /** Optional. The request tags for the request. Request tags are user-provided strings used for usage monitoring, cost management, and observability. Callers can associate custom application context (such as component, microservice, feature name, or operation type) with database requests. These tags are collected and aggregated in usage and monitoring reports, allowing billable operations and usage metrics to be sliced and analyzed by tag. These tags *only* show up in monitoring and are visible in administrative operations (such as usage reports). They do not affect data storage, query semantics, or request execution. Cardinality and Best Practices: - Request tags are most effective when using a bounded set of distinct values (e.g., fewer than 100 distinct tags across an entire database). Using a large number of distinct tags may result in tags being omitted from top usage dashboards. - Use structured identifiers (for example: `app=cart`, `env=prod`, `service=checkout`) and avoid high-cardinality values such as UUIDs, request IDs, timestamps, user IDs, or document keys. - Do not include sensitive data or personally identifiable information (PII) in request tags, as they show up in administrative monitoring. The tags are processed as follows: - Leading and trailing whitespace is trimmed. - Empty tags (after trimming) are filtered out. - Truncated to a maximum of 510 characters. - Deduplicated within the same request. - Limited to a maximum of 50 tags per request (excess tags are silently discarded). */
   "requestOptions.requestTags"?: StringList | undefined;
-  /** Request body */
-  body?: Document | undefined;
 }
 export type GoogleFirestoreAdminV1DatabaseDeleteProtectionStateEnum =
   | "DELETE_PROTECTION_STATE_UNSPECIFIED"
@@ -617,13 +603,11 @@ export interface GoogleFirestoreAdminV1Database {
     | (string & {})
     | undefined;
 }
-export interface CreateProjectsDatabasesRequest {
+export interface CreateProjectsDatabasesRequest extends GoogleFirestoreAdminV1Database {
   /** Required. The ID to use for the database, which will become the final component of the database's resource name. This value should be 4-63 characters. Valid characters are /a-z-/ with first character a letter and the last a letter or a number. Must not be UUID-like /[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/. "(default)" database ID is also valid if the database is Standard edition. */
   databaseId?: string | undefined;
   /** Required. A parent name of the form `projects/{project_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1Database | undefined;
 }
 /** Represents a recurring schedule that runs every day. The time zone is UTC. */
 export type GoogleFirestoreAdminV1DailyRecurrence = GoogleLongrunningCancelOperationRequest;
@@ -656,11 +640,9 @@ export interface GoogleFirestoreAdminV1BackupSchedule {
   /** Output only. The timestamp at which this backup schedule was created and effective since. No backups will be created for this schedule before this time. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsDatabasesBackupSchedulesRequest {
+export interface CreateProjectsDatabasesBackupSchedulesRequest extends GoogleFirestoreAdminV1BackupSchedule {
   /** Required. The parent database. Format `projects/{project}/databases/{database}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1BackupSchedule | undefined;
 }
 /** The change stream is scoped to the entire database. All events in the database are visible to the Change Stream. One Database scope Change Stream is allowed per database. */
 export type GoogleFirestoreAdminV1DatabaseScope = GoogleLongrunningCancelOperationRequest;
@@ -688,13 +670,11 @@ export interface GoogleFirestoreAdminV1ChangeStream {
   /** Identifier. The external resource name of the change stream. Format `projects/{project}/databases/{database}/changeStreams/{change_stream}` */
   name?: string | undefined;
 }
-export interface CreateProjectsDatabasesChangeStreamsRequest {
+export interface CreateProjectsDatabasesChangeStreamsRequest extends GoogleFirestoreAdminV1ChangeStream {
   /** Required. The parent database to create the change stream for. Format is `projects/{project}/databases/{database}`. */
   parent: string;
   /** Required. The ID to use for the change stream, which will become the final component of the change stream's resource name. This value should be 4-63 characters. Valid characters are lowercase letters, numbers, and hyphens. The first character must be a letter, and the last character must be a letter or a number. */
   changeStreamId?: string | undefined;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1ChangeStream | undefined;
 }
 export type GoogleFirestoreAdminV1IndexStateEnum =
   | "STATE_UNSPECIFIED"
@@ -807,11 +787,9 @@ export interface GoogleFirestoreAdminV1Index {
   /** The API scope supported by this index. */
   apiScope?: GoogleFirestoreAdminV1IndexApiScopeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest {
+export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest extends GoogleFirestoreAdminV1Index {
   /** Required. A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1Index | undefined;
 }
 export type GoogleFirestoreAdminV1UserCredsStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED";
 /** Describes a Resource Identity principal. */
@@ -834,13 +812,11 @@ export interface GoogleFirestoreAdminV1UserCreds {
   /** Output only. The time the user creds were last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsDatabasesUserCredsRequest {
+export interface CreateProjectsDatabasesUserCredsRequest extends GoogleFirestoreAdminV1UserCreds {
   /** Required. The ID to use for the user creds, which will become the final component of the user creds's resource name. This value should be 4-63 characters. Valid characters are /a-z-/ with first character a letter and the last a letter or a number. Must not be UUID-like /[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/. */
   userCredsId?: string | undefined;
   /** Required. A parent name of the form `projects/{project_id}/databases/{database_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1UserCreds | undefined;
 }
 export interface DeleteProjectsDatabasesRequest {
   /** The current etag of the Database. If an etag is provided and does not match the current etag of the database, deletion will be blocked and a FAILED_PRECONDITION error will be returned. */
@@ -922,11 +898,9 @@ export interface ExecutePipelineRequest {
   /** Optional. Automatically commits the transaction after the pipeline has been executed. Only permitted in combination with `transaction` or `new_transaction`. */
   autoCommitTransaction?: boolean | undefined;
 }
-export interface ExecutePipelineProjectsDatabasesDocumentsRequest {
+export interface ExecutePipelineProjectsDatabasesDocumentsRequest extends ExecutePipelineRequest {
   /** Required. Database identifier, in the form `projects/{project}/databases/{database}`. */
   database: string;
-  /** Request body */
-  body?: ExecutePipelineRequest | undefined;
 }
 /** Pipeline explain stats. Depending on the explain options in the original request, this can contain the optimized plan and / or execution stats. */
 export interface ExplainStats {
@@ -956,11 +930,9 @@ export interface GoogleFirestoreAdminV1ExportDocumentsRequest {
   /** An empty list represents all namespaces. This is the preferred usage for databases that don't use namespaces. An empty string element represents the default namespace. This should be used if the database has data in non-default namespaces, but doesn't want to include them. Each namespace in this list must be unique. */
   namespaceIds?: StringList | undefined;
 }
-export interface ExportDocumentsProjectsDatabasesRequest {
+export interface ExportDocumentsProjectsDatabasesRequest extends GoogleFirestoreAdminV1ExportDocumentsRequest {
   /** Required. Database to export. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1ExportDocumentsRequest | undefined;
 }
 export interface GetProjectsDatabasesRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}` */
@@ -1096,11 +1068,9 @@ export interface GoogleFirestoreAdminV1ImportDocumentsRequest {
   /** IDs of the collection groups to import. Unspecified means all collection groups that were included in the export. Each collection group in this list must be unique. */
   collectionIds?: StringList | undefined;
 }
-export interface ImportDocumentsProjectsDatabasesRequest {
+export interface ImportDocumentsProjectsDatabasesRequest extends GoogleFirestoreAdminV1ImportDocumentsRequest {
   /** Required. Database to import into. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1ImportDocumentsRequest | undefined;
 }
 /** The request for Firestore.ListCollectionIds. */
 export interface ListCollectionIdsRequest {
@@ -1113,11 +1083,9 @@ export interface ListCollectionIdsRequest {
   /** The maximum number of results to return. */
   pageSize?: number | undefined;
 }
-export interface ListCollectionIdsProjectsDatabasesDocumentsRequest {
+export interface ListCollectionIdsProjectsDatabasesDocumentsRequest extends ListCollectionIdsRequest {
   /** Required. The parent document. In the format: `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` Use `projects/{project_id}/databases/{database_id}/documents` to list top-level collections. */
   parent: string;
-  /** Request body */
-  body?: ListCollectionIdsRequest | undefined;
 }
 /** The response from Firestore.ListCollectionIds. */
 export interface ListCollectionIdsResponse {
@@ -1325,11 +1293,9 @@ export interface ListenRequest {
   /** The ID of a target to remove from this stream. */
   removeTarget?: number | undefined;
 }
-export interface ListenProjectsDatabasesDocumentsRequest {
+export interface ListenProjectsDatabasesDocumentsRequest extends ListenRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
-  /** Request body */
-  body?: ListenRequest | undefined;
 }
 export type IntegerList = Array<number>;
 /** A Document has changed. May be the result of multiple writes, including deletes, that ultimately resulted in a new value for the Document. Multiple DocumentChange messages may be returned for the same logical change, if multiple targets are affected. */
@@ -1583,11 +1549,9 @@ export interface PartitionQueryRequest {
   /** Optional. The request options for the request. */
   requestOptions?: RequestOptions | undefined;
 }
-export interface PartitionQueryProjectsDatabasesDocumentsRequest {
+export interface PartitionQueryProjectsDatabasesDocumentsRequest extends PartitionQueryRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents`. Document resource names are not supported; only database resource names can be specified. */
   parent: string;
-  /** Request body */
-  body?: PartitionQueryRequest | undefined;
 }
 export type CursorList = Array<Cursor>;
 /** The response for Firestore.PartitionQuery. */
@@ -1597,31 +1561,34 @@ export interface PartitionQueryResponse {
   /** A page token that may be used to request an additional set of results, up to the number specified by `partition_count` in the PartitionQuery request. If blank, there are no more results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsDatabasesRequest {
+export interface PatchProjectsDatabasesRequest extends Omit<
+  GoogleFirestoreAdminV1Database,
+  "name"
+> {
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** The resource name of the Database. Format: `projects/{project}/databases/{database}` */
   name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1Database | undefined;
 }
-export interface PatchProjectsDatabasesBackupSchedulesRequest {
+export interface PatchProjectsDatabasesBackupSchedulesRequest extends Omit<
+  GoogleFirestoreAdminV1BackupSchedule,
+  "name"
+> {
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The unique backup schedule identifier across all locations and databases for the given project. This will be auto-assigned. Format is `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}` */
   name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1BackupSchedule | undefined;
 }
-export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest {
+export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest extends Omit<
+  GoogleFirestoreAdminV1Field,
+  "name"
+> {
   /** Required. A field name of the form: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}` A field path can be a simple field name, e.g. `address` or a path to fields within `map_value` , e.g. `address.city`, or a special field path. The only valid special field is `*`, which represents any field. Field paths can be quoted using `` ` `` (backtick). The only character that must be escaped within a quoted field path is the backtick character itself, escaped using a backslash. Special characters in field paths that must be quoted include: `*`, `.`, `` ` `` (backtick), `[`, `]`, as well as any ascii symbolic characters. Examples: `` `address.city` `` represents a field named `address.city`, not the map key `city` in the field `address`. `` `*` `` represents a field named `*`, not any field. A special `Field` contains the default indexing settings for all fields. This field's resource name is: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*` Indexes defined on this `Field` will be applied to all fields which do not have their own `Field` index configuration. */
   name: string;
   /** A mask, relative to the field. If specified, only configuration specified by this field_mask will be updated in the field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1Field | undefined;
 }
-export interface PatchProjectsDatabasesDocumentsRequest {
+export interface PatchProjectsDatabasesDocumentsRequest extends Omit<Document, "name"> {
   /** The resource name of the document, for example `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
   name: string;
   /** The list of field paths in the mask. See Document.fields for a field path syntax reference. */
@@ -1634,8 +1601,6 @@ export interface PatchProjectsDatabasesDocumentsRequest {
   "mask.fieldPaths"?: StringList | undefined;
   /** When set, the target document must exist and have been last updated at that time. Timestamp must be microsecond aligned. */
   "currentDocument.updateTime"?: string | undefined;
-  /** Request body */
-  body?: Document | undefined;
 }
 /** The request for FirestoreAdmin.ResetUserPassword. */
 export type GoogleFirestoreAdminV1ResetUserPasswordRequest =
@@ -1657,11 +1622,9 @@ export interface GoogleFirestoreAdminV1RestoreDatabaseRequest {
   /** Required. The ID to use for the database, which will become the final component of the database's resource name. This database ID must not be associated with an existing database. This value should be 4-63 characters. Valid characters are /a-z-/ with first character a letter and the last a letter or a number. Must not be UUID-like /[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/. "(default)" database ID is also valid if the database is Standard edition. */
   databaseId?: string | undefined;
 }
-export interface RestoreProjectsDatabasesRequest {
+export interface RestoreProjectsDatabasesRequest extends GoogleFirestoreAdminV1RestoreDatabaseRequest {
   /** Required. The project to restore the database in. Format is `projects/{project_id}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1RestoreDatabaseRequest | undefined;
 }
 /** The request for Firestore.Rollback. */
 export interface RollbackRequest {
@@ -1670,11 +1633,9 @@ export interface RollbackRequest {
   /** Optional. The request options for this request. */
   requestOptions?: RequestOptions | undefined;
 }
-export interface RollbackProjectsDatabasesDocumentsRequest {
+export interface RollbackProjectsDatabasesDocumentsRequest extends RollbackRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
-  /** Request body */
-  body?: RollbackRequest | undefined;
 }
 /** Count of documents that match the query. The `COUNT(*)` aggregation function operates on the entire document so it does not require a field reference. */
 export interface Count {
@@ -1727,11 +1688,9 @@ export interface RunAggregationQueryRequest {
   /** Optional. Explain options for the query. If set, additional query statistics will be returned. If not, only query results will be returned. */
   explainOptions?: ExplainOptions | undefined;
 }
-export interface RunAggregationQueryProjectsDatabasesDocumentsRequest {
+export interface RunAggregationQueryProjectsDatabasesDocumentsRequest extends RunAggregationQueryRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents` or `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
   parent: string;
-  /** Request body */
-  body?: RunAggregationQueryRequest | undefined;
 }
 /** Execution statistics for the query. */
 export interface ExecutionStats {
@@ -1787,11 +1746,9 @@ export interface RunQueryRequest {
   /** Starts a new transaction and reads the documents. Defaults to a read-only transaction. The new transaction ID will be returned as the first response in the stream. */
   newTransaction?: TransactionOptions | undefined;
 }
-export interface RunQueryProjectsDatabasesDocumentsRequest {
+export interface RunQueryProjectsDatabasesDocumentsRequest extends RunQueryRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents` or `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
   parent: string;
-  /** Request body */
-  body?: RunQueryRequest | undefined;
 }
 /** The response for Firestore.RunQuery. */
 export interface RunQueryResponse {
@@ -1821,11 +1778,9 @@ export interface WriteRequest {
   /** A stream token that was previously sent by the server. The client should set this field to the token from the most recent WriteResponse it has received. This acknowledges that the client has received responses up to this token. After sending this token, earlier tokens may not be used anymore. The server may close the stream if there are too many unacknowledged responses. Leave this field unset when creating a new stream. To resume a stream at a specific point, set this field and the `stream_id` field. Leave this field unset when creating a new stream. */
   streamToken?: string | undefined;
 }
-export interface WriteProjectsDatabasesDocumentsRequest {
+export interface WriteProjectsDatabasesDocumentsRequest extends WriteRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. This is only required in the first message. */
   database: string;
-  /** Request body */
-  body?: WriteRequest | undefined;
 }
 /** The response for Firestore.Write. */
 export interface WriteResponse {
@@ -3126,10 +3081,12 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1CloneDatabaseRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(33, __c2, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/databases:clone",
@@ -3169,10 +3126,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CommitRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:commit",
@@ -3193,14 +3152,16 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "mask.fieldPaths": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
-          documentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          collectionId: S.String.pipe(T.Label()),
-          "requestOptions.requestTags": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
-          body: S.optional(__S(1056, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c66, 0),
+          S.Struct({
+            "mask.fieldPaths": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+            documentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            collectionId: S.String.pipe(T.Label()),
+            "requestOptions.requestTags": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/{collectionId}",
@@ -3214,11 +3175,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          databaseId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(115, __c7, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(115, __c7, 3),
+          S.Struct({
+            databaseId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/databases",
@@ -3285,10 +3248,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(145, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(145, __c9, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backupSchedules",
@@ -3323,11 +3288,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          changeStreamId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(177, __c11, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(177, __c11, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            changeStreamId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/changeStreams",
@@ -3364,10 +3331,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(217, __c13, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(217, __c13, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/indexes",
@@ -3454,11 +3423,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userCredsId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(241, __c15, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(241, __c15, 1),
+          S.Struct({
+            userCredsId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userCreds",
@@ -3678,10 +3649,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ExecutePipelineRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(417, __c26, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(417, __c26, 1),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:executePipeline",
@@ -3725,10 +3698,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1ExportDocumentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(448, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:exportDocuments",
@@ -3986,10 +3961,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1ImportDocumentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(688, __c43, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:importDocuments",
@@ -4012,10 +3989,12 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ListCollectionIdsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(704, __c44, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(704, __c44, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:listCollectionIds",
@@ -4107,10 +4086,12 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ListenRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(755, __c47, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(755, __c47, 3),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:listen",
@@ -4566,10 +4547,12 @@ function __c59(j: number): any {
       ).annotate({ identifier: "PartitionQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(944, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(944, __c59, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:partitionQuery",
@@ -4592,11 +4575,13 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(115, __c7, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(115, __c7, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4610,11 +4595,13 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(145, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(145, __c9, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4628,11 +4615,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(546, __c34, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(546, __c34, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4646,15 +4635,17 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          "updateMask.fieldPaths": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
-          "currentDocument.exists": S.optional(S.Boolean.pipe(T.Query())),
-          "requestOptions.requestTags": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
-          "mask.fieldPaths": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
-          "currentDocument.updateTime": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c66, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c66, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            "updateMask.fieldPaths": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+            "currentDocument.exists": S.optional(S.Boolean.pipe(T.Query())),
+            "requestOptions.requestTags": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+            "mask.fieldPaths": S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+            "currentDocument.updateTime": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4679,10 +4670,12 @@ function __c64(j: number): any {
       ).annotate({ identifier: "BatchGetDocumentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c64, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c64, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:batchGet",
@@ -4865,10 +4858,12 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1RestoreDatabaseRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c72, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c72, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/databases:restore",
@@ -4889,10 +4884,12 @@ function __c73(j: number): any {
       ).annotate({ identifier: "RollbackRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(1168, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1168, __c73, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:rollback",
@@ -4947,10 +4944,12 @@ function __c74(j: number): any {
       ).annotate({ identifier: "RunAggregationQueryRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1189, __c74, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1189, __c74, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:runAggregationQuery",
@@ -5022,10 +5021,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "RunQueryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1216, __c76, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:runQuery",
@@ -5060,10 +5061,12 @@ function __c77(j: number): any {
       ).annotate({ identifier: "WriteRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:write",
@@ -5094,10 +5097,12 @@ function __c78(j: number): any {
       ).annotate({ identifier: "BatchWriteRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c78, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:batchWrite",
@@ -5211,10 +5216,12 @@ function __c84(j: number): any {
       ).annotate({ identifier: "BeginTransactionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          database: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c84, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c84, 0),
+          S.Struct({
+            database: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+database}/documents:beginTransaction",
@@ -5241,10 +5248,12 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1BulkDeleteDocumentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1360, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:bulkDeleteDocuments",

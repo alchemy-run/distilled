@@ -10246,11 +10246,9 @@ export interface GoogleAdsSearchads360V23Services__AddBatchJobOperationsRequest 
   /** A token used to enforce sequencing. The first AddBatchJobOperations request for a batch job should not set sequence_token. Subsequent requests must set sequence_token to the value of next_sequence_token received in the previous AddBatchJobOperations response. */
   sequenceToken?: string | undefined;
 }
-export interface AddOperationsCustomersBatchJobsRequest {
+export interface AddOperationsCustomersBatchJobsRequest extends GoogleAdsSearchads360V23Services__AddBatchJobOperationsRequest {
   /** Required. The resource name of the batch job. */
   resourceName: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__AddBatchJobOperationsRequest | undefined;
 }
 /** Response message for BatchJobService.AddBatchJobOperations. */
 export interface GoogleAdsSearchads360V23Services__AddBatchJobOperationsResponse {
@@ -10437,11 +10435,9 @@ export interface GoogleAdsSearchads360V23Services__AddOfflineUserDataJobOperatio
   /** Required. The list of operations to be done. */
   operations?: GoogleAdsSearchads360V23Services__OfflineUserDataJobOperationList | undefined;
 }
-export interface AddOperationsCustomersOfflineUserDataJobsRequest {
+export interface AddOperationsCustomersOfflineUserDataJobsRequest extends GoogleAdsSearchads360V23Services__AddOfflineUserDataJobOperationsRequest {
   /** Required. The resource name of the OfflineUserDataJob. */
   resourceName: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__AddOfflineUserDataJobOperationsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -10475,11 +10471,9 @@ export interface GoogleAdsSearchads360V23Services__AppendLeadConversationRequest
   /** Required. Conversations that are being appended. */
   conversations?: GoogleAdsSearchads360V23Services__ConversationList | undefined;
 }
-export interface AppendLeadConversationCustomersLocalServicesRequest {
+export interface AppendLeadConversationCustomersLocalServicesRequest extends GoogleAdsSearchads360V23Services__AppendLeadConversationRequest {
   /** Required. The Id of the customer which owns the leads onto which the conversations will be appended. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__AppendLeadConversationRequest | undefined;
 }
 /** Result of the append conversation operation. */
 export interface GoogleAdsSearchads360V23Services__ConversationOrError {
@@ -10817,11 +10811,9 @@ export interface GoogleAdsSearchads360V23Services__ApplyRecommendationRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, operations will be carried out as a transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface ApplyCustomersRecommendationsRequest {
+export interface ApplyCustomersRecommendationsRequest extends GoogleAdsSearchads360V23Services__ApplyRecommendationRequest {
   /** Required. The ID of the customer with the recommendation. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ApplyRecommendationRequest | undefined;
 }
 /** The result of applying a recommendation. */
 export interface GoogleAdsSearchads360V23Services__ApplyRecommendationResult {
@@ -10842,13 +10834,11 @@ export interface GoogleAdsSearchads360V23Services__ApplyIncentiveRequest {
   /** Required. User's country code. Required. This field must be equal to the Google Ads account's billing country. Incentive eligibility, terms of service, and reward values are often country-specific. This country code is used to ensure the selected incentive is applicable to the user. Possible country codes: https://developers.google.com/google-ads/api/data/codes-formats#country_codes */
   countryCode?: string | undefined;
 }
-export interface ApplyIncentiveCustomersIncentivesRequest {
+export interface ApplyIncentiveCustomersIncentivesRequest extends GoogleAdsSearchads360V23Services__ApplyIncentiveRequest {
   /** The incentive ID of this incentive. This is used to identify which incentive is selected by the user in the CYO flow. */
   selectedIncentiveId: string;
   /** The customer ID of the account that the incentive is being applied to. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ApplyIncentiveRequest | undefined;
 }
 /** Response for applying an incentive. */
 export interface GoogleAdsSearchads360V23Services__ApplyIncentiveResponse {
@@ -10906,11 +10896,9 @@ export interface GoogleAdsSearchads360V23Services__ConfigureCampaignLifecycleGoa
   /** Optional. If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface ConfigureCampaignLifecycleGoalsCustomersCampaignLifecycleGoalRequest {
+export interface ConfigureCampaignLifecycleGoalsCustomersCampaignLifecycleGoalRequest extends GoogleAdsSearchads360V23Services__ConfigureCampaignLifecycleGoalsRequest {
   /** Required. The ID of the customer performing the upload. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ConfigureCampaignLifecycleGoalsRequest | undefined;
 }
 /** The result for the campaign lifecycle goal configuration. */
 export interface GoogleAdsSearchads360V23Services__ConfigureCampaignLifecycleGoalsResult {
@@ -10948,11 +10936,9 @@ export interface GoogleAdsSearchads360V23Services__ConfigureCustomerLifecycleGoa
   /** Required. The operation to perform customer lifecycle goal update. */
   operation?: GoogleAdsSearchads360V23Services__CustomerLifecycleGoalOperation | undefined;
 }
-export interface ConfigureCustomerLifecycleGoalsCustomersCustomerLifecycleGoalRequest {
+export interface ConfigureCustomerLifecycleGoalsCustomersCustomerLifecycleGoalRequest extends GoogleAdsSearchads360V23Services__ConfigureCustomerLifecycleGoalsRequest {
   /** Required. The ID of the customer performing the upload. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ConfigureCustomerLifecycleGoalsRequest | undefined;
 }
 /** The result for the customer lifecycle goal configuration. */
 export type GoogleAdsSearchads360V23Services__ConfigureCustomerLifecycleGoalsResult =
@@ -10983,11 +10969,9 @@ export interface GoogleAdsSearchads360V23Services__CreateCustomerClientRequest {
   /** Required. The new client customer to create. The resource name on this customer will be ignored. */
   customerClient?: GoogleAdsSearchads360V23Resources__Customer | undefined;
 }
-export interface CreateCustomerClientCustomersRequest {
+export interface CreateCustomerClientCustomersRequest extends GoogleAdsSearchads360V23Services__CreateCustomerClientRequest {
   /** Required. The ID of the Manager under whom client customer is being created. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__CreateCustomerClientRequest | undefined;
 }
 /** Response message for CreateCustomerClient mutate. */
 export interface GoogleAdsSearchads360V23Services__CreateCustomerClientResponse {
@@ -11046,11 +11030,9 @@ export interface GoogleAdsSearchads360V23Services__CreateAccountLinkRequest {
   /** Required. The account link to be created. */
   accountLink?: GoogleAdsSearchads360V23Resources__AccountLink | undefined;
 }
-export interface CreateCustomersAccountLinksRequest {
+export interface CreateCustomersAccountLinksRequest extends GoogleAdsSearchads360V23Services__CreateAccountLinkRequest {
   /** Required. The ID of the customer for which the account link is created. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__CreateAccountLinkRequest | undefined;
 }
 /** Response message for AccountLinkService.CreateAccountLink. */
 export interface GoogleAdsSearchads360V23Services__CreateAccountLinkResponse {
@@ -11097,11 +11079,9 @@ export interface GoogleAdsSearchads360V23Services__CreateDataLinkRequest {
   /** Required. The data link to be created. */
   dataLink?: GoogleAdsSearchads360V23Resources__DataLink | undefined;
 }
-export interface CreateCustomersDataLinksRequest {
+export interface CreateCustomersDataLinksRequest extends GoogleAdsSearchads360V23Services__CreateDataLinkRequest {
   /** Required. The ID of the customer for which the data link is created. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__CreateDataLinkRequest | undefined;
 }
 /** Response message for DataLinkService.CreateDataLink. */
 export interface GoogleAdsSearchads360V23Services__CreateDataLinkResponse {
@@ -11221,11 +11201,9 @@ export interface GoogleAdsSearchads360V23Services__CreateOfflineUserDataJobReque
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface CreateCustomersOfflineUserDataJobsRequest {
+export interface CreateCustomersOfflineUserDataJobsRequest extends GoogleAdsSearchads360V23Services__CreateOfflineUserDataJobRequest {
   /** Required. The ID of the customer for which to create an offline user data job. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__CreateOfflineUserDataJobRequest | undefined;
 }
 /** Response message for OfflineUserDataJobService.CreateOfflineUserDataJob. */
 export interface GoogleAdsSearchads360V23Services__CreateOfflineUserDataJobResponse {
@@ -11296,11 +11274,9 @@ export interface GoogleAdsSearchads360V23Services__CreateProductLinkInvitationRe
   /** Required. The product link invitation to be created. */
   productLinkInvitation?: GoogleAdsSearchads360V23Resources__ProductLinkInvitation | undefined;
 }
-export interface CreateCustomersProductLinkInvitationsRequest {
+export interface CreateCustomersProductLinkInvitationsRequest extends GoogleAdsSearchads360V23Services__CreateProductLinkInvitationRequest {
   /** Required. The ID of the customer being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__CreateProductLinkInvitationRequest | undefined;
 }
 /** Response message for product link invitation create. */
 export interface GoogleAdsSearchads360V23Services__CreateProductLinkInvitationResponse {
@@ -11357,11 +11333,9 @@ export interface GoogleAdsSearchads360V23Services__CreateProductLinkRequest {
   /** Required. The product link to be created. */
   productLink?: GoogleAdsSearchads360V23Resources__ProductLink | undefined;
 }
-export interface CreateCustomersProductLinksRequest {
+export interface CreateCustomersProductLinksRequest extends GoogleAdsSearchads360V23Services__CreateProductLinkRequest {
   /** Required. The ID of the customer for which the product link is created. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__CreateProductLinkRequest | undefined;
 }
 /** Response message for ProductLinkService.CreateProductLink. */
 export interface GoogleAdsSearchads360V23Services__CreateProductLinkResponse {
@@ -11384,11 +11358,9 @@ export interface GoogleAdsSearchads360V23Services__DismissRecommendationRequest 
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, operations will be carried in a single transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface DismissCustomersRecommendationsRequest {
+export interface DismissCustomersRecommendationsRequest extends GoogleAdsSearchads360V23Services__DismissRecommendationRequest {
   /** Required. The ID of the customer with the recommendation. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__DismissRecommendationRequest | undefined;
 }
 /** The result of dismissing a recommendation. */
 export interface GoogleAdsSearchads360V23Services_DismissRecommendationResponse_DismissRecommendationResult {
@@ -11439,11 +11411,9 @@ export interface GoogleAdsSearchads360V23Services__EnablePMaxBrandGuidelinesRequ
   /** Required. The list of individual campaign operations. A maximum of 10 enable operations can be executed in a request. */
   operations?: GoogleAdsSearchads360V23Services__EnableOperationList | undefined;
 }
-export interface EnablePMaxBrandGuidelinesCustomersCampaignsRequest {
+export interface EnablePMaxBrandGuidelinesCustomersCampaignsRequest extends GoogleAdsSearchads360V23Services__EnablePMaxBrandGuidelinesRequest {
   /** Required. The ID of the customer whose campaigns are being enabled. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__EnablePMaxBrandGuidelinesRequest | undefined;
 }
 /** A single enablement result of a campaign. */
 export interface GoogleAdsSearchads360V23Services__EnablementResult {
@@ -11464,11 +11434,9 @@ export interface GoogleAdsSearchads360V23Services__EndExperimentRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface EndExperimentCustomersExperimentsRequest {
+export interface EndExperimentCustomersExperimentsRequest extends GoogleAdsSearchads360V23Services__EndExperimentRequest {
   /** Required. The resource name of the campaign experiment to end. */
   experiment: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__EndExperimentRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobuf__Empty {}
@@ -11554,11 +11522,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateAdGroupThemesRequest 
   /** Required. A list of resource names of AdGroups to group keywords into. Resource name format: `customers/{customer_id}/adGroups/{ad_group_id}` */
   adGroups?: StringList | undefined;
 }
-export interface GenerateAdGroupThemesCustomersRequest {
+export interface GenerateAdGroupThemesCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateAdGroupThemesRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateAdGroupThemesRequest | undefined;
 }
 /** An AdGroup/Campaign pair that could not be used as a suggestion for keywords. AdGroups may not be usable if the AdGroup * belongs to a Campaign that is not ENABLED or PAUSED * is itself not ENABLED */
 export interface GoogleAdsSearchads360V23Services__UnusableAdGroup {
@@ -11741,11 +11707,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateAudienceCompositionIn
   /** The baseline audience to which the audience of interest is being compared. */
   baselineAudience?: GoogleAdsSearchads360V23Services__InsightsAudience | undefined;
 }
-export interface GenerateAudienceCompositionInsightsCustomersRequest {
+export interface GenerateAudienceCompositionInsightsCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateAudienceCompositionInsightsRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateAudienceCompositionInsightsRequest | undefined;
 }
 /** The share and index metrics associated with an attribute in an audience composition insights report. */
 export interface GoogleAdsSearchads360V23Services__AudienceCompositionMetrics {
@@ -12038,11 +12002,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateAudienceDefinitionReq
   /** Optional. Additional information on the application issuing the request. */
   insightsApplicationInfo?: GoogleAdsSearchads360V23Common__AdditionalApplicationInfo | undefined;
 }
-export interface GenerateAudienceDefinitionCustomersRequest {
+export interface GenerateAudienceDefinitionCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateAudienceDefinitionRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateAudienceDefinitionRequest | undefined;
 }
 /** Response message for AudienceInsightsService.GenerateAudienceDefinition. */
 export interface GoogleAdsSearchads360V23Services__GenerateAudienceDefinitionResponse {
@@ -12094,11 +12056,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateAudienceOverlapInsigh
   /** Optional. Additional information on the application issuing the request. */
   insightsApplicationInfo?: GoogleAdsSearchads360V23Common__AdditionalApplicationInfo | undefined;
 }
-export interface GenerateAudienceOverlapInsightsCustomersRequest {
+export interface GenerateAudienceOverlapInsightsCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateAudienceOverlapInsightsRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateAudienceOverlapInsightsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__DimensionOverlapResultDimensionEnum =
   | "UNSPECIFIED"
@@ -12200,11 +12160,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateBenchmarksMetricsRequ
   /** Required. The products to aggregate metrics over. Product filter settings support a list of product IDs or a list of marketing objectives. */
   productFilter?: GoogleAdsSearchads360V23Services__ProductFilter | undefined;
 }
-export interface GenerateBenchmarksMetricsCustomersRequest {
+export interface GenerateBenchmarksMetricsCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateBenchmarksMetricsRequest {
   /** Required. The ID of the customer. Supply a client customer ID to generate metrics for the customer. A manager account customer ID will not return customer metrics since it does not have any associated direct ad campaigns. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateBenchmarksMetricsRequest | undefined;
 }
 /** Average rate metrics. Metrics that represent monetary values are returned in USD by default, if unspecified in the request. */
 export interface GoogleAdsSearchads360V23Services__RateMetrics {
@@ -12260,10 +12218,7 @@ export interface GoogleAdsSearchads360V23Services__GenerateConversionRatesReques
   /** The name of the customer being planned for. This is a user-defined value. */
   customerReachGroup?: string | undefined;
 }
-export interface GenerateConversionRatesV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateConversionRatesRequest | undefined;
-}
+export interface GenerateConversionRatesV23Request extends GoogleAdsSearchads360V23Services__GenerateConversionRatesRequest {}
 export type GoogleAdsSearchads360V23Services__SurfaceTargetingSurfacesItemEnum =
   | "UNSPECIFIED"
   | "UNKNOWN"
@@ -12564,11 +12519,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateRecommendationsReques
   /** Optional. Number of sitelinks on the campaign. This field is necessary for the following recommendation_types: SITELINK_ASSET */
   campaignSitelinkCount?: number | undefined;
 }
-export interface GenerateCustomersRecommendationsRequest {
+export interface GenerateCustomersRecommendationsRequest extends GoogleAdsSearchads360V23Services__GenerateRecommendationsRequest {
   /** Required. The ID of the customer generating recommendations. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateRecommendationsRequest | undefined;
 }
 /** Weekly account performance metrics. For some recommendation types, these are averaged over the past 90-day period and hence can be fractional. */
 export interface GoogleAdsSearchads360V23Resources_Recommendation_RecommendationMetrics {
@@ -13323,11 +13276,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateInsightsFinderReportR
   /** The name of the customer being planned for. This is a user-defined value. */
   customerInsightsGroup?: string | undefined;
 }
-export interface GenerateInsightsFinderReportCustomersRequest {
+export interface GenerateInsightsFinderReportCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateInsightsFinderReportRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateInsightsFinderReportRequest | undefined;
 }
 /** The response message for AudienceInsightsService.GenerateInsightsFinderReport, containing the shareable URL for the report. */
 export interface GoogleAdsSearchads360V23Services__GenerateInsightsFinderReportResponse {
@@ -13431,11 +13382,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateKeywordForecastMetric
   /** The date range for the forecast. The start date must be in the future and end date must be within 1 year from today. The reference timezone used is the one of the Google Ads account belonging to the customer. If not set, a default date range from next Sunday to the following Saturday will be used. */
   forecastPeriod?: GoogleAdsSearchads360V23Common__DateRange | undefined;
 }
-export interface GenerateKeywordForecastMetricsCustomersRequest {
+export interface GenerateKeywordForecastMetricsCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateKeywordForecastMetricsRequest {
   /** The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateKeywordForecastMetricsRequest | undefined;
 }
 /** The forecast metrics for the planless keyword campaign. */
 export interface GoogleAdsSearchads360V23Services__KeywordForecastMetrics {
@@ -13538,11 +13487,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateKeywordHistoricalMetr
   /** If true, adult keywords will be included in response. The default value is false. */
   includeAdultKeywords?: boolean | undefined;
 }
-export interface GenerateKeywordHistoricalMetricsCustomersRequest {
+export interface GenerateKeywordHistoricalMetricsCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateKeywordHistoricalMetricsRequest {
   /** The ID of the customer with the recommendation. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateKeywordHistoricalMetricsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Common__MonthlySearchVolumeMonthEnum =
   | "UNSPECIFIED"
@@ -13709,11 +13656,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateKeywordIdeasRequest {
     | GoogleAdsSearchads360V23Services__GenerateKeywordIdeasRequestKeywordAnnotationItemEnumList
     | undefined;
 }
-export interface GenerateKeywordIdeasCustomersRequest {
+export interface GenerateKeywordIdeasCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateKeywordIdeasRequest {
   /** The ID of the customer with the recommendation. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateKeywordIdeasRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Common__ConceptGroupTypeEnum =
   | "UNSPECIFIED"
@@ -13932,11 +13877,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateReachForecastRequest 
   /** Chosen cookie frequency cap to be applied to each planned product. This is equivalent to the frequency cap exposed in Google Ads when creating a campaign, it represents the maximum number of times an ad can be shown to the same user. If not specified, no cap is applied. This field is deprecated in v4 and will eventually be removed. Use cookie_frequency_cap_setting instead. */
   cookieFrequencyCap?: number | undefined;
 }
-export interface GenerateReachForecastCustomersRequest {
+export interface GenerateReachForecastCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateReachForecastRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateReachForecastRequest | undefined;
 }
 /** Audience metrics for the planned products. These metrics consider the following targeting dimensions: - Location - PlannableAgeRange - Gender - AudienceTargeting (only for youtube_audience_size) */
 export interface GoogleAdsSearchads360V23Services__OnTargetAudienceMetrics {
@@ -14072,11 +14015,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateSuggestedTargetingIns
   /** Optional. The name of the customer being planned for. This is a user-defined value. */
   customerInsightsGroup?: string | undefined;
 }
-export interface GenerateSuggestedTargetingInsightsCustomersRequest {
+export interface GenerateSuggestedTargetingInsightsCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateSuggestedTargetingInsightsRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateSuggestedTargetingInsightsRequest | undefined;
 }
 /** A group of audience attributes with metadata, returned in response to a search. */
 export interface GoogleAdsSearchads360V23Common__AudienceInsightsAttributeMetadataGroup {
@@ -14124,11 +14065,9 @@ export interface GoogleAdsSearchads360V23Services__GenerateTargetingSuggestionMe
   /** Required. Audiences to request metrics for. */
   audiences?: GoogleAdsSearchads360V23Services__InsightsAudienceList | undefined;
 }
-export interface GenerateTargetingSuggestionMetricsCustomersRequest {
+export interface GenerateTargetingSuggestionMetricsCustomersRequest extends GoogleAdsSearchads360V23Services__GenerateTargetingSuggestionMetricsRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GenerateTargetingSuggestionMetricsRequest | undefined;
 }
 /** Response message for AudienceInsightsService.GenerateTargetingSuggestionMetrics. */
 export interface GoogleAdsSearchads360V23Services__GenerateTargetingSuggestionMetricsResponse {
@@ -14372,11 +14311,9 @@ export interface GoogleAdsSearchads360V23Services__GraduateExperimentRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface GraduateExperimentCustomersExperimentsRequest {
+export interface GraduateExperimentCustomersExperimentsRequest extends GoogleAdsSearchads360V23Services__GraduateExperimentRequest {
   /** Required. The experiment to be graduated. */
   experiment: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__GraduateExperimentRequest | undefined;
 }
 export interface ListAccessibleCustomersCustomersRequest {}
 /** Response message for CustomerService.ListAccessibleCustomers. */
@@ -14405,10 +14342,7 @@ export interface GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesR
   /** Additional information on the application issuing the request. */
   applicationInfo?: GoogleAdsSearchads360V23Common__AdditionalApplicationInfo | undefined;
 }
-export interface ListBenchmarksAvailableDatesV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest | undefined;
-}
+export interface ListBenchmarksAvailableDatesV23Request extends GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest {}
 /** Response message for BenchmarksService.ListBenchmarksAvailableDates. */
 export interface GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesResponse {
   /** The dates that support benchmarks metrics. Data is supported for any dates within this date range inclusive. */
@@ -14417,10 +14351,7 @@ export interface GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesR
 /** Request message for BenchmarksService.ListBenchmarksLocations. */
 export type GoogleAdsSearchads360V23Services__ListBenchmarksLocationsRequest =
   GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest;
-export interface ListBenchmarksLocationsV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest | undefined;
-}
+export interface ListBenchmarksLocationsV23Request extends GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest {}
 /** A location that supports benchmarks data. */
 export interface GoogleAdsSearchads360V23Services__BenchmarksLocation {
   /** The unique location name in English. */
@@ -14440,10 +14371,7 @@ export interface GoogleAdsSearchads360V23Services__ListBenchmarksLocationsRespon
 /** Request message for BenchmarksService.ListBenchmarksProducts. */
 export type GoogleAdsSearchads360V23Services__ListBenchmarksProductsRequest =
   GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest;
-export interface ListBenchmarksProductsV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest | undefined;
-}
+export interface ListBenchmarksProductsV23Request extends GoogleAdsSearchads360V23Services__ListBenchmarksAvailableDatesRequest {}
 export type GoogleAdsSearchads360V23Services__BenchmarksProductMetadataMarketingObjectiveEnum =
   | "UNSPECIFIED"
   | "UNKNOWN"
@@ -14486,10 +14414,7 @@ export interface GoogleAdsSearchads360V23Services__ListBenchmarksSourcesRequest 
     | GoogleAdsSearchads360V23Services__ListBenchmarksSourcesRequestBenchmarksSourcesItemEnumList
     | undefined;
 }
-export interface ListBenchmarksSourcesV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListBenchmarksSourcesRequest | undefined;
-}
+export interface ListBenchmarksSourcesV23Request extends GoogleAdsSearchads360V23Services__ListBenchmarksSourcesRequest {}
 export type GoogleAdsSearchads360V23Services__BenchmarksSourceMetadataBenchmarksSourceTypeEnum =
   | "UNSPECIFIED"
   | "UNKNOWN"
@@ -14859,10 +14784,7 @@ export interface GoogleAdsSearchads360V23Services__ListInsightsEligibleDatesRequ
   /** Optional. Additional information on the application issuing the request. */
   insightsApplicationInfo?: GoogleAdsSearchads360V23Common__AdditionalApplicationInfo | undefined;
 }
-export interface ListInsightsEligibleDatesAudienceInsightsRequest {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListInsightsEligibleDatesRequest | undefined;
-}
+export interface ListInsightsEligibleDatesAudienceInsightsRequest extends GoogleAdsSearchads360V23Services__ListInsightsEligibleDatesRequest {}
 /** Response message for AudienceInsightsService.ListInsightsEligibleDates. */
 export interface GoogleAdsSearchads360V23Services__ListInsightsEligibleDatesResponse {
   /** The actual dates covered by the "last 30 days" date range that will be used implicitly for AudienceInsightsService.GenerateAudienceCompositionInsights requests that have no data_month set. */
@@ -14875,10 +14797,7 @@ export interface GoogleAdsSearchads360V23Services__ListPlannableLocationsRequest
   /** Optional. Additional information on the application issuing the request. */
   reachApplicationInfo?: GoogleAdsSearchads360V23Common__AdditionalApplicationInfo | undefined;
 }
-export interface ListPlannableLocationsV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListPlannableLocationsRequest | undefined;
-}
+export interface ListPlannableLocationsV23Request extends GoogleAdsSearchads360V23Services__ListPlannableLocationsRequest {}
 /** A plannable location: country, metro region, province, etc. */
 export interface GoogleAdsSearchads360V23Services__PlannableLocation {
   /** The parent country (not present if location is a country). If present, will always be a GeoTargetConstant ID. Additional information such as country name is provided by ReachPlanService.ListPlannableLocations or */
@@ -14906,10 +14825,7 @@ export interface GoogleAdsSearchads360V23Services__ListPlannableProductsRequest 
   /** Required. The ID of the selected location for planning. To list the available plannable location IDs use ReachPlanService.ListPlannableLocations. */
   plannableLocationId?: string | undefined;
 }
-export interface ListPlannableProductsV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListPlannableProductsRequest | undefined;
-}
+export interface ListPlannableProductsV23Request extends GoogleAdsSearchads360V23Services__ListPlannableProductsRequest {}
 export type GoogleAdsSearchads360V23Services__PlannableTargetingNetworksItemEnum =
   | "UNSPECIFIED"
   | "UNKNOWN"
@@ -15028,10 +14944,7 @@ export interface GoogleAdsSearchads360V23Services__ListPlannableUserInterestsReq
   /** A filter by user interest name. If set, only user interests with a name containing the literal string (case insensitive) in the filter will be returned. Maximum length is 200 characters. */
   nameQuery?: string | undefined;
 }
-export interface ListPlannableUserInterestsV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListPlannableUserInterestsRequest | undefined;
-}
+export interface ListPlannableUserInterestsV23Request extends GoogleAdsSearchads360V23Services__ListPlannableUserInterestsRequest {}
 export type GoogleAdsSearchads360V23Services__PlannableUserInterestUserInterestTypeEnum =
   | "UNSPECIFIED"
   | "UNKNOWN"
@@ -15069,10 +14982,7 @@ export interface GoogleAdsSearchads360V23Services__ListPlannableUserListsRequest
   /** Required. The ID of the customer. */
   customerId?: string | undefined;
 }
-export interface ListPlannableUserListsV23Request {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListPlannableUserListsRequest | undefined;
-}
+export interface ListPlannableUserListsV23Request extends GoogleAdsSearchads360V23Services__ListPlannableUserListsRequest {}
 export type GoogleAdsSearchads360V23Services__PlannableUserListPlannableStatusEnum =
   | "UNSPECIFIED"
   | "UNKNOWN"
@@ -15752,11 +15662,9 @@ export interface GoogleAdsSearchads360V23Services__MoveManagerLinkRequest {
   /** Required. The resource name of the previous CustomerManagerLink. The resource name has the form: `customers/{customer_id}/customerManagerLinks/{manager_customer_id}~{manager_link_id}` */
   previousCustomerManagerLink?: string | undefined;
 }
-export interface MoveManagerLinkCustomersCustomerManagerLinksRequest {
+export interface MoveManagerLinkCustomersCustomerManagerLinksRequest extends GoogleAdsSearchads360V23Services__MoveManagerLinkRequest {
   /** Required. The ID of the client customer that is being moved. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MoveManagerLinkRequest | undefined;
 }
 /** Response message for a CustomerManagerLink moveManagerLink. */
 export interface GoogleAdsSearchads360V23Services__MoveManagerLinkResponse {
@@ -15779,11 +15687,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersRequest {
+export interface MutateCustomersRequest extends GoogleAdsSearchads360V23Services__MutateCustomerRequest {
   /** Required. The ID of the customer being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerRequest | undefined;
 }
 /** Response message for customer mutate. */
 export interface GoogleAdsSearchads360V23Services__MutateCustomerResponse {
@@ -15912,11 +15818,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAccountBudgetProposalRe
   /** Required. The operation to perform on an individual account-level budget proposal. */
   operation?: GoogleAdsSearchads360V23Services__AccountBudgetProposalOperation | undefined;
 }
-export interface MutateCustomersAccountBudgetProposalsRequest {
+export interface MutateCustomersAccountBudgetProposalsRequest extends GoogleAdsSearchads360V23Services__MutateAccountBudgetProposalRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAccountBudgetProposalRequest | undefined;
 }
 /** The result for the account budget proposal mutate. */
 export type GoogleAdsSearchads360V23Services__MutateAccountBudgetProposalResult =
@@ -15944,11 +15848,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAccountLinkRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAccountLinksRequest {
+export interface MutateCustomersAccountLinksRequest extends GoogleAdsSearchads360V23Services__MutateAccountLinkRequest {
   /** Required. The ID of the customer being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAccountLinkRequest | undefined;
 }
 /** The result for the account link mutate. */
 export type GoogleAdsSearchads360V23Services__MutateAccountLinkResult =
@@ -15971,11 +15873,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupAdLabelsRequest 
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAdGroupAdLabelsRequest {
+export interface MutateCustomersAdGroupAdLabelsRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupAdLabelsRequest {
   /** Required. ID of the customer whose ad group ad labels are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupAdLabelsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupAdLabelResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -16006,11 +15906,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupAdsRequest {
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersAdGroupAdsRequest {
+export interface MutateCustomersAdGroupAdsRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupAdsRequest {
   /** Required. The ID of the customer whose ads are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupAdsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupAdResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdGroupAdResult>;
@@ -16041,11 +15939,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupAssetsRequest {
   /** Required. The list of operations to perform on individual ad group assets. */
   operations?: GoogleAdsSearchads360V23Services__AdGroupAssetOperationList | undefined;
 }
-export interface MutateCustomersAdGroupAssetsRequest {
+export interface MutateCustomersAdGroupAssetsRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupAssetsRequest {
   /** Required. The ID of the customer whose ad group assets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupAssetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdGroupAssetResult>;
@@ -16099,11 +15995,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupAssetSetsRequest
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersAdGroupAssetSetsRequest {
+export interface MutateCustomersAdGroupAssetSetsRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupAssetSetsRequest {
   /** Required. The ID of the customer whose ad group asset sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupAssetSetsRequest | undefined;
 }
 /** The result for the ad group asset set mutate. */
 export interface GoogleAdsSearchads360V23Services__MutateAdGroupAssetSetResult {
@@ -16141,11 +16035,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupBidModifiersRequ
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersAdGroupBidModifiersRequest {
+export interface MutateCustomersAdGroupBidModifiersRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupBidModifiersRequest {
   /** Required. ID of the customer whose ad group bid modifiers are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupBidModifiersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupBidModifierResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdGroupBidModifierResult>;
@@ -16176,11 +16068,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupCriteriaRequest 
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAdGroupCriteriaRequest {
+export interface MutateCustomersAdGroupCriteriaRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupCriteriaRequest {
   /** Required. ID of the customer whose criteria are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupCriteriaRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupCriterionResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdGroupCriterionResult>;
@@ -16213,11 +16103,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupCriterionCustomi
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAdGroupCriterionCustomizersRequest {
+export interface MutateCustomersAdGroupCriterionCustomizersRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupCriterionCustomizersRequest {
   /** Required. The ID of the customer whose ad group criterion customizers are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupCriterionCustomizersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupCriterionCustomizerResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdGroupCriterionCustomizerResult>;
@@ -16241,11 +16129,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupCriterionLabelsR
   /** Required. The list of operations to perform on ad group criterion labels. */
   operations?: GoogleAdsSearchads360V23Services__AdGroupCriterionLabelOperationList | undefined;
 }
-export interface MutateCustomersAdGroupCriterionLabelsRequest {
+export interface MutateCustomersAdGroupCriterionLabelsRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupCriterionLabelsRequest {
   /** Required. ID of the customer whose ad group criterion labels are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupCriterionLabelsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupCriterionLabelResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -16276,11 +16162,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupCustomizersReque
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersAdGroupCustomizersRequest {
+export interface MutateCustomersAdGroupCustomizersRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupCustomizersRequest {
   /** Required. The ID of the customer whose ad group customizers are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupCustomizersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupCustomizerResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdGroupCustomizerResult>;
@@ -16302,11 +16186,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupLabelsRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAdGroupLabelsRequest {
+export interface MutateCustomersAdGroupLabelsRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupLabelsRequest {
   /** Required. ID of the customer whose ad group labels are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupLabelsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupLabelResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -16337,11 +16219,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdGroupsRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersAdGroupsRequest {
+export interface MutateCustomersAdGroupsRequest extends GoogleAdsSearchads360V23Services__MutateAdGroupsRequest {
   /** Required. The ID of the customer whose ad groups are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdGroupsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdGroupResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdGroupResult>;
@@ -16372,11 +16252,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdParametersRequest {
   /** Required. The list of operations to perform on individual ad parameters. */
   operations?: GoogleAdsSearchads360V23Services__AdParameterOperationList | undefined;
 }
-export interface MutateCustomersAdParametersRequest {
+export interface MutateCustomersAdParametersRequest extends GoogleAdsSearchads360V23Services__MutateAdParametersRequest {
   /** Required. The ID of the customer whose ad parameters are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdParametersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdParameterResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdParameterResult>;
@@ -16407,11 +16285,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAdsRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAdsRequest {
+export interface MutateCustomersAdsRequest extends GoogleAdsSearchads360V23Services__MutateAdsRequest {
   /** Required. The ID of the customer whose ads are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAdsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAdResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAdResult>;
@@ -16433,11 +16309,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAssetGroupAssetsRequest
   /** Required. The list of operations to perform on individual asset group assets. */
   operations?: GoogleAdsSearchads360V23Services__AssetGroupAssetOperationList | undefined;
 }
-export interface MutateCustomersAssetGroupAssetsRequest {
+export interface MutateCustomersAssetGroupAssetsRequest extends GoogleAdsSearchads360V23Services__MutateAssetGroupAssetsRequest {
   /** Required. The ID of the customer whose asset group assets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAssetGroupAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAssetGroupAssetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -16468,11 +16342,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAssetGroupListingGroupF
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAssetGroupListingGroupFiltersRequest {
+export interface MutateCustomersAssetGroupListingGroupFiltersRequest extends GoogleAdsSearchads360V23Services__MutateAssetGroupListingGroupFiltersRequest {
   /** Required. The ID of the customer whose asset group listing group filters are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAssetGroupListingGroupFiltersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAssetGroupListingGroupFilterResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupListingGroupFilterResult>;
@@ -16492,11 +16364,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAssetGroupsRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAssetGroupsRequest {
+export interface MutateCustomersAssetGroupsRequest extends GoogleAdsSearchads360V23Services__MutateAssetGroupsRequest {
   /** Required. The ID of the customer whose asset groups are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAssetGroupsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAssetGroupResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -16527,11 +16397,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAssetGroupSignalsReques
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersAssetGroupSignalsRequest {
+export interface MutateCustomersAssetGroupSignalsRequest extends GoogleAdsSearchads360V23Services__MutateAssetGroupSignalsRequest {
   /** Required. The ID of the customer whose asset group signals are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAssetGroupSignalsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAssetGroupSignalResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupSignalResult>;
@@ -16562,11 +16430,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAssetsRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersAssetsRequest {
+export interface MutateCustomersAssetsRequest extends GoogleAdsSearchads360V23Services__MutateAssetsRequest {
   /** Required. The ID of the customer whose assets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAssetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetResult>;
@@ -16597,11 +16463,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAssetSetAssetsRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersAssetSetAssetsRequest {
+export interface MutateCustomersAssetSetAssetsRequest extends GoogleAdsSearchads360V23Services__MutateAssetSetAssetsRequest {
   /** Required. The ID of the customer whose asset set assets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAssetSetAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAssetSetAssetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetSetAssetResult>;
@@ -16632,11 +16496,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAssetSetsRequest {
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersAssetSetsRequest {
+export interface MutateCustomersAssetSetsRequest extends GoogleAdsSearchads360V23Services__MutateAssetSetsRequest {
   /** Required. The ID of the customer whose asset sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAssetSetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAssetSetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetSetResult>;
@@ -16667,11 +16529,9 @@ export interface GoogleAdsSearchads360V23Services__MutateAudiencesRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersAudiencesRequest {
+export interface MutateCustomersAudiencesRequest extends GoogleAdsSearchads360V23Services__MutateAudiencesRequest {
   /** Required. The ID of the customer whose audiences are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateAudiencesRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateAudienceResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAudienceResult>;
@@ -16732,11 +16592,9 @@ export interface GoogleAdsSearchads360V23Services__MutateBatchJobRequest {
   /** Required. The operation to perform on an individual batch job. */
   operation?: GoogleAdsSearchads360V23Services__BatchJobOperation | undefined;
 }
-export interface MutateCustomersBatchJobsRequest {
+export interface MutateCustomersBatchJobsRequest extends GoogleAdsSearchads360V23Services__MutateBatchJobRequest {
   /** Required. The ID of the customer for which to create a batch job. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateBatchJobRequest | undefined;
 }
 /** The result for the batch job mutate. */
 export interface GoogleAdsSearchads360V23Services__MutateBatchJobResult {
@@ -16768,11 +16626,9 @@ export interface GoogleAdsSearchads360V23Services__MutateBiddingDataExclusionsRe
   /** Required. The list of operations to perform on individual data exclusions. */
   operations?: GoogleAdsSearchads360V23Services__BiddingDataExclusionOperationList | undefined;
 }
-export interface MutateCustomersBiddingDataExclusionsRequest {
+export interface MutateCustomersBiddingDataExclusionsRequest extends GoogleAdsSearchads360V23Services__MutateBiddingDataExclusionsRequest {
   /** Required. ID of the customer whose data exclusions are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateBiddingDataExclusionsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateBiddingDataExclusionsResultList =
   Array<GoogleAdsSearchads360V23Services__MutateBiddingDataExclusionsResult>;
@@ -16805,11 +16661,9 @@ export interface GoogleAdsSearchads360V23Services__MutateBiddingSeasonalityAdjus
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersBiddingSeasonalityAdjustmentsRequest {
+export interface MutateCustomersBiddingSeasonalityAdjustmentsRequest extends GoogleAdsSearchads360V23Services__MutateBiddingSeasonalityAdjustmentsRequest {
   /** Required. ID of the customer whose seasonality adjustments are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateBiddingSeasonalityAdjustmentsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateBiddingSeasonalityAdjustmentsResultList =
   Array<GoogleAdsSearchads360V23Services__MutateBiddingSeasonalityAdjustmentsResult>;
@@ -16842,11 +16696,9 @@ export interface GoogleAdsSearchads360V23Services__MutateBiddingStrategiesReques
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersBiddingStrategiesRequest {
+export interface MutateCustomersBiddingStrategiesRequest extends GoogleAdsSearchads360V23Services__MutateBiddingStrategiesRequest {
   /** Required. The ID of the customer whose bidding strategies are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateBiddingStrategiesRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateBiddingStrategyResultList =
   Array<GoogleAdsSearchads360V23Services__MutateBiddingStrategyResult>;
@@ -16928,11 +16780,9 @@ export interface GoogleAdsSearchads360V23Services__MutateBillingSetupRequest {
   /** Required. The operation to perform. */
   operation?: GoogleAdsSearchads360V23Services__BillingSetupOperation | undefined;
 }
-export interface MutateCustomersBillingSetupsRequest {
+export interface MutateCustomersBillingSetupsRequest extends GoogleAdsSearchads360V23Services__MutateBillingSetupRequest {
   /** Required. Id of the customer to apply the billing setup mutate operation to. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateBillingSetupRequest | undefined;
 }
 /** Result for a single billing setup mutate. */
 export type GoogleAdsSearchads360V23Services__MutateBillingSetupResult =
@@ -16962,11 +16812,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignAssetsRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCampaignAssetsRequest {
+export interface MutateCustomersCampaignAssetsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignAssetsRequest {
   /** Required. The ID of the customer whose campaign assets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignAssetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignAssetResult>;
@@ -16997,11 +16845,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignAssetSetsReques
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCampaignAssetSetsRequest {
+export interface MutateCustomersCampaignAssetSetsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignAssetSetsRequest {
   /** Required. The ID of the customer whose campaign asset sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignAssetSetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignAssetSetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignAssetSetResult>;
@@ -17032,11 +16878,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignBidModifiersReq
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersCampaignBidModifiersRequest {
+export interface MutateCustomersCampaignBidModifiersRequest extends GoogleAdsSearchads360V23Services__MutateCampaignBidModifiersRequest {
   /** Required. ID of the customer whose campaign bid modifiers are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignBidModifiersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignBidModifierResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignBidModifierResult>;
@@ -17067,11 +16911,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignBudgetsRequest 
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersCampaignBudgetsRequest {
+export interface MutateCustomersCampaignBudgetsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignBudgetsRequest {
   /** Required. The ID of the customer whose campaign budgets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignBudgetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignBudgetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignBudgetResult>;
@@ -17091,11 +16933,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignConversionGoals
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersCampaignConversionGoalsRequest {
+export interface MutateCustomersCampaignConversionGoalsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignConversionGoalsRequest {
   /** Required. The ID of the customer whose campaign conversion goals are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignConversionGoalsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignConversionGoalResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -17124,11 +16964,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignCriteriaRequest
   /** Required. The list of operations to perform on individual criteria. */
   operations?: GoogleAdsSearchads360V23Services__CampaignCriterionOperationList | undefined;
 }
-export interface MutateCustomersCampaignCriteriaRequest {
+export interface MutateCustomersCampaignCriteriaRequest extends GoogleAdsSearchads360V23Services__MutateCampaignCriteriaRequest {
   /** Required. The ID of the customer whose criteria are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignCriteriaRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignCriterionResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignCriterionResult>;
@@ -17159,11 +16997,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignCustomizersRequ
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCampaignCustomizersRequest {
+export interface MutateCustomersCampaignCustomizersRequest extends GoogleAdsSearchads360V23Services__MutateCampaignCustomizersRequest {
   /** Required. The ID of the customer whose campaign customizers are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignCustomizersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignCustomizerResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignCustomizerResult>;
@@ -17194,11 +17030,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignDraftsRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCampaignDraftsRequest {
+export interface MutateCustomersCampaignDraftsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignDraftsRequest {
   /** Required. The ID of the customer whose campaign drafts are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignDraftsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignDraftResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignDraftResult>;
@@ -17220,11 +17054,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignGoalConfigsRequ
   /** Optional. If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCampaignGoalConfigsRequest {
+export interface MutateCustomersCampaignGoalConfigsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignGoalConfigsRequest {
   /** Required. The ID of the customer whose campaign goal configs are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignGoalConfigsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignGoalConfigResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -17255,11 +17087,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignGroupsRequest {
   /** Required. The list of operations to perform on individual campaign groups. */
   operations?: GoogleAdsSearchads360V23Services__CampaignGroupOperationList | undefined;
 }
-export interface MutateCustomersCampaignGroupsRequest {
+export interface MutateCustomersCampaignGroupsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignGroupsRequest {
   /** Required. The ID of the customer whose campaign groups are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignGroupsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignGroupResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignGroupResult>;
@@ -17281,11 +17111,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignLabelsRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCampaignLabelsRequest {
+export interface MutateCustomersCampaignLabelsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignLabelsRequest {
   /** Required. ID of the customer whose campaign-label relationships are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignLabelsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignLabelResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -17316,11 +17144,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignsRequest {
   /** Required. The list of operations to perform on individual campaigns. */
   operations?: GoogleAdsSearchads360V23Services__CampaignOperationList | undefined;
 }
-export interface MutateCustomersCampaignsRequest {
+export interface MutateCustomersCampaignsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignsRequest {
   /** Required. The ID of the customer whose campaigns are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignResult>;
@@ -17351,11 +17177,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCampaignSharedSetsReque
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCampaignSharedSetsRequest {
+export interface MutateCustomersCampaignSharedSetsRequest extends GoogleAdsSearchads360V23Services__MutateCampaignSharedSetsRequest {
   /** Required. The ID of the customer whose campaign shared sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCampaignSharedSetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCampaignSharedSetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCampaignSharedSetResult>;
@@ -17386,11 +17210,9 @@ export interface GoogleAdsSearchads360V23Services__MutateConversionActionsReques
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersConversionActionsRequest {
+export interface MutateCustomersConversionActionsRequest extends GoogleAdsSearchads360V23Services__MutateConversionActionsRequest {
   /** Required. The ID of the customer whose conversion actions are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateConversionActionsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateConversionActionResultList =
   Array<GoogleAdsSearchads360V23Services__MutateConversionActionResult>;
@@ -17421,11 +17243,9 @@ export interface GoogleAdsSearchads360V23Services__MutateConversionCustomVariabl
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersConversionCustomVariablesRequest {
+export interface MutateCustomersConversionCustomVariablesRequest extends GoogleAdsSearchads360V23Services__MutateConversionCustomVariablesRequest {
   /** Required. The ID of the customer whose conversion custom variables are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateConversionCustomVariablesRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateConversionCustomVariableResultList =
   Array<GoogleAdsSearchads360V23Services__MutateConversionCustomVariableResult>;
@@ -17456,11 +17276,9 @@ export interface GoogleAdsSearchads360V23Services__MutateConversionGoalCampaignC
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersConversionGoalCampaignConfigsRequest {
+export interface MutateCustomersConversionGoalCampaignConfigsRequest extends GoogleAdsSearchads360V23Services__MutateConversionGoalCampaignConfigsRequest {
   /** Required. The ID of the customer whose custom conversion goals are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateConversionGoalCampaignConfigsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateConversionGoalCampaignConfigResultList =
   Array<GoogleAdsSearchads360V23Services__MutateConversionGoalCampaignConfigResult>;
@@ -17491,11 +17309,9 @@ export interface GoogleAdsSearchads360V23Services__MutateConversionValueRulesReq
   /** Required. The list of operations to perform on individual conversion value rules. */
   operations?: GoogleAdsSearchads360V23Services__ConversionValueRuleOperationList | undefined;
 }
-export interface MutateCustomersConversionValueRulesRequest {
+export interface MutateCustomersConversionValueRulesRequest extends GoogleAdsSearchads360V23Services__MutateConversionValueRulesRequest {
   /** Required. The ID of the customer whose conversion value rules are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateConversionValueRulesRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateConversionValueRuleResultList =
   Array<GoogleAdsSearchads360V23Services__MutateConversionValueRuleResult>;
@@ -17526,11 +17342,9 @@ export interface GoogleAdsSearchads360V23Services__MutateConversionValueRuleSets
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersConversionValueRuleSetsRequest {
+export interface MutateCustomersConversionValueRuleSetsRequest extends GoogleAdsSearchads360V23Services__MutateConversionValueRuleSetsRequest {
   /** Required. The ID of the customer whose conversion value rule sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateConversionValueRuleSetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateConversionValueRuleSetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateConversionValueRuleSetResult>;
@@ -17615,11 +17429,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomAudiencesRequest 
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersCustomAudiencesRequest {
+export interface MutateCustomersCustomAudiencesRequest extends GoogleAdsSearchads360V23Services__MutateCustomAudiencesRequest {
   /** Required. The ID of the customer whose custom audiences are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomAudiencesRequest | undefined;
 }
 /** The result for the custom audience mutate. */
 export type GoogleAdsSearchads360V23Services__MutateCustomAudienceResult =
@@ -17649,11 +17461,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomConversionGoalsRe
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersCustomConversionGoalsRequest {
+export interface MutateCustomersCustomConversionGoalsRequest extends GoogleAdsSearchads360V23Services__MutateCustomConversionGoalsRequest {
   /** Required. The ID of the customer whose custom conversion goals are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomConversionGoalsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCustomConversionGoalResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCustomConversionGoalResult>;
@@ -17682,11 +17492,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerAssetsRequest {
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersCustomerAssetsRequest {
+export interface MutateCustomersCustomerAssetsRequest extends GoogleAdsSearchads360V23Services__MutateCustomerAssetsRequest {
   /** Required. The ID of the customer whose customer assets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCustomerAssetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCustomerAssetResult>;
@@ -17743,11 +17551,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerAssetSetsReques
   /** Required. The list of operations to perform on individual customer asset sets. */
   operations?: GoogleAdsSearchads360V23Services__CustomerAssetSetOperationList | undefined;
 }
-export interface MutateCustomersCustomerAssetSetsRequest {
+export interface MutateCustomersCustomerAssetSetsRequest extends GoogleAdsSearchads360V23Services__MutateCustomerAssetSetsRequest {
   /** Required. The ID of the customer whose customer asset sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerAssetSetsRequest | undefined;
 }
 /** The result for the customer asset set mutate. */
 export interface GoogleAdsSearchads360V23Services__MutateCustomerAssetSetResult {
@@ -17805,11 +17611,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerClientLinkReque
   /** Required. The operation to perform on the individual CustomerClientLink. */
   operation?: GoogleAdsSearchads360V23Services__CustomerClientLinkOperation | undefined;
 }
-export interface MutateCustomersCustomerClientLinksRequest {
+export interface MutateCustomersCustomerClientLinksRequest extends GoogleAdsSearchads360V23Services__MutateCustomerClientLinkRequest {
   /** Required. The ID of the customer whose customer link are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerClientLinkRequest | undefined;
 }
 /** The result for a single customer client link mutate. */
 export type GoogleAdsSearchads360V23Services__MutateCustomerClientLinkResult =
@@ -17828,11 +17632,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerConversionGoals
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersCustomerConversionGoalsRequest {
+export interface MutateCustomersCustomerConversionGoalsRequest extends GoogleAdsSearchads360V23Services__MutateCustomerConversionGoalsRequest {
   /** Required. The ID of the customer whose customer conversion goals are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerConversionGoalsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCustomerConversionGoalResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -17861,11 +17663,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerCustomizersRequ
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCustomerCustomizersRequest {
+export interface MutateCustomersCustomerCustomizersRequest extends GoogleAdsSearchads360V23Services__MutateCustomerCustomizersRequest {
   /** Required. The ID of the customer whose customer customizers are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerCustomizersRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCustomerCustomizerResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCustomerCustomizerResult>;
@@ -17887,11 +17687,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerLabelsRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersCustomerLabelsRequest {
+export interface MutateCustomersCustomerLabelsRequest extends GoogleAdsSearchads360V23Services__MutateCustomerLabelsRequest {
   /** Required. ID of the customer whose customer-label relationships are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerLabelsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCustomerLabelResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -17942,11 +17740,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerManagerLinkRequ
   /** Required. The list of operations to perform on individual customer manager links. */
   operations?: GoogleAdsSearchads360V23Services__CustomerManagerLinkOperationList | undefined;
 }
-export interface MutateCustomersCustomerManagerLinksRequest {
+export interface MutateCustomersCustomerManagerLinksRequest extends GoogleAdsSearchads360V23Services__MutateCustomerManagerLinkRequest {
   /** Required. The ID of the customer whose customer manager links are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerManagerLinkRequest | undefined;
 }
 /** The result for the customer manager link mutate. */
 export type GoogleAdsSearchads360V23Services__MutateCustomerManagerLinkResult =
@@ -17978,11 +17774,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerNegativeCriteri
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersCustomerNegativeCriteriaRequest {
+export interface MutateCustomersCustomerNegativeCriteriaRequest extends GoogleAdsSearchads360V23Services__MutateCustomerNegativeCriteriaRequest {
   /** Required. The ID of the customer whose criteria are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerNegativeCriteriaRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCustomerNegativeCriteriaResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCustomerNegativeCriteriaResult>;
@@ -18133,13 +17927,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerSkAdNetworkConv
     | GoogleAdsSearchads360V23Services__CustomerSkAdNetworkConversionValueSchemaOperation
     | undefined;
 }
-export interface MutateCustomersCustomerSkAdNetworkConversionValueSchemasRequest {
+export interface MutateCustomersCustomerSkAdNetworkConversionValueSchemasRequest extends GoogleAdsSearchads360V23Services__MutateCustomerSkAdNetworkConversionValueSchemaRequest {
   /** The ID of the customer whose shared sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?:
-    | GoogleAdsSearchads360V23Services__MutateCustomerSkAdNetworkConversionValueSchemaRequest
-    | undefined;
 }
 /** The result for the CustomerSkAdNetworkConversionValueSchema mutate. */
 export interface GoogleAdsSearchads360V23Services__MutateCustomerSkAdNetworkConversionValueSchemaResult {
@@ -18196,11 +17986,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerUserAccessReque
   /** Required. The operation to perform on the customer */
   operation?: GoogleAdsSearchads360V23Services__CustomerUserAccessOperation | undefined;
 }
-export interface MutateCustomersCustomerUserAccessesRequest {
+export interface MutateCustomersCustomerUserAccessesRequest extends GoogleAdsSearchads360V23Services__MutateCustomerUserAccessRequest {
   /** Required. The ID of the customer being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerUserAccessRequest | undefined;
 }
 /** The result for the customer user access mutate. */
 export type GoogleAdsSearchads360V23Services__MutateCustomerUserAccessResult =
@@ -18256,11 +18044,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomerUserAccessInvit
   /** Required. The operation to perform on the access invitation */
   operation?: GoogleAdsSearchads360V23Services__CustomerUserAccessInvitationOperation | undefined;
 }
-export interface MutateCustomersCustomerUserAccessInvitationsRequest {
+export interface MutateCustomersCustomerUserAccessInvitationsRequest extends GoogleAdsSearchads360V23Services__MutateCustomerUserAccessInvitationRequest {
   /** Required. The ID of the customer whose access invitation is being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomerUserAccessInvitationRequest | undefined;
 }
 /** The result for the access invitation mutate. */
 export type GoogleAdsSearchads360V23Services__MutateCustomerUserAccessInvitationResult =
@@ -18332,11 +18118,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomInterestsRequest 
   /** Required. The list of operations to perform on individual custom interests. */
   operations?: GoogleAdsSearchads360V23Services__CustomInterestOperationList | undefined;
 }
-export interface MutateCustomersCustomInterestsRequest {
+export interface MutateCustomersCustomInterestsRequest extends GoogleAdsSearchads360V23Services__MutateCustomInterestsRequest {
   /** Required. The ID of the customer whose custom interests are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomInterestsRequest | undefined;
 }
 /** The result for the custom interest mutate. */
 export type GoogleAdsSearchads360V23Services__MutateCustomInterestResult =
@@ -18368,11 +18152,9 @@ export interface GoogleAdsSearchads360V23Services__MutateCustomizerAttributesReq
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersCustomizerAttributesRequest {
+export interface MutateCustomersCustomizerAttributesRequest extends GoogleAdsSearchads360V23Services__MutateCustomizerAttributesRequest {
   /** Required. The ID of the customer whose customizer attributes are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateCustomizerAttributesRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateCustomizerAttributeResultList =
   Array<GoogleAdsSearchads360V23Services__MutateCustomizerAttributeResult>;
@@ -18403,11 +18185,9 @@ export interface GoogleAdsSearchads360V23Services__MutateExperimentArmsRequest {
   /** Required. The list of operations to perform on individual experiment arm. */
   operations?: GoogleAdsSearchads360V23Services__ExperimentArmOperationList | undefined;
 }
-export interface MutateCustomersExperimentArmsRequest {
+export interface MutateCustomersExperimentArmsRequest extends GoogleAdsSearchads360V23Services__MutateExperimentArmsRequest {
   /** Required. The ID of the customer whose experiments are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateExperimentArmsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateExperimentArmResultList =
   Array<GoogleAdsSearchads360V23Services__MutateExperimentArmResult>;
@@ -18429,11 +18209,9 @@ export interface GoogleAdsSearchads360V23Services__MutateExperimentsRequest {
   /** Required. The list of operations to perform on individual experiments. */
   operations?: GoogleAdsSearchads360V23Services__ExperimentOperationList | undefined;
 }
-export interface MutateCustomersExperimentsRequest {
+export interface MutateCustomersExperimentsRequest extends GoogleAdsSearchads360V23Services__MutateExperimentsRequest {
   /** Required. The ID of the customer whose experiments are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateExperimentsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateExperimentResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -18500,11 +18278,9 @@ export interface GoogleAdsSearchads360V23Services__MutateGoalsRequest {
   /** Required. The list of operations to perform on the goals. */
   operations?: GoogleAdsSearchads360V23Services__GoalOperationList | undefined;
 }
-export interface MutateCustomersGoalsRequest {
+export interface MutateCustomersGoalsRequest extends GoogleAdsSearchads360V23Services__MutateGoalsRequest {
   /** Required. The ID of the customer whose goals are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateGoalsRequest | undefined;
 }
 /** The result for the goal mutate. */
 export type GoogleAdsSearchads360V23Services__MutateGoalResult =
@@ -18529,11 +18305,9 @@ export interface GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupKeywo
   /** Required. The list of operations to perform on individual Keyword Plan ad group keywords. */
   operations?: GoogleAdsSearchads360V23Services__KeywordPlanAdGroupKeywordOperationList | undefined;
 }
-export interface MutateCustomersKeywordPlanAdGroupKeywordsRequest {
+export interface MutateCustomersKeywordPlanAdGroupKeywordsRequest extends GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupKeywordsRequest {
   /** Required. The ID of the customer whose Keyword Plan ad group keywords are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupKeywordsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupKeywordResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -18555,11 +18329,9 @@ export interface GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupsRequ
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersKeywordPlanAdGroupsRequest {
+export interface MutateCustomersKeywordPlanAdGroupsRequest extends GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupsRequest {
   /** Required. The ID of the customer whose Keyword Plan ad groups are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateKeywordPlanAdGroupResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -18583,11 +18355,9 @@ export interface GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignKeyw
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersKeywordPlanCampaignKeywordsRequest {
+export interface MutateCustomersKeywordPlanCampaignKeywordsRequest extends GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignKeywordsRequest {
   /** Required. The ID of the customer whose campaign keywords are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignKeywordsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignKeywordResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -18611,11 +18381,9 @@ export interface GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignsReq
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersKeywordPlanCampaignsRequest {
+export interface MutateCustomersKeywordPlanCampaignsRequest extends GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignsRequest {
   /** Required. The ID of the customer whose Keyword Plan campaigns are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateKeywordPlanCampaignResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -18637,11 +18405,9 @@ export interface GoogleAdsSearchads360V23Services__MutateKeywordPlansRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersKeywordPlansRequest {
+export interface MutateCustomersKeywordPlansRequest extends GoogleAdsSearchads360V23Services__MutateKeywordPlansRequest {
   /** Required. The ID of the customer whose keyword plans are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateKeywordPlansRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateKeywordPlansResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -18672,11 +18438,9 @@ export interface GoogleAdsSearchads360V23Services__MutateLabelsRequest {
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersLabelsRequest {
+export interface MutateCustomersLabelsRequest extends GoogleAdsSearchads360V23Services__MutateLabelsRequest {
   /** Required. ID of the customer whose labels are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateLabelsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateLabelResultList =
   Array<GoogleAdsSearchads360V23Services__MutateLabelResult>;
@@ -18698,11 +18462,9 @@ export interface GoogleAdsSearchads360V23Services__MutateRemarketingActionsReque
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersRemarketingActionsRequest {
+export interface MutateCustomersRemarketingActionsRequest extends GoogleAdsSearchads360V23Services__MutateRemarketingActionsRequest {
   /** Required. The ID of the customer whose remarketing actions are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateRemarketingActionsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateRemarketingActionResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -18730,11 +18492,9 @@ export interface GoogleAdsSearchads360V23Services__MutateSearchAds360Request {
   mutateOperations?: GoogleAdsSearchads360V23Services__MutateOperationList | undefined;
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersSearchAds360Request {
+export interface MutateCustomersSearchAds360Request extends GoogleAdsSearchads360V23Services__MutateSearchAds360Request {
   /** Required. The ID of the customer whose resources are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateSearchAds360Request | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateOperationResponseList =
   Array<GoogleAdsSearchads360V23Services__MutateOperationResponse>;
@@ -18767,11 +18527,9 @@ export interface GoogleAdsSearchads360V23Services__MutateSearchAds360CampaignsRe
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersSearchAds360CampaignsRequest {
+export interface MutateCustomersSearchAds360CampaignsRequest extends GoogleAdsSearchads360V23Services__MutateSearchAds360CampaignsRequest {
   /** Required. The ID of the customer whose Search Ads 360 campaigns are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateSearchAds360CampaignsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateSearchAds360CampaignResultList =
   Array<GoogleAdsSearchads360V23Services__MutateSearchAds360CampaignResult>;
@@ -18800,11 +18558,9 @@ export interface GoogleAdsSearchads360V23Services__MutateSharedCriteriaRequest {
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateCustomersSharedCriteriaRequest {
+export interface MutateCustomersSharedCriteriaRequest extends GoogleAdsSearchads360V23Services__MutateSharedCriteriaRequest {
   /** Required. The ID of the customer whose shared criteria are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateSharedCriteriaRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateSharedCriterionResultList =
   Array<GoogleAdsSearchads360V23Services__MutateSharedCriterionResult>;
@@ -18835,11 +18591,9 @@ export interface GoogleAdsSearchads360V23Services__MutateSharedSetsRequest {
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersSharedSetsRequest {
+export interface MutateCustomersSharedSetsRequest extends GoogleAdsSearchads360V23Services__MutateSharedSetsRequest {
   /** Required. The ID of the customer whose shared sets are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateSharedSetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateSharedSetResultList =
   Array<GoogleAdsSearchads360V23Services__MutateSharedSetResult>;
@@ -18870,11 +18624,9 @@ export interface GoogleAdsSearchads360V23Services__MutateSmartCampaignSettingsRe
     | (string & {})
     | undefined;
 }
-export interface MutateCustomersSmartCampaignSettingsRequest {
+export interface MutateCustomersSmartCampaignSettingsRequest extends GoogleAdsSearchads360V23Services__MutateSmartCampaignSettingsRequest {
   /** Required. The ID of the customer whose Smart campaign settings are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateSmartCampaignSettingsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateSmartCampaignSettingResultList =
   Array<GoogleAdsSearchads360V23Services__MutateSmartCampaignSettingResult>;
@@ -18934,11 +18686,9 @@ export interface GoogleAdsSearchads360V23Services__MutateUserListCustomerTypesRe
   /** Optional. If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersUserListCustomerTypesRequest {
+export interface MutateCustomersUserListCustomerTypesRequest extends GoogleAdsSearchads360V23Services__MutateUserListCustomerTypesRequest {
   /** Required. The ID of the customer whose user list customer types are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateUserListCustomerTypesRequest | undefined;
 }
 /** The result for the user list customer type mutate. */
 export type GoogleAdsSearchads360V23Services__MutateUserListCustomerTypeResult =
@@ -18963,11 +18713,9 @@ export interface GoogleAdsSearchads360V23Services__MutateUserListsRequest {
   /** If true, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean | undefined;
 }
-export interface MutateCustomersUserListsRequest {
+export interface MutateCustomersUserListsRequest extends GoogleAdsSearchads360V23Services__MutateUserListsRequest {
   /** Required. The ID of the customer whose user lists are being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateUserListsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateUserListResultList =
   Array<GoogleAdsSearchads360V23Services__MutateAssetGroupResult>;
@@ -19000,11 +18748,9 @@ export interface GoogleAdsSearchads360V23Services__MutateRecommendationSubscript
   /** If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. Default is false. */
   partialFailure?: boolean | undefined;
 }
-export interface MutateRecommendationSubscriptionCustomersRecommendationSubscriptionsRequest {
+export interface MutateRecommendationSubscriptionCustomersRecommendationSubscriptionsRequest extends GoogleAdsSearchads360V23Services__MutateRecommendationSubscriptionRequest {
   /** Required. The ID of the subscribing customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__MutateRecommendationSubscriptionRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__MutateRecommendationSubscriptionResultList =
   Array<GoogleAdsSearchads360V23Services__MutateRecommendationSubscriptionResult>;
@@ -19022,11 +18768,9 @@ export interface GoogleAdsSearchads360V23Services__PromoteCampaignDraftRequest {
   /** If true, the request is validated but no Long Running Operation is created. Only errors are returned. */
   validateOnly?: boolean | undefined;
 }
-export interface PromoteCustomersCampaignDraftsRequest {
+export interface PromoteCustomersCampaignDraftsRequest extends GoogleAdsSearchads360V23Services__PromoteCampaignDraftRequest {
   /** Required. The resource name of the campaign draft to promote. */
   campaignDraft: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__PromoteCampaignDraftRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunning__Operation {
@@ -19044,11 +18788,9 @@ export interface GoogleLongrunning__Operation {
 /** Request message for ExperimentService.PromoteExperiment. */
 export type GoogleAdsSearchads360V23Services__PromoteExperimentRequest =
   GoogleAdsSearchads360V23Services__EndExperimentRequest;
-export interface PromoteExperimentCustomersExperimentsRequest {
+export interface PromoteExperimentCustomersExperimentsRequest extends GoogleAdsSearchads360V23Services__EndExperimentRequest {
   /** Required. The resource name of the experiment to promote. */
   resourceName: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__EndExperimentRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__ProvideLeadFeedbackRequestSurveyAnswerEnum =
   | "UNSPECIFIED"
@@ -19108,11 +18850,9 @@ export interface GoogleAdsSearchads360V23Services__ProvideLeadFeedbackRequest {
   /** Details about various factors for being satisfied with the lead. */
   surveySatisfied?: GoogleAdsSearchads360V23Services__SurveySatisfied | undefined;
 }
-export interface ProvideLeadFeedbackCustomersLocalServicesLeadsRequest {
+export interface ProvideLeadFeedbackCustomersLocalServicesLeadsRequest extends GoogleAdsSearchads360V23Services__ProvideLeadFeedbackRequest {
   /** Required. The resource name of the local services lead that for which the feedback is being provided. */
   resourceName: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ProvideLeadFeedbackRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__ProvideLeadFeedbackResponseCreditIssuanceDecisionEnum =
   | "UNSPECIFIED"
@@ -19192,11 +18932,9 @@ export interface GoogleAdsSearchads360V23Services__RemoveAutomaticallyCreatedAss
   /** Required. List of assets with field type to be removed from the AdGroupAd. */
   assetsWithFieldType?: GoogleAdsSearchads360V23Services__AssetsWithFieldTypeList | undefined;
 }
-export interface RemoveAutomaticallyCreatedAssetsCustomersAdGroupAdsRequest {
+export interface RemoveAutomaticallyCreatedAssetsCustomersAdGroupAdsRequest extends GoogleAdsSearchads360V23Services__RemoveAutomaticallyCreatedAssetsRequest {
   /** Required. The resource name of the AdGroupAd from which to remove automatically created assets. */
   adGroupAd: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__RemoveAutomaticallyCreatedAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__RemoveCampaignAutomaticallyCreatedAssetOperationFieldTypeEnum =
   | "UNSPECIFIED"
@@ -19257,13 +18995,9 @@ export interface GoogleAdsSearchads360V23Services__RemoveCampaignAutomaticallyCr
   /** Required. If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. */
   partialFailure?: boolean | undefined;
 }
-export interface RemoveCampaignAutomaticallyCreatedAssetCustomersRequest {
+export interface RemoveCampaignAutomaticallyCreatedAssetCustomersRequest extends GoogleAdsSearchads360V23Services__RemoveCampaignAutomaticallyCreatedAssetRequest {
   /** Required. The ID of the customer whose assets are being removed. */
   customerId: string;
-  /** Request body */
-  body?:
-    | GoogleAdsSearchads360V23Services__RemoveCampaignAutomaticallyCreatedAssetRequest
-    | undefined;
 }
 /** Response message for AutomaticallyCreatedAssetRemovalService.RemoveCampaignAutomaticallyCreatedAsset. */
 export interface GoogleAdsSearchads360V23Services__RemoveCampaignAutomaticallyCreatedAssetResponse {
@@ -19275,11 +19009,9 @@ export interface GoogleAdsSearchads360V23Services__RemoveDataLinkRequest {
   /** Required. The data link is expected to have a valid resource name. */
   resourceName?: string | undefined;
 }
-export interface RemoveCustomersDataLinksRequest {
+export interface RemoveCustomersDataLinksRequest extends GoogleAdsSearchads360V23Services__RemoveDataLinkRequest {
   /** Required. The ID of the customer for which the data link is updated. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__RemoveDataLinkRequest | undefined;
 }
 /** Response message for DataLinkService.RemoveDataLink. */
 export interface GoogleAdsSearchads360V23Services__RemoveDataLinkResponse {
@@ -19291,11 +19023,9 @@ export interface GoogleAdsSearchads360V23Services__RemoveProductLinkInvitationRe
   /** Required. The resource name of the product link invitation being removed. expected, in this format: ` ` */
   resourceName?: string | undefined;
 }
-export interface RemoveCustomersProductLinkInvitationsRequest {
+export interface RemoveCustomersProductLinkInvitationsRequest extends GoogleAdsSearchads360V23Services__RemoveProductLinkInvitationRequest {
   /** Required. The ID of the product link invitation being removed. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__RemoveProductLinkInvitationRequest | undefined;
 }
 /** Response message for product link invitation removeal. */
 export interface GoogleAdsSearchads360V23Services__RemoveProductLinkInvitationResponse {
@@ -19309,11 +19039,9 @@ export interface GoogleAdsSearchads360V23Services__RemoveProductLinkRequest {
   /** Required. Remove operation: A resource name for the product link to remove is expected, in this format: ` ` */
   resourceName?: string | undefined;
 }
-export interface RemoveCustomersProductLinksRequest {
+export interface RemoveCustomersProductLinksRequest extends GoogleAdsSearchads360V23Services__RemoveProductLinkRequest {
   /** Required. The ID of the customer being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__RemoveProductLinkRequest | undefined;
 }
 /** Response message for product link removal. */
 export interface GoogleAdsSearchads360V23Services__RemoveProductLinkResponse {
@@ -19332,20 +19060,16 @@ export interface RunCustomersBatchJobsRequest {
 /** Request message for OfflineUserDataJobService.RunOfflineUserDataJob. */
 export type GoogleAdsSearchads360V23Services__RunOfflineUserDataJobRequest =
   GoogleAdsSearchads360V23Services__EndExperimentRequest;
-export interface RunCustomersOfflineUserDataJobsRequest {
+export interface RunCustomersOfflineUserDataJobsRequest extends GoogleAdsSearchads360V23Services__EndExperimentRequest {
   /** Required. The resource name of the OfflineUserDataJob to run. */
   resourceName: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__EndExperimentRequest | undefined;
 }
 /** Request message for ExperimentService.ScheduleExperiment. */
 export type GoogleAdsSearchads360V23Services__ScheduleExperimentRequest =
   GoogleAdsSearchads360V23Services__EndExperimentRequest;
-export interface ScheduleExperimentCustomersExperimentsRequest {
+export interface ScheduleExperimentCustomersExperimentsRequest extends GoogleAdsSearchads360V23Services__EndExperimentRequest {
   /** Required. The scheduled experiment. */
   resourceName: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__EndExperimentRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__ListAudienceInsightsAttributesRequestDimensionsItemEnum =
   | "UNSPECIFIED"
@@ -19388,11 +19112,9 @@ export interface GoogleAdsSearchads360V23Services__ListAudienceInsightsAttribute
   /** Optional. Additional information on the application issuing the request. */
   insightsApplicationInfo?: GoogleAdsSearchads360V23Common__AdditionalApplicationInfo | undefined;
 }
-export interface SearchAudienceInsightsAttributesCustomersRequest {
+export interface SearchAudienceInsightsAttributesCustomersRequest extends GoogleAdsSearchads360V23Services__ListAudienceInsightsAttributesRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__ListAudienceInsightsAttributesRequest | undefined;
 }
 /** Response message for AudienceInsightsService.ListAudienceInsightsAttributes. */
 export interface GoogleAdsSearchads360V23Services__ListAudienceInsightsAttributesResponse {
@@ -19421,11 +19143,9 @@ export interface GoogleAdsSearchads360V23Services__SearchSearchAds360Request {
   /** Settings that allow users to specify request count, summary row, and results behavior. */
   searchSettings?: GoogleAdsSearchads360V23Services__SearchSettings | undefined;
 }
-export interface SearchCustomersSearchAds360Request {
+export interface SearchCustomersSearchAds360Request extends GoogleAdsSearchads360V23Services__SearchSearchAds360Request {
   /** Required. The ID of the customer being queried. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SearchSearchAds360Request | undefined;
 }
 /** Message for conversion custom metric header. */
 export interface GoogleAdsSearchads360V23Services__ConversionCustomMetricHeader {
@@ -23939,10 +23659,7 @@ export interface GoogleAdsSearchads360V23Services__SearchSearchAds360FieldsReque
   /** Token of the page to retrieve. If not specified, the first page of results will be returned. Use the value obtained from `next_page_token` in the previous response in order to request the next page of results. */
   pageToken?: string | undefined;
 }
-export interface SearchSearchAds360FieldsRequest {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SearchSearchAds360FieldsRequest | undefined;
-}
+export interface SearchSearchAds360FieldsRequest extends GoogleAdsSearchads360V23Services__SearchSearchAds360FieldsRequest {}
 export type GoogleAdsSearchads360V23Resources__SearchAds360FieldList =
   Array<GoogleAdsSearchads360V23Resources__SearchAds360Field>;
 /** Response message for SearchAds360FieldService.SearchSearchAds360Fields. */
@@ -23966,11 +23683,9 @@ export interface GoogleAdsSearchads360V23Services__StartIdentityVerificationRequ
     | (string & {})
     | undefined;
 }
-export interface StartIdentityVerificationCustomersRequest {
+export interface StartIdentityVerificationCustomersRequest extends GoogleAdsSearchads360V23Services__StartIdentityVerificationRequest {
   /** Required. The Id of the customer for whom we are creating this verification. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__StartIdentityVerificationRequest | undefined;
 }
 /** A list of geo target constant resource names. */
 export interface GoogleAdsSearchads360V23Services_SuggestGeoTargetConstantsRequest_GeoTargets {
@@ -23997,10 +23712,7 @@ export interface GoogleAdsSearchads360V23Services__SuggestGeoTargetConstantsRequ
     | GoogleAdsSearchads360V23Services_SuggestGeoTargetConstantsRequest_LocationNames
     | undefined;
 }
-export interface SuggestGeoTargetConstantsRequest {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SuggestGeoTargetConstantsRequest | undefined;
-}
+export interface SuggestGeoTargetConstantsRequest extends GoogleAdsSearchads360V23Services__SuggestGeoTargetConstantsRequest {}
 export type GoogleAdsSearchads360V23Resources__GeoTargetConstantList =
   Array<GoogleAdsSearchads360V23Resources__GeoTargetConstant>;
 /** A geo target constant suggestion. */
@@ -24034,10 +23746,7 @@ export interface GoogleAdsSearchads360V23Services__SuggestKeywordThemeConstantsR
   /** The query text of a keyword theme that will be used to map to similar keyword themes. For example, "plumber" or "roofer". */
   queryText?: string | undefined;
 }
-export interface SuggestKeywordThemeConstantsRequest {
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SuggestKeywordThemeConstantsRequest | undefined;
-}
+export interface SuggestKeywordThemeConstantsRequest extends GoogleAdsSearchads360V23Services__SuggestKeywordThemeConstantsRequest {}
 export type GoogleAdsSearchads360V23Resources__KeywordThemeConstantList =
   Array<GoogleAdsSearchads360V23Resources__KeywordThemeConstant>;
 /** Response message for KeywordThemeConstantService.SuggestKeywordThemeConstants. */
@@ -24085,11 +23794,9 @@ export interface GoogleAdsSearchads360V23Services__SuggestKeywordThemesRequest {
   /** Required. Information to get keyword theme suggestions. Required fields: * suggestion_info.final_url * suggestion_info.language_code * suggestion_info.geo_target Recommended fields: * suggestion_info.business_setting */
   suggestionInfo?: GoogleAdsSearchads360V23Services__SmartCampaignSuggestionInfo | undefined;
 }
-export interface SuggestKeywordThemesCustomersRequest {
+export interface SuggestKeywordThemesCustomersRequest extends GoogleAdsSearchads360V23Services__SuggestKeywordThemesRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SuggestKeywordThemesRequest | undefined;
 }
 /** A Smart campaign keyword theme suggestion. */
 export interface GoogleAdsSearchads360V23Services_SuggestKeywordThemesResponse_KeywordTheme {
@@ -24112,11 +23819,9 @@ export interface GoogleAdsSearchads360V23Services__SuggestSmartCampaignAdRequest
   /** Required. Inputs used to suggest a Smart campaign ad. Required fields: final_url, language_code, keyword_themes. Optional but recommended fields to improve the quality of the suggestion: business_setting and geo_target. */
   suggestionInfo?: GoogleAdsSearchads360V23Services__SmartCampaignSuggestionInfo | undefined;
 }
-export interface SuggestSmartCampaignAdCustomersRequest {
+export interface SuggestSmartCampaignAdCustomersRequest extends GoogleAdsSearchads360V23Services__SuggestSmartCampaignAdRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SuggestSmartCampaignAdRequest | undefined;
 }
 /** Response message for SmartCampaignSuggestService.SuggestSmartCampaignAd. */
 export interface GoogleAdsSearchads360V23Services__SuggestSmartCampaignAdResponse {
@@ -24130,11 +23835,9 @@ export interface GoogleAdsSearchads360V23Services__SuggestSmartCampaignBudgetOpt
   /** Required. Information needed to get budget options */
   suggestionInfo?: GoogleAdsSearchads360V23Services__SmartCampaignSuggestionInfo | undefined;
 }
-export interface SuggestSmartCampaignBudgetOptionsCustomersRequest {
+export interface SuggestSmartCampaignBudgetOptionsCustomersRequest extends GoogleAdsSearchads360V23Services__SuggestSmartCampaignBudgetOptionsRequest {
   /** Required. The ID of the customer whose budget options are to be suggested. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SuggestSmartCampaignBudgetOptionsRequest | undefined;
 }
 /** Performance metrics for a given budget option. */
 export interface GoogleAdsSearchads360V23Services_SuggestSmartCampaignBudgetOptionsResponse_Metrics {
@@ -24174,11 +23877,9 @@ export interface GoogleAdsSearchads360V23Services__SuggestTravelAssetsRequest {
   /** The Google Maps Place IDs of hotels for which assets are requested. See https://developers.google.com/places/web-service/place-id for more information. */
   placeIds?: StringList | undefined;
 }
-export interface SuggestTravelAssetsCustomersRequest {
+export interface SuggestTravelAssetsCustomersRequest extends GoogleAdsSearchads360V23Services__SuggestTravelAssetsRequest {
   /** Required. The ID of the customer. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__SuggestTravelAssetsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__HotelTextAssetAssetFieldTypeEnum =
   | "UNSPECIFIED"
@@ -24339,11 +24040,9 @@ export interface GoogleAdsSearchads360V23Services__UpdateDataLinkRequest {
     | (string & {})
     | undefined;
 }
-export interface UpdateCustomersDataLinksRequest {
+export interface UpdateCustomersDataLinksRequest extends GoogleAdsSearchads360V23Services__UpdateDataLinkRequest {
   /** Required. The ID of the customer for which the data link is created. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__UpdateDataLinkRequest | undefined;
 }
 /** Response message for DataLinkService.UpdateDataLink. */
 export interface GoogleAdsSearchads360V23Services__UpdateDataLinkResponse {
@@ -24369,11 +24068,9 @@ export interface GoogleAdsSearchads360V23Services__UpdateProductLinkInvitationRe
     | (string & {})
     | undefined;
 }
-export interface UpdateCustomersProductLinkInvitationsRequest {
+export interface UpdateCustomersProductLinkInvitationsRequest extends GoogleAdsSearchads360V23Services__UpdateProductLinkInvitationRequest {
   /** Required. The ID of the customer being modified. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__UpdateProductLinkInvitationRequest | undefined;
 }
 /** Response message for product link invitation update. */
 export interface GoogleAdsSearchads360V23Services__UpdateProductLinkInvitationResponse {
@@ -24419,11 +24116,9 @@ export interface GoogleAdsSearchads360V23Services__UploadCallConversionsRequest 
   /** Required. If `true`, successful operations will be carried out and invalid operations will return errors. If `false`, all operations will be carried out in one transaction if and only if they are all valid. This should always be set to `true`. */
   partialFailure?: boolean | undefined;
 }
-export interface UploadCallConversionsCustomersRequest {
+export interface UploadCallConversionsCustomersRequest extends GoogleAdsSearchads360V23Services__UploadCallConversionsRequest {
   /** Required. The ID of the customer performing the upload. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__UploadCallConversionsRequest | undefined;
 }
 /** Identifying information for a successfully processed CallConversionUpload. */
 export interface GoogleAdsSearchads360V23Services__CallConversionResult {
@@ -24560,11 +24255,9 @@ export interface GoogleAdsSearchads360V23Services__UploadClickConversionsRequest
   /** Required. If `true`, successful operations will be carried out and invalid operations will return errors. If `false`, all operations will be carried out in one transaction if and only if they are all valid. This should always be set to `true`. */
   partialFailure?: boolean | undefined;
 }
-export interface UploadClickConversionsCustomersRequest {
+export interface UploadClickConversionsCustomersRequest extends GoogleAdsSearchads360V23Services__UploadClickConversionsRequest {
   /** Required. The ID of the customer performing the upload. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__UploadClickConversionsRequest | undefined;
 }
 /** Identifying information for a successfully processed `ClickConversion`. */
 export interface GoogleAdsSearchads360V23Services__ClickConversionResult {
@@ -24647,11 +24340,9 @@ export interface GoogleAdsSearchads360V23Services__UploadConversionAdjustmentsRe
   /** Required. If true, successful operations will be carried out and invalid operations will return errors. If false, all operations will be carried out in one transaction if and only if they are all valid. This should always be set to true. See https://developers.google.com/google-ads/api/docs/best-practices/partial-failures for more information about partial failure. */
   partialFailure?: boolean | undefined;
 }
-export interface UploadConversionAdjustmentsCustomersRequest {
+export interface UploadConversionAdjustmentsCustomersRequest extends GoogleAdsSearchads360V23Services__UploadConversionAdjustmentsRequest {
   /** Required. The ID of the customer performing the upload. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__UploadConversionAdjustmentsRequest | undefined;
 }
 export type GoogleAdsSearchads360V23Services__ConversionAdjustmentResultAdjustmentTypeEnum =
   | "UNSPECIFIED"
@@ -24703,11 +24394,9 @@ export interface GoogleAdsSearchads360V23Services__UploadUserDataRequest {
     | GoogleAdsSearchads360V23Common__CustomerMatchUserListMetadata
     | undefined;
 }
-export interface UploadUserDataCustomersRequest {
+export interface UploadUserDataCustomersRequest extends GoogleAdsSearchads360V23Services__UploadUserDataRequest {
   /** Required. The ID of the customer for which to update the user data. */
   customerId: string;
-  /** Request body */
-  body?: GoogleAdsSearchads360V23Services__UploadUserDataRequest | undefined;
 }
 /** Response message for UserDataService.UploadUserData Uploads made through this service will not be visible under the 'Segment members' section for the Customer Match List in the Google Ads UI. */
 export interface GoogleAdsSearchads360V23Services__UploadUserDataResponse {
@@ -28881,10 +28570,12 @@ function __c0(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerLifecycleGoal:configureCustomerLifecycleGoals",
@@ -28925,10 +28616,12 @@ function __c2(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c2, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/conversionCustomVariables:mutate",
@@ -28965,10 +28658,12 @@ function __c3(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/conversionGoalCampaignConfigs:mutate",
@@ -29005,10 +28700,12 @@ function __c4(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(129, __c4, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(129, __c4, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/conversionValueRules:mutate",
@@ -29046,10 +28743,12 @@ function __c5(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(161, __c5, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/conversionValueRuleSets:mutate",
@@ -29092,10 +28791,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCustomAudiencesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(194, __c6, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(194, __c6, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customAudiences:mutate",
@@ -29149,10 +28850,12 @@ function __c8(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(257, __c8, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customConversionGoals:mutate",
@@ -29187,10 +28890,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCustomerAssetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(289, __c9, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerAssets:mutate",
@@ -29233,10 +28938,12 @@ function __c10(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerAssetSets:mutate",
@@ -29298,10 +29005,12 @@ function __c12(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(385, __c12, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(385, __c12, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerClientLinks:mutate",
@@ -29340,10 +29049,12 @@ function __c14(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(449, __c14, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(449, __c14, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerConversionGoals:mutate",
@@ -29366,10 +29077,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__CreateCustomerClientRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:createCustomerClient",
@@ -29403,10 +29116,12 @@ function __c16(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(513, __c16, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/CustomerCustomizers:mutate",
@@ -29441,10 +29156,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCustomerLabelsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(545, __c17, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(545, __c17, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerLabels:mutate",
@@ -29476,10 +29193,12 @@ function __c18(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(578, __c18, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(578, __c18, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerManagerLinks:mutate",
@@ -29520,10 +29239,12 @@ function __c20(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(641, __c20, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(641, __c20, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerNegativeCriteria:mutate",
@@ -29674,10 +29395,12 @@ function __c21(j: number): any {
       });
     case 14:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(685, __c21, 13).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(685, __c21, 13),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerSkAdNetworkConversionValueSchemas:mutate",
@@ -29727,10 +29450,12 @@ function __c22(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(705, __c22, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(705, __c22, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerUserAccesses:mutate",
@@ -29776,10 +29501,12 @@ function __c24(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(769, __c24, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(769, __c24, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerUserAccessInvitations:mutate",
@@ -29825,10 +29552,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCustomInterestsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(834, __c26, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(834, __c26, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customInterests:mutate",
@@ -29880,10 +29609,12 @@ function __c28(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(897, __c28, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(897, __c28, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customizerAttributes:mutate",
@@ -29919,10 +29650,12 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateExperimentArmsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(929, __c29, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(929, __c29, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/experimentArms:mutate",
@@ -29951,10 +29684,12 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__CreateAccountLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/accountLinks:create",
@@ -30002,10 +29737,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateExperimentsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1025, __c32, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1025, __c32, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/experiments:mutate",
@@ -30037,10 +29774,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateGoalsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1058, __c33, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1058, __c33, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/Goals:mutate",
@@ -30087,10 +29826,12 @@ function __c35(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1121, __c35, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1121, __c35, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/keywordPlanAdGroupKeywords:mutate",
@@ -30116,10 +29857,12 @@ function __c36(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1153, __c36, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1153, __c36, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/keywordPlanAdGroups:mutate",
@@ -30145,10 +29888,12 @@ function __c37(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1185, __c37, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1185, __c37, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/keywordPlanCampaignKeywords:mutate",
@@ -30174,10 +29919,12 @@ function __c38(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1217, __c38, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1217, __c38, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/keywordPlanCampaigns:mutate",
@@ -30201,10 +29948,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateKeywordPlansRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1249, __c39, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/keywordPlans:mutate",
@@ -30229,10 +29978,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateLabelsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/labels:mutate",
@@ -30267,10 +30018,12 @@ function __c41(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c41, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1313, __c41, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/remarketingActions:mutate",
@@ -30293,10 +30046,12 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateSearchAds360Request" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/searchAds360:mutate",
@@ -30325,10 +30080,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__CreateDataLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1376, __c43, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/dataLinks:create",
@@ -30377,10 +30134,12 @@ function __c45(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1441, __c45, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1441, __c45, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/searchAds360Campaigns:mutate",
@@ -30415,10 +30174,12 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateSharedCriteriaRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1473, __c46, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1473, __c46, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/sharedCriteria:mutate",
@@ -30452,10 +30213,12 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateSharedSetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1505, __c47, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1505, __c47, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/sharedSets:mutate",
@@ -30491,10 +30254,12 @@ function __c48(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1537, __c48, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1537, __c48, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/smartCampaignSettings:mutate",
@@ -30538,10 +30303,12 @@ function __c49(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1570, __c49, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1570, __c49, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/userListCustomerTypes:mutate",
@@ -30577,10 +30344,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateUserListsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1633, __c51, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1633, __c51, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/userLists:mutate",
@@ -30607,10 +30376,12 @@ function __c52(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1665, __c52, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/recommendationSubscriptions:mutateRecommendationSubscription",
@@ -30637,10 +30408,12 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          campaignDraft: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            campaignDraft: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+campaignDraft}:promote",
@@ -30668,10 +30441,12 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+resourceName}:promoteExperiment",
@@ -30707,10 +30482,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__ProvideLeadFeedbackRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1794, __c56, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1794, __c56, 2),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+resourceName}:provideLeadFeedback",
@@ -30740,10 +30517,12 @@ function __c57(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/offlineUserDataJobs:create",
@@ -30848,10 +30627,12 @@ function __c61(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          adGroupAd: S.String.pipe(T.Label()),
-          body: S.optional(__S(1954, __c61, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1954, __c61, 2),
+          S.Struct({
+            adGroupAd: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+adGroupAd}:removeAutomaticallyCreatedAssets",
@@ -30888,10 +30669,12 @@ function __c62(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1986, __c62, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1986, __c62, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:removeCampaignAutomaticallyCreatedAsset",
@@ -30914,10 +30697,12 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12928, __c404, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12928, __c404, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/dataLinks:remove",
@@ -30931,10 +30716,12 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12928, __c404, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12928, __c404, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/productLinkInvitations:remove",
@@ -30955,10 +30742,12 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__RemoveProductLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/productLinks:remove",
@@ -30989,10 +30778,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+resourceName}:run",
@@ -31006,10 +30797,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+resourceName}:scheduleExperiment",
@@ -31036,10 +30829,12 @@ function __c69(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2208, __c69, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:searchAudienceInsightsAttributes",
@@ -31061,10 +30856,12 @@ function __c70(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/productLinkInvitations:create",
@@ -31132,10 +30929,12 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__SearchSearchAds360Request" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2337, __c73, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2337, __c73, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/searchAds360:search",
@@ -33082,9 +32881,7 @@ function __c80(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2560, __c80, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23/searchAds360Fields:search",
@@ -33118,10 +32915,12 @@ function __c81(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:startIdentityVerification",
@@ -33163,9 +32962,7 @@ function __c82(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2626, __c82, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2626, __c82, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23/geoTargetConstants:suggest",
@@ -33211,9 +33008,7 @@ function __c83(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2656, __c83, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(2656, __c83, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23/keywordThemeConstants:suggest",
@@ -33237,10 +33032,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:suggestKeywordThemes",
@@ -33316,10 +33113,12 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:suggestSmartCampaignAd",
@@ -33350,10 +33149,12 @@ function __c88(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:suggestSmartCampaignBudgetOptions",
@@ -33404,10 +33205,12 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__SuggestTravelAssetsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:suggestTravelAssets",
@@ -33466,10 +33269,12 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__UpdateDataLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2880, __c90, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/dataLinks:update",
@@ -33489,10 +33294,12 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__CreateProductLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2912, __c91, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2912, __c91, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/productLinks:create",
@@ -33537,10 +33344,12 @@ function __c93(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/productLinkInvitations:update",
@@ -33577,10 +33386,12 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__UploadCallConversionsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3010, __c94, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3010, __c94, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:uploadCallConversions",
@@ -33703,10 +33514,12 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__UploadClickConversionsRequest" });
     case 10:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3081, __c96, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3081, __c96, 9),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:uploadClickConversions",
@@ -33783,10 +33596,12 @@ function __c97(j: number): any {
       });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3108, __c97, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3108, __c97, 4),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:uploadConversionAdjustments",
@@ -33838,10 +33653,12 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__UploadUserDataRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3138, __c98, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3138, __c98, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:uploadUserData",
@@ -33869,10 +33686,12 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__DismissRecommendationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3168, __c99, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3168, __c99, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/recommendations:dismiss",
@@ -33927,10 +33746,12 @@ function __c101(j: number): any {
       });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3235, __c101, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3235, __c101, 3),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaigns:enablePMaxBrandGuidelines",
@@ -33961,10 +33782,12 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          experiment: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            experiment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+experiment}:endExperiment",
@@ -34066,10 +33889,12 @@ function __c105(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__GenerateAdGroupThemesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3360, __c105, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateAdGroupThemes",
@@ -34124,10 +33949,12 @@ function __c106(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3392, __c106, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateAudienceCompositionInsights",
@@ -34384,10 +34211,12 @@ function __c113(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3616, __c113, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateAudienceDefinition",
@@ -34441,10 +34270,12 @@ function __c115(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3680, __c115, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3680, __c115, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateAudienceOverlapInsights",
@@ -34526,10 +34357,12 @@ function __c116(j: number): any {
       });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3716, __c116, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3716, __c116, 4),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateBenchmarksMetrics",
@@ -34588,9 +34421,7 @@ function __c117(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(3744, __c117, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(3744, __c117, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:generateConversionRates",
@@ -34722,10 +34553,12 @@ function __c119(j: number): any {
       });
     case 9:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3816, __c119, 8).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3816, __c119, 8),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/recommendations:generate",
@@ -35252,10 +35085,12 @@ function __c123(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3936, __c123, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateInsightsFinderReport",
@@ -35359,10 +35194,12 @@ function __c124(j: number): any {
       });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3979, __c124, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3979, __c124, 11),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateKeywordForecastMetrics",
@@ -35411,10 +35248,12 @@ function __c125(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4000, __c125, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateKeywordHistoricalMetrics",
@@ -35556,10 +35395,12 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__GenerateKeywordIdeasRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4067, __c127, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4067, __c127, 3),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateKeywordIdeas",
@@ -35704,10 +35545,12 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__GenerateReachForecastRequest" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4107, __c128, 11).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4107, __c128, 11),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateReachForecast",
@@ -35826,10 +35669,12 @@ function __c129(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4129, __c129, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4129, __c129, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateSuggestedTargetingInsights",
@@ -35896,10 +35741,12 @@ function __c132(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4225, __c132, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4225, __c132, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:generateTargetingSuggestionMetrics",
@@ -36116,10 +35963,12 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__GraduateExperimentRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          experiment: S.String.pipe(T.Label()),
-          body: S.optional(__S(4450, __c139, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4450, __c139, 2),
+          S.Struct({
+            experiment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+experiment}:graduateExperiment",
@@ -36140,10 +35989,12 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__AddBatchJobOperationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(4480, __c140, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(4480, __c140, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+resourceName}:addOperations",
@@ -41389,9 +41240,7 @@ function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10144, __c317, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10144, __c317, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listBenchmarksAvailableDates",
@@ -41425,9 +41274,7 @@ function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10144, __c317, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10144, __c317, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listBenchmarksLocations",
@@ -41459,9 +41306,7 @@ function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10144, __c317, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10144, __c317, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listBenchmarksProducts",
@@ -41500,9 +41345,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__ListBenchmarksSourcesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10240, __c320, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10240, __c320, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listBenchmarksSources",
@@ -41801,10 +41644,12 @@ function __c325(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(10402, __c325, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(10402, __c325, 2),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/{+resourceName}:addOperations",
@@ -41972,9 +41817,7 @@ function __c330(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10560, __c330, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10560, __c330, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23/audienceInsights:listInsightsEligibleDates",
@@ -42003,9 +41846,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__ListPlannableLocationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10592, __c331, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10592, __c331, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listPlannableLocations",
@@ -42046,9 +41887,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__ListPlannableProductsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10624, __c332, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10624, __c332, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listPlannableProducts",
@@ -42119,9 +41958,7 @@ function __c333(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10656, __c333, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10656, __c333, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listPlannableUserInterests",
@@ -42162,9 +41999,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__ListPlannableUserListsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(10688, __c334, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(10688, __c334, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v23:listPlannableUserLists",
@@ -42863,10 +42698,12 @@ function __c383(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MoveManagerLinkRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12256, __c383, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12256, __c383, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/customerManagerLinks:moveManagerLink",
@@ -42888,10 +42725,12 @@ function __c384(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCustomerRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12288, __c384, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12288, __c384, 0),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}:mutate",
@@ -42930,10 +42769,12 @@ function __c385(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12321, __c385, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12321, __c385, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/accountBudgetProposals:mutate",
@@ -42994,10 +42835,12 @@ function __c387(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAccountLinkRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12385, __c387, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12385, __c387, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/accountLinks:mutate",
@@ -43033,10 +42876,12 @@ function __c388(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__AppendLeadConversationRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12418, __c388, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12418, __c388, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/localServices:appendLeadConversation",
@@ -43077,10 +42922,12 @@ function __c389(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdGroupAdLabelsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12449, __c389, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12449, __c389, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupAdLabels:mutate",
@@ -43105,10 +42952,12 @@ function __c390(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdGroupAdsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12481, __c390, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12481, __c390, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupAds:mutate",
@@ -43142,10 +42991,12 @@ function __c391(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdGroupAssetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12513, __c391, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12513, __c391, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupAssets:mutate",
@@ -43186,10 +43037,12 @@ function __c392(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdGroupAssetSetsRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12546, __c392, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12546, __c392, 2),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupAssetSets:mutate",
@@ -43247,10 +43100,12 @@ function __c394(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12609, __c394, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12609, __c394, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupBidModifiers:mutate",
@@ -43286,10 +43141,12 @@ function __c395(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdGroupCriteriaRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12641, __c395, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12641, __c395, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupCriteria:mutate",
@@ -43325,10 +43182,12 @@ function __c396(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12673, __c396, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12673, __c396, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/AdGroupCriterionCustomizers:mutate",
@@ -43365,10 +43224,12 @@ function __c397(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12705, __c397, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12705, __c397, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupCriterionLabels:mutate",
@@ -43395,10 +43256,12 @@ function __c398(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12737, __c398, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12737, __c398, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupCustomizers:mutate",
@@ -43433,10 +43296,12 @@ function __c399(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdGroupLabelsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12769, __c399, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12769, __c399, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroupLabels:mutate",
@@ -43687,10 +43552,12 @@ function __c400(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__ApplyRecommendationRequest" });
     case 26:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12825, __c400, 25).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12825, __c400, 25),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/recommendations:apply",
@@ -43757,10 +43624,12 @@ function __c405(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdGroupsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12961, __c405, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12961, __c405, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adGroups:mutate",
@@ -43794,10 +43663,12 @@ function __c406(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdParametersRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(12993, __c406, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(12993, __c406, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/adParameters:mutate",
@@ -43831,10 +43702,12 @@ function __c407(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAdsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13025, __c407, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13025, __c407, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/ads:mutate",
@@ -43867,10 +43740,12 @@ function __c408(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAssetGroupAssetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13057, __c408, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13057, __c408, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/assetGroupAssets:mutate",
@@ -43896,10 +43771,12 @@ function __c409(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13089, __c409, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13089, __c409, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/assetGroupListingGroupFilters:mutate",
@@ -43932,10 +43809,12 @@ function __c410(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAssetGroupsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13121, __c410, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13121, __c410, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/assetGroups:mutate",
@@ -43962,10 +43841,12 @@ function __c411(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13153, __c411, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13153, __c411, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/assetGroupSignals:mutate",
@@ -44001,10 +43882,12 @@ function __c412(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAssetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13185, __c412, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13185, __c412, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/assets:mutate",
@@ -44038,10 +43921,12 @@ function __c413(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAssetSetAssetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13217, __c413, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13217, __c413, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/assetSetAssets:mutate",
@@ -44075,10 +43960,12 @@ function __c414(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAssetSetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13249, __c414, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13249, __c414, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/assetSets:mutate",
@@ -44107,11 +43994,13 @@ function __c415(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__ApplyIncentiveRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          selectedIncentiveId: S.String.pipe(T.Label()),
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13280, __c415, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13280, __c415, 0),
+          S.Struct({
+            selectedIncentiveId: S.String.pipe(T.Label()),
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/incentives/{+selectedIncentiveId}:applyIncentive",
@@ -44143,10 +44032,12 @@ function __c416(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateAudiencesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13313, __c416, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13313, __c416, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/audiences:mutate",
@@ -44182,10 +44073,12 @@ function __c417(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateBatchJobRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13345, __c417, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13345, __c417, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/batchJobs:mutate",
@@ -44239,10 +44132,12 @@ function __c419(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13409, __c419, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13409, __c419, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/biddingDataExclusions:mutate",
@@ -44280,10 +44175,12 @@ function __c420(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13441, __c420, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13441, __c420, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/biddingSeasonalityAdjustments:mutate",
@@ -44321,10 +44218,12 @@ function __c421(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13473, __c421, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13473, __c421, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/biddingStrategies:mutate",
@@ -44362,10 +44261,12 @@ function __c422(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateBillingSetupRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13505, __c422, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13505, __c422, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/billingSetups:mutate",
@@ -44420,10 +44321,12 @@ function __c424(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCampaignAssetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13569, __c424, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13569, __c424, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignAssets:mutate",
@@ -44459,10 +44362,12 @@ function __c425(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13601, __c425, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13601, __c425, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignAssetSets:mutate",
@@ -44500,10 +44405,12 @@ function __c426(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13633, __c426, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13633, __c426, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignBidModifiers:mutate",
@@ -44539,10 +44446,12 @@ function __c427(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCampaignBudgetsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13665, __c427, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13665, __c427, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignBudgets:mutate",
@@ -44584,10 +44493,12 @@ function __c428(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13697, __c428, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13697, __c428, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignLifecycleGoal:configureCampaignLifecycleGoals",
@@ -44658,10 +44569,12 @@ function __c432(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13825, __c432, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13825, __c432, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignConversionGoals:mutate",
@@ -44698,10 +44611,12 @@ function __c434(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCampaignCriteriaRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13889, __c434, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13889, __c434, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignCriteria:mutate",
@@ -44739,10 +44654,12 @@ function __c435(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13921, __c435, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13921, __c435, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignCustomizers:mutate",
@@ -44778,10 +44695,12 @@ function __c436(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCampaignDraftsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13953, __c436, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13953, __c436, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignDrafts:mutate",
@@ -44816,10 +44735,12 @@ function __c437(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(13985, __c437, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(13985, __c437, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/CampaignGoalConfigs:mutate",
@@ -44844,10 +44765,12 @@ function __c438(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCampaignGroupsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(14017, __c438, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14017, __c438, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignGroups:mutate",
@@ -44880,10 +44803,12 @@ function __c439(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCampaignLabelsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(14049, __c439, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14049, __c439, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignLabels:mutate",
@@ -44908,10 +44833,12 @@ function __c440(j: number): any {
       ).annotate({ identifier: "GoogleAdsSearchads360V23Services__MutateCampaignsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(14081, __c440, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14081, __c440, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaigns:mutate",
@@ -44947,10 +44874,12 @@ function __c441(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(14113, __c441, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14113, __c441, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/campaignSharedSets:mutate",
@@ -44988,10 +44917,12 @@ function __c442(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(14145, __c442, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(14145, __c442, 1),
+          S.Struct({
+            customerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v23/customers/{+customerId}/conversionActions:mutate",

@@ -193,7 +193,7 @@ export interface Backup {
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
   tags?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsBackupsRequest {
+export interface CreateProjectsLocationsBackupsRequest extends Backup {
   /** Required. Value for parent. */
   parent: string;
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
@@ -202,8 +202,6 @@ export interface CreateProjectsLocationsBackupsRequest {
   backupId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -599,7 +597,7 @@ export interface Cluster {
   /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
   encryptionConfig?: EncryptionConfig | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
+export interface CreateProjectsLocationsClustersRequest extends Cluster {
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
   /** Required. ID of the requesting object. */
@@ -608,8 +606,6 @@ export interface CreateProjectsLocationsClustersRequest {
   requestId?: string | undefined;
   /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
   parent: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 /** Instance level Query Insights information, which is read-only and available in the output only. */
 export interface QueryInsightsInstanceInfo {
@@ -979,7 +975,7 @@ export interface Instance {
   /** Output only. Maintenance version of the instance, for example: POSTGRES_15.2025_07_15.04_00. Output only. Update this field via the parent cluster's maintenance_version field(s). */
   maintenanceVersionName?: string | undefined;
 }
-export interface CreateProjectsLocationsClustersInstancesRequest {
+export interface CreateProjectsLocationsClustersInstancesRequest extends Instance {
   /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
   parent: string;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
@@ -988,8 +984,6 @@ export interface CreateProjectsLocationsClustersInstancesRequest {
   instanceId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export type UserUserTypeEnum =
   | "USER_TYPE_UNSPECIFIED"
@@ -1011,7 +1005,7 @@ export interface User {
   /** Input only. If the user already exists and it has additional roles, keep them granted. */
   keepExtraRoles?: boolean | undefined;
 }
-export interface CreateProjectsLocationsClustersUsersRequest {
+export interface CreateProjectsLocationsClustersUsersRequest extends User {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
@@ -1020,10 +1014,8 @@ export interface CreateProjectsLocationsClustersUsersRequest {
   userId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Request body */
-  body?: User | undefined;
 }
-export interface CreatesecondaryProjectsLocationsClustersRequest {
+export interface CreatesecondaryProjectsLocationsClustersRequest extends Cluster {
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
   /** Required. ID of the requesting object (the secondary cluster). */
@@ -1032,10 +1024,8 @@ export interface CreatesecondaryProjectsLocationsClustersRequest {
   requestId?: string | undefined;
   /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
   parent: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
-export interface CreatesecondaryProjectsLocationsClustersInstancesRequest {
+export interface CreatesecondaryProjectsLocationsClustersInstancesRequest extends Instance {
   /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
   parent: string;
   /** Required. ID of the requesting object. */
@@ -1044,8 +1034,6 @@ export interface CreatesecondaryProjectsLocationsClustersInstancesRequest {
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
 export interface DeleteProjectsLocationsBackupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1104,11 +1092,9 @@ export interface ExecuteSqlRequest {
   /** Optional. Validate the statement's syntax and semantics without executing it. */
   validateOnly?: boolean | undefined;
 }
-export interface ExecuteSqlProjectsLocationsClustersInstancesRequest {
+export interface ExecuteSqlProjectsLocationsClustersInstancesRequest extends ExecuteSqlRequest {
   /** Required. The instance where the SQL will be executed: projects/{project}/locations/{location}/clusters/{cluster}/instances/{instance} */
   instance: string;
-  /** Request body */
-  body?: ExecuteSqlRequest | undefined;
 }
 export interface SqlResultColumn {
   /** Name of the column. */
@@ -1192,11 +1178,9 @@ export interface ExportClusterRequest {
   /** Required. Name of the database where the export command will be executed. Note - Value provided should be the same as expected from `SELECT current_database();` and NOT as a resource reference. */
   database?: string | undefined;
 }
-export interface ExportProjectsLocationsClustersRequest {
+export interface ExportProjectsLocationsClustersRequest extends ExportClusterRequest {
   /** Required. The resource name of the cluster. */
   name: string;
-  /** Request body */
-  body?: ExportClusterRequest | undefined;
 }
 /** Message for triggering failover on an Instance */
 export interface FailoverInstanceRequest {
@@ -1205,11 +1189,9 @@ export interface FailoverInstanceRequest {
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
 }
-export interface FailoverProjectsLocationsClustersInstancesRequest {
+export interface FailoverProjectsLocationsClustersInstancesRequest extends FailoverInstanceRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
-  /** Request body */
-  body?: FailoverInstanceRequest | undefined;
 }
 export interface GetConnectionInfoProjectsLocationsClustersInstancesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1311,11 +1293,9 @@ export interface ImportClusterRequest {
   /** Optional. Name of the database to which the import will be done. For import from SQL file, this is required only if the file does not specify a database. Note - Value provided should be the same as expected from `SELECT current_database();` and NOT as a resource reference. */
   database?: string | undefined;
 }
-export interface ImportProjectsLocationsClustersRequest {
+export interface ImportProjectsLocationsClustersRequest extends ImportClusterRequest {
   /** Required. The resource name of the cluster. */
   name: string;
-  /** Request body */
-  body?: ImportClusterRequest | undefined;
 }
 export type InjectFaultRequestFaultTypeEnum = "FAULT_TYPE_UNSPECIFIED" | "STOP_VM";
 /** Message for triggering fault injection on an instance */
@@ -1327,11 +1307,9 @@ export interface InjectFaultRequest {
   /** Required. The type of fault to be injected in an instance. */
   faultType?: InjectFaultRequestFaultTypeEnum | (string & {}) | undefined;
 }
-export interface InjectFaultProjectsLocationsClustersInstancesRequest {
+export interface InjectFaultProjectsLocationsClustersInstancesRequest extends InjectFaultRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
-  /** Request body */
-  body?: InjectFaultRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -1546,7 +1524,7 @@ export interface ListSupportedDatabaseFlagsResponse {
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsBackupsRequest {
+export interface PatchProjectsLocationsBackupsRequest extends Omit<Backup, "name"> {
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
   validateOnly?: boolean | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -1557,10 +1535,8 @@ export interface PatchProjectsLocationsBackupsRequest {
   allowMissing?: boolean | undefined;
   /** Output only. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} where the cluster and backup ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the backup resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name: string;
-  /** Request body */
-  body?: Backup | undefined;
 }
-export interface PatchProjectsLocationsClustersRequest {
+export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
@@ -1571,10 +1547,8 @@ export interface PatchProjectsLocationsClustersRequest {
   allowMissing?: boolean | undefined;
   /** Output only. The name of the cluster resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
-export interface PatchProjectsLocationsClustersInstancesRequest {
+export interface PatchProjectsLocationsClustersInstancesRequest extends Omit<Instance, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set to true, update succeeds even if instance is not found. In that case, a new instance is created and `update_mask` is ignored. */
@@ -1585,10 +1559,8 @@ export interface PatchProjectsLocationsClustersInstancesRequest {
   updateMask?: string | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Instance | undefined;
 }
-export interface PatchProjectsLocationsClustersUsersRequest {
+export interface PatchProjectsLocationsClustersUsersRequest extends Omit<User, "name"> {
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1599,8 +1571,6 @@ export interface PatchProjectsLocationsClustersUsersRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
 }
 /** Message for promoting a Cluster */
 export interface PromoteClusterRequest {
@@ -1611,11 +1581,9 @@ export interface PromoteClusterRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface PromoteProjectsLocationsClustersRequest {
+export interface PromoteProjectsLocationsClustersRequest extends PromoteClusterRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
   name: string;
-  /** Request body */
-  body?: PromoteClusterRequest | undefined;
 }
 export interface RestartInstanceRequest {
   /** Optional. Full name of the nodes as obtained from INSTANCE_VIEW_FULL to restart upon. Applicable only to read instances. */
@@ -1625,11 +1593,9 @@ export interface RestartInstanceRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RestartProjectsLocationsClustersInstancesRequest {
+export interface RestartProjectsLocationsClustersInstancesRequest extends RestartInstanceRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
-  /** Request body */
-  body?: RestartInstanceRequest | undefined;
 }
 /** Message for registering Restoring from CloudSQL resource. */
 export interface RestoreFromCloudSQLRequest {
@@ -1640,11 +1606,9 @@ export interface RestoreFromCloudSQLRequest {
   /** Required. The resource being created */
   cluster?: Cluster | undefined;
 }
-export interface RestoreFromCloudSQLProjectsLocationsClustersRequest {
+export interface RestoreFromCloudSQLProjectsLocationsClustersRequest extends RestoreFromCloudSQLRequest {
   /** Required. The location of the new cluster. For the required format, see the comment on Cluster.name field. */
   parent: string;
-  /** Request body */
-  body?: RestoreFromCloudSQLRequest | undefined;
 }
 /** Message describing a BackupDrPitrSource. */
 export interface BackupDrPitrSource {
@@ -1679,11 +1643,9 @@ export interface RestoreClusterRequest {
   /** Required. The resource being created */
   cluster?: Cluster | undefined;
 }
-export interface RestoreProjectsLocationsClustersRequest {
+export interface RestoreProjectsLocationsClustersRequest extends RestoreClusterRequest {
   /** Required. The name of the parent resource. For the required format, see the comment on the Cluster.name field. */
   parent: string;
-  /** Request body */
-  body?: RestoreClusterRequest | undefined;
 }
 /** Message for switching over to a cluster */
 export interface SwitchoverClusterRequest {
@@ -1692,11 +1654,9 @@ export interface SwitchoverClusterRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface SwitchoverProjectsLocationsClustersRequest {
+export interface SwitchoverProjectsLocationsClustersRequest extends SwitchoverClusterRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
   name: string;
-  /** Request body */
-  body?: SwitchoverClusterRequest | undefined;
 }
 export type UpgradeClusterRequestVersionEnum =
   | "DATABASE_VERSION_UNSPECIFIED"
@@ -1717,11 +1677,9 @@ export interface UpgradeClusterRequest {
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
 }
-export interface UpgradeProjectsLocationsClustersRequest {
+export interface UpgradeProjectsLocationsClustersRequest extends UpgradeClusterRequest {
   /** Required. The resource name of the cluster. */
   name: string;
-  /** Request body */
-  body?: UpgradeClusterRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -2594,13 +2552,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1565, __c48, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1565, __c48, 29),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters:createsecondary",
@@ -2614,13 +2574,15 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1659, __c51, 27).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1659, __c51, 27),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances:createsecondary",
@@ -2736,10 +2698,12 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ExecuteSqlRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+instance}:executeSql",
@@ -2837,10 +2801,12 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ExportClusterRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(259, __c8, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(259, __c8, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -2861,10 +2827,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "FailoverInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:failover",
@@ -3013,10 +2981,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ImportClusterRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(577, __c18, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -3038,10 +3008,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "InjectFaultRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c19, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:injectFault",
@@ -3293,14 +3265,16 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3314,14 +3288,16 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1565, __c48, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1565, __c48, 29),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3335,14 +3311,16 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1659, __c51, 27).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1659, __c51, 27),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3356,14 +3334,16 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3385,10 +3365,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "PromoteClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(992, __c31, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:promote",
@@ -3410,10 +3392,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RestartInstanceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restart",
@@ -3435,10 +3419,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RestoreFromCloudSQLRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters:restoreFromCloudSQL",
@@ -3479,10 +3465,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RestoreClusterRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1090, __c34, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1090, __c34, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters:restore",
@@ -3503,10 +3491,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SwitchoverClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:switchover",
@@ -3529,10 +3519,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpgradeClusterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}:upgrade",
@@ -3569,13 +3561,15 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            backupId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups",
@@ -3688,13 +3682,15 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1565, __c48, 29).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1565, __c48, 29),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters",
@@ -3972,13 +3968,15 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1659, __c51, 27).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1659, __c51, 27),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -4239,13 +4237,15 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          userId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            userId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/users",

@@ -169,11 +169,9 @@ export interface Subscription {
   /** Output only. The user who authorized the creation of the subscription. The user must be able to view the `target_resource`. For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/workspace/admin/directory/reference/rest/v1/users#User.FIELDS.id) field from the Directory API. Format: `users/{user}` */
   userAuthority?: string | undefined;
 }
-export interface CreateSubscriptionsRequest {
+export interface CreateSubscriptionsRequest extends Subscription {
   /** Optional. If set to `true`, validates and previews the request, but doesn't create the subscription. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -233,15 +231,13 @@ export interface ListSubscriptionsResponse {
   /** List of subscriptions. */
   subscriptions?: SubscriptionList | undefined;
 }
-export interface PatchSubscriptionsRequest {
+export interface PatchSubscriptionsRequest extends Omit<Subscription, "name"> {
   /** Optional. The field to update. If omitted, updates any fields included in the request. You can update one of the following fields in a subscription: * `expire_time`: The timestamp when the subscription expires. * `ttl`: The time-to-live (TTL) or duration of the subscription. * `event_types`: The list of event types to receive about the target resource. When using the `*` wildcard (equivalent to `PUT`), omitted fields are set to empty values and rejected if they're invalid. */
   updateMask?: string | undefined;
   /** Optional. If set to `true`, validates and previews the request, but doesn't update the subscription. */
   validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
   name: string;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 /** The request message for SubscriptionsService.ReactivateSubscription. */
 export interface ReactivateSubscriptionRequest {}
@@ -437,12 +433,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c4, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c4, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -477,10 +475,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(36, __c4, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(36, __c4, 4),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/subscriptions",

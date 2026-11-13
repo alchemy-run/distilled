@@ -198,11 +198,9 @@ export interface Execution {
   /** Output only. Measures the duration of the execution. */
   duration?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
+export interface CreateProjectsLocationsWorkflowsExecutionsRequest extends Execution {
   /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
   parent: string;
-  /** Request body */
-  body?: Execution | undefined;
 }
 /** Request for the DeleteExecutionHistory method. */
 export type DeleteExecutionHistoryRequest = CancelExecutionRequest;
@@ -445,11 +443,9 @@ export interface TriggerPubsubExecutionRequest {
   /** Required. LINT: LEGACY_NAMES The query parameter value for __GCP_CloudEventsMode, set by the Eventarc service when configuring triggers. */
   GCPCloudEventsMode?: string | undefined;
 }
-export interface TriggerPubsubExecutionProjectsLocationsWorkflowsRequest {
+export interface TriggerPubsubExecutionProjectsLocationsWorkflowsRequest extends TriggerPubsubExecutionRequest {
   /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   workflow: string;
-  /** Request body */
-  body?: TriggerPubsubExecutionRequest | undefined;
 }
 export type CancelProjectsLocationsWorkflowsExecutionsError =
   | NotFound
@@ -802,10 +798,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TriggerPubsubExecutionRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          workflow: S.String.pipe(T.Label()),
-          body: S.optional(__S(49, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            workflow: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workflow}:triggerPubsubExecution",
@@ -923,10 +921,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(90, __c5, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(90, __c5, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/executions",

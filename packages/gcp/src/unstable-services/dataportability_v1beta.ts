@@ -93,10 +93,7 @@ export interface ArchiveInitiatePortabilityRequest {
   /** Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data. */
   startTime?: string | undefined;
 }
-export interface ArchiveInitiatePortabilityRequest_ {
-  /** Request body */
-  body?: ArchiveInitiatePortabilityRequest | undefined;
-}
+export interface ArchiveInitiatePortabilityRequest_ extends ArchiveInitiatePortabilityRequest {}
 export type ArchiveInitiatePortabilityResponseAccessTypeEnum =
   | "ACCESS_TYPE_UNSPECIFIED"
   | "ACCESS_TYPE_ONE_TIME"
@@ -295,9 +292,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ArchiveInitiatePortabilityRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/portabilityArchive:initiate",

@@ -95,10 +95,8 @@ export interface Source {
   name?: string | undefined;
   description?: string | undefined;
 }
-export interface CreateOrganizationsSourcesRequest {
+export interface CreateOrganizationsSourcesRequest extends Source {
   parent: string;
-  /** Request body */
-  body?: Source | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type StringMap = { [key: string]: string | undefined };
@@ -122,11 +120,12 @@ export interface GoogleCloudSecuritycenterV1beta1Finding {
   state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | (string & {}) | undefined;
   createTime?: string | undefined;
 }
-export interface CreateOrganizationsSourcesFindingsRequest {
+export interface CreateOrganizationsSourcesFindingsRequest extends Omit<
+  GoogleCloudSecuritycenterV1beta1Finding,
+  "parent"
+> {
   findingId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1Finding | undefined;
 }
 export interface DeleteOrganizationsOperationsRequest {
   name: string;
@@ -137,10 +136,8 @@ export interface GetPolicyOptions {
 export interface GetIamPolicyRequest {
   options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyOrganizationsSourcesRequest {
+export interface GetIamPolicyOrganizationsSourcesRequest extends GetIamPolicyRequest {
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
 }
 export type StringList = Array<string>;
 export type AuditLogConfigLogTypeEnum =
@@ -219,10 +216,8 @@ export interface GroupAssetsRequest {
   filter?: string | undefined;
   pageSize?: number | undefined;
 }
-export interface GroupOrganizationsAssetsRequest {
+export interface GroupOrganizationsAssetsRequest extends GroupAssetsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupResult {
   count?: string | undefined;
@@ -241,10 +236,8 @@ export interface GroupFindingsRequest {
   readTime?: string | undefined;
   filter?: string | undefined;
 }
-export interface GroupOrganizationsSourcesFindingsRequest {
+export interface GroupOrganizationsSourcesFindingsRequest extends GroupFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
 }
 export interface GroupFindingsResponse {
   nextPageToken?: string | undefined;
@@ -333,17 +326,16 @@ export interface ListFindingsResponse {
   totalSize?: number | undefined;
   readTime?: string | undefined;
 }
-export interface PatchOrganizationsSourcesRequest {
+export interface PatchOrganizationsSourcesRequest extends Omit<Source, "name"> {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Source | undefined;
 }
-export interface PatchOrganizationsSourcesFindingsRequest {
+export interface PatchOrganizationsSourcesFindingsRequest extends Omit<
+  GoogleCloudSecuritycenterV1beta1Finding,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1Finding | undefined;
 }
 export type RunAssetDiscoveryRequest = CancelOperationRequest;
 export interface RunDiscoveryOrganizationsAssetsRequest {
@@ -355,51 +347,48 @@ export interface SetIamPolicyRequest {
   updateMask?: string | undefined;
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyOrganizationsSourcesRequest {
+export interface SetIamPolicyOrganizationsSourcesRequest extends SetIamPolicyRequest {
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
 }
 export type SetFindingStateRequestStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 export interface SetFindingStateRequest {
   state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
   startTime?: string | undefined;
 }
-export interface SetStateOrganizationsSourcesFindingsRequest {
+export interface SetStateOrganizationsSourcesFindingsRequest extends SetFindingStateRequest {
   name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
 }
 export interface TestIamPermissionsRequest {
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsSourcesRequest {
+export interface TestIamPermissionsOrganizationsSourcesRequest extends TestIamPermissionsRequest {
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsResponse {
   permissions?: StringList | undefined;
 }
-export interface UpdateOrganizationSettingsOrganizationsRequest {
+export interface UpdateOrganizationSettingsOrganizationsRequest extends Omit<
+  OrganizationSettings,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: OrganizationSettings | undefined;
 }
-export interface UpdateSecurityMarksOrganizationsAssetsRequest {
+export interface UpdateSecurityMarksOrganizationsAssetsRequest extends Omit<
+  GoogleCloudSecuritycenterV1beta1SecurityMarks,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
   startTime?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
 }
-export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
+export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest extends Omit<
+  GoogleCloudSecuritycenterV1beta1SecurityMarks,
+  "name"
+> {
   name: string;
   updateMask?: string | undefined;
   startTime?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
 }
 export type CancelOrganizationsOperationsError =
   | NotFound
@@ -933,10 +922,12 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GroupAssetsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(24, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/assets:group",
@@ -981,10 +972,12 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GroupFindingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/findings:group",
@@ -1158,11 +1151,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1176,11 +1171,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c26, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1218,10 +1215,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1242,10 +1241,12 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SetFindingStateRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(112, __c14, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setState",
@@ -1265,10 +1266,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -1282,11 +1285,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(257, __c32, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(257, __c32, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1300,12 +1305,14 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(201, __c25, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(201, __c25, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            startTime: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1319,12 +1326,14 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(201, __c25, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(201, __c25, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            startTime: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1361,10 +1370,12 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(176, __c22, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sources",
@@ -1390,11 +1401,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          findingId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(208, __c26, 0),
+          S.Struct({
+            findingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/findings",
@@ -1474,10 +1487,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetIamPolicyRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c28, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(225, __c28, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:getIamPolicy",

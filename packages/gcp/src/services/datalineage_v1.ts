@@ -93,11 +93,9 @@ export interface GoogleCloudDatacatalogLineageV1BatchSearchLinkProcessesRequest 
   /** Optional. The page token received from a previous `BatchSearchLinkProcesses` call. Use it to get the next page. When requesting subsequent pages of a response, remember that all parameters must match the values you provided in the original request. */
   pageToken?: string | undefined;
 }
-export interface BatchSearchLinkProcessesProjectsLocationsRequest {
+export interface BatchSearchLinkProcessesProjectsLocationsRequest extends GoogleCloudDatacatalogLineageV1BatchSearchLinkProcessesRequest {
   /** Required. The project and location where you want to search. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1BatchSearchLinkProcessesRequest | undefined;
 }
 /** Link details. */
 export interface GoogleCloudDatacatalogLineageV1ProcessLinkInfo {
@@ -166,13 +164,11 @@ export interface GoogleCloudDatacatalogLineageV1Process {
   /** Optional. A human-readable name you can set to display in a user interface. Must be not longer than 200 characters and only contain UTF-8 letters or numbers, spaces or characters like `_-:&.` */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsProcessesRequest {
+export interface CreateProjectsLocationsProcessesRequest extends GoogleCloudDatacatalogLineageV1Process {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Required. The name of the project and its location that should own the process. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1Process | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1RunStateEnum =
   | "UNKNOWN"
@@ -195,13 +191,11 @@ export interface GoogleCloudDatacatalogLineageV1Run {
   /** Optional. The timestamp of the end of the run. */
   endTime?: string | undefined;
 }
-export interface CreateProjectsLocationsProcessesRunsRequest {
+export interface CreateProjectsLocationsProcessesRunsRequest extends GoogleCloudDatacatalogLineageV1Run {
   /** Required. The name of the process that should own the run. */
   parent: string;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1Run | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1DependencyInfoDependencyTypeEnum =
   | "DEPENDENCY_TYPE_UNSPECIFIED"
@@ -244,13 +238,11 @@ export interface GoogleCloudDatacatalogLineageV1LineageEvent {
   /** Optional. The end of the transformation which resulted in this lineage event. For streaming scenarios, it should be the end of the period from which the lineage is being reported. */
   endTime?: string | undefined;
 }
-export interface CreateProjectsLocationsProcessesRunsLineageEventsRequest {
+export interface CreateProjectsLocationsProcessesRunsLineageEventsRequest extends GoogleCloudDatacatalogLineageV1LineageEvent {
   /** Required. The name of the run that should own the lineage event. */
   parent: string;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1LineageEvent | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -445,25 +437,31 @@ export interface GoogleCloudDatacatalogLineageV1ListLineageEventsResponse {
   /** The token to specify as `page_token` in the next call to get the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchFoldersLocationsConfigRequest {
+export interface PatchFoldersLocationsConfigRequest extends Omit<
+  GoogleCloudDatacatalogLineageConfigmanagementV1Config,
+  "name"
+> {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageConfigmanagementV1Config | undefined;
 }
-export interface PatchOrganizationsLocationsConfigRequest {
+export interface PatchOrganizationsLocationsConfigRequest extends Omit<
+  GoogleCloudDatacatalogLineageConfigmanagementV1Config,
+  "name"
+> {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageConfigmanagementV1Config | undefined;
 }
-export interface PatchProjectsLocationsConfigRequest {
+export interface PatchProjectsLocationsConfigRequest extends Omit<
+  GoogleCloudDatacatalogLineageConfigmanagementV1Config,
+  "name"
+> {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageConfigmanagementV1Config | undefined;
 }
-export interface PatchProjectsLocationsProcessesRequest {
+export interface PatchProjectsLocationsProcessesRequest extends Omit<
+  GoogleCloudDatacatalogLineageV1Process,
+  "name"
+> {
   /** Optional. If set to true and the process is not found, the request inserts it. */
   allowMissing?: boolean | undefined;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
@@ -472,18 +470,17 @@ export interface PatchProjectsLocationsProcessesRequest {
   name: string;
   /** Optional. The list of fields to update. Currently not used. The whole message is updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1Process | undefined;
 }
-export interface PatchProjectsLocationsProcessesRunsRequest {
+export interface PatchProjectsLocationsProcessesRunsRequest extends Omit<
+  GoogleCloudDatacatalogLineageV1Run,
+  "name"
+> {
   /** Immutable. The resource name of the run. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}`. Can be specified or auto-assigned. {run} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
   name: string;
   /** Optional. The list of fields to update. Currently not used. The whole message is updated. */
   updateMask?: string | undefined;
   /** Optional. If set to true and the run is not found, the request creates it. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1Run | undefined;
 }
 export interface ProcessOpenLineageRunEventProjectsLocationsRequest {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
@@ -578,11 +575,9 @@ export interface GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest {
   /** Optional. Filters for the search. */
   filters?: GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequestSearchFilters | undefined;
 }
-export interface SearchLineageStreamingProjectsLocationsRequest {
+export interface SearchLineageStreamingProjectsLocationsRequest extends GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest {
   /** Required. The project and location to initiate the search from. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1LineageLinkDependencyInfoDependencyTypeEnum =
   | "DEPENDENCY_TYPE_UNSPECIFIED"
@@ -643,11 +638,9 @@ export interface GoogleCloudDatacatalogLineageV1SearchLinksRequest {
   /** Optional. Send asset information in the **target** field to retrieve all links that lead from upstream assets to the specified asset. */
   target?: GoogleCloudDatacatalogLineageV1EntityReference | undefined;
 }
-export interface SearchLinksProjectsLocationsRequest {
+export interface SearchLinksProjectsLocationsRequest extends GoogleCloudDatacatalogLineageV1SearchLinksRequest {
   /** Required. The project and location you want search in. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogLineageV1SearchLinksRequest | undefined;
 }
 export type GoogleCloudDatacatalogLineageV1LinkDependencyInfoDependencyTypeEnum =
   | "DEPENDENCY_TYPE_UNSPECIFIED"
@@ -1665,10 +1658,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(85, __c5, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(85, __c5, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1682,10 +1677,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(85, __c5, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(85, __c5, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1699,10 +1696,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(85, __c5, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(85, __c5, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1716,13 +1715,15 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(481, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(481, __c30, 1),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1736,12 +1737,14 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1830,10 +1833,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1SearchLineageStreamingRequest" });
     case 6:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(357, __c22, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(357, __c22, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:searchLineageStreaming",
@@ -1900,10 +1905,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1SearchLinksRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c24, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(384, __c24, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:searchLinks",
@@ -1945,10 +1952,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GoogleCloudDatacatalogLineageV1BatchSearchLinkProcessesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:batchSearchLinkProcesses",
@@ -2019,11 +2028,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(481, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(481, __c30, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/processes",
@@ -2063,11 +2074,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(528, __c33, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/runs",
@@ -2096,11 +2109,13 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(562, __c35, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(562, __c35, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/lineageEvents",
