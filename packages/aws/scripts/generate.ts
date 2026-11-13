@@ -24,6 +24,7 @@ import { lintAndFormatGenerated } from "@distilled.cloud/dev/codegen/format";
  * Flags: `--resource <sdkId>` generates a single service (e.g. `s3`).
  */
 import { Schema as S } from "effect";
+import { eventsResourceName, eventsSpec, isEventsModel } from "./events-spec.ts";
 import { SmithyModel, type ServiceShape } from "./model-schema.ts";
 import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { awsSpec } from "./spec.ts";
@@ -53,7 +54,9 @@ runGeneratorCli({
   // Modules are named after the service's PUBLIC sdkId, not the directory
   // Amazon files it under: `amazon-s3` → `s3.ts`, so callers write
   // `AWS.S3.getObject`.
-  resourceName: ({ model }) => moduleName(sdkIdOf(model)),
+  // Event models (scripts/events-spec.ts) have no service shape.
+  resourceName: ({ model }) =>
+    isEventsModel(model) ? eventsResourceName(model) : moduleName(sdkIdOf(model)),
 
   // `s3` → `S3`, `api-gateway` → `ApiGateway`.
   barrelExportName: (resource) =>
@@ -77,6 +80,7 @@ runGeneratorCli({
   finalize: lintAndFormatGenerated,
 
   spec: (model) => {
+    if (isEventsModel(model)) return eventsSpec(model);
     // Validate against the Smithy model schema before compiling. Throws,
     // which `continueOnModelError` records as this service's failure.
     S.decodeUnknownSync(SmithyModel)(model);

@@ -118,6 +118,32 @@ S3.getObject({ Bucket: "my-bucket", Key: "missing.txt" }).pipe(
 );
 ```
 
+## Service events
+
+`@distilled.cloud/aws/ses-events` types the events SES sends: bounces,
+complaints, deliveries, opens, clicks and the rest. It comes from the
+EventBridge `aws.events` schema registry. The module is types only. `Event` is
+the union of every event an EventBridge rule can deliver, narrowed by
+`detail-type`. An event's `detail` (`EmailBounced`, `EmailComplaintReceived`, …)
+is also the record SES publishes to SNS and Firehose.
+
+```typescript
+import type * as SesEvents from "@distilled.cloud/aws/ses-events";
+
+const onEvent = (event: SesEvents.Event) => {
+  switch (event["detail-type"]) {
+    case "Email Bounced":
+      return event.detail.bounce.bounceType === "Permanent"
+        ? event.detail.bounce.bouncedRecipients.map((r) => r.emailAddress)
+        : [];
+    case "Email Complaint Received":
+      return event.detail.complaint.complainedRecipients.map((r) => r.emailAddress);
+    default:
+      return [];
+  }
+};
+```
+
 ## Protocols
 
 Supports all AWS protocols: REST-XML (S3), REST-JSON (Lambda), AWS JSON 1.0/1.1 (DynamoDB, KMS), AWS Query (IAM, STS), and EC2 Query.
