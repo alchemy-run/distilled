@@ -1,3 +1,4 @@
+import * as Platform from "@distilled.cloud/clerk/platform";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
@@ -17,7 +18,6 @@ import {
 } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import { getInstance } from "../src/services/clerk.ts";
-import { getMe } from "../src/services/platform.ts";
 
 const resolvePlatform = Effect.flatMap(PlatformCredentials, (resolve) => resolve);
 const withEnv = (env: Record<string, string>) =>
@@ -162,7 +162,7 @@ describe("Platform operation wiring", () => {
   ])("getMe normalizes %s and sends only Platform authentication", async (apiBaseUrl) => {
     const { requests, layer } = fakeClient(() => principal);
     await Effect.runPromise(
-      getMe({}).pipe(
+      Platform.getMe({}).pipe(
         Retry.none,
         Effect.provide(
           Layer.mergeAll(
@@ -185,7 +185,7 @@ describe("Platform operation wiring", () => {
       request.url.endsWith("/platform/me") ? principal : instance,
     );
     await Effect.runPromise(
-      Effect.all([getInstance({}), getMe({})], { concurrency: "unbounded" }).pipe(
+      Effect.all([getInstance({}), Platform.getMe({})], { concurrency: "unbounded" }).pipe(
         Retry.none,
         Effect.provide(
           Layer.mergeAll(

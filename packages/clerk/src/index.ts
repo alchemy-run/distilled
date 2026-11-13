@@ -9,13 +9,17 @@
  * ```ts
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
- * import * as Clerk from "@distilled.cloud/clerk";
+ * import {
+ *   PlatformCredentialsFromEnv,
+ *   ClerkPlatformProtocol,
+ * } from "@distilled.cloud/clerk";
+ * import * as Platform from "@distilled.cloud/clerk/platform";
  *
- * const program = Clerk.Platform.getMe({});
+ * const program = Platform.getMe({});
  * const Live = Layer.mergeAll(
  *   FetchHttpClient.layer,
- *   Clerk.PlatformCredentialsFromEnv,
- *   Clerk.ClerkPlatformProtocol,
+ *   PlatformCredentialsFromEnv,
+ *   ClerkPlatformProtocol,
  * );
  * program.pipe(Effect.provide(Live), Effect.runPromise);
  * ```
@@ -34,7 +38,6 @@ export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
 export * from "./services/clerk.ts";
-export * as Platform from "./services/platform.ts";
 export {
   BadRequest,
   Conflict,
