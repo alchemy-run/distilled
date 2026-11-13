@@ -53,6 +53,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "axiom" },
   { package: "azure" },
   { package: "boat-dev" },
+  { package: "boxd" },
   // celld publishes no API description: its models are hand-written in
   // spec-repos/celld/models/ and shipped by the mirror.
   { package: "celld" },
