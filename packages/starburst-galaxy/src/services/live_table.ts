@@ -510,8 +510,10 @@ export type NewTypeProperties =
 export interface CreateLiveTableRequest {
   /** Table description */
   description?: string | undefined;
-  /** ID of the table's catalog */
-  catalogId: string;
+  /** ID of the table publisher catalog, a Glue or Galaxy metastore catalog. Optional when galaxyRestCatalogId is set */
+  catalogId?: string | undefined;
+  /** ID of the Galaxy REST metastore catalog serving the table. Optional when catalogId is set. When both are set the catalogs must share the same default bucket and directory, and the table publisher catalog's storage settings apply */
+  galaxyRestCatalogId?: string | undefined;
   /** Name of the table's schema */
   schemaName: string;
   /** Table name */
@@ -912,9 +914,11 @@ export interface LiveTable {
   description?: string | undefined;
   /** Region in which the table is stored */
   cloudRegionId: string;
-  /** ID of the table's catalog */
-  catalogId: string;
-  /** Name of the table's catalog */
+  /** ID of the table publisher catalog, a Glue or Galaxy metastore catalog. Absent when the table is only served by a Galaxy REST metastore catalog */
+  catalogId?: string | undefined;
+  /** ID of the Galaxy REST metastore catalog serving the table, if any */
+  galaxyRestCatalogId?: string | undefined;
+  /** Name of the catalog supplying the table's storage location: the table publisher catalog if set, otherwise the Galaxy REST metastore catalog */
   catalogName: string;
   /** Name of the table's schema */
   schemaName: string;
@@ -1224,7 +1228,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          catalogId: S.String,
+          catalogId: S.optional(S.String),
+          galaxyRestCatalogId: S.optional(S.String),
           schemaName: S.String,
           tableName: S.String,
           dataRetentionDays: S.optional(S.Number),
@@ -1419,7 +1424,8 @@ function __c1(j: number): any {
           liveTableId: S.String,
           description: S.optional(S.String),
           cloudRegionId: S.String,
-          catalogId: S.String,
+          catalogId: S.optional(S.String),
+          galaxyRestCatalogId: S.optional(S.String),
           catalogName: S.String,
           schemaName: S.String,
           tableName: S.String,
