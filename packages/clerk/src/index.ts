@@ -9,18 +9,11 @@
  * ```ts
  * import { Effect, Layer } from "effect";
  * import * as FetchHttpClient from "effect/http/FetchHttpClient";
- * import {
- *   PlatformCredentialsFromEnv,
- *   ClerkPlatformProtocol,
- * } from "@distilled.cloud/clerk";
+ * import { PlatformCredentialsFromEnv } from "@distilled.cloud/clerk/Credentials";
  * import * as Platform from "@distilled.cloud/clerk/platform";
  *
  * const program = Platform.getMe({});
- * const Live = Layer.mergeAll(
- *   FetchHttpClient.layer,
- *   PlatformCredentialsFromEnv,
- *   ClerkPlatformProtocol,
- * );
+ * const Live = Layer.mergeAll(FetchHttpClient.layer, PlatformCredentialsFromEnv);
  * program.pipe(Effect.provide(Live), Effect.runPromise);
  * ```
  */
