@@ -9,6 +9,7 @@
  */
 export {
   CryptoError,
+  deriveSigningKey,
   guessScope,
   guessServiceRegion,
   InvalidSigningHeaders,
