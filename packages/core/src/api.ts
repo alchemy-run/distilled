@@ -55,6 +55,13 @@ export interface ProtocolOperationConfig {
    */
   readonly endpointHostPrefix?: string;
   readonly pagination?: Pagination.PaginatedTrait;
+  /**
+   * How a server-streaming operation's body is framed, for protocols that
+   * read it per operation (core/protocol-rest takes a `StreamFraming`, e.g.
+   * `ndjson` from core/ndjson). Set only on the operations that stream, so
+   * programs that call none never bundle the framing.
+   */
+  readonly framing?: unknown;
 }
 
 /**
@@ -99,7 +106,8 @@ export class Protocol
        * Server streaming (see {@link makeStreaming}): each response message
        * as it arrives, decoded as one element of the output's `items`.
        * Ending the stream early cancels the call. Protocols that can't
-       * stream leave it out.
+       * stream leave it out; one that streams only some operations fails
+       * the others with {@link cannotStream}.
        */
       readonly stream?: (
         operation: PreparedOperation,
@@ -260,6 +268,8 @@ export interface OperationConfig<
    * its `op` (a string is just the op).
    */
   span?: Telemetry.SpanConfig | string;
+  /** The body framing of a server-streaming operation (see {@link ProtocolOperationConfig.framing}). */
+  framing?: unknown;
 }
 
 /**
@@ -833,6 +843,14 @@ export type StreamingOperationMethod<I, O, E, R, Item = StreamedItem<O>> = Effec
   StreamingCall<I, O, E, R, Item> &
   OperationSchemas<I, O>;
 
+/** The `.stream()` of an operation its protocol can't stream: fails with {@link SdkError}. */
+export const cannotStream = (operation: PreparedOperation): Stream.Stream<never, SdkError> =>
+  Stream.fail(
+    new SdkError({
+      message: `${operation.config.operationName ?? "this operation"}: its protocol can't stream`,
+    }),
+  );
+
 /** `.stream(input)` over an operation's protocol. */
 const streamCall =
   (state: OperationState) =>
@@ -842,13 +860,7 @@ const streamCall =
         const prepared = prepareOr(state);
         if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
         const run = (service: ProtocolShape) =>
-          service.stream === undefined
-            ? Stream.fail(
-                new SdkError({
-                  message: `${prepared.cfg.operationName ?? "this operation"}: its protocol can't stream`,
-                }),
-              )
-            : service.stream(prepared, input);
+          service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, input);
         return prepared.service !== undefined
           ? Effect.succeed(run(prepared.service))
           : Effect.map(protocolContext(prepared.cfg.protocol), (ctx) =>
