@@ -14,10 +14,10 @@ import {
   PlatformCredentials,
   PlatformCredentialsFromEnv,
   platformFromApiKey,
-} from "./credentials.ts";
-import * as Retry from "./retry.ts";
-import { getInstance } from "./services/clerk.ts";
-import { getMe } from "./services/platform.ts";
+} from "../src/credentials.ts";
+import * as Retry from "../src/retry.ts";
+import { getInstance } from "../src/services/clerk.ts";
+import { getMe } from "../src/services/platform.ts";
 
 const resolvePlatform = Effect.flatMap(PlatformCredentials, (resolve) => resolve);
 const withEnv = (env: Record<string, string>) =>
