@@ -1,0 +1,95 @@
+{
+  "description": "Type the 429 `limit_reached` and `member_limit_reached` a create, resume or fork gets when another running sandbox would exceed the concurrent-sandbox cap. The spec documents both on components.responses.RateLimited (\"A sandbox that would exceed your plan's concurrent-sandbox cap is refused with `limit_reached`, or `member_limit_reached` when an organization owner has capped you below the plan\"), which only those three operations answer; they generated as the generic TooManyRequests. No httpError trait on purpose, like SandboxStartLimitExceeded: as a 429 it would be classed as throttling and retried, but the cap only clears when a sandbox stops. Source: spec-mirror-boat-dev 71ab00f.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SandboxLimitReached",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Another running sandbox would exceed the plan's concurrent-sandbox cap. Stop a sandbox first.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 429,
+              "body": {
+                "/code": "limit_reached"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#MemberSandboxLimitReached",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Another running sandbox would exceed the cap an organization owner set for this member. Stop a sandbox first.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 429,
+              "body": {
+                "/code": "member_limit_reached"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxLimitReached"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Resume/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxLimitReached"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Fork/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxLimitReached"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#MemberSandboxLimitReached"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Resume/errors/-",
+      "value": {
+        "target": "com.boat.api#MemberSandboxLimitReached"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Fork/errors/-",
+      "value": {
+        "target": "com.boat.api#MemberSandboxLimitReached"
+      }
+    }
+  ]
+}

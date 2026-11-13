@@ -1,0 +1,37 @@
+{
+  "description": "Type the 409 `no_running_turn` a steer gets when the conversation has nothing in flight. The spec documents it on POST /sandboxes/{sandboxId}/steer (\"Refused with **409 `no_running_turn`** when the conversation has nothing in flight; queue work with `POST /prompt` instead\"); it generated as a bare Conflict. `error.details.reason` says why and stays in the body. Source: spec-mirror-boat-dev 71ab00f.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#NoRunningTurn",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The conversation has no turn in flight to steer. Queue the message with `promptSandbox` instead.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "no_running_turn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Steer/errors/-",
+      "value": {
+        "target": "com.boat.api#NoRunningTurn"
+      }
+    }
+  ]
+}
