@@ -994,10 +994,6 @@ export interface GetBucketObjectRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  /** Returns the object only if it has been modified since the specified time. Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`. */
-  ifModifiedSince?: string | undefined;
-  /** Returns the object only if its ETag does not match the given value. */
-  ifNoneMatch?: string | undefined;
   /** The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
   jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {}) | undefined;
@@ -4140,8 +4136,6 @@ function __c31(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
-          ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
           objectName: S.String.pipe(T.Label("object_name")),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
