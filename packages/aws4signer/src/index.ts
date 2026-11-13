@@ -148,7 +148,16 @@ export interface SigningKeyScope {
   readonly crypto?: CoreCrypto.CryptoImpl;
 }
 
-const deriveSigningKey = ({
+/**
+ * The SigV4 signing key for `scope`: the HMAC chain over the secret, date
+ * (`YYYYMMDD`), region, service and `aws4_request`, imported into the crypto
+ * implementation. Use it to sign something other than an HTTP request, such
+ * as an S3 POST policy: `hmacSha256(key, base64Policy)`.
+ *
+ * Each call derives the key again (four HMACs); the per-secret cache
+ * {@link sign} keeps is not consulted.
+ */
+export const deriveSigningKey = ({
   secretAccessKey,
   date,
   region,
